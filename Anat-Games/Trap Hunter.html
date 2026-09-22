@@ -616,13 +616,13 @@ function renderMenu(){
     <div class="mast">
       <div class="brand"><a class="hublink" href="index.html">&larr; Game Hub</a> &nbsp;·&nbsp; <b>HoyaDocs</b> &nbsp;·&nbsp; HNSS Block 5 &nbsp;·&nbsp; Anatomy Exam</div>
       <h1>Trap Hunter</h1>
-      <p class="lede">Sixty-four drills built from the exam forecast. Every question carries the distractor the examiners actually use &mdash; the point is not to get it right, it is to see the trap coming.</p>
+      <p class="lede">Sixty-four drills. Every question carries a distractor &mdash; the point is not to see the trap coming.</p>
     </div>
     <div class="modes" id="modeList">${weakCard}${cards}</div>
-    <div class="menufoot">
-      <p>${save.rounds? `${save.rounds} round${save.rounds===1?"":"s"} played. Progress is saved in this browser.` : "Progress is saved as you go, so you can pick up where you left off."}</p>
-      ${save.rounds?`<button class="reset" id="btnReset">Reset progress</button>`:""}
-    </div>`;
+    ${save.rounds? `<div class="menufoot">
+      <p>${save.rounds} round${save.rounds===1?"":"s"} played. Progress is saved in this browser.</p>
+      <button class="reset" id="btnReset">Reset progress</button>
+    </div>` : ""}`;
 
   app.querySelectorAll("[data-mode]").forEach(b=>{
     b.addEventListener("click",()=>startRound(b.dataset.mode));
