@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>HNSS Trap Hunter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --bg:#faf8f4; --panel:#ffffff; --panel-2:#f2eee7; --raise:#ffffff;
+  --ink:#16191d; --ink-2:#434951; --muted:#767b83;
+  --rule:#ded8cf; --rule-2:#ebe6de;
+  --gold:#9d6c06; --gold-bg:#fdf3c6; --gold-line:#c9990f;
+  --ok:#2c7a57; --ok-bg:#e6f2ec; --ok-line:#4fa37c;
+  --bad:#a8333c; --bad-bg:#f8e8e9; --bad-line:#cf5a63;
+  --slate:#2f5d6b;
+  --shadow:0 1px 2px rgba(22,25,29,.05),0 10px 26px -18px rgba(22,25,29,.35);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11151a; --panel:#1a2027; --panel-2:#222932; --raise:#252d36;
+    --ink:#e9e2d5; --ink-2:#c2bcb1; --muted:#8b95a1;
+    --rule:#2e3640; --rule-2:#242b33;
+    --gold:#e3a83c; --gold-bg:#3a2f14; --gold-line:#b98a2a;
+    --ok:#5cc394; --ok-bg:#162b23; --ok-line:#3d8a68;
+    --bad:#e2727a; --bad-bg:#2e1a1d; --bad-line:#a04a52;
+    --slate:#8fc2d0;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -18px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11151a; --panel:#1a2027; --panel-2:#222932; --raise:#252d36;
+  --ink:#e9e2d5; --ink-2:#c2bcb1; --muted:#8b95a1;
+  --rule:#2e3640; --rule-2:#242b33;
+  --gold:#e3a83c; --gold-bg:#3a2f14; --gold-line:#b98a2a;
+  --ok:#5cc394; --ok-bg:#162b23; --ok-line:#3d8a68;
+  --bad:#e2727a; --bad-bg:#2e1a1d; --bad-line:#a04a52;
+  --slate:#8fc2d0;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -18px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:760px;margin:0 auto;padding-inline:18px;padding-block:0 60px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+/* ---------- HUD ---------- */
+#hud{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+  background:var(--bg);border-bottom:1px solid var(--rule);
+  padding-block:10px 0;margin-bottom:18px;
+}
+.hud-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hud-back{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  background:none;border:1px solid var(--rule);color:var(--muted);
+  padding:5px 10px;border-radius:2px;cursor:pointer;
+}
+.hud-back:hover{border-color:var(--ink);color:var(--ink)}
+.hud-title{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);flex:1;min-width:90px;
+}
+.stat{display:flex;align-items:baseline;gap:5px}
+.stat .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+#sStreak.hot{color:var(--gold)}
+.bar{height:3px;background:var(--rule-2);margin-top:10px;overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--gold);width:0%;transition:width .3s ease}
+@media (prefers-reduced-motion:reduce){.bar > i{transition:none}}
+
+/* ---------- masthead / menu ---------- */
+.mast{padding-top:34px;padding-bottom:6px}
+.brand{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:14px;
+}
+.brand b{color:var(--gold);font-weight:600}
+.hublink{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule)}
+.hublink:hover{color:var(--gold);border-color:var(--gold)}
+h1{
+  font-family:"Fraunces",Georgia,serif;font-optical-sizing:auto;
+  font-size:clamp(2.2rem,8vw,3.5rem);line-height:.98;font-weight:700;
+  letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance;
+}
+.lede{font-size:1.02rem;color:var(--ink-2);max-width:56ch;margin:0}
+
+.modes{display:grid;gap:10px;margin-top:26px}
+.mode{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+  background:var(--panel);border:1px solid var(--rule);border-radius:3px;
+  padding:15px 17px;cursor:pointer;text-align:left;width:100%;
+  font:inherit;color:inherit;box-shadow:var(--shadow);
+  transition:transform .12s ease,border-color .12s ease;
+}
+.mode:hover{border-color:var(--gold);transform:translateY(-1px)}
+.mode:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.mode{transition:none}.mode:hover{transform:none}}
+.mode .glyph{
+  width:40px;height:40px;border-radius:3px;display:grid;place-items:center;
+  background:var(--panel-2);border:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;color:var(--gold);
+}
+.mode h3{font-family:"Fraunces",Georgia,serif;font-size:1.22rem;font-weight:600;margin:0 0 2px;line-height:1.2}
+.mode p{margin:0;font-size:13.4px;color:var(--muted);line-height:1.4}
+.mode .best{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);text-align:right;white-space:nowrap;
+}
+.mode .best b{display:block;font-size:15px;color:var(--gold);font-weight:600;letter-spacing:0}
+.mode.weak{border-color:var(--bad-line);background:var(--bad-bg)}
+.mode.weak .glyph{color:var(--bad);border-color:var(--bad-line);background:transparent}
+
+.menufoot{
+  margin-top:26px;padding-top:16px;border-top:1px solid var(--rule);
+  display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;
+}
+.menufoot p{margin:0;font-size:12.6px;color:var(--muted);max-width:46ch}
+.reset{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  background:none;border:1px solid var(--rule);color:var(--muted);padding:5px 10px;border-radius:2px;cursor:pointer;
+}
+.reset:hover{border-color:var(--bad-line);color:var(--bad)}
+
+/* ---------- question card ---------- */
+.card{
+  background:var(--panel);border:1px solid var(--rule);border-radius:3px;
+  padding:20px 20px 18px;box-shadow:var(--shadow);
+}
+.tagrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.tag{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--rule);color:var(--muted);padding:3px 8px;border-radius:2px;
+}
+.tag.gold{border-color:var(--gold-line);color:var(--gold);background:var(--gold-bg)}
+.qtext{
+  font-family:"Fraunces",Georgia,serif;font-size:1.25rem;line-height:1.38;
+  font-weight:400;margin:0 0 16px;text-wrap:pretty;
+}
+.qtext em{font-style:italic;color:var(--gold)}
+
+.opts{display:grid;gap:8px}
+.opt{
+  display:grid;grid-template-columns:26px 1fr;gap:11px;align-items:start;
+  background:var(--raise);border:1px solid var(--rule);border-radius:3px;
+  padding:11px 13px;cursor:pointer;text-align:left;width:100%;
+  font:inherit;font-size:14.6px;line-height:1.42;color:inherit;
+  transition:border-color .1s ease,background .1s ease;
+}
+.opt:hover:not(:disabled){border-color:var(--gold)}
+.opt:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.opt:disabled{cursor:default}
+.opt .key{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  color:var(--muted);border:1px solid var(--rule);border-radius:2px;
+  width:22px;height:22px;display:grid;place-items:center;margin-top:1px;
+}
+.opt.correct{border-color:var(--ok-line);background:var(--ok-bg)}
+.opt.correct .key{border-color:var(--ok-line);color:var(--ok)}
+.opt.wrong{border-color:var(--bad-line);background:var(--bad-bg)}
+.opt.wrong .key{border-color:var(--bad-line);color:var(--bad)}
+.opt.dim{opacity:.5}
+@media (prefers-reduced-motion:reduce){.opt{transition:none}}
+
+/* binary */
+.binary{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.binary .opt{grid-template-columns:1fr;text-align:center;padding:18px 13px;font-size:15.4px}
+.binary .opt .key{display:none}
+@media (max-width:460px){.binary{grid-template-columns:1fr}}
+
+/* timer */
+.timer{height:4px;background:var(--rule-2);margin-bottom:14px;overflow:hidden;border-radius:2px}
+.timer > i{display:block;height:100%;background:var(--slate);width:100%}
+
+/* feedback */
+.fb{margin-top:15px;padding:13px 15px;border-radius:3px;border:1px solid var(--rule);background:var(--panel-2)}
+.fb.good{border-color:var(--ok-line);background:var(--ok-bg)}
+.fb.bad{border-color:var(--bad-line);background:var(--bad-bg)}
+.fb .verdict{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:600;margin-bottom:6px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;
+}
+.fb.good .verdict{color:var(--ok)} .fb.bad .verdict{color:var(--bad)}
+.fb .pts{color:var(--gold)}
+.fb p{margin:0;font-size:14px;line-height:1.48;color:var(--ink-2)}
+.fb p b{color:var(--ink);font-weight:600}
+.fb p + p{margin-top:8px}
+
+.actions{display:flex;gap:9px;margin-top:15px;flex-wrap:wrap}
+.btn{
+  font-family:"IBM Plex Sans",sans-serif;font-size:14px;font-weight:500;
+  background:var(--ink);color:var(--bg);border:1px solid var(--ink);
+  padding:10px 20px;border-radius:3px;cursor:pointer;
+}
+.btn:hover{opacity:.88}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.btn.ghost{background:none;color:var(--ink);border-color:var(--rule)}
+.btn.ghost:hover{border-color:var(--ink);opacity:1}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#16120a}
+:root[data-theme="dark"] .btn.gold,
+:root:not([data-theme="light"]) .btn.gold{color:#16120a}
+.hint{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
+  color:var(--muted);margin-top:12px;
+}
+
+/* recall */
+.answer{
+  margin-top:14px;padding:14px 16px;border:1px solid var(--gold-line);
+  background:var(--gold-bg);border-radius:3px;
+}
+.answer .lbl{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:5px;
+}
+.answer p{margin:0;font-size:14.6px;line-height:1.5;color:var(--ink)}
+.answer p b{font-weight:600}
+
+/* ---------- results ---------- */
+.score-hero{text-align:center;padding:26px 16px 22px;border-bottom:1px solid var(--rule)}
+.score-hero .big{
+  font-family:"IBM Plex Mono",monospace;font-size:clamp(3rem,15vw,4.6rem);
+  font-weight:600;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums;
+}
+.score-hero .cap{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);margin-top:7px;
+}
+.score-hero .verdictline{
+  font-family:"Fraunces",Georgia,serif;font-size:1.3rem;margin-top:14px;line-height:1.3;text-wrap:balance;
+}
+.rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:18px 0}
+.rstats div{background:var(--panel);padding:12px 10px;text-align:center}
+.rstats .v{font-family:"IBM Plex Mono",monospace;font-size:1.4rem;font-weight:600;line-height:1.1}
+.rstats .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+h3.rsec{
+  font-family:"Fraunces",Georgia,serif;font-size:1.22rem;font-weight:600;
+  margin:26px 0 10px;letter-spacing:-.008em;
+}
+.tbar{display:grid;grid-template-columns:1fr 130px 44px;gap:11px;align-items:center;padding:7px 0;border-bottom:1px solid var(--rule-2);font-size:14px}
+.tbar:last-of-type{border-bottom:0}
+.tbar .track{height:7px;background:var(--rule-2);border-radius:1px;overflow:hidden}
+.tbar .track i{display:block;height:100%;background:var(--ok)}
+.tbar .track i.low{background:var(--bad)}
+.tbar .track i.mid{background:var(--gold)}
+.tbar .pct{font-family:"IBM Plex Mono",monospace;font-size:12.5px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:460px){.tbar{grid-template-columns:1fr 78px 40px;gap:8px;font-size:13.4px}}
+
+.missed{list-style:none;padding:0;margin:10px 0 0}
+.missed li{border-top:1px solid var(--rule-2);padding:11px 0}
+.missed li:first-child{border-top:1px solid var(--rule)}
+.missed .mq{margin:0 0 4px;font-size:14.2px;line-height:1.45}
+.missed .ma{margin:0;font-size:13.4px;color:var(--ink-2)}
+.missed .ma b{color:var(--ok);font-weight:600}
+
+footer{
+  margin-top:40px;padding-top:16px;border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div id="hud" hidden>
+    <div class="hud-row">
+      <button class="hud-back" id="btnQuit">&larr; Menu</button>
+      <span class="hud-title" id="hudTitle"></span>
+      <span class="stat"><span class="k">Streak</span><span class="v" id="sStreak">0</span></span>
+      <span class="stat"><span class="k">Score</span><span class="v" id="sScore">0</span></span>
+      <span class="stat mono" id="sProg" style="color:var(--muted);font-size:12px"></span>
+    </div>
+    <div class="bar"><i id="progBar"></i></div>
+  </div>
+
+  <main id="app"></main>
+
+  <footer>
+    <span>HoyaDocs &middot; HNSS Block 5</span>
+    <span>Built from the Anatomy Exam Forecast</span>
+    <span>Rev 1.0</span>
+  </footer>
+</div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   CONTENT
+   ============================================================ */
+
+/* --- 32 trap-hunter MCQs --- */
+const MCQ = [
+/* Autonomics */
+{id:"m01",topic:"Autonomics",q:"A tag sits on the <em>parotid gland</em>. Which ganglion houses the postganglionic parasympathetic cell bodies supplying it?",
+ o:[{t:"Otic ganglion",c:1},{t:"Submandibular ganglion",p:1},{t:"Ciliary ganglion"},{t:"Pterygopalatine ganglion"}],
+ w:"Preganglionic fibres leave CN IX as the lesser petrosal nerve, synapse in the <b>otic ganglion</b>, and the postganglionic fibres ride the auriculotemporal nerve of V3.",
+ trap:"The submandibular ganglion is the trap — same neighbourhood, wrong gland. Students also reach for CN VII because they assume all salivary glands are facial."},
+
+{id:"m02",topic:"Autonomics",q:"A tag sits on the <em>lacrimal gland</em>. Preganglionic parasympathetic fibers destined for this gland travel in which nerve?",
+ o:[{t:"CN VII",c:1},{t:"CN V",p:1},{t:"CN III"},{t:"CN IX"}],
+ w:"<b>CN VII</b> via the greater petrosal nerve, synapsing in the pterygopalatine ganglion.",
+ trap:"CN V is the trap. V2 and V1 only <i>carry</i> the postganglionic fibres to the gland — they never originate them."},
+
+{id:"m03",topic:"Autonomics",q:"A tag sits on the <em>submandibular duct</em>. Damage to which structure disrupts postganglionic parasympathetic supply to the gland?",
+ o:[{t:"Submandibular ganglion",c:1},{t:"Chorda tympani",p:1},{t:"Otic ganglion"},{t:"Superior cervical ganglion"}],
+ w:"The <b>submandibular ganglion</b>, suspended from the lingual nerve, holds the postganglionic cell bodies.",
+ trap:"Chorda tympani is the trap — it is the <i>pre</i>ganglionic limb, and the stem asked for postganglionic. Read the prefix every time."},
+
+{id:"m04",topic:"Autonomics",q:"During transnasal pituitary surgery a ganglion in the pterygopalatine fossa is inadvertently injured. What is most likely impaired?",
+ o:[{t:"Lacrimation",c:1},{t:"Pupillary constrictor muscle",p:1},{t:"Parotid secretion"},{t:"Submandibular secretion"}],
+ w:"The pterygopalatine ganglion supplies the <b>lacrimal gland</b> plus the nasal and palatine mucous glands.",
+ trap:"Pupillary constrictor is the trap — that is ciliary. Anything about the eyelid would be CN III or sympathetics, not this ganglion."},
+
+{id:"m05",topic:"Autonomics",q:"After T1 sympathetic ganglion ablation the patient has Horner syndrome. Preganglionic sympathetics to the indicated orbital structure would normally synapse where?",
+ o:[{t:"Superior cervical ganglion",c:1},{t:"Ciliary ganglion",p:1},{t:"Otic ganglion"},{t:"Pterygopalatine ganglion"}],
+ w:"All sympathetics to the head synapse in the <b>superior cervical ganglion</b>, then travel on arterial branches or hitch onto CN V.",
+ trap:"The ciliary ganglion is the trap. Sympathetic fibres pass straight <i>through</i> it without synapsing — passing through is not synapsing."},
+
+/* Larynx */
+{id:"m06",topic:"Larynx & vagus",q:"A tag sits on the <em>cricothyroid muscle</em>. Which nerve innervates it?",
+ o:[{t:"External branch of the superior laryngeal n.",c:1},{t:"Recurrent laryngeal n.",p:1},{t:"Internal branch of the superior laryngeal n."},{t:"Pharyngeal branch of CN X"}],
+ w:"Cricothyroid is the lone intrinsic laryngeal muscle supplied by the <b>external laryngeal nerve</b>.",
+ trap:"Recurrent laryngeal is the trap — it supplies every <i>other</i> intrinsic laryngeal muscle. This is the most reliably tested exception in the block."},
+
+{id:"m07",topic:"Larynx & vagus",q:"After thyroidectomy a woman's voice is abnormally deep. Questioning reveals no hoarseness at all. Which nerve was damaged?",
+ o:[{t:"External laryngeal n.",c:1},{t:"Recurrent laryngeal n.",p:1},{t:"Internal laryngeal n."},{t:"Inferior laryngeal n."}],
+ w:"The <b>external laryngeal nerve</b>, injured alongside the superior thyroid artery at the superior pole. Loss of cricothyroid means loss of pitch range.",
+ trap:"Recurrent laryngeal is the trap — but it would produce hoarseness, which the stem explicitly excludes. The absence of a finding is a clue."},
+
+{id:"m08",topic:"Larynx & vagus",q:"During ligation of the <em>inferior</em> thyroid artery at the inferior pole of the thyroid, a nerve is transected. What is the most likely finding?",
+ o:[{t:"Hoarseness from intrinsic laryngeal muscle paralysis",c:1},{t:"Loss of the afferent limb of the cough reflex",p:1},{t:"Decreased vocal pitch range from cricothyroid paralysis"},{t:"Anesthesia of laryngeal mucosa above the vocal folds"}],
+ w:"The recurrent laryngeal nerve runs with the inferior thyroid artery at the inferior pole → <b>hoarseness</b>.",
+ trap:"The cough-reflex option is the trap — that is the internal laryngeal nerve. Superior pole with the superior thyroid artery risks the external laryngeal nerve instead."},
+
+{id:"m09",topic:"Larynx & vagus",q:"After resection of the external carotid artery a man chokes frequently and has lost sensation in the laryngeal vestibule above the vocal folds. Which nerve was cut?",
+ o:[{t:"Internal laryngeal n.",c:1},{t:"Glossopharyngeal n.",p:1},{t:"Recurrent laryngeal n."},{t:"External laryngeal n."}],
+ w:"The <b>internal laryngeal nerve</b> pierces the thyrohyoid membrane with the superior laryngeal artery and is the afferent limb of the cough reflex.",
+ trap:"Glossopharyngeal is the trap — CN IX handles the oropharynx, not the laryngeal vestibule. Choking plus lost laryngeal sensation is internal laryngeal every time."},
+
+{id:"m10",topic:"Larynx & vagus",q:"A tag sits in the tracheo-oesophageal groove on a nerve ascending toward the larynx. Damage here causes which finding?",
+ o:[{t:"Hoarseness",c:1},{t:"Decreased vocal pitch range",p:1},{t:"Loss of the gag reflex"},{t:"Inability to elevate the shoulder"}],
+ w:"That is the <b>recurrent laryngeal nerve</b> — paralysis of all intrinsic laryngeal muscles except cricothyroid gives hoarseness.",
+ trap:"Decreased pitch range is the trap — that is external laryngeal, which runs with the superior thyroid artery, nowhere near the tracheo-oesophageal groove."},
+
+/* Foramina */
+{id:"m11",topic:"Foramina",q:"A tumour compressing the nerves at the indicated skull base opening produces difficulty swallowing and an absent gag reflex. Which opening?",
+ o:[{t:"Jugular foramen",c:1},{t:"Hypoglossal canal",p:1},{t:"Internal acoustic meatus"},{t:"Stylomastoid foramen"}],
+ w:"The <b>jugular foramen</b> transmits CN IX, X and XI — dysphagia and an absent gag follow.",
+ trap:"Hypoglossal canal is the trap; a tongue-paralysis option is always offered alongside. Taste from the anterior two-thirds would point at CN VII instead."},
+
+{id:"m12",topic:"Foramina",q:"Sharp shooting pain triggered by light touch between the lower eyelid and the upper lip. Forehead sensation, jaw strength and the corneal reflex are all normal. That division exits the skull through which foramen?",
+ o:[{t:"Foramen rotundum",c:1},{t:"Foramen ovale",p:1},{t:"Superior orbital fissure"},{t:"Inferior orbital fissure"}],
+ w:"Mid-face skin is V2, which exits via <b>foramen rotundum</b>. Standing Room Only: V1 superior orbital fissure, V2 rotundum, V3 ovale.",
+ trap:"Foramen ovale is the trap — but normal jaw clenching and intact lower-lip sensation rule V3 out. The normal findings are doing the work."},
+
+{id:"m13",topic:"Foramina",q:"A linear fracture over the pterion produces a biconvex, lens-shaped hyperdensity on CT. The bleeding vessel entered the cranium through which foramen?",
+ o:[{t:"Foramen spinosum",c:1},{t:"Foramen lacerum",p:1},{t:"Foramen ovale"},{t:"Carotid canal"}],
+ w:"The middle meningeal artery, a branch of the maxillary artery, enters via <b>foramen spinosum</b>.",
+ trap:"Foramen lacerum is the trap — it sounds right and sits nearby, but nothing functionally traverses it in full. Rotundum, ovale, spinosum run medial to lateral on the greater wing."},
+
+{id:"m14",topic:"Foramina",q:"Paralysis of the indicated muscle produces torticollis and a drooping shoulder. You should look for a lesion at which location?",
+ o:[{t:"Jugular foramen",c:1},{t:"Stylomastoid foramen",p:1},{t:"Hypoglossal canal"},{t:"Foramen ovale"}],
+ w:"Sternocleidomastoid and trapezius are CN XI, which leaves via the <b>jugular foramen</b>.",
+ trap:"Stylomastoid is the trap — that is CN VII and facial expression. A superficial posterior-triangle laceration is the other classic cause of CN XI injury."},
+
+/* Orbit */
+{id:"m15",topic:"Orbit",q:"Which of the indicated extraocular muscles is innervated by CN IV?",
+ o:[{t:"Superior oblique",c:1},{t:"Inferior oblique",p:1},{t:"Superior rectus"},{t:"Levator palpebrae superioris"}],
+ w:"<b>Superior oblique</b> — identify it by the tendon passing through the trochlea at the superomedial orbital rim.",
+ trap:"Inferior oblique is the trap: also an oblique, but it arises from the anterior orbital floor, has no trochlea, and is CN III. LR6, SO4, AO3."},
+
+{id:"m16",topic:"Orbit",q:"To isolate and test the indicated muscle (superior oblique), you must first ask the patient to do which of the following?",
+ o:[{t:"Adduct",c:1},{t:"Abduct",p:1},{t:"Elevate"},{t:"Extort"}],
+ w:"<b>Adduct.</b> With the eye adducted, the obliques become pure vertical movers — SO depresses, IO elevates.",
+ trap:"Abduct is the trap — correct for isolating the recti (SR elevates, IR depresses), wrong for the obliques. Reason from the H-test rule, don't recall."},
+
+{id:"m17",topic:"Orbit",q:"Which action is lost with paralysis of the indicated muscle (levator palpebrae superioris)?",
+ o:[{t:"Elevation of the eyelid",c:1},{t:"Elevation of the eye",p:1},{t:"Depression of the eyelid"},{t:"Abduction of the eye"}],
+ w:"<b>Elevation of the eyelid.</b> Complete CN III palsy gives severe ptosis; the sympathetic superior tarsal muscle beneath it gives the mild ptosis of Horner syndrome.",
+ trap:"Elevation of the eye is the trap — that is superior rectus, which sits immediately deep to LPS on a specimen and is easy to confuse."},
+
+{id:"m18",topic:"Orbit",q:"A lesion at the indicated location abolishes the afferent limb of the pupillary light reflex. Which structure is it?",
+ o:[{t:"Optic nerve (CN II)",c:1},{t:"Oculomotor nerve (CN III)",p:1},{t:"Nasociliary nerve"},{t:"Ciliary ganglion"}],
+ w:"<b>CN II</b> carries the afferent limb; CN III carries the efferent limb.",
+ trap:"CN III is the trap — efferent, not afferent. Do not confuse this with the <i>corneal</i> reflex, whose afferent is the nasociliary nerve of V1 and whose efferent is bilateral CN VII."},
+
+/* V3 / ITF */
+{id:"m19",topic:"V3 & infratemporal fossa",q:"A mandibular ramus fracture displaces into the infratemporal fossa; there is jaw pain and numbness of the lower lip and chin. Which indicated nerve was injured?",
+ o:[{t:"Inferior alveolar n.",c:1},{t:"Lingual n.",p:1},{t:"Buccal n."},{t:"Auriculotemporal n."}],
+ w:"The <b>inferior alveolar nerve</b>, heading for the mandibular foramen and emerging as the mental nerve at the chin and lower lip.",
+ trap:"Lingual is the trap — it lies immediately anterior and would instead cause loss of sensation and taste on the anterior two-thirds of the tongue."},
+
+{id:"m20",topic:"V3 & infratemporal fossa",q:"Which muscle is responsible for elevation <em>and retraction</em> of the indicated structure (the mandible)?",
+ o:[{t:"Temporalis",c:1},{t:"Masseter",p:1},{t:"Medial pterygoid"},{t:"Lateral pterygoid"}],
+ w:"<b>Temporalis</b> — its posterior fibres are the only retractors of the mandible.",
+ trap:"Masseter is the trap: elevation yes, but protrusion rather than retraction. Elevation alone never separates these — the second verb decides it."},
+
+{id:"m21",topic:"V3 & infratemporal fossa",q:"A mass in the infratemporal fossa causes loss of both general sensation <em>and</em> taste over the anterior two-thirds of the tongue. Which nerve?",
+ o:[{t:"Lingual n.",c:1},{t:"Chorda tympani",p:1},{t:"Inferior alveolar n."},{t:"Hypoglossal n."}],
+ w:"The <b>lingual nerve</b>, which carries V3 general sensation plus hitchhiking chorda tympani taste fibres.",
+ trap:"Chorda tympani is the trap — it would take the taste but leave general sensation intact. Two deficits means the nerve carrying both."},
+
+{id:"m22",topic:"V3 & infratemporal fossa",q:"The indicated artery runs with the inferior alveolar nerve into the mandible. It is a branch of which vessel?",
+ o:[{t:"Maxillary a.",c:1},{t:"External carotid a.",p:1},{t:"Facial a."},{t:"Superficial temporal a."}],
+ w:"The inferior alveolar artery is a branch of the <b>maxillary artery</b> within the infratemporal fossa.",
+ trap:"External carotid is the trap — true at one remove, since the maxillary is its terminal branch. When a parent and a grandparent both appear, take the immediate one."},
+
+/* Tongue / oral / pharynx */
+{id:"m23",topic:"Tongue, oral & pharynx",q:"Which nerve provides motor innervation to the indicated muscle (palatoglossus)?",
+ o:[{t:"CN X",c:1},{t:"CN XII",p:1},{t:"CN IX"},{t:"CN V3"}],
+ w:"<b>CN X</b>, via the pharyngeal plexus. Palatoglossus is functionally a palatal muscle that happens to reach the tongue.",
+ trap:"CN XII is the trap — it supplies every other tongue muscle, intrinsic and extrinsic. The lectures flag this exception three separate times."},
+
+{id:"m24",topic:"Tongue, oral & pharynx",q:"A tumour at the indicated point in the tonsillar bed compresses CN IX. Which function is lost?",
+ o:[{t:"General sensory and taste from the posterior third of the tongue",c:1},{t:"Motor innervation to the muscles of the oropharynx",p:1},{t:"Motor innervation to the tongue"},{t:"Taste from the anterior two-thirds of the tongue"}],
+ w:"CN IX carries <b>general sensation and taste from the posterior third</b>, plus the afferent limb of the gag reflex.",
+ trap:"Motor to the oropharynx is the trap — that is CN X. CN IX supplies exactly one muscle in the whole body: stylopharyngeus."},
+
+{id:"m25",topic:"Tongue, oral & pharynx",q:"Which of the indicated structures on the lateral nasopharyngeal wall opens into the middle ear?",
+ o:[{t:"Pharyngotympanic tube",c:1},{t:"Pharyngeal recess",p:1},{t:"Salpingopharyngeal fold"},{t:"Torus tubarius"}],
+ w:"The <b>pharyngotympanic (Eustachian) tube</b>, whose ostium sits just anterior to the torus tubarius.",
+ trap:"Pharyngeal recess is the trap — the fossa of Rosenmüller sits immediately posterior to the torus and leads nowhere. Anterior to the torus is the tube; posterior is the recess."},
+
+/* Neck */
+{id:"m26",topic:"Neck",q:"Iatrogenic injury to the ansa cervicalis would paralyse which of the indicated muscles?",
+ o:[{t:"Sternohyoid",c:1},{t:"Thyrohyoid",p:1},{t:"Mylohyoid"},{t:"Stylohyoid"}],
+ w:"The ansa supplies <b>sternohyoid</b>, sternothyroid and both bellies of omohyoid.",
+ trap:"Thyrohyoid is the trap — a strap muscle, but innervated by C1 fibres travelling with CN XII. Mylohyoid is V3 and stylohyoid is CN VII."},
+
+{id:"m27",topic:"Neck",q:"A lesion of the nerve supplying the indicated muscle (mylohyoid) would also affect which other muscle?",
+ o:[{t:"Anterior belly of digastric",c:1},{t:"Posterior belly of digastric",p:1},{t:"Stylohyoid"},{t:"Thyrohyoid"}],
+ w:"The nerve to mylohyoid, a branch of V3, supplies mylohyoid and the <b>anterior belly of digastric</b>.",
+ trap:"Posterior belly is the trap — the two bellies of one muscle have different nerves, because they come from different pharyngeal arches. CN VII takes the posterior belly and stylohyoid."},
+
+{id:"m28",topic:"Neck",q:"A biopsy is planned for a lesion over the angle of the mandible and mastoid region. Which nerve requires a block?",
+ o:[{t:"Great auricular n.",c:1},{t:"Lesser occipital n.",p:1},{t:"Transverse cervical n."},{t:"Supraclavicular nn."}],
+ w:"The <b>great auricular nerve</b> supplies the skin over the ear, angle of the mandible and mastoid.",
+ trap:"Lesser occipital is the trap — also a cervical plexus branch, but its field is the scalp behind the ear. Transverse cervical covers anterior triangle skin; supraclavicular covers the clavicle."},
+
+/* Face / nose */
+{id:"m29",topic:"Face, nose & sinuses",q:"A tumour of the gland at the indicated location (parotid) will most likely cause an inability to do which of the following?",
+ o:[{t:"Close the eyes",c:1},{t:"Open the eyes",p:1},{t:"Depress the jaw"},{t:"Protrude the tongue"}],
+ w:"CN VII branches run through the parotid, so a parotid mass paralyses the muscles of facial expression — including orbicularis oculi, which <b>closes</b> the eye.",
+ trap:"Open the eyes is the trap — that is levator palpebrae superioris and CN III, nowhere near the parotid."},
+
+{id:"m30",topic:"Face, nose & sinuses",q:"Pus from an infected maxillary sinus drains into the nasal cavity through which structure?",
+ o:[{t:"Semilunar hiatus",c:1},{t:"Ethmoid bulla",p:1},{t:"Sphenoethmoidal recess"},{t:"Inferior meatus"}],
+ w:"The maxillary sinus opens into the <b>semilunar hiatus</b> of the middle meatus, alongside the frontal sinus and anterior ethmoid cells.",
+ trap:"Ethmoid bulla is the trap — it is the middle ethmoid bulge sitting right beside the hiatus, not a maxillary drainage route. Inferior meatus takes the nasolacrimal duct only."},
+
+{id:"m31",topic:"Face, nose & sinuses",q:"Significant bleeding from the anterior nasal septum after trauma. Which artery contributes to this region?",
+ o:[{t:"Sphenopalatine a.",c:1},{t:"Angular a.",p:1},{t:"Middle meningeal a."},{t:"Deep temporal a."}],
+ w:"<b>Sphenopalatine</b> — one of the five vessels of Kiesselbach's plexus, with the anterior and posterior ethmoidal, superior labial and greater palatine arteries.",
+ trap:"Angular is the trap — the terminal branch of the facial artery, it supplies the <i>external</i> nose, not the septum."},
+
+{id:"m32",topic:"Face, nose & sinuses",q:"A hockey player loses his sense of smell after a stick to the face. Which structure is directly associated with the olfactory nerve?",
+ o:[{t:"Cribriform plate",c:1},{t:"Superior concha",p:1},{t:"Crista galli"},{t:"Perpendicular plate of the ethmoid"}],
+ w:"Olfactory fibres pass through the olfactory foramina of the <b>cribriform plate</b> of the ethmoid.",
+ trap:"Superior concha is the trap — the olfactory epithelium sits near it, but the nerve itself traverses the cribriform plate. Crista galli is the midline ridge above it, not a conduit."}
+];
+
+/* --- 10 confusable pairs → 20 binary items --- */
+const PAIRDEFS = [
+ {id:"p1",a:"Lingual n.",b:"Inferior alveolar n.",
+  ca:"Lies anterior and medial in the infratemporal fossa, heading for the tongue",
+  cb:"Lies posterior and disappears into the mandibular foramen",
+  w:"In the infratemporal fossa the lingual is anterior and medial; the inferior alveolar is posterior and enters the mandible."},
+ {id:"p2",a:"Internal laryngeal n.",b:"External laryngeal n.",
+  ca:"Pierces the thyrohyoid membrane with the superior laryngeal artery",
+  cb:"Descends on the cricothyroid with the superior thyroid artery",
+  w:"Internal pierces the thyrohyoid membrane (sensation above the cords); external runs down on cricothyroid (pitch)."},
+ {id:"p3",a:"Superior oblique",b:"Inferior oblique",
+  ca:"Its tendon passes through the trochlea at the superomedial rim",
+  cb:"Arises from the anterior orbital floor and has no trochlea",
+  w:"The trochlea is the giveaway: only superior oblique uses it. SO is CN IV, IO is CN III."},
+ {id:"p4",a:"Anterior belly of digastric",b:"Posterior belly of digastric",
+  ca:"Innervated by the nerve to mylohyoid, a branch of V3",
+  cb:"Innervated by CN VII",
+  w:"One muscle, two arches, two nerves: anterior belly V3, posterior belly CN VII."},
+ {id:"p5",a:"Torus tubarius",b:"Pharyngeal recess",
+  ca:"The cartilaginous bulge on the lateral nasopharyngeal wall",
+  cb:"The slit immediately posterior to the bulge; the classic site of nasopharyngeal carcinoma",
+  w:"Torus is the bulge; the recess (fossa of Rosenmüller) is the slit behind it. The tube opening is in front of the torus."},
+ {id:"p6",a:"Vestibular fold",b:"Vocal fold",
+  ca:"Superior, pinker and thicker, with the ventricle beneath it",
+  cb:"Inferior, whiter and sharper-edged",
+  w:"False fold above, true fold below, ventricle between. The true fold is whiter because of the underlying vocal ligament."},
+ {id:"p7",a:"Hyoglossus",b:"Styloglossus",
+  ca:"A flat quadrilateral sheet arising from the hyoid bone",
+  cb:"A narrow strap descending from the styloid process",
+  w:"Hyoglossus is the flat sheet; CN XII runs lateral to it and the lingual artery runs medial to it."},
+ {id:"p8",a:"Middle meatus",b:"Superior meatus",
+  ca:"Contains the ethmoid bulla and the semilunar hiatus",
+  cb:"A small slit that receives the posterior ethmoid air cells",
+  w:"Middle meatus takes frontal, anterior ethmoid and maxillary; superior meatus takes posterior ethmoid only."},
+ {id:"p9",a:"Thyrohyoid",b:"Sternothyroid",
+  ca:"Runs from hyoid to thyroid cartilage; supplied by C1 via CN XII",
+  cb:"Runs from sternum to thyroid cartilage; supplied by the ansa cervicalis",
+  w:"Both attach to the thyroid cartilage, but thyrohyoid is the C1/CN XII exception among the straps."},
+ {id:"p10",a:"Retromandibular v.",b:"Facial v.",
+  ca:"Formed within the parotid gland by the superficial temporal and maxillary veins",
+  cb:"Runs obliquely across the face alongside the facial artery",
+  w:"Retromandibular is the intraparotid vein; the facial vein is the superficial one crossing the face."}
+];
+
+const PAIRS = [];
+PAIRDEFS.forEach(p=>{
+  PAIRS.push({id:p.id+"a",topic:"Confusable pairs",clue:p.ca,a:p.a,b:p.b,correct:0,w:p.w});
+  PAIRS.push({id:p.id+"b",topic:"Confusable pairs",clue:p.cb,a:p.a,b:p.b,correct:1,w:p.w});
+});
+
+/* --- 12 recall cards --- */
+const RECALL = [
+{id:"r01",topic:"Neck",q:"The tag is on a muscle running from the hyoid to the thyroid cartilage. Which nerve supplies it?",
+ a:"<b>C1 fibres travelling with the hypoglossal nerve</b> — not the ansa cervicalis, which supplies the other three straps."},
+{id:"r02",topic:"Larynx & vagus",q:"Name the only intrinsic laryngeal muscle that abducts the vocal folds, and its nerve.",
+ a:"<b>Posterior cricoarytenoid</b>, supplied by the <b>recurrent laryngeal nerve</b>. Bilateral paralysis is an airway emergency because the folds sit adducted."},
+{id:"r03",topic:"Autonomics",q:"Postganglionic parasympathetic fibers to the parotid gland travel on which nerve, from which ganglion?",
+ a:"The <b>auriculotemporal nerve (V3)</b>, from the <b>otic ganglion</b>. Preganglionic fibres came from CN IX via the lesser petrosal nerve."},
+{id:"r04",topic:"Orbit",q:"A patient cannot depress the adducted right eye. Which nerve, and through which opening does it leave the skull?",
+ a:"<b>CN IV (trochlear)</b>, supplying superior oblique, exiting via the <b>superior orbital fissure</b>."},
+{id:"r05",topic:"Tongue, oral & pharynx",q:"The uvula deviates to the right. Which side is the lesion, and which nerve?",
+ a:"<b>Left.</b> The uvula deviates <i>away</i> from a <b>CN X</b> lesion, pulled over by the intact contralateral levator veli palatini."},
+{id:"r06",topic:"Tongue, oral & pharynx",q:"Which structures pass through the gap between the middle and inferior pharyngeal constrictors?",
+ a:"The <b>internal laryngeal nerve</b> and the <b>superior laryngeal artery and vein</b>. Below the inferior constrictor: recurrent laryngeal nerve and inferior laryngeal artery."},
+{id:"r07",topic:"Face, nose & sinuses",q:"A tag sits in the slit just posterior to the torus tubarius. Name it and its clinical significance.",
+ a:"<b>Pharyngeal recess (fossa of Rosenmüller)</b> — the classic site of nasopharyngeal carcinoma, presenting with serous otitis media and a neck mass."},
+{id:"r08",topic:"Neck",q:"Which muscles are paralysed by a lesion of the nerve to mylohyoid?",
+ a:"<b>Mylohyoid</b> and the <b>anterior belly of digastric</b>. Both are V3 derivatives; the posterior belly belongs to CN VII."},
+{id:"r09",topic:"Larynx & vagus",q:"Sensation to the laryngeal mucosa below the vocal folds is carried by which nerve?",
+ a:"The <b>recurrent laryngeal nerve</b>. Above the folds it is the internal branch of the superior laryngeal nerve."},
+{id:"r10",topic:"Neck",q:"An abscess lies between the alar and prevertebral fasciae. How far can it spread?",
+ a:"This is the <b>danger space</b> — it runs from the skull base to the <b>diaphragm</b> via the posterior mediastinum. The retropharyngeal space proper ends at T1–T6."},
+{id:"r11",topic:"Orbit",q:"Anisocoria that is worse in dim light points to a deficit in which division of the autonomic nervous system?",
+ a:"<b>Sympathetic.</b> The dilator pupillae cannot act, so the affected pupil fails to enlarge in the dark — Horner syndrome. Anisocoria worse in <i>bright</i> light is a parasympathetic/CN III problem."},
+{id:"r12",topic:"Tongue, oral & pharynx",q:"The tag sits on the fold running from the soft palate to the side of the tongue. Name the muscle within it and its nerve.",
+ a:"The <b>palatoglossal fold</b>, containing <b>palatoglossus</b> — innervated by <b>CN X</b> via the pharyngeal plexus, the lone exception among the tongue muscles."}
+];
+
+const ALL_BY_ID = {};
+MCQ.forEach(x=>ALL_BY_ID[x.id]={kind:"mcq",item:x});
+PAIRS.forEach(x=>ALL_BY_ID[x.id]={kind:"pair",item:x});
+RECALL.forEach(x=>ALL_BY_ID[x.id]={kind:"recall",item:x});
+
+/* ============================================================
+   STATE + PERSISTENCE
+   ============================================================ */
+const MODES = {
+  trap:   {name:"Trap Hunter",   glyph:"01", blurb:"32 image-style questions, each carrying the distractor most likely to catch you.", kind:"mcq"},
+  pairs:  {name:"Tell Them Apart", glyph:"02", blurb:"20 rapid discriminations from the ten confusable tag pairs. Beat the clock for bonus points.", kind:"pair"},
+  recall: {name:"Recall Drill",  glyph:"03", blurb:"12 open-recall cards. Say the answer out loud, then grade yourself honestly.", kind:"recall"},
+  gauntlet:{name:"The Gauntlet", glyph:"04", blurb:"20 items pulled from all three drills, shuffled. This is the dress rehearsal.", kind:"mixed"},
+  weak:   {name:"Your Weak Spots", glyph:"!", blurb:"", kind:"mixed"}
+};
+
+let save = {best:{}, misses:{}, rounds:0};
+let R = null; // active round
+
+function loadLocal(){
+  try{ const raw = localStorage.getItem("hnss-trap-hunter");
+    if(raw) save = Object.assign(save, JSON.parse(raw)); }catch(e){}
+}
+function persist(){
+  try{ localStorage.setItem("hnss-trap-hunter", JSON.stringify(save)); }catch(e){}
+}
+
+function shuffle(a){ const x=a.slice(); for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];} return x; }
+function weakIds(){ return Object.keys(save.misses||{}).filter(k=>save.misses[k]>0 && ALL_BY_ID[k]); }
+
+/* ============================================================
+   RENDER — MENU
+   ============================================================ */
+const app = document.getElementById("app");
+const hud = document.getElementById("hud");
+
+function esc(s){ return String(s); }
+
+function renderMenu(){
+  R = null;
+  hud.hidden = true;
+  const weak = weakIds();
+  const cards = ["trap","pairs","recall","gauntlet"].map(k=>{
+    const m = MODES[k];
+    const b = save.best[k];
+    return `<button class="mode" data-mode="${k}">
+      <span class="glyph">${m.glyph}</span>
+      <span><h3>${m.name}</h3><p>${m.blurb}</p></span>
+      <span class="best">${b?`Best<b>${b}</b>`:`<b style="color:var(--muted)">—</b>`}</span>
+    </button>`;
+  }).join("");
+
+  const weakCard = weak.length>=3 ? `<button class="mode weak" data-mode="weak">
+      <span class="glyph">!</span>
+      <span><h3>Your Weak Spots</h3><p>The ${weak.length} items you have missed before, drilled until they stick.</p></span>
+      <span class="best">Queued<b style="color:var(--bad)">${weak.length}</b></span>
+    </button>` : "";
+
+  app.innerHTML = `
+    <div class="mast">
+      <div class="brand"><a class="hublink" href="index.html">&larr; Game Hub</a> &nbsp;·&nbsp; <b>HoyaDocs</b> &nbsp;·&nbsp; HNSS Block 5 &nbsp;·&nbsp; Anatomy Exam</div>
+      <h1>Trap Hunter</h1>
+      <p class="lede">Sixty-four drills built from the exam forecast. Every question carries the distractor the examiners actually use &mdash; the point is not to get it right, it is to see the trap coming.</p>
+    </div>
+    <div class="modes" id="modeList">${weakCard}${cards}</div>
+    <div class="menufoot">
+      <p>${save.rounds? `${save.rounds} round${save.rounds===1?"":"s"} played. Progress is saved in this browser.` : "Progress is saved as you go, so you can pick up where you left off."}</p>
+      ${save.rounds?`<button class="reset" id="btnReset">Reset progress</button>`:""}
+    </div>`;
+
+  app.querySelectorAll("[data-mode]").forEach(b=>{
+    b.addEventListener("click",()=>startRound(b.dataset.mode));
+  });
+  const rb = document.getElementById("btnReset");
+  if(rb) rb.addEventListener("click",()=>{
+    save = {best:{}, misses:{}, rounds:0};
+    persist(); renderMenu();
+  });
+}
+
+/* ============================================================
+   ROUND ENGINE
+   ============================================================ */
+function buildQueue(mode){
+  if(mode==="trap")   return shuffle(MCQ).map(i=>({kind:"mcq",item:i}));
+  if(mode==="pairs")  return shuffle(PAIRS).map(i=>({kind:"pair",item:i}));
+  if(mode==="recall") return shuffle(RECALL).map(i=>({kind:"recall",item:i}));
+  if(mode==="weak")   return shuffle(weakIds()).map(id=>ALL_BY_ID[id]);
+  const pool = shuffle([].concat(
+    MCQ.map(i=>({kind:"mcq",item:i})),
+    PAIRS.map(i=>({kind:"pair",item:i})),
+    RECALL.map(i=>({kind:"recall",item:i}))
+  ));
+  return pool.slice(0,20);
+}
+
+function startRound(mode){
+  R = { mode, queue:buildQueue(mode), i:0, score:0, streak:0, best:0,
+        right:0, wrong:0, missed:[], topics:{}, answered:false, timerId:null };
+  hud.hidden = false;
+  document.getElementById("hudTitle").textContent = MODES[mode].name;
+  renderStep();
+}
+
+function updateHud(){
+  document.getElementById("sScore").textContent = R.score;
+  const st = document.getElementById("sStreak");
+  st.textContent = R.streak;
+  st.classList.toggle("hot", R.streak>=3);
+  document.getElementById("sProg").textContent = (R.i+1)+" / "+R.queue.length;
+  document.getElementById("progBar").style.width = ((R.i)/R.queue.length*100)+"%";
+}
+
+function bump(topic, ok){
+  if(!R.topics[topic]) R.topics[topic]={r:0,n:0};
+  R.topics[topic].n++; if(ok) R.topics[topic].r++;
+}
+
+function award(ok, id, speedBonus){
+  if(ok){
+    R.streak++; R.best = Math.max(R.best,R.streak);
+    const combo = Math.min(R.streak-1,8)*25;
+    const gained = 100 + combo + (speedBonus||0);
+    R.score += gained; R.right++;
+    if(save.misses[id]) { save.misses[id]--; if(save.misses[id]<=0) delete save.misses[id]; }
+    return gained;
+  }
+  R.streak = 0; R.wrong++;
+  save.misses[id] = (save.misses[id]||0)+1;
+  return 0;
+}
+
+function renderStep(){
+  if(!R) return;
+  if(R.i >= R.queue.length){ return renderResults(); }
+  R.answered = false;
+  updateHud();
+  const step = R.queue[R.i];
+  if(step.kind==="mcq")   renderMcq(step.item);
+  else if(step.kind==="pair") renderPair(step.item);
+  else renderRecall(step.item);
+}
+
+function nextBtnHtml(label){
+  return `<div class="actions"><button class="btn gold" id="btnNext">${label||"Next"} &rarr;</button></div>
+          <p class="hint">Press Enter or Space to continue</p>`;
+}
+
+/* ---------- MCQ ---------- */
+function renderMcq(item){
+  const opts = shuffle(item.o.map((o,idx)=>({...o, orig:idx})));
+  app.innerHTML = `
+    <div class="card">
+      <div class="tagrow"><span class="tag">${item.topic}</span><span class="tag gold">Spot the trap</span></div>
+      <p class="qtext">${item.q}</p>
+      <div class="opts" id="opts">
+        ${opts.map((o,i)=>`<button class="opt" data-i="${i}"><span class="key">${i+1}</span><span>${o.t}</span></button>`).join("")}
+      </div>
+      <div id="fbSlot" aria-live="polite"></div>
+    </div>`;
+
+  const btns = [...app.querySelectorAll(".opt")];
+  btns.forEach((b,i)=>b.addEventListener("click",()=>choose(i)));
+
+  function choose(i){
+    if(R.answered) return; R.answered = true;
+    const picked = opts[i];
+    const ok = !!picked.c;
+    const trapIdx = opts.findIndex(o=>o.p);
+    const gained = award(ok, item.id);
+    bump(item.topic, ok);
+    if(!ok) R.missed.push({q:item.q, a:opts.find(o=>o.c).t, topic:item.topic});
+
+    btns.forEach((b,j)=>{
+      b.disabled = true;
+      if(opts[j].c) b.classList.add("correct");
+      else if(j===i) b.classList.add("wrong");
+      else b.classList.add("dim");
+    });
+
+    const avoided = ok && trapIdx>=0;
+    document.getElementById("fbSlot").innerHTML = `
+      <div class="fb ${ok?"good":"bad"}">
+        <div class="verdict">
+          <span>${ok? (avoided?"Trap avoided":"Correct") : (i===trapIdx?"You took the bait":"Not quite")}</span>
+          ${ok?`<span class="pts">+${gained}</span>`:""}
+        </div>
+        <p>${item.w}</p>
+        <p>${item.trap}</p>
+      </div>
+      ${nextBtnHtml()}`;
+    wireNext();
+    updateHud();
+  }
+}
+
+/* ---------- PAIR (binary, timed) ---------- */
+function renderPair(item){
+  const LIMIT = 9000;
+  app.innerHTML = `
+    <div class="card">
+      <div class="tagrow"><span class="tag">Confusable pairs</span><span class="tag gold">Speed round</span></div>
+      <div class="timer"><i id="tbar"></i></div>
+      <p class="qtext">Which structure does this describe?<br><em>${item.clue}</em></p>
+      <div class="binary" id="opts">
+        <button class="opt" data-i="0"><span class="key"></span><span>${item.a}</span></button>
+        <button class="opt" data-i="1"><span class="key"></span><span>${item.b}</span></button>
+      </div>
+      <div id="fbSlot" aria-live="polite"></div>
+    </div>`;
+
+  const btns = [...app.querySelectorAll(".opt")];
+  btns.forEach((b,i)=>b.addEventListener("click",()=>choose(i)));
+
+  const start = Date.now();
+  const tbar = document.getElementById("tbar");
+  R.timerId = setInterval(()=>{
+    const left = Math.max(0, 1 - (Date.now()-start)/LIMIT);
+    tbar.style.width = (left*100)+"%";
+    if(left<=0){ clearInterval(R.timerId); if(!R.answered) choose(-1); }
+  },60);
+
+  function choose(i){
+    if(R.answered) return; R.answered = true;
+    clearInterval(R.timerId);
+    const elapsed = Date.now()-start;
+    const ok = i===item.correct;
+    const speed = ok ? Math.max(0, Math.round((1-elapsed/LIMIT)*60)) : 0;
+    const gained = award(ok, item.id, speed);
+    bump(item.topic, ok);
+    const right = item.correct===0? item.a : item.b;
+    if(!ok) R.missed.push({q:item.clue, a:right, topic:item.topic});
+
+    btns.forEach((b,j)=>{
+      b.disabled = true;
+      if(j===item.correct) b.classList.add("correct");
+      else if(j===i) b.classList.add("wrong");
+      else b.classList.add("dim");
+    });
+
+    document.getElementById("fbSlot").innerHTML = `
+      <div class="fb ${ok?"good":"bad"}">
+        <div class="verdict">
+          <span>${ok?"Correct":(i===-1?"Out of time":"Wrong one")}</span>
+          ${ok?`<span class="pts">+${gained}${speed?` &nbsp;(+${speed} speed)`:""}</span>`:""}
+        </div>
+        <p>It is the <b>${right}</b>. ${item.w}</p>
+      </div>
+      ${nextBtnHtml()}`;
+    wireNext();
+    updateHud();
+  }
+}
+
+/* ---------- RECALL ---------- */
+function renderRecall(item){
+  app.innerHTML = `
+    <div class="card">
+      <div class="tagrow"><span class="tag">${item.topic}</span><span class="tag gold">Open recall</span></div>
+      <p class="qtext">${item.q}</p>
+      <div class="actions"><button class="btn" id="btnReveal">Reveal answer</button></div>
+      <p class="hint">Say it out loud first. Press Space to reveal.</p>
+      <div id="fbSlot" aria-live="polite"></div>
+    </div>`;
+
+  document.getElementById("btnReveal").addEventListener("click", reveal);
+
+  function reveal(){
+    if(R.answered) return; R.answered = true;
+    document.getElementById("btnReveal").closest(".actions").remove();
+    app.querySelector(".hint").remove();
+    document.getElementById("fbSlot").innerHTML = `
+      <div class="answer"><div class="lbl">Answer</div><p>${item.a}</p></div>
+      <div class="actions">
+        <button class="btn gold" id="btnGot">I had it</button>
+        <button class="btn ghost" id="btnMiss">I missed it</button>
+      </div>
+      <p class="hint">Press 1 for “I had it”, 2 for “I missed it”</p>`;
+    document.getElementById("btnGot").addEventListener("click",()=>grade(true));
+    document.getElementById("btnMiss").addEventListener("click",()=>grade(false));
+    R.answered = "revealed";
+  }
+
+  function grade(ok){
+    award(ok, item.id);
+    bump(item.topic, ok);
+    if(!ok) R.missed.push({q:item.q, a:item.a.replace(/<[^>]+>/g,""), topic:item.topic});
+    R.i++; renderStep();
+  }
+
+  renderRecall._reveal = reveal;
+  renderRecall._grade = grade;
+}
+
+function wireNext(){
+  const b = document.getElementById("btnNext");
+  if(b){ b.focus(); b.addEventListener("click",()=>{ R.i++; renderStep(); }); }
+}
+
+/* ============================================================
+   RESULTS
+   ============================================================ */
+function renderResults(){
+  const total = R.right + R.wrong;
+  const acc = total? Math.round(R.right/total*100) : 0;
+  const prevBest = save.best[R.mode]||0;
+  const isBest = R.score > prevBest;
+  if(isBest) save.best[R.mode] = R.score;
+  save.rounds = (save.rounds||0)+1;
+  persist();
+
+  let verdict;
+  if(acc>=90) verdict = "Exam-ready. Move on to the tag list.";
+  else if(acc>=75) verdict = "Solid. Clean up the topics below and you are there.";
+  else if(acc>=55) verdict = "The shape is right — the traps are still landing.";
+  else verdict = "Worth a second pass before you touch a prosection.";
+
+  const topics = Object.keys(R.topics).sort((a,b)=>
+    (R.topics[a].r/R.topics[a].n) - (R.topics[b].r/R.topics[b].n));
+
+  const bars = topics.map(t=>{
+    const {r,n} = R.topics[t];
+    const p = Math.round(r/n*100);
+    const cls = p<55?"low":(p<80?"mid":"");
+    return `<div class="tbar">
+      <span>${t}</span>
+      <span class="track"><i class="${cls}" style="width:${p}%"></i></span>
+      <span class="pct">${p}%</span>
+    </div>`;
+  }).join("");
+
+  const missList = R.missed.length? `
+    <h3 class="rsec">What slipped through</h3>
+    <ul class="missed">${R.missed.map(m=>`
+      <li><p class="mq">${m.q}</p><p class="ma">Answer: <b>${m.a}</b></p></li>`).join("")}</ul>` : "";
+
+  hud.hidden = true;
+  app.innerHTML = `
+    <div class="score-hero">
+      <div class="big">${R.score}</div>
+      <div class="cap">${isBest?"New personal best":"Points"} &nbsp;·&nbsp; ${MODES[R.mode].name}</div>
+      <p class="verdictline">${verdict}</p>
+    </div>
+    <div class="rstats">
+      <div><div class="v" style="color:var(--ok)">${R.right}</div><div class="k">Right</div></div>
+      <div><div class="v" style="color:var(--bad)">${R.wrong}</div><div class="k">Missed</div></div>
+      <div><div class="v" style="color:var(--gold)">${R.best}</div><div class="k">Best streak</div></div>
+    </div>
+    <h3 class="rsec">Accuracy by topic <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">&nbsp;weakest first</span></h3>
+    ${bars}
+    ${missList}
+    <div class="actions" style="margin-top:26px">
+      ${R.missed.length?`<button class="btn gold" id="btnDrill">Drill the ${R.missed.length} misses</button>`:""}
+      <button class="btn ghost" id="btnAgain">Play again</button>
+      <button class="btn ghost" id="btnMenu">Menu</button>
+    </div>`;
+
+  const mode = R.mode;
+  const missedIds = weakIds();
+  document.getElementById("btnAgain").addEventListener("click",()=>startRound(mode));
+  document.getElementById("btnMenu").addEventListener("click",renderMenu);
+  const d = document.getElementById("btnDrill");
+  if(d) d.addEventListener("click",()=>{
+    if(missedIds.length) startRound("weak"); else startRound(mode);
+  });
+}
+
+/* ============================================================
+   KEYBOARD
+   ============================================================ */
+document.addEventListener("keydown",e=>{
+  if(!R) return;
+  const next = document.getElementById("btnNext");
+  if((e.key==="Enter"||e.key===" ") && next){ e.preventDefault(); next.click(); return; }
+  const rev = document.getElementById("btnReveal");
+  if((e.key===" "||e.key==="Enter") && rev){ e.preventDefault(); rev.click(); return; }
+  const got = document.getElementById("btnGot");
+  if(got && (e.key==="1")){ e.preventDefault(); got.click(); return; }
+  const miss = document.getElementById("btnMiss");
+  if(miss && (e.key==="2")){ e.preventDefault(); miss.click(); return; }
+  if(/^[1-4]$/.test(e.key)){
+    const b = app.querySelector('.opt[data-i="'+(parseInt(e.key,10)-1)+'"]');
+    if(b && !b.disabled){ e.preventDefault(); b.click(); }
+  }
+  if(e.key==="Escape"){ if(R.timerId) clearInterval(R.timerId); renderMenu(); }
+});
+
+document.getElementById("btnQuit").addEventListener("click",()=>{
+  if(R && R.timerId) clearInterval(R.timerId);
+  renderMenu();
+});
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+loadLocal();
+renderMenu();
+</script>
+
+</body>
+</html>

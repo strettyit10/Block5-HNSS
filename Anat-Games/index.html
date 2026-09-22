@@ -16,6 +16,7 @@
   --good:#1E8A57; --good-soft:#DCF2E6; --bad:#C2412F; --bad-soft:#F8E1DC;
   --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
   --arena:#3B2F6E; --arena-soft:#E8E3F7; --arena-ink:#332766;
+  --trap:#96313B; --trap-soft:#F8E8E9; --trap-ink:#8A2C35;
   --plate:#0E1413;
   --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -30,6 +31,7 @@
     --good:#4CC38A; --good-soft:#15301F; --bad:#EE6E5A; --bad-soft:#3A1D18;
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
     --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --trap:#E2727A; --trap-soft:#2E1A1D; --trap-ink:#EB8A91;
     --plate:#080C0B;
   }
 }
@@ -41,6 +43,7 @@
     --good:#4CC38A; --good-soft:#15301F; --bad:#EE6E5A; --bad-soft:#3A1D18;
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
     --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --trap:#E2727A; --trap-soft:#2E1A1D; --trap-ink:#EB8A91;
     --plate:#080C0B;
 }
 *{box-sizing:border-box}
@@ -93,6 +96,7 @@ a{color:inherit}
 .card:focus-visible{transform:translateY(-2px)}
 .card.arena{border-left-color:var(--arena)}
 .card.lesion{border-left-color:var(--p2)}
+.card.trap{border-left-color:var(--trap)}
 .card.big{grid-column:span 2}
 @media (max-width:760px){.card.big{grid-column:span 1}}
 .ctop{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
@@ -101,6 +105,7 @@ a{color:inherit}
 .qn{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--p1-ink);background:var(--p1-soft);border:1px solid var(--p1);border-radius:3px;padding:2px 7px;white-space:nowrap;flex:none}
 .card.arena .qn{color:var(--arena-ink);background:var(--arena-soft);border-color:var(--arena)}
 .card.lesion .qn{color:var(--p2-ink);background:var(--p2-soft);border-color:var(--p2)}
+.card.trap .qn{color:var(--trap-ink);background:var(--trap-soft);border-color:var(--trap)}
 .kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:-4px}
 .card p{margin:0;font-size:13.8px;color:var(--ink)}
 .tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
@@ -108,6 +113,7 @@ a{color:inherit}
 .go{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--p1-ink);border-top:1px dashed var(--line);padding-top:9px}
 .card.arena .go{color:var(--arena-ink)}
 .card.lesion .go{color:var(--p2-ink)}
+.card.trap .go{color:var(--trap-ink)}
 .go svg{width:15px;height:15px;transition:transform .12s}
 .card:hover .go svg{transform:translateX(3px)}
 
@@ -127,7 +133,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <header class="mast">
     <div class="brand">HoyaDocs <b>&middot;</b> Game Hub</div>
-    <div class="tag">Block 5 &middot; HNSS &middot; Rev 1 &middot; Updated Sep 22, 2026</div>
+    <div class="tag">Block 5 &middot; HNSS &middot; Rev 2 &middot; Updated Sep 22, 2026</div>
   </header>
 
   <div class="tag subhead">Head, Neck &amp; Special Senses &middot; anatomy review arcade</div>
@@ -218,6 +224,25 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
     </div>
   </section>
 
+  <section class="sec" id="sec-trap">
+    <div class="sechead">
+      <span class="dot" aria-hidden="true"></span>
+      <h2>Trap Hunter</h2>
+      <span class="n"></span>
+    </div>
+    <div class="grid">
+
+      <a class="card trap" href="Trap%20Hunter.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1" data-text="trap hunter solo distractors traps exam forecast predicted questions confusable pairs tell them apart recall drill gauntlet weak spots spaced repetition streak timed binary discrimination tag pairs 1p single player self test">
+        <div class="ctop"><h3>Trap Hunter</h3><span class="qn">64 Q</span></div>
+        <div class="kick">Spot the distractor &middot; 4 modes &middot; 1P</div>
+        <p>Built from the Anatomy Exam Forecast. Every question carries the distractor the examiners actually use, so getting it right means <em>seeing the trap coming</em>. Four modes: 32 spot-the-trap MCQs, 20 timed confusable-pair calls, 12 open-recall cards, and a mixed Gauntlet. Misses queue into a Weak Spots drill that clears as you beat them.</p>
+        <div class="tags"><span class="t">distractors</span><span class="t">confusable pairs</span><span class="t">ganglia</span><span class="t">larynx</span><span class="t">foramina</span><span class="t">solo</span></div>
+        <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      </a>
+
+    </div>
+  </section>
+
   <section class="sec" id="sec-hydra">
     <div class="sechead">
       <span class="dot" aria-hidden="true"></span>
@@ -273,7 +298,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; HNSS Anatomy Game Hub</div>
-    <div class="tag">Rev 1 &middot; Updated Sep 22, 2026</div>
+    <div class="tag">Rev 2 &middot; Updated Sep 22, 2026</div>
   </footer>
 
 </div>
