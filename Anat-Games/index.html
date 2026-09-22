@@ -78,10 +78,13 @@ a{color:inherit}
 .chip.reset[aria-pressed="true"]{background:var(--sunk);border-color:var(--line);color:var(--muted);font-weight:400}
 
 /* ---------- sections ---------- */
-.sec{display:flex;flex-direction:column;gap:12px}
-.sechead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:2px solid var(--ink);padding-top:10px}
-.sechead h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;line-height:1;margin:0;letter-spacing:.01em}
-.sechead p{margin:0;color:var(--muted);font-size:13.5px;max-width:62ch}
+.sec{display:flex;flex-direction:column;gap:12px;--accent:var(--p1);--accent-ink:var(--p1-ink);--accent-soft:var(--p1-soft)}
+.sec#sec-lesion{--accent:var(--p2);--accent-ink:var(--p2-ink);--accent-soft:var(--p2-soft)}
+.sec#sec-hydra{--accent:var(--arena);--accent-ink:var(--arena-ink);--accent-soft:var(--arena-soft)}
+.sechead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:3px solid var(--accent);padding-top:12px}
+.sechead .dot{width:15px;height:15px;border-radius:3px;background:var(--accent);flex:none}
+.sechead .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:3px 10px;line-height:1;margin-left:2px}
+.sechead h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(31px,3.6vw,42px);line-height:.95;margin:0;letter-spacing:.015em;color:var(--accent-ink)}
 
 /* ---------- cards ---------- */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
@@ -155,8 +158,9 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <section class="sec" id="sec-bell">
     <div class="sechead">
+      <span class="dot" aria-hidden="true"></span>
       <h2>Bell Ringer</h2>
-      <p>Head-to-head practical. Alternating turns or buzzer race, a bell clock per station, speed and steal bonuses.</p>
+      <span class="n"></span>
     </div>
     <div class="grid">
 
@@ -197,12 +201,13 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <section class="sec" id="sec-lesion">
     <div class="sechead">
+      <span class="dot" aria-hidden="true"></span>
       <h2>Lesion Rounds</h2>
-      <p>Localization drill. Clues drop one at a time &mdash; buzz early for more points, or wait for the pattern to fill in.</p>
+      <span class="n"></span>
     </div>
     <div class="grid">
 
-      <a class="card lesion big" href="Lesion%20Rounds.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic" data-text="lesion rounds find the lesion localization 67 lesions nerve every nerve on the hnss structure list skull base openings left versus right side patterns tongue deviation uvula jaw scm buzz clues atlas spared findings">
+      <a class="card lesion" href="Lesion%20Rounds.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic" data-text="lesion rounds find the lesion localization 67 lesions nerve every nerve on the hnss structure list skull base openings left versus right side patterns tongue deviation uvula jaw scm buzz clues atlas spared findings">
         <div class="ctop"><h3>Lesion Rounds</h3><span class="qn">67 lesions</span></div>
         <div class="kick">Find the lesion &middot; timed clues &middot; 2P</div>
         <p>Every nerve on the HNSS structure list plus the skull-base openings they pass through, each built from an atlas of real findings &mdash; what&rsquo;s lost, what&rsquo;s spared, and the left-versus-right deviation patterns (tongue toward, uvula away, jaw toward). Clues reveal every 8&nbsp;s or by hand; a wrong buzz costs points and locks you out of the round.</p>
@@ -215,18 +220,11 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <section class="sec" id="sec-hydra">
     <div class="sechead">
+      <span class="dot" aria-hidden="true"></span>
       <h2>Cranial Nerve Hydra</h2>
-      <p>Two-player co-op boss battle. Seven bosses, one per region, and the Hydra at the end. Damage, hints, potions, revives &mdash; 361 board-style questions total, playable as one campaign or five decks.</p>
+      <span class="n"></span>
     </div>
     <div class="grid">
-
-      <a class="card arena big" href="Cranial%20Nerve%20Hydra.html" data-tags="neck face cranial orbit nasaloral larynx cn step1" data-text="cranial nerve hydra full campaign co-op boss battle 361 questions seven bosses twelve heads neck face scalp itf skull meninges foramina orbit eye reflexes nose pharynx palate oral cavity larynx cranial nerve lesions hint potion revive enrage">
-        <div class="ctop"><h3>Cranial Nerve Hydra &mdash; Full Campaign</h3><span class="qn">361 Q</span></div>
-        <div class="kick">Co-op boss battle &middot; 7 bosses &middot; 2P</div>
-        <p>The whole board-style pool in one run. Each boss guards a region and asks every question in its pool; drop its HP before the questions run out. Correct answers strike for 20 (+10 fast, +5 on a streak), misses let the boss hit back, and it enrages below half health. One hint per boss, one potion per run, streak revives. Long session &mdash; plan for a full study block.</p>
-        <div class="tags"><span class="t">neck</span><span class="t">face &amp; ITF</span><span class="t">skull &amp; meninges</span><span class="t">orbit</span><span class="t">nose &amp; oral</span><span class="t">larynx</span><span class="t">CN lesions</span></div>
-        <div class="go">Launch full campaign <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
-      </a>
 
       <a class="card arena" href="Cranial%20Nerve%20Hydra%201.html" data-tags="neck face cranial orbit nasaloral larynx cn step1" data-text="cranial nerve hydra deck 1 one co-op boss battle short run split evenly by topic">
         <div class="ctop"><h3>Hydra &middot; Deck 1</h3><span class="qn">73 Q</span></div>
@@ -263,7 +261,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
       <a class="card arena" href="Cranial%20Nerve%20Hydra%205.html" data-tags="neck face cranial orbit nasaloral larynx cn step1" data-text="cranial nerve hydra deck 5 five final co-op boss battle short run split evenly by topic">
         <div class="ctop"><h3>Hydra &middot; Deck 5</h3><span class="qn">72 Q</span></div>
         <div class="kick">Deck 5 of 5 &middot; co-op &middot; 2P</div>
-        <p>Final deck. Clearing all five covers the same 361 questions as the full campaign.</p>
+        <p>Final deck. Clearing all five decks covers the whole 361-question pool.</p>
         <div class="tags"><span class="t">all regions</span><span class="t">short run</span></div>
         <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
@@ -272,7 +270,6 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
   </section>
 
   <div class="empty" id="empty">No games match that search. Clear the box or pick a different topic.</div>
-
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; HNSS Anatomy Game Hub</div>
@@ -306,8 +303,10 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
       if(on) shown++;
     });
     secs.forEach(function(s){
-      var any = s.querySelectorAll('.card:not(.hide)').length > 0;
-      s.classList.toggle('hide', !any);
+      var n = s.querySelectorAll('.card:not(.hide)').length;
+      s.classList.toggle('hide', n === 0);
+      var b = s.querySelector('.sechead .n');
+      if(b) b.textContent = n + (n === 1 ? ' game' : ' games');
     });
     empty.classList.toggle('on', shown === 0);
     count.textContent = shown === cards.length
