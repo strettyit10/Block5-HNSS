@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoyaDocs &middot; Block 5 &middot; HNSS</title>
+<meta name="description" content="HoyaDocs Block 5 — Head, Neck &amp; Special Senses. Anatomy review games, lab quiz stations and Step 1 style vignettes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ground:#EEF3F0; --panel:#FFFFFF; --sunk:#E2EAE6; --line:#C9D6D0;
+  --ink:#13201D; --muted:#566963;
+  --p1:#E3AE12; --p1-ink:#7A5B00; --p1-soft:#FBF1CF;
+  --p2:#2E86C8; --p2-ink:#155987; --p2-soft:#DDEDF8;
+  --arena:#3B2F6E; --arena-soft:#E8E3F7; --arena-ink:#332766;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --plate:#0E1413; --plate-ink:#EEF3F0;
+  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --plate:#080C0B; --plate-ink:#DDE7E3;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+  --ink:#DDE7E3; --muted:#8FA39D;
+  --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+  --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+  --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+  --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+  --plate:#080C0B; --plate-ink:#DDE7E3;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:15px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:18px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p2);outline-offset:3px}
+
+/* ---------- masthead ---------- */
+.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+.brand{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:.02em;text-transform:uppercase;line-height:1}
+.brand b{color:var(--p1-ink)}
+.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mastright{display:flex;align-items:center;gap:12px}
+.themebtn{background:var(--sunk);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px}
+.themebtn:hover{color:var(--ink);border-color:var(--muted)}
+
+/* ---------- hero ---------- */
+.hero{background:var(--plate);color:var(--plate-ink);border-radius:10px;padding:clamp(28px,5vw,58px) clamp(22px,4vw,52px) clamp(26px,4vw,46px);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -60px -140px auto;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(227,174,18,.22), transparent 62%);pointer-events:none}
+.hero .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--p1);margin-bottom:14px}
+.hero h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(54px,10vw,132px);line-height:.84;margin:0 0 6px;letter-spacing:.005em;text-wrap:balance}
+.hero h1 span{display:block;color:#8FA39D;font-weight:500;font-size:clamp(26px,4.4vw,56px);line-height:.95;margin-top:8px}
+.hero p{max-width:58ch;color:#B6C4BF;margin:20px 0 0;font-size:16px;position:relative;z-index:1}
+.cta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;background:var(--p1);color:#1A1400;text-decoration:none;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:24px;letter-spacing:.03em;padding:12px 26px 11px;border-radius:5px;position:relative;z-index:1;transition:transform .12s ease,box-shadow .12s ease}
+.cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.cta svg{width:17px;height:17px;transition:transform .12s}
+.cta:hover svg{transform:translateX(4px)}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 14px 12px;border-top:4px solid var(--p1)}
+.stat:nth-child(2){border-top-color:var(--p2)}
+.stat:nth-child(3){border-top-color:var(--arena)}
+.stat:nth-child(4){border-top-color:var(--muted)}
+.stat b{display:block;font-family:var(--display);font-weight:800;font-size:46px;line-height:.9}
+.stat span{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- sections ---------- */
+.sec{display:flex;flex-direction:column;gap:14px}
+.sechead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:2px solid var(--ink);padding-top:10px}
+.sechead h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;line-height:1;margin:0;letter-spacing:.01em}
+.sechead p{margin:0;color:var(--muted);font-size:13.5px;max-width:62ch}
+
+/* ---------- feature card ---------- */
+.feature{display:grid;grid-template-columns:1.15fr .85fr;gap:0;background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--p1);border-radius:8px;overflow:hidden;text-decoration:none;transition:transform .12s ease,box-shadow .12s ease,border-color .12s}
+.feature:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.12);border-color:var(--muted);border-left-color:var(--p1)}
+.fmain{padding:24px 26px 22px;display:flex;flex-direction:column;gap:10px}
+.ftop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.ftop h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:40px;line-height:.95;margin:0;text-wrap:balance}
+.qn{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--p1-ink);background:var(--p1-soft);border:1px solid var(--p1);border-radius:3px;padding:3px 8px;white-space:nowrap;flex:none}
+.kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:-4px}
+.fmain p{margin:0;font-size:14.2px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;padding-top:2px}
+.t{font-size:11px;font-family:var(--mono);letter-spacing:.03em;color:var(--muted);background:var(--sunk);border:1px solid var(--line);border-radius:3px;padding:2px 6px}
+.go{display:flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:20px;letter-spacing:.03em;color:var(--p1-ink);border-top:1px dashed var(--line);padding-top:11px;margin-top:auto}
+.go svg{width:15px;height:15px;transition:transform .12s}
+.feature:hover .go svg{transform:translateX(3px)}
+.fside{background:var(--sunk);border-left:1px solid var(--line);padding:22px 24px}
+.fside h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:600}
+.fside ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.fside li{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:13.5px;border-bottom:1px dotted var(--line);padding-bottom:8px}
+.fside li:last-child{border-bottom:0;padding-bottom:0}
+.fside li b{font-weight:600}
+.fside li span{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+@media (max-width:860px){.feature{grid-template-columns:1fr}.fside{border-left:0;border-top:1px solid var(--line)}}
+
+/* ---------- note + footer ---------- */
+.note{background:var(--hy-bg);border:1px solid var(--hy-line);border-left:5px solid var(--hy-line);border-radius:5px;padding:13px 15px;color:var(--hy-ink);font-size:13.5px}
+.note b{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px}
+.foot{border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div class="brand">HoyaDocs <b>&middot;</b> Block 5</div>
+    <div class="mastright">
+      <div class="tag">HNSS &middot; Rev 1 &middot; Updated Sep 22, 2026</div>
+      <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Block 5 &middot; Head, Neck &amp; Special Senses</div>
+    <h1>HNSS.<span>Learn it once. Drill it until it&rsquo;s reflex.</span></h1>
+    <p>The front door for Block&nbsp;5 anatomy review &mdash; lab quiz stations, formative and foundational rounds questions, cranial nerve lesion localization and Step&nbsp;1 style vignettes, all built to be played rather than reread.</p>
+    <a class="cta" href="Anat-Games/">Enter the Game Hub
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+    </a>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><b>11</b><span>Playable games</span></div>
+    <div class="stat"><b>557</b><span>Questions</span></div>
+    <div class="stat"><b>67</b><span>CN lesions</span></div>
+    <div class="stat"><b>2P</b><span>Head-to-head ready</span></div>
+  </section>
+
+  <section class="sec">
+    <div class="sechead">
+      <h2>Start here</h2>
+      <p>Everything in this block currently lives inside the Anatomy Game Hub. Open it, search or filter by topic, and launch.</p>
+    </div>
+
+    <a class="feature" href="Anat-Games/">
+      <div class="fmain">
+        <div class="ftop">
+          <h3>HNSS Anatomy Game Hub</h3>
+          <span class="qn">11 games</span>
+        </div>
+        <div class="kick">Bell Ringer &middot; Cranial Nerve Hydra &middot; Lesion Rounds</div>
+        <p>Eleven review games drawn from this block&rsquo;s lab quizzes, formative quizzes, foundational rounds and Step&nbsp;1 style vignettes. Two-player, keyboard-driven, and fully offline once the page is open.</p>
+        <div class="tags">
+          <span class="t">neck</span><span class="t">face &amp; ITF</span><span class="t">skull &amp; foramina</span><span class="t">orbit</span><span class="t">nose, pharynx &amp; oral</span><span class="t">larynx</span><span class="t">CN lesions</span><span class="t">ganglia</span><span class="t">image stations</span>
+        </div>
+        <div class="go">Launch the hub
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+        </div>
+      </div>
+      <div class="fside">
+        <h4>What&rsquo;s inside</h4>
+        <ul>
+          <li><b>Bell Ringer I&ndash;IV</b><span>196 Q</span></li>
+          <li><b>Cranial Nerve Hydra</b><span>361 Q &middot; 5 decks</span></li>
+          <li><b>Lesion Rounds</b><span>67 lesions</span></li>
+          <li><b>Image stations</b><span>lab practical style</span></li>
+        </ul>
+      </div>
+    </a>
+
+    <div class="note">
+      <b>How to use it</b>
+      Play Bell Ringer rounds before each lab quiz, run a Hydra deck daily for cranial nerve recall, then use Lesion Rounds in the last week to convert &ldquo;which nerve&rdquo; into &ldquo;where is the lesion&rdquo; &mdash; the way Step&nbsp;1 asks it.
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="tag">HoyaDocs &middot; Block 5 &middot; HNSS</div>
+    <div class="tag">Rev 1 &middot; Updated Sep 22, 2026</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('theme');
+  var root = document.documentElement;
+  try{
+    var saved = localStorage.getItem('hoyadocs-theme');
+    if(saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  }catch(e){}
+  btn.addEventListener('click', function(){
+    var isDark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = isDark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('hoyadocs-theme', next); }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
