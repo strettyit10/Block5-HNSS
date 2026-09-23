@@ -241,7 +241,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I, Lesion Rounds II &amp; Trap Hunter</span><span>Rev 1 · Updated Sep 23, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I, Lesion Rounds II &amp; Trap Hunter</span><span>Rev 3 · Updated Sep 23, 2026</span></footer>
 </div>
 
 <script>
@@ -954,6 +954,180 @@ const RECALL = [
 
 return {MCQ,PAIRS,RECALL};
 })();
+/* ===== Nerve anatomy facts (Neuromon add-on) =====
+   f  = fiber-type key (see FIB)   a = [artery, why it matters]   m = muscles supplied (keys of MUSC)
+   Only facts that are unambiguous are included; anything debatable is left out. */
+const FIB={
+ S:['Sensory only (general sensation)',['gs']],
+ M:['Motor only (skeletal muscle)',['m']],
+ MS:['Mixed: motor + general sensation',['m','gs']],
+ SS:['Special sense only',['ss']],
+ P:['Parasympathetic only',['p']],
+ SY:['Sympathetic only',['sy']],
+ TP:['Taste + parasympathetic',['t','p']],
+ ALL:['Motor, sensory, taste AND parasympathetic',['m','gs','t','p']],
+ MP:['Motor + parasympathetic',['m','p']],
+ PS:['Parasympathetic + sympathetic',['p','sy']],
+ TG:['Taste + general sensation',['t','gs']],
+ NI:['Taste, sensation & parasympathetic, but NO motor',['t','gs','p']]
+};
+const MUSC={
+ diaphragm:['Diaphragm','Main muscle of inspiration; contracts to enlarge the thorax','resp'],
+ sternohyoid:['Sternohyoid','Depresses the hyoid after swallowing','hyodown'],
+ omohyoid:['Omohyoid','Depresses and steadies the hyoid','hyodown'],
+ sternothyroid:['Sternothyroid','Pulls the thyroid cartilage (larynx) downward','hyodown'],
+ thyrohyoid:['Thyrohyoid','Depresses the hyoid, or raises the larynx when the hyoid is fixed','hyodown'],
+ geniohyoid:['Geniohyoid','Pulls the hyoid forward and up during swallowing','hyoup'],
+ mylohyoid:['Mylohyoid','Raises the floor of the mouth and the hyoid','hyoup'],
+ antdig:['Anterior belly of digastric','Depresses the mandible and raises the hyoid','hyoup'],
+ postdig:['Posterior belly of digastric','Raises and pulls back the hyoid','hyoup'],
+ stylohyoid:['Stylohyoid','Pulls the hyoid up and back during swallowing','hyoup'],
+ trapezius:['Trapezius','Elevates the shoulder and rotates the scapula for overhead abduction','trap'],
+ scm:['Sternocleidomastoid','Turns the face to the OPPOSITE side; both together flex the neck','scm'],
+ deltoid:['Deltoid','Abducts the arm from 15° to 90°','abd'],
+ supraspinatus:['Supraspinatus','Starts arm abduction (first 15°)','abd'],
+ infraspinatus:['Infraspinatus','Externally rotates the arm','er'],
+ biceps:['Biceps brachii','Flexes the elbow and supinates the forearm','biceps'],
+ interossei:['Interossei (intrinsic hand muscles)','Spread apart and bring together the fingers','hand'],
+ cricothyroid:['Cricothyroid','Tilts the thyroid cartilage forward, tensing the vocal folds (raises pitch)','ct'],
+ pca:['Posterior cricoarytenoid','The ONLY abductor: opens the vocal folds and the airway','pca'],
+ lca:['Lateral cricoarytenoid','Adducts the vocal folds (closes the glottis)','lca'],
+ ta:['Thyroarytenoid (vocalis)','Relaxes and shortens the vocal folds (lowers pitch)','ta'],
+ lvp:['Levator veli palatini','Elevates the soft palate during swallowing and speech','lvp'],
+ palatoglossus:['Palatoglossus','Raises the back of the tongue and narrows the oropharyngeal isthmus','pg'],
+ palatopharyngeus:['Palatopharyngeus','Raises the pharynx and larynx during swallowing','phup'],
+ constrictors:['Pharyngeal constrictors','Squeeze the bolus down the pharynx','constrict'],
+ stylopharyngeus:['Stylopharyngeus','Raises and widens the pharynx during swallowing','phup'],
+ tvp:['Tensor veli palatini','Tenses the soft palate and opens the auditory tube','tvp'],
+ tt:['Tensor tympani','Tenses the eardrum, damping loud sounds','ear'],
+ stapedius:['Stapedius','Damps movement of the stapes, protecting against loud sound','ear'],
+ frontalis:['Frontal belly of occipitofrontalis','Raises the eyebrows and wrinkles the forehead','frontalis'],
+ occipitalis:['Occipital belly of occipitofrontalis','Pulls the scalp backward','occ'],
+ ooc:['Orbicularis oculi','Closes the eyelids (blinking and tight closure)','ooc'],
+ zygmaj:['Zygomaticus major','Pulls the corner of the mouth up and out (smiling)','smile'],
+ buccinator:['Buccinator','Presses the cheek against the teeth, keeping food between the molars','bucc'],
+ oor:['Orbicularis oris','Closes and purses the lips','oor'],
+ dao:['Depressor anguli oris','Pulls the corner of the mouth down (frowning)','frown'],
+ platysma:['Platysma','Tenses the skin of the neck','plat'],
+ masseter:['Masseter','Elevates the mandible (the main clenching muscle)','jawclose'],
+ temporalis:['Temporalis','Elevates and retracts the mandible','jawclose'],
+ latpt:['Lateral pterygoid','Protrudes the mandible and opens the mouth','jawopen'],
+ medpt:['Medial pterygoid','Elevates the mandible and grinds side to side','jawclose'],
+ sphincter:['Sphincter pupillae','Constricts the pupil (miosis)','sph'],
+ ciliary:['Ciliary muscle','Rounds up the lens for near vision (accommodation)','cil'],
+ dilator:['Dilator pupillae','Dilates the pupil (mydriasis)','dil'],
+ muller:['Superior tarsal (Müller) muscle','Holds the upper lid up a few millimeters','lid'],
+ lps:['Levator palpebrae superioris','Raises the upper eyelid','lid'],
+ mr:['Medial rectus','Adducts the eye','mr'],
+ lr:['Lateral rectus','Abducts the eye','lr'],
+ sr:['Superior rectus','Elevates the eye (best in abduction)','sr'],
+ ir:['Inferior rectus','Depresses the eye (best in abduction)','ir'],
+ io:['Inferior oblique','Elevates the eye in adduction and extorts it','io'],
+ so:['Superior oblique','Depresses the eye in adduction and intorts it','so'],
+ genioglossus:['Genioglossus','Protrudes the tongue','gg'],
+ hyoglossus:['Hyoglossus','Depresses and retracts the tongue','hg'],
+ styloglossus:['Styloglossus','Retracts and elevates the tongue','sg']
+};
+const V3M=['masseter','temporalis','latpt','medpt','mylohyoid','antdig','tvp','tt'];
+const FACTS={
+ lr1:{
+  great_aur:{r:'C2–C3',x:"Nerve point of the neck (Erb's point), posterior border of SCM",f:'S'}, lesser_occ:{r:'C2',x:"Nerve point of the neck (Erb's point), posterior border of SCM",f:'S'}, trans_cerv:{r:'C2–C3',x:"Nerve point of the neck (Erb's point), posterior border of SCM",f:'S'}, supraclav:{r:'C3–C4',x:"Nerve point of the neck (Erb's point), posterior border of SCM",f:'S'},
+  phrenic:{r:'C3–C5',x:'On the anterior surface of the anterior scalene',f:'MS',a:['Pericardiacophrenic artery','It runs with the phrenic nerve through the thorax, between pericardium and pleura.'],m:['diaphragm']},
+  ansa:{r:'C1–C3',f:'M',m:['sternohyoid','omohyoid','sternothyroid']},
+  n_thyrohyoid:{r:'C1',f:'M',m:['thyrohyoid']},
+  xi_pt:{f:'M',m:['trapezius']},
+  cn11:{x:'Jugular foramen',f:'M',m:['scm','trapezius']},
+  upper_trunk:{r:'C5–C6',x:'Between the anterior and middle scalenes',f:'MS',a:['Subclavian artery','The brachial plexus trunks and the subclavian artery pass together between the anterior and middle scalenes.'],m:['deltoid','supraspinatus','infraspinatus','biceps']},
+  lower_trunk:{r:'C8–T1',x:'Between the anterior and middle scalenes',f:'MS',a:['Subclavian artery','The brachial plexus trunks and the subclavian artery pass together between the anterior and middle scalenes.'],m:['interossei']},
+  iln:{x:'Pierces the thyrohyoid membrane',f:'S',a:['Superior laryngeal artery','Both pierce the thyrohyoid membrane together.']},
+  eln:{f:'M',a:['Superior thyroid artery','It descends with the superior thyroid artery; ligate the artery close to the gland to protect the nerve.'],m:['cricothyroid']},
+  sln:{f:'MS',m:['cricothyroid']},
+  rln:{x:'Tracheoesophageal groove',f:'MS',a:['Inferior thyroid artery','The recurrent laryngeal nerve crosses the inferior thyroid artery near the gland; at risk when ligating it in thyroidectomy.'],m:['pca','lca','ta']},
+  cn10:{x:'Jugular foramen',f:'ALL',a:['Internal carotid artery','CN X runs in the carotid sheath between the carotid artery and the internal jugular vein.'],m:['lvp','palatoglossus','palatopharyngeus','constrictors','pca','lca','ta','cricothyroid']},
+  vii_temporal:{f:'M',m:['frontalis','ooc']},
+  vii_zygomatic:{f:'M',m:['ooc','zygmaj']},
+  vii_buccal:{f:'M',m:['buccinator','oor','zygmaj']},
+  vii_mandibular:{f:'M',a:['Facial artery','The marginal mandibular branch crosses superficial to the facial artery and vein at the lower border of the mandible.'],m:['dao','oor']},
+  vii_cervical:{f:'M',m:['platysma']},
+  vii_sm:{x:'Stylomastoid foramen',f:'M',a:['Stylomastoid artery','It enters the stylomastoid foramen as the nerve leaves it.'],m:['postdig','stylohyoid','occipitalis','frontalis','ooc','buccinator','oor','dao','platysma','zygmaj']},
+  chorda:{x:'Petrotympanic fissure',f:'TP'},
+  vii_prox:{x:'Internal acoustic meatus',f:'ALL',a:['Labyrinthine artery','It travels with CN VII and CN VIII through the internal acoustic meatus.'],m:['stapedius','postdig','stylohyoid','frontalis','ooc','buccinator','oor','dao','platysma','zygmaj','occipitalis']},
+  supraorb:{x:'Supraorbital notch (foramen)',f:'S',a:['Supraorbital artery','Both exit through the supraorbital notch/foramen.']},
+  supratroch:{f:'S',a:['Supratrochlear artery','Both exit the orbit medial to the supraorbital bundle.']},
+  frontal:{x:'Superior orbital fissure',f:'S'},
+  lacrimal_n:{x:'Superior orbital fissure',a:['Lacrimal artery','Both run along the lateral orbital wall to the lacrimal gland.']},
+  infratroch:{f:'S'},
+  ant_eth:{x:'Anterior ethmoidal foramen',f:'S',a:['Anterior ethmoidal artery','Both pass through the anterior ethmoidal foramen.']},
+  post_eth:{x:'Posterior ethmoidal foramen',f:'S',a:['Posterior ethmoidal artery','Both pass through the posterior ethmoidal foramen.']},
+  nasocil:{x:'Superior orbital fissure',f:'S'}, v1:{x:'Superior orbital fissure',f:'S'},
+  infraorb:{x:'Infraorbital foramen',f:'S',a:['Infraorbital artery','Both run in the infraorbital groove and canal and exit the infraorbital foramen.']},
+  nasopal:{x:'Incisive canal',f:'S',a:['Sphenopalatine artery','Its septal branches run with the nasopalatine nerve down the septum to the incisive canal.']},
+  gr_pal:{x:'Greater palatine foramen',f:'S',a:['Greater palatine artery','Both exit the greater palatine foramen and run forward on the hard palate.']},
+  v2:{x:'Foramen rotundum',f:'S'},
+  mental:{x:'Mental foramen',f:'S',a:['Mental artery','Both exit the mental foramen.']},
+  ian:{x:'Mandibular foramen',f:'MS',a:['Inferior alveolar artery','Both enter the mandibular foramen and run in the mandibular canal.'],m:['mylohyoid','antdig']},
+  buccal_v3:{f:'S',a:['Buccal artery','A branch of the maxillary artery that travels with the buccal nerve to the cheek.']},
+  auriculotemp:{a:['Superficial temporal artery','Both climb in front of the ear over the root of the zygoma.']},
+  v3:{x:'Foramen ovale',f:'MS',a:['Accessory meningeal artery','It shares the foramen ovale with V3.'],m:V3M},
+  cn5:{f:'MS',m:V3M},
+  cn2:{x:'Optic canal',f:'SS',a:['Ophthalmic artery','It runs with CN II through the optic canal, inferolateral to the nerve.']},
+  ciliary_g:{f:'P',m:['sphincter','ciliary']},
+  cn3:{x:'Superior orbital fissure',f:'MP',a:['Posterior communicating artery','An aneurysm here compresses CN III: a "blown" pupil first.'],m:['lps','sr','mr','ir','io','sphincter','ciliary']},
+  cn4:{x:'Superior orbital fissure',f:'M',m:['so']},
+  cn6:{x:'Superior orbital fissure',f:'M',a:['Internal carotid artery','CN VI lies free in the cavernous sinus right beside the ICA.'],m:['lr']},
+  scg:{f:'SY',a:['Internal carotid artery','Postganglionic fibers climb into the skull as a plexus on the ICA.'],m:['dilator','muller']},
+  cn1:{x:'Cribriform plate',f:'SS'},
+  cn8:{x:'Internal acoustic meatus',f:'SS',a:['Labyrinthine artery','It accompanies CN VII and CN VIII in the internal acoustic meatus.']},
+  cn9:{x:'Jugular foramen',f:'ALL',m:['stylopharyngeus']},
+  cn12:{x:'Hypoglossal canal',f:'M',m:['genioglossus','hyoglossus','styloglossus']},
+  ptg_g:{f:'P',a:['Maxillary artery (third part)','Its third part lies in the pterygopalatine fossa with the ganglion.']},
+  subm_g:{f:'P'}
+ },
+ lr2:{
+  zf:{x:'Zygomaticofacial foramen',f:'S'}, zt:{x:'Zygomaticotemporal foramen',f:'S'},
+  psa:{x:'Posterior superior alveolar foramina',f:'S',a:['Posterior superior alveolar artery','Both enter the back of the maxilla together.']},
+  asa:{f:'S',a:['Anterior superior alveolar artery','Both branch off in the infraorbital canal to reach the front teeth.']},
+  infraorb2:{x:'Infraorbital foramen',f:'S',a:['Infraorbital artery','Both run in the infraorbital groove and canal and exit the infraorbital foramen.']},
+  lesser_pal:{x:'Lesser palatine foramina',f:'S',a:['Lesser palatine artery','Both exit the lesser palatine foramina to the soft palate.']},
+  v2_phar:{x:'Palatovaginal (pharyngeal) canal',f:'S'},
+  masseteric:{a:['Masseteric artery','Both cross the mandibular notch to reach masseter.'],m:['masseter']},
+  deep_temp:{f:'M',a:['Deep temporal arteries','Branches of the maxillary artery that travel with them to temporalis.'],m:['temporalis']},
+  n_lat_pt:{f:'M',m:['latpt']},
+  n_med_pt:{f:'M',m:['medpt','tvp','tt']},
+  n_mylo:{f:'M',a:['Mylohyoid artery','A branch of the inferior alveolar artery that runs with it in the mylohyoid groove.'],m:['mylohyoid','antdig']},
+  ling_prox:{f:'S'},
+  auriculo2:{a:['Superficial temporal artery','Both climb in front of the ear over the root of the zygoma.']},
+  ian2:{x:'Mandibular foramen',f:'MS',a:['Inferior alveolar artery','Both enter the mandibular foramen and run in the mandibular canal.'],m:['mylohyoid','antdig']},
+  n_stapedius:{f:'M',m:['stapedius']},
+  chorda2:{x:'Petrotympanic fissure',f:'TP'},
+  post_auric:{a:['Posterior auricular artery','Both run behind the ear to the occipital belly and auricle.'],m:['occipitalis']},
+  n_digastric:{f:'M',m:['postdig','stylohyoid']},
+  vii_parotid:{f:'M',m:['frontalis','ooc','zygmaj','buccinator','oor','dao','platysma']},
+  nerv_interm:{f:'NI'},
+  lesser_pet:{f:'P'},
+  hering:{f:'S',a:['Internal carotid artery','It supplies the carotid sinus, the dilation at the start of the ICA.']},
+  ix_pharyngeal:{f:'S'},
+  ix_lingual:{f:'TG'},
+  x_pharyngeal:{f:'M',m:['lvp','palatoglossus','palatopharyngeus','constrictors']},
+  x_auricular:{x:'Mastoid canaliculus',f:'S'},
+  x_cardiacb:{f:'P'},
+  rln_aortic:{f:'MS',a:['Arch of the aorta','The LEFT recurrent laryngeal nerve hooks under the aortic arch behind the ligamentum arteriosum.'],m:['pca','lca','ta']},
+  iii_sup:{f:'M',m:['lps','sr']},
+  iii_inf:{f:'MP',m:['mr','ir','io','sphincter','ciliary']},
+  vi_dorello_n:{x:"Dorello's canal, under the petrosphenoidal ligament",f:'M',m:['lr']},
+  otic_g:{f:'P',a:['Middle meningeal artery','The otic ganglion sits just in front of the middle meningeal artery, medial to V3.']},
+  vidian:{x:'Pterygoid canal',f:'PS',a:['Artery of the pterygoid canal','It travels with the nerve through the pterygoid canal.']},
+  cochlear:{x:'Internal acoustic meatus',f:'SS',a:['Labyrinthine artery','It enters the internal acoustic meatus with CN VIII.']},
+  vestibular:{x:'Internal acoustic meatus',f:'SS',a:['Labyrinthine artery','It enters the internal acoustic meatus with CN VIII.']},
+  olfactory2:{x:'Cribriform plate',f:'SS'},
+  xii_submand:{x:'Hypoglossal canal',f:'M',m:['genioglossus','hyoglossus','styloglossus']},
+  c1_xii:{r:'C1',f:'M',m:['thyrohyoid','geniohyoid']},
+  subm_g2:{f:'P'},
+  zyg:{x:'Inferior orbital fissure'},
+  tympanic_n:{x:'Tympanic canaliculus'}
+ }
+};
+
 </script>
 <script>
 "use strict";
@@ -985,8 +1159,9 @@ const TYPES={
 const tchip=t=>`<span class="tchip" style="background:${TYPES[t].c}">${TYPES[t].n.toUpperCase()}</span>`;
 
 /* ================= lesion banks (engine ported from Lesion Rounds) ================= */
-function mkLR(D,key,cfg){
+function mkLR(D,key,cfg,FX){
   const BY=Object.fromEntries(D.NODES.map(n=>[n.id,n]));
+  let AV=new Set();const fresh=a=>[...a.filter(x=>!AV.has(x)),...a.filter(x=>AV.has(x))];
   const memo={};
   function signs(id){if(memo[id])return memo[id];const n=BY[id];const s=new Set(n.own||[]);(n.inc||[]).forEach(c=>{if(BY[c])signs(c).forEach(x=>s.add(x));});return memo[id]=s;}
   function keySigns(id){const n=BY[id];const mo=new Set(n.minorOwn||[]);return [...signs(id)].filter(x=>!D.MINOR.has(x)&&!mo.has(x)&&D.SIG[x]);}
@@ -995,7 +1170,8 @@ function mkLR(D,key,cfg){
     const ok=D.NODES.filter(n=>n.id!==T.id&&!clues.every(c=>signs(n.id).has(c)));
     const same=shuffle(ok.filter(n=>n.grp===T.grp)),other=shuffle(ok.filter(n=>n.grp!==T.grp));
     const share=n=>[...signs(n.id)].some(x=>signs(T.id).has(x));
-    const pri=[...same.filter(share),...same.filter(n=>!share(n)),...shuffle(other.filter(share)),...other.filter(n=>!share(n))];
+    let pri=[...same.filter(share),...same.filter(n=>!share(n)),...shuffle(other.filter(share)),...other.filter(n=>!share(n))];
+    pri=[...pri.filter(n=>!AV.has(n.name)),...pri.filter(n=>AV.has(n.name))];
     const seen=new Set([T.name]),out=[];
     for(const n of pri){if(out.length>=k)break;if(seen.has(n.name))continue;seen.add(n.name);out.push(n);}
     return out;
@@ -1005,14 +1181,60 @@ function mkLR(D,key,cfg){
     const spared=shuffle((T.spared||[]).filter(s=>!bad(s)&&D.SIG[s]));
     const sameGrp=shuffle([...new Set(D.NODES.filter(n=>n.grp===T.grp&&n.id!==T.id).flatMap(n=>keySigns(n.id)))].filter(s=>!bad(s)));
     const any=shuffle(Object.keys(D.SIG).filter(s=>!bad(s)));
-    const out=[];for(const s of [...spared,...sameGrp,...any]){if(out.length>=k)break;if(!out.includes(s))out.push(s);}
+    const cand=[...spared,...sameGrp,...any];const ord=[...cand.filter(s=>!AV.has(D.SIG[s][1])),...cand.filter(s=>AV.has(D.SIG[s][1]))];
+    const out=[];for(const s of ord){if(out.length>=k)break;if(!out.includes(s))out.push(s);}
     return out;
   }
+  /* ---- nerve fact questions (fiber type, artery, muscles) ---- */
+  const FXN=Object.keys(FX||{});
+  const ARTS=[...new Set(Object.values(FACTS).flatMap(b=>Object.values(b)).filter(f=>f.a).map(f=>f.a[0]))];
+  const ALLM=Object.keys(MUSC);
+  function pickK(pool,k){return fresh(shuffle(pool)).slice(0,k);}
+  function lin(T){const l=D.LINEAGE&&D.LINEAGE[T.id];return l?`<p class="small">${esc(l[1])}</p>`:'';}
+  function musList(F){return `<ul class="whys">${F.m.map(k=>`<li><b>${esc(MUSC[k][0])}</b><small>${esc(MUSC[k][1])}</small></li>`).join('')}</ul>`;}
+  const factQ={
+    fiber(T){const F=FX&&FX[T.id];if(!F||!F.f)return null;const ans=FIB[F.f];const comp=new Set(ans[1]);
+      const pool=Object.keys(FIB).filter(k=>k!==F.f&&!FIB[k][1].every(c=>comp.has(c))).map(k=>FIB[k][0]);
+      const opts=shuffle([ans[0],...pickK(pool,3)]);
+      return mk({type:'fiber',sig:'f',node:T.id,opts,ans:opts.indexOf(ans[0]),stem:`What kind of fibers does the <strong>${esc(T.name)}</strong> carry?`,
+        explain:`<p class="ans">The ${esc(T.name)} carries: <b>${esc(ans[0])}</b>.</p>${lin(T)}${F.m?`<p class="small">Muscles it supplies:</p>${musList(F)}`:''}`});},
+    artery(T){const F=FX&&FX[T.id];if(!F||!F.a)return null;
+      const opts=shuffle([F.a[0],...pickK(ARTS.filter(a=>a!==F.a[0]),3)]);
+      return mk({type:'artery',sig:'a',node:T.id,opts,ans:opts.indexOf(F.a[0]),stem:`Which artery travels with (or sits right beside) the <strong>${esc(T.name)}</strong>?`,
+        explain:`<p class="ans"><b>${esc(F.a[0])}</b>: ${esc(F.a[1])}</p>`});},
+    muscle(T,avoid){const F=FX&&FX[T.id];if(!F||!F.m)return null;const c=F.m.filter(k=>!(avoid&&avoid.has('m:'+k)));if(!c.length)return null;const k=pick(c);
+      const mine=new Set(F.m.map(x=>MUSC[x][0]));const pool=ALLM.filter(x=>!mine.has(MUSC[x][0])).map(x=>MUSC[x][0]);
+      const opts=shuffle([MUSC[k][0],...pickK(pool,3)]);
+      return mk({type:'muscle',sig:'m:'+k,node:T.id,opts,ans:opts.indexOf(MUSC[k][0]),stem:`Which of these muscles does the <strong>${esc(T.name)}</strong> supply?`,
+        explain:`<p class="ans">The ${esc(T.name)} supplies:</p>${musList(F)}`});},
+    mfunc(T,avoid){const F=FX&&FX[T.id];if(!F||!F.m)return null;const c=F.m.filter(k=>!(avoid&&avoid.has('mf:'+k)));if(!c.length)return null;const k=pick(c);
+      const grp=MUSC[k][2];const pool=[...new Set(ALLM.filter(x=>MUSC[x][2]!==grp).map(x=>MUSC[x][1]))];
+      const opts=shuffle([MUSC[k][1],...pickK(pool,3)]);
+      return mk({type:'mfunc',sig:'mf:'+k,node:T.id,opts,ans:opts.indexOf(MUSC[k][1]),stem:`The <strong>${esc(T.name)}</strong> supplies <strong>${esc(MUSC[k][0])}</strong>. What does that muscle do?`,
+        explain:`<p class="ans"><b>${esc(MUSC[k][0])}</b>: ${esc(MUSC[k][1])}.</p>`});},
+    roots(T){const F=FX&&FX[T.id];if(!F||!F.r)return null;
+      const pool=['C1','C2','C2–C3','C3–C4','C3–C5','C1–C3','C5–C6','C8–T1','C5–T1','C4–C5','T1–T2'].filter(x=>x!==F.r);
+      const opts=shuffle([F.r,...pickK(pool,3)]);
+      return mk({type:'roots',sig:'rt',node:T.id,opts,ans:opts.indexOf(F.r),stem:`Which spinal cord levels give rise to the <strong>${esc(T.name)}</strong>?`,
+        explain:`<p class="ans">The ${esc(T.name)} comes from <b>${esc(F.r)}</b>.</p>${lin(T)}`});},
+    exit(T){const F=FX&&FX[T.id];if(!F||!F.x)return null;
+      const pool=[...new Set(Object.values(FACTS).flatMap(b=>Object.values(b)).filter(f=>f.x&&f.x!==F.x).map(f=>f.x))];
+      const opts=shuffle([F.x,...pickK(pool,3)]);
+      return mk({type:'exit',sig:'ex',node:T.id,opts,ans:opts.indexOf(F.x),stem:`Where does the <strong>${esc(T.name)}</strong> leave the skull, or where do you find it?`,
+        explain:`<p class="ans"><b>${esc(F.x)}</b>.</p>${lin(T)}`});},
+    whonerve(T,avoid){const F=FX&&FX[T.id];if(!F||!F.m)return null;const c=F.m.filter(k=>!(avoid&&avoid.has('w:'+k)));if(!c.length)return null;const k=pick(c);
+      const others=FXN.filter(id=>id!==T.id&&BY[id]&&!((FX[id].m||[]).includes(k))).map(id=>BY[id]);
+      const same=others.filter(n=>n.grp===T.grp),rest=others.filter(n=>n.grp!==T.grp);
+      const sm=shuffle(same).map(n=>n.name),rs=shuffle(rest).map(n=>n.name);const names=[...new Set([...sm.filter(n=>!AV.has(n)),...rs.filter(n=>!AV.has(n)),...sm,...rs])].filter(n=>n!==T.name).slice(0,3);
+      if(names.length<3)return null;const opts=shuffle([T.name,...names]);
+      return mk({type:'whonerve',sig:'w:'+k,node:T.id,opts,ans:opts.indexOf(T.name),stem:`Which nerve supplies <strong>${esc(MUSC[k][0])}</strong>?`,
+        explain:`<p class="ans"><b>${esc(MUSC[k][0])}</b> (${esc(MUSC[k][1].charAt(0).toLowerCase()+MUSC[k][1].slice(1))}) is supplied by the <b>${esc(T.name)}</b>.</p>`});}
+  };
   function owner(sig){const n=D.NODES.find(n=>(n.own||[]).includes(sig));return n?n.name:null;}
   const phrase=T=>T.kind==='site'?`A lesion at the <strong>${esc(T.name)}</strong>`:`A lesion of the <strong>${esc(T.name)}</strong>`;
   const mk=(o)=>Object.assign({bank:key,miss:`${key}:n:${o.node}`},o);
   return {
-    key,D,BY,signs,keySigns,cfg,
+    key,D,BY,signs,keySigns,cfg,FX,setAvoid:s=>{AV=s||new Set();},...factQ,hasFacts:T=>!!(FX&&FX[T.id]),
     typeOf:n=>n.kind==='site'||n.grp==='site'?'FORAMEN':cfg.types[n.grp],
     case(T){
       const key_=keySigns(T.id);if(!key_.length)return null;const all=signs(T.id);let clues=null;
@@ -1020,35 +1242,45 @@ function mkLR(D,key,cfg){
         const narrower=D.NODES.some(n=>n.id!==T.id&&subset(c,signs(n.id))&&signs(n.id).size<all.size&&subset(signs(n.id),all));clues=c;if(!narrower)break;}
       const d=distractorNodes(T,clues,4);if(d.length<3)return null;
       const opts=shuffle([T,...d]);
-      return mk({type:'case',node:T.id,rows:[...clues.map(s=>[D.SIG[s][0],D.SIG[s][1]]),['History',T.cause]],shown:1,
+      return mk({type:'case',sig:'c',used:clues.map(c=>'x:'+c),node:T.id,rows:[...clues.map(s=>[D.SIG[s][0],D.SIG[s][1]]),['History',T.cause]],shown:1,
         opts:opts.map(n=>n.name),ans:opts.indexOf(T),stem:'Which single lesion explains ALL of these findings?',
         explain:`<ul class="whys">${clues.map(s=>`<li>${esc(D.SIG[s][1])}<small>${esc(D.SIG[s][2])}</small></li>`).join('')}</ul>`});
     },
-    predict(T){
-      const k=keySigns(T.id);if(!k.length)return null;const right=pick(k);const d=distractorSigns(T,3);if(d.length<3)return null;
+    predict(T,avoid){
+      const k=keySigns(T.id).filter(x=>!(avoid&&avoid.has('x:'+x)));if(!k.length)return null;const right=pick(k);const d=distractorSigns(T,3);if(d.length<3)return null;
       const opts=shuffle([right,...d]);
-      return mk({type:'predict',node:T.id,opts:opts.map(s=>D.SIG[s][1]),ans:opts.indexOf(right),stem:`${phrase(T)}. Which finding would you expect?`,
+      return mk({type:'predict',sig:'pred',used:['x:'+right],node:T.id,opts:opts.map(s=>D.SIG[s][1]),ans:opts.indexOf(right),stem:`${phrase(T)}. ${pick(['Which finding would you expect?','Which of these findings fits this lesion?','Which finding does this patient have?'])}`,
         explain:`<p class="ans">${esc(D.SIG[right][2])}</p>`});
     },
     spared(T){
       const k=keySigns(T.id);if(k.length<3)return null;const yes=shuffle(k).slice(0,3);const no=distractorSigns(T,1)[0];if(!no)return null;
       const opts=shuffle([...yes,no]);const who=owner(no);
-      return mk({type:'spared',node:T.id,opts:opts.map(s=>D.SIG[s][1]),ans:opts.indexOf(no),stem:`${phrase(T)}. Which finding would you <strong>NOT</strong> expect?`,
+      return mk({type:'spared',sig:'spared',node:T.id,opts:opts.map(s=>D.SIG[s][1]),ans:opts.indexOf(no),stem:`${phrase(T)}. Which finding would you <strong>NOT</strong> expect?`,
         explain:`<p class="ans">That finding is not part of this lesion${who&&who!==T.name?` — it points to the <b>${esc(who)}</b>`:''}. ${esc(D.SIG[no][2])}</p>`});
     },
-    side(grp,T){
-      let pool=D.SIDE.filter(t=>D.SIDE_GRP[t.id]===grp);if(!pool.length)return null;
+    reverse(T,avoid){
+      const k=keySigns(T.id).filter(x=>!(avoid&&(avoid.has('r:'+x)||avoid.has('x:'+x))));if(!k.length)return null;const x=pick(k);
+      const others=shuffle(D.NODES.filter(n=>n.id!==T.id&&!signs(n.id).has(x)));
+      const same=others.filter(n=>n.grp===T.grp),rest=others.filter(n=>n.grp!==T.grp);
+      const ordered=[...same,...rest];const seen=new Set([T.name]),d=[];for(const n of [...ordered.filter(n=>!AV.has(n.name)),...ordered.filter(n=>AV.has(n.name))]){if(d.length>=3)break;if(seen.has(n.name))continue;seen.add(n.name);d.push(n);}
+      if(d.length<3)return null;const opts=shuffle([T,...d]);
+      return mk({type:'reverse',sig:'r:'+x,used:['x:'+x],node:T.id,opts:opts.map(n=>n.name),ans:opts.indexOf(T),
+        stem:`A patient's only complaint: <strong>${esc(D.SIG[x][1])}</strong>. Which of these lesions would cause it?`,
+        explain:`<p class="ans">${esc(D.SIG[x][2])}</p>`});
+    },
+    side(grp,T,avoid){
+      let pool=D.SIDE.filter(t=>D.SIDE_GRP[t.id]===grp&&!(avoid&&avoid.has('d:'+t.id)));if(!pool.length)return null;
       const t=pick(pool);const s=t.fixed||(Math.random()<.5?'left':'right');const [ni,side]=t.ans(s);
       const cap=x=>x[0].toUpperCase()+x.slice(1);
       const opts=[];t.nerve.forEach(n=>['left','right'].forEach(sd=>opts.push(`${cap(sd)} ${n.charAt(0).toLowerCase()+n.slice(1)}`)));
-      return {bank:key,type:'side',tpl:t.id,node:T?T.id:null,miss:`${key}:s:${t.id}`,opts,ans:ni*2+(side==='left'?0:1),stem:t.f(s),explain:`<p class="ans">${esc(t.why)}</p>`};
+      return {bank:key,type:'side',sig:'d:'+t.id,tpl:t.id,node:T?T.id:null,miss:`${key}:s:${t.id}`,opts,ans:ni*2+(side==='left'?0:1),stem:t.f(s),explain:`<p class="ans">${esc(t.why)}</p>`};
     },
     sideById(id){const t=D.SIDE.find(x=>x.id===id);return t;}
   };
 }
 const LR_CFG1={name:'Lesion Rounds I',types:{neck:'CERV',larynx:'VAGAL',face:'FACIAL',trig:'TRIGEM',orbit:'OCULAR',other:'SPECIAL',site:'FORAMEN'}};
 const LR_CFG2={name:'Lesion Rounds II',types:{v12:'TRIGEM',v3:'TRIGEM',vii:'FACIAL',ixx:'VAGAL',eye:'OCULAR',oth:'SPECIAL',site:'FORAMEN'}};
-const BANK={lr1:mkLR(LR1,'lr1',LR_CFG1),lr2:mkLR(LR2,'lr2',LR_CFG2)};
+const BANK={lr1:mkLR(LR1,'lr1',LR_CFG1,FACTS.lr1),lr2:mkLR(LR2,'lr2',LR_CFG2,FACTS.lr2)};
 
 /* ================= trap bank ================= */
 const TOPIC_MON={
@@ -1299,7 +1531,7 @@ function startReview(){
 
 /* ================= battle ================= */
 let B=null;
-const MOVE={case:['LOCALIZE','Name the lesion'],predict:['PREDICT','Pick the finding you expect'],spared:['SPOT SPARED','Pick the finding you would NOT see'],side:['LATERALIZE','Which side, which nerve?'],mcq:['TRAP SENSE','One option is the trap'],pair:['TELL APART','Two lookalikes — pick one']};
+const MOVE={case:['LOCALIZE','Name the lesion'],roots:['ROOT CALL','Which spinal levels form it?'],exit:['PATHWAY','Where does it exit or run?'],fiber:['FIBER CHECK','What does this nerve carry?'],artery:['NEIGHBOR','Which artery travels with it?'],muscle:['MUSCLE MAP','Which muscle does it supply?'],mfunc:['ACTION','What does that muscle do?'],whonerve:['WHO SUPPLIES?','Which nerve supplies this muscle?'],reverse:['TRACE BACK','Which lesion causes this one finding?'],predict:['PREDICT','Pick the finding you expect'],spared:['SPOT SPARED','Pick the finding you would NOT see'],side:['LATERALIZE','Which side, which nerve?'],mcq:['TRAP SENSE','One option is the trap'],pair:['TELL APART','Two lookalikes — pick one']};
 const CASE_MULT=[1.8,1.5,1.25,1.1,1];
 function eName(e){return e.hidden?'???':SP[e.sp].name;}
 function sceneHTML(){
@@ -1337,8 +1569,8 @@ function say(text,hold=850,wait=false){
     const el=document.getElementById('mt'),box=document.getElementById('msg');if(!el){res();return;}
     box.classList.remove('done');let i=0,done=false,timer=null;const full=String(text);
     const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const finish=()=>{done=true;el.textContent=full;box.classList.add('done');if(!wait)timer=setTimeout(end,hold);};
-    const end=()=>{clearTimeout(timer);msgClick=null;keyHandler=B&&B.keys||null;res();};
+    const finish=()=>{done=true;el.textContent=full;box.classList.add('done');if(!wait)timer=setTimeout(end,hold);else{const qp=document.getElementById('qp');if(qp){qp.innerHTML='<div class="row"><button class="btn" id="sayc">Continue &gt;</button><span class="small">Enter</span></div>';const c=document.getElementById('sayc');c.onclick=end;c.focus({preventScroll:true});}}};
+    let ended=false;const end=()=>{if(ended)return;ended=true;clearTimeout(timer);msgClick=null;keyHandler=B&&B.keys||null;const c=document.getElementById('sayc');if(c)c.parentNode.remove();res();};
     msgClick=()=>{if(!done){clearInterval(tt);finish();}else end();};
     keyHandler=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();msgClick();}};
     if(reduce){finish();return;}
@@ -1357,10 +1589,22 @@ function nextQuestion(e){
   if(e.forced){const tpl=b.sideById(e.forced);e.forced=null;if(tpl){
       const s=tpl.fixed||(Math.random()<.5?'left':'right');const [ni,side]=tpl.ans(s);const cap=x=>x[0].toUpperCase()+x.slice(1);const opts=[];tpl.nerve.forEach(n=>['left','right'].forEach(sd=>opts.push(`${cap(sd)} ${n.charAt(0).toLowerCase()+n.slice(1)}`)));
       return {bank:e.bank,type:'side',tpl:tpl.id,node:T.id,miss:`${e.bank}:s:${tpl.id}`,opts,ans:ni*2+(side==='left'?0:1),stem:tpl.f(s),explain:`<p class="ans">${esc(tpl.why)}</p>`};}}
-  if(e.hidden){const q=b.case(T);if(q)return q;e.hidden=false;}
-  for(const t of shuffle(['predict','spared','side','predict','spared'])){
-    const q=t==='side'?(Math.random()<.6?b.side(T.grp,T):null):b[t](T);if(q)return q;}
-  return b.predict(T)||b.case(T);
+  e.asked=e.asked||new Set();e.seenOpts=e.seenOpts||new Set();b.setAvoid(e.seenOpts);
+  const track=q=>{if(q){e.asked.add(q.sig);(q.used||[]).forEach(u=>e.asked.add(u));q.opts.forEach(o=>e.seenOpts.add(o));}b.setAvoid(null);return q;};
+  if(e.hidden){const q=b.case(T);if(q)return track(q);e.hidden=false;}
+  const lesionTypes=['predict','spared','reverse','side'],factTypes=['fiber','artery','muscle','mfunc','whonerve','roots','exit'];
+  const last=e.lastKind;
+  for(let tries=0;tries<40;tries++){
+    // alternate between lesion questions and nerve-anatomy questions when the nerve has facts
+    const useFact=b.hasFacts(T)&&(last==='lesion'?Math.random()<.75:Math.random()<.3);
+    const t=pick(useFact?factTypes:lesionTypes);
+    const q=t==='side'?b.side(T.grp,T,e.asked):b[t](T,e.asked);
+    if(q&&!e.asked.has(q.sig)){e.lastKind=useFact?'fact':'lesion';return track(q);}
+  }
+  b.setAvoid(null);
+  // every distinct question for this lesion has been used: the next hit finishes it
+  e.exhausted=true;
+  return b.predict(T)||b.reverse(T)||b.case(T);
 }
 
 async function battle(cfg){
@@ -1434,13 +1678,14 @@ async function fight(){
       const ok=r.i===q.ans;const trapPick=q.trapIdx>=0&&r.i===q.trapIdx;
       if(ok){
         G.stats.right++;decMiss(q.miss);
-        const {m,eff}=dmgMult(e,q);const dmg=Math.round(40*m);
+        const {m,eff}=dmgMult(e,q);const dmg=e.exhausted?e.hp:Math.round(40*m);
         await say(`${SP[B.pm.sp].name} used ${MOVE[q.type][0]}!`,450);
         await anim('#pmon .mon','lunge',350);anim('#emon .mon','hit',500);
         e.hp=Math.max(0,e.hp-dmg);updBars();await sleep(600);
         if(q.type==='case'&&q.shown===1)await say('A critical hit! Named on the first finding!',700);
         else if(q.type==='case'&&q.shown<=2)await say('Sharp localization — bonus damage!',600);
         if(eff)await say("It's super effective!",600);
+        if(e.exhausted&&e.hp<=0)await say(`${SP[e.sp].name} has no findings left to hide. A finishing blow!`,700);
         if(q.type==='case'&&e.hidden){e.hidden=false;seen(e.sp,'seen');const svg=document.getElementById('emon');svg.innerHTML=spriteSVG(e.sp,{cls:'mon e'});redrawEnemyBox();await say(`The wild lesion is the ${SP[e.sp].name}!`,900);}
         await gainXP(Math.round(8*(B.kind==='wild'?1:1.5)));
         await feedback(true,q,r.i,e);
@@ -1562,7 +1807,7 @@ function feedback(ok,q,chosen,e){
       ${q.node&&(q.bank==='lr1'||q.bank==='lr2')&&!e.hidden?lrCard(q.bank,q.node,true):''}
       <div class="row"><button class="btn" id="cont">Continue &gt;</button><span class="small">Enter</span></div></div>`;
     const mt=document.getElementById('mt');if(mt)mt.textContent=ok?'Nice! Read why, then continue.':'Learn it now so it sticks.';
-    const done=()=>{keyHandler=null;res();};
+    const done=()=>{keyHandler=null;qp.innerHTML='';res();};
     document.getElementById('cont').onclick=done;document.getElementById('cont').focus({preventScroll:true});
     keyHandler=ev=>{if(ev.key==='Enter'){ev.preventDefault();done();}};
   });
@@ -1573,7 +1818,7 @@ async function tryCatch(e){
   if(G.items.orb<1){await say('No Neuro Orbs left — beat a gym leader to restock.',900);return;}
   const qp=document.getElementById('qp');
   const want=await new Promise(res=>{qp.innerHTML=`<div class="sub"><div class="h2">Throw a Neuro Orb?</div><div class="small">Answer one catch question to seal it. Orbs left: ${G.items.orb}</div><div class="row"><button class="btn gold" id="yes">Throw &gt;</button><button class="btn ghost" id="no">Let it go</button></div></div>`;
-    document.getElementById('yes').onclick=()=>res(true);document.getElementById('no').onclick=()=>res(false);});
+    document.getElementById('yes').onclick=()=>{qp.innerHTML='';res(true);};document.getElementById('no').onclick=()=>{qp.innerHTML='';res(false);};});
   if(!want)return;
   G.items.orb--;
   // re-show the fainted foe for the throw
@@ -1586,7 +1831,9 @@ async function tryCatch(e){
     const pool=TH.RECALL.filter(r=>r.topic===e.topic);
     if(pool.length){ok=await recallCatch(pick(pool));}
     else{const q=trapQ(pick(TH.PAIRS).id);ok=await catchQ(q,e);}
-  }else{const b=BANK[e.bank],T=b.BY[e.node];const q=b.spared(T)||b.predict(T);ok=q?await catchQ(q,e):true;}
+  }else{const b=BANK[e.bank],T=b.BY[e.node];const asked=e.asked||new Set();let q=null;
+    b.setAvoid(e.seenOpts);for(let t=0;t<30&&!q;t++){const c=pick([()=>b.spared(T),()=>b.reverse(T,asked),()=>b.side(T.grp,T,asked),()=>b.predict(T),()=>b.fiber(T),()=>b.artery(T),()=>b.muscle(T,asked),()=>b.mfunc(T,asked),()=>b.whonerve(T,asked),()=>b.roots(T),()=>b.exit(T),()=>b.predict(T,asked)])();if(c&&!asked.has(c.sig)&&!(c.used||[]).some(u=>asked.has(u)))q=c;}b.setAvoid(null);
+    q=q||b.spared(T)||b.reverse(T)||b.predict(T);ok=q?await catchQ(q,e):true;}
   if(ok){orb.style.animation='none';await say(`Gotcha! ${SP[e.sp].name} was caught!`,1000,true);
     G.party.push(newMon(e.sp,Math.max(3,e.lvl-2)));seen(e.sp,'caught');G.stats.caught++;
     await say(`${SP[e.sp].name}'s Nervedex entry is complete.`,800);}
