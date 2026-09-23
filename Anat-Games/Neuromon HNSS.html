@@ -241,7 +241,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I, Lesion Rounds II &amp; Trap Hunter</span><span>Rev 3 · Updated Sep 23, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS muscle lists</span><span>Rev 4 · Updated Sep 23, 2026</span></footer>
 </div>
 
 <script>
@@ -1128,6 +1128,252 @@ const FACTS={
  }
 };
 
+/* ===== Muscle bank (Neuromon: Myo Ridge) =====
+   Wording follows the HNSS Lab 1, 2, 4, 5 & 6 structure-worksheet answer keys.
+   Stylopharyngeus and musculus uvulae are not in those keys and use standard anatomy.
+   n = nerve key (MNV) · ag = action group (muscles in one group are never used as each other's distractors)
+   cls = class labels (first = the answer; any others are also true, so never used as distractors)
+   arch = pharyngeal arch (0 = not a pharyngeal-arch muscle; omitted = not asked) */
+const MNV={
+ IIIs:['CN III, superior division',['III'],'OCULAR'],
+ IIIi:['CN III, inferior division',['III'],'OCULAR'],
+ IV:['CN IV (trochlear)',['IV'],'OCULAR'],
+ VI:['CN VI (abducens)',['VI'],'OCULAR'],
+ XII:['CN XII (hypoglossal)',['XII'],'SPECIAL'],
+ Xph:['CN X via the pharyngeal plexus',['Xph'],'VAGAL'],
+ V3mp:['CN V3 (nerve to medial pterygoid)',['V3'],'TRIGEM'],
+ V3my:['CN V3 (nerve to mylohyoid)',['V3'],'TRIGEM'],
+ VIIt:['CN VII, temporal branch',['t'],'FACIAL'],
+ VIItz:['CN VII, temporal + zygomatic branches',['t','z'],'FACIAL'],
+ VIIzb:['CN VII, zygomatic + buccal branches',['z','b'],'FACIAL'],
+ VIIb:['CN VII, buccal branch',['b'],'FACIAL'],
+ VIIbm:['CN VII, buccal + marginal mandibular branches',['b','m'],'FACIAL'],
+ VIImm:['CN VII, marginal mandibular branch',['m'],'FACIAL'],
+ VIIc:['CN VII, cervical branch',['c'],'FACIAL'],
+ VIIsm:['CN VII (branches just below the stylomastoid foramen)',['sm','t','z','b','m','c'],'FACIAL'],
+ XphE:['CN X via the pharyngeal plexus (+ external laryngeal n.)',['Xph','ELN'],'VAGAL'],
+ ELN:['External laryngeal nerve (CN X)',['ELN'],'VAGAL'],
+ RLN:['Recurrent laryngeal nerve (CN X)',['RLN'],'VAGAL'],
+ ansa:['Ansa cervicalis (C1–C3)',['ansa'],'CERV'],
+ C1:['C1 fibers carried by CN XII',['C1'],'CERV'],
+ IX:['CN IX (glossopharyngeal)',['IX'],'SPECIAL'],
+ XI:['CN XI (spinal accessory)',['XI'],'CERV'],
+ rA:['Ventral rami of C4–C6',['rA'],'CERV'],
+ rM:['Ventral rami of C3–C8',['rM'],'CERV'],
+ rP:['Ventral rami of C6–C8',['rP'],'CERV']
+};
+const MARCH={1:'1st arch (CN V3)',2:'2nd arch (CN VII)',3:'3rd arch (CN IX)',4:'4th arch (CN X: pharyngeal plexus / superior laryngeal)',6:'6th arch (CN X: recurrent laryngeal)',0:'Not a pharyngeal-arch muscle (somite-derived)'};
+const MCLASS_PARTNER={
+ 'Intrinsic laryngeal muscle':['Extrinsic laryngeal: infrahyoid (strap)','Extrinsic laryngeal: suprahyoid'],
+ 'Extrinsic laryngeal: infrahyoid (strap)':['Intrinsic laryngeal muscle','Extrinsic laryngeal: suprahyoid'],
+ 'Extrinsic laryngeal: suprahyoid':['Intrinsic laryngeal muscle','Extrinsic laryngeal: infrahyoid (strap)'],
+ 'Pharyngeal constrictor':['Longitudinal pharyngeal muscle'],
+ 'Longitudinal pharyngeal muscle':['Pharyngeal constrictor'],
+ 'Extrinsic tongue muscle':['Intrinsic tongue muscle'],
+ 'Intrinsic tongue muscle':['Extrinsic tongue muscle'],
+ 'Superficial neck muscle':['Scalene muscle'],
+ 'Scalene muscle':['Superficial neck muscle']
+};
+const MGROUPS={eom:'Extraocular muscles',tongue:'Tongue',palate:'Soft palate',face:'Face',larynx:'Larynx: intrinsic vs extrinsic',pharynx:'Pharynx: constrictors vs longitudinal',neck:'Superficial neck & scalenes'};
+const MGROUP_TYPE={eom:'OCULAR',tongue:'SPECIAL',palate:'VAGAL',face:'FACIAL',larynx:'VAGAL',pharynx:'VAGAL',neck:'CERV'};
+const MUSCLES=[
+/* ---- extraocular ---- */
+{id:'lps',name:'Levator palpebrae superioris',p:['eom'],cls:['Extraocular muscle'],n:'IIIs',ag:'lid',arch:0,
+ act:'Elevates the upper eyelid (opens the eye)',par:'Complete ptosis: the lid covers the pupil',
+ att:'Lesser wing of the sphenoid above the optic canal → skin of the upper lid and the superior tarsal plate',
+ pearl:'Its deep smooth-muscle slip, the superior tarsal (Müller) muscle, is sympathetic. CN III palsy = COMPLETE ptosis; Horner syndrome = MILD ptosis.'},
+{id:'sr',name:'Superior rectus',p:['eom'],cls:['Extraocular muscle'],n:'IIIs',ag:'sr',arch:0,
+ act:'Elevates the eye (primary), with adduction and intorsion',par:'Cannot look up and OUT',
+ att:'Common tendinous ring (annulus of Zinn) → superior sclera, in front of the equator',
+ pearl:'The orbital axis is ~23° off the visual axis, so pure elevation is tested with the eye ABducted (looking up and out).'},
+{id:'so',name:'Superior oblique',p:['eom'],cls:['Extraocular muscle'],n:'IV',ag:'so',arch:0,
+ act:'Intorts the eye (primary), with depression and abduction',par:'Vertical diplopia worst looking down and IN (stairs, reading); head tilts AWAY from the lesion',
+ att:'Body of the sphenoid → tendon through the trochlea → superolateral sclera, behind the equator',
+ pearl:'LR6 SO4, all others CN III. The trochlea is its functional origin; it depresses best with the eye ADducted.'},
+{id:'mr',name:'Medial rectus',p:['eom'],cls:['Extraocular muscle'],n:'IIIi',ag:'mr',arch:0,
+ act:'Adducts the eye (pure, single action)',par:'Eye drifts outward and cannot adduct',
+ att:'Common tendinous ring → medial sclera, in front of the equator',
+ pearl:'The strongest rectus. Yoked to the opposite lateral rectus through the MLF for conjugate horizontal gaze.'},
+{id:'lr',name:'Lateral rectus',p:['eom'],cls:['Extraocular muscle'],n:'VI',ag:'lr',arch:0,
+ act:'Abducts the eye (pure, single action)',par:'Eye turned inward at rest; horizontal diplopia worst looking toward the lesion',
+ att:'Common tendinous ring → lateral sclera, in front of the equator',
+ pearl:'CN VI palsy is a false localizing sign of raised intracranial pressure. The lacrimal nerve and artery run along its upper border.'},
+{id:'ir',name:'Inferior rectus',p:['eom'],cls:['Extraocular muscle'],n:'IIIi',ag:'ir',arch:0,
+ act:'Depresses the eye (primary), with adduction and extorsion',par:'Cannot look down and OUT',
+ att:'Common tendinous ring → inferior sclera, in front of the equator',
+ pearl:'Sits directly on the orbital floor: entrapped in a blowout fracture → restricted UPgaze, diplopia and infraorbital (V2) numbness.'},
+{id:'io',name:'Inferior oblique',p:['eom'],cls:['Extraocular muscle'],n:'IIIi',ag:'io',arch:0,
+ act:'Extorts the eye (primary), with elevation and abduction',par:'Cannot look up and IN',
+ att:'Orbital floor lateral to the nasolacrimal groove → inferolateral sclera, behind the equator',
+ pearl:'The only extraocular muscle that does NOT arise at the orbital apex. Its nerve carries the preganglionic parasympathetics to the ciliary ganglion.'},
+/* ---- tongue ---- */
+{id:'tint',name:'Intrinsic muscles of the tongue',p:['tongue'],cls:['Intrinsic tongue muscle'],n:'XII',ag:'tshape',arch:0,
+ act:'Change the SHAPE of the tongue: longitudinal curl, transverse narrow and lengthen, vertical flatten',par:'Tongue cannot curl, narrow or flatten normally; slurred "la" and "ta"',
+ att:'Entirely inside the tongue (superior and inferior longitudinal, transverse, vertical); no bony attachment',
+ pearl:'Extrinsic muscles MOVE the tongue; intrinsic muscles SHAPE it. Both are CN XII.'},
+{id:'gg',name:'Genioglossus',p:['tongue'],cls:['Extrinsic tongue muscle'],n:'XII',ag:'gg',arch:0,
+ act:'Protrudes the tongue and depresses its center',par:'On protrusion the tongue deviates TOWARD the weak side',
+ att:'Superior mental spine of the mandible → the whole length of the tongue and the hyoid',
+ pearl:'The "safety muscle": it holds the tongue forward and keeps the airway open. The tongue licks its wounds (deviates toward a CN XII lesion).'},
+{id:'hg',name:'Hyoglossus',p:['tongue'],cls:['Extrinsic tongue muscle'],n:'XII',ag:'tretract',arch:0,
+ act:'Depresses and retracts the tongue',par:'Weak depression and retraction of the tongue',
+ att:'Body and greater horn of the hyoid → side of the tongue',
+ pearl:'The floor-of-mouth landmark: the lingual ARTERY runs deep (medial) to it; CN XII, the lingual nerve and the submandibular duct run superficial (lateral).'},
+{id:'sg',name:'Styloglossus',p:['tongue'],cls:['Extrinsic tongue muscle'],n:'XII',ag:'tretract',arch:0,
+ act:'Retracts and elevates the tongue, drawing it up and back for swallowing',par:'Weak upward and backward pull of the tongue in swallowing',
+ att:'Styloid process (+ stylomandibular ligament) → side of the tongue, interdigitating with hyoglossus',
+ pearl:'The styloid trio: styloglossus (XII), stylohyoid (VII), stylopharyngeus (IX).'},
+{id:'pg',name:'Palatoglossus',p:['tongue','palate'],cls:[],n:'Xph',ag:'pg',arch:4,
+ act:'Elevates the back of the tongue and narrows (closes) the oropharyngeal isthmus',par:'The oropharyngeal isthmus does not close off properly at the start of a swallow',
+ att:'Palatine aponeurosis → side of the tongue (raises the palatoglossal fold = anterior tonsillar pillar)',
+ pearl:'The ONLY tongue muscle NOT supplied by CN XII: it is CN X. Really a palatal muscle that happens to insert on the tongue.'},
+/* ---- palate ---- */
+{id:'lvp',name:'Levator veli palatini',p:['palate'],cls:['Soft palate muscle'],n:'Xph',ag:'palup',arch:4,
+ act:'Elevates the soft palate, sealing off the nasopharynx during swallowing',par:'Palate droops on that side, the uvula deviates AWAY from the lesion, and liquids regurgitate through the nose',
+ att:'Petrous temporal bone + auditory tube cartilage → upper surface of the palatine aponeurosis',
+ pearl:'Passes ABOVE the upper edge of the superior constrictor with the auditory tube. The uvula runs away from trouble.'},
+{id:'uvulae',name:'Musculus uvulae',p:['palate'],cls:['Soft palate muscle'],n:'Xph',ag:'palup',arch:4,
+ act:'Shortens and lifts the uvula, helping seal the nasopharynx',par:'The uvula is pulled AWAY from the weak side by the intact muscle',
+ att:'Posterior nasal spine + palatine aponeurosis → mucosa of the uvula',
+ pearl:'Every soft-palate muscle is CN X (pharyngeal plexus) except tensor veli palatini (V3).'},
+{id:'pp',name:'Palatopharyngeus',p:['palate','pharynx'],cls:['Longitudinal pharyngeal muscle','Soft palate muscle'],n:'Xph',ag:'phup',arch:4,
+ act:'Elevates the pharynx and larynx, tenses the soft palate and closes the oropharyngeal isthmus',par:'Weak elevation of the pharynx and larynx during swallowing',
+ att:'Hard palate + palatine aponeurosis → lateral pharyngeal wall and posterior border of the thyroid cartilage',
+ pearl:'Raises the palatopharyngeal fold = POSTERIOR tonsillar pillar (the palatoglossal fold is the anterior pillar).'},
+{id:'tvp',name:'Tensor veli palatini',p:['palate'],cls:['Soft palate muscle'],n:'V3mp',ag:'tvp',arch:1,
+ act:'Tenses (flattens) the soft palate and opens the auditory (pharyngotympanic) tube',par:'Poor opening of the auditory tube: ear fullness and fluid behind the eardrum',
+ att:'Scaphoid fossa + spine of the sphenoid + tube cartilage → tendon hooks around the pterygoid hamulus → palatine aponeurosis',
+ pearl:'The ONLY palate muscle not supplied by CN X: it is V3 (nerve to medial pterygoid). Its tendon turning around the hamulus is the dissection giveaway.'},
+/* ---- face ---- */
+{id:'frontalis',name:'Frontal belly of occipitofrontalis',p:['face'],cls:['Muscle of facial expression'],n:'VIIt',ag:'brow',arch:2,
+ act:'Raises the eyebrows and wrinkles the forehead (surprise)',par:'Cannot raise the eyebrow or wrinkle the forehead on that side',
+ att:'Galea aponeurotica → skin of the eyebrows and root of the nose (no bony attachment)',
+ pearl:'Forehead weakness separates a LOWER motor neuron palsy (Bell) from an upper motor neuron one (stroke), which spares the forehead.'},
+{id:'oocpal',name:'Orbicularis oculi, palpebral part',p:['face'],cls:['Muscle of facial expression'],n:'VIItz',ag:'close',arch:2,
+ act:'Gentle closure and blinking; its lacrimal part pumps tears toward the puncta',par:'The eye does not blink: the tear film fails and tears spill over (epiphora)',
+ att:'Within the eyelids, between the medial and lateral palpebral ligaments',
+ pearl:'The lacrimal part (Horner muscle) squeezes the lacrimal sac with each blink. Orbicularis oculi is the efferent limb of the corneal reflex (V1 afferent).'},
+{id:'ooc_orb',name:'Orbicularis oculi, orbital part',p:['face'],cls:['Muscle of facial expression'],n:'VIItz',ag:'close',arch:2,
+ act:'Forced, tight closure: screwing the eyes shut against wind or light',par:'Cannot squeeze the eye shut → exposure keratitis',
+ att:'Thick outer ring on the orbital margin, continuous with frontalis above',
+ pearl:'Voluntary forced closure; repeated contraction makes crow’s feet.'},
+{id:'oor',name:'Orbicularis oris',p:['face'],cls:['Muscle of facial expression'],n:'VIIbm',ag:'lips',arch:2,
+ act:'Closes, purses and protrudes the lips (kissing, whistling, sucking)',par:'Drooling, trouble drinking through a straw and saying /p/, /b/, /m/',
+ att:'Encircles the mouth; fibers converge from buccinator and the other lip muscles',
+ pearl:'The superior and inferior labial arteries run deep to it.'},
+{id:'bucc',name:'Buccinator',p:['face'],cls:['Muscle of facial expression'],n:'VIIb',ag:'cheek',arch:2,
+ act:'Presses the cheek against the teeth, keeping the bolus on the molars; compresses the cheek when blowing',par:'Food pockets between the cheek and the gums',
+ att:'Pterygomandibular raphe + alveolar processes opposite the molars → angle of the mouth',
+ pearl:'Supplied by the buccal branch of CN VII, NOT the buccal nerve of V3 (which is sensory and only passes through it). Pierced by the parotid duct.'},
+{id:'zmaj',name:'Zygomaticus major',p:['face'],cls:['Muscle of facial expression'],n:'VIIzb',ag:'smile',arch:2,
+ act:'Elevates and draws the angle of the mouth laterally (smiling)',par:'The smile is lost on that side',
+ att:'Zygomatic bone, lateral to the zygomaticomaxillary suture → angle of the mouth',
+ pearl:'The principal smiling muscle and the direct antagonist of depressor anguli oris.'},
+{id:'zmin',name:'Zygomaticus minor',p:['face'],cls:['Muscle of facial expression'],n:'VIIzb',ag:'uplip',arch:2,
+ act:'Elevates the upper lip and deepens the nasolabial furrow (sneer)',par:'Flattened nasolabial fold; the upper lip will not lift',
+ att:'Zygomatic bone, medial to zygomaticus major → upper lip',
+ pearl:'Lies medial and deep to zygomaticus major and is easily lost with the skin flap.'},
+{id:'dao',name:'Depressor anguli oris',p:['face'],cls:['Muscle of facial expression'],n:'VIImm',ag:'lowlip',arch:2,
+ act:'Depresses the angle of the mouth (frowning, sadness)',par:'Asymmetric lower lip when smiling or showing the teeth',
+ att:'Oblique line of the mandible → angle of the mouth',
+ pearl:'Marginal mandibular branch injury (submandibular incisions) gives this asymmetric smile.'},
+{id:'mentalis',name:'Mentalis',p:['face'],cls:['Muscle of facial expression'],n:'VIImm',ag:'lowlip',arch:2,
+ act:'Elevates and protrudes the lower lip and wrinkles the chin (pouting)',par:'Cannot pout; the chin skin will not wrinkle',
+ att:'Incisive fossa of the mandible → skin of the chin',
+ pearl:'Produces the dimpled "peau d’orange" chin and the chin quiver of crying.'},
+{id:'platysma',name:'Platysma',p:['face','neck'],cls:['Superficial neck muscle','Muscle of facial expression'],n:'VIIc',ag:'plat',arch:2,
+ act:'Tenses the skin of the neck and draws the angle of the mouth down (grimace of fright)',par:'The neck skin does not tense when grimacing',
+ att:'Fascia over pectoralis major and deltoid → inferior border of the mandible and skin of the lower face',
+ pearl:'A facial-expression muscle that migrated into the neck. The external jugular vein and cervical plexus skin branches lie deep to it.'},
+/* ---- larynx ---- */
+{id:'ct',name:'Cricothyroid',p:['larynx'],cls:['Intrinsic laryngeal muscle'],n:'ELN',ag:'pitch',arch:4,
+ act:'Tenses and lengthens the vocal folds → raises pitch (tilts the thyroid cartilage forward)',par:'Cannot reach high notes; weak, monotone voice that tires easily',
+ att:'Anterolateral cricoid arch → inferior horn and lower lamina of the thyroid cartilage (outside the larynx)',
+ pearl:'The only intrinsic laryngeal muscle NOT supplied by the recurrent laryngeal nerve, and the only one visible from outside. Its nerve runs with the superior thyroid artery.'},
+{id:'pca',name:'Posterior cricoarytenoid',p:['larynx'],cls:['Intrinsic laryngeal muscle'],n:'RLN',ag:'abduct',arch:6,
+ act:'ABDUCTS the vocal folds (the ONLY abductor), opening the airway',par:'The vocal fold sits fixed near the midline; if both sides → stridor and airway obstruction',
+ att:'Posterior surface of the cricoid lamina → muscular process of the arytenoid',
+ pearl:'"Please Come Apart." Bilateral recurrent laryngeal nerve injury is an airway emergency.'},
+{id:'sth',name:'Sternohyoid',p:['larynx'],cls:['Extrinsic laryngeal: infrahyoid (strap)'],n:'ansa',ag:'hyodown',arch:0,
+ act:'Depresses the hyoid after it has been raised in swallowing',par:'Weak lowering of the hyoid and larynx after a swallow',
+ att:'Posterior manubrium + medial clavicle → body of the hyoid',
+ pearl:'The most superficial strap muscle. The midline between the two sternohyoids is the avascular plane opened in thyroid and tracheal surgery.'},
+{id:'omo',name:'Omohyoid',p:['larynx'],cls:['Extrinsic laryngeal: infrahyoid (strap)'],n:'ansa',ag:'hyodown',arch:0,
+ act:'Depresses and steadies the hyoid; tenses the deep cervical fascia',par:'Weak lowering of the hyoid and larynx after a swallow',
+ att:'Superior border of the scapula → intermediate tendon (fascial sling to the clavicle) → body of the hyoid',
+ pearl:'The inferior belly divides the posterior triangle; the superior belly separates the carotid triangle from the muscular triangle.'},
+{id:'stt',name:'Sternothyroid',p:['larynx'],cls:['Extrinsic laryngeal: infrahyoid (strap)'],n:'ansa',ag:'hyodown',arch:0,
+ act:'Depresses the larynx (pulls the thyroid cartilage down)',par:'Weak lowering of the hyoid and larynx after a swallow',
+ att:'Posterior manubrium, below sternohyoid → oblique line of the thyroid cartilage',
+ pearl:'Lies directly on the thyroid gland: it is divided or retracted to expose the gland in thyroidectomy.'},
+{id:'thh',name:'Thyrohyoid',p:['larynx'],cls:['Extrinsic laryngeal: infrahyoid (strap)'],n:'C1',ag:'hyodown',arch:0,
+ act:'Depresses the hyoid, or ELEVATES the larynx when the hyoid is fixed (tucks it under the tongue base)',par:'The larynx does not tuck up under the tongue base in swallowing',
+ att:'Oblique line of the thyroid cartilage → body and greater horn of the hyoid',
+ pearl:'The one strap muscle NOT supplied by the ansa cervicalis: C1 fibers carried by CN XII (nerve to thyrohyoid).'},
+{id:'adig',name:'Anterior belly of digastric',p:['larynx'],cls:['Extrinsic laryngeal: suprahyoid'],n:'V3my',ag:'hyoup',arch:1,
+ act:'Depresses the mandible (opens the jaw); elevates the hyoid when the mandible is fixed',par:'Weak elevation of the hyoid and larynx in swallowing',
+ att:'Digastric fossa of the mandible → intermediate tendon',
+ pearl:'One muscle, two arches: anterior belly = 1st arch (V3), posterior belly = 2nd arch (VII).'},
+{id:'pdig',name:'Posterior belly of digastric',p:['larynx'],cls:['Extrinsic laryngeal: suprahyoid'],n:'VIIsm',ag:'hyoup',arch:2,
+ act:'Elevates and retracts the hyoid; assists in opening the jaw',par:'Weak elevation of the hyoid and larynx in swallowing',
+ att:'Mastoid notch of the temporal bone → intermediate tendon',
+ pearl:'Landmark of the upper neck: CN XII, the external and internal carotid arteries, the IJV and CN IX all pass DEEP to it.'},
+{id:'styh',name:'Stylohyoid',p:['larynx'],cls:['Extrinsic laryngeal: suprahyoid'],n:'VIIsm',ag:'hyoup',arch:2,
+ act:'Elevates and retracts the hyoid during swallowing',par:'Weak elevation of the hyoid and larynx in swallowing',
+ att:'Styloid process → body of the hyoid (its tendon is split by the digastric tendon)',
+ pearl:'The styloid trio: styloglossus (XII), stylohyoid (VII), stylopharyngeus (IX).'},
+{id:'myh',name:'Mylohyoid',p:['larynx'],cls:['Extrinsic laryngeal: suprahyoid'],n:'V3my',ag:'hyoup',arch:1,
+ act:'Elevates the floor of the mouth and the hyoid in the first stage of swallowing',par:'Weak elevation of the hyoid and larynx in swallowing',
+ att:'Mylohyoid line of the mandible → body of the hyoid + median raphe',
+ pearl:'The oral diaphragm. The submandibular gland hooks around its free posterior border.'},
+{id:'gh',name:'Geniohyoid',p:['larynx'],cls:['Extrinsic laryngeal: suprahyoid'],n:'C1',ag:'hyoup',arch:0,
+ act:'Pulls the hyoid forward and up, widening the pharynx in swallowing',par:'Weak elevation of the hyoid and larynx in swallowing',
+ att:'Inferior mental spine of the mandible → body of the hyoid',
+ pearl:'C1 fibers carried by CN XII, not the hypoglossal nerve itself. Lies just above mylohyoid.'},
+/* ---- pharynx ---- */
+{id:'spc',name:'Superior pharyngeal constrictor',p:['pharynx'],cls:['Pharyngeal constrictor'],n:'Xph',ag:'constrict',arch:4,
+ act:'Constricts the upper pharynx in sequence, propelling the bolus down',par:'Difficulty swallowing: the bolus is not squeezed down the pharynx',
+ att:'Pterygoid hamulus, pterygomandibular raphe and mylohyoid line → pharyngeal tubercle + median raphe',
+ pearl:'Forms the floor of the tonsillar bed. Levator veli palatini and the auditory tube pass ABOVE its free upper border.'},
+{id:'mpc',name:'Middle pharyngeal constrictor',p:['pharynx'],cls:['Pharyngeal constrictor'],n:'Xph',ag:'constrict',arch:4,
+ act:'Constricts the middle pharynx, propelling the bolus down',par:'Difficulty swallowing: the bolus is not squeezed down the pharynx',
+ att:'Greater and lesser horns of the hyoid + stylohyoid ligament → median pharyngeal raphe',
+ pearl:'Stylopharyngeus + CN IX enter between the superior and middle constrictors; the internal laryngeal nerve + superior laryngeal artery pass between the middle and inferior.'},
+{id:'ipc',name:'Inferior pharyngeal constrictor',p:['pharynx'],cls:['Pharyngeal constrictor'],n:'XphE',ag:'constrict',arch:4,
+ act:'Constricts the lower pharynx; its cricopharyngeus part is the upper esophageal sphincter',par:'Difficulty swallowing: the bolus is not squeezed down the pharynx',
+ att:'Oblique line of the thyroid cartilage (thyropharyngeus) + cricoid (cricopharyngeus) → median raphe',
+ pearl:'Zenker diverticulum herniates through Killian’s dehiscence between thyropharyngeus and cricopharyngeus. The recurrent laryngeal nerve passes deep to its lower border.'},
+{id:'stph',name:'Stylopharyngeus',p:['pharynx'],cls:['Longitudinal pharyngeal muscle'],n:'IX',ag:'phup',arch:3,
+ act:'Elevates and widens the pharynx and larynx during swallowing',par:'Mild difficulty swallowing from weak pharyngeal elevation',
+ att:'Styloid process → pharyngeal wall and posterior border of the thyroid cartilage',
+ pearl:'The ONLY muscle supplied by CN IX, and the one pharyngeal muscle not supplied by CN X. It enters the pharynx between the superior and middle constrictors with CN IX.'},
+{id:'salp',name:'Salpingopharyngeus',p:['pharynx'],cls:['Longitudinal pharyngeal muscle'],n:'Xph',ag:'phup',arch:4,
+ act:'Elevates the pharynx and larynx; helps open the auditory tube during swallowing',par:'Weak elevation of the pharynx during swallowing',
+ att:'Cartilage of the auditory tube → blends with palatopharyngeus in the lateral pharyngeal wall',
+ pearl:'Raises the salpingopharyngeal fold. The three longitudinal elevators: stylopharyngeus, palatopharyngeus, salpingopharyngeus.'},
+/* ---- neck ---- */
+{id:'trap',name:'Trapezius',p:['neck'],cls:['Superficial neck muscle'],n:'XI',ag:'shrug',
+ act:'Upper fibers elevate the scapula (shrug); with serratus anterior it rotates the glenoid up for abduction above 90°',par:'Drooping shoulder, weak shrug, lateral winging of the scapula, cannot abduct above 90°',
+ att:'External occipital protuberance, superior nuchal line, ligamentum nuchae, C7–T12 spines → lateral clavicle, acromion and scapular spine',
+ pearl:'CN XI (motor) + C3–C4 (proprioception). Its anterior border is the back edge of the posterior triangle, where CN XI is easily cut in a lymph node biopsy.'},
+{id:'scm',name:'Sternocleidomastoid',p:['neck'],cls:['Superficial neck muscle'],n:'XI',ag:'turn',
+ act:'One side: tilts the head to the same side and turns the face to the OPPOSITE side. Both: flex the neck',par:'Weak turning of the chin to the OPPOSITE side against resistance',
+ att:'Manubrium (sternal head) + medial third of the clavicle → mastoid process and superior nuchal line',
+ pearl:'CN XI (motor) + C2–C3 (proprioception). Divides the neck into anterior and posterior triangles; Erb’s point is at the midpoint of its posterior border.'},
+{id:'asc',name:'Anterior scalene',p:['neck'],cls:['Scalene muscle'],n:'rA',ag:'rib',arch:0,
+ act:'Elevates the first rib (accessory inspiration); flexes and bends the neck laterally',par:'Weak accessory inspiration and neck side-bending',
+ att:'Anterior tubercles of C3–C6 → scalene tubercle of the first rib',
+ pearl:'THE landmark of the root of the neck: the phrenic nerve and subclavian VEIN lie in front; the subclavian ARTERY and brachial plexus pass behind.'},
+{id:'msc',name:'Middle scalene',p:['neck'],cls:['Scalene muscle'],n:'rM',ag:'rib',arch:0,
+ act:'Elevates the first rib; bends the neck laterally',par:'Weak accessory inspiration and neck side-bending',
+ att:'Posterior tubercles of C2–C7 → upper surface of the first rib, behind the subclavian groove',
+ pearl:'The largest scalene; the back wall of the interscalene triangle. The dorsal scapular and long thoracic nerves pierce it.'},
+{id:'psc',name:'Posterior scalene',p:['neck'],cls:['Scalene muscle'],n:'rP',ag:'rib',arch:0,
+ act:'Elevates the SECOND rib; bends the neck laterally',par:'Weak accessory inspiration and neck side-bending',
+ att:'Posterior tubercles of C4–C6 → outer surface of the second rib',
+ pearl:'The smallest and deepest scalene, and the only one that reaches the second rib instead of the first.'}
+];
+
 </script>
 <script>
 "use strict";
@@ -1281,6 +1527,57 @@ function mkLR(D,key,cfg,FX){
 const LR_CFG1={name:'Lesion Rounds I',types:{neck:'CERV',larynx:'VAGAL',face:'FACIAL',trig:'TRIGEM',orbit:'OCULAR',other:'SPECIAL',site:'FORAMEN'}};
 const LR_CFG2={name:'Lesion Rounds II',types:{v12:'TRIGEM',v3:'TRIGEM',vii:'FACIAL',ixx:'VAGAL',eye:'OCULAR',oth:'SPECIAL',site:'FORAMEN'}};
 const BANK={lr1:mkLR(LR1,'lr1',LR_CFG1,FACTS.lr1),lr2:mkLR(LR2,'lr2',LR_CFG2,FACTS.lr2)};
+/* ================= muscle bank (Myo Ridge) ================= */
+const MUS=(function(){
+  const BY=Object.fromEntries(MUSCLES.map(m=>[m.id,m]));let AV=new Set();
+  const fresh=a=>[...a.filter(x=>!AV.has(x)),...a.filter(x=>AV.has(x))];
+  const nl=m=>MNV[m.n][0];
+  const mk=(T,o)=>Object.assign({bank:'mus',node:T.id,miss:`mus:n:${T.id}`},o);
+  function names(T,k,filt){const same=shuffle(MUSCLES.filter(m=>m.id!==T.id&&filt(m)&&m.p.some(x=>T.p.includes(x)))).map(m=>m.name);
+    const rest=shuffle(MUSCLES.filter(m=>m.id!==T.id&&filt(m)&&!m.p.some(x=>T.p.includes(x)))).map(m=>m.name);
+    return [...new Set([...same.filter(n=>!AV.has(n)),...rest.filter(n=>!AV.has(n)).slice(0,1),...same,...rest])].filter(n=>n!==T.name).slice(0,k);}
+  const Q={
+    case(T){const rows=[['Paralysis',T.par],['Innervation',nl(T)],['Group',T.cls[0]||'Palate muscle that inserts on the tongue'],['Attachments',T.att]];
+      const d=names(T,4,m=>m.ag!==T.ag&&m.par!==T.par);if(d.length<3)return null;const opts=shuffle([T.name,...d]);
+      return mk(T,{type:'case',sig:'c',rows,shown:1,opts,ans:opts.indexOf(T.name),stem:'Which muscle is this?',
+        explain:`<p class="ans"><b>${esc(T.name)}</b>: ${esc(T.act)}.</p>`});},
+    mnerve(T){const own=MNV[T.n];const pool=Object.keys(MNV).filter(k=>k!==T.n&&!MNV[k][1].some(x=>own[1].includes(x))).map(k=>MNV[k][0]);
+      const same=pool.filter(l=>MNV[Object.keys(MNV).find(k=>MNV[k][0]===l)][2]===own[2]);
+      const pickd=[...new Set([...fresh(shuffle(same)).slice(0,1),...fresh(shuffle(pool))])].slice(0,3);
+      const opts=shuffle([own[0],...pickd]);
+      return mk(T,{type:'mnerve',sig:'nv',opts,ans:opts.indexOf(own[0]),stem:`Which nerve supplies the <strong>${esc(T.name)}</strong>?`,
+        explain:`<p class="ans"><b>${esc(own[0])}</b>.</p>`});},
+    maction(T){const pool=[...new Set(MUSCLES.filter(m=>m.ag!==T.ag).map(m=>m.act))];const opts=shuffle([T.act,...fresh(shuffle(pool)).slice(0,3)]);
+      return mk(T,{type:'maction',sig:'ac',opts,ans:opts.indexOf(T.act),stem:`What does the <strong>${esc(T.name)}</strong> do?`,
+        explain:`<p class="ans"><b>${esc(T.name)}</b>: ${esc(T.act)}.</p>`});},
+    mpar(T){const pool=[...new Set(MUSCLES.filter(m=>m.ag!==T.ag&&m.par!==T.par).map(m=>m.par))];const opts=shuffle([T.par,...fresh(shuffle(pool)).slice(0,3)]);
+      return mk(T,{type:'mpar',sig:'pa',opts,ans:opts.indexOf(T.par),stem:`The <strong>${esc(T.name)}</strong> is paralyzed. What would you see?`,
+        explain:`<p class="ans">${esc(T.par)}. Why: it normally ${esc(T.act.charAt(0).toLowerCase()+T.act.slice(1))}.</p>`});},
+    mclass(T){if(!T.cls.length)return null;const ans=T.cls[0];const all=[...new Set(MUSCLES.flatMap(m=>m.cls))].filter(c=>!T.cls.includes(c));
+      const part=(MCLASS_PARTNER[ans]||[]).filter(c=>!T.cls.includes(c));const d=[...new Set([...part,...shuffle(all)])].slice(0,3);
+      const opts=shuffle([ans,...d]);
+      return mk(T,{type:'mclass',sig:'cl',opts,ans:opts.indexOf(ans),stem:`How is the <strong>${esc(T.name)}</strong> classified?`,
+        explain:`<p class="ans"><b>${esc(ans)}</b>${T.cls.length>1?` (it also counts as: ${esc(T.cls.slice(1).join(', '))})`:''}.</p>`});},
+    mrev(T){const d=names(T,3,m=>m.ag!==T.ag&&m.act!==T.act);if(d.length<3)return null;const opts=shuffle([T.name,...d]);
+      return mk(T,{type:'mrev',sig:'rv',opts,ans:opts.indexOf(T.name),stem:`Which muscle does this? <strong>${esc(T.act)}</strong>`,
+        explain:`<p class="ans"><b>${esc(T.name)}</b> (${esc(nl(T))}).</p>`});},
+    march(T){if(T.arch===undefined)return null;const ans=MARCH[T.arch];const pool=Object.keys(MARCH).filter(k=>+k!==T.arch).map(k=>MARCH[k]);
+      const opts=shuffle([ans,...shuffle(pool).slice(0,3)]);
+      return mk(T,{type:'march',sig:'ar',opts,ans:opts.indexOf(ans),stem:`Which pharyngeal arch does the <strong>${esc(T.name)}</strong> come from?`,
+        explain:`<p class="ans"><b>${esc(ans)}</b>. Each arch keeps its own nerve: 1 = V3, 2 = VII, 3 = IX, 4 & 6 = X.</p>`});},
+    matt(T){const d=names(T,3,m=>m.att!==T.att);if(d.length<3)return null;const opts=shuffle([T.name,...d]);
+      return mk(T,{type:'matt',sig:'at',opts,ans:opts.indexOf(T.name),stem:`Which muscle runs <strong>${esc(T.att)}</strong>?`,
+        explain:`<p class="ans"><b>${esc(T.name)}</b>: ${esc(T.att)}.</p>`});}
+  };
+  return Object.assign({BY,LIST:MUSCLES,setAvoid:s=>{AV=s||new Set();},TYPES:['mnerve','maction','mpar','mclass','mrev','march','matt']},Q);
+})();
+function musCard(id,compact){const T=MUS.BY[id];if(!T)return '';
+  if(compact)return `<div class="hy"><b>HIGH-YIELD · ${esc(T.name).toUpperCase()}</b>${esc(T.pearl)}</div>`;
+  const row=(k,v)=>`<li><span>${k}</span><span>${esc(v)}</span></li>`;
+  return `<div class="card"><div class="row" style="justify-content:space-between"><h3>${esc(T.name)}</h3>${tchip(MNV[T.n][2])}</div>
+    <div class="lin">${esc(T.cls.length?T.cls.join(' · '):'Palate muscle that inserts on the tongue')}</div>
+    <ul class="fx-list">${row('Innervation',MNV[T.n][0])}${row('Action',T.act)}${row('Paralysis',T.par)}${row('Attachments',T.att)}${T.arch!==undefined?row('Arch',MARCH[T.arch]):''}</ul>
+    <div class="hy"><b>HIGH-YIELD PEARL</b>${esc(T.pearl)}</div></div>`;}
 
 /* ================= trap bank ================= */
 const TOPIC_MON={
@@ -1315,7 +1612,8 @@ const STARTERS=[
 STARTERS.forEach(s=>SP[s.key]={key:s.key,name:s.name,t:s.t,bank:'st'});
 ['lr1','lr2'].forEach(b=>BANK[b].D.NODES.forEach(n=>{SP[`${b}:${n.id}`]={key:`${b}:${n.id}`,name:n.name,t:BANK[b].typeOf(n),bank:b,node:n.id,grp:n.grp};}));
 Object.entries(TOPIC_MON).forEach(([topic,m])=>SP[`trap:${m.id}`]={key:`trap:${m.id}`,name:m.name,t:m.t,bank:'trap',topic});
-const DEX={lr1:LR1.NODES.map(n=>`lr1:${n.id}`),lr2:LR2.NODES.map(n=>`lr2:${n.id}`),trap:TRAP_TOPICS.map(t=>`trap:${TOPIC_MON[t].id}`)};
+MUSCLES.forEach(m=>SP[`mus:${m.id}`]={key:`mus:${m.id}`,name:m.name,t:MNV[m.n][2],bank:'mus',node:m.id});
+const DEX={lr1:LR1.NODES.map(n=>`lr1:${n.id}`),lr2:LR2.NODES.map(n=>`lr2:${n.id}`),trap:TRAP_TOPICS.map(t=>`trap:${TOPIC_MON[t].id}`),mus:MUSCLES.map(m=>`mus:${m.id}`)};
 
 /* ================= sprites (procedural, original) ================= */
 const spriteCache={};
@@ -1382,6 +1680,8 @@ const GYMS={
    intro:"Taste, tears, hyperacusis… how HIGH is the lesion? Let's find out!",win:"You traced every branch. The Branch Badge is yours!",size:4},
  trap:{bank:'trap',leader:'Leader Decoy',gym:'Distractor Gym',badge:'Trap Badge',coat:'#96313B',hair:'#E3AE12',lvl:16,
    intro:"My team hides behind the answer you WANT to pick. Read the stem!",win:"You saw every trap coming. Take the Trap Badge!",size:4},
+ mus:{bank:'mus',leader:'Leader Levator',gym:'Myotome Gym',badge:'Muscle Badge',coat:'#4E9A3A',hair:'#1B2033',lvl:17,
+   intro:"Innervation, action, paralysis. My muscles test all three!",win:"You know every nerve, action and palsy. Take the Muscle Badge!",size:4},
  champ:{bank:'mix',leader:'Champion Vernet',gym:'Summit',badge:'Champion Crest',coat:'#1B2033',hair:'#C9CFE0',lvl:25,
    intro:"Jugular foramen, skull base, every trap in the book. I am the final exam!",win:"Unbelievable… you are the new HNSS Champion!",size:6}
 };
@@ -1437,13 +1737,15 @@ const LOCS=[
  {id:'lr1',name:'Cervical Trail',sub:'Lesion Rounds I',x:31,y:36,ico:'grass'},
  {id:'lr2',name:'Branchwood',sub:'Lesion Rounds II',x:54,y:72,ico:'forest'},
  {id:'trap',name:'Trap Cave',sub:'Trap Hunter',x:82,y:52,ico:'cave'},
- {id:'champ',name:'Summit',sub:'Champion',x:52,y:16,ico:'summit'}
+ {id:'champ',name:'Summit',sub:'Champion',x:52,y:16,ico:'summit'},
+ {id:'mus',name:'Myo Ridge',sub:'Muscles',x:13,y:24,ico:'ridge'}
 ];
 function locIcon(k){
   const s={center:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><rect x="2" y="6" width="12" height="9" fill="#fff" stroke="#1B2033"/><path d="M1 7 8 1l7 6z" fill="#C2412F" stroke="#1B2033"/><rect x="7" y="10" width="3" height="5" fill="#3A7FD0"/><rect x="7" y="7" width="3" height="1" fill="#C2412F"/><rect x="8" y="6" width="1" height="3" fill="#C2412F"/></svg>`,
    grass:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><rect x="1" y="7" width="14" height="8" fill="#4E9A3A" stroke="#1B2033"/><path d="M2 7l1-3 1 3 1-3 1 3 1-3 1 3 1-3 1 3 1-3 1 3 1-3 1 3" fill="#6FA553" stroke="#1B2033"/><rect x="6" y="1" width="4" height="4" fill="#2E86C8" stroke="#1B2033"/></svg>`,
    forest:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M4 1 0 9h8z" fill="#2F6B2C" stroke="#1B2033"/><path d="M11 3 7 12h8z" fill="#3F7F3A" stroke="#1B2033"/><rect x="3" y="9" width="2" height="5" fill="#6B4A2E"/><rect x="10" y="12" width="2" height="3" fill="#6B4A2E"/></svg>`,
    cave:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M0 15 3 5l5-4 5 4 3 10z" fill="#8A7F6E" stroke="#1B2033"/><path d="M5 15v-5a3 3 0 0 1 6 0v5z" fill="#1B2033"/><rect x="7" y="3" width="2" height="2" fill="#96313B"/></svg>`,
+   ridge:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M0 15 5 4l3 4 3-6 5 13z" fill="#B4876B" stroke="#1B2033"/><path d="M3 9h2v1H3zM7 11h3v1H7zM10 7h2v1h-2z" fill="#C2412F"/><rect x="11" y="0" width="1" height="3" fill="#1B2033"/><rect x="12" y="0" width="3" height="2" fill="#4E9A3A"/></svg>`,
    summit:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M0 15 8 1l8 14z" fill="#9AA0B4" stroke="#1B2033"/><path d="M5.7 5 8 1l2.3 4-1.3 1L8 5 7 6z" fill="#fff"/><rect x="8" y="0" width="1" height="4" fill="#1B2033"/><rect x="9" y="0" width="3" height="2" fill="#E3AE12"/></svg>`};
   return s[k];
 }
@@ -1453,14 +1755,14 @@ function renderMap(){
   const caught=Object.entries(G.dex).filter(([k,v])=>v==='caught'&&!k.startsWith('st:')).length;
   app.innerHTML=`<div class="map" id="map">
     <div class="pond"></div>
-    ${[[6,20],[9,28],[44,48],[70,82],[92,78],[24,90],[40,92],[88,30]].map(([x,y])=>`<div class="tree" style="left:${x}%;top:${y}%"></div>`).join('')}
-    <svg class="paths" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M13 74 L31 36 L54 72 L82 52 L52 16 L31 36" fill="none" stroke="#E6D39A" stroke-width="3.2" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="stroke-width:14px"/><path d="M13 74 L31 36 L54 72 L82 52 L52 16 L31 36" fill="none" stroke="#C9B06A" stroke-dasharray="2 3" vector-effect="non-scaling-stroke" style="stroke-width:2px"/></svg>
+    ${[[4,48],[24,56],[44,48],[70,82],[92,78],[24,90],[40,92],[88,30]].map(([x,y])=>`<div class="tree" style="left:${x}%;top:${y}%"></div>`).join('')}
+    <svg class="paths" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M13 74 L31 36 L54 72 L82 52 L52 16 L31 36 L13 24" fill="none" stroke="#E6D39A" stroke-width="3.2" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="stroke-width:14px"/><path d="M13 74 L31 36 L54 72 L82 52 L52 16 L31 36 L13 24" fill="none" stroke="#C9B06A" stroke-dasharray="2 3" vector-effect="non-scaling-stroke" style="stroke-width:2px"/></svg>
     ${LOCS.map(l=>{const lock=l.id==='champ'&&nb<3;return `<button class="loc" data-l="${l.id}" style="left:${l.x}%;top:${l.y}%" ${lock?'disabled':''} aria-label="${l.name}">${locIcon(l.ico)}<span class="lbl">${l.name}<em>${lock?`Needs 3 badges (${nb}/3)`:l.sub}${G.badges[l.id]?' (badge)':''}</em></span></button>`;}).join('')}
     <div class="avatar" id="av" style="left:${cur.x}%;top:${cur.y-6}%">${trainerSVG('#E3AE12','#3A2A1E','')}</div>
   </div>
   <div class="mapfoot">
     <div class="stat"><div class="k">TRAINER</div><div class="v">${esc(G.name)}</div></div>
-    <div class="stat"><div class="k">BADGES</div><div class="badges">${['lr1','lr2','trap','champ'].map(k=>badgeSVG(GYMS[k].coat==='#1B2033'?'#E3AE12':GYMS[k].coat,G.badges[k])).join('')}</div></div>
+    <div class="stat"><div class="k">BADGES</div><div class="badges">${['lr1','lr2','trap','mus','champ'].map(k=>badgeSVG(GYMS[k].coat==='#1B2033'?'#E3AE12':GYMS[k].coat,G.badges[k])).join('')}</div></div>
     <div class="stat"><div class="k">NERVEDEX CAUGHT</div><div class="v">${caught}<span class="small"> / ${Object.keys(SP).length-3}</span></div></div>
     <div class="stat"><div class="k">BAG</div><div class="v" style="font-size:14px">Potion ${G.items.potion} · Lens ${G.items.lens} · Orb ${G.items.orb}</div></div>
   </div>`;
@@ -1477,11 +1779,12 @@ function renderMap(){
 function dexProgress(keys){let s=0,c=0;keys.forEach(k=>{if(G.dex[k])s++;if(G.dex[k]==='caught')c++;});return {s,c,n:keys.length};}
 function renderRoute(id){
   const g=GYMS[id];let patches;
-  if(id==='trap'){patches=TRAP_TOPICS.map(t=>({k:t,label:t,keys:[`trap:${TOPIC_MON[t].id}`],type:TOPIC_MON[t].t,count:`${topicItems(t).length} questions`}));}
+  if(id==='mus'){patches=Object.entries(MGROUPS).map(([gk,label])=>{const keys=MUSCLES.filter(m=>m.p.includes(gk)).map(m=>`mus:${m.id}`);return {k:gk,label,keys,type:MGROUP_TYPE[gk],count:`${keys.length} muscles`};});}
+  else if(id==='trap'){patches=TRAP_TOPICS.map(t=>({k:t,label:t,keys:[`trap:${TOPIC_MON[t].id}`],type:TOPIC_MON[t].t,count:`${topicItems(t).length} questions`}));}
   else{const b=BANK[id];patches=Object.entries(b.D.GROUPS).map(([gk,label])=>{const keys=b.D.NODES.filter(n=>n.grp===gk).map(n=>`${id}:${n.id}`);return {k:gk,label,keys,type:gk==='site'?'FORAMEN':b.cfg.types[gk],count:`${keys.length} lesions`};});}
   const loc=LOCS.find(l=>l.id===id);
   app.innerHTML=`<div class="pane">
-    <div class="row" style="justify-content:space-between"><div><div class="h1">${loc.name}</div><div class="small">${loc.sub} · ${id==='trap'?'Wild foes ask trap MCQs and confusable pairs. Catch them with recall cards.':'Wild lesions hide their name. Identify them from the findings, then catch them.'}</div></div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <div class="row" style="justify-content:space-between"><div><div class="h1">${loc.name}</div><div class="small">${loc.sub} · ${id==='mus'?'Wild muscles hide their name. Identify them from the palsy, then battle through innervation, action, arch and attachments.':id==='trap'?'Wild foes ask trap MCQs and confusable pairs. Catch them with recall cards.':'Wild lesions hide their name. Identify them from the findings, then catch them.'}</div></div><button class="btn ghost" id="back">&lt; Map</button></div>
     <div class="h2">Tall grass</div>
     <div class="patches">${patches.map(p=>{const d=dexProgress(p.keys);return `<button class="patch" data-p="${esc(p.k)}"><div class="in">
       <div class="row" style="justify-content:space-between">${tchip(p.type)}<span class="small">${p.count}</span></div>
@@ -1504,17 +1807,19 @@ function lrEnemy(bankKey,T,opts={}){return {sp:`${bankKey}:${T.id}`,bank:bankKey
 function trapEnemy(topic,opts={}){const m=TOPIC_MON[topic];return {sp:`trap:${m.id}`,bank:'trap',topic,lvl:opts.lvl||enemyLevel(3),hp:opts.hp||100,max:opts.hp||100,hidden:false,pool:opts.pool||shuffle(topicItems(topic)),forced:opts.forced||null};}
 function startWild(id,patch){
   let e;
-  if(id==='trap')e=trapEnemy(patch);
+  if(id==='mus'){const ms=MUSCLES.filter(m=>m.p.includes(patch));const w=ms.flatMap(m=>G.dex[`mus:${m.id}`]==='caught'?[m]:G.dex[`mus:${m.id}`]?[m,m]:[m,m,m,m]);e=lrEnemy('mus',pick(w));}
+  else if(id==='trap')e=trapEnemy(patch);
   else{const nodes=BANK[id].D.NODES.filter(n=>n.grp===patch);const w=nodes.flatMap(n=>G.dex[`${id}:${n.id}`]==='caught'?[n]:G.dex[`${id}:${n.id}`]?[n,n]:[n,n,n,n]);e=lrEnemy(id,pick(w));}
   battle({kind:'wild',enemies:[e],scene:id==='trap'?'cave':'',back:id});
 }
 function startGym(id){
   const g=GYMS[id];let es=[];
-  if(id==='trap'){es=shuffle(TRAP_TOPICS.filter(t=>t!=='Confusable pairs')).slice(0,3).map(t=>trapEnemy(t,{lvl:g.lvl,hp:130}));
+  if(id==='mus'){const gs=shuffle(Object.keys(MGROUPS)).slice(0,g.size);const used=new Set();es=gs.map(gk=>{const m=shuffle(MUSCLES.filter(x=>x.p.includes(gk)&&!used.has(x.id)))[0];used.add(m.id);return lrEnemy('mus',m,{lvl:g.lvl,hp:130});});}
+  else if(id==='trap'){es=shuffle(TRAP_TOPICS.filter(t=>t!=='Confusable pairs')).slice(0,3).map(t=>trapEnemy(t,{lvl:g.lvl,hp:130}));
     es.push(trapEnemy('Confusable pairs',{lvl:g.lvl+2,hp:130}));es[es.length-1].pool=shuffle([...topicItems('Confusable pairs'),...shuffle(TH.MCQ.map(m=>m.id)).slice(0,6)]);}
   else if(id==='champ'){
     const lr=(b,n)=>shuffle(BANK[b].D.NODES).slice(0,n).map(T=>lrEnemy(b,T,{lvl:g.lvl,hp:150}));
-    es=[...lr('lr1',2),...lr('lr2',2),...shuffle(TRAP_TOPICS).slice(0,2).map(t=>trapEnemy(t,{lvl:g.lvl,hp:150}))];es=shuffle(es);}
+    es=[...lr('lr1',2),...lr('lr2',1),...shuffle(MUSCLES).slice(0,1).map(m=>lrEnemy('mus',m,{lvl:g.lvl,hp:150})),...shuffle(TRAP_TOPICS).slice(0,2).map(t=>trapEnemy(t,{lvl:g.lvl,hp:150}))];es=shuffle(es);}
   else{const N=BANK[id].D.NODES;const sites=shuffle(N.filter(n=>n.grp==='site')).slice(0,2);const rest=shuffle(N.filter(n=>n.grp!=='site')).slice(0,g.size-sites.length);
     es=[...rest,...sites].map(T=>lrEnemy(id,T,{lvl:g.lvl,hp:130}));}
   battle({kind:id==='champ'?'champ':'gym',gym:id,enemies:es,scene:'gym',back:id==='champ'?'map':id});
@@ -1523,6 +1828,7 @@ function startReview(){
   const keys=shuffle(Object.keys(G.missed)).slice(0,6);const es=[];
   keys.forEach(k=>{const [b,kind,id]=k.split(':');
     if(b==='trap'){const e=TRAP_BY_ID[kind];if(!e)return;const topic=e.kind==='pair'?'Confusable pairs':e.it.topic;es.push(trapEnemy(topic,{forced:kind}));}
+    else if(b==='mus'){if(MUS.BY[id])es.push(lrEnemy('mus',MUS.BY[id]));}
     else if(kind==='n'&&BANK[b].BY[id])es.push(lrEnemy(b,BANK[b].BY[id]));
     else if(kind==='s'){const grp=BANK[b].D.SIDE_GRP[id];const cand=BANK[b].D.NODES.filter(n=>n.grp===grp);if(cand.length){const e=lrEnemy(b,pick(cand),{forced:id});es.push(e);}}});
   if(!es.length){toast('Nothing to review yet!');return;}
@@ -1531,7 +1837,7 @@ function startReview(){
 
 /* ================= battle ================= */
 let B=null;
-const MOVE={case:['LOCALIZE','Name the lesion'],roots:['ROOT CALL','Which spinal levels form it?'],exit:['PATHWAY','Where does it exit or run?'],fiber:['FIBER CHECK','What does this nerve carry?'],artery:['NEIGHBOR','Which artery travels with it?'],muscle:['MUSCLE MAP','Which muscle does it supply?'],mfunc:['ACTION','What does that muscle do?'],whonerve:['WHO SUPPLIES?','Which nerve supplies this muscle?'],reverse:['TRACE BACK','Which lesion causes this one finding?'],predict:['PREDICT','Pick the finding you expect'],spared:['SPOT SPARED','Pick the finding you would NOT see'],side:['LATERALIZE','Which side, which nerve?'],mcq:['TRAP SENSE','One option is the trap'],pair:['TELL APART','Two lookalikes — pick one']};
+const MOVE={case:['LOCALIZE','Name it from the findings'],mnerve:['INNERVATE','Which nerve supplies it?'],maction:['FLEX','What does it do?'],mpar:['PARALYZE','What happens when it is paralyzed?'],mclass:['CLASSIFY','Which group does it belong to?'],mrev:['WHO DOES THIS?','Which muscle has this action?'],march:['ARCH ORIGIN','Which pharyngeal arch?'],matt:['ATTACHMENTS','Which muscle attaches here?'],roots:['ROOT CALL','Which spinal levels form it?'],exit:['PATHWAY','Where does it exit or run?'],fiber:['FIBER CHECK','What does this nerve carry?'],artery:['NEIGHBOR','Which artery travels with it?'],muscle:['MUSCLE MAP','Which muscle does it supply?'],mfunc:['ACTION','What does that muscle do?'],whonerve:['WHO SUPPLIES?','Which nerve supplies this muscle?'],reverse:['TRACE BACK','Which lesion causes this one finding?'],predict:['PREDICT','Pick the finding you expect'],spared:['SPOT SPARED','Pick the finding you would NOT see'],side:['LATERALIZE','Which side, which nerve?'],mcq:['TRAP SENSE','One option is the trap'],pair:['TELL APART','Two lookalikes — pick one']};
 const CASE_MULT=[1.8,1.5,1.25,1.1,1];
 function eName(e){return e.hidden?'???':SP[e.sp].name;}
 function sceneHTML(){
@@ -1585,6 +1891,7 @@ function nextQuestion(e){
     if(!e.pool.length)e.pool=shuffle(TRAP_TOPICS.flatMap(topicItems));
     return trapQ(e.pool.pop());
   }
+  if(e.bank==='mus')return musNext(e);
   const b=BANK[e.bank],T=b.BY[e.node];
   if(e.forced){const tpl=b.sideById(e.forced);e.forced=null;if(tpl){
       const s=tpl.fixed||(Math.random()<.5?'left':'right');const [ni,side]=tpl.ans(s);const cap=x=>x[0].toUpperCase()+x.slice(1);const opts=[];tpl.nerve.forEach(n=>['left','right'].forEach(sd=>opts.push(`${cap(sd)} ${n.charAt(0).toLowerCase()+n.slice(1)}`)));
@@ -1607,6 +1914,13 @@ function nextQuestion(e){
   return b.predict(T)||b.reverse(T)||b.case(T);
 }
 
+function musNext(e){
+  const T=MUS.BY[e.node];e.asked=e.asked||new Set();e.seenOpts=e.seenOpts||new Set();MUS.setAvoid(e.seenOpts);
+  const track=q=>{if(q){e.asked.add(q.sig);q.opts.forEach(o=>e.seenOpts.add(o));}MUS.setAvoid(null);return q;};
+  if(e.hidden){const q=MUS.case(T);if(q)return track(q);e.hidden=false;}
+  for(let t=0;t<30;t++){const ty=pick(MUS.TYPES);const q=MUS[ty](T);if(q&&!e.asked.has(q.sig))return track(q);}
+  e.exhausted=true;MUS.setAvoid(null);return MUS.mnerve(T);
+}
 async function battle(cfg){
   inBattle=true;renderHud();hud.hidden=true;
   B=Object.assign({ei:0,pm:lead(),leaderShown:cfg.kind==='gym'||cfg.kind==='champ',keys:null,used:new Set()},cfg);
@@ -1686,7 +2000,7 @@ async function fight(){
         else if(q.type==='case'&&q.shown<=2)await say('Sharp localization — bonus damage!',600);
         if(eff)await say("It's super effective!",600);
         if(e.exhausted&&e.hp<=0)await say(`${SP[e.sp].name} has no findings left to hide. A finishing blow!`,700);
-        if(q.type==='case'&&e.hidden){e.hidden=false;seen(e.sp,'seen');const svg=document.getElementById('emon');svg.innerHTML=spriteSVG(e.sp,{cls:'mon e'});redrawEnemyBox();await say(`The wild lesion is the ${SP[e.sp].name}!`,900);}
+        if(q.type==='case'&&e.hidden){e.hidden=false;seen(e.sp,'seen');const svg=document.getElementById('emon');svg.innerHTML=spriteSVG(e.sp,{cls:'mon e'});redrawEnemyBox();await say(`${e.bank==='mus'?'It is the':'The wild lesion is the'} ${SP[e.sp].name}!`,900);}
         await gainXP(Math.round(8*(B.kind==='wild'?1:1.5)));
         await feedback(true,q,r.i,e);
       }else{
@@ -1779,7 +2093,7 @@ function ask(q,e){
     B.keys=ev=>{const n=parseInt(ev.key,10);if(n>=1&&n<=q.opts.length&&!(q.removed||[]).includes(n-1)){done({act:'answer',i:n-1});}else if((ev.key==='e'||ev.key==='E')&&q.type==='case'&&q.shown<q.rows.length)done({act:'examine'});};
     keyHandler=B.keys;
     render();
-    const mt=document.getElementById('mt');if(mt){mt.textContent=q.type==='case'&&q.shown===1?'What lesion is this? Answer now for big damage, or EXAMINE for more findings.':`What will ${SP[B.pm.sp].name} do?`;document.getElementById('msg').classList.remove('done');}
+    const mt=document.getElementById('mt');if(mt){mt.textContent=q.type==='case'&&q.shown===1?(q.bank==='mus'?'Which muscle is this?':'What lesion is this?')+' Answer now for big damage, or EXAMINE for more findings.':`What will ${SP[B.pm.sp].name} do?`;document.getElementById('msg').classList.remove('done');}
   });
 }
 function lrCard(bank,id,compact){
@@ -1804,7 +2118,7 @@ function feedback(ok,q,chosen,e){
       <div class="ans">Answer: <b>${ansTxt}</b>${!ok&&chosen>=0?`<br><span class="small">You picked: ${q.type==='mcq'||q.type==='pair'?q.opts[chosen]:esc(q.opts[chosen])}</span>`:''}</div>
       ${q.explain||''}
       ${q.trapText?`<div class="trapbox"><b class="lab">THE TRAP</b>${q.trapText}</div>`:''}
-      ${q.node&&(q.bank==='lr1'||q.bank==='lr2')&&!e.hidden?lrCard(q.bank,q.node,true):''}
+      ${q.node&&(q.bank==='lr1'||q.bank==='lr2')&&!e.hidden?lrCard(q.bank,q.node,true):''}${q.bank==='mus'&&!e.hidden?musCard(q.node,true):''}
       <div class="row"><button class="btn" id="cont">Continue &gt;</button><span class="small">Enter</span></div></div>`;
     const mt=document.getElementById('mt');if(mt)mt.textContent=ok?'Nice! Read why, then continue.':'Learn it now so it sticks.';
     const done=()=>{keyHandler=null;qp.innerHTML='';res();};
@@ -1831,6 +2145,8 @@ async function tryCatch(e){
     const pool=TH.RECALL.filter(r=>r.topic===e.topic);
     if(pool.length){ok=await recallCatch(pick(pool));}
     else{const q=trapQ(pick(TH.PAIRS).id);ok=await catchQ(q,e);}
+  }else if(e.bank==='mus'){const T=MUS.BY[e.node];const asked=e.asked||new Set();let q=null;MUS.setAvoid(e.seenOpts);
+    for(let t=0;t<30&&!q;t++){const c=MUS[pick(MUS.TYPES)](T);if(c&&!asked.has(c.sig))q=c;}MUS.setAvoid(null);q=q||MUS.mpar(T);ok=await catchQ(q,e);
   }else{const b=BANK[e.bank],T=b.BY[e.node];const asked=e.asked||new Set();let q=null;
     b.setAvoid(e.seenOpts);for(let t=0;t<30&&!q;t++){const c=pick([()=>b.spared(T),()=>b.reverse(T,asked),()=>b.side(T.grp,T,asked),()=>b.predict(T),()=>b.fiber(T),()=>b.artery(T),()=>b.muscle(T,asked),()=>b.mfunc(T,asked),()=>b.whonerve(T,asked),()=>b.roots(T),()=>b.exit(T),()=>b.predict(T,asked)])();if(c&&!asked.has(c.sig)&&!(c.used||[]).some(u=>asked.has(u)))q=c;}b.setAvoid(null);
     q=q||b.spared(T)||b.reverse(T)||b.predict(T);ok=q?await catchQ(q,e):true;}
@@ -1873,12 +2189,13 @@ function renderParty(){
 }
 let dexTab='lr1';
 function renderDex(sel){
-  const tabs={lr1:'Lesion Rounds I',lr2:'Lesion Rounds II',trap:'Trap Hunter'};
+  const tabs={lr1:'Lesion Rounds I',lr2:'Lesion Rounds II',trap:'Trap Hunter',mus:'Muscles'};
   const keys=DEX[dexTab];const d=dexProgress(keys);
   let detail='';
   if(sel&&G.dex[sel]){const s=SP[sel];
     if(s.bank==='trap'){const items=topicItems(s.topic);const miss=items.filter(i=>G.missed['trap:'+i]).length;
       detail=`<div class="card"><div class="row" style="justify-content:space-between"><h3>${esc(s.name)}</h3>${tchip(s.t)}</div><div class="small">Lives in Trap Cave · topic: <b>${esc(s.topic)}</b> · ${items.length} questions</div><div class="small">You currently have ${miss} missed question${miss===1?'':'s'} from this topic queued in Review.</div></div>`;}
+    else if(s.bank==='mus')detail=musCard(s.node,false);
     else detail=lrCard(s.bank,s.node,false);
     if(detail)detail=`<div>${detail}</div>`;}
   app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Nervedex</div><button class="btn ghost" id="back">&lt; Map</button></div>
@@ -1892,6 +2209,7 @@ function renderDex(sel){
 }
 function missLabel(k){const [b,kind,id]=k.split(':');
   if(b==='trap'){const e=TRAP_BY_ID[kind];if(!e)return k;return e.kind==='pair'?`Pair: ${e.it.a} vs ${e.it.b}`:`${e.it.topic}: ${strip(e.it.q).slice(0,90)}${strip(e.it.q).length>90?'…':''}`;}
+  if(b==='mus')return `Muscle · ${MUS.BY[id]?MUS.BY[id].name:id}`;
   if(kind==='n')return `${b==='lr1'?'LR I':'LR II'} · ${BANK[b].BY[id]?BANK[b].BY[id].name:id}`;
   const t=BANK[b].sideById(id);return `${b==='lr1'?'LR I':'LR II'} · Which side? ${t?t.nerve[0]:id}`;}
 function renderReview(){
