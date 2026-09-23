@@ -1,0 +1,1664 @@
+<title>Neuromon HNSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Press+Start+2P&display=swap">
+<style>
+/* Single deliberate look: a handheld console. Painted explicitly so it holds on light or dark hosts. */
+:root{
+  color-scheme: dark;
+  --shell:#1E2440; --shell2:#262E52; --shell-line:#3A4470; --shell-ink:#E9ECF7; --shell-mute:#A3AACB;
+  --screen:#F3F7EE; --ink:#1B2033; --mute:#5B6280; --line:#1B2033;
+  --sky:#D6ECDF; --sky2:#BFE0CE; --grass:#8CC06A; --grass2:#6FA553; --pad:#B9D89A; --pad2:#9BC47C;
+  --gold:#E3AE12; --gold-ink:#7A5B00;
+  --good:#1E8A57; --good-soft:#DCF2E6; --bad:#C2412F; --bad-soft:#F8E1DC; --trap:#96313B; --trap-soft:#F8E8E9;
+  --hp-hi:#38B26A; --hp-mid:#E3AE12; --hp-lo:#D9442F; --xp:#3E8FE0;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --pixel:"Press Start 2P","Courier New",monospace;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{background:var(--shell);color:var(--shell-ink)}
+body{font:15px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:14px 40px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.px{font-family:var(--pixel);letter-spacing:.02em}
+.mast{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--pixel);font-size:11px;color:var(--shell-mute);line-height:1.8}
+.brand b{color:var(--gold)}
+.brand a{color:var(--shell-mute)}
+.hud{display:flex;gap:6px;flex-wrap:wrap}
+.hbtn{background:var(--shell2);border:2px solid var(--shell-line);border-radius:6px;padding:7px 10px;font-family:var(--pixel);font-size:9px;color:var(--shell-ink);line-height:1.4}
+.hbtn:hover{border-color:var(--gold)}
+.hbtn b{color:var(--gold)}
+.screen{background:var(--screen);color:var(--ink);border:4px solid #0F1326;border-radius:14px;box-shadow:0 0 0 4px var(--shell-line),0 16px 40px #0008;overflow:hidden}
+.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:var(--pixel);font-size:8.5px;color:var(--shell-mute);line-height:1.8}
+
+/* ---------- generic in-screen UI ---------- */
+.pane{padding:18px;display:flex;flex-direction:column;gap:14px}
+.h1{font-family:var(--pixel);font-size:clamp(18px,4vw,28px);line-height:1.3;margin:0;text-wrap:balance}
+.h2{font-family:var(--pixel);font-size:13px;line-height:1.5;margin:0}
+.lede{margin:0;color:var(--mute);max-width:62ch}
+.box{border:3px solid var(--line);border-radius:8px;background:#fff;box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px #C9CFE0;padding:14px 16px}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:6px;padding:11px 16px;font-family:var(--pixel);font-size:10px;line-height:1.4;box-shadow:0 3px 0 #000}
+.btn:hover{background:#2E3659}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #000}
+.btn.gold{background:var(--gold);color:#241A00}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink),0 3px 0 var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tchip{display:inline-block;font-family:var(--pixel);font-size:8px;line-height:1;padding:4px 6px;border-radius:3px;color:#fff;vertical-align:middle}
+.small{font-size:13px;color:var(--mute)}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:6px;padding:10px 12px;color:var(--hy-ink);font-size:14px}
+.hy b{display:block;font-family:var(--pixel);font-size:8.5px;letter-spacing:.04em;margin-bottom:6px}
+.trapbox{background:var(--trap-soft);border:2px solid var(--trap);border-radius:6px;padding:10px 12px;font-size:14px;color:#4A1419}
+.trapbox b.lab{display:block;font-family:var(--pixel);font-size:8.5px;color:var(--trap);margin-bottom:6px}
+
+/* ---------- title ---------- */
+.title{background:linear-gradient(180deg,var(--sky) 0 58%,var(--grass) 58% 100%);position:relative}
+.title .pane{gap:16px}
+.logo{font-family:var(--pixel);font-size:clamp(26px,7vw,52px);line-height:1.05;color:var(--ink);text-shadow:3px 3px 0 var(--gold);margin:0}
+.logo small{display:block;font-size:.3em;margin-top:10px;text-shadow:none;color:var(--mute)}
+.starters{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.starter{background:#fff;border:3px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;text-align:left}
+.starter:hover,.starter[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold)}
+.starter .spr{width:96px;height:108px;align-self:center}
+.starter h3{font-family:var(--pixel);font-size:11px;margin:0}
+.starter p{margin:0;font-size:13px;color:var(--mute)}
+.namefield{display:flex;flex-direction:column;gap:6px;max-width:320px}
+.namefield label{font-family:var(--pixel);font-size:9px}
+.namefield input{font:inherit;border:3px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink)}
+
+/* ---------- map ---------- */
+.map{position:relative;aspect-ratio:100/62;max-width:100%;background:
+  radial-gradient(circle at 20% 30%,#9ACB76 0 6%,transparent 6.5%),
+  radial-gradient(circle at 70% 80%,#9ACB76 0 5%,transparent 5.5%),
+  repeating-linear-gradient(0deg,transparent 0 11px,#0000000a 11px 12px),
+  repeating-linear-gradient(90deg,transparent 0 11px,#0000000a 11px 12px),var(--grass);
+  border-bottom:4px solid var(--line)}
+.map svg.paths{position:absolute;inset:0;width:100%;height:100%}
+.pond{position:absolute;left:66%;top:6%;width:14%;height:20%;background:#6FB6DC;border:3px solid #3E7FA6;border-radius:48% 52% 45% 55%}
+.tree{position:absolute;width:3.2%;aspect-ratio:1;background:#3F7F3A;border:2px solid #1F4A22;border-radius:50% 50% 45% 45%}
+.loc{position:absolute;transform:translate(-50%,-60%);display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0}
+.loc .ico{width:clamp(38px,8vw,64px);aspect-ratio:1}
+.loc .lbl{font-family:var(--pixel);font-size:clamp(6.5px,1.4vw,9px);background:#fff;border:2px solid var(--line);border-radius:4px;padding:3px 5px;white-space:nowrap;line-height:1.3}
+.loc .lbl em{display:block;font-style:normal;color:var(--mute);font-size:.85em}
+.loc[disabled]{cursor:not-allowed;filter:grayscale(.9);opacity:.75}
+.loc:hover .lbl{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.avatar{position:absolute;width:clamp(20px,4vw,34px);transform:translate(-50%,-100%);transition:left .55s steps(6),top .55s steps(6);pointer-events:none;z-index:3}
+@media (max-width:600px){.map{aspect-ratio:100/100}}
+.mapfoot{padding:14px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.stat{border:2px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff}
+.stat .k{font-family:var(--pixel);font-size:8px;color:var(--mute)}
+.stat .v{font-family:var(--mono);font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}
+.badges{display:flex;gap:6px;margin-top:4px}
+.badge{width:22px;height:22px}
+
+/* ---------- route ---------- */
+.patches{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.patch{text-align:left;background:
+  repeating-linear-gradient(135deg,var(--grass) 0 6px,var(--grass2) 6px 8px);border:3px solid var(--line);border-radius:10px;padding:0;overflow:hidden;display:flex;flex-direction:column}
+.patch .in{background:#fff;margin-top:26px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--line);flex:1}
+.patch h3{margin:0;font-size:15px;font-weight:600}
+.patch:hover{box-shadow:0 0 0 3px var(--gold)}
+.meter{height:8px;border:2px solid var(--line);border-radius:4px;background:#E8ECF4;overflow:hidden;display:flex}
+.meter i{display:block;height:100%}
+.gymcard{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;border:3px solid var(--line);border-radius:10px;padding:14px;background:#fff}
+.gymcard .trn{width:64px;height:88px}
+@media (max-width:520px){.gymcard{grid-template-columns:1fr}.gymcard .trn{justify-self:center}}
+
+/* ---------- battle ---------- */
+.scene{position:relative;aspect-ratio:16/9;max-width:100%;background:linear-gradient(180deg,var(--sky) 0 52%,var(--sky2) 52% 60%,var(--grass) 60% 100%);overflow:hidden;border-bottom:4px solid var(--line)}
+.scene.gym{background:linear-gradient(180deg,#E6E1F4 0 52%,#CFC6EA 52% 60%,#B7A9DE 60% 100%)}
+.scene.cave{background:linear-gradient(180deg,#D9D2C6 0 52%,#C3B8A6 52% 60%,#A8987F 60% 100%)}
+.plat{position:absolute;border-radius:50%;background:var(--pad);border:3px solid var(--pad2)}
+.plat.e{right:6%;top:40%;width:34%;height:13%}
+.plat.p{left:4%;bottom:4%;width:40%;height:15%}
+.scene.gym .plat,.scene.cave .plat{background:#fff8;border-color:#0002}
+.mon{position:absolute;image-rendering:pixelated}
+.mon.e{right:12%;top:8%;width:22%;aspect-ratio:16/18}
+.mon.p{left:9%;bottom:8%;width:28%;aspect-ratio:16/18}
+.mon.e.enter{animation:slideE .7s steps(8) both}
+.mon.p.enter{animation:slideP .6s steps(8) both}
+@keyframes slideE{from{transform:translateX(160%)}to{transform:none}}
+@keyframes slideP{from{transform:translateX(-160%)}to{transform:none}}
+.mon.hit{animation:blink .5s steps(2) 2}
+@keyframes blink{50%{opacity:.1}}
+.mon.faint{animation:faint .6s ease-in forwards}
+@keyframes faint{to{transform:translateY(60%);opacity:0}}
+.mon.lunge.p{animation:lungeP .35s ease-out}
+.mon.lunge.e{animation:lungeE .35s ease-out}
+@keyframes lungeP{50%{transform:translate(18%,-10%)}}
+@keyframes lungeE{50%{transform:translate(-18%,10%)}}
+.scene.shake{animation:shake .35s steps(4)}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.orb{position:absolute;width:7%;aspect-ratio:1;left:30%;bottom:30%;z-index:4;animation:throw .7s ease-out forwards}
+@keyframes throw{to{left:73%;bottom:62%}}
+.orb.wobble{left:73%;bottom:62%;animation:wob .5s ease-in-out 3}
+@keyframes wob{25%{transform:rotate(-20deg)}75%{transform:rotate(20deg)}}
+.stbox{position:absolute;background:#fff;border:3px solid var(--line);border-radius:8px 8px 8px 0;padding:6px 9px;min-width:0;width:44%;box-shadow:4px 4px 0 #0002}
+.stbox.e{left:3%;top:5%}
+.stbox.p{right:3%;bottom:6%;border-radius:8px 0 8px 8px}
+.stbox .nm{font-family:var(--pixel);font-size:clamp(7px,1.5vw,10px);line-height:1.35;display:flex;justify-content:space-between;gap:8px}
+.stbox .nm span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stbox .nm span:last-child{flex:none}
+.hpline{display:flex;align-items:center;gap:6px;margin-top:5px}
+.hpline .lab{font-family:var(--pixel);font-size:7px;color:var(--gold-ink);background:#FFF1C4;padding:2px 3px;border-radius:2px}
+.hpbar{flex:1;height:8px;border:2px solid var(--line);border-radius:4px;background:#E8ECF4;overflow:hidden}
+.hpbar i{display:block;height:100%;background:var(--hp-hi);transition:width .6s steps(12),background .3s}
+.hpnum{font-family:var(--mono);font-size:clamp(10px,1.8vw,13px);text-align:right;font-variant-numeric:tabular-nums;margin-top:2px}
+.xpbar{height:4px;background:#E8ECF4;margin-top:4px;border-radius:2px;overflow:hidden}
+.xpbar i{display:block;height:100%;background:var(--xp);transition:width .6s}
+.tbadge{position:absolute;right:3%;top:5%;display:flex;gap:4px}
+.tbadge i{width:10px;height:10px;border-radius:50%;border:2px solid var(--line);background:#fff}
+.tbadge i.dead{background:#9aa0b4}
+.tbadge i.alive{background:var(--gold)}
+.leader{position:absolute;right:4%;top:6%;width:13%;aspect-ratio:10/14}
+.leader.leave{animation:slideOut .5s steps(6) forwards}
+@keyframes slideOut{to{transform:translateX(200%)}}
+
+.msg{margin:12px;border:4px double var(--line);border-radius:8px;background:#fff;padding:12px 40px 12px 14px;min-height:62px;font-family:var(--pixel);font-size:clamp(9px,1.8vw,12px);line-height:1.8;position:relative;cursor:pointer}
+.msg .more{position:absolute;right:14px;bottom:10px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--ink);animation:bob .8s steps(2) infinite;opacity:0}
+.msg.done .more{opacity:1}
+@keyframes bob{50%{transform:translateY(3px)}}
+
+.qpanel{padding:0 12px 14px;display:flex;flex-direction:column;gap:10px}
+.qhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qhead .mv{font-family:var(--pixel);font-size:10px}
+.qhead .hint{font-size:12.5px;color:var(--mute)}
+.stem{margin:0;font-size:16px;max-width:70ch}
+.chart{border:2px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+.chart .ch{display:flex;justify-content:space-between;gap:10px;background:var(--ink);color:#fff;padding:5px 10px;font-family:var(--pixel);font-size:8px;line-height:1.6}
+.chart .cr{display:grid;grid-template-columns:100px 1fr;border-top:1px solid #D7DCEA}
+.chart .cr:first-of-type{border-top:0}
+.chart .sys{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);padding:7px 10px;background:#F4F6FB}
+.chart .fx{padding:7px 10px;font-size:14.5px}
+.chart .cr.hid .fx{color:#A8AEC4;font-style:italic}
+.chart .cr.new{animation:flash 1s}
+@keyframes flash{from{background:#FFF1C4}}
+.chart .cr.hist .sys{background:#FFF7DA}
+.moves{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:600px){.moves{grid-template-columns:1fr}}
+.move{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:start;text-align:left;background:#fff;border:3px solid var(--line);border-radius:8px;padding:9px 10px;font-size:14.5px;line-height:1.4;box-shadow:0 3px 0 var(--line)}
+.move:hover{background:#FFF8DE}
+.move:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.move .k{font-family:var(--pixel);font-size:9px;background:var(--ink);color:#fff;border-radius:4px;height:22px;display:grid;place-items:center}
+.move.gone{opacity:.3;text-decoration:line-through;pointer-events:none}
+.cmds{display:flex;gap:8px;flex-wrap:wrap}
+.cmd{background:#fff;border:3px solid var(--line);border-radius:6px;padding:8px 12px;font-family:var(--pixel);font-size:9px;line-height:1.3}
+.cmd:hover{background:#FFF8DE}
+.cmd[disabled]{opacity:.4;pointer-events:none}
+.cmd.examine{background:#EAF3FF}
+.sub{border:2px dashed var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.sub .opt{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+
+.fb{display:flex;flex-direction:column;gap:10px}
+.verdict{font-family:var(--pixel);font-size:11px;padding:9px 12px;border-radius:6px;border:3px solid}
+.verdict.ok{background:var(--good-soft);border-color:var(--good);color:#0E4A2D}
+.verdict.no{background:var(--bad-soft);border-color:var(--bad);color:#6B1B10}
+.verdict.tr{background:var(--trap-soft);border-color:var(--trap);color:var(--trap)}
+.ans{font-size:15px}
+.ans b{font-weight:600}
+.whys{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.whys small{display:block;color:var(--mute)}
+.recall{font-size:15px}
+
+/* ---------- lists / dex / party ---------- */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{background:#fff;border:3px solid var(--line);border-radius:6px;padding:7px 10px;font-family:var(--pixel);font-size:8.5px;line-height:1.3}
+.tab[aria-pressed="true"]{background:var(--ink);color:#fff}
+.dexgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.dexe{background:#fff;border:2px solid var(--line);border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:12px;line-height:1.25}
+.dexe .spr{width:64px;height:72px}
+.dexe .no{font-family:var(--mono);font-size:10px;color:var(--mute)}
+.dexe.unseen{background:#EEF0F6;color:#8C93AE}
+.dexe.caught{box-shadow:inset 0 0 0 2px var(--gold)}
+.card{background:#fff;border:3px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.card h3{margin:0;font-size:18px}
+.lin{font-size:13px;color:var(--mute)}
+.fx-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.fx-list li{display:grid;grid-template-columns:96px 1fr;gap:8px;font-size:14px;border-top:1px solid #E1E5EF;padding-top:6px}
+.fx-list li span:first-child{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--mute);letter-spacing:.04em}
+.fx-list small{display:block;color:var(--mute)}
+.party{display:flex;flex-direction:column;gap:8px}
+.pm{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;background:#fff;border:3px solid var(--line);border-radius:10px;padding:8px 10px}
+.pm .spr{width:56px;height:63px}
+.pm.lead{box-shadow:0 0 0 3px var(--gold)}
+.pm .nm{font-weight:600}
+@media (max-width:480px){.pm{grid-template-columns:52px 1fr}.pm .act{grid-column:1/-1}}
+.misslist{display:flex;flex-direction:column;gap:6px}
+.missi{display:flex;justify-content:space-between;gap:10px;background:#fff;border:2px solid var(--line);border-radius:6px;padding:7px 10px;font-size:14px}
+.missi b{font-family:var(--mono);color:var(--bad)}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--pixel);font-size:9px;padding:10px 14px;border-radius:6px;border:2px solid var(--gold);z-index:20;line-height:1.6;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+
+<div class="wrap">
+  <div class="mast">
+    <div class="brand"><span id="hublink"></span><b>HoyaDocs</b> · HNSS Block 5 · Neuromon</div>
+    <div class="hud" id="hud" hidden></div>
+  </div>
+  <main class="screen" id="app" aria-live="polite"></main>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I, Lesion Rounds II &amp; Trap Hunter</span><span>Rev 1 · Updated Sep 23, 2026</span></footer>
+</div>
+
+<script>
+/* ===== Source data: Lesion Rounds I (unchanged) ===== */
+const LR1=(function(){
+/* ---------- Lesion atlas data ----------
+   SIG: id -> [exam system, finding, why it happens]
+   MINOR: true findings that are never used as the "expected" answer (conditional / subtle)
+   NODES: lesions. own = its own findings, inc = lesions it contains, spared = classic "NOT seen" findings
+*/
+const SIG = {
+ ga:["Sensory","Numbness over the angle of the mandible, the parotid region, and the earlobe","The great auricular n. (C2–C3) supplies skin over the parotid and lower ear."],
+ lo:["Sensory","Numbness of the scalp just behind and above the ear","The lesser occipital n. (C2) ascends along the posterior SCM border to this skin."],
+ tc:["Sensory","Numbness of the skin of the anterior neck","The transverse cervical n. (C2–C3) crosses the SCM to supply the anterior triangle skin."],
+ sc:["Sensory","Numbness over the clavicle and the top of the shoulder","The supraclavicular nn. (C3–C4) fan out over the clavicle."],
+ phr:["Motor","Paralysis of the hemidiaphragm on that side (elevated on X-ray, paradoxical movement on sniff test)","The phrenic n. (C3–C5) is the only motor supply to its half of the diaphragm."],
+ ansa:["Motor","Weakness of the infrahyoid strap muscles (omohyoid, sternohyoid, sternothyroid)","The ansa cervicalis (C1–C3) supplies these hyoid/larynx depressors."],
+ thy:["Motor","Weakness of the thyrohyoid alone, with the other strap muscles intact","Thyrohyoid gets C1 fibers that travel with CN XII and leave it beyond the ansa."],
+ erb1:["Motor","Loss of shoulder abduction, external rotation, and elbow flexion","Upper trunk (C5–C6) supplies deltoid, supraspinatus, infraspinatus, biceps."],
+ erb2:["Posture","Arm hangs adducted and internally rotated, elbow extended, forearm pronated (\"waiter's tip\")","Unopposed muscles after upper trunk (Erb) injury."],
+ erb3:["Sensory","Numbness of the lateral arm and forearm","C5–C6 dermatomes."],
+ kl1:["Motor","Weakness of the intrinsic hand muscles with clawing","Lower trunk (C8–T1) supplies the intrinsic hand muscles (Klumpke palsy)."],
+ kl2:["Sensory","Numbness of the medial forearm and hand","C8–T1 dermatomes."],
+ xi_scm:["Motor","Weakness turning the chin to the OPPOSITE side against resistance","The SCM (CN XI) turns the face to the opposite side."],
+ xi_shrug:["Motor","Drooping shoulder and weak shoulder shrug","Trapezius (CN XI) elevates the scapula."],
+ xi_abd:["Motor","Difficulty abducting the arm above 90°","Trapezius rotates the scapula upward, needed for overhead abduction."],
+ xi_wing:["Motor","Lateral winging of the scapula","Trapezius weakness lets the scapula slide laterally."],
+ xii_dev:["Motor","Tongue deviates TOWARD the lesioned side on protrusion","The intact genioglossus pushes the tongue toward the weak side."],
+ xii_atro:["Motor","Atrophy and fasciculations of the same side of the tongue","Lower motor neuron loss to intrinsic and extrinsic tongue muscles."],
+ xii_speech:["Speech","Slurred lingual sounds (\"la\", \"ta\")","Tongue weakness impairs articulation."],
+ iln_sens:["Sensory","Loss of sensation of the laryngeal mucosa ABOVE the vocal folds","The internal laryngeal n. is sensory above the folds."],
+ iln_cough:["Reflex","Loss of the cough reflex's sensory limb → silent aspiration and choking","Nothing detects food/fluid entering the laryngeal inlet."],
+ eln_pitch:["Voice","Cannot reach high pitch; weak, monotone, easily tired voice","The external laryngeal n. supplies cricothyroid, which tenses the vocal folds."],
+ rln_hoarse:["Voice","Hoarse, breathy voice from a paralyzed vocal fold (fixed near midline)","The recurrent laryngeal n. supplies all intrinsic laryngeal muscles except cricothyroid."],
+ rln_pca:["Motor","Loss of the only vocal fold ABDUCTOR (posterior cricoarytenoid)","Posterior cricoarytenoid is supplied by the recurrent laryngeal n."],
+ rln_sens:["Sensory","Loss of sensation of the laryngeal mucosa BELOW the vocal folds","The recurrent laryngeal n. is sensory below the folds."],
+ rln_bilat:["Airway","If both sides are cut: stridor and airway obstruction","Both folds sit near the midline and cannot be abducted."],
+ x_uvula:["Motor","Uvula deviates AWAY from the lesion; the soft palate droops on the lesioned side","Levator veli palatini (CN X) fails on that side; the intact side pulls the uvula over."],
+ x_gagm:["Reflex","Palate fails to rise on the lesioned side whichever side of the pharynx is touched","CN X is the motor (efferent) limb of the gag reflex."],
+ x_dysph:["Motor","Difficulty swallowing and nasal regurgitation of liquids","CN X supplies the pharyngeal constrictors and most palatal muscles."],
+ x_hr:["Autonomic","Resting tachycardia (loss of vagal tone)","CN X carries parasympathetic fibers to the heart."],
+ vii_brow:["Motor","Cannot raise the eyebrow or wrinkle the forehead on that side","The temporal branch supplies the frontal belly of occipitofrontalis."],
+ vii_close:["Motor","Cannot close the eye tightly → exposed, dry cornea","The zygomatic (and temporal) branches supply orbicularis oculi."],
+ vii_buccin:["Motor","Food collects between the cheek and gums; weak upper-lip movement","The buccal branch supplies buccinator and upper-lip muscles."],
+ vii_lowlip:["Motor","Lower lip on that side fails to pull down → asymmetric smile","The marginal mandibular branch supplies depressor anguli oris and lower-lip depressors."],
+ vii_plat:["Motor","Platysma fails to tense the skin of the neck","The cervical branch supplies platysma."],
+ vii_blink:["Reflex","That eye never blinks, whichever cornea is touched","CN VII is the motor (efferent) limb of the corneal reflex."],
+ vii_whole:["Motor","Whole face weak on that side, INCLUDING the forehead","A lower motor neuron lesion hits every branch; the forehead is not spared."],
+ vii_digas:["Motor","Subtle weakness of the posterior digastric and stylohyoid","CN VII branches to them just after the stylomastoid foramen."],
+ vii_hyper:["Special sense","Hyperacusis — ordinary sounds seem painfully loud","The nerve to stapedius leaves CN VII in the facial canal."],
+ ct_taste:["Special sense","Loss of taste from the anterior 2/3 of the tongue","Chorda tympani carries these taste fibers."],
+ sm_saliva:["Autonomic","Less saliva from the submandibular and sublingual glands","Submandibular ganglion postganglionics supply both glands."],
+ ptg_tear:["Autonomic","Dry eye — loss of reflex tearing","Pterygopalatine ganglion postganglionics drive the lacrimal gland."],
+ ptg_nose:["Autonomic","Dry nasal and palatal mucosa","Pterygopalatine ganglion postganglionics supply nasal and palatine glands."],
+ so_skin:["Sensory","Numbness of the forehead and scalp above the eyebrow, back toward the vertex","The supraorbital n. (V1) exits the supraorbital notch."],
+ st_skin:["Sensory","Numbness of the medial forehead and upper eyelid near the midline","The supratrochlear n. (V1) exits medial to the supraorbital n."],
+ lac_skin:["Sensory","Numbness of the lateral upper eyelid","The lacrimal n. (V1) ends in the lateral upper lid."],
+ lc_cornea:["Sensory","Loss of sensation of the cornea","The long ciliary nn. (from nasociliary) carry corneal sensation."],
+ v1_blink:["Reflex","Touching that cornea makes NEITHER eye blink; touching the other cornea makes both blink","V1 (nasociliary) is the sensory (afferent) limb of the corneal reflex."],
+ it_skin:["Sensory","Numbness of the medial eyelids, lacrimal sac region, and side of the nasal bridge","The infratrochlear n. (nasociliary) supplies this area."],
+ ae_skin:["Sensory","Numbness of the tip of the nose and the lining of the anterior nasal cavity","The anterior ethmoidal n. ends as the external nasal n."],
+ pe_sens:["Sensory","Loss of sensation of the sphenoid sinus and posterior ethmoidal air cells","The posterior ethmoidal n. supplies these sinuses."],
+ io_skin:["Sensory","Numbness of the lower eyelid, cheek, side of the nose, and upper lip","The infraorbital n. (V2) exits the infraorbital foramen."],
+ io_teeth:["Sensory","Numbness of the upper incisors, canine, and premolars","Anterior/middle superior alveolar nn. branch from the infraorbital n."],
+ np_sens:["Sensory","Numbness of the anterior hard palate behind the incisors and of the nasal septum","The nasopalatine n. (V2) runs down the septum to the incisive foramen."],
+ gp_sens:["Sensory","Numbness of the posterior hard palate mucosa and palatal gums","The greater palatine n. (V2) exits the greater palatine foramen."],
+ v2_molars:["Sensory","Numbness of the upper molars and maxillary sinus lining","Posterior superior alveolar nn. leave V2 in the pterygopalatine fossa."],
+ v2_zyg:["Sensory","Numbness over the cheekbone and anterior temple","The zygomatic n. (V2) gives zygomaticofacial and zygomaticotemporal branches."],
+ mn_skin:["Sensory","Numbness of the lower lip and chin","The mental n. is the terminal branch of the inferior alveolar n."],
+ ian_teeth:["Sensory","Numbness of the lower teeth","The inferior alveolar n. runs in the mandibular canal."],
+ ian_mylo:["Motor","Weakness of the mylohyoid and anterior belly of digastric","The nerve to mylohyoid leaves the inferior alveolar n. before the mandibular foramen."],
+ ling_sens:["Sensory","Loss of touch, pain, and temperature on the anterior 2/3 of the tongue and floor of the mouth","The lingual n. (V3) carries general sensation there."],
+ bn_skin:["Sensory","Numbness of the cheek skin and the inner cheek lining — with a normal buccinator","The buccal n. of V3 is sensory only; it just passes through buccinator."],
+ at_skin:["Sensory","Numbness of the temple, the front of the ear, and the TMJ","The auriculotemporal n. (V3) runs with the superficial temporal a."],
+ par_saliva:["Autonomic","Reduced parotid secretion","Parotid secretomotor fibers: CN IX → otic ganglion → auriculotemporal n."],
+ at_frey:["Autonomic","After healing: sweating and flushing of the cheek when eating (Frey syndrome)","Regrowing parotid secretomotor fibers wire into facial sweat glands."],
+ v3_chew:["Motor","Weak chewing on that side; wasting of masseter and temporalis","V3 supplies all four muscles of mastication."],
+ v3_jaw:["Motor","Jaw deviates TOWARD the lesioned side on opening","The intact lateral pterygoid pushes the jaw toward the weak side."],
+ v3_tvp:["Motor","Weakness of tensor veli palatini (poor auditory tube opening)","Tensor veli palatini is the only palatal muscle supplied by V3."],
+ ii_blind:["Vision","Blindness in that eye","CN II carries all visual input from that eye."],
+ ii_rapd:["Reflex","Light in the affected eye constricts NEITHER pupil; light in the other eye constricts BOTH","CN II is the sensory (afferent) limb of the pupillary light reflex."],
+ iii_ptosis:["Eye","Complete ptosis — the lid covers the pupil","CN III supplies levator palpebrae superioris."],
+ iii_downout:["Eye","Eye rests \"down and out\"","Lateral rectus (VI) and superior oblique (IV) act unopposed."],
+ iii_diplo:["Eye","Cannot adduct, elevate, or (in abduction) depress the eye","CN III supplies MR, SR, IR, and IO."],
+ cg_pupil:["Eye","Dilated pupil with poor or absent constriction to light","Ciliary ganglion postganglionics supply sphincter pupillae."],
+ cg_accom:["Eye","Cannot focus on near objects (loss of accommodation)","Ciliary ganglion postganglionics supply the ciliary muscle."],
+ iv_diplo:["Eye","Vertical double vision worst looking down and in (reading, going down stairs)","Superior oblique (CN IV) depresses the adducted eye."],
+ iv_hyper:["Eye","Affected eye drifts upward at rest","Unopposed elevators."],
+ iv_tilt:["Posture","Head tilts AWAY from the lesioned side","Tilting compensates for the lost intorsion."],
+ vi_abd:["Eye","Cannot abduct the eye","CN VI supplies lateral rectus."],
+ vi_eso:["Eye","Eye turned inward at rest","Medial rectus acts unopposed."],
+ vi_diplo:["Eye","Horizontal double vision worst looking toward the lesioned side","Lateral rectus is needed for that gaze."],
+ hor_ptosis:["Eye","MILD ptosis","Superior tarsal (Müller) muscle is sympathetic."],
+ hor_miosis:["Eye","Small pupil; the size difference is worst in DIM light","Dilator pupillae is sympathetic, so the pupil can't dilate in the dark."],
+ hor_anhid:["Autonomic","No sweating (and flushing) on that side of the face","Sympathetic fibers to facial sweat glands and vessels are lost."],
+ i_anosmia:["Special sense","Loss of smell (anosmia)","Olfactory fibers pass through the cribriform plate."],
+ i_flavor:["Special sense","Food tastes \"bland\" (loss of flavor, basic tastes intact)","Flavor depends heavily on smell."],
+ csf_rhino:["History","Clear fluid dripping from the nose after head trauma (CSF rhinorrhea)","A cribriform plate fracture tears the dura."],
+ viii_hear:["Special sense","Sensorineural hearing loss and tinnitus on that side","CN VIII (cochlear part) carries hearing."],
+ viii_vert:["Special sense","Vertigo, nystagmus, and imbalance","CN VIII (vestibular part) carries balance input."],
+ ix_taste:["Special sense","Loss of taste and general sensation on the posterior 1/3 of the tongue","CN IX supplies the posterior tongue."],
+ ix_gag:["Reflex","Touching that side of the pharynx produces NO gag response; touching the other side gives normal, symmetric palate elevation","CN IX is the sensory (afferent) limb of the gag reflex."],
+ ix_styloph:["Motor","Mild swallowing difficulty from stylopharyngeus weakness","Stylopharyngeus is the only muscle supplied by CN IX."],
+ ix_sinus:["Reflex","Loss of carotid sinus and carotid body reflex input","CN IX carries the afferent limb of these reflexes."],
+ cav_first:["Eye","Lateral gaze palsy is often the FIRST sign","CN VI runs through the middle of the sinus beside the ICA; the others run in the wall."]
+};
+const MINOR = new Set(["x_hr","vii_digas","i_flavor","ix_sinus","rln_bilat","csf_rhino","cav_first"]);
+
+const GROUPS = {
+ neck:"Neck & Cervical Plexus",
+ larynx:"Vagus & Larynx",
+ face:"Facial Nerve",
+ trig:"Trigeminal Branches",
+ orbit:"Orbit & Eye",
+ other:"CN I, VIII, IX & XII",
+ site:"Skull-Base Sites"
+};
+
+const NODES = [
+/* neck */
+{id:"great_aur",grp:"neck",name:"Great auricular nerve",cause:"Injured during parotidectomy or facelift surgery.",own:["ga"],pearl:"Earlobe numbness after parotid surgery = great auricular n. The angle of the jaw is NOT trigeminal."},
+{id:"lesser_occ",grp:"neck",name:"Lesser occipital nerve",cause:"Injured by a laceration or incision behind the ear.",own:["lo"],pearl:"Around the ear: front = auriculotemporal (V3); lower ear/angle = great auricular; behind and above = lesser occipital."},
+{id:"trans_cerv",grp:"neck",name:"Transverse cervical nerve",cause:"Divided by a low collar incision (e.g., thyroid surgery).",own:["tc"],pearl:"All four cervical plexus skin branches emerge at Erb's point on the posterior SCM border."},
+{id:"supraclav",grp:"neck",name:"Supraclavicular nerves",cause:"Injured during clavicle fracture fixation.",own:["sc"],pearl:"Supraclavicular nn. share C3–C4 roots with the phrenic n. — diaphragm irritation refers pain to the shoulder."},
+{id:"phrenic",grp:"neck",name:"Phrenic nerve",cause:"Compressed on the anterior scalene by tumor or injured in neck/chest surgery.",own:["phr"],spared:["xi_shrug"],pearl:"\"C3, 4, 5 keeps the diaphragm alive.\" It descends on the FRONT of the anterior scalene."},
+{id:"ansa",grp:"neck",name:"Ansa cervicalis",cause:"Cut during neck dissection along the carotid sheath.",own:["ansa"],spared:["thy","xii_dev"],pearl:"Ansa = omohyoid, sternohyoid, sternothyroid. Thyrohyoid and geniohyoid get C1 via CN XII instead."},
+{id:"n_thyrohyoid",grp:"neck",name:"Nerve to thyrohyoid",cause:"Injured high in the carotid triangle near CN XII.",own:["thy"],spared:["ansa","xii_dev"],pearl:"C1 fibers riding CN XII: nerve to thyrohyoid + nerve to geniohyoid."},
+{id:"xi_pt",grp:"neck",name:"Accessory nerve (CN XI) in the posterior triangle",cause:"Classic injury: lymph node biopsy in the posterior triangle.",own:["xi_shrug","xi_abd","xi_wing"],spared:["xi_scm"],pearl:"Posterior triangle injury spares the SCM — its branch leaves CN XI before the nerve enters the triangle."},
+{id:"cn11",grp:"neck",name:"Accessory nerve (CN XI), whole nerve",cause:"Lesion near the skull base, before any branches.",own:["xi_scm"],inc:["xi_pt"],pearl:"Test CN XI with a head turn and a shoulder shrug against resistance. Right SCM turns the face LEFT."},
+{id:"upper_trunk",grp:"neck",name:"Upper trunk of the brachial plexus (Erb palsy)",cause:"Head and shoulder forced apart — difficult birth or motorcycle fall.",own:["erb1","erb2","erb3","xi_abd"],minorOwn:["xi_abd"],spared:["kl1"],pearl:"Erb (C5–C6) = waiter's tip. Klumpke (C8–T1) = claw hand ± Horner."},
+{id:"lower_trunk",grp:"neck",name:"Lower trunk of the brachial plexus (Klumpke palsy)",cause:"Arm forced upward (grabbing a branch while falling) or a Pancoast tumor.",own:["kl1","kl2","hor_ptosis","hor_miosis","hor_anhid"],minorOwn:["hor_ptosis","hor_miosis","hor_anhid"],spared:["erb2"],pearl:"T1 root damage can add Horner syndrome to Klumpke palsy."},
+/* larynx */
+{id:"iln",grp:"larynx",name:"Internal laryngeal nerve",cause:"Injured where it pierces the thyrohyoid membrane with the superior laryngeal a.",own:["iln_sens","iln_cough"],spared:["rln_hoarse"],pearl:"Internal laryngeal n. + superior laryngeal a. → thyrohyoid membrane."},
+{id:"eln",grp:"larynx",name:"External laryngeal nerve",cause:"Ligating the superior thyroid a. at the superior pole during thyroidectomy.",own:["eln_pitch"],spared:["rln_hoarse","rln_pca"],pearl:"\"The singer after thyroidectomy\" — cricothyroid lost, high notes gone, folds still move."},
+{id:"sln",grp:"larynx",name:"Superior laryngeal nerve (both branches)",cause:"High lesion before it splits, near the hyoid.",inc:["iln","eln"],spared:["rln_hoarse"],pearl:"Superior laryngeal n. → internal (sensory above folds) + external (cricothyroid)."},
+{id:"rln",grp:"larynx",name:"Recurrent laryngeal nerve",cause:"Thyroidectomy near the inferior thyroid a.; left side also by aortic arch aneurysm or lung tumor.",own:["rln_hoarse","rln_pca","rln_sens","rln_bilat"],spared:["eln_pitch","iln_cough"],pearl:"Left RLN hooks under the aortic arch; right RLN under the right subclavian a. The left is longer and more often injured."},
+{id:"cn10",grp:"larynx",name:"Vagus nerve (CN X), high lesion",cause:"Jugular foramen tumor, brainstem stroke, or high carotid sheath injury.",own:["x_uvula","x_gagm","x_dysph","x_hr"],inc:["sln","rln"],spared:["ix_taste","xii_dev"],pearl:"Uvula points AWAY from the bad CN X. Tongue points TOWARD the bad CN XII."},
+/* face */
+{id:"vii_temporal",grp:"face",name:"Temporal branch of CN VII",cause:"Cut in a temple laceration or incision over the zygomatic arch.",own:["vii_brow"],spared:["so_skin"],pearl:"Temporal branch crosses the zygomatic arch superficially — the most exposed branch."},
+{id:"vii_zygomatic",grp:"face",name:"Zygomatic branch of CN VII",cause:"Laceration over the cheekbone.",own:["vii_close"],spared:["v2_zyg"],pearl:"Can't close the eye → protect the cornea (lubricants, taping)."},
+{id:"vii_buccal",grp:"face",name:"Buccal branch of CN VII",cause:"Deep cheek laceration crossing the parotid duct line.",own:["vii_buccin"],spared:["bn_skin"],pearl:"Two \"buccal\" nerves: V3 buccal = sensory; VII buccal = motor to buccinator."},
+{id:"vii_mandibular",grp:"face",name:"Marginal mandibular branch of CN VII",cause:"Submandibular gland excision or neck incision too close to the mandible.",own:["vii_lowlip"],spared:["mn_skin"],pearl:"Keep incisions 2 finger-breadths below the mandible to protect it."},
+{id:"vii_cervical",grp:"face",name:"Cervical branch of CN VII",cause:"Upper neck incision deep to platysma.",own:["vii_plat"],spared:["tc"],pearl:"Platysma = CN VII even though it lives in the neck."},
+{id:"vii_sm",grp:"face",name:"Facial nerve at the stylomastoid foramen (Bell palsy pattern)",cause:"Parotid tumor, idiopathic Bell palsy, or trauma just outside the skull.",own:["vii_blink","vii_whole","vii_digas"],inc:["vii_temporal","vii_zygomatic","vii_buccal","vii_mandibular","vii_cervical"],spared:["ct_taste","ptg_tear","vii_hyper"],pearl:"Distal CN VII lesion = face only. Taste, tears, and hearing volume are normal."},
+{id:"chorda",grp:"face",name:"Chorda tympani",cause:"Middle ear surgery or infection, where it crosses the tympanic membrane.",own:["ct_taste"],inc:["subm_g"],spared:["ling_sens","vii_whole"],pearl:"Chorda tympani lesion: taste gone, touch normal on the anterior tongue."},
+{id:"vii_prox",grp:"face",name:"Facial nerve proximal to the geniculate ganglion",cause:"Temporal bone fracture or a lesion in the facial canal near its origin.",own:["vii_hyper"],inc:["vii_sm","chorda","ptg_g"],spared:["viii_hear"],pearl:"Map CN VII lesions by what's lost: tears (greater petrosal) → hyperacusis (stapedius) → taste (chorda) → face (stylomastoid)."},
+/* trigeminal */
+{id:"supraorb",grp:"trig",name:"Supraorbital nerve",cause:"Blow to the upper orbital rim.",own:["so_skin"],spared:["vii_brow"],pearl:"Supraorbital (V1), infraorbital (V2), mental (V3) foramina line up vertically."},
+{id:"supratroch",grp:"trig",name:"Supratrochlear nerve",cause:"Laceration at the medial end of the eyebrow.",own:["st_skin"],pearl:"Frontal n. → supraorbital (lateral) + supratrochlear (medial)."},
+{id:"frontal",grp:"trig",name:"Frontal nerve",cause:"Tumor in the orbital roof, on top of levator palpebrae.",inc:["supraorb","supratroch"],spared:["v1_blink"],pearl:"Largest V1 branch; runs along the orbital roof."},
+{id:"lacrimal_n",grp:"trig",name:"Lacrimal nerve",cause:"Lesion in the lateral orbit near the lacrimal gland.",own:["lac_skin","ptg_tear"],spared:["v1_blink"],pearl:"Tears: VII → greater petrosal → pterygopalatine ganglion → zygomatic n. (V2) → lacrimal n. (V1)."},
+{id:"long_cil",grp:"trig",name:"Long ciliary nerves",cause:"Injured during deep orbital surgery near the globe.",own:["lc_cornea","v1_blink"],spared:["cg_accom"],pearl:"Long ciliary nn. also carry sympathetics to dilator pupillae."},
+{id:"infratroch",grp:"trig",name:"Infratrochlear nerve",cause:"Medial canthus laceration.",own:["it_skin"],pearl:"Terminal branch of the nasociliary n."},
+{id:"ant_eth",grp:"trig",name:"Anterior ethmoidal nerve",cause:"Injured during ethmoid sinus surgery.",own:["ae_skin"],pearl:"Herpes zoster vesicles on the nose tip (Hutchinson sign) warn of eye involvement — same nasociliary source."},
+{id:"post_eth",grp:"trig",name:"Posterior ethmoidal nerve",cause:"Injured during posterior ethmoid or sphenoid surgery.",own:["pe_sens"],pearl:"Nasociliary branches supply the ethmoid and sphenoid sinuses."},
+{id:"nasocil",grp:"trig",name:"Nasociliary nerve",cause:"Deep orbital lesion near the optic nerve.",inc:["long_cil","infratroch","ant_eth","post_eth"],spared:["vii_blink","so_skin"],pearl:"Corneal reflex: afferent = V1 (nasociliary); efferent = CN VII both sides."},
+{id:"v1",grp:"trig",name:"Ophthalmic division (CN V1)",cause:"Lesion at the superior orbital fissure or in the cavernous sinus wall.",inc:["frontal","lacrimal_n","nasocil"],spared:["io_skin","iii_ptosis"],pearl:"SRO: V1 Superior orbital fissure · V2 Rotundum · V3 Ovale."},
+{id:"infraorb",grp:"trig",name:"Infraorbital nerve",cause:"Orbital floor (blowout) fracture.",own:["io_skin","io_teeth"],spared:["mn_skin"],pearl:"Blowout fracture = infraorbital numbness + inferior rectus entrapment (can't look up)."},
+{id:"nasopal",grp:"trig",name:"Nasopalatine nerve",cause:"Septal surgery or an incisive canal lesion.",own:["np_sens"],spared:["gp_sens"],pearl:"Nasopalatine n. → incisive foramen. Greater palatine n. → greater palatine foramen."},
+{id:"gr_pal",grp:"trig",name:"Greater palatine nerve",cause:"Injured at the greater palatine foramen during palatal surgery.",own:["gp_sens"],spared:["np_sens"],pearl:"Greater palatine n. and a. travel together from the pterygopalatine fossa."},
+{id:"v2",grp:"trig",name:"Maxillary division (CN V2)",cause:"Lesion at the foramen rotundum or in the pterygopalatine fossa.",own:["v2_molars","v2_zyg"],inc:["infraorb","nasopal","gr_pal"],spared:["v3_chew","v1_blink"],pearl:"V2 is purely sensory — no motor signs."},
+{id:"mental",grp:"trig",name:"Mental nerve",cause:"Injection or laceration at the mental foramen below the premolars.",own:["mn_skin"],spared:["ian_teeth"],pearl:"Mental n. block numbs lip and chin, not the teeth."},
+{id:"ian",grp:"trig",name:"Inferior alveolar nerve",cause:"Mandibular ramus fracture or third-molar extraction.",own:["ian_teeth","ian_mylo"],inc:["mental"],spared:["ling_sens"],pearl:"Inferior alveolar block numbs the lower teeth, lower lip, and chin."},
+{id:"lingual",grp:"trig",name:"Lingual nerve (after the chorda tympani joins)",cause:"Lower third-molar extraction or a floor-of-mouth lesion.",own:["ling_sens"],inc:["chorda"],spared:["ian_teeth","xii_dev"],pearl:"Distal lingual n. lesion: touch AND taste lost on the anterior 2/3 of the tongue."},
+{id:"buccal_v3",grp:"trig",name:"Buccal nerve (CN V3)",cause:"Injured deep to the ramus in the infratemporal fossa.",own:["bn_skin"],spared:["vii_buccin"],pearl:"Sensory buccal n. vs motor buccal branch of VII — classic trap."},
+{id:"auriculotemp",grp:"trig",name:"Auriculotemporal nerve",cause:"Parotidectomy or TMJ surgery.",own:["at_skin","par_saliva","at_frey"],spared:["ga"],pearl:"Frey syndrome (gustatory sweating) = auriculotemporal n."},
+{id:"v3",grp:"trig",name:"Mandibular division (CN V3) at the foramen ovale",cause:"Tumor at the foramen ovale.",own:["ling_sens","v3_chew","v3_jaw","v3_tvp"],inc:["ian","buccal_v3","auriculotemp"],spared:["ct_taste","vii_buccin"],pearl:"V3 is the only trigeminal division with motor fibers. Jaw deviates TOWARD the lesion."},
+{id:"cn5",grp:"trig",name:"Trigeminal nerve (CN V), whole nerve",cause:"Lesion at the trigeminal ganglion or root.",inc:["v1","v2","v3"],spared:["vii_whole"],pearl:"Whole CN V lesion = half-face numbness + weak chewing + absent corneal reflex from that side."},
+/* orbit */
+{id:"cn2",grp:"orbit",name:"Optic nerve (CN II)",cause:"Optic canal fracture or optic neuritis.",own:["ii_blind","ii_rapd"],spared:["cg_pupil"],pearl:"CN II = afferent limb of the light reflex; CN III = efferent limb."},
+{id:"ciliary_g",grp:"orbit",name:"Ciliary ganglion / short ciliary nerves",cause:"Orbital surgery or trauma (tonic pupil).",own:["cg_pupil","cg_accom"],spared:["iii_ptosis","iii_downout"],pearl:"Dilated pupil + poor near focus + normal eye movements → ciliary ganglion, not the CN III trunk."},
+{id:"cn3",grp:"orbit",name:"Oculomotor nerve (CN III)",cause:"Posterior communicating artery aneurysm, uncal herniation, or diabetes.",own:["iii_ptosis","iii_downout","iii_diplo"],inc:["ciliary_g"],spared:["vi_abd","hor_miosis"],pearl:"Compression (aneurysm) hits the pupil early; diabetic ischemia often spares the pupil."},
+{id:"cn4",grp:"orbit",name:"Trochlear nerve (CN IV)",cause:"Closed head trauma (long, thin intracranial course).",own:["iv_diplo","iv_hyper","iv_tilt"],spared:["iii_ptosis","vi_eso"],pearl:"CN IV palsy: trouble with stairs and reading; head tilts AWAY from the lesion."},
+{id:"cn6",grp:"orbit",name:"Abducens nerve (CN VI)",cause:"Raised intracranial pressure or cavernous sinus disease.",own:["vi_abd","vi_eso","vi_diplo"],spared:["iii_ptosis","iv_tilt"],pearl:"CN VI palsy is a \"false localizing\" sign of raised intracranial pressure."},
+{id:"scg",grp:"orbit",name:"Superior cervical ganglion / cervical sympathetic chain (Horner syndrome)",cause:"Carotid dissection or surgery, Pancoast tumor, or neck trauma.",own:["hor_ptosis","hor_miosis","hor_anhid"],spared:["iii_ptosis","cg_pupil","iii_downout"],pearl:"Horner = mild ptosis (superior tarsal), miosis (dilator pupillae), anhidrosis. Anisocoria worse in DIM light."},
+/* other CNs */
+{id:"cn1",grp:"other",name:"Olfactory nerve (CN I)",cause:"Cribriform plate fracture or frontal head injury.",own:["i_anosmia","i_flavor"],spared:["ct_taste"],pearl:"Olfactory fibers pass through the cribriform plate of the ethmoid."},
+{id:"cn8",grp:"other",name:"Vestibulocochlear nerve (CN VIII)",cause:"Vestibular schwannoma (acoustic neuroma).",own:["viii_hear","viii_vert"],spared:["vii_hyper"],pearl:"Schwannoma in the internal acoustic meatus: CN VIII signs first, then CN VII."},
+{id:"cn9",grp:"other",name:"Glossopharyngeal nerve (CN IX)",cause:"Jugular foramen tumor or tonsillectomy injury in the tonsillar bed.",own:["ix_taste","ix_gag","par_saliva","ix_styloph","ix_sinus"],spared:["x_uvula","ct_taste"],pearl:"Gag reflex: afferent = IX, efferent = X. CN IX has one muscle — stylopharyngeus."},
+{id:"cn12",grp:"other",name:"Hypoglossal nerve (CN XII)",cause:"Hypoglossal canal tumor, carotid endarterectomy, or submandibular triangle injury.",own:["xii_dev","xii_atro","xii_speech","thy","ansa"],minorOwn:["thy","ansa"],spared:["x_uvula","ling_sens"],pearl:"Tongue \"licks the lesion.\" Palatoglossus is the one tongue muscle NOT supplied by CN XII."},
+{id:"ptg_g",grp:"other",name:"Pterygopalatine ganglion",cause:"Tumor or surgery in the pterygopalatine fossa.",own:["ptg_tear","ptg_nose"],spared:["sm_saliva","par_saliva"],pearl:"Pterygopalatine ganglion ← greater petrosal (VII) → lacrimal + nasal/palatal glands."},
+{id:"subm_g",grp:"other",name:"Submandibular ganglion",cause:"Floor-of-mouth surgery near the lingual n.",own:["sm_saliva"],spared:["par_saliva","ptg_tear"],pearl:"Submandibular ganglion hangs from the lingual n. → submandibular + sublingual glands."},
+/* sites */
+{id:"s_cribriform",grp:"site",kind:"site",name:"Cribriform plate",cause:"Frontal head trauma.",own:["csf_rhino"],inc:["cn1"],pearl:"Cribriform fracture: anosmia + CSF rhinorrhea."},
+{id:"s_optic",grp:"site",kind:"site",name:"Optic canal",cause:"Fracture of the lesser wing of the sphenoid.",inc:["cn2"],pearl:"Optic canal = CN II + ophthalmic a."},
+{id:"s_sof",grp:"site",kind:"site",name:"Superior orbital fissure",cause:"Orbital apex tumor or fracture.",own:["hor_miosis"],minorOwn:["hor_miosis"],inc:["cn3","cn4","cn6","v1"],spared:["io_skin"],pearl:"Superior orbital fissure = III, IV, V1, VI + superior ophthalmic v."},
+{id:"s_cav",grp:"site",kind:"site",name:"Cavernous sinus",cause:"Septic thrombosis spreading from the \"danger triangle\" of the face, or a carotid-cavernous fistula.",own:["cav_first","hor_ptosis","hor_miosis","hor_anhid"],minorOwn:["hor_ptosis","hor_miosis","hor_anhid"],inc:["cn3","cn4","cn6","v1","v2"],spared:["v3_chew"],pearl:"Cavernous sinus: wall = III, IV, V1, V2; middle = ICA + VI."},
+{id:"s_rotundum",grp:"site",kind:"site",name:"Foramen rotundum",cause:"Tumor spreading along V2 from the pterygopalatine fossa.",inc:["v2"],spared:["v3_jaw"],pearl:"Upper teeth = V2 (rotundum); lower teeth = V3 (ovale)."},
+{id:"s_ovale",grp:"site",kind:"site",name:"Foramen ovale",cause:"Skull-base tumor or perineural spread from the face.",inc:["v3"],spared:["io_skin"],pearl:"Middle cranial fossa, front to back: rotundum (V2) → ovale (V3) → spinosum (middle meningeal a.)."},
+{id:"s_stylomastoid",grp:"site",kind:"site",name:"Stylomastoid foramen",cause:"Parotid or mastoid tumor.",inc:["vii_sm"],spared:["ct_taste","viii_hear"],pearl:"Stylomastoid foramen = motor CN VII to the face only."},
+{id:"s_iam",grp:"site",kind:"site",name:"Internal acoustic meatus",cause:"Vestibular schwannoma.",inc:["vii_prox","cn8"],spared:["ix_gag"],pearl:"Internal acoustic meatus = CN VII + CN VIII (+ labyrinthine a.)."},
+{id:"s_jugular",grp:"site",kind:"site",name:"Jugular foramen",cause:"Glomus tumor or skull-base fracture (Vernet syndrome).",inc:["cn9","cn10","cn11"],spared:["xii_dev"],pearl:"Jugular foramen = IX, X, XI + internal jugular v. CN XII has its own canal."},
+{id:"s_hypoglossal",grp:"site",kind:"site",name:"Hypoglossal canal",cause:"Occipital condyle fracture or tumor.",inc:["cn12"],spared:["x_uvula"],pearl:"The hypoglossal canal runs through the occipital condyle."}
+];
+
+/* ---------- "Which side?" templates ---------- */
+const SIDE = [
+ {id:"sd_tongue",f:s=>`On protrusion, the tongue deviates to the ${s}.`,nerve:["Hypoglossal nerve (CN XII)","Vagus nerve (CN X)"],ans:(s)=>[0,s],why:"The intact genioglossus pushes the tongue toward the weak side: tongue points TOWARD the lesion."},
+ {id:"sd_uvula",f:s=>`When the patient says "ah," the uvula deviates to the ${s}.`,nerve:["Vagus nerve (CN X)","Hypoglossal nerve (CN XII)"],ans:(s)=>[0,opp(s)],why:"The intact levator veli palatini pulls the uvula toward the healthy side: uvula points AWAY from the lesion."},
+ {id:"sd_jaw",f:s=>`On opening the mouth, the jaw deviates to the ${s}.`,nerve:["Mandibular division (CN V3)","Facial nerve (CN VII)"],ans:(s)=>[0,s],why:"The intact lateral pterygoid pushes the jaw toward the weak side: jaw points TOWARD the lesion."},
+ {id:"sd_scm",f:s=>`The patient cannot turn the chin to the ${s} against resistance.`,nerve:["Accessory nerve (CN XI)","Hypoglossal nerve (CN XII)"],ans:(s)=>[0,opp(s)],why:"Each SCM turns the face to the OPPOSITE side, so weak turning to one side means the other side's CN XI is lesioned."},
+ {id:"sd_v1",f:s=>`Touching the ${s} cornea makes neither eye blink. Touching the other cornea makes both eyes blink.`,nerve:["Ophthalmic division (CN V1)","Facial nerve (CN VII)"],ans:(s)=>[0,s],why:"Both eyes can blink, so both CN VII work. The touched side can't trigger the reflex, so that side's V1 (afferent) is lost."},
+ {id:"sd_vii",f:s=>`The ${s} eye never blinks, whichever cornea is touched. The other eye blinks every time.`,nerve:["Facial nerve (CN VII)","Ophthalmic division (CN V1)"],ans:(s)=>[0,s],why:"Both corneas trigger a response, so both V1 work. The eye that never closes has lost its CN VII (efferent)."},
+ {id:"sd_gag",f:s=>`Touching the ${s} side of the pharynx produces no gag. Touching the other side makes both sides of the palate rise symmetrically.`,nerve:["Glossopharyngeal nerve (CN IX)","Vagus nerve (CN X)"],ans:(s)=>[0,s],why:"Symmetric palate elevation means both CN X work. No response from one side means that side's CN IX (afferent) is lost."},
+ {id:"sd_iv",f:s=>`The patient has vertical double vision when reading and tilts the head to the ${s}.`,nerve:["Trochlear nerve (CN IV)","Abducens nerve (CN VI)"],ans:(s)=>[0,opp(s)],why:"The head tilts AWAY from the side of the CN IV lesion."},
+ {id:"sd_vi",f:s=>`The ${s} eye is turned inward at rest and cannot move outward.`,nerve:["Abducens nerve (CN VI)","Oculomotor nerve (CN III)"],ans:(s)=>[0,s],why:"Lateral rectus (CN VI) is weak on the side of the inturned eye."},
+ {id:"sd_iii",f:s=>`The ${s} eye rests down and out, with a dilated pupil and complete ptosis.`,nerve:["Oculomotor nerve (CN III)","Sympathetic chain (Horner syndrome)"],ans:(s)=>[0,s],why:"All three signs are on the side of the CN III lesion."},
+ {id:"sd_horner",f:s=>`The ${s} pupil is smaller than the other, especially in dim light, and the ${s} upper lid droops slightly.`,nerve:["Sympathetic chain (Horner syndrome)","Oculomotor nerve (CN III)"],ans:(s)=>[0,s],why:"Small pupil + mild ptosis = Horner syndrome on that side. A CN III lesion would make the pupil LARGER."},
+ {id:"sd_ii",f:s=>`Light shone in the ${s} eye constricts neither pupil. Light in the other eye constricts both.`,nerve:["Optic nerve (CN II)","Oculomotor nerve (CN III)"],ans:(s)=>[0,s],why:"Both pupils can constrict, so both CN III work. The eye that can't trigger the reflex has lost its CN II (afferent)."},
+ {id:"sd_phrenic",f:s=>`Chest X-ray shows an elevated ${s} hemidiaphragm that rises paradoxically on sniffing.`,nerve:["Phrenic nerve","Vagus nerve (CN X)"],ans:(s)=>[0,s],why:"Each phrenic n. supplies its own half of the diaphragm."},
+ {id:"sd_bell",f:s=>`The whole ${s} side of the face is weak, including the forehead, with normal sensation.`,nerve:["Facial nerve (CN VII)","Trigeminal nerve (CN V)"],ans:(s)=>[0,s],why:"A lower motor neuron CN VII lesion weakens the whole face on the same side."},
+ {id:"sd_aorta",fixed:"left",f:()=>`An aortic arch aneurysm causes hoarseness with one vocal fold fixed near the midline.`,nerve:["Recurrent laryngeal nerve","External laryngeal nerve"],ans:()=>[0,"left"],why:"Only the LEFT recurrent laryngeal n. hooks under the aortic arch."}
+];
+
+const LINEAGE={"great_aur": ["no", "Not a cranial nerve — cervical plexus (ventral rami C2–C3)"], "lesser_occ": ["no", "Not a cranial nerve — cervical plexus (ventral ramus C2)"], "trans_cerv": ["no", "Not a cranial nerve — cervical plexus (ventral rami C2–C3)"], "supraclav": ["no", "Not a cranial nerve — cervical plexus (ventral rami C3–C4)"], "phrenic": ["no", "Not a cranial nerve — cervical plexus (C3–C5)"], "ansa": ["no", "Not a cranial nerve — cervical plexus loop (C1–C3); its superior root rides with CN XII"], "n_thyrohyoid": ["no", "Not a cranial nerve — C1 fibers that travel with CN XII"], "xi_pt": ["cn", "Cranial nerve XI (accessory nerve) — portion in the posterior triangle"], "cn11": ["cn", "Cranial nerve XI (accessory nerve)"], "upper_trunk": ["no", "Not a cranial nerve — brachial plexus (C5–C6)"], "lower_trunk": ["no", "Not a cranial nerve — brachial plexus (C8–T1)"], "iln": ["br", "Branch of CN X → superior laryngeal nerve → internal laryngeal nerve"], "eln": ["br", "Branch of CN X → superior laryngeal nerve → external laryngeal nerve"], "sln": ["br", "Branch of CN X (vagus)"], "rln": ["br", "Branch of CN X (vagus)"], "cn10": ["cn", "Cranial nerve X (vagus nerve)"], "vii_temporal": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_zygomatic": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_buccal": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_mandibular": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_cervical": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_sm": ["cn", "Cranial nerve VII (facial nerve) — at its exit from the skull"], "chorda": ["br", "Branch of CN VII (facial nerve); joins the lingual nerve (CN V3)"], "vii_prox": ["cn", "Cranial nerve VII (facial nerve) — inside the temporal bone"], "supraorb": ["br", "Branch of CN V1 → frontal nerve → supraorbital nerve"], "supratroch": ["br", "Branch of CN V1 → frontal nerve → supratrochlear nerve"], "frontal": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "lacrimal_n": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "long_cil": ["br", "Branch of CN V1 → nasociliary nerve → long ciliary nerves"], "infratroch": ["br", "Branch of CN V1 → nasociliary nerve → infratrochlear nerve"], "ant_eth": ["br", "Branch of CN V1 → nasociliary nerve → anterior ethmoidal nerve"], "post_eth": ["br", "Branch of CN V1 → nasociliary nerve → posterior ethmoidal nerve"], "nasocil": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "v1": ["br", "Division of CN V (trigeminal nerve)"], "infraorb": ["br", "Branch of CN V2 (maxillary division of trigeminal)"], "nasopal": ["br", "Branch of CN V2 (via the pterygopalatine ganglion)"], "gr_pal": ["br", "Branch of CN V2 (via the pterygopalatine ganglion)"], "v2": ["br", "Division of CN V (trigeminal nerve)"], "mental": ["br", "Branch of CN V3 → inferior alveolar nerve → mental nerve"], "ian": ["br", "Branch of CN V3 (mandibular division of trigeminal)"], "lingual": ["br", "Branch of CN V3 (mandibular division of trigeminal); carries chorda tympani fibers from CN VII"], "buccal_v3": ["br", "Branch of CN V3 (mandibular division of trigeminal)"], "auriculotemp": ["br", "Branch of CN V3 (mandibular division of trigeminal); carries otic ganglion fibers from CN IX"], "v3": ["br", "Division of CN V (trigeminal nerve)"], "cn5": ["cn", "Cranial nerve V (trigeminal nerve)"], "cn2": ["cn", "Cranial nerve II (optic nerve)"], "ciliary_g": ["gg", "Parasympathetic ganglion of CN III; hangs from the nasociliary nerve (CN V1)"], "cn3": ["cn", "Cranial nerve III (oculomotor nerve)"], "cn4": ["cn", "Cranial nerve IV (trochlear nerve)"], "cn6": ["cn", "Cranial nerve VI (abducens nerve)"], "scg": ["no", "Not a cranial nerve — sympathetic chain (preganglionic fibers from T1)"], "cn1": ["cn", "Cranial nerve I (olfactory nerve)"], "cn8": ["cn", "Cranial nerve VIII (vestibulocochlear nerve)"], "cn9": ["cn", "Cranial nerve IX (glossopharyngeal nerve)"], "cn12": ["cn", "Cranial nerve XII (hypoglossal nerve)"], "ptg_g": ["gg", "Parasympathetic ganglion of CN VII (greater petrosal nerve); hangs from CN V2"], "subm_g": ["gg", "Parasympathetic ganglion of CN VII (chorda tympani); hangs from the lingual nerve (CN V3)"], "s_cribriform": ["site", "Skull-base opening — transmits CN I"], "s_optic": ["site", "Skull-base opening — transmits CN II"], "s_sof": ["site", "Skull-base opening — transmits CN III, IV, V1, VI"], "s_cav": ["site", "Dural venous sinus — contains CN III, IV, V1, V2, VI"], "s_rotundum": ["site", "Skull-base opening — transmits CN V2"], "s_ovale": ["site", "Skull-base opening — transmits CN V3"], "s_stylomastoid": ["site", "Skull-base opening — transmits CN VII"], "s_iam": ["site", "Skull-base opening — transmits CN VII and VIII"], "s_jugular": ["site", "Skull-base opening — transmits CN IX, X, XI"], "s_hypoglossal": ["site", "Skull-base opening — transmits CN XII"]};
+const LIN_LBL={"cn": "Cranial nerve", "br": "Cranial nerve branch", "gg": "CN ganglion", "no": "Not a cranial nerve", "site": "Site"};
+function opp(s){return s==="left"?"right":"left";}
+
+const SIDE_GRP={sd_tongue:'other',sd_uvula:'larynx',sd_jaw:'trig',sd_scm:'neck',sd_v1:'trig',sd_vii:'face',sd_gag:'other',sd_iv:'orbit',sd_vi:'orbit',sd_iii:'orbit',sd_horner:'orbit',sd_ii:'orbit',sd_phrenic:'neck',sd_bell:'face',sd_aorta:'larynx'};
+return {SIG,MINOR,GROUPS,NODES,SIDE,LINEAGE,LIN_LBL,SIDE_GRP};
+})();
+/* ===== Source data: Lesion Rounds II (unchanged) ===== */
+const LR2=(function(){
+/* ---------- Lesion atlas data ----------
+   SIG: id -> [exam system, finding, why it happens]
+   MINOR: true findings that are never used as the "expected" answer (conditional / subtle)
+   NODES: lesions. own = its own findings, inc = lesions it contains, spared = classic "NOT seen" findings
+*/
+/* ---------- Lesion atlas II: cranial nerves and their branches ---------- */
+const SIG = {
+ /* V1 / V2 */
+ zf_skin:["Sensory","Numbness of the skin over the cheek prominence","The zygomaticofacial n. (V2) exits the zygomaticofacial foramen."],
+ zt_skin:["Sensory","Numbness of the skin over the anterior temple","The zygomaticotemporal n. (V2) exits into the temporal fossa."],
+ zyg_tear:["Autonomic","Reduced tearing on that side","The zygomatic n. hands pterygopalatine ganglion fibers to the lacrimal n."],
+ psa_teeth:["Sensory","Numbness of the upper molars and the maxillary sinus lining","Posterior superior alveolar nn. enter the back of the maxilla."],
+ asa_teeth:["Sensory","Numbness of the upper incisors and canine","The anterior superior alveolar n. branches from the infraorbital n. in its canal."],
+ asa_nose:["Sensory","Numbness of the front of the nasal floor and septum","The anterior superior alveolar n. gives a nasal branch."],
+ lp_palate:["Sensory","Numbness of the SOFT palate","The lesser palatine n. (V2) exits the lesser palatine foramina."],
+ v2_naso:["Sensory","Numbness of the roof of the nasopharynx and auditory tube opening","The pharyngeal branch of V2 passes through the palatovaginal canal."],
+ io_lid:["Sensory","Numbness of the lower eyelid and side of the nose","Palpebral and nasal branches of the infraorbital n. (V2)."],
+ /* V3 */
+ mass_weak:["Motor","Weak jaw clenching; the masseter does not bulge when biting down","The masseteric n. (V3) crosses the mandibular notch to masseter."],
+ temp_weak:["Motor","Weak jaw closing with hollowing of the temple over time","Deep temporal nn. (V3) supply temporalis, which wastes when denervated."],
+ temp_retract:["Motor","Cannot pull the jaw backward (retraction)","The posterior fibers of temporalis retract the mandible."],
+ lp_dev:["Motor","Jaw deviates TOWARD the weak side when opening the mouth","The intact lateral pterygoid pulls its condyle forward, swinging the jaw to the weak side."],
+ lp_protrude:["Motor","Cannot protrude the jaw or move it to the opposite side","Lateral pterygoid protrudes the mandible and produces side-to-side grinding."],
+ mp_close:["Motor","Weak jaw elevation (closing), with grinding affected","The nerve to medial pterygoid (V3) supplies this jaw elevator."],
+ tvp_tube:["Motor","Poor opening of the auditory tube — ear fullness, fluid behind the drum","Tensor veli palatini (nerve to medial pterygoid, V3) opens the tube when swallowing."],
+ tt_loud:["Motor","Louder-than-normal perception of low sounds (tensor tympani weakness)","Tensor tympani (V3) damps the tympanic membrane."],
+ myl_floor:["Motor","Weak elevation of the floor of the mouth and hyoid during swallowing","Nerve to mylohyoid (V3) supplies mylohyoid and the anterior belly of digastric."],
+ ling_touch:["Sensory","Loss of touch, pain, and temperature on the anterior 2/3 of the tongue and floor of the mouth","General sensation there is carried by the lingual n. (V3)."],
+ ling_taste_ok:["Special sense","Taste on the anterior 2/3 is PRESERVED","A lesion proximal to the chorda tympani junction spares taste fibers, which join the lingual n. lower down."],
+ /* VII */
+ gp_tear:["Autonomic","Dry eye — no reflex tearing on that side","Greater petrosal n. (CN VII) → pterygopalatine ganglion → lacrimal gland."],
+ gp_nose:["Autonomic","Dry nasal and palatal mucosa","Pterygopalatine ganglion fibers supply nasal and palatine glands."],
+ stap_hyper:["Special sense","Hyperacusis — ordinary sounds are uncomfortably loud","The nerve to stapedius (CN VII) damps ossicle movement."],
+ pa_occip:["Motor","Cannot wrinkle the scalp backward or move the auricle","The posterior auricular n. (CN VII) supplies the occipital belly and auricular muscles."],
+ vii_digas2:["Motor","Weak elevation of the hyoid during swallowing (posterior digastric and stylohyoid)","Branches of CN VII just outside the stylomastoid foramen."],
+ ct_taste2:["Special sense","Loss of taste from the anterior 2/3 of the tongue","Chorda tympani (CN VII) carries these taste fibers."],
+ ct_saliva:["Autonomic","Dry mouth from reduced submandibular and sublingual saliva","Chorda tympani preganglionics synapse in the submandibular ganglion."],
+ face_all:["Motor","Weakness of every facial expression muscle on that side, forehead included","A lower motor neuron CN VII lesion spares nothing."],
+ face_pes:["Motor","Weakness confined to the facial muscles, with normal taste, tears, and hearing","Inside the parotid, CN VII carries only its five motor branches."],
+ rh_vesicle:["History","Painful vesicles in the ear canal or on the auricle","Varicella-zoster reactivating in the geniculate ganglion (Ramsay Hunt syndrome)."],
+ rh_vertigo:["Special sense","Vertigo and hearing loss alongside facial palsy","Ramsay Hunt often spreads to the nearby CN VIII."],
+ ni_only:["Special sense","Taste and tear loss WITHOUT facial muscle weakness","The nervus intermedius carries CN VII's sensory and parasympathetic fibers only."],
+ /* IX / X */
+ tymp_ear:["Sensory","Loss of sensation of the middle ear and inner surface of the eardrum","The tympanic n. (CN IX) forms the tympanic plexus."],
+ lpn_parotid:["Autonomic","Dry mouth from reduced parotid secretion","Lesser petrosal n. (CN IX) → otic ganglion → auriculotemporal n. → parotid."],
+ hering_baro:["Reflex","Loss of the baroreceptor reflex — blood pressure swings, fainting when the neck is pressed","The carotid sinus n. of Hering (CN IX) carries carotid sinus and body afferents."],
+ ix_phar_sens:["Sensory","Numbness of the oropharynx — no gag when that side is touched","Pharyngeal branches of CN IX are the sensory limb of the gag reflex."],
+ ix_tonsil:["Sensory","Numbness of the tonsillar bed (referred ear pain after tonsillectomy)","Tonsillar branches of CN IX also share fibers with the ear."],
+ ix_taste2:["Special sense","Loss of taste AND touch on the posterior 1/3 of the tongue","The lingual branch of CN IX carries both."],
+ x_phar_motor:["Motor","Palate droops and the uvula deviates AWAY from the lesion; nasal regurgitation","The pharyngeal branch of CN X supplies the palate and constrictors."],
+ x_ear_cough:["Reflex","Coughing when the ear canal is touched or cleaned","The auricular branch of CN X (Arnold nerve) supplies part of the canal."],
+ x_ear_sens:["Sensory","Numbness of part of the external ear canal and lower eardrum","The auricular branch of CN X supplies this skin."],
+ x_cardiac:["Autonomic","Resting heart rate rises (loss of vagal slowing)","Cardiac branches of CN X supply the SA and AV nodes."],
+ rln_left:["Voice","Hoarseness with one vocal fold fixed near the midline","The left recurrent laryngeal n. hooks under the aortic arch and is stretched by masses there."],
+ rln_cough:["Reflex","Loss of sensation below the vocal folds","The recurrent laryngeal n. is sensory below the folds."],
+ /* eye */
+ iii_sup_ptosis:["Eye","Ptosis with weak elevation of the eye","The superior division of CN III supplies levator palpebrae and superior rectus."],
+ iii_sup_pupil_ok:["Eye","Pupil size and reaction are NORMAL","Pupil fibers travel with the inferior division, so a superior-division lesion spares them."],
+ iii_inf_pupil:["Eye","Dilated pupil with poor light response and loss of accommodation","Preganglionic parasympathetics travel with the inferior division to the ciliary ganglion."],
+ iii_inf_move:["Eye","Cannot adduct, depress, or elevate the eye from adduction","The inferior division supplies medial rectus, inferior rectus, and inferior oblique."],
+ iii_inf_lid_ok:["Eye","The eyelid still opens normally","Levator palpebrae is on the superior division."],
+ vi_dorello:["Eye","Inability to abduct the eye, often on both sides, with headache","CN VI is stretched in Dorello's canal when intracranial pressure rises."],
+ grad_pain:["Sensory","Deep retro-orbital pain with the lateral gaze palsy","The petrous apex lesion irritates V1 next to CN VI (Gradenigo syndrome)."],
+ grad_ear:["History","Recent ear infection with discharge","Gradenigo syndrome follows petrous apicitis from otitis media."],
+ /* VIII and others */
+ coch_hear:["Special sense","Hearing loss and tinnitus with normal balance","The cochlear division of CN VIII carries hearing only."],
+ vest_vert:["Special sense","Vertigo, nystagmus, and unsteadiness with normal hearing","The vestibular division of CN VIII carries balance input."],
+ olf_anosmia:["Special sense","Loss of smell; food seems tasteless","Olfactory fila are torn where they cross the cribriform plate."],
+ xi_cranial:["Motor","Weakness of the palate and larynx muscles, with a normal shoulder shrug","The cranial root of CN XI joins CN X and is distributed with it."],
+ xii_distal:["Motor","Tongue deviates toward the lesion, with normal strap muscles","A lesion distal to the C1 fibers affects only tongue muscles."],
+ c1_strap:["Motor","Weak thyrohyoid and geniohyoid","C1 fibers travel with CN XII and leave it above the hyoid."],
+ otic_dry:["Autonomic","Dry mouth from reduced parotid saliva","The otic ganglion holds the postganglionic neurons for the parotid."],
+ vid_dry:["Autonomic","Dry eye AND dry nose on one side","The nerve of the pterygoid canal carries both parasympathetic and sympathetic fibers to the pterygopalatine ganglion."],
+ at_temple:["Sensory","Numbness of the temple, front of the ear, and the jaw joint","The auriculotemporal n. (V3) supplies this skin."],
+ at_frey2:["Autonomic","Sweating and flushing of the cheek when eating, months after surgery","Parotid secretomotor fibers regrow into facial sweat glands (Frey syndrome)."],
+ sal_dry:["Autonomic","Dry mouth from loss of submandibular and sublingual saliva","Submandibular ganglion postganglionics supply both glands."]
+};
+const MINOR = new Set(["grad_ear","rh_vertigo","tt_loud","ix_tonsil","x_cardiac","asa_nose"]);
+
+const GROUPS = {
+ v12:"Trigeminal — V1 & V2 branches",
+ v3:"Trigeminal — V3 branches",
+ vii:"Facial nerve branches",
+ ixx:"Glossopharyngeal & Vagus branches",
+ eye:"Eye movement & pupil",
+ oth:"CN I, VIII, XI, XII & ganglia",
+ site:"Skull-base & regional sites"
+};
+
+const NODES = [
+/* ---- V1 & V2 ---- */
+{id:"zyg",grp:"v12",name:"Zygomatic nerve (CN V2)",cause:"Injured by a lateral orbital wall fracture or orbital surgery.",own:["zyg_tear"],inc:["zf","zt"],spared:["io_lid"],pearl:"The zygomatic n. is the courier that hands pterygopalatine (tear) fibers to the lacrimal n. (V1)."},
+{id:"zf",grp:"v12",name:"Zygomaticofacial nerve (CN V2)",cause:"Cut in a laceration over the cheekbone.",own:["zf_skin"],pearl:"Zygomaticofacial = the small patch right over the cheekbone."},
+{id:"zt",grp:"v12",name:"Zygomaticotemporal nerve (CN V2)",cause:"Injured during temporal or brow-lift surgery.",own:["zt_skin"],pearl:"Zygomaticotemporal supplies the anterior temple — behind it is auriculotemporal (V3)."},
+{id:"psa",grp:"v12",name:"Posterior superior alveolar nerves (CN V2)",cause:"Injured by a maxillary sinus tumor or a posterior superior alveolar block.",own:["psa_teeth"],spared:["asa_teeth"],pearl:"Upper molars = posterior superior alveolar nn.; upper front teeth = anterior superior alveolar n."},
+{id:"asa",grp:"v12",name:"Anterior superior alveolar nerve (CN V2)",cause:"Injured by an orbital floor fracture that reaches the infraorbital canal.",own:["asa_teeth","asa_nose"],spared:["psa_teeth"],pearl:"The anterior superior alveolar n. leaves the infraorbital n. inside its canal, before the face."},
+{id:"infraorb2",grp:"v12",name:"Infraorbital nerve (CN V2)",cause:"Orbital floor (blowout) fracture or a midface fracture.",own:["io_skin","io_lid"],inc:["asa"],spared:["zf_skin"],pearl:"Blowout fracture: numb cheek and upper lip + trapped inferior rectus."},
+{id:"lesser_pal",grp:"v12",name:"Lesser palatine nerve (CN V2)",cause:"Injured during soft palate surgery or a palatal block.",own:["lp_palate"],pearl:"Greater palatine n. = hard palate; lesser palatine n. = soft palate."},
+{id:"v2_phar",grp:"v12",name:"Pharyngeal branch of CN V2",cause:"Nasopharyngeal carcinoma invading the palatovaginal canal.",own:["v2_naso"],spared:["ix_phar_sens"],pearl:"Roof of the nasopharynx = V2. Oropharynx = CN IX."},
+/* ---- V3 ---- */
+{id:"masseteric",grp:"v3",name:"Masseteric nerve (CN V3)",cause:"Injured in surgery at the mandibular notch, or used as a donor nerve in facial reanimation.",own:["mass_weak"],spared:["temp_weak","ling_touch"],pearl:"Feel the masseter bulge while the patient clenches — this is how you test it."},
+{id:"deep_temp",grp:"v3",name:"Deep temporal nerves (CN V3)",cause:"Infratemporal fossa tumor.",own:["temp_weak","temp_retract"],spared:["mass_weak"],pearl:"Temporalis wasting shows as a hollow temple months after denervation."},
+{id:"n_lat_pt",grp:"v3",name:"Nerve to lateral pterygoid (CN V3)",cause:"Perineural tumor spread in the infratemporal fossa.",own:["lp_dev","lp_protrude"],spared:["mass_weak"],pearl:"Lateral pterygoid is the jaw OPENER of the four masticators. Jaw deviates toward the weak side."},
+{id:"n_med_pt",grp:"v3",name:"Nerve to medial pterygoid (CN V3)",cause:"Lesion at the foramen ovale, where this branch leaves the main trunk.",own:["mp_close","tvp_tube","tt_loud"],spared:["lp_dev"],pearl:"The nerve to medial pterygoid also carries the two tensors: tensor veli palatini and tensor tympani."},
+{id:"n_mylo",grp:"v3",name:"Nerve to mylohyoid (CN V3)",cause:"Injured during third molar surgery or submandibular gland removal.",own:["myl_floor"],spared:["ling_touch"],pearl:"The only motor branch of the inferior alveolar n. — mylohyoid + anterior digastric."},
+{id:"ling_prox",grp:"v3",name:"Lingual nerve ABOVE the chorda tympani junction",cause:"High infratemporal fossa lesion, before the chorda joins.",own:["ling_touch","ling_taste_ok"],spared:["ct_taste2","xii_distal"],pearl:"Proximal lingual lesion: touch gone, taste normal. Distal lesion: both gone."},
+{id:"auriculo2",grp:"v3",name:"Auriculotemporal nerve (CN V3)",cause:"Parotid surgery or a temporomandibular joint procedure.",own:["at_temple","at_frey2","lpn_parotid"],spared:["zt_skin"],pearl:"It carries otic ganglion fibers to the parotid — the reason Frey syndrome happens."},
+{id:"ian2",grp:"v3",name:"Inferior alveolar nerve (CN V3)",cause:"Mandibular fracture, dental implant, or third molar extraction.",own:["ian_teeth2","mn_chin"],inc:["n_mylo"],spared:["ling_touch"],pearl:"Numb lower lip after a molar extraction = inferior alveolar n."},
+/* ---- VII ---- */
+{id:"gr_petrosal",grp:"vii",name:"Greater petrosal nerve (CN VII)",cause:"Temporal bone fracture across the facial canal near the geniculate ganglion.",own:["gp_tear","gp_nose"],spared:["ct_taste2","face_all"],pearl:"Greater petrosal = tears and nasal glands, through the pterygopalatine ganglion."},
+{id:"n_stapedius",grp:"vii",name:"Nerve to stapedius (CN VII)",cause:"Middle ear disease or a lesion inside the facial canal.",own:["stap_hyper"],spared:["coch_hear"],pearl:"Hyperacusis localizes a CN VII lesion to the facial canal, above the chorda tympani."},
+{id:"chorda2",grp:"vii",name:"Chorda tympani (CN VII)",cause:"Middle ear surgery, or injury where it joins the lingual n.",own:["ct_taste2","ct_saliva"],spared:["ling_touch"],pearl:"Chorda tympani: taste in front, saliva below — but no touch."},
+{id:"post_auric",grp:"vii",name:"Posterior auricular nerve (CN VII)",cause:"Cut in an incision behind the ear (mastoid surgery).",own:["pa_occip"],spared:["face_all"],pearl:"The first branch of CN VII outside the skull."},
+{id:"n_digastric",grp:"vii",name:"Nerve to posterior digastric and stylohyoid (CN VII)",cause:"Lesion just outside the stylomastoid foramen.",own:["vii_digas2"],spared:["myl_floor"],pearl:"Digastric has two nerves: anterior belly V3, posterior belly VII."},
+{id:"vii_parotid",grp:"vii",name:"Facial nerve within the parotid gland",cause:"Parotid malignancy or parotidectomy.",own:["face_pes","face_all"],spared:["ct_taste2","gp_tear","stap_hyper"],pearl:"Inside the parotid the nerve is purely motor — taste, tears, and hearing stay normal."},
+{id:"geniculate",grp:"vii",name:"Geniculate ganglion (Ramsay Hunt syndrome)",cause:"Varicella-zoster reactivation in the geniculate ganglion.",own:["rh_vesicle","rh_vertigo"],inc:["vii_parotid","chorda2","gr_petrosal","n_stapedius"],pearl:"Facial palsy + painful ear vesicles = Ramsay Hunt, not Bell palsy."},
+{id:"nerv_interm",grp:"vii",name:"Nervus intermedius",cause:"Compressed by a vessel or tumor at the cerebellopontine angle.",own:["ni_only"],inc:["chorda2","gr_petrosal"],spared:["face_all"],pearl:"Nervus intermedius = the sensory and parasympathetic half of CN VII."},
+/* ---- IX and X ---- */
+{id:"tympanic_n",grp:"ixx",name:"Tympanic nerve (CN IX, Jacobson nerve)",cause:"Middle ear tumor (glomus tympanicum) or middle ear surgery.",own:["tymp_ear"],inc:["lesser_pet"],spared:["x_ear_sens"],pearl:"Tympanic n. forms the tympanic plexus, then continues as the lesser petrosal n."},
+{id:"lesser_pet",grp:"ixx",name:"Lesser petrosal nerve (CN IX)",cause:"Petrous bone lesion on the way to the otic ganglion.",own:["lpn_parotid"],spared:["ct_saliva"],pearl:"Lesser petrosal (IX) → otic ganglion → parotid. Greater petrosal (VII) → pterygopalatine → tears."},
+{id:"hering",grp:"ixx",name:"Carotid sinus nerve (nerve of Hering, CN IX)",cause:"Carotid endarterectomy or carotid body tumor surgery.",own:["hering_baro"],spared:["ix_phar_sens"],pearl:"Carotid sinus = baroreceptor (pressure); carotid body = chemoreceptor (O₂, CO₂). Both report via CN IX."},
+{id:"ix_pharyngeal",grp:"ixx",name:"Pharyngeal branches of CN IX",cause:"Tonsillectomy injury or a skull-base tumor.",own:["ix_phar_sens","ix_tonsil"],spared:["x_phar_motor"],pearl:"Gag reflex: IX senses, X moves."},
+{id:"ix_lingual",grp:"ixx",name:"Lingual branch of CN IX",cause:"Injury in the tonsillar bed, deep to the palatine tonsil.",own:["ix_taste2"],spared:["ct_taste2"],pearl:"Posterior 1/3 of the tongue: CN IX carries BOTH taste and general sensation."},
+{id:"x_pharyngeal",grp:"ixx",name:"Pharyngeal branch of CN X",cause:"Skull-base tumor or a high vagal lesion in the neck.",own:["x_phar_motor"],spared:["ix_phar_sens","rln_left"],pearl:"Say \"ah\": the uvula swings away from the damaged vagus."},
+{id:"x_auricular",grp:"ixx",name:"Auricular branch of CN X (Arnold nerve)",cause:"Ear canal instrumentation, or irritation by wax or infection.",own:["x_ear_cough","x_ear_sens"],spared:["tymp_ear"],pearl:"Cough while cleaning the ear = Arnold's ear-cough reflex (CN X)."},
+{id:"x_cardiacb",grp:"ixx",name:"Cardiac branches of CN X",cause:"Injured in mediastinal surgery or by a chest tumor.",own:["x_cardiac"],spared:["rln_left"],pearl:"Vagal cardiac branches slow the heart; losing them raises the resting rate."},
+{id:"rln_aortic",grp:"ixx",name:"Left recurrent laryngeal nerve at the aortic arch",cause:"Aortic arch aneurysm, left atrial enlargement, or a lung tumor at the hilum (Ortner syndrome).",own:["rln_left","rln_cough"],spared:["eln_pitch2"],pearl:"Only the LEFT recurrent laryngeal n. loops under the aortic arch — that's why chest disease makes you hoarse."},
+/* ---- eye ---- */
+{id:"iii_sup",grp:"eye",name:"Superior division of CN III",cause:"Orbital apex lesion or a superior orbital fissure mass.",own:["iii_sup_ptosis","iii_sup_pupil_ok"],spared:["iii_inf_pupil"],pearl:"Superior division = levator palpebrae + superior rectus. Pupil is spared."},
+{id:"iii_inf",grp:"eye",name:"Inferior division of CN III",cause:"Orbital trauma or a lesion in the inferior orbital fissure region.",own:["iii_inf_pupil","iii_inf_move","iii_inf_lid_ok"],spared:["iii_sup_ptosis"],pearl:"Inferior division carries the pupil fibers to the ciliary ganglion."},
+{id:"vi_dorello_n",grp:"eye",name:"Abducens nerve in Dorello's canal",cause:"Raised intracranial pressure stretching the nerve over the petrous apex.",own:["vi_dorello"],spared:["iii_sup_ptosis"],pearl:"A sixth-nerve palsy from raised pressure is a false localizing sign."},
+{id:"otic_g",grp:"eye",name:"Otic ganglion",cause:"Infratemporal fossa tumor or surgery below the foramen ovale.",own:["otic_dry"],spared:["ct_saliva","gp_tear"],pearl:"Otic ganglion sits on V3 just under the foramen ovale: IX in, auriculotemporal out."},
+{id:"vidian",grp:"eye",name:"Nerve of the pterygoid canal (Vidian nerve)",cause:"Skull-base surgery or a lesion in the pterygoid canal.",own:["vid_dry","gp_tear","gp_nose"],spared:["ct_saliva"],pearl:"Vidian n. = greater petrosal (parasympathetic) + deep petrosal (sympathetic)."},
+/* ---- other cranial nerves ---- */
+{id:"cochlear",grp:"oth",name:"Cochlear division of CN VIII",cause:"Vestibular schwannoma pressing the cochlear fibers, or ototoxic drugs.",own:["coch_hear"],spared:["vest_vert"],pearl:"Sensorineural loss: Weber localizes to the GOOD ear; air conduction still beats bone."},
+{id:"vestibular",grp:"oth",name:"Vestibular division of CN VIII",cause:"Vestibular neuritis or a schwannoma on the vestibular fibers.",own:["vest_vert"],spared:["coch_hear"],pearl:"Vertigo with normal hearing points to the vestibular division alone."},
+{id:"olfactory2",grp:"oth",name:"Olfactory nerve fila (CN I)",cause:"Frontal head trauma shearing the fila at the cribriform plate.",own:["olf_anosmia"],spared:["ix_taste2"],pearl:"Anosmia after head trauma; basic tastes (sweet, salt, sour, bitter) stay intact."},
+{id:"xi_cranial_root",grp:"oth",name:"Cranial root of CN XI",cause:"Lesion at the jugular foramen before the root joins CN X.",own:["xi_cranial"],spared:["xi_shrug2"],pearl:"The cranial root travels with CN X to the palate and larynx; the spinal root runs the shoulder."},
+{id:"xii_submand",grp:"oth",name:"Hypoglossal nerve in the submandibular triangle",cause:"Submandibular gland surgery or a floor-of-mouth tumor.",own:["xii_distal"],spared:["c1_strap"],pearl:"Distal CN XII lesion: tongue only — the C1 fibers have already left."},
+{id:"c1_xii",grp:"oth",name:"C1 fibers traveling with CN XII",cause:"High neck lesion where C1 runs with the hypoglossal nerve.",own:["c1_strap"],spared:["xii_distal"],pearl:"C1 hitchhikers: nerve to thyrohyoid and nerve to geniohyoid."},
+{id:"subm_g2",grp:"oth",name:"Submandibular ganglion",cause:"Floor-of-mouth surgery near the lingual nerve.",own:["sal_dry"],spared:["lpn_parotid","gp_tear"],pearl:"Hangs from the lingual n.: CN VII fibers in, submandibular and sublingual glands out."},
+/* ---- sites ---- */
+{id:"s_ppf",grp:"site",kind:"site",name:"Pterygopalatine fossa",cause:"Perineural spread of a skin cancer or a juvenile angiofibroma.",inc:["zyg","psa","lesser_pal","v2_phar","vidian"],spared:["mass_weak"],pearl:"Pterygopalatine fossa = V2 + the pterygopalatine ganglion + the third part of the maxillary artery."},
+{id:"s_itf",grp:"site",kind:"site",name:"Infratemporal fossa",cause:"Tumor or a displaced mandibular ramus fracture.",inc:["masseteric","deep_temp","n_lat_pt","n_med_pt","ian2","ling_prox","auriculo2","otic_g"],spared:["gp_tear"],pearl:"Everything V3 does lives here — plus the otic ganglion and the maxillary artery."},
+{id:"s_facial_canal",grp:"site",kind:"site",name:"Facial canal (above the chorda tympani)",cause:"Temporal bone fracture or cholesteatoma.",inc:["vii_parotid","chorda2","n_stapedius"],spared:["coch_hear"],pearl:"Work out how high a CN VII lesion is by what is lost: tears → hyperacusis → taste → face."},
+{id:"s_petrous",grp:"site",kind:"site",name:"Petrous apex (Gradenigo syndrome)",cause:"Petrous apicitis spreading from a middle ear infection.",own:["grad_pain","grad_ear"],inc:["vi_dorello_n"],spared:["face_all"],pearl:"Gradenigo triad: ear discharge + retro-orbital pain (V1) + lateral gaze palsy (VI)."},
+{id:"s_cpa",grp:"site",kind:"site",name:"Cerebellopontine angle",cause:"Vestibular schwannoma or meningioma.",inc:["cochlear","vestibular","nerv_interm","vii_parotid"],spared:["xii_distal"],pearl:"CPA tumors hit VIII first, then VII and V as they grow."},
+{id:"s_parotid_bed",grp:"site",kind:"site",name:"Parotid bed",cause:"Parotid tumor or surgery.",inc:["vii_parotid","auriculo2"],spared:["ct_taste2"],pearl:"Facial weakness with a parotid mass suggests malignancy."}
+];
+
+/* extra signs used above that belong to shared branches */
+SIG.ian_teeth2=["Sensory","Numbness of the lower teeth on that side","The inferior alveolar n. runs inside the mandibular canal."];
+SIG.mn_chin=["Sensory","Numbness of the lower lip and chin","The mental n. is the terminal branch of the inferior alveolar n."];
+SIG.eln_pitch2=["Voice","Loss of the top of the vocal range","Cricothyroid is supplied by the external laryngeal n., not the recurrent."];
+SIG.xi_shrug2=["Motor","Weak shoulder shrug","The spinal root of CN XI supplies trapezius."];
+SIG.io_skin=["Sensory","Numbness of the cheek and upper lip","The infraorbital n. (V2) emerges at the infraorbital foramen."];
+
+/* ---------- "Which side?" templates ---------- */
+const SIDE = [
+ {id:"sd2_jaw",f:s=>`When the patient opens wide, the jaw swings to the ${s}; chewing is weak on that side.`,nerve:["Nerve to lateral pterygoid (CN V3)","Facial nerve (CN VII)"],ans:(s)=>[0,s],why:"The intact lateral pterygoid drives the jaw toward the weak side, so the jaw points to the lesion."},
+ {id:"sd2_uvula",f:s=>`On phonation the soft palate droops on the ${s} and the uvula points the other way.`,nerve:["Pharyngeal branch of CN X","Glossopharyngeal nerve (CN IX)"],ans:(s)=>[0,s],why:"The drooping side is the damaged side; the uvula is pulled toward the intact muscle."},
+ {id:"sd2_gag",f:s=>`Touching the ${s} side of the oropharynx produces no gag; touching the other side gives a brisk, symmetric response.`,nerve:["Glossopharyngeal nerve (CN IX)","Vagus nerve (CN X)"],ans:(s)=>[0,s],why:"Symmetric elevation from the other side proves both vagus nerves work, so the silent side has lost its CN IX afferent."},
+ {id:"sd2_taste_ant",f:s=>`Taste is lost on the front of the tongue on the ${s}, and that side of the mouth feels dry, but touch is normal.`,nerve:["Chorda tympani (CN VII)","Lingual nerve (CN V3)"],ans:(s)=>[0,s],why:"Taste plus reduced saliva with normal touch isolates the chorda tympani on the same side."},
+ {id:"sd2_taste_post",f:s=>`Taste AND touch are lost on the back of the tongue on the ${s}.`,nerve:["Glossopharyngeal nerve (CN IX)","Chorda tympani (CN VII)"],ans:(s)=>[0,s],why:"The posterior third gets both taste and general sensation from CN IX on the same side."},
+ {id:"sd2_tongue",f:s=>`The tongue is wasted and furrowed on the ${s} and deviates that way when protruded.`,nerve:["Hypoglossal nerve (CN XII)","Vagus nerve (CN X)"],ans:(s)=>[0,s],why:"Atrophy marks the denervated side, and the tongue deviates toward it."},
+ {id:"sd2_abduct",f:s=>`The patient cannot move the ${s} eye outward, and double vision is worst when looking that way.`,nerve:["Abducens nerve (CN VI)","Oculomotor nerve (CN III)"],ans:(s)=>[0,s],why:"Lateral rectus weakness is on the side of the eye that cannot abduct."},
+ {id:"sd2_iii_sup",f:s=>`The ${s} upper lid droops and that eye cannot look up, but both pupils are equal and reactive.`,nerve:["Superior division of CN III","Inferior division of CN III"],ans:(s)=>[0,s],why:"Levator and superior rectus are on the superior division, which carries no pupil fibers."},
+ {id:"sd2_iii_inf",f:s=>`The ${s} pupil is dilated and that eye cannot adduct, but the lid opens normally.`,nerve:["Inferior division of CN III","Superior division of CN III"],ans:(s)=>[0,s],why:"Medial rectus and the pupil fibers travel with the inferior division; levator does not."},
+ {id:"sd2_tear",f:s=>`The ${s} eye stays dry even when irritated, and that side of the nose is dry, but the face moves normally.`,nerve:["Greater petrosal nerve (CN VII)","Facial nerve in the parotid"],ans:(s)=>[0,s],why:"Tears and nasal glands are lost on the side of the greater petrosal lesion, while facial movement stays intact."},
+ {id:"sd2_hyperacusis",f:s=>`The ${s} side of the face is weak and ordinary sounds are painfully loud in that ear.`,nerve:["Facial nerve in the facial canal","Facial nerve at the stylomastoid foramen"],ans:(s)=>[0,s],why:"Hyperacusis means the lesion is high enough to include the nerve to stapedius, on the weak side."},
+ {id:"sd2_hoarse",fixed:"left",f:()=>`A patient with a large aortic arch aneurysm becomes hoarse; one vocal fold lies fixed near the midline.`,nerve:["Recurrent laryngeal nerve","External laryngeal nerve"],ans:()=>[0,"left"],why:"Only the left recurrent laryngeal n. hooks under the aortic arch."},
+ {id:"sd2_corneal",f:s=>`Touching the ${s} cornea produces no blink in either eye, and that forehead is numb; touching the other cornea makes both eyes blink.`,nerve:["Ophthalmic division (CN V1)","Facial nerve (CN VII)"],ans:(s)=>[0,s],why:"Both eyes can blink, so both CN VII work; the numb, non-triggering side has lost V1."},
+ {id:"sd2_masseter",f:s=>`The ${s} masseter does not bulge on clenching and the temple on that side looks hollow.`,nerve:["Mandibular division (CN V3)","Facial nerve (CN VII)"],ans:(s)=>[0,s],why:"Masseter and temporalis wasting mark the side of the V3 motor lesion."},
+ {id:"sd2_baro",f:s=>`After an endarterectomy on the ${s}, the patient has wide blood-pressure swings and faints when a collar presses that side of the neck.`,nerve:["Carotid sinus nerve (CN IX)","Vagus nerve (CN X)"],ans:(s)=>[0,s],why:"The carotid sinus n. of Hering on the operated side carries the baroreceptor signal."}
+];
+
+/* ---------- lineage labels ---------- */
+const LINEAGE = {
+ zyg:["br","Branch of CN V2 (maxillary division of trigeminal)"],
+ zf:["br","Branch of CN V2 → zygomatic nerve → zygomaticofacial nerve"],
+ zt:["br","Branch of CN V2 → zygomatic nerve → zygomaticotemporal nerve"],
+ psa:["br","Branch of CN V2 (in the pterygopalatine fossa)"],
+ asa:["br","Branch of CN V2 → infraorbital nerve → anterior superior alveolar nerve"],
+ infraorb2:["br","Branch of CN V2 (maxillary division of trigeminal)"],
+ lesser_pal:["br","Branch of CN V2 (through the pterygopalatine ganglion)"],
+ v2_phar:["br","Branch of CN V2 (through the pterygopalatine ganglion)"],
+ masseteric:["br","Branch of CN V3 (mandibular division of trigeminal)"],
+ deep_temp:["br","Branch of CN V3 (mandibular division of trigeminal)"],
+ n_lat_pt:["br","Branch of CN V3 (mandibular division of trigeminal)"],
+ n_med_pt:["br","Branch of CN V3; also supplies tensor veli palatini and tensor tympani"],
+ n_mylo:["br","Branch of CN V3 → inferior alveolar nerve → nerve to mylohyoid"],
+ ling_prox:["br","Branch of CN V3 (before the chorda tympani of CN VII joins it)"],
+ auriculo2:["br","Branch of CN V3; carries otic ganglion fibers from CN IX"],
+ ian2:["br","Branch of CN V3 (mandibular division of trigeminal)"],
+ gr_petrosal:["br","Branch of CN VII (facial nerve) → pterygopalatine ganglion"],
+ n_stapedius:["br","Branch of CN VII (facial nerve), inside the facial canal"],
+ chorda2:["br","Branch of CN VII; joins the lingual nerve (CN V3)"],
+ post_auric:["br","Branch of CN VII (facial nerve), outside the stylomastoid foramen"],
+ n_digastric:["br","Branch of CN VII (facial nerve), outside the stylomastoid foramen"],
+ vii_parotid:["cn","Cranial nerve VII (facial nerve) — motor branches in the parotid"],
+ geniculate:["gg","Sensory ganglion of CN VII (facial nerve)"],
+ nerv_interm:["br","Root of CN VII (facial nerve) — its sensory and parasympathetic fibers"],
+ tympanic_n:["br","Branch of CN IX (glossopharyngeal nerve)"],
+ lesser_pet:["br","Branch of CN IX → tympanic nerve → lesser petrosal nerve → otic ganglion"],
+ hering:["br","Branch of CN IX (glossopharyngeal nerve)"],
+ ix_pharyngeal:["br","Branch of CN IX (glossopharyngeal nerve)"],
+ ix_lingual:["br","Branch of CN IX (glossopharyngeal nerve)"],
+ x_pharyngeal:["br","Branch of CN X (vagus nerve)"],
+ x_auricular:["br","Branch of CN X (vagus nerve)"],
+ x_cardiacb:["br","Branch of CN X (vagus nerve)"],
+ rln_aortic:["br","Branch of CN X (vagus nerve) — left recurrent laryngeal nerve"],
+ iii_sup:["br","Division of CN III (oculomotor nerve)"],
+ iii_inf:["br","Division of CN III (oculomotor nerve)"],
+ vi_dorello_n:["cn","Cranial nerve VI (abducens nerve)"],
+ otic_g:["gg","Parasympathetic ganglion of CN IX; hangs from CN V3"],
+ vidian:["br","Union of CN VII fibers (greater petrosal) with sympathetic fibers (deep petrosal)"],
+ cochlear:["br","Division of CN VIII (vestibulocochlear nerve)"],
+ vestibular:["br","Division of CN VIII (vestibulocochlear nerve)"],
+ olfactory2:["cn","Cranial nerve I (olfactory nerve)"],
+ xi_cranial_root:["br","Root of CN XI (accessory nerve) that joins CN X"],
+ xii_submand:["cn","Cranial nerve XII (hypoglossal nerve) — distal course"],
+ c1_xii:["no","Not a cranial nerve — C1 fibers that hitchhike on CN XII"],
+ subm_g2:["gg","Parasympathetic ganglion of CN VII (chorda tympani); hangs from the lingual nerve (CN V3)"],
+ s_ppf:["site","Region — contains CN V2 branches and the pterygopalatine ganglion (CN VII fibers)"],
+ s_itf:["site","Region — contains CN V3 branches and the otic ganglion (CN IX fibers)"],
+ s_facial_canal:["site","Bony canal — contains CN VII"],
+ s_petrous:["site","Region — CN VI and CN V1 next to the petrous apex"],
+ s_cpa:["site","Region — CN VII, VIII (and nearby V) at the brainstem"],
+ s_parotid_bed:["site","Region — CN VII branches and the auriculotemporal nerve (CN V3)"]
+};
+const LIN_LBL = {cn:"Cranial nerve",br:"Cranial nerve branch",gg:"CN ganglion",no:"Not a cranial nerve",site:"Site"};
+
+function opp(s){return s==="left"?"right":"left";}
+
+const SIDE_GRP={"sd2_jaw": "v3", "sd2_uvula": "ixx", "sd2_gag": "ixx", "sd2_taste_ant": "vii", "sd2_taste_post": "ixx", "sd2_tongue": "oth", "sd2_abduct": "eye", "sd2_iii_sup": "eye", "sd2_iii_inf": "eye", "sd2_tear": "vii", "sd2_hyperacusis": "vii", "sd2_hoarse": "ixx", "sd2_corneal": "v12", "sd2_masseter": "v3", "sd2_baro": "ixx"};
+return {SIG,MINOR,GROUPS,NODES,SIDE,LINEAGE,LIN_LBL,SIDE_GRP};
+})();
+/* ===== Source data: Trap Hunter (unchanged) ===== */
+const TH=(function(){
+const MCQ = [
+/* Autonomics */
+{id:"m01",topic:"Autonomics",q:"A tag sits on the <em>parotid gland</em>. Which ganglion houses the postganglionic parasympathetic cell bodies supplying it?",
+ o:[{t:"Otic ganglion",c:1},{t:"Submandibular ganglion",p:1},{t:"Ciliary ganglion"},{t:"Pterygopalatine ganglion"}],
+ w:"Preganglionic fibres leave CN IX as the lesser petrosal nerve, synapse in the <b>otic ganglion</b>, and the postganglionic fibres ride the auriculotemporal nerve of V3.",
+ trap:"The submandibular ganglion is the trap — same neighbourhood, wrong gland. Students also reach for CN VII because they assume all salivary glands are facial."},
+
+{id:"m02",topic:"Autonomics",q:"A tag sits on the <em>lacrimal gland</em>. Preganglionic parasympathetic fibers destined for this gland travel in which nerve?",
+ o:[{t:"CN VII",c:1},{t:"CN V",p:1},{t:"CN III"},{t:"CN IX"}],
+ w:"<b>CN VII</b> via the greater petrosal nerve, synapsing in the pterygopalatine ganglion.",
+ trap:"CN V is the trap. V2 and V1 only <i>carry</i> the postganglionic fibres to the gland — they never originate them."},
+
+{id:"m03",topic:"Autonomics",q:"A tag sits on the <em>submandibular duct</em>. Damage to which structure disrupts postganglionic parasympathetic supply to the gland?",
+ o:[{t:"Submandibular ganglion",c:1},{t:"Chorda tympani",p:1},{t:"Otic ganglion"},{t:"Superior cervical ganglion"}],
+ w:"The <b>submandibular ganglion</b>, suspended from the lingual nerve, holds the postganglionic cell bodies.",
+ trap:"Chorda tympani is the trap — it is the <i>pre</i>ganglionic limb, and the stem asked for postganglionic. Read the prefix every time."},
+
+{id:"m04",topic:"Autonomics",q:"During transnasal pituitary surgery a ganglion in the pterygopalatine fossa is inadvertently injured. What is most likely impaired?",
+ o:[{t:"Lacrimation",c:1},{t:"Pupillary constrictor muscle",p:1},{t:"Parotid secretion"},{t:"Submandibular secretion"}],
+ w:"The pterygopalatine ganglion supplies the <b>lacrimal gland</b> plus the nasal and palatine mucous glands.",
+ trap:"Pupillary constrictor is the trap — that is ciliary. Anything about the eyelid would be CN III or sympathetics, not this ganglion."},
+
+{id:"m05",topic:"Autonomics",q:"After T1 sympathetic ganglion ablation the patient has Horner syndrome. Preganglionic sympathetics to the indicated orbital structure would normally synapse where?",
+ o:[{t:"Superior cervical ganglion",c:1},{t:"Ciliary ganglion",p:1},{t:"Otic ganglion"},{t:"Pterygopalatine ganglion"}],
+ w:"All sympathetics to the head synapse in the <b>superior cervical ganglion</b>, then travel on arterial branches or hitch onto CN V.",
+ trap:"The ciliary ganglion is the trap. Sympathetic fibres pass straight <i>through</i> it without synapsing — passing through is not synapsing."},
+
+/* Larynx */
+{id:"m06",topic:"Larynx & vagus",q:"A tag sits on the <em>cricothyroid muscle</em>. Which nerve innervates it?",
+ o:[{t:"External branch of the superior laryngeal n.",c:1},{t:"Recurrent laryngeal n.",p:1},{t:"Internal branch of the superior laryngeal n."},{t:"Pharyngeal branch of CN X"}],
+ w:"Cricothyroid is the lone intrinsic laryngeal muscle supplied by the <b>external laryngeal nerve</b>.",
+ trap:"Recurrent laryngeal is the trap — it supplies every <i>other</i> intrinsic laryngeal muscle. This is the most reliably tested exception in the block."},
+
+{id:"m07",topic:"Larynx & vagus",q:"After thyroidectomy a woman's voice is abnormally deep. Questioning reveals no hoarseness at all. Which nerve was damaged?",
+ o:[{t:"External laryngeal n.",c:1},{t:"Recurrent laryngeal n.",p:1},{t:"Internal laryngeal n."},{t:"Inferior laryngeal n."}],
+ w:"The <b>external laryngeal nerve</b>, injured alongside the superior thyroid artery at the superior pole. Loss of cricothyroid means loss of pitch range.",
+ trap:"Recurrent laryngeal is the trap — but it would produce hoarseness, which the stem explicitly excludes. The absence of a finding is a clue."},
+
+{id:"m08",topic:"Larynx & vagus",q:"During ligation of the <em>inferior</em> thyroid artery at the inferior pole of the thyroid, a nerve is transected. What is the most likely finding?",
+ o:[{t:"Hoarseness from intrinsic laryngeal muscle paralysis",c:1},{t:"Loss of the afferent limb of the cough reflex",p:1},{t:"Decreased vocal pitch range from cricothyroid paralysis"},{t:"Anesthesia of laryngeal mucosa above the vocal folds"}],
+ w:"The recurrent laryngeal nerve runs with the inferior thyroid artery at the inferior pole → <b>hoarseness</b>.",
+ trap:"The cough-reflex option is the trap — that is the internal laryngeal nerve. Superior pole with the superior thyroid artery risks the external laryngeal nerve instead."},
+
+{id:"m09",topic:"Larynx & vagus",q:"After resection of the external carotid artery a man chokes frequently and has lost sensation in the laryngeal vestibule above the vocal folds. Which nerve was cut?",
+ o:[{t:"Internal laryngeal n.",c:1},{t:"Glossopharyngeal n.",p:1},{t:"Recurrent laryngeal n."},{t:"External laryngeal n."}],
+ w:"The <b>internal laryngeal nerve</b> pierces the thyrohyoid membrane with the superior laryngeal artery and is the afferent limb of the cough reflex.",
+ trap:"Glossopharyngeal is the trap — CN IX handles the oropharynx, not the laryngeal vestibule. Choking plus lost laryngeal sensation is internal laryngeal every time."},
+
+{id:"m10",topic:"Larynx & vagus",q:"A tag sits in the tracheo-oesophageal groove on a nerve ascending toward the larynx. Damage here causes which finding?",
+ o:[{t:"Hoarseness",c:1},{t:"Decreased vocal pitch range",p:1},{t:"Loss of the gag reflex"},{t:"Inability to elevate the shoulder"}],
+ w:"That is the <b>recurrent laryngeal nerve</b> — paralysis of all intrinsic laryngeal muscles except cricothyroid gives hoarseness.",
+ trap:"Decreased pitch range is the trap — that is external laryngeal, which runs with the superior thyroid artery, nowhere near the tracheo-oesophageal groove."},
+
+/* Foramina */
+{id:"m11",topic:"Foramina",q:"A tumour compressing the nerves at the indicated skull base opening produces difficulty swallowing and an absent gag reflex. Which opening?",
+ o:[{t:"Jugular foramen",c:1},{t:"Hypoglossal canal",p:1},{t:"Internal acoustic meatus"},{t:"Stylomastoid foramen"}],
+ w:"The <b>jugular foramen</b> transmits CN IX, X and XI — dysphagia and an absent gag follow.",
+ trap:"Hypoglossal canal is the trap; a tongue-paralysis option is always offered alongside. Taste from the anterior two-thirds would point at CN VII instead."},
+
+{id:"m12",topic:"Foramina",q:"Sharp shooting pain triggered by light touch between the lower eyelid and the upper lip. Forehead sensation, jaw strength and the corneal reflex are all normal. That division exits the skull through which foramen?",
+ o:[{t:"Foramen rotundum",c:1},{t:"Foramen ovale",p:1},{t:"Superior orbital fissure"},{t:"Inferior orbital fissure"}],
+ w:"Mid-face skin is V2, which exits via <b>foramen rotundum</b>. Standing Room Only: V1 superior orbital fissure, V2 rotundum, V3 ovale.",
+ trap:"Foramen ovale is the trap — but normal jaw clenching and intact lower-lip sensation rule V3 out. The normal findings are doing the work."},
+
+{id:"m13",topic:"Foramina",q:"A linear fracture over the pterion produces a biconvex, lens-shaped hyperdensity on CT. The bleeding vessel entered the cranium through which foramen?",
+ o:[{t:"Foramen spinosum",c:1},{t:"Foramen lacerum",p:1},{t:"Foramen ovale"},{t:"Carotid canal"}],
+ w:"The middle meningeal artery, a branch of the maxillary artery, enters via <b>foramen spinosum</b>.",
+ trap:"Foramen lacerum is the trap — it sounds right and sits nearby, but nothing functionally traverses it in full. Rotundum, ovale, spinosum run medial to lateral on the greater wing."},
+
+{id:"m14",topic:"Foramina",q:"Paralysis of the indicated muscle produces torticollis and a drooping shoulder. You should look for a lesion at which location?",
+ o:[{t:"Jugular foramen",c:1},{t:"Stylomastoid foramen",p:1},{t:"Hypoglossal canal"},{t:"Foramen ovale"}],
+ w:"Sternocleidomastoid and trapezius are CN XI, which leaves via the <b>jugular foramen</b>.",
+ trap:"Stylomastoid is the trap — that is CN VII and facial expression. A superficial posterior-triangle laceration is the other classic cause of CN XI injury."},
+
+/* Orbit */
+{id:"m15",topic:"Orbit",q:"Which of the indicated extraocular muscles is innervated by CN IV?",
+ o:[{t:"Superior oblique",c:1},{t:"Inferior oblique",p:1},{t:"Superior rectus"},{t:"Levator palpebrae superioris"}],
+ w:"<b>Superior oblique</b> — identify it by the tendon passing through the trochlea at the superomedial orbital rim.",
+ trap:"Inferior oblique is the trap: also an oblique, but it arises from the anterior orbital floor, has no trochlea, and is CN III. LR6, SO4, AO3."},
+
+{id:"m16",topic:"Orbit",q:"To isolate and test the indicated muscle (superior oblique), you must first ask the patient to do which of the following?",
+ o:[{t:"Adduct",c:1},{t:"Abduct",p:1},{t:"Elevate"},{t:"Extort"}],
+ w:"<b>Adduct.</b> With the eye adducted, the obliques become pure vertical movers — SO depresses, IO elevates.",
+ trap:"Abduct is the trap — correct for isolating the recti (SR elevates, IR depresses), wrong for the obliques. Reason from the H-test rule, don't recall."},
+
+{id:"m17",topic:"Orbit",q:"Which action is lost with paralysis of the indicated muscle (levator palpebrae superioris)?",
+ o:[{t:"Elevation of the eyelid",c:1},{t:"Elevation of the eye",p:1},{t:"Depression of the eyelid"},{t:"Abduction of the eye"}],
+ w:"<b>Elevation of the eyelid.</b> Complete CN III palsy gives severe ptosis; the sympathetic superior tarsal muscle beneath it gives the mild ptosis of Horner syndrome.",
+ trap:"Elevation of the eye is the trap — that is superior rectus, which sits immediately deep to LPS on a specimen and is easy to confuse."},
+
+{id:"m18",topic:"Orbit",q:"A lesion at the indicated location abolishes the afferent limb of the pupillary light reflex. Which structure is it?",
+ o:[{t:"Optic nerve (CN II)",c:1},{t:"Oculomotor nerve (CN III)",p:1},{t:"Nasociliary nerve"},{t:"Ciliary ganglion"}],
+ w:"<b>CN II</b> carries the afferent limb; CN III carries the efferent limb.",
+ trap:"CN III is the trap — efferent, not afferent. Do not confuse this with the <i>corneal</i> reflex, whose afferent is the nasociliary nerve of V1 and whose efferent is bilateral CN VII."},
+
+/* V3 / ITF */
+{id:"m19",topic:"V3 & infratemporal fossa",q:"A mandibular ramus fracture displaces into the infratemporal fossa; there is jaw pain and numbness of the lower lip and chin. Which indicated nerve was injured?",
+ o:[{t:"Inferior alveolar n.",c:1},{t:"Lingual n.",p:1},{t:"Buccal n."},{t:"Auriculotemporal n."}],
+ w:"The <b>inferior alveolar nerve</b>, heading for the mandibular foramen and emerging as the mental nerve at the chin and lower lip.",
+ trap:"Lingual is the trap — it lies immediately anterior and would instead cause loss of sensation and taste on the anterior two-thirds of the tongue."},
+
+{id:"m20",topic:"V3 & infratemporal fossa",q:"Which muscle is responsible for elevation <em>and retraction</em> of the indicated structure (the mandible)?",
+ o:[{t:"Temporalis",c:1},{t:"Masseter",p:1},{t:"Medial pterygoid"},{t:"Lateral pterygoid"}],
+ w:"<b>Temporalis</b> — its posterior fibres are the only retractors of the mandible.",
+ trap:"Masseter is the trap: elevation yes, but protrusion rather than retraction. Elevation alone never separates these — the second verb decides it."},
+
+{id:"m21",topic:"V3 & infratemporal fossa",q:"A mass in the infratemporal fossa causes loss of both general sensation <em>and</em> taste over the anterior two-thirds of the tongue. Which nerve?",
+ o:[{t:"Lingual n.",c:1},{t:"Chorda tympani",p:1},{t:"Inferior alveolar n."},{t:"Hypoglossal n."}],
+ w:"The <b>lingual nerve</b>, which carries V3 general sensation plus hitchhiking chorda tympani taste fibres.",
+ trap:"Chorda tympani is the trap — it would take the taste but leave general sensation intact. Two deficits means the nerve carrying both."},
+
+{id:"m22",topic:"V3 & infratemporal fossa",q:"The indicated artery runs with the inferior alveolar nerve into the mandible. It is a branch of which vessel?",
+ o:[{t:"Maxillary a.",c:1},{t:"External carotid a.",p:1},{t:"Facial a."},{t:"Superficial temporal a."}],
+ w:"The inferior alveolar artery is a branch of the <b>maxillary artery</b> within the infratemporal fossa.",
+ trap:"External carotid is the trap — true at one remove, since the maxillary is its terminal branch. When a parent and a grandparent both appear, take the immediate one."},
+
+/* Tongue / oral / pharynx */
+{id:"m23",topic:"Tongue, oral & pharynx",q:"Which nerve provides motor innervation to the indicated muscle (palatoglossus)?",
+ o:[{t:"CN X",c:1},{t:"CN XII",p:1},{t:"CN IX"},{t:"CN V3"}],
+ w:"<b>CN X</b>, via the pharyngeal plexus. Palatoglossus is functionally a palatal muscle that happens to reach the tongue.",
+ trap:"CN XII is the trap — it supplies every other tongue muscle, intrinsic and extrinsic. The lectures flag this exception three separate times."},
+
+{id:"m24",topic:"Tongue, oral & pharynx",q:"A tumour at the indicated point in the tonsillar bed compresses CN IX. Which function is lost?",
+ o:[{t:"General sensory and taste from the posterior third of the tongue",c:1},{t:"Motor innervation to the muscles of the oropharynx",p:1},{t:"Motor innervation to the tongue"},{t:"Taste from the anterior two-thirds of the tongue"}],
+ w:"CN IX carries <b>general sensation and taste from the posterior third</b>, plus the afferent limb of the gag reflex.",
+ trap:"Motor to the oropharynx is the trap — that is CN X. CN IX supplies exactly one muscle in the whole body: stylopharyngeus."},
+
+{id:"m25",topic:"Tongue, oral & pharynx",q:"Which of the indicated structures on the lateral nasopharyngeal wall opens into the middle ear?",
+ o:[{t:"Pharyngotympanic tube",c:1},{t:"Pharyngeal recess",p:1},{t:"Salpingopharyngeal fold"},{t:"Torus tubarius"}],
+ w:"The <b>pharyngotympanic (Eustachian) tube</b>, whose ostium sits just anterior to the torus tubarius.",
+ trap:"Pharyngeal recess is the trap — the fossa of Rosenmüller sits immediately posterior to the torus and leads nowhere. Anterior to the torus is the tube; posterior is the recess."},
+
+/* Neck */
+{id:"m26",topic:"Neck",q:"Iatrogenic injury to the ansa cervicalis would paralyse which of the indicated muscles?",
+ o:[{t:"Sternohyoid",c:1},{t:"Thyrohyoid",p:1},{t:"Mylohyoid"},{t:"Stylohyoid"}],
+ w:"The ansa supplies <b>sternohyoid</b>, sternothyroid and both bellies of omohyoid.",
+ trap:"Thyrohyoid is the trap — a strap muscle, but innervated by C1 fibres travelling with CN XII. Mylohyoid is V3 and stylohyoid is CN VII."},
+
+{id:"m27",topic:"Neck",q:"A lesion of the nerve supplying the indicated muscle (mylohyoid) would also affect which other muscle?",
+ o:[{t:"Anterior belly of digastric",c:1},{t:"Posterior belly of digastric",p:1},{t:"Stylohyoid"},{t:"Thyrohyoid"}],
+ w:"The nerve to mylohyoid, a branch of V3, supplies mylohyoid and the <b>anterior belly of digastric</b>.",
+ trap:"Posterior belly is the trap — the two bellies of one muscle have different nerves, because they come from different pharyngeal arches. CN VII takes the posterior belly and stylohyoid."},
+
+{id:"m28",topic:"Neck",q:"A biopsy is planned for a lesion over the angle of the mandible and mastoid region. Which nerve requires a block?",
+ o:[{t:"Great auricular n.",c:1},{t:"Lesser occipital n.",p:1},{t:"Transverse cervical n."},{t:"Supraclavicular nn."}],
+ w:"The <b>great auricular nerve</b> supplies the skin over the ear, angle of the mandible and mastoid.",
+ trap:"Lesser occipital is the trap — also a cervical plexus branch, but its field is the scalp behind the ear. Transverse cervical covers anterior triangle skin; supraclavicular covers the clavicle."},
+
+/* Face / nose */
+{id:"m29",topic:"Face, nose & sinuses",q:"A tumour of the gland at the indicated location (parotid) will most likely cause an inability to do which of the following?",
+ o:[{t:"Close the eyes",c:1},{t:"Open the eyes",p:1},{t:"Depress the jaw"},{t:"Protrude the tongue"}],
+ w:"CN VII branches run through the parotid, so a parotid mass paralyses the muscles of facial expression — including orbicularis oculi, which <b>closes</b> the eye.",
+ trap:"Open the eyes is the trap — that is levator palpebrae superioris and CN III, nowhere near the parotid."},
+
+{id:"m30",topic:"Face, nose & sinuses",q:"Pus from an infected maxillary sinus drains into the nasal cavity through which structure?",
+ o:[{t:"Semilunar hiatus",c:1},{t:"Ethmoid bulla",p:1},{t:"Sphenoethmoidal recess"},{t:"Inferior meatus"}],
+ w:"The maxillary sinus opens into the <b>semilunar hiatus</b> of the middle meatus, alongside the frontal sinus and anterior ethmoid cells.",
+ trap:"Ethmoid bulla is the trap — it is the middle ethmoid bulge sitting right beside the hiatus, not a maxillary drainage route. Inferior meatus takes the nasolacrimal duct only."},
+
+{id:"m31",topic:"Face, nose & sinuses",q:"Significant bleeding from the anterior nasal septum after trauma. Which artery contributes to this region?",
+ o:[{t:"Sphenopalatine a.",c:1},{t:"Angular a.",p:1},{t:"Middle meningeal a."},{t:"Deep temporal a."}],
+ w:"<b>Sphenopalatine</b> — one of the five vessels of Kiesselbach's plexus, with the anterior and posterior ethmoidal, superior labial and greater palatine arteries.",
+ trap:"Angular is the trap — the terminal branch of the facial artery, it supplies the <i>external</i> nose, not the septum."},
+
+{id:"m32",topic:"Face, nose & sinuses",q:"A hockey player loses his sense of smell after a stick to the face. Which structure is directly associated with the olfactory nerve?",
+ o:[{t:"Cribriform plate",c:1},{t:"Superior concha",p:1},{t:"Crista galli"},{t:"Perpendicular plate of the ethmoid"}],
+ w:"Olfactory fibres pass through the olfactory foramina of the <b>cribriform plate</b> of the ethmoid.",
+ trap:"Superior concha is the trap — the olfactory epithelium sits near it, but the nerve itself traverses the cribriform plate. Crista galli is the midline ridge above it, not a conduit."}
+];
+
+/* --- 10 confusable pairs → 20 binary items --- */
+const PAIRDEFS = [
+ {id:"p1",a:"Lingual n.",b:"Inferior alveolar n.",
+  ca:"Lies anterior and medial in the infratemporal fossa, heading for the tongue",
+  cb:"Lies posterior and disappears into the mandibular foramen",
+  w:"In the infratemporal fossa the lingual is anterior and medial; the inferior alveolar is posterior and enters the mandible."},
+ {id:"p2",a:"Internal laryngeal n.",b:"External laryngeal n.",
+  ca:"Pierces the thyrohyoid membrane with the superior laryngeal artery",
+  cb:"Descends on the cricothyroid with the superior thyroid artery",
+  w:"Internal pierces the thyrohyoid membrane (sensation above the cords); external runs down on cricothyroid (pitch)."},
+ {id:"p3",a:"Superior oblique",b:"Inferior oblique",
+  ca:"Its tendon passes through the trochlea at the superomedial rim",
+  cb:"Arises from the anterior orbital floor and has no trochlea",
+  w:"The trochlea is the giveaway: only superior oblique uses it. SO is CN IV, IO is CN III."},
+ {id:"p4",a:"Anterior belly of digastric",b:"Posterior belly of digastric",
+  ca:"Innervated by the nerve to mylohyoid, a branch of V3",
+  cb:"Innervated by CN VII",
+  w:"One muscle, two arches, two nerves: anterior belly V3, posterior belly CN VII."},
+ {id:"p5",a:"Torus tubarius",b:"Pharyngeal recess",
+  ca:"The cartilaginous bulge on the lateral nasopharyngeal wall",
+  cb:"The slit immediately posterior to the bulge; the classic site of nasopharyngeal carcinoma",
+  w:"Torus is the bulge; the recess (fossa of Rosenmüller) is the slit behind it. The tube opening is in front of the torus."},
+ {id:"p6",a:"Vestibular fold",b:"Vocal fold",
+  ca:"Superior, pinker and thicker, with the ventricle beneath it",
+  cb:"Inferior, whiter and sharper-edged",
+  w:"False fold above, true fold below, ventricle between. The true fold is whiter because of the underlying vocal ligament."},
+ {id:"p7",a:"Hyoglossus",b:"Styloglossus",
+  ca:"A flat quadrilateral sheet arising from the hyoid bone",
+  cb:"A narrow strap descending from the styloid process",
+  w:"Hyoglossus is the flat sheet; CN XII runs lateral to it and the lingual artery runs medial to it."},
+ {id:"p8",a:"Middle meatus",b:"Superior meatus",
+  ca:"Contains the ethmoid bulla and the semilunar hiatus",
+  cb:"A small slit that receives the posterior ethmoid air cells",
+  w:"Middle meatus takes frontal, anterior ethmoid and maxillary; superior meatus takes posterior ethmoid only."},
+ {id:"p9",a:"Thyrohyoid",b:"Sternothyroid",
+  ca:"Runs from hyoid to thyroid cartilage; supplied by C1 via CN XII",
+  cb:"Runs from sternum to thyroid cartilage; supplied by the ansa cervicalis",
+  w:"Both attach to the thyroid cartilage, but thyrohyoid is the C1/CN XII exception among the straps."},
+ {id:"p10",a:"Retromandibular v.",b:"Facial v.",
+  ca:"Formed within the parotid gland by the superficial temporal and maxillary veins",
+  cb:"Runs obliquely across the face alongside the facial artery",
+  w:"Retromandibular is the intraparotid vein; the facial vein is the superficial one crossing the face."}
+];
+
+const PAIRS = [];
+PAIRDEFS.forEach(p=>{
+  PAIRS.push({id:p.id+"a",topic:"Confusable pairs",clue:p.ca,a:p.a,b:p.b,correct:0,w:p.w});
+  PAIRS.push({id:p.id+"b",topic:"Confusable pairs",clue:p.cb,a:p.a,b:p.b,correct:1,w:p.w});
+});
+
+/* --- 12 recall cards --- */
+const RECALL = [
+{id:"r01",topic:"Neck",q:"The tag is on a muscle running from the hyoid to the thyroid cartilage. Which nerve supplies it?",
+ a:"<b>C1 fibres travelling with the hypoglossal nerve</b> — not the ansa cervicalis, which supplies the other three straps."},
+{id:"r02",topic:"Larynx & vagus",q:"Name the only intrinsic laryngeal muscle that abducts the vocal folds, and its nerve.",
+ a:"<b>Posterior cricoarytenoid</b>, supplied by the <b>recurrent laryngeal nerve</b>. Bilateral paralysis is an airway emergency because the folds sit adducted."},
+{id:"r03",topic:"Autonomics",q:"Postganglionic parasympathetic fibers to the parotid gland travel on which nerve, from which ganglion?",
+ a:"The <b>auriculotemporal nerve (V3)</b>, from the <b>otic ganglion</b>. Preganglionic fibres came from CN IX via the lesser petrosal nerve."},
+{id:"r04",topic:"Orbit",q:"A patient cannot depress the adducted right eye. Which nerve, and through which opening does it leave the skull?",
+ a:"<b>CN IV (trochlear)</b>, supplying superior oblique, exiting via the <b>superior orbital fissure</b>."},
+{id:"r05",topic:"Tongue, oral & pharynx",q:"The uvula deviates to the right. Which side is the lesion, and which nerve?",
+ a:"<b>Left.</b> The uvula deviates <i>away</i> from a <b>CN X</b> lesion, pulled over by the intact contralateral levator veli palatini."},
+{id:"r06",topic:"Tongue, oral & pharynx",q:"Which structures pass through the gap between the middle and inferior pharyngeal constrictors?",
+ a:"The <b>internal laryngeal nerve</b> and the <b>superior laryngeal artery and vein</b>. Below the inferior constrictor: recurrent laryngeal nerve and inferior laryngeal artery."},
+{id:"r07",topic:"Face, nose & sinuses",q:"A tag sits in the slit just posterior to the torus tubarius. Name it and its clinical significance.",
+ a:"<b>Pharyngeal recess (fossa of Rosenmüller)</b> — the classic site of nasopharyngeal carcinoma, presenting with serous otitis media and a neck mass."},
+{id:"r08",topic:"Neck",q:"Which muscles are paralysed by a lesion of the nerve to mylohyoid?",
+ a:"<b>Mylohyoid</b> and the <b>anterior belly of digastric</b>. Both are V3 derivatives; the posterior belly belongs to CN VII."},
+{id:"r09",topic:"Larynx & vagus",q:"Sensation to the laryngeal mucosa below the vocal folds is carried by which nerve?",
+ a:"The <b>recurrent laryngeal nerve</b>. Above the folds it is the internal branch of the superior laryngeal nerve."},
+{id:"r10",topic:"Neck",q:"An abscess lies between the alar and prevertebral fasciae. How far can it spread?",
+ a:"This is the <b>danger space</b> — it runs from the skull base to the <b>diaphragm</b> via the posterior mediastinum. The retropharyngeal space proper ends at T1–T6."},
+{id:"r11",topic:"Orbit",q:"Anisocoria that is worse in dim light points to a deficit in which division of the autonomic nervous system?",
+ a:"<b>Sympathetic.</b> The dilator pupillae cannot act, so the affected pupil fails to enlarge in the dark — Horner syndrome. Anisocoria worse in <i>bright</i> light is a parasympathetic/CN III problem."},
+{id:"r12",topic:"Tongue, oral & pharynx",q:"The tag sits on the fold running from the soft palate to the side of the tongue. Name the muscle within it and its nerve.",
+ a:"The <b>palatoglossal fold</b>, containing <b>palatoglossus</b> — innervated by <b>CN X</b> via the pharyngeal plexus, the lone exception among the tongue muscles."}
+];
+
+return {MCQ,PAIRS,RECALL};
+})();
+</script>
+<script>
+"use strict";
+(function(){
+/* ================= utilities ================= */
+const app=document.getElementById('app'), hud=document.getElementById('hud');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const strip=s=>String(s).replace(/<[^>]+>/g,'');
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(seed){let a=seed||1;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const LET=['A','B','C','D','E'];
+if(location.protocol==='file:')document.getElementById('hublink').innerHTML='<a href="index.html">&lt; Game Hub</a> · ';
+
+/* ================= types ================= */
+const TYPES={
+ CERV:{n:'Cervical',c:'#4E9A3A',atk:'Plexus Pinch'},
+ VAGAL:{n:'Vagal',c:'#3A7FD0',atk:'Hoarse Roar'},
+ FACIAL:{n:'Facial',c:'#D9722B',atk:'Palsy Slap'},
+ TRIGEM:{n:'Trigeminal',c:'#B58B0A',atk:'Tic Strike'},
+ OCULAR:{n:'Ocular',c:'#7D4FCB',atk:'Diplopia Beam'},
+ SPECIAL:{n:'Special',c:'#C6477A',atk:'Tinnitus Wail'},
+ FORAMEN:{n:'Foramen',c:'#77705F',atk:'Skull-Base Squeeze'},
+ AUTO:{n:'Autonomic',c:'#23968A',atk:'Ganglion Surge'},
+ DECOY:{n:'Decoy',c:'#B23A2C',atk:'Mirror Feint'}
+};
+const tchip=t=>`<span class="tchip" style="background:${TYPES[t].c}">${TYPES[t].n.toUpperCase()}</span>`;
+
+/* ================= lesion banks (engine ported from Lesion Rounds) ================= */
+function mkLR(D,key,cfg){
+  const BY=Object.fromEntries(D.NODES.map(n=>[n.id,n]));
+  const memo={};
+  function signs(id){if(memo[id])return memo[id];const n=BY[id];const s=new Set(n.own||[]);(n.inc||[]).forEach(c=>{if(BY[c])signs(c).forEach(x=>s.add(x));});return memo[id]=s;}
+  function keySigns(id){const n=BY[id];const mo=new Set(n.minorOwn||[]);return [...signs(id)].filter(x=>!D.MINOR.has(x)&&!mo.has(x)&&D.SIG[x]);}
+  function subset(a,b){for(const x of a)if(!b.has(x))return false;return true;}
+  function distractorNodes(T,clues,k){
+    const ok=D.NODES.filter(n=>n.id!==T.id&&!clues.every(c=>signs(n.id).has(c)));
+    const same=shuffle(ok.filter(n=>n.grp===T.grp)),other=shuffle(ok.filter(n=>n.grp!==T.grp));
+    const share=n=>[...signs(n.id)].some(x=>signs(T.id).has(x));
+    const pri=[...same.filter(share),...same.filter(n=>!share(n)),...shuffle(other.filter(share)),...other.filter(n=>!share(n))];
+    const seen=new Set([T.name]),out=[];
+    for(const n of pri){if(out.length>=k)break;if(seen.has(n.name))continue;seen.add(n.name);out.push(n);}
+    return out;
+  }
+  function distractorSigns(T,k){
+    const mine=signs(T.id);const bad=s=>mine.has(s)||D.MINOR.has(s);
+    const spared=shuffle((T.spared||[]).filter(s=>!bad(s)&&D.SIG[s]));
+    const sameGrp=shuffle([...new Set(D.NODES.filter(n=>n.grp===T.grp&&n.id!==T.id).flatMap(n=>keySigns(n.id)))].filter(s=>!bad(s)));
+    const any=shuffle(Object.keys(D.SIG).filter(s=>!bad(s)));
+    const out=[];for(const s of [...spared,...sameGrp,...any]){if(out.length>=k)break;if(!out.includes(s))out.push(s);}
+    return out;
+  }
+  function owner(sig){const n=D.NODES.find(n=>(n.own||[]).includes(sig));return n?n.name:null;}
+  const phrase=T=>T.kind==='site'?`A lesion at the <strong>${esc(T.name)}</strong>`:`A lesion of the <strong>${esc(T.name)}</strong>`;
+  const mk=(o)=>Object.assign({bank:key,miss:`${key}:n:${o.node}`},o);
+  return {
+    key,D,BY,signs,keySigns,cfg,
+    typeOf:n=>n.kind==='site'||n.grp==='site'?'FORAMEN':cfg.types[n.grp],
+    case(T){
+      const key_=keySigns(T.id);if(!key_.length)return null;const all=signs(T.id);let clues=null;
+      for(let t=0;t<40;t++){const c=shuffle(key_).slice(0,Math.min(4,key_.length));
+        const narrower=D.NODES.some(n=>n.id!==T.id&&subset(c,signs(n.id))&&signs(n.id).size<all.size&&subset(signs(n.id),all));clues=c;if(!narrower)break;}
+      const d=distractorNodes(T,clues,4);if(d.length<3)return null;
+      const opts=shuffle([T,...d]);
+      return mk({type:'case',node:T.id,rows:[...clues.map(s=>[D.SIG[s][0],D.SIG[s][1]]),['History',T.cause]],shown:1,
+        opts:opts.map(n=>n.name),ans:opts.indexOf(T),stem:'Which single lesion explains ALL of these findings?',
+        explain:`<ul class="whys">${clues.map(s=>`<li>${esc(D.SIG[s][1])}<small>${esc(D.SIG[s][2])}</small></li>`).join('')}</ul>`});
+    },
+    predict(T){
+      const k=keySigns(T.id);if(!k.length)return null;const right=pick(k);const d=distractorSigns(T,3);if(d.length<3)return null;
+      const opts=shuffle([right,...d]);
+      return mk({type:'predict',node:T.id,opts:opts.map(s=>D.SIG[s][1]),ans:opts.indexOf(right),stem:`${phrase(T)}. Which finding would you expect?`,
+        explain:`<p class="ans">${esc(D.SIG[right][2])}</p>`});
+    },
+    spared(T){
+      const k=keySigns(T.id);if(k.length<3)return null;const yes=shuffle(k).slice(0,3);const no=distractorSigns(T,1)[0];if(!no)return null;
+      const opts=shuffle([...yes,no]);const who=owner(no);
+      return mk({type:'spared',node:T.id,opts:opts.map(s=>D.SIG[s][1]),ans:opts.indexOf(no),stem:`${phrase(T)}. Which finding would you <strong>NOT</strong> expect?`,
+        explain:`<p class="ans">That finding is not part of this lesion${who&&who!==T.name?` — it points to the <b>${esc(who)}</b>`:''}. ${esc(D.SIG[no][2])}</p>`});
+    },
+    side(grp,T){
+      let pool=D.SIDE.filter(t=>D.SIDE_GRP[t.id]===grp);if(!pool.length)return null;
+      const t=pick(pool);const s=t.fixed||(Math.random()<.5?'left':'right');const [ni,side]=t.ans(s);
+      const cap=x=>x[0].toUpperCase()+x.slice(1);
+      const opts=[];t.nerve.forEach(n=>['left','right'].forEach(sd=>opts.push(`${cap(sd)} ${n.charAt(0).toLowerCase()+n.slice(1)}`)));
+      return {bank:key,type:'side',tpl:t.id,node:T?T.id:null,miss:`${key}:s:${t.id}`,opts,ans:ni*2+(side==='left'?0:1),stem:t.f(s),explain:`<p class="ans">${esc(t.why)}</p>`};
+    },
+    sideById(id){const t=D.SIDE.find(x=>x.id===id);return t;}
+  };
+}
+const LR_CFG1={name:'Lesion Rounds I',types:{neck:'CERV',larynx:'VAGAL',face:'FACIAL',trig:'TRIGEM',orbit:'OCULAR',other:'SPECIAL',site:'FORAMEN'}};
+const LR_CFG2={name:'Lesion Rounds II',types:{v12:'TRIGEM',v3:'TRIGEM',vii:'FACIAL',ixx:'VAGAL',eye:'OCULAR',oth:'SPECIAL',site:'FORAMEN'}};
+const BANK={lr1:mkLR(LR1,'lr1',LR_CFG1),lr2:mkLR(LR2,'lr2',LR_CFG2)};
+
+/* ================= trap bank ================= */
+const TOPIC_MON={
+ "Autonomics":{id:'gangliomite',name:'Gangliomite',t:'AUTO'},
+ "Neck":{id:'strapling',name:'Strapling',t:'CERV'},
+ "Larynx & vagus":{id:'glottigon',name:'Glottigon',t:'VAGAL'},
+ "Orbit":{id:'trochlit',name:'Trochlit',t:'OCULAR'},
+ "Tongue, oral & pharynx":{id:'glossquatch',name:'Glossquatch',t:'SPECIAL'},
+ "Face, nose & sinuses":{id:'sinusnout',name:'Sinusnout',t:'FACIAL'},
+ "Foramina":{id:'foramole',name:'Foramole',t:'FORAMEN'},
+ "V3 & infratemporal fossa":{id:'pterygoblin',name:'Pterygoblin',t:'TRIGEM'},
+ "Confusable pairs":{id:'mimicell',name:'Mimicell',t:'DECOY'}
+};
+const TRAP_TOPICS=[...new Set([...TH.MCQ.map(m=>m.topic),'Confusable pairs'])].filter(t=>TOPIC_MON[t]);
+const TRAP_BY_ID={};TH.MCQ.forEach(m=>TRAP_BY_ID[m.id]={kind:'mcq',it:m});TH.PAIRS.forEach(p=>TRAP_BY_ID[p.id]={kind:'pair',it:p});
+function trapQ(id){
+  const e=TRAP_BY_ID[id];if(!e)return null;
+  if(e.kind==='mcq'){const m=e.it;const o=shuffle(m.o);
+    return {bank:'trap',type:'mcq',item:id,miss:`trap:${id}`,topic:m.topic,stem:m.q,opts:o.map(x=>x.t),ans:o.findIndex(x=>x.c),trapIdx:o.findIndex(x=>x.p),explain:`<p class="ans">${m.w}</p>`,trapText:m.trap};}
+  const p=e.it;
+  return {bank:'trap',type:'pair',item:id,miss:`trap:${id}`,topic:'Confusable pairs',stem:`Which structure fits? <strong>${esc(p.clue)}</strong>`,opts:[p.a,p.b],ans:p.correct,trapIdx:-1,explain:`<p class="ans">${esc(p.w)}</p>`};
+}
+const topicItems=t=>t==='Confusable pairs'?TH.PAIRS.map(p=>p.id):TH.MCQ.filter(m=>m.topic===t).map(m=>m.id);
+
+/* ================= species ================= */
+const SP={};
+const STARTERS=[
+ {key:'st:vagulet',name:'Vagulet',t:'VAGAL',blurb:'Wanders from the brainstem to the belly. Strong against larynx and pharynx foes.'},
+ {key:'st:trigemix',name:'Trigemix',t:'TRIGEM',blurb:'Three heads, one ganglion. Strong against V1, V2 and V3 foes.'},
+ {key:'st:facilisk',name:'Facilisk',t:'FACIAL',blurb:'Five branches fan out from its parotid lair. Strong against facial-nerve foes.'}
+];
+STARTERS.forEach(s=>SP[s.key]={key:s.key,name:s.name,t:s.t,bank:'st'});
+['lr1','lr2'].forEach(b=>BANK[b].D.NODES.forEach(n=>{SP[`${b}:${n.id}`]={key:`${b}:${n.id}`,name:n.name,t:BANK[b].typeOf(n),bank:b,node:n.id,grp:n.grp};}));
+Object.entries(TOPIC_MON).forEach(([topic,m])=>SP[`trap:${m.id}`]={key:`trap:${m.id}`,name:m.name,t:m.t,bank:'trap',topic});
+const DEX={lr1:LR1.NODES.map(n=>`lr1:${n.id}`),lr2:LR2.NODES.map(n=>`lr2:${n.id}`),trap:TRAP_TOPICS.map(t=>`trap:${TOPIC_MON[t].id}`)};
+
+/* ================= sprites (procedural, original) ================= */
+const spriteCache={};
+function shade(hex,f){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;
+  if(f<0){r*=1+f;g*=1+f;b*=1+f;}else{r+=(255-r)*f;g+=(255-g)*f;b+=(255-b)*f;}
+  return '#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');}
+function genGrid(key){
+  if(spriteCache[key])return spriteCache[key];
+  const r=rng(hash(key));const W=16,H=18,half=8;const g=[...Array(H)].map(()=>Array(W).fill(0));
+  const wide=.75+r()*.5, tall=.55+r()*.35;
+  for(let y=3;y<H-1;y++)for(let x=1;x<half;x++){
+    const dx=(half-1-x)/half, dy=Math.abs(y-10.5)/7.5;
+    const p=1.05-dx*1.05/wide-dy*dy*tall*1.1+(r()-.5)*.45;
+    if(r()<p){g[y][x]=1;g[y][W-1-x]=1;}
+  }
+  // keep component connected to center
+  const seen=new Set();const st=[[10,7]];
+  if(!g[10][7]){g[10][7]=g[10][8]=1;}
+  while(st.length){const [y,x]=st.pop();const k=y*W+x;if(seen.has(k)||y<0||y>=H||x<0||x>=W||!g[y][x])continue;seen.add(k);st.push([y+1,x],[y-1,x],[y,x+1],[y,x-1]);}
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(g[y][x]&&!seen.has(y*W+x))g[y][x]=0;
+  // dendrites
+  let top=H;for(let y=0;y<H;y++)if(g[y].some(v=>v)){top=y;break;}
+  const nd=1+Math.floor(r()*2);
+  for(let i=0;i<nd;i++){let x=2+Math.floor(r()*5);let y=top;while(y<H-1&&!g[y][x])y++;
+    for(let s=0;s<3&&y>0;s++){y--;if(r()<.4)x=Math.max(1,Math.min(half-1,x+(r()<.5?-1:1)));g[y][x]=g[y][x]||3;g[y][W-1-x]=g[y][W-1-x]||3;}}
+  // eyes
+  let eye=null;
+  for(let y=top+1;y<H-4&&!eye;y++){for(const ex of [5,4,6,3]){if(g[y][ex]===1&&g[y+1][ex]===1&&g[y][ex-1]&&g[y][ex+1]&&g[y+1][ex]){eye=[y,ex];break;}}}
+  const out={g,W,H,eye,hue:r()};
+  return spriteCache[key]=out;
+}
+function spriteSVG(key,opt={}){
+  const sp=SP[key];const base=sp?TYPES[sp.t].c:'#888';const {g,W,H,eye,hue}=genGrid(key);
+  const body=shade(base,(hue-.5)*.35), hi=shade(body,.35), lo=shade(body,-.3), acc=shade(base,.55), ol='#1B2033';
+  const sil=opt.sil;let rects='';
+  const at=(y,x)=>y>=0&&y<H&&x>=0&&x<W?g[y][x]:0;
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    const v=g[y][x];
+    if(!v){if(at(y-1,x)||at(y+1,x)||at(y,x-1)||at(y,x+1))rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${sil?'#1B203355':ol}"/>`;continue;}
+    let c;
+    if(sil)c='#1B203340';
+    else if(v===3)c=acc;
+    else if(opt.back)c=!at(y+1,x)?lo:(!at(y-1,x)?body:shade(body,-.12));
+    else c=!at(y-1,x)?hi:(!at(y+1,x)?lo:((x>5&&x<10&&y>11&&y<15)?shade(body,.2):body));
+    rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${c}"/>`;
+  }
+  if(eye&&!opt.back&&!sil){const [y,ex]=eye;[ex,W-1-ex].forEach(x=>{rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#fff"/><rect x="${x}" y="${y+1}" width="1" height="1" fill="${ol}"/>`;});}
+  return `<svg class="${opt.cls||'spr'}" viewBox="0 0 ${W} ${H}" shape-rendering="crispEdges" aria-hidden="true">${rects}</svg>`;
+}
+const TRAINER=["...HHHH...","..HHHHHH..",".HHHHHHHH.","..SSSSSS..","..SESSES..","..SSSSSS..","...SMMS...","..WCCCCW..",".WWCCCCWW.",".SWCCCCWS.",".SWWCCWWS.","..PPPPPP..","..PP..PP..","..BB..BB.."];
+function trainerSVG(coat,hair,cls){
+  const pal={H:hair||'#3A2A1E',S:'#F2C9A0',E:'#1B2033',M:'#B5524A',C:coat,W:'#FFFFFF',P:'#2D3350',B:'#1B2033'};let r='';
+  TRAINER.forEach((row,y)=>[...row].forEach((ch,x)=>{if(ch!=='.')r+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${pal[ch]}"/>`;}));
+  return `<svg class="${cls||'trn'}" viewBox="-1 -1 12 16" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`;
+}
+const ORB=`<svg viewBox="0 0 10 10" shape-rendering="crispEdges"><circle cx="5" cy="5" r="4.5" fill="#3A7FD0" stroke="#1B2033" stroke-width="1"/><path d="M.5 5h9a4.5 4.5 0 0 1-9 0z" fill="#E3AE12" stroke="#1B2033" stroke-width="1"/><circle cx="5" cy="5" r="1.4" fill="#fff" stroke="#1B2033" stroke-width=".8"/></svg>`;
+function badgeSVG(color,got){return `<svg class="badge" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 .6 9.2 3.4 7.6 9.2H2.4L.8 3.4z" fill="${got?color:'#D5D9E6'}" stroke="#1B2033" stroke-width=".8"/><path d="M5 2.4 7.2 3.9 6.4 7.4H3.6L2.8 3.9z" fill="${got?'#ffffff88':'#ffffff55'}"/></svg>`;}
+
+/* ================= gyms ================= */
+const GYMS={
+ lr1:{bank:'lr1',leader:'Leader Ansa',gym:'Foramen Gym',badge:'Foramen Badge',coat:'#2E86C8',hair:'#1B2033',lvl:14,
+   intro:"Every nerve leaves the skull somewhere. Show me you can find WHERE it broke!",win:"You localized every one. Take the Foramen Badge!",size:4},
+ lr2:{bank:'lr2',leader:'Leader Chorda',gym:'Petrosal Gym',badge:'Branch Badge',coat:'#D9722B',hair:'#6B2A12',lvl:18,
+   intro:"Taste, tears, hyperacusis… how HIGH is the lesion? Let's find out!",win:"You traced every branch. The Branch Badge is yours!",size:4},
+ trap:{bank:'trap',leader:'Leader Decoy',gym:'Distractor Gym',badge:'Trap Badge',coat:'#96313B',hair:'#E3AE12',lvl:16,
+   intro:"My team hides behind the answer you WANT to pick. Read the stem!",win:"You saw every trap coming. Take the Trap Badge!",size:4},
+ champ:{bank:'mix',leader:'Champion Vernet',gym:'Summit',badge:'Champion Crest',coat:'#1B2033',hair:'#C9CFE0',lvl:25,
+   intro:"Jugular foramen, skull base, every trap in the book. I am the final exam!",win:"Unbelievable… you are the new HNSS Champion!",size:6}
+};
+
+/* ================= save ================= */
+const KEY='hoyadocs-neuromon-hnss-v1';
+let G=null;
+function fresh(){return{name:'',party:[],items:{potion:3,lens:2,orb:5},badges:{},dex:{},missed:{},stats:{right:0,wrong:0,traps:0,caught:0,battles:0},loc:'center',uid:1};}
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);if(d&&d.party&&d.party.length)return Object.assign(fresh(),d);}}catch(e){}return null;}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(G));}catch(e){}}
+const maxHP=l=>30+5*l, xpNeed=l=>25+l*5;
+function newMon(key,lvl){const m={uid:G.uid++,sp:key,lvl,xp:0,max:maxHP(lvl)};m.hp=m.max;return m;}
+const lead=()=>G.party.find(m=>m.hp>0)||G.party[0];
+function seen(key,how){const cur=G.dex[key];if(how==='caught'||!cur)G.dex[key]=how;}
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2200);}
+
+/* ================= HUD ================= */
+function renderHud(){
+  if(!G||!G.party.length){hud.hidden=true;return;}
+  hud.hidden=false;
+  hud.innerHTML=`<button class="hbtn" data-go="map">Map</button><button class="hbtn" data-go="party">Party <b>${G.party.length}</b></button><button class="hbtn" data-go="dex">Nervedex <b>${Object.keys(G.dex).filter(k=>!k.startsWith('st:')).length}</b></button><button class="hbtn" data-go="review">Review <b>${Object.keys(G.missed).length}</b></button>`;
+  hud.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(inBattle){toast('Finish the battle first!');return;}go(b.dataset.go);});
+}
+let inBattle=false, keyHandler=null;
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(keyHandler)keyHandler(e);});
+function go(where,arg){keyHandler=null;window.scrollTo({top:0,behavior:'smooth'});renderHud();
+  ({title:renderTitle,map:renderMap,route:renderRoute,party:renderParty,dex:renderDex,review:renderReview})[where](arg);}
+
+/* ================= title / starter ================= */
+function renderTitle(){
+  hud.hidden=true;
+  const saved=load();let chosen=null;
+  app.innerHTML=`<section class="title"><div class="pane">
+    <h1 class="logo">NEUROMON<small>HNSS Edition · Head, Neck &amp; Special Senses</small></h1>
+    <p class="lede" style="color:var(--ink)">Wild lesions lurk in the tall grass. Identify them from their findings, predict what they'll do, spot the traps, and catch all ${Object.keys(SP).length-3} for your Nervedex. Beat four leaders to become Champion.</p>
+    ${saved?`<div class="box row" style="justify-content:space-between"><div><div class="h2">Continue</div><div class="small">${esc(saved.name)} · ${saved.party.length} Neuromon · ${Object.keys(saved.badges).length} badges</div></div><button class="btn gold" id="cont">Continue &gt;</button></div>`:''}
+    <div class="box" style="display:flex;flex-direction:column;gap:12px">
+      <div class="h2">${saved?'Or start a new journey':'Start your journey'}</div>
+      <div class="namefield"><label for="tname">Trainer name</label><input id="tname" maxlength="14" value="${esc(saved?saved.name:'')}" placeholder="Your name"></div>
+      <div class="small">Choose your first Neuromon. It gets a damage bonus against foes of its own type.</div>
+      <div class="starters">${STARTERS.map(s=>`<button class="starter" data-k="${s.key}" aria-pressed="false">${spriteSVG(s.key)}<h3>${s.name}</h3>${tchip(s.t)}<p>${s.blurb}</p></button>`).join('')}</div>
+      <div class="row"><button class="btn" id="begin" disabled>Choose a starter</button>${saved?'<span class="small">Starting over replaces your saved game.</span>':''}</div>
+    </div></div></section>`;
+  if(saved)document.getElementById('cont').onclick=()=>{G=saved;go('map');};
+  const bt=document.getElementById('begin');
+  app.querySelectorAll('.starter').forEach(b=>b.onclick=()=>{chosen=b.dataset.k;app.querySelectorAll('.starter').forEach(x=>x.setAttribute('aria-pressed',x===b));bt.disabled=false;bt.textContent=`Begin with ${SP[chosen].name} &gt;`;});
+  bt.onclick=()=>{G=fresh();G.name=(document.getElementById('tname').value.trim()||'Hoya');G.party=[newMon(chosen,5)];seen(chosen,'caught');persist();go('map');};
+}
+
+/* ================= map ================= */
+const LOCS=[
+ {id:'center',name:'Nerve Center',sub:'Heal party',x:13,y:74,ico:'center'},
+ {id:'lr1',name:'Cervical Trail',sub:'Lesion Rounds I',x:31,y:36,ico:'grass'},
+ {id:'lr2',name:'Branchwood',sub:'Lesion Rounds II',x:54,y:72,ico:'forest'},
+ {id:'trap',name:'Trap Cave',sub:'Trap Hunter',x:82,y:52,ico:'cave'},
+ {id:'champ',name:'Summit',sub:'Champion',x:52,y:16,ico:'summit'}
+];
+function locIcon(k){
+  const s={center:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><rect x="2" y="6" width="12" height="9" fill="#fff" stroke="#1B2033"/><path d="M1 7 8 1l7 6z" fill="#C2412F" stroke="#1B2033"/><rect x="7" y="10" width="3" height="5" fill="#3A7FD0"/><rect x="7" y="7" width="3" height="1" fill="#C2412F"/><rect x="8" y="6" width="1" height="3" fill="#C2412F"/></svg>`,
+   grass:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><rect x="1" y="7" width="14" height="8" fill="#4E9A3A" stroke="#1B2033"/><path d="M2 7l1-3 1 3 1-3 1 3 1-3 1 3 1-3 1 3 1-3 1 3 1-3 1 3" fill="#6FA553" stroke="#1B2033"/><rect x="6" y="1" width="4" height="4" fill="#2E86C8" stroke="#1B2033"/></svg>`,
+   forest:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M4 1 0 9h8z" fill="#2F6B2C" stroke="#1B2033"/><path d="M11 3 7 12h8z" fill="#3F7F3A" stroke="#1B2033"/><rect x="3" y="9" width="2" height="5" fill="#6B4A2E"/><rect x="10" y="12" width="2" height="3" fill="#6B4A2E"/></svg>`,
+   cave:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M0 15 3 5l5-4 5 4 3 10z" fill="#8A7F6E" stroke="#1B2033"/><path d="M5 15v-5a3 3 0 0 1 6 0v5z" fill="#1B2033"/><rect x="7" y="3" width="2" height="2" fill="#96313B"/></svg>`,
+   summit:`<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M0 15 8 1l8 14z" fill="#9AA0B4" stroke="#1B2033"/><path d="M5.7 5 8 1l2.3 4-1.3 1L8 5 7 6z" fill="#fff"/><rect x="8" y="0" width="1" height="4" fill="#1B2033"/><rect x="9" y="0" width="3" height="2" fill="#E3AE12"/></svg>`};
+  return s[k];
+}
+function renderMap(){
+  const nb=Object.keys(G.badges).filter(k=>k!=='champ').length;
+  const cur=LOCS.find(l=>l.id===G.loc)||LOCS[0];
+  const caught=Object.entries(G.dex).filter(([k,v])=>v==='caught'&&!k.startsWith('st:')).length;
+  app.innerHTML=`<div class="map" id="map">
+    <div class="pond"></div>
+    ${[[6,20],[9,28],[44,48],[70,82],[92,78],[24,90],[40,92],[88,30]].map(([x,y])=>`<div class="tree" style="left:${x}%;top:${y}%"></div>`).join('')}
+    <svg class="paths" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M13 74 L31 36 L54 72 L82 52 L52 16 L31 36" fill="none" stroke="#E6D39A" stroke-width="3.2" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="stroke-width:14px"/><path d="M13 74 L31 36 L54 72 L82 52 L52 16 L31 36" fill="none" stroke="#C9B06A" stroke-dasharray="2 3" vector-effect="non-scaling-stroke" style="stroke-width:2px"/></svg>
+    ${LOCS.map(l=>{const lock=l.id==='champ'&&nb<3;return `<button class="loc" data-l="${l.id}" style="left:${l.x}%;top:${l.y}%" ${lock?'disabled':''} aria-label="${l.name}">${locIcon(l.ico)}<span class="lbl">${l.name}<em>${lock?`Needs 3 badges (${nb}/3)`:l.sub}${G.badges[l.id]?' (badge)':''}</em></span></button>`;}).join('')}
+    <div class="avatar" id="av" style="left:${cur.x}%;top:${cur.y-6}%">${trainerSVG('#E3AE12','#3A2A1E','')}</div>
+  </div>
+  <div class="mapfoot">
+    <div class="stat"><div class="k">TRAINER</div><div class="v">${esc(G.name)}</div></div>
+    <div class="stat"><div class="k">BADGES</div><div class="badges">${['lr1','lr2','trap','champ'].map(k=>badgeSVG(GYMS[k].coat==='#1B2033'?'#E3AE12':GYMS[k].coat,G.badges[k])).join('')}</div></div>
+    <div class="stat"><div class="k">NERVEDEX CAUGHT</div><div class="v">${caught}<span class="small"> / ${Object.keys(SP).length-3}</span></div></div>
+    <div class="stat"><div class="k">BAG</div><div class="v" style="font-size:14px">Potion ${G.items.potion} · Lens ${G.items.lens} · Orb ${G.items.orb}</div></div>
+  </div>`;
+  app.querySelectorAll('.loc').forEach(b=>b.onclick=async()=>{
+    const l=LOCS.find(x=>x.id===b.dataset.l);const av=document.getElementById('av');
+    av.style.left=l.x+'%';av.style.top=(l.y-6)+'%';G.loc=l.id;persist();await sleep(600);
+    if(l.id==='center'){G.party.forEach(m=>m.hp=m.max);persist();toast('Your Neuromon are fully healed!');return;}
+    if(l.id==='champ'){startGym('champ');return;}
+    go('route',l.id);
+  });
+}
+
+/* ================= route ================= */
+function dexProgress(keys){let s=0,c=0;keys.forEach(k=>{if(G.dex[k])s++;if(G.dex[k]==='caught')c++;});return {s,c,n:keys.length};}
+function renderRoute(id){
+  const g=GYMS[id];let patches;
+  if(id==='trap'){patches=TRAP_TOPICS.map(t=>({k:t,label:t,keys:[`trap:${TOPIC_MON[t].id}`],type:TOPIC_MON[t].t,count:`${topicItems(t).length} questions`}));}
+  else{const b=BANK[id];patches=Object.entries(b.D.GROUPS).map(([gk,label])=>{const keys=b.D.NODES.filter(n=>n.grp===gk).map(n=>`${id}:${n.id}`);return {k:gk,label,keys,type:gk==='site'?'FORAMEN':b.cfg.types[gk],count:`${keys.length} lesions`};});}
+  const loc=LOCS.find(l=>l.id===id);
+  app.innerHTML=`<div class="pane">
+    <div class="row" style="justify-content:space-between"><div><div class="h1">${loc.name}</div><div class="small">${loc.sub} · ${id==='trap'?'Wild foes ask trap MCQs and confusable pairs. Catch them with recall cards.':'Wild lesions hide their name. Identify them from the findings, then catch them.'}</div></div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <div class="h2">Tall grass</div>
+    <div class="patches">${patches.map(p=>{const d=dexProgress(p.keys);return `<button class="patch" data-p="${esc(p.k)}"><div class="in">
+      <div class="row" style="justify-content:space-between">${tchip(p.type)}<span class="small">${p.count}</span></div>
+      <h3>${esc(p.label)}</h3>
+      <div class="meter" title="Seen ${d.s}, caught ${d.c} of ${d.n}"><i style="width:${d.c/d.n*100}%;background:var(--gold)"></i><i style="width:${(d.s-d.c)/d.n*100}%;background:#9DB4D8"></i></div>
+      <div class="small">Caught ${d.c} · Seen ${d.s} · of ${d.n}</div></div></button>`;}).join('')}</div>
+    <div class="h2">Gym</div>
+    <div class="gymcard">${trainerSVG(g.coat,g.hair)}<div style="display:flex;flex-direction:column;gap:8px">
+      <div class="h2">${g.gym} · ${g.leader}</div><p class="lede">“${g.intro}”</p>
+      <div class="row"><button class="btn gold" id="gym">${G.badges[id]?'Rematch':'Challenge'} &gt;</button><span class="small">${g.size} Neuromon · Lv ${g.lvl}${G.badges[id]?` · ${g.badge} earned`:''}</span></div></div></div>
+  </div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  document.getElementById('gym').onclick=()=>startGym(id);
+  app.querySelectorAll('.patch').forEach(b=>b.onclick=()=>startWild(id,b.dataset.p));
+}
+
+/* ================= encounter builders ================= */
+function enemyLevel(base){const nb=Object.keys(G.badges).length;return base+nb*4+Math.floor(Math.random()*4);}
+function lrEnemy(bankKey,T,opts={}){return {sp:`${bankKey}:${T.id}`,bank:bankKey,node:T.id,lvl:opts.lvl||enemyLevel(3),hp:opts.hp||100,max:opts.hp||100,hidden:true,caseMiss:0,forced:opts.forced||null};}
+function trapEnemy(topic,opts={}){const m=TOPIC_MON[topic];return {sp:`trap:${m.id}`,bank:'trap',topic,lvl:opts.lvl||enemyLevel(3),hp:opts.hp||100,max:opts.hp||100,hidden:false,pool:opts.pool||shuffle(topicItems(topic)),forced:opts.forced||null};}
+function startWild(id,patch){
+  let e;
+  if(id==='trap')e=trapEnemy(patch);
+  else{const nodes=BANK[id].D.NODES.filter(n=>n.grp===patch);const w=nodes.flatMap(n=>G.dex[`${id}:${n.id}`]==='caught'?[n]:G.dex[`${id}:${n.id}`]?[n,n]:[n,n,n,n]);e=lrEnemy(id,pick(w));}
+  battle({kind:'wild',enemies:[e],scene:id==='trap'?'cave':'',back:id});
+}
+function startGym(id){
+  const g=GYMS[id];let es=[];
+  if(id==='trap'){es=shuffle(TRAP_TOPICS.filter(t=>t!=='Confusable pairs')).slice(0,3).map(t=>trapEnemy(t,{lvl:g.lvl,hp:130}));
+    es.push(trapEnemy('Confusable pairs',{lvl:g.lvl+2,hp:130}));es[es.length-1].pool=shuffle([...topicItems('Confusable pairs'),...shuffle(TH.MCQ.map(m=>m.id)).slice(0,6)]);}
+  else if(id==='champ'){
+    const lr=(b,n)=>shuffle(BANK[b].D.NODES).slice(0,n).map(T=>lrEnemy(b,T,{lvl:g.lvl,hp:150}));
+    es=[...lr('lr1',2),...lr('lr2',2),...shuffle(TRAP_TOPICS).slice(0,2).map(t=>trapEnemy(t,{lvl:g.lvl,hp:150}))];es=shuffle(es);}
+  else{const N=BANK[id].D.NODES;const sites=shuffle(N.filter(n=>n.grp==='site')).slice(0,2);const rest=shuffle(N.filter(n=>n.grp!=='site')).slice(0,g.size-sites.length);
+    es=[...rest,...sites].map(T=>lrEnemy(id,T,{lvl:g.lvl,hp:130}));}
+  battle({kind:id==='champ'?'champ':'gym',gym:id,enemies:es,scene:'gym',back:id==='champ'?'map':id});
+}
+function startReview(){
+  const keys=shuffle(Object.keys(G.missed)).slice(0,6);const es=[];
+  keys.forEach(k=>{const [b,kind,id]=k.split(':');
+    if(b==='trap'){const e=TRAP_BY_ID[kind];if(!e)return;const topic=e.kind==='pair'?'Confusable pairs':e.it.topic;es.push(trapEnemy(topic,{forced:kind}));}
+    else if(kind==='n'&&BANK[b].BY[id])es.push(lrEnemy(b,BANK[b].BY[id]));
+    else if(kind==='s'){const grp=BANK[b].D.SIDE_GRP[id];const cand=BANK[b].D.NODES.filter(n=>n.grp===grp);if(cand.length){const e=lrEnemy(b,pick(cand),{forced:id});es.push(e);}}});
+  if(!es.length){toast('Nothing to review yet!');return;}
+  battle({kind:'review',enemies:es,scene:'',back:'review'});
+}
+
+/* ================= battle ================= */
+let B=null;
+const MOVE={case:['LOCALIZE','Name the lesion'],predict:['PREDICT','Pick the finding you expect'],spared:['SPOT SPARED','Pick the finding you would NOT see'],side:['LATERALIZE','Which side, which nerve?'],mcq:['TRAP SENSE','One option is the trap'],pair:['TELL APART','Two lookalikes — pick one']};
+const CASE_MULT=[1.8,1.5,1.25,1.1,1];
+function eName(e){return e.hidden?'???':SP[e.sp].name;}
+function sceneHTML(){
+  const e=B.enemies[B.ei], p=B.pm;const ep=SP[e.sp],pp=SP[p.sp];
+  const hpw=(h,m)=>Math.max(0,h/m*100);
+  const col=r=>r>.5?'var(--hp-hi)':r>.2?'var(--hp-mid)':'var(--hp-lo)';
+  return `<div class="scene ${B.scene}" id="scene">
+    <div class="plat e"></div><div class="plat p"></div>
+    ${B.leaderShown?`<div class="leader" id="leader">${trainerSVG(GYMS[B.gym].coat,GYMS[B.gym].hair,'')}</div>`:''}
+    <div id="emon">${B.leaderShown?'':spriteSVG(e.sp,{cls:'mon e enter',sil:e.hidden})}</div>
+    <div id="pmon">${spriteSVG(p.sp,{cls:'mon p enter',back:true})}</div>
+    <div class="stbox e" id="ebox"><div class="nm"><span>${esc(eName(e))}</span><span>Lv${e.lvl}</span></div>
+      <div class="row" style="gap:4px;margin-top:3px">${e.hidden?'<span class="tchip" style="background:#5B6280">???</span>':tchip(ep.t)}${G.dex[e.sp]==='caught'?'<span title="Caught">'+ORB.replace('<svg','<svg width="12" height="12"')+'</span>':''}</div>
+      <div class="hpline"><span class="lab">HP</span><div class="hpbar"><i id="ehp" style="width:${hpw(e.hp,e.max)}%;background:${col(e.hp/e.max)}"></i></div></div></div>
+    <div class="stbox p" id="pbox"><div class="nm"><span>${esc(pp.name)}</span><span>Lv${p.lvl}</span></div>
+      <div class="row" style="gap:4px;margin-top:3px">${tchip(pp.t)}</div>
+      <div class="hpline"><span class="lab">HP</span><div class="hpbar"><i id="php" style="width:${hpw(p.hp,p.max)}%;background:${col(p.hp/p.max)}"></i></div></div>
+      <div class="hpnum" id="phpn">${p.hp}/${p.max}</div><div class="xpbar"><i id="pxp" style="width:${p.xp/xpNeed(p.lvl)*100}%"></i></div></div>
+    ${B.enemies.length>1?`<div class="tbadge" style="top:auto;bottom:40%;right:3%">${B.enemies.map((x,i)=>`<i class="${x.hp>0?'alive':'dead'}"></i>`).join('')}</div>`:''}
+  </div>
+  <div class="msg" id="msg"><span id="mt"></span><span class="more" aria-hidden="true"></span></div>
+  <div class="qpanel" id="qp"></div>`;
+}
+function drawScene(){app.innerHTML=sceneHTML();document.getElementById('msg').onclick=()=>msgClick&&msgClick();}
+function updBars(){
+  const e=B.enemies[B.ei],p=B.pm;const col=r=>r>.5?'var(--hp-hi)':r>.2?'var(--hp-mid)':'var(--hp-lo)';
+  const eh=document.getElementById('ehp'),ph=document.getElementById('php');
+  if(eh){eh.style.width=Math.max(0,e.hp/e.max*100)+'%';eh.style.background=col(e.hp/e.max);}
+  if(ph){ph.style.width=Math.max(0,p.hp/p.max*100)+'%';ph.style.background=col(p.hp/p.max);document.getElementById('phpn').textContent=`${Math.max(0,p.hp)}/${p.max}`;document.getElementById('pxp').style.width=(p.xp/xpNeed(p.lvl)*100)+'%';}
+}
+function redrawEnemyBox(){const e=B.enemies[B.ei];const box=document.getElementById('ebox');if(!box)return;const tmp=document.createElement('div');tmp.innerHTML=sceneHTML();box.replaceWith(tmp.querySelector('#ebox'));}
+let msgClick=null;
+function say(text,hold=850,wait=false){
+  return new Promise(res=>{
+    const el=document.getElementById('mt'),box=document.getElementById('msg');if(!el){res();return;}
+    box.classList.remove('done');let i=0,done=false,timer=null;const full=String(text);
+    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finish=()=>{done=true;el.textContent=full;box.classList.add('done');if(!wait)timer=setTimeout(end,hold);};
+    const end=()=>{clearTimeout(timer);msgClick=null;keyHandler=B&&B.keys||null;res();};
+    msgClick=()=>{if(!done){clearInterval(tt);finish();}else end();};
+    keyHandler=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();msgClick();}};
+    if(reduce){finish();return;}
+    const tt=setInterval(()=>{i+=2;el.textContent=full.slice(0,i);if(i>=full.length){clearInterval(tt);finish();}},16);
+  });
+}
+function anim(sel,cls,ms=500){const el=document.querySelector(sel);if(!el)return sleep(ms);el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);return sleep(ms);}
+
+function nextQuestion(e){
+  if(e.bank==='trap'){
+    if(e.forced){const q=trapQ(e.forced);e.forced=null;if(q)return q;}
+    if(!e.pool.length)e.pool=shuffle(TRAP_TOPICS.flatMap(topicItems));
+    return trapQ(e.pool.pop());
+  }
+  const b=BANK[e.bank],T=b.BY[e.node];
+  if(e.forced){const tpl=b.sideById(e.forced);e.forced=null;if(tpl){
+      const s=tpl.fixed||(Math.random()<.5?'left':'right');const [ni,side]=tpl.ans(s);const cap=x=>x[0].toUpperCase()+x.slice(1);const opts=[];tpl.nerve.forEach(n=>['left','right'].forEach(sd=>opts.push(`${cap(sd)} ${n.charAt(0).toLowerCase()+n.slice(1)}`)));
+      return {bank:e.bank,type:'side',tpl:tpl.id,node:T.id,miss:`${e.bank}:s:${tpl.id}`,opts,ans:ni*2+(side==='left'?0:1),stem:tpl.f(s),explain:`<p class="ans">${esc(tpl.why)}</p>`};}}
+  if(e.hidden){const q=b.case(T);if(q)return q;e.hidden=false;}
+  for(const t of shuffle(['predict','spared','side','predict','spared'])){
+    const q=t==='side'?(Math.random()<.6?b.side(T.grp,T):null):b[t](T);if(q)return q;}
+  return b.predict(T)||b.case(T);
+}
+
+async function battle(cfg){
+  inBattle=true;renderHud();hud.hidden=true;
+  B=Object.assign({ei:0,pm:lead(),leaderShown:cfg.kind==='gym'||cfg.kind==='champ',keys:null,used:new Set()},cfg);
+  if(B.pm.hp<=0){G.party.forEach(m=>m.hp=Math.max(m.hp,Math.ceil(m.max*.3)));B.pm=lead();}
+  G.stats.battles++;
+  drawScene();
+  const g=GYMS[B.gym];
+  if(B.leaderShown){
+    await say(`${g.leader} wants to battle!`,700,true);
+    await say(`“${g.intro}”`,700,true);
+    await anim('#leader','leave',500);B.leaderShown=false;
+    drawScene();await sleep(300);
+    await say(`${g.leader} sent out ${eName(B.enemies[0])}!`);
+  }else{
+    const e=B.enemies[0];
+    await say(cfg.kind==='review'?`A rematch! A ${e.hidden?'mystery lesion':'wild '+SP[e.sp].name} appeared!`:e.hidden?'A wild ??? appeared! Examine it to find out what it is.':`A wild ${SP[e.sp].name} appeared!`,900);
+  }
+  await say(`Go, ${SP[B.pm.sp].name}!`,600);
+  let result=await fight();
+  inBattle=false;
+  if(result==='run'){persist();goBack();return;}
+  if(result==='lose'){
+    await say(`${G.name} is out of usable Neuromon…`,900,true);
+    await say('You hurried back to the Nerve Center. Everyone is healed — review the misses and try again!',900,true);
+    G.party.forEach(m=>m.hp=m.max);G.loc='center';persist();go('map');return;
+  }
+  // won
+  if(B.kind==='gym'||B.kind==='champ'){
+    drawVictory(g);
+    const first=!G.badges[B.gym];G.badges[B.gym]=true;
+    await say(`${g.leader}: “${g.win}”`,900,true);
+    if(first){await say(`${G.name} received the ${g.badge}!`,900,true);G.items.potion+=3;G.items.lens+=2;G.items.orb+=3;await say('Got 3 Potions, 2 Clue Lenses and 3 Neuro Orbs!',900,true);}
+    else {G.items.potion+=1;await say('Got a Potion for the rematch!',700,true);}
+  }
+  persist();goBack();
+}
+function goBack(){go(B.back==='map'?'map':B.back==='review'?'review':'route',B.back);}
+function drawVictory(g){const qp=document.getElementById('qp');if(qp)qp.innerHTML='';const em=document.getElementById('emon');if(em)em.innerHTML=`<div class="leader" style="right:4%;top:6%">${trainerSVG(g.coat,g.hair,'')}</div>`;}
+
+function dmgMult(e,q){
+  const pT=SP[B.pm.sp].t,eT=SP[e.sp].t;let m=1+(B.pm.lvl-5)*.03;let eff=false;
+  if(pT===eT){m*=1.5;eff=true;}
+  if(q.type==='case')m*=CASE_MULT[Math.min(q.shown,5)-1];
+  return {m,eff};
+}
+async function enemyAttack(frac,name){
+  const e=B.enemies[B.ei];
+  await say(`${eName(e)} used ${name||TYPES[SP[e.sp].t].atk}!`,500);
+  await anim('#emon .mon','lunge',350);
+  const d=Math.max(1,Math.round(B.pm.max*frac));B.pm.hp=Math.max(0,B.pm.hp-d);
+  document.getElementById('scene').classList.remove('shake');void document.getElementById('scene').offsetWidth;document.getElementById('scene').classList.add('shake');
+  anim('#pmon .mon','hit',500);updBars();await sleep(650);
+}
+function wrongFrac(){return B.kind==='wild'||B.kind==='review'?.26:B.kind==='gym'?.32:.36;}
+
+async function fight(){
+  let q=null;
+  while(true){
+    const e=B.enemies[B.ei];
+    if(!q)q=nextQuestion(e);
+    if(!q){e.hp=0;}
+    else{
+      const r=await ask(q,e);
+      if(r.act==='run'){await say('Got away safely!',700);return 'run';}
+      if(r.act==='examine'){
+        q.shown++;await say(`${SP[B.pm.sp].name} examined the patient… a new finding!`,600);
+        await enemyAttack(.1,'Distract');if(B.pm.hp<=0){const s=await faintSwitch();if(s==='lose')return 'lose';}continue;
+      }
+      const ok=r.i===q.ans;const trapPick=q.trapIdx>=0&&r.i===q.trapIdx;
+      if(ok){
+        G.stats.right++;decMiss(q.miss);
+        const {m,eff}=dmgMult(e,q);const dmg=Math.round(40*m);
+        await say(`${SP[B.pm.sp].name} used ${MOVE[q.type][0]}!`,450);
+        await anim('#pmon .mon','lunge',350);anim('#emon .mon','hit',500);
+        e.hp=Math.max(0,e.hp-dmg);updBars();await sleep(600);
+        if(q.type==='case'&&q.shown===1)await say('A critical hit! Named on the first finding!',700);
+        else if(q.type==='case'&&q.shown<=2)await say('Sharp localization — bonus damage!',600);
+        if(eff)await say("It's super effective!",600);
+        if(q.type==='case'&&e.hidden){e.hidden=false;seen(e.sp,'seen');const svg=document.getElementById('emon');svg.innerHTML=spriteSVG(e.sp,{cls:'mon e'});redrawEnemyBox();await say(`The wild lesion is the ${SP[e.sp].name}!`,900);}
+        await gainXP(Math.round(8*(B.kind==='wild'?1:1.5)));
+        await feedback(true,q,r.i,e);
+      }else{
+        G.stats.wrong++;addMiss(q.miss);
+        await say(r.i<0?`${SP[B.pm.sp].name} hesitated…`:`${SP[B.pm.sp].name} used ${MOVE[q.type][0]}… but it missed!`,600);
+        if(trapPick){G.stats.traps++;await say(`${eName(e)} sprang a TRAP CARD! You took the bait!`,800);await enemyAttack(wrongFrac()+.12,'Trap Card');}
+        else await enemyAttack(wrongFrac());
+        const wasHidden=q.type==='case'&&e.hidden;
+        if(wasHidden){e.hidden=false;seen(e.sp,'seen');document.getElementById('emon').innerHTML=spriteSVG(e.sp,{cls:'mon e'});redrawEnemyBox();}
+        await feedback(false,q,r.i,e);
+        if(wasHidden)await say(`It was the ${SP[e.sp].name}! Now battle it with what you know about it.`,900);
+        if(B.pm.hp<=0){const s=await faintSwitch();if(s==='lose')return 'lose';}
+      }
+      q=null;
+    }
+    if(e.hp<=0){
+      await anim('#emon .mon','faint',650);
+      if(e.hidden){e.hidden=false;}
+      seen(e.sp,'seen');
+      await say(`${B.kind==='wild'?'The wild ':''}${SP[e.sp].name} fainted!`,700);
+      await gainXP(B.kind==='wild'?14:22);
+      if(B.kind==='wild'){await rewards();await tryCatch(e);return 'win';}
+      if(B.ei<B.enemies.length-1){
+        B.ei++;const n=B.enemies[B.ei];
+        document.getElementById('emon').innerHTML=spriteSVG(n.sp,{cls:'mon e enter',sil:n.hidden});redrawEnemyBox();
+        const tb=document.querySelector('.tbadge');if(tb)tb.innerHTML=B.enemies.map(x=>`<i class="${x.hp>0?'alive':'dead'}"></i>`).join('');
+        await say(B.gym?`${GYMS[B.gym].leader} sent out ${eName(n)}!`:`Next up: ${eName(n)}!`,800);
+        continue;
+      }
+      return 'win';
+    }
+  }
+}
+async function rewards(){const r=Math.random();if(r<.3){G.items.potion++;await say('It dropped a Potion!',650);}else if(r<.5){G.items.orb++;await say('It dropped a Neuro Orb!',650);}else if(r<.6){G.items.lens++;await say('It dropped a Clue Lens!',650);}}
+async function gainXP(n){
+  const p=B.pm;p.xp+=n;updBars();await sleep(300);
+  while(p.xp>=xpNeed(p.lvl)){p.xp-=xpNeed(p.lvl);p.lvl++;const old=p.max;p.max=maxHP(p.lvl);p.hp+=p.max-old;
+    const pb=document.querySelector('#pbox .nm span:last-child');if(pb)pb.textContent='Lv'+p.lvl;updBars();
+    await say(`${SP[p.sp].name} grew to Lv ${p.lvl}!`,900);}
+}
+async function faintSwitch(){
+  await anim('#pmon .mon','faint',650);
+  await say(`${SP[B.pm.sp].name} fainted!`,700);
+  const alive=G.party.filter(m=>m.hp>0);if(!alive.length)return 'lose';
+  const m=await choose(`Choose your next Neuromon`,alive);B.pm=m;
+  document.getElementById('pmon').innerHTML=spriteSVG(m.sp,{cls:'mon p enter',back:true});
+  const tmp=document.createElement('div');tmp.innerHTML=sceneHTML();document.getElementById('pbox').replaceWith(tmp.querySelector('#pbox'));
+  await say(`Go, ${SP[m.sp].name}!`,600);return 'ok';
+}
+function choose(title,list){return new Promise(res=>{const qp=document.getElementById('qp');
+  qp.innerHTML=`<div class="sub"><div class="h2">${title}</div>${list.map(m=>`<div class="opt"><span class="row">${spriteSVG(m.sp,{cls:'spr'}).replace('class="spr"','class="spr" style="width:36px;height:40px"')}<span>${esc(SP[m.sp].name)} · Lv${m.lvl} · HP ${m.hp}/${m.max}</span></span><button class="cmd" data-u="${m.uid}">Send out</button></div>`).join('')}</div>`;
+  qp.querySelectorAll('[data-u]').forEach(b=>b.onclick=()=>res(G.party.find(m=>m.uid===+b.dataset.u)));});}
+function addMiss(k){if(!k)return;G.missed[k]=(G.missed[k]||0)+1;}
+function decMiss(k){if(k&&G.missed[k]){G.missed[k]--;if(G.missed[k]<=0)delete G.missed[k];}}
+
+function ask(q,e){
+  return new Promise(res=>{
+    const qp=document.getElementById('qp');let sub='';
+    const render=()=>{
+      const [mv,hint]=MOVE[q.type];q.removed=q.removed||[];
+      let chart='';
+      if(q.type==='case'){chart=`<div class="chart"><div class="ch"><span>PATIENT CHART</span><span>${q.shown}/${q.rows.length} findings · dmg ×${CASE_MULT[Math.min(q.shown,5)-1]}</span></div>
+        ${q.rows.map((r,i)=>i<q.shown?`<div class="cr ${r[0]==='History'?'hist':''} ${i===q.shown-1&&q.shown>1?'new':''}"><div class="sys">${esc(r[0])}</div><div class="fx">${esc(r[1])}</div></div>`:`<div class="cr hid"><div class="sys">${i===q.rows.length-1?'History':'—'}</div><div class="fx">Not yet examined</div></div>`).join('')}</div>`;}
+      const canRun=B.kind==='wild'||B.kind==='review';
+      qp.innerHTML=`<div class="qhead"><span class="mv">${mv}</span><span class="hint">${hint}${q.type==='mcq'?' · '+esc(q.topic):''}</span></div>
+        ${chart}<p class="stem">${q.stem}</p>
+        <div class="moves">${q.opts.map((o,i)=>`<button class="move ${q.removed.includes(i)?'gone':''}" data-i="${i}"><span class="k">${LET[i]}</span><span>${q.type==='mcq'||q.type==='pair'?o:esc(o)}</span></button>`).join('')}</div>
+        <div class="cmds">${q.type==='case'?`<button class="cmd examine" id="ex" ${q.shown>=q.rows.length?'disabled':''}>EXAMINE: next finding</button>`:''}
+          <button class="cmd" id="bag">BAG</button><button class="cmd" id="sw" ${G.party.filter(m=>m.hp>0&&m!==B.pm).length?'':'disabled'}>SWITCH</button>${canRun?'<button class="cmd" id="run">RUN</button>':''}</div>
+        ${sub}`;
+      qp.querySelectorAll('.move').forEach(b=>b.onclick=()=>done({act:'answer',i:+b.dataset.i}));
+      const ex=document.getElementById('ex');if(ex)ex.onclick=()=>done({act:'examine'});
+      document.getElementById('bag').onclick=()=>{sub=sub.includes('id="bagp"')?'':bagHTML();render();};
+      const sw=document.getElementById('sw');if(sw)sw.onclick=()=>{sub=sub.includes('id="swp"')?'':swHTML();render();};
+      const rn=document.getElementById('run');if(rn)rn.onclick=()=>done({act:'run'});
+      const bp=document.getElementById('bagp');
+      if(bp){bp.querySelector('[data-it="potion"]').onclick=()=>{if(G.items.potion<1||B.pm.hp>=B.pm.max)return;G.items.potion--;B.pm.hp=Math.min(B.pm.max,B.pm.hp+Math.ceil(B.pm.max/2));updBars();sub='';render();say(`${SP[B.pm.sp].name} recovered HP!`,600);};
+        const lb=bp.querySelector('[data-it="lens"]');lb.onclick=()=>{if(G.items.lens<1||q.opts.length<3||q.removed.length)return;G.items.lens--;
+          const wrong=shuffle(q.opts.map((_,i)=>i).filter(i=>i!==q.ans&&i!==q.trapIdx));q.removed=wrong.slice(0,2);sub='';render();
+          say(q.trapIdx>=0?'The Clue Lens cleared two options… but the trap is still there!':'The Clue Lens cleared two wrong options!',700);};}
+      const sp=document.getElementById('swp');
+      if(sp)sp.querySelectorAll('[data-u]').forEach(b=>b.onclick=async()=>{const m=G.party.find(x=>x.uid===+b.dataset.u);B.pm=m;sub='';
+        document.getElementById('pmon').innerHTML=spriteSVG(m.sp,{cls:'mon p enter',back:true});
+        const tmp=document.createElement('div');tmp.innerHTML=sceneHTML();document.getElementById('pbox').replaceWith(tmp.querySelector('#pbox'));render();say(`Go, ${SP[m.sp].name}!`,500);});
+    };
+    const bagHTML=()=>`<div class="sub" id="bagp"><div class="opt"><span>Potion ×${G.items.potion} — heal half HP (free action)</span><button class="cmd" data-it="potion" ${G.items.potion&&B.pm.hp<B.pm.max?'':'disabled'}>Use</button></div>
+      <div class="opt"><span>Clue Lens ×${G.items.lens} — remove two wrong options (the trap stays)</span><button class="cmd" data-it="lens" ${G.items.lens&&q.opts.length>2&&!(q.removed||[]).length?'':'disabled'}>Use</button></div></div>`;
+    const swHTML=()=>`<div class="sub" id="swp">${G.party.filter(m=>m.hp>0&&m!==B.pm).map(m=>`<div class="opt"><span>${esc(SP[m.sp].name)} · ${TYPES[SP[m.sp].t].n} · Lv${m.lvl} · HP ${m.hp}/${m.max}</span><button class="cmd" data-u="${m.uid}">Switch in</button></div>`).join('')}</div>`;
+    const done=v=>{B.keys=null;keyHandler=null;qp.innerHTML='';res(v);};
+    B.keys=ev=>{const n=parseInt(ev.key,10);if(n>=1&&n<=q.opts.length&&!(q.removed||[]).includes(n-1)){done({act:'answer',i:n-1});}else if((ev.key==='e'||ev.key==='E')&&q.type==='case'&&q.shown<q.rows.length)done({act:'examine'});};
+    keyHandler=B.keys;
+    render();
+    const mt=document.getElementById('mt');if(mt){mt.textContent=q.type==='case'&&q.shown===1?'What lesion is this? Answer now for big damage, or EXAMINE for more findings.':`What will ${SP[B.pm.sp].name} do?`;document.getElementById('msg').classList.remove('done');}
+  });
+}
+function lrCard(bank,id,compact){
+  const b=BANK[bank],T=b.BY[id];if(!T)return '';const D=b.D;
+  const lin=D.LINEAGE&&D.LINEAGE[id];
+  if(compact)return `<div class="hy"><b>HIGH-YIELD PEARL · ${esc(T.name).toUpperCase()}</b>${esc(T.pearl)}</div>`;
+  const all=[...b.signs(id)].filter(s=>D.SIG[s]);const sp=(T.spared||[]).filter(s=>D.SIG[s]&&!b.signs(id).has(s));
+  return `<div class="card"><div class="row" style="justify-content:space-between"><h3>${esc(T.name)}</h3>${tchip(b.typeOf(T))}</div>
+    ${lin?`<div class="lin"><b>${esc(D.LIN_LBL[lin[0]]||'')}</b> · ${esc(lin[1])}</div>`:''}
+    <div class="small"><b>Classic cause:</b> ${esc(T.cause)}</div>
+    <ul class="fx-list">${all.map(s=>`<li><span>${esc(D.SIG[s][0])}</span><span>${esc(D.SIG[s][1])}${D.MINOR.has(s)||(T.minorOwn||[]).includes(s)?' <em class="small">(sometimes)</em>':''}<small>${esc(D.SIG[s][2])}</small></span></li>`).join('')}</ul>
+    ${sp.length?`<div class="small"><b>Not expected:</b> ${sp.map(s=>esc(D.SIG[s][1])).join(' · ')}</div>`:''}
+    <div class="hy"><b>HIGH-YIELD PEARL</b>${esc(T.pearl)}</div></div>`;
+}
+function feedback(ok,q,chosen,e){
+  return new Promise(res=>{
+    const qp=document.getElementById('qp');const trapPick=q.trapIdx>=0&&chosen===q.trapIdx;
+    const ansTxt=q.type==='mcq'||q.type==='pair'?q.opts[q.ans]:esc(q.opts[q.ans]);
+    qp.innerHTML=`<div class="fb">
+      <div class="verdict ${ok?'ok':trapPick?'tr':'no'}">${ok?'CORRECT!':trapPick?'TRAP! YOU TOOK THE BAIT':'NOT QUITE'}</div>
+      <p class="stem">${q.stem}</p>
+      <div class="ans">Answer: <b>${ansTxt}</b>${!ok&&chosen>=0?`<br><span class="small">You picked: ${q.type==='mcq'||q.type==='pair'?q.opts[chosen]:esc(q.opts[chosen])}</span>`:''}</div>
+      ${q.explain||''}
+      ${q.trapText?`<div class="trapbox"><b class="lab">THE TRAP</b>${q.trapText}</div>`:''}
+      ${q.node&&(q.bank==='lr1'||q.bank==='lr2')&&!e.hidden?lrCard(q.bank,q.node,true):''}
+      <div class="row"><button class="btn" id="cont">Continue &gt;</button><span class="small">Enter</span></div></div>`;
+    const mt=document.getElementById('mt');if(mt)mt.textContent=ok?'Nice! Read why, then continue.':'Learn it now so it sticks.';
+    const done=()=>{keyHandler=null;res();};
+    document.getElementById('cont').onclick=done;document.getElementById('cont').focus({preventScroll:true});
+    keyHandler=ev=>{if(ev.key==='Enter'){ev.preventDefault();done();}};
+  });
+}
+async function tryCatch(e){
+  const already=G.dex[e.sp]==='caught';
+  if(already){await say(`${SP[e.sp].name} is already registered as caught.`,800);return;}
+  if(G.items.orb<1){await say('No Neuro Orbs left — beat a gym leader to restock.',900);return;}
+  const qp=document.getElementById('qp');
+  const want=await new Promise(res=>{qp.innerHTML=`<div class="sub"><div class="h2">Throw a Neuro Orb?</div><div class="small">Answer one catch question to seal it. Orbs left: ${G.items.orb}</div><div class="row"><button class="btn gold" id="yes">Throw &gt;</button><button class="btn ghost" id="no">Let it go</button></div></div>`;
+    document.getElementById('yes').onclick=()=>res(true);document.getElementById('no').onclick=()=>res(false);});
+  if(!want)return;
+  G.items.orb--;
+  // re-show the fainted foe for the throw
+  document.getElementById('emon').innerHTML=spriteSVG(e.sp,{cls:'mon e'});
+  const sc=document.getElementById('scene');const orb=document.createElement('div');orb.className='orb';orb.innerHTML=ORB;sc.appendChild(orb);
+  await sleep(700);document.getElementById('emon').innerHTML='';orb.classList.add('wobble');
+  await say('The orb is wobbling… answer to seal the catch!',500);
+  let ok=false;
+  if(e.bank==='trap'){
+    const pool=TH.RECALL.filter(r=>r.topic===e.topic);
+    if(pool.length){ok=await recallCatch(pick(pool));}
+    else{const q=trapQ(pick(TH.PAIRS).id);ok=await catchQ(q,e);}
+  }else{const b=BANK[e.bank],T=b.BY[e.node];const q=b.spared(T)||b.predict(T);ok=q?await catchQ(q,e):true;}
+  if(ok){orb.style.animation='none';await say(`Gotcha! ${SP[e.sp].name} was caught!`,1000,true);
+    G.party.push(newMon(e.sp,Math.max(3,e.lvl-2)));seen(e.sp,'caught');G.stats.caught++;
+    await say(`${SP[e.sp].name}'s Nervedex entry is complete.`,800);}
+  else{orb.remove();document.getElementById('emon').innerHTML=spriteSVG(e.sp,{cls:'mon e'});await say('Oh no! It broke free and ran away!',900,true);}
+}
+async function catchQ(q,e){
+  const r=await new Promise(res=>{const qp=document.getElementById('qp');
+    qp.innerHTML=`<div class="qhead"><span class="mv">SEAL THE CATCH</span><span class="hint">One try</span></div><p class="stem">${q.stem}</p>
+      <div class="moves">${q.opts.map((o,i)=>`<button class="move" data-i="${i}"><span class="k">${LET[i]}</span><span>${q.type==='pair'||q.type==='mcq'?o:esc(o)}</span></button>`).join('')}</div>`;
+    qp.querySelectorAll('.move').forEach(b=>b.onclick=()=>{keyHandler=null;qp.innerHTML='';res(+b.dataset.i);});
+    keyHandler=ev=>{const n=parseInt(ev.key,10);if(n>=1&&n<=q.opts.length){keyHandler=null;qp.innerHTML='';res(n-1);}};});
+  const ok=r===q.ans;if(ok){G.stats.right++;decMiss(q.miss);}else{G.stats.wrong++;addMiss(q.miss);}
+  await feedback(ok,q,r,Object.assign({},e,{hidden:false}));return ok;
+}
+function recallCatch(card){
+  return new Promise(res=>{const qp=document.getElementById('qp');
+    qp.innerHTML=`<div class="qhead"><span class="mv">SEAL THE CATCH</span><span class="hint">Recall card · say it out loud, then reveal</span></div><p class="stem">${card.q}</p><div class="row"><button class="btn" id="rev">Reveal answer</button></div>`;
+    document.getElementById('rev').onclick=()=>{qp.innerHTML=`<div class="fb"><p class="stem">${card.q}</p><div class="box recall">${card.a}</div><div class="small">Be honest — did you have it?</div>
+      <div class="row"><button class="btn gold" id="y">I got it</button><button class="btn ghost" id="n">I missed it</button></div></div>`;
+      document.getElementById('y').onclick=()=>res(true);
+      document.getElementById('n').onclick=()=>res(false);};
+  });
+}
+
+/* ================= party / dex / review ================= */
+function hpBar(m){const r=m.hp/m.max;return `<div class="hpline"><span class="lab">HP</span><div class="hpbar"><i style="width:${r*100}%;background:${r>.5?'var(--hp-hi)':r>.2?'var(--hp-mid)':'var(--hp-lo)'}"></i></div><span class="small" style="font-family:var(--mono)">${m.hp}/${m.max}</span></div>`;}
+function renderParty(){
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Party</div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <p class="lede">The first healthy Neuromon leads each battle. Matching your lead's type to the foe's region gives ×1.5 damage. Heal everyone free at the Nerve Center.</p>
+    <div class="party">${G.party.map((m,i)=>`<div class="pm ${i===0?'lead':''}">${spriteSVG(m.sp)}<div><div class="row" style="gap:6px"><span class="nm">${esc(SP[m.sp].name)}</span>${tchip(SP[m.sp].t)}<span class="small">Lv ${m.lvl}</span></div>${hpBar(m)}</div>
+      <div class="act">${i===0?'<span class="tchip" style="background:var(--gold);color:#241A00">LEAD</span>':`<button class="cmd" data-lead="${m.uid}">Make lead</button>`}</div></div>`).join('')}</div>
+    <div class="box small">Bag: Potion ×${G.items.potion} · Clue Lens ×${G.items.lens} · Neuro Orb ×${G.items.orb} &nbsp;·&nbsp; Record: ${G.stats.right} right · ${G.stats.wrong} missed · ${G.stats.traps} traps sprung</div>
+    <div class="row"><button class="btn ghost" id="reset">Reset save</button><span class="small" id="rs"></span></div></div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  app.querySelectorAll('[data-lead]').forEach(b=>b.onclick=()=>{const i=G.party.findIndex(m=>m.uid===+b.dataset.lead);const [m]=G.party.splice(i,1);G.party.unshift(m);persist();renderParty();});
+  let armed=false;document.getElementById('reset').onclick=()=>{if(!armed){armed=true;document.getElementById('rs').textContent='Click again to erase your save and start over.';return;}try{localStorage.removeItem(KEY);}catch(e){}G=null;go('title');};
+}
+let dexTab='lr1';
+function renderDex(sel){
+  const tabs={lr1:'Lesion Rounds I',lr2:'Lesion Rounds II',trap:'Trap Hunter'};
+  const keys=DEX[dexTab];const d=dexProgress(keys);
+  let detail='';
+  if(sel&&G.dex[sel]){const s=SP[sel];
+    if(s.bank==='trap'){const items=topicItems(s.topic);const miss=items.filter(i=>G.missed['trap:'+i]).length;
+      detail=`<div class="card"><div class="row" style="justify-content:space-between"><h3>${esc(s.name)}</h3>${tchip(s.t)}</div><div class="small">Lives in Trap Cave · topic: <b>${esc(s.topic)}</b> · ${items.length} questions</div><div class="small">You currently have ${miss} missed question${miss===1?'':'s'} from this topic queued in Review.</div></div>`;}
+    else detail=lrCard(s.bank,s.node,false);
+    if(detail)detail=`<div>${detail}</div>`;}
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Nervedex</div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <div class="tabs">${Object.entries(tabs).map(([k,v])=>`<button class="tab" data-t="${k}" aria-pressed="${k===dexTab}">${v}</button>`).join('')}</div>
+    <div class="small">Seen ${d.s} · Caught ${d.c} · of ${d.n}. Tap any seen entry for its full lesion card.</div>
+    ${detail}
+    <div class="dexgrid">${keys.map((k,i)=>{const st=G.dex[k];return `<button class="dexe ${st?st:'unseen'}" data-k="${k}" ${st?'':'disabled'}>${spriteSVG(k,{sil:!st})}<span class="no">#${String(i+1).padStart(3,'0')}</span><span>${st?esc(SP[k].name):'???'}</span></button>`;}).join('')}</div></div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  app.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{dexTab=b.dataset.t;renderDex();});
+  app.querySelectorAll('.dexe[data-k]').forEach(b=>b.onclick=()=>{renderDex(b.dataset.k);window.scrollTo({top:0,behavior:'smooth'});});
+}
+function missLabel(k){const [b,kind,id]=k.split(':');
+  if(b==='trap'){const e=TRAP_BY_ID[kind];if(!e)return k;return e.kind==='pair'?`Pair: ${e.it.a} vs ${e.it.b}`:`${e.it.topic}: ${strip(e.it.q).slice(0,90)}${strip(e.it.q).length>90?'…':''}`;}
+  if(kind==='n')return `${b==='lr1'?'LR I':'LR II'} · ${BANK[b].BY[id]?BANK[b].BY[id].name:id}`;
+  const t=BANK[b].sideById(id);return `${b==='lr1'?'LR I':'LR II'} · Which side? ${t?t.nerve[0]:id}`;}
+function renderReview(){
+  const ks=Object.keys(G.missed).sort((a,b)=>G.missed[b]-G.missed[a]);
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Review Center</div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <p class="lede">Every miss lands here. Rematch battles pull up to six of them; each correct answer knocks one off the list.</p>
+    ${ks.length?`<div class="row"><button class="btn gold" id="rm">Rematch weak spots &gt;</button><span class="small">${ks.length} item${ks.length===1?'':'s'} queued</span></div>
+    <div class="misslist">${ks.map(k=>`<div class="missi"><span>${esc(missLabel(k))}</span><b>×${G.missed[k]}</b></div>`).join('')}</div>`:'<div class="box">No misses queued. Go find some trouble in the tall grass!</div>'}</div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  const rm=document.getElementById('rm');if(rm)rm.onclick=startReview;
+}
+
+/* ================= boot ================= */
+G=load();
+if(G)go('map');else go('title');
+})();
+</script>
