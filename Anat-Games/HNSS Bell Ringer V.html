@@ -1,0 +1,828 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><title>HNSS Bell Ringer V</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ground:#EEF3F0; --panel:#FFFFFF; --sunk:#E2EAE6; --line:#C9D6D0;
+  --ink:#13201D; --muted:#566963;
+  --p1:#E3AE12; --p1-ink:#7A5B00; --p1-soft:#FBF1CF;
+  --p2:#2E86C8; --p2-ink:#155987; --p2-soft:#DDEDF8;
+  --good:#1E8A57; --good-soft:#DCF2E6; --bad:#C2412F; --bad-soft:#F8E1DC;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --plate:#0E1413;
+  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --good:#4CC38A; --good-soft:#15301F; --bad:#EE6E5A; --bad-soft:#3A1D18;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --plate:#080C0B;
+  }
+}
+:root[data-theme="dark"]{
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --good:#4CC38A; --good-soft:#15301F; --bad:#EE6E5A; --bad-soft:#3A1D18;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --plate:#080C0B;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:15px/1.55 var(--body);padding-inline:16px;padding-block:18px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--p2);outline-offset:2px}
+.mast{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+.brand{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:.02em;text-transform:uppercase;line-height:1}
+.brand b{color:var(--p1-ink)}
+.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- setup ---------- */
+.setup{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start}
+.hero h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(46px,7vw,86px);line-height:.88;margin:6px 0 14px;text-wrap:balance}
+.hero h1 span{display:block;color:var(--muted);font-weight:500}
+.hero p{max-width:52ch;color:var(--muted);margin:0 0 16px}
+.rules{display:grid;gap:8px;margin:0;padding:0;list-style:none;max-width:56ch}
+.rules li{display:grid;grid-template-columns:86px 1fr;gap:10px;align-items:baseline;border-top:1px dashed var(--line);padding-top:8px}
+.rules b{font-family:var(--display);font-size:22px;font-weight:700;line-height:1}
+.form{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:18px}
+.fl{display:flex;flex-direction:column;gap:6px}
+.fl>label,.fl>.lab{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.names input{width:100%;background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:9px 10px;border-left:5px solid var(--p1)}
+.names input#p2name{border-left-color:var(--p2)}
+.checks{display:flex;flex-direction:column;gap:6px}
+.chk{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:var(--sunk)}
+.chk input{accent-color:var(--p1);width:17px;height:17px}
+.chk span{flex:1}
+.chk em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.seg{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;flex-wrap:wrap}
+.seg button{flex:1;background:var(--sunk);border:0;padding:9px 8px;border-right:1px solid var(--line);min-width:70px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--ground);font-weight:600}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+.go{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:.05em;text-transform:uppercase;background:var(--p1);color:#1a1400;border:0;border-radius:4px;padding:10px 16px}
+.go:disabled{opacity:.4;cursor:not-allowed}
+
+/* ---------- scoreboard ---------- */
+.board{display:grid;grid-template-columns:1fr auto 1fr;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--panel)}
+.pl{display:flex;align-items:center;gap:14px;padding:10px 16px;position:relative;transition:background .2s}
+.pl.p2{flex-direction:row-reverse;text-align:right}
+.pl .nm{font-weight:600;font-size:15px}
+.pl .meta{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.pl .sc{font-family:var(--display);font-weight:800;font-size:46px;line-height:1;font-variant-numeric:tabular-nums;margin-left:auto}
+.pl.p2 .sc{margin-left:0;margin-right:auto}
+.pl.p1 .sc{color:var(--p1-ink)} .pl.p2 .sc{color:var(--p2-ink)}
+.pl.on.p1{background:var(--p1-soft);box-shadow:inset 0 -4px 0 var(--p1)}
+.pl.on.p2{background:var(--p2-soft);box-shadow:inset 0 -4px 0 var(--p2)}
+.pl .key{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:3px;padding:1px 6px;color:var(--muted)}
+.mid{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 18px;border-inline:1px solid var(--line);background:var(--sunk);min-width:120px}
+.mid .st{font-family:var(--display);font-weight:700;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.bell{height:6px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.bell i{display:block;height:100%;background:var(--ink);transform-origin:left;transition:transform .25s linear}
+.bell.warn i{background:var(--bad)}
+
+/* ---------- station ---------- */
+.station{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:20px;align-items:start}
+.station.noimg{grid-template-columns:minmax(0,1fr)}
+.station.noimg .qcol{max-width:860px}
+.plate{background:var(--plate);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:8px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.plate img{width:100%;max-height:70vh;object-fit:contain;display:block}
+.plate .cap{font-family:var(--mono);font-size:11px;color:#9FB2AC;letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+.qcol{display:flex;flex-direction:column;gap:14px}
+.status{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:3px;border:1px solid var(--line);background:var(--panel)}
+.chip.p1{background:var(--p1);color:#1a1400;border-color:var(--p1)}
+.chip.p2{background:var(--p2);color:#fff;border-color:var(--p2)}
+.chip.steal{background:transparent;border-style:dashed}
+.stem{font-size:16.5px;line-height:1.6;margin:0;max-width:72ch}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:9px 12px;transition:border-color .15s,transform .1s}
+.opt .lt{font-family:var(--display);font-weight:800;font-size:22px;line-height:1;width:30px;height:30px;display:grid;place-items:center;border:1.5px solid var(--line);border-radius:50%}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:active:not(:disabled){transform:translateY(1px)}
+.opt:disabled{cursor:default}
+.opt.out{opacity:.38;text-decoration:line-through}
+.opt.right{background:var(--good-soft);border-color:var(--good)}
+.opt.right .lt{background:var(--good);border-color:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt.wrong .lt{background:var(--bad);border-color:var(--bad);color:#fff}
+.buzz{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.buzz button{font-family:var(--display);font-weight:800;font-size:26px;text-transform:uppercase;letter-spacing:.04em;border:0;border-radius:5px;padding:14px 8px;line-height:1.05}
+.buzz button small{display:block;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.06em;opacity:.8}
+.buzz .b1{background:var(--p1);color:#1a1400} .buzz .b2{background:var(--p2);color:#fff}
+.verdict{border-radius:5px;padding:12px 14px;border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.verdict h3{margin:0;font-family:var(--display);font-size:26px;font-weight:800;text-transform:uppercase;line-height:1}
+.verdict.good h3{color:var(--good)} .verdict.bad h3{color:var(--bad)}
+.verdict p{margin:0;max-width:72ch}
+.why-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:var(--muted)}
+.why-list b{color:var(--ink);font-family:var(--mono);font-weight:600;margin-right:6px}
+.hy{background:var(--hy-bg);border:1.5px solid var(--hy-line);color:var(--hy-ink);border-radius:5px;padding:10px 12px;font-size:14px}
+.hy b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{background:var(--ink);color:var(--ground);border:0;border-radius:4px;padding:10px 16px;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;padding:0 5px;color:var(--muted)}
+
+/* ---------- results ---------- */
+.res{display:flex;flex-direction:column;gap:22px}
+.res h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(40px,6vw,70px);line-height:.9;margin:0;text-wrap:balance}
+.res h2 .w1{color:var(--p1-ink)} .res h2 .w2{color:var(--p2-ink)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px;border-top:5px solid var(--p1)}
+.card.c2{border-top-color:var(--p2)}
+.card .big{font-family:var(--display);font-weight:800;font-size:54px;line-height:1;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+td,th{padding:5px 6px;border-bottom:1px solid var(--line);text-align:left}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:400}
+td.n,th.n{text-align:right}
+.missed{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.missed li{font-size:13.5px;border-left:3px solid var(--line);padding-left:9px}
+.missed li span{font-family:var(--mono);font-size:11px;color:var(--muted);display:block}
+.foot{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px}
+@media (max-width:820px){
+  .setup,.station,.cards{grid-template-columns:1fr}
+  .plate{position:static}
+  .pl{padding:8px 10px;gap:8px}.pl .sc{font-size:34px}.pl .meta,.pl .key{display:none}
+  .mid{min-width:78px;padding:6px 8px}.mid .st{font-size:22px}
+  .names{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.pop{animation:pop .35s ease-out}
+@keyframes pop{0%{transform:scale(1.25)}100%{transform:scale(1)}}
+
+/* ---------- return to hub (added Sep 22, 2026) ---------- */
+.tohub{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+  font-family:var(--mono,var(--pix,ui-monospace,Menlo,monospace));font-size:11px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--line);
+  border-radius:999px;padding:5px 12px;line-height:1;
+  transition:color .12s,border-color .12s,background .12s}
+.tohub:hover{color:var(--ink);border-color:var(--muted);background:var(--sunk)}
+.tohub:focus-visible{outline:2px solid var(--p2,var(--p1,currentColor));outline-offset:2px}
+.tohub svg{width:13px;height:13px;flex:none;transition:transform .12s}
+.tohub:hover svg{transform:translateX(-2px)}
+@media print{.tohub{display:none}}
+</style>
+
+<div class="wrap">
+  <a class="tohub" href="index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8H3M7 4L3 8l4 4"/></svg>All HNSS games</a>
+  <header class="mast">
+    <div class="brand">HoyaDocs <b>·</b> Bell Ringer V</div>
+    <div class="tag">Block 5 · HNSS · Rev 1 · Updated Sep 23, 2026</div>
+  </header>
+  <main id="app"></main>
+  <footer class="foot"><span>HoyaDocs · HNSS Bell Ringer V</span><span>Rev 1 · Updated Sep 23, 2026</span></footer>
+</div>
+
+<script>
+const IMGS = {};
+const LET = ['A','B','C','D','E'];
+const SETS = {
+  AUT: "Ganglia & Parasympathetic Pathways",
+  VAG: "Larynx & the Vagus Branches",
+  FOR: "Foramina & Cranial Nerve Exits",
+  ORB: "Orbit, Eye Movement & Reflexes",
+  REG: "Regions & Tagged Structures"
+};
+const Q = [
+/* ================= GANGLIA & PARASYMPATHETIC PATHWAYS ================= */
+{id:"V1",set:"AUT",
+ stem:"A tumour destroys the ganglion that supplies secretomotor fibres to the parotid gland. In which ganglion were the cell bodies?",
+ opts:["Ciliary ganglion","Otic ganglion","Pterygopalatine ganglion","Submandibular ganglion","Superior cervical ganglion"],ans:1,
+ why:"The otic ganglion sits in the infratemporal fossa just below the foramen ovale. It holds the postganglionic parasympathetic cell bodies for the parotid gland.",
+ wrong:["The ciliary ganglion serves the sphincter pupillae and ciliary muscle.","","The pterygopalatine ganglion serves the lacrimal gland and nasal and palatine mucosa.","The submandibular ganglion serves the submandibular and sublingual glands.","The superior cervical ganglion is sympathetic, not parasympathetic."],
+ pearl:"Otic ganglion = parotid. It is the one parasympathetic ganglion fed by CN IX."},
+{id:"V2",set:"AUT",
+ stem:"Preganglionic parasympathetic fibres destined for the parotid gland leave the brainstem in which nerve, and reach the ganglion by which branch?",
+ opts:["CN VII, via the greater petrosal nerve","CN VII, via the chorda tympani","CN IX, via the lesser petrosal nerve","CN V3, via the auriculotemporal nerve","CN X, via the pharyngeal branch"],ans:2,
+ why:"CN IX gives the lesser petrosal nerve, which carries preganglionic fibres to the otic ganglion. Only after synapsing do the fibres join V3.",
+ wrong:["The greater petrosal n. is CN VII to the pterygopalatine ganglion.","The chorda tympani is CN VII to the submandibular ganglion.","","The auriculotemporal n. carries the POSTganglionic fibres to the gland.","The pharyngeal branch supplies the pharyngeal plexus."],
+ pearl:"Lesser petrosal in, auriculotemporal out. Read the prefix: pre- wants the cranial nerve, post- wants V3."},
+{id:"V3",set:"AUT",
+ stem:"A patient cannot produce tears in the left eye and reports a dry left nostril after resection of a mass in the pterygopalatine fossa. Facial sensation and facial expression are normal. Which ganglion was lost?",
+ opts:["Ciliary ganglion","Otic ganglion","Pterygopalatine ganglion","Submandibular ganglion","Trigeminal ganglion"],ans:2,
+ why:"The pterygopalatine ganglion supplies the lacrimal gland together with the nasal and palatine mucous glands, which is exactly the pattern described.",
+ wrong:["A ciliary lesion gives a dilated pupil, not a dry eye.","The otic ganglion serves the parotid.","","The submandibular ganglion serves glands below the oral fissure.","A trigeminal ganglion lesion would abolish facial sensation, which is intact here."],
+ pearl:"Glands ABOVE the oral fissure are pterygopalatine. Glands BELOW it are submandibular."},
+{id:"V4",set:"AUT",
+ stem:"Postganglionic parasympathetic fibres travel from the pterygopalatine ganglion to the lacrimal gland along which route?",
+ opts:["Zygomatic nerve (V2) to the lacrimal nerve (V1)","Nasociliary nerve (V1) to the short ciliary nerves","Auriculotemporal nerve (V3)","Lingual nerve (V3)","Greater petrosal nerve directly to the gland"],ans:0,
+ why:"The fibres leave on the zygomatic branch of V2, hop across a communicating twig to the lacrimal nerve of V1, and ride it into the gland.",
+ wrong:["","That is the ciliary route to the pupil.","That is the otic route to the parotid.","That is the submandibular route to the floor of the mouth.","The greater petrosal n. is preganglionic and stops at the ganglion."],
+ pearl:"V2 hands the fibres to V1 at the lacrimal gland — the only place two trigeminal divisions hand off like this."},
+{id:"V5",set:"AUT",
+ stem:"The submandibular ganglion is suspended from which nerve?",
+ opts:["Inferior alveolar nerve","Lingual nerve","Hypoglossal nerve","Buccal nerve","Nerve to mylohyoid"],ans:1,
+ why:"The ganglion hangs from the lingual nerve in the floor of the mouth. Preganglionic chorda tympani fibres arrive on the lingual nerve and postganglionic fibres leave on it too.",
+ wrong:["The inferior alveolar n. enters the mandibular foramen and carries no parasympathetics.","","CN XII is purely motor to the tongue.","The buccal n. is sensory to the cheek.","The nerve to mylohyoid is motor only."],
+ pearl:"Lingual nerve carries three things: V3 sensation, chorda tympani taste, and the parasympathetics to two salivary glands."},
+{id:"V6",set:"AUT",
+ stem:"Postganglionic fibres from the ciliary ganglion reach the eye along which nerves, and what do they do?",
+ opts:["Long ciliary nerves; dilate the pupil","Short ciliary nerves; constrict the pupil and accommodate the lens","Short ciliary nerves; dilate the pupil","Nasociliary nerve; provide corneal sensation","Frontal nerve; elevate the eyelid"],ans:1,
+ why:"Parasympathetic fibres from CN III synapse in the ciliary ganglion and run in the short ciliary nerves to the sphincter pupillae and the ciliary muscle.",
+ wrong:["The long ciliary nerves carry sympathetic and sensory fibres, and they bypass the ganglion.","","Dilation is sympathetic, via the long ciliary nerves.","Corneal sensation is nasociliary but is sensory, not autonomic.","The frontal nerve is sensory to the forehead."],
+ pearl:"Short ciliary = parasympathetic, through the ganglion. Long ciliary = sympathetic and sensory, straight past it."},
+{id:"V7",set:"AUT",
+ stem:"Where do preganglionic sympathetic fibres destined for the structures of the head synapse?",
+ opts:["Ciliary ganglion","Otic ganglion","Superior cervical ganglion","Trigeminal ganglion","Geniculate ganglion"],ans:2,
+ why:"Sympathetic fibres ascend the cervical chain from the upper thoracic cord and synapse in the superior cervical ganglion, then travel to their targets on the walls of arteries or hitching onto branches of CN V.",
+ wrong:["Sympathetic fibres pass THROUGH the ciliary ganglion without synapsing.","The otic ganglion is a parasympathetic relay.","","The trigeminal ganglion holds sensory cell bodies.","The geniculate ganglion holds CN VII sensory cell bodies."],
+ pearl:"Passing through a ganglion is not synapsing in it — the classic trap in autonomic questions."},
+{id:"V8",set:"AUT",
+ stem:"A patient has a small right pupil, a slightly drooping right lid and a dry right forehead. The difference in pupil size is most obvious in a dim room. Which muscle's paralysis explains the ptosis?",
+ opts:["Levator palpebrae superioris","Superior tarsal muscle","Orbicularis oculi","Superior rectus","Sphincter pupillae"],ans:1,
+ why:"This is Horner syndrome. The superior tarsal muscle is smooth muscle under sympathetic control, so its loss gives only a mild ptosis, unlike the severe ptosis of a CN III palsy.",
+ wrong:["Levator palpebrae superioris is CN III; its loss gives profound ptosis with a dilated pupil.","","Orbicularis oculi closes the eye; its loss causes failure to shut the lid.","Superior rectus elevates the globe, not the lid.","Sphincter pupillae constricts the pupil and is parasympathetic."],
+ pearl:"Anisocoria worse in DIM light = sympathetic failure. Worse in BRIGHT light = parasympathetic failure."},
+{id:"V9",set:"AUT",
+ stem:"A patient has a dilated, unreactive right pupil that is most obviously unequal in bright light, with the eye resting down and out. Which fibres have been lost?",
+ opts:["Sympathetic fibres to the dilator pupillae","Parasympathetic fibres travelling on CN III","Sensory fibres of the nasociliary nerve","Motor fibres of CN VI","Sympathetic fibres to the superior tarsal muscle"],ans:1,
+ why:"Parasympathetic fibres run on the outside of CN III, so a compressive lesion takes the pupil early. Loss of the sphincter pupillae leaves the pupil dilated, and the paralysed extraocular muscles leave the eye down and out.",
+ wrong:["Loss of the dilator gives a constricted pupil, as in Horner syndrome.","","The nasociliary nerve is sensory and would abolish the corneal reflex, not move the eye.","CN VI loss gives an adducted eye with a normal pupil.","That gives the mild ptosis of Horner syndrome, not a blown pupil."],
+ pearl:"Compression takes the pupil first because the parasympathetics are superficial on CN III."},
+{id:"V10",set:"AUT",
+ stem:"Which pair correctly matches a ganglion with the cranial nerve carrying its PREganglionic fibres?",
+ opts:["Ciliary — CN VII","Otic — CN VII","Pterygopalatine — CN IX","Submandibular — CN VII","Superior cervical — CN III"],ans:3,
+ why:"The submandibular ganglion receives CN VII fibres by way of the chorda tympani. CN VII also feeds the pterygopalatine ganglion, making it the only cranial nerve supplying two parasympathetic ganglia of the head.",
+ wrong:["The ciliary ganglion is CN III.","The otic ganglion is CN IX.","The pterygopalatine ganglion is CN VII.","","The superior cervical ganglion is sympathetic, from the thoracic cord."],
+ pearl:"CN III feeds one ganglion, CN IX feeds one, CN VII feeds two."},
+
+/* ================= LARYNX & THE VAGUS BRANCHES ================= */
+{id:"V11",set:"VAG",
+ stem:"A tag is placed on the cricothyroid muscle. Which nerve supplies it?",
+ opts:["Recurrent laryngeal nerve","External branch of the superior laryngeal nerve","Internal branch of the superior laryngeal nerve","Pharyngeal branch of the vagus","Ansa cervicalis"],ans:1,
+ why:"Cricothyroid is the single intrinsic laryngeal muscle supplied by the external laryngeal nerve. Every other intrinsic muscle is recurrent laryngeal.",
+ wrong:["The recurrent laryngeal nerve supplies all the others.","","The internal branch is sensory to the mucosa above the folds.","The pharyngeal branch supplies the constrictors and the palate.","Ansa cervicalis supplies the infrahyoid straps, outside the larynx."],
+ pearl:"Cricothyroid is the exception in the larynx — and it is the most reliably tested one in the block."},
+{id:"V12",set:"VAG",
+ stem:"After a thyroid lobectomy a soprano finds her voice is clear but she has lost her upper register. There is no hoarseness. Which artery was ligated too close to its nerve?",
+ opts:["Inferior thyroid artery","Superior thyroid artery","Superior laryngeal artery","Thyroid ima artery","Inferior laryngeal artery"],ans:1,
+ why:"The external laryngeal nerve runs with the superior thyroid artery down to cricothyroid at the superior pole. Losing cricothyroid narrows pitch range without paralysing the fold.",
+ wrong:["The inferior thyroid artery runs with the recurrent laryngeal nerve and would give hoarseness.","","The superior laryngeal artery runs with the internal laryngeal nerve and would affect sensation.","The thyroid ima artery, when present, runs to the isthmus and has no nerve with it.","The inferior laryngeal artery runs with the terminal recurrent laryngeal nerve."],
+ pearl:"Superior pole risks the external laryngeal nerve. Inferior pole risks the recurrent laryngeal nerve."},
+{id:"V13",set:"VAG",
+ stem:"During ligation of the inferior thyroid artery at the inferior pole, a nerve is transected. What is the expected finding?",
+ opts:["Anaesthesia of the laryngeal mucosa above the vocal folds","Loss of the afferent limb of the cough reflex","Hoarseness from paralysis of the intrinsic laryngeal muscles","A monotone voice with reduced pitch range","Loss of sensation over the anterior triangle of the neck"],ans:2,
+ why:"The recurrent laryngeal nerve lies against the inferior thyroid artery at the inferior pole. Its loss paralyses every intrinsic laryngeal muscle except cricothyroid, so the fold cannot meet its partner.",
+ wrong:["That is the internal laryngeal nerve, which enters far higher.","Also the internal laryngeal nerve.","","That is the external laryngeal nerve at the superior pole.","That is the transverse cervical nerve, which is not near the thyroid vessels."],
+ pearl:"Hoarseness means recurrent laryngeal. Lost pitch without hoarseness means external laryngeal."},
+{id:"V14",set:"VAG",
+ stem:"Sensation from the laryngeal mucosa ABOVE the vocal folds, and the afferent limb of the cough reflex, are carried by which nerve?",
+ opts:["Recurrent laryngeal nerve","External branch of the superior laryngeal nerve","Internal branch of the superior laryngeal nerve","Glossopharyngeal nerve","Pharyngeal branch of the vagus"],ans:2,
+ why:"The internal laryngeal nerve pierces the thyrohyoid membrane with the superior laryngeal artery and supplies the mucosa from the epiglottis down to the vocal folds.",
+ wrong:["The recurrent laryngeal nerve takes the mucosa BELOW the folds.","The external branch is purely motor to cricothyroid.","","CN IX supplies the oropharynx, not the laryngeal vestibule.","The pharyngeal branch is motor to the constrictors and palate."],
+ pearl:"The vocal folds are the sensory watershed: above is internal laryngeal, below is recurrent laryngeal."},
+{id:"V15",set:"VAG",
+ stem:"A patient is hoarse and has a breathy voice; one vocal fold is immobile but the airway is adequate. A second patient has stridor with both folds near the midline. What explains the difference?",
+ opts:["The first has an external laryngeal palsy, the second a recurrent laryngeal palsy","Both are recurrent laryngeal palsies, but bilateral loss leaves both folds adducted with no abductor working","The first is a cricothyroid palsy, the second a thyroarytenoid palsy","The first is sensory, the second motor","The second has lost the internal laryngeal nerve bilaterally"],ans:1,
+ why:"The posterior cricoarytenoid is the only abductor. One working PCA keeps the airway open; lose both and the folds sit adducted, producing stridor.",
+ wrong:["An external laryngeal palsy does not immobilise the fold.","","Thyroarytenoid loss relaxes the fold, it does not close the airway.","Both scenarios are motor problems.","Loss of sensation would cause aspiration, not stridor with immobile folds."],
+ pearl:"Unilateral RLN = hoarseness. Bilateral RLN = stridor, because the sole abductor is gone on both sides."},
+{id:"V16",set:"VAG",
+ stem:"A tag sits on the only intrinsic laryngeal muscle that opens the rima glottidis. Which muscle is it?",
+ opts:["Lateral cricoarytenoid","Transverse arytenoid","Posterior cricoarytenoid","Thyroarytenoid","Cricothyroid"],ans:2,
+ why:"The posterior cricoarytenoid pulls the muscular process of the arytenoid backward, swinging the vocal process laterally and widening the rima glottidis.",
+ wrong:["The lateral cricoarytenoid adducts.","The transverse arytenoid adducts and closes the posterior glottis.","","Thyroarytenoid shortens and relaxes the fold.","Cricothyroid lengthens and tenses the fold."],
+ pearl:"Every intrinsic muscle closes or tenses except the PCA, which is the only one that opens."},
+{id:"V17",set:"VAG",
+ stem:"A fish bone lodges in the piriform recess. Which nerve lies immediately beneath the mucosa there and is at risk during removal?",
+ opts:["Recurrent laryngeal nerve","Internal branch of the superior laryngeal nerve","External branch of the superior laryngeal nerve","Glossopharyngeal nerve","Hypoglossal nerve"],ans:1,
+ why:"After piercing the thyrohyoid membrane the internal laryngeal nerve runs submucosally in the floor of the piriform recess before supplying the laryngeal vestibule.",
+ wrong:["The recurrent laryngeal nerve lies deeper, in the tracheo-oesophageal groove.","","The external branch lies outside the larynx, on cricothyroid.","CN IX supplies the oropharynx, above the recess.","CN XII is in the floor of the mouth."],
+ pearl:"Piriform recess is where fish bones lodge and where the cough reflex afferent runs just under the surface."},
+{id:"V18",set:"VAG",
+ stem:"A patient says 'ah' and the uvula deviates to the right. Where is the lesion?",
+ opts:["Right vagus nerve","Left vagus nerve","Right hypoglossal nerve","Left glossopharyngeal nerve","Right mandibular nerve"],ans:1,
+ why:"Levator veli palatini elevates the soft palate. With the left side paralysed, the intact right side pulls the uvula toward itself, so the uvula points away from the lesion.",
+ wrong:["A right lesion would deviate the uvula to the left.","","CN XII deviates the tongue, not the uvula.","CN IX is the sensory limb of the gag; it does not elevate the palate.","V3 moves the jaw."],
+ pearl:"Uvula deviates AWAY from a CN X lesion. Tongue deviates TOWARD a CN XII lesion. Jaw deviates TOWARD a V3 lesion."},
+{id:"V19",set:"VAG",
+ stem:"A tag sits on the muscle within the palatoglossal fold. Which nerve supplies it?",
+ opts:["CN V3","CN VII","CN IX","CN X","CN XII"],ans:3,
+ why:"Palatoglossus is functionally a palatal muscle that happens to reach the tongue. It is supplied by CN X through the pharyngeal plexus.",
+ wrong:["V3 supplies tensor veli palatini among the palatal muscles, not palatoglossus.","CN VII supplies facial expression.","CN IX supplies only stylopharyngeus.","","CN XII supplies every OTHER tongue muscle — this is the one exception."],
+ pearl:"All tongue muscles are CN XII except palatoglossus, which is CN X."},
+{id:"V20",set:"VAG",
+ stem:"Which palatal muscle is NOT supplied by the vagus, and what is its nerve?",
+ opts:["Levator veli palatini — CN V3","Tensor veli palatini — CN V3","Palatopharyngeus — CN IX","Musculus uvulae — CN VII","Salpingopharyngeus — CN V3"],ans:1,
+ why:"Tensor veli palatini is the one palatal muscle on the mandibular division of the trigeminal nerve. It also opens the pharyngotympanic tube during swallowing.",
+ wrong:["Levator veli palatini is CN X.","","Palatopharyngeus is CN X.","Musculus uvulae is CN X.","Salpingopharyngeus is CN X."],
+ pearl:"Two exceptions to remember together: tensor veli palatini is V3, and stylopharyngeus is CN IX."},
+{id:"V21",set:"VAG",
+ stem:"Which pharyngeal muscle is supplied by the glossopharyngeal nerve?",
+ opts:["Superior constrictor","Middle constrictor","Inferior constrictor","Stylopharyngeus","Palatopharyngeus"],ans:3,
+ why:"Stylopharyngeus is the only muscle in the body supplied by CN IX. It runs from the styloid process between the superior and middle constrictors, carrying the nerve with it.",
+ wrong:["Superior constrictor is CN X.","Middle constrictor is CN X.","Inferior constrictor is CN X.","","Palatopharyngeus is CN X."],
+ pearl:"CN IX has one muscle and enormous sensory territory: the oropharynx, posterior tongue and the gag afferent."},
+{id:"V22",set:"VAG",
+ stem:"Which structures pass through the gap between the middle and inferior pharyngeal constrictors?",
+ opts:["Levator veli palatini and the pharyngotympanic tube","Stylopharyngeus and the glossopharyngeal nerve","Internal laryngeal nerve and the superior laryngeal vessels","Recurrent laryngeal nerve and the inferior laryngeal artery","Ascending pharyngeal artery only"],ans:2,
+ why:"The internal laryngeal nerve and the superior laryngeal artery and vein pierce the thyrohyoid membrane in this interval to reach the larynx.",
+ wrong:["Those pass above the superior constrictor.","Those pass between the superior and middle constrictors.","","Those pass below the inferior constrictor.","The ascending pharyngeal artery runs on the outside of the pharyngeal wall."],
+ pearl:"Four gaps, top to bottom: tube and levator; CN IX and stylopharyngeus; internal laryngeal; recurrent laryngeal."},
+
+/* ================= FORAMINA & CRANIAL NERVE EXITS ================= */
+{id:"V23",set:"FOR",
+ stem:"A woman has lancinating pain triggered by a breeze on her cheek. Forehead sensation, jaw clenching and the corneal reflex are all normal; light touch between the lower eyelid and the upper lip sets off the pain. The responsible division leaves the skull through which foramen?",
+ opts:["Superior orbital fissure","Foramen rotundum","Foramen ovale","Foramen spinosum","Inferior orbital fissure"],ans:1,
+ why:"Cheek, lower eyelid and upper lip are V2 territory, and V2 exits through the foramen rotundum into the pterygopalatine fossa.",
+ wrong:["That transmits V1, which supplies the forehead — spared here.","","Foramen ovale transmits V3; jaw strength and lower lip sensation are normal.","Foramen spinosum transmits the middle meningeal artery.","The inferior orbital fissure connects the pterygopalatine fossa to the orbit."],
+ pearl:"Standing Room Only: V1 Superior orbital fissure, V2 Rotundum, V3 Ovale."},
+{id:"V24",set:"FOR",
+ stem:"A man struck on the side of the face has weakness of the right masseter and temporalis, numbness of the right lower lip and chin, and his jaw swings to the right when he opens it. Which opening is involved?",
+ opts:["Foramen rotundum","Foramen ovale","Jugular foramen","Stylomastoid foramen","Superior orbital fissure"],ans:1,
+ why:"V3 exits through the foramen ovale carrying both the motor supply to the muscles of mastication and sensation to the lower lip and chin.",
+ wrong:["V2 carries no motor fibres to the muscles of mastication.","","The jugular foramen transmits CN IX, X and XI.","The stylomastoid foramen transmits CN VII to the muscles of facial expression.","That transmits V1, CN III, IV and VI."],
+ pearl:"The jaw deviates TOWARD the side of a V3 lesion, pushed across by the intact contralateral lateral pterygoid."},
+{id:"V25",set:"FOR",
+ stem:"A linear fracture across the pterion produces a lens-shaped extradural collection. The bleeding vessel entered the skull through which opening?",
+ opts:["Foramen ovale","Foramen rotundum","Foramen spinosum","Foramen lacerum","Carotid canal"],ans:2,
+ why:"The middle meningeal artery is a branch of the maxillary artery and enters the middle cranial fossa through the foramen spinosum, running in a groove deep to the pterion.",
+ wrong:["Foramen ovale transmits V3.","Foramen rotundum transmits V2.","","Foramen lacerum is filled with cartilage in life; nothing of consequence passes fully through it.","The carotid canal transmits the internal carotid artery, which would not bleed extradurally."],
+ pearl:"Medial to lateral on the greater wing: rotundum (V2), ovale (V3), spinosum (MMA)."},
+{id:"V26",set:"FOR",
+ stem:"A glomus tumour compresses the contents of one jugular foramen. Which combination of findings is expected?",
+ opts:["Loss of taste from the anterior 2/3 of the tongue and a dry eye","Difficulty swallowing, loss of the gag reflex and a drooping shoulder","Numbness of the chin and weak chewing","Paralysis of the tongue with deviation on protrusion","Anaesthesia of the forehead and a lost corneal reflex"],ans:1,
+ why:"The jugular foramen transmits CN IX, X and XI. Together this gives dysphagia, an absent gag, palatal weakness and loss of trapezius and sternocleidomastoid.",
+ wrong:["That is CN VII, which leaves by the internal acoustic meatus and stylomastoid foramen.","","That is V3 at the foramen ovale.","That is CN XII at the hypoglossal canal.","That is V1 at the superior orbital fissure."],
+ pearl:"Jugular foramen = IX, X, XI. Look for the triad of swallowing, gag and shoulder."},
+{id:"V27",set:"FOR",
+ stem:"A patient cannot shrug one shoulder and has difficulty turning the head to the opposite side. The structure tagged on the specimen crosses the posterior triangle very superficially. Which nerve, and through which opening did it leave the skull?",
+ opts:["CN VII, stylomastoid foramen","CN XI, jugular foramen","CN XII, hypoglossal canal","CN X, jugular foramen","Cervical plexus, no skull opening"],ans:1,
+ why:"CN XI leaves through the jugular foramen and then crosses the posterior triangle with almost no covering, which is why it supplies sternocleidomastoid and trapezius and is so easily injured there.",
+ wrong:["CN VII supplies facial expression.","","CN XII moves the tongue.","CN X would also give hoarseness and palatal weakness.","The cervical plexus is sensory to the neck skin and motor to the straps."],
+ pearl:"CN XI is nearly subcutaneous in the posterior triangle — a node biopsy there is the classic mechanism."},
+{id:"V28",set:"FOR",
+ stem:"A patient's tongue deviates to the left on protrusion. The affected nerve leaves the skull through which opening?",
+ opts:["Jugular foramen","Hypoglossal canal","Foramen magnum","Stylomastoid foramen","Internal acoustic meatus"],ans:1,
+ why:"CN XII leaves through the hypoglossal canal in the occipital bone and supplies all the tongue muscles except palatoglossus.",
+ wrong:["That transmits CN IX, X and XI.","","The foramen magnum transmits the medulla and the vertebral arteries.","That transmits CN VII to the face.","That transmits CN VII and CN VIII."],
+ pearl:"Tongue points to the lesion, because the intact genioglossus pushes it across."},
+{id:"V29",set:"FOR",
+ stem:"An infant sustains a forceps injury and cannot close one eye or move that side of the face. The nerve was damaged as it emerged from which opening, which is superficial in newborns?",
+ opts:["Internal acoustic meatus","Stylomastoid foramen","Jugular foramen","Foramen ovale","Carotid canal"],ans:1,
+ why:"CN VII leaves the skull at the stylomastoid foramen. In a newborn the mastoid process has not yet developed, so the nerve lies close to the surface and is vulnerable.",
+ wrong:["That is where CN VII enters the temporal bone, deep inside the skull.","","That transmits CN IX, X and XI.","That transmits V3.","That transmits the internal carotid artery."],
+ pearl:"CN VII: in at the internal acoustic meatus, out at the stylomastoid foramen."},
+{id:"V30",set:"FOR",
+ stem:"A patient loses the sense of smell after a blow to the face. Which structure transmits the affected nerve?",
+ opts:["Crista galli","Cribriform plate of the ethmoid","Superior nasal concha","Sphenoethmoidal recess","Perpendicular plate of the ethmoid"],ans:1,
+ why:"Olfactory fibres pass upward through the olfactory foramina of the cribriform plate. A shearing injury tears them where they cross the bone.",
+ wrong:["The crista galli is the midline ridge that anchors the falx cerebri; nothing passes through it.","","The superior concha lies near the olfactory epithelium but transmits nothing.","That recess receives sphenoid sinus drainage.","That forms part of the bony nasal septum."],
+ pearl:"Anosmia after head trauma is a cribriform plate injury, and it can come with a CSF leak."},
+{id:"V31",set:"FOR",
+ stem:"Which of the following does NOT pass through the superior orbital fissure?",
+ opts:["Oculomotor nerve","Trochlear nerve","Abducens nerve","Optic nerve","Frontal nerve"],ans:3,
+ why:"CN II leaves through the optic canal, accompanied by the ophthalmic artery. Everything else in the list uses the superior orbital fissure.",
+ wrong:["CN III passes through it.","CN IV passes through it.","CN VI passes through it.","","The frontal nerve is a V1 branch and passes through it."],
+ pearl:"Optic canal: CN II plus ophthalmic artery. Everything else entering the orbit from the middle fossa uses the superior orbital fissure."},
+{id:"V32",set:"FOR",
+ stem:"A meningioma compresses the nerve carrying taste from the anterior two-thirds of the tongue at the point where it enters the temporal bone. Which opening is involved?",
+ opts:["Foramen ovale","Internal acoustic meatus","Jugular foramen","Stylomastoid foramen","Foramen rotundum"],ans:1,
+ why:"Taste from the anterior two-thirds travels in the chorda tympani, a branch of CN VII. CN VII enters the temporal bone at the internal acoustic meatus with CN VIII.",
+ wrong:["Foramen ovale transmits V3, which carries the general sensation but not the taste.","","The jugular foramen transmits IX, X and XI.","The stylomastoid foramen is where CN VII leaves, after the chorda tympani has already branched off.","Foramen rotundum transmits V2."],
+ pearl:"General sensation to the anterior tongue is V3; taste to the same area is CN VII riding the lingual nerve."},
+{id:"V33",set:"FOR",
+ stem:"An infected pustule on the upper lip is followed by fever, proptosis and painful eye movement. The route of spread was through which vessel?",
+ opts:["Facial vein to the superior ophthalmic vein","Facial artery to the ophthalmic artery","Maxillary artery to the middle meningeal artery","Retromandibular vein to the external jugular vein","Nasolacrimal duct to the inferior meatus"],ans:0,
+ why:"The facial vein communicates with the superior ophthalmic vein at the medial angle of the eye, and the veins of the head have no valves, so infection can travel backwards into the cavernous sinus.",
+ wrong:["","This is venous spread, not arterial.","The middle meningeal artery supplies dura and is not the route here.","That is the normal drainage route out of the head.","That duct carries tears downward, away from the skull."],
+ pearl:"Danger triangle runs from the corners of the mouth to the bridge of the nose — valveless veins to the cavernous sinus."},
+{id:"V34",set:"FOR",
+ stem:"An abscess lies strictly between the alar fascia and the prevertebral fascia. How far can it spread?",
+ opts:["Only as far as the hyoid bone","To T1–T6 in the superior mediastinum","To the diaphragm via the posterior mediastinum","Anteriorly to the pericardium","Laterally into the infratemporal fossa"],ans:2,
+ why:"This is the danger space, which runs uninterrupted from the skull base all the way to the diaphragm.",
+ wrong:["It extends far below the hyoid.","That describes the retropharyngeal space, between buccopharyngeal and alar fascia.","","Spread anterior to the pericardium comes from the pretracheal space.","The infratemporal fossa is reached by different routes."],
+ pearl:"Retropharyngeal space stops at T1–T6. Danger space keeps going to the diaphragm."},
+
+/* ================= ORBIT, EYE MOVEMENT & REFLEXES ================= */
+{id:"V35",set:"ORB",
+ stem:"A tag is placed on the extraocular muscle whose tendon passes through the trochlea. Which nerve supplies it?",
+ opts:["CN III","CN IV","CN VI","CN V1","Sympathetic fibres from the superior cervical ganglion"],ans:1,
+ why:"The trochlea is unique to the superior oblique, which is supplied by the trochlear nerve.",
+ wrong:["CN III supplies the other four recti and obliques plus levator palpebrae superioris.","","CN VI supplies only lateral rectus.","V1 is sensory to the orbit.","Sympathetics supply the superior tarsal muscle and the dilator pupillae."],
+ pearl:"LR6, SO4, AO3. The trochlea is the giveaway for superior oblique."},
+{id:"V36",set:"ORB",
+ stem:"To test the superior oblique in isolation, the patient is first asked to do which of the following?",
+ opts:["Abduct the eye, then look down","Adduct the eye, then look down","Abduct the eye, then look up","Adduct the eye, then look up","Look straight ahead and converge"],ans:1,
+ why:"With the eye adducted the obliques line up with the visual axis and become pure vertical movers. Superior oblique then acts as the only depressor.",
+ wrong:["Abduction isolates the recti, so the depressor tested would be inferior rectus.","","Abduction and elevation tests superior rectus.","Adduction and elevation tests inferior oblique.","Convergence tests the medial recti and accommodation."],
+ pearl:"Adducted, the OBLIQUES do the vertical work. Abducted, the RECTI do it."},
+{id:"V37",set:"ORB",
+ stem:"A tag is placed on a muscle arising from the anterior part of the orbital floor. Which muscle is it, and what does it do when the eye is adducted?",
+ opts:["Superior oblique; depresses","Inferior oblique; elevates","Inferior rectus; depresses","Superior rectus; elevates","Medial rectus; adducts further"],ans:1,
+ why:"Inferior oblique is the only extraocular muscle arising from the front of the orbit rather than the apex. With the eye adducted it becomes the pure elevator.",
+ wrong:["Superior oblique arises at the apex and passes through the trochlea.","","Inferior rectus arises from the common tendinous ring at the apex.","Superior rectus also arises at the apex.","Medial rectus arises at the apex."],
+ pearl:"Inferior oblique is the odd one out: front of the orbit, no trochlea, CN III."},
+{id:"V38",set:"ORB",
+ stem:"Paralysis of the muscle tagged just deep to the orbital roof, inserting into the upper eyelid, causes loss of which action?",
+ opts:["Elevation of the eye","Elevation of the eyelid","Depression of the eyelid","Closure of the eyelid","Abduction of the eye"],ans:1,
+ why:"Levator palpebrae superioris lies immediately beneath the orbital roof and inserts into the superior tarsus. Its loss produces a complete ptosis.",
+ wrong:["That is superior rectus, which lies immediately deep to levator.","","No muscle actively depresses the upper lid; it falls passively.","Closure is orbicularis oculi, supplied by CN VII.","Abduction is lateral rectus."],
+ pearl:"Levator and superior rectus are stacked. Levator moves the LID, superior rectus moves the GLOBE."},
+{id:"V39",set:"ORB",
+ stem:"A patient's right eye rests adducted and she has horizontal double vision that is worst on looking to the right. Which nerve is affected?",
+ opts:["CN III","CN IV","CN VI","CN V1","CN II"],ans:2,
+ why:"CN VI supplies lateral rectus, the only abductor. Without it the eye drifts medially under the unopposed medial rectus, and diplopia is worst when the patient tries to look toward the affected side.",
+ wrong:["A CN III palsy gives a down-and-out eye with ptosis and a dilated pupil.","A CN IV palsy gives vertical diplopia worst on looking down and in.","","V1 is sensory.","CN II carries vision, not eye movement."],
+ pearl:"CN VI has the longest intracranial course, so it is often the first casualty of raised intracranial pressure."},
+{id:"V40",set:"ORB",
+ stem:"The afferent limb of the corneal blink reflex is carried by which nerve, and the efferent limb by which?",
+ opts:["CN II afferent, CN III efferent","CN V1 afferent, CN VII efferent","CN V1 afferent, CN III efferent","CN V2 afferent, CN VII efferent","CN II afferent, CN VII efferent"],ans:1,
+ why:"The nasociliary branch of V1 carries corneal sensation, and CN VII closes both eyes through orbicularis oculi. The response is consensual.",
+ wrong:["That is the pupillary light reflex.","","CN III elevates the lid and constricts the pupil; it does not close the eye.","V2 supplies the lower eyelid and cheek, not the cornea.","CN II carries vision, not corneal touch."],
+ pearl:"Corneal reflex: V1 in, VII out, both eyes blink. Pupillary light reflex: II in, III out."},
+{id:"V41",set:"ORB",
+ stem:"A lesion abolishes the afferent limb of the pupillary light reflex in one eye. Shining a light in that eye produces no constriction in either eye, but shining it in the normal eye constricts both. Which structure is damaged?",
+ opts:["Optic nerve on the affected side","Oculomotor nerve on the affected side","Ciliary ganglion on the affected side","Nasociliary nerve on the affected side","Optic tract on the affected side"],ans:0,
+ why:"The efferent limb is intact on both sides, since the normal eye still drives a consensual response. Only the sensory input from the damaged side has failed.",
+ wrong:["","A CN III lesion would block constriction of that eye whichever eye is lit.","A ciliary ganglion lesion also blocks the efferent limb on that side.","The nasociliary nerve carries corneal sensation, not light.","An optic tract lesion produces a field defect rather than an afferent pupillary block of this pattern."],
+ pearl:"Work out which limb is broken by asking whether the OTHER eye still responds."},
+{id:"V42",set:"ORB",
+ stem:"Which sequence correctly traces secretomotor fibres to the lacrimal gland?",
+ opts:["CN VII, greater petrosal n., pterygopalatine ganglion, zygomatic n., lacrimal n.","CN VII, chorda tympani, submandibular ganglion, lingual n.","CN IX, lesser petrosal n., otic ganglion, auriculotemporal n.","CN III, ciliary ganglion, short ciliary nn.","CN V1, ciliary ganglion, long ciliary nn."],ans:0,
+ why:"CN VII sends the greater petrosal nerve to the pterygopalatine ganglion; postganglionic fibres join the zygomatic branch of V2 and cross to the lacrimal nerve of V1 to enter the gland.",
+ wrong:["","That is the pathway to the submandibular and sublingual glands.","That is the pathway to the parotid.","That is the pathway to the sphincter pupillae and ciliary muscle.","The long ciliary nerves are sympathetic and sensory, and they bypass the ganglion."],
+ pearl:"Every one of these pathways ends on a branch of CN V — trigeminal is the delivery service of the head."},
+{id:"V43",set:"ORB",
+ stem:"Which muscle is responsible for the mild ptosis of Horner syndrome?",
+ opts:["Levator palpebrae superioris","Superior tarsal muscle","Orbicularis oculi","Superior rectus","Frontalis"],ans:1,
+ why:"The superior tarsal muscle is smooth muscle within the levator, under sympathetic control. It contributes only a few millimetres of lid elevation, so its loss gives a partial ptosis.",
+ wrong:["Its loss gives a complete ptosis and is CN III.","","Orbicularis oculi closes the lid.","Superior rectus elevates the globe.","Frontalis raises the eyebrow and is CN VII."],
+ pearl:"Mild ptosis with a small pupil is sympathetic. Severe ptosis with a big pupil is CN III."},
+{id:"V44",set:"ORB",
+ stem:"Tears drain from the lacrimal puncta into the nose and finally reach which space?",
+ opts:["Superior meatus","Middle meatus","Inferior meatus","Sphenoethmoidal recess","Nasopharynx"],ans:2,
+ why:"Lacrimal fluid runs from the puncta through the canaliculi to the lacrimal sac and down the nasolacrimal duct, opening beneath the inferior concha in the inferior meatus.",
+ wrong:["The superior meatus receives the posterior ethmoidal cells.","The middle meatus receives the frontal, anterior ethmoid and maxillary sinuses.","","That recess receives the sphenoid sinus.","The pharyngotympanic tube opens there, not the tear duct."],
+ pearl:"Inferior meatus has exactly one customer: the nasolacrimal duct. That is why you sniff when you cry."},
+
+/* ================= REGIONS & TAGGED STRUCTURES ================= */
+{id:"V45",set:"REG",
+ stem:"A mandibular ramus fracture displaces into the infratemporal fossa. The patient has jaw pain and numbness of the lower lip and chin, but normal tongue sensation and taste. Which nerve was injured?",
+ opts:["Lingual nerve","Inferior alveolar nerve","Buccal nerve","Auriculotemporal nerve","Chorda tympani"],ans:1,
+ why:"The inferior alveolar nerve enters the mandibular foramen and emerges at the mental foramen to supply the lower lip and chin. Normal tongue findings exclude the lingual nerve lying just in front of it.",
+ wrong:["Lingual injury would numb the tongue and abolish taste there.","","The buccal nerve supplies the cheek.","The auriculotemporal nerve supplies the temple and the front of the ear.","The chorda tympani carries taste and would not numb the chin."],
+ pearl:"In the infratemporal fossa the lingual nerve is anterior and medial; the inferior alveolar is posterior, heading for bone."},
+{id:"V46",set:"REG",
+ stem:"An anaesthetic is injected at the mental foramen. What will be numb?",
+ opts:["All the lower teeth on that side","Lower lip and chin only","Anterior two-thirds of the tongue","Upper lip and cheek","Skin over the angle of the mandible"],ans:1,
+ why:"The mental nerve is the terminal branch of the inferior alveolar nerve, emerging after the dental branches have already been given off. A block here reaches skin and mucosa only.",
+ wrong:["The teeth require a block at the mandibular foramen, before the nerve enters the bone.","","The tongue is the lingual nerve.","Upper lip and cheek are the infraorbital nerve of V2.","The angle of the mandible is the great auricular nerve."],
+ pearl:"Mandibular foramen block = teeth plus lip plus chin. Mental foramen block = lip and chin only."},
+{id:"V47",set:"REG",
+ stem:"Which muscle both elevates and retracts the mandible?",
+ opts:["Masseter","Temporalis","Medial pterygoid","Lateral pterygoid","Buccinator"],ans:1,
+ why:"The posterior fibres of temporalis run horizontally backward to the coronoid process and are the only retractors of the mandible.",
+ wrong:["Masseter elevates and protrudes.","","Medial pterygoid elevates and protrudes.","Lateral pterygoid protrudes and depresses.","Buccinator is a muscle of facial expression and does not move the jaw."],
+ pearl:"Elevation alone will not separate these muscles. The second verb — retraction versus protrusion — is what decides it."},
+{id:"V48",set:"REG",
+ stem:"A patient's jaw deviates to the left when she opens her mouth. Which muscle is weak?",
+ opts:["Left lateral pterygoid","Right lateral pterygoid","Left temporalis","Right masseter","Left medial pterygoid"],ans:0,
+ why:"Lateral pterygoid protrudes the mandible and swings it to the opposite side. With the left one paralysed, the intact right pushes the jaw across to the left.",
+ wrong:["","A right lesion would deviate the jaw to the right.","Temporalis retracts and elevates; it does not cause deviation on opening.","Masseter elevates; it does not open the mouth.","Medial pterygoid elevates and protrudes but is not the main opener."],
+ pearl:"Jaw deviates TOWARD the weak side on opening — same direction rule as the tongue in CN XII palsy."},
+{id:"V49",set:"REG",
+ stem:"A tag sits on the buccinator. Which nerve supplies its MOTOR innervation, and which supplies sensation to the overlying cheek mucosa?",
+ opts:["Buccal branch of CN VII motor; buccal nerve of V3 sensory","Buccal nerve of V3 motor; buccal branch of CN VII sensory","Both are the buccal nerve of V3","Both are the buccal branch of CN VII","CN VII motor; CN IX sensory"],ans:0,
+ why:"Buccinator is a muscle of facial expression, so its motor supply is CN VII. Sensation over the same region travels in the buccal nerve, a branch of V3.",
+ wrong:["","This reverses the two.","V3 is sensory here only.","CN VII carries no general sensation to the cheek.","CN IX supplies the oropharynx, not the cheek."],
+ pearl:"Two different nerves are both called 'buccal'. Motor is facial; sensory is trigeminal."},
+{id:"V50",set:"REG",
+ stem:"The artery accompanying the inferior alveolar nerve into the mandibular foramen is a direct branch of which vessel?",
+ opts:["External carotid artery","Maxillary artery","Facial artery","Superficial temporal artery","Lingual artery"],ans:1,
+ why:"The inferior alveolar artery arises from the first part of the maxillary artery within the infratemporal fossa.",
+ wrong:["True at one remove, since the maxillary is a terminal branch of the external carotid, but the question asks for the direct parent.","","The facial artery crosses the lower border of the mandible to the face.","The superficial temporal artery is the other terminal branch of the external carotid.","The lingual artery supplies the tongue."],
+ pearl:"When a parent and a grandparent both appear in the options, take the immediate one."},
+{id:"V51",set:"REG",
+ stem:"A tumour of the parotid gland causes an inability to perform which action?",
+ opts:["Open the eyes","Close the eyes","Depress the jaw","Protrude the tongue","Elevate the palate"],ans:1,
+ why:"CN VII branches run through the substance of the parotid. A mass there paralyses the muscles of facial expression, including orbicularis oculi, which closes the eye.",
+ wrong:["Opening the eye is levator palpebrae superioris, supplied by CN III.","","Jaw depression involves lateral pterygoid and the suprahyoids.","Tongue protrusion is CN XII.","Palatal elevation is CN X."],
+ pearl:"CN VII passes THROUGH the parotid but does not innervate it — the gland's secretomotor supply is CN IX via the otic ganglion."},
+{id:"V52",set:"REG",
+ stem:"Injury to the ansa cervicalis paralyses which muscle?",
+ opts:["Thyrohyoid","Sternohyoid","Mylohyoid","Stylohyoid","Anterior belly of digastric"],ans:1,
+ why:"The ansa cervicalis supplies sternohyoid, sternothyroid and both bellies of omohyoid.",
+ wrong:["Thyrohyoid is supplied by C1 fibres travelling with CN XII, not by the ansa.","","Mylohyoid is V3.","Stylohyoid is CN VII.","The anterior belly of digastric is V3."],
+ pearl:"Thyrohyoid is the strap muscle that breaks the ansa rule — C1 rides CN XII to reach it."},
+{id:"V53",set:"REG",
+ stem:"A lesion of the nerve supplying mylohyoid would also paralyse which muscle?",
+ opts:["Posterior belly of digastric","Anterior belly of digastric","Stylohyoid","Geniohyoid","Sternohyoid"],ans:1,
+ why:"The nerve to mylohyoid is a branch of the inferior alveolar nerve from V3 and supplies both mylohyoid and the anterior belly of digastric.",
+ wrong:["The posterior belly is CN VII — the two bellies come from different pharyngeal arches.","","Stylohyoid is CN VII, travelling with the posterior belly.","Geniohyoid is C1 via CN XII.","Sternohyoid is the ansa cervicalis."],
+ pearl:"One muscle, two bellies, two nerves: anterior is V3, posterior is CN VII."},
+{id:"V54",set:"REG",
+ stem:"A lesion is to be excised from the skin over the angle of the mandible and the mastoid process. Which nerve requires a block?",
+ opts:["Great auricular nerve","Lesser occipital nerve","Transverse cervical nerve","Supraclavicular nerves","Auriculotemporal nerve"],ans:0,
+ why:"The great auricular nerve is a cutaneous branch of the cervical plexus supplying the skin over the angle of the mandible, the mastoid and the lower auricle.",
+ wrong:["","The lesser occipital nerve supplies the scalp behind the ear.","The transverse cervical nerve supplies skin over the anterior triangle.","The supraclavicular nerves supply skin over the clavicle and shoulder.","The auriculotemporal nerve supplies the temple and the skin in front of the ear."],
+ pearl:"All four cutaneous branches of the cervical plexus emerge at the same point on the posterior border of sternocleidomastoid."},
+{id:"V55",set:"REG",
+ stem:"In the floor of the mouth, how do the hypoglossal nerve and the lingual artery relate to the hyoglossus muscle?",
+ opts:["Both lie superficial to it","Both lie deep to it","Hypoglossal nerve superficial, lingual artery deep","Hypoglossal nerve deep, lingual artery superficial","Both pierce the muscle"],ans:2,
+ why:"Hyoglossus is the landmark of the floor of the mouth. CN XII and the lingual nerve run on its lateral surface, while the lingual artery runs medial to it.",
+ wrong:["The artery is deep.","The nerve is superficial.","","This reverses the relationship.","Neither structure pierces the muscle."],
+ pearl:"To find the lingual artery, look deep to hyoglossus. To avoid CN XII, stay off its lateral surface."},
+{id:"V56",set:"REG",
+ stem:"A tag sits on the muscle that protrudes the tongue. Which muscle, and what happens on protrusion if its nerve is cut on the right?",
+ opts:["Styloglossus; the tongue deviates left","Genioglossus; the tongue deviates right","Genioglossus; the tongue deviates left","Hyoglossus; the tongue deviates right","Palatoglossus; the tongue cannot be protruded at all"],ans:1,
+ why:"Genioglossus protrudes the tongue. With the right side paralysed, the intact left genioglossus pushes the tongue across to the right, toward the lesion.",
+ wrong:["Styloglossus retracts and elevates the tongue.","","A right lesion deviates to the right, not the left.","Hyoglossus depresses the tongue.","Palatoglossus elevates the back of the tongue and is CN X."],
+ pearl:"Tongue deviates TOWARD the lesion. Uvula deviates AWAY from it."},
+{id:"V57",set:"REG",
+ stem:"Pus is seen draining from the semilunar hiatus of the middle meatus. Which sinus is infected?",
+ opts:["Sphenoid sinus","Posterior ethmoidal air cells","Maxillary sinus","Frontal sinus draining via the sphenoethmoidal recess","Any sinus — they all drain here"],ans:2,
+ why:"The maxillary sinus ostium opens into the semilunar hiatus in the middle meatus, alongside the frontal sinus and the anterior ethmoidal cells.",
+ wrong:["The sphenoid sinus drains into the sphenoethmoidal recess.","Posterior ethmoidal cells drain into the superior meatus.","","The frontal sinus does drain into the middle meatus, but not via the sphenoethmoidal recess.","The sinuses have distinct drainage sites."],
+ pearl:"Middle meatus takes frontal, anterior ethmoid and maxillary — the busiest drainage site in the nose."},
+{id:"V58",set:"REG",
+ stem:"Which sinus drains into the sphenoethmoidal recess?",
+ opts:["Frontal sinus","Maxillary sinus","Anterior ethmoidal cells","Sphenoid sinus","Posterior ethmoidal cells"],ans:3,
+ why:"The sphenoid sinus opens into the sphenoethmoidal recess above and behind the superior concha, which is also the surgical corridor to the pituitary.",
+ wrong:["The frontal sinus drains into the middle meatus.","The maxillary sinus drains into the middle meatus.","Anterior ethmoidal cells drain into the middle meatus.","","Posterior ethmoidal cells drain into the superior meatus."],
+ pearl:"Only the sphenoid uses the sphenoethmoidal recess, and only the nasolacrimal duct uses the inferior meatus."},
+{id:"V59",set:"REG",
+ stem:"A patient has brisk bleeding from the anterior nasal septum. Which artery, a branch of the maxillary artery, contributes to the plexus there?",
+ opts:["Angular artery","Sphenopalatine artery","Anterior ethmoidal artery","Superior labial artery","Superficial temporal artery"],ans:1,
+ why:"Kiesselbach plexus is formed by the anterior and posterior ethmoidal, superior labial, greater palatine and sphenopalatine arteries. Of these, the sphenopalatine and greater palatine come from the maxillary artery.",
+ wrong:["The angular artery is the terminal facial artery and supplies the external nose.","","The anterior ethmoidal artery contributes, but it comes from the ophthalmic artery.","The superior labial artery contributes, but it comes from the facial artery.","The superficial temporal artery supplies the side of the scalp."],
+ pearl:"Kiesselbach plexus mixes internal and external carotid supply — which is why nosebleeds there are so vigorous."},
+{id:"V60",set:"REG",
+ stem:"On the lateral wall of the nasopharynx, where does the pharyngotympanic tube open in relation to the torus tubarius, and what lies just behind the torus?",
+ opts:["Anterior to the torus; the pharyngeal recess lies behind it","Posterior to the torus; the piriform recess lies behind it","Anterior to the torus; the salpingopharyngeal fold lies behind it","Directly through the torus; the vallecula lies behind it","Posterior to the torus; the sphenoethmoidal recess lies behind it"],ans:0,
+ why:"The tube opens in front of the cartilaginous bulge of the torus tubarius. Immediately behind the torus is the pharyngeal recess, or fossa of Rosenmüller.",
+ wrong:["","The piriform recess is in the hypopharynx beside the larynx.","The salpingopharyngeal fold runs downward from the torus, not behind it.","Nothing passes through the torus, and the vallecula is at the tongue base.","The sphenoethmoidal recess is in the nasal cavity."],
+ pearl:"Opening in front, recess behind. The pharyngeal recess is the classic site of nasopharyngeal carcinoma."}
+];
+(function(){let seed=2026;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+Q.forEach((q,k)=>{const target=k%5;const idx=[0,1,2,3,4].filter(x=>x!==q.ans);
+for(let a=idx.length-1;a>0;a--){const b=Math.floor(rnd()*(a+1));[idx[a],idx[b]]=[idx[b],idx[a]];}
+idx.splice(target,0,q.ans);q.opts=idx.map(x=>q.opts[x]);q.wrong=idx.map(x=>q.wrong[x]);q.ans=target;});
+for(let a=Q.length-1;a>0;a--){const b=Math.floor(rnd()*(a+1));const t=Q[a].ans;}})();
+
+</script>
+<script>
+(function(){
+const app=document.getElementById('app');
+const byId=Object.fromEntries(Q.map(q=>[q.id,q]));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S; let tick=null;
+
+function fresh(){return{phase:'setup',names:['Player 1','Player 2'],sets:Object.fromEntries(Object.keys(SETS).map(k=>[k,true])),
+  mode:'turns',timer:60,shuffle:true,count:0};}
+
+function counts(){const c={};Q.forEach(q=>c[q.set]=(c[q.set]||0)+1);return c;}
+
+/* ---------------- setup ---------------- */
+function renderSetup(){
+  stopTimer();
+  const c=counts();
+  const n=Q.filter(q=>S.sets[q.set]).length;
+  app.innerHTML=`
+  <section class="setup">
+    <div class="hero">
+      <div class="tag">Head, Neck &amp; Special Senses · exam forecast review · round V</div>
+      <h1>Ring the bell.<span>Name the nerve.</span></h1>
+      <p>${Q.length} questions drawn entirely from the HNSS Anatomy Exam Forecast — the themes it predicts for the written half and the structures it predicts will be tagged. Pick your sets and how many stations, then play head-to-head on one screen. Pass the laptop or sit side by side — each station gets its own bell.</p>
+      <ul class="rules">
+        <li><b>+100</b><span>Correct on your station.</span></li>
+        <li><b>+0–50</b><span>Speed bonus — the more bell left, the bigger it is.</span></li>
+        <li><b>+50</b><span>Steal: your opponent missed and you get one shot with their pick crossed out.</span></li>
+        <li><b>+25</b><span>Streak bonus from your third straight first-try correct.</span></li>
+      </ul>
+    </div>
+    <div class="form">
+      <div class="fl"><span class="lab">Players</span>
+        <div class="names">
+          <input id="p1name" aria-label="Player 1 name" value="${esc(S.names[0])}" maxlength="18">
+          <input id="p2name" aria-label="Player 2 name" value="${esc(S.names[1])}" maxlength="18">
+        </div>
+      </div>
+      <div class="fl"><span class="lab">Question sets</span>
+        <div class="checks">
+          ${Object.entries(SETS).map(([k,v])=>`<label class="chk"><input type="checkbox" id="set-${k}" data-set="${k}" ${S.sets[k]?'checked':''}><span>${esc(v)}</span><em>${c[k]} Qs</em></label>`).join('')}
+        </div>
+      </div>
+      <div class="fl"><span class="lab">Mode</span>
+        <div class="seg" id="mode">
+          <button data-v="turns" aria-pressed="${S.mode==='turns'}">Alternate turns</button>
+          <button data-v="buzz" aria-pressed="${S.mode==='buzz'}">Buzzer race</button>
+        </div>
+        <p class="hint">${S.mode==='turns'?'Stations alternate between players. A miss opens a steal for the other player.':'Both players read. First to buzz answers — <kbd>Q</kbd> for player 1, <kbd>P</kbd> for player 2, or tap your button. A miss hands the station to the other player.'}</p>
+      </div>
+      <div class="fl"><span class="lab">Bell per station</span>
+        <div class="seg" id="timer">
+          ${[[0,'Off'],[45,'45 s'],[60,'60 s'],[90,'90 s']].map(([v,l])=>`<button data-v="${v}" aria-pressed="${S.timer===v}">${l}</button>`).join('')}
+        </div>
+      </div>
+      <div class="fl"><span class="lab">Stations this game</span>
+        <div class="seg" id="count">
+          ${[[10,'10'],[20,'20'],[30,'30'],[0,'All']].map(([v,l])=>`<button data-v="${v}" aria-pressed="${S.count===v}">${l}</button>`).join('')}
+        </div>
+        <p class="hint">${n} questions in the selected topics. Each game draws a fresh ${S.shuffle?'random':'in-order'} set.</p>
+      </div>
+      <label class="chk"><input type="checkbox" id="shuffle" ${S.shuffle?'checked':''}><span>Shuffle station order</span></label>
+      <button class="go" id="start" ${n<2?'disabled':''}>Start · ${S.count?Math.min(S.count,n):n} stations</button>
+    </div>
+  </section>`;
+  const saveNames=()=>{S.names=[document.getElementById('p1name').value.trim()||'Player 1',document.getElementById('p2name').value.trim()||'Player 2'];};
+  app.querySelectorAll('[data-set]').forEach(el=>el.onchange=()=>{saveNames();S.sets[el.dataset.set]=el.checked;renderSetup();});
+  app.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{saveNames();S.mode=b.dataset.v;renderSetup();});
+  app.querySelectorAll('#count button').forEach(b=>b.onclick=()=>{saveNames();S.count=+b.dataset.v;renderSetup();});
+  app.querySelectorAll('#timer button').forEach(b=>b.onclick=()=>{saveNames();S.timer=+b.dataset.v;renderSetup();});
+  const sh=document.getElementById('shuffle');sh.onchange=()=>{saveNames();S.shuffle=sh.checked;renderSetup();};
+  document.getElementById('start').onclick=()=>{saveNames();begin();};
+}
+
+function begin(){
+  let deck=Q.filter(q=>S.sets[q.set]).map(q=>q.id);
+  if(S.shuffle){for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}}
+  if(S.count) deck=deck.slice(0,S.count);
+  Object.assign(S,{phase:'play',deck,idx:0,
+    players:[0,1].map(()=>({score:0,right:0,steals:0,streak:0,best:0,bySet:{},missed:[]})),
+    firstTurn:0});
+  startStation();
+}
+
+/* ---------------- play ---------------- */
+function startStation(){
+  const q=byId[S.deck[S.idx]];
+  S.st={sub:S.mode==='buzz'?'buzz':'answer',active:S.mode==='turns'?(S.idx%2):null,out:[],picked:null,
+        result:null,gain:0,who:null,deadline:S.timer?Date.now()+S.timer*1000:0};
+  render();startTimer();
+}
+function startTimer(){
+  stopTimer(); if(!S.timer)return;
+  tick=setInterval(()=>{
+    const st=S.st; if(!st||st.sub==='reveal'){stopTimer();return;}
+    const left=st.deadline-Date.now();
+    paintBell();
+    if(left<=0) timeout();
+  },250);
+}
+function stopTimer(){if(tick){clearInterval(tick);tick=null;}}
+function paintBell(){
+  const bar=document.querySelector('.bell'); if(!bar||!S.timer)return;
+  const left=Math.max(0,S.st.deadline-Date.now());
+  bar.firstElementChild.style.transform=`scaleX(${left/(S.timer*1000)})`;
+  bar.classList.toggle('warn',left<10000);
+  const t=document.getElementById('secs'); if(t) t.textContent=Math.ceil(left/1000)+' s';
+}
+function timeout(){
+  const st=S.st;
+  if(st.sub==='answer'){ record(st.active,false); openSteal(1-st.active,'Bell rang'); }
+  else { if(st.sub==='steal') record(st.active,false,true); reveal(null,'Bell rang — nobody scores.'); }
+}
+function openSteal(p,why){
+  const st=S.st; st.sub='steal'; st.active=p; st.why=why;
+  st.deadline=S.timer?Date.now()+Math.max(15,Math.round(S.timer/3))*1000:0;
+  render(); startTimer();
+}
+function buzz(p){ if(S.st.sub!=='buzz')return; S.st.sub='answer'; S.st.active=p; render(); }
+
+function record(p,ok,steal){
+  const q=byId[S.deck[S.idx]], P=S.players[p];
+  const b=P.bySet[q.set]||(P.bySet[q.set]={right:0,seen:0});
+  if(!steal) b.seen++;
+  if(ok){ if(!steal) b.right++; }
+  else if(!P.missed.includes(q.id)) P.missed.push(q.id);
+}
+
+function choose(i){
+  const st=S.st, q=byId[S.deck[S.idx]];
+  if(!(st.sub==='answer'||st.sub==='steal')||st.out.includes(i))return;
+  const p=st.active, P=S.players[p], ok=i===q.ans;
+  if(st.sub==='answer'){
+    if(ok){
+      let g=100; const bonus=S.timer?Math.round(50*Math.max(0,st.deadline-Date.now())/(S.timer*1000)):0; g+=bonus;
+      P.streak++; P.best=Math.max(P.best,P.streak); if(P.streak>=3) g+=25;
+      P.right++; P.score+=g; record(p,true);
+      if(S.mode==='buzz') S.players[1-p].streak=0;
+      st.who=p; st.gain=g; st.picked=i;
+      reveal(true,`${S.names[p]} +${g}${bonus?` (incl. +${bonus} speed)`:''}${P.streak>=3?` · streak ×${P.streak}`:''}`);
+    }else{
+      P.streak=0; record(p,false); st.out.push(i); st.firstWrong=i;
+      openSteal(1-p,`${S.names[p]} picked ${LET[i]}`);
+    }
+  }else{
+    st.picked=i;
+    if(ok){ P.score+=50; P.steals++; st.who=p; st.gain=50; record(p,true,true); reveal(true,`${S.names[p]} steals +50`); }
+    else { record(p,false,true); st.out.push(i); reveal(false,'Steal missed — nobody scores.'); }
+  }
+}
+function reveal(ok,msg){ stopTimer(); const st=S.st; st.sub='reveal'; st.result=ok; st.msg=msg; render(); }
+function next(){ S.idx++; if(S.idx>=S.deck.length){S.phase='end';render();} else startStation(); window.scrollTo({top:0}); }
+
+function boardHTML(){
+  const st=S.st, P=S.players;
+  const pl=k=>`<div class="pl p${k+1} ${st&&st.active===k&&st.sub!=='reveal'?'on':''}">
+    <div><div class="nm">${esc(S.names[k])}</div><div class="meta">${P[k].right} first-try · ${P[k].steals} steals${P[k].streak>=2?` · streak ${P[k].streak}`:''}</div></div>
+    ${S.mode==='buzz'?`<span class="key">${k?'P':'Q'}</span>`:''}
+    <div class="sc" id="sc${k}">${P[k].score}</div></div>`;
+  return `<div class="board">${pl(0)}
+    <div class="mid"><span class="tag">Station</span><span class="st">${S.idx+1}<span class="tag"> / ${S.deck.length}</span></span><span class="tag" id="secs">${S.timer?'':'no bell'}</span></div>
+    ${pl(1)}</div>
+    ${S.timer?'<div class="bell"><i></i></div>':''}`;
+}
+
+function renderPlay(){
+  const q=byId[S.deck[S.idx]], st=S.st, rev=st.sub==='reveal';
+  let chip='';
+  if(st.sub==='buzz') chip=`<span class="chip">Buzz in to answer</span>`;
+  else if(st.sub==='answer') chip=`<span class="chip p${st.active+1}">${esc(S.names[st.active])} answering</span>`;
+  else if(st.sub==='steal') chip=`<span class="chip p${st.active+1}">${esc(S.names[st.active])} · steal for +50</span><span class="chip steal">${esc(st.why)}</span>`;
+  const optCls=i=>{
+    if(rev){ if(i===q.ans) return 'right'; if(st.out.includes(i)||i===st.picked) return 'wrong'; return ''; }
+    return st.out.includes(i)?'out':'';
+  };
+  const dis=rev||st.sub==='buzz';
+  const answerBlock=rev?`
+    <div class="verdict ${st.result?'good':'bad'}">
+      <h3>${st.result?'Correct':'Answer: '+LET[q.ans]}</h3>
+      <div class="tag">${esc(st.msg)}</div>
+      <p><b>${LET[q.ans]}. ${esc(q.opts[q.ans])}</b> — ${esc(q.why)}</p>
+      <ul class="why-list">${q.wrong.map((w,i)=>w?`<li><b>${LET[i]}</b>${esc(w)}</li>`:'').join('')}</ul>
+    </div>
+    <div class="hy"><b>High-yield pearl</b>${esc(q.pearl)}</div>
+    <div class="actions"><button class="btn" id="next">${S.idx+1>=S.deck.length?'See final scores':'Next station'}</button><kbd>Enter</kbd>
+      <button class="btn ghost" id="quit">End game</button></div>`
+    : st.sub==='buzz'?`<div class="buzz"><button class="b1" id="bz0">${esc(S.names[0])}<small>buzz · Q</small></button><button class="b2" id="bz1">${esc(S.names[1])}<small>buzz · P</small></button></div>`
+    : `<div class="actions"><span class="hint">Tap an option or press <kbd>1</kbd>–<kbd>5</kbd></span><button class="btn ghost" id="quit">End game</button></div>`;
+  app.innerHTML=`<section style="display:flex;flex-direction:column;gap:14px">
+    ${boardHTML()}
+    <div class="station ${q.img?'':'noimg'}">
+      ${q.img?`<figure class="plate" style="margin:0"><img src="${IMGS[q.img]}" alt="Specimen image for this question, with indicator arrows"><figcaption class="cap"><span>${esc(SETS[q.set])}</span><span>Identify the indicated structure</span></figcaption></figure>`:''}
+      <div class="qcol">
+        <div class="status">${chip}<span class="tag">${esc(SETS[q.set])}</span></div>
+        <p class="stem">${esc(q.stem)}</p>
+        <div class="opts">${q.opts.map((o,i)=>`<button class="opt ${optCls(i)}" data-i="${i}" ${dis||st.out.includes(i)?'disabled':''}><span class="lt">${LET[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+        ${answerBlock}
+      </div>
+    </div></section>`;
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>choose(+b.dataset.i));
+  const n=document.getElementById('next'); if(n){n.onclick=next; n.focus({preventScroll:true});}
+  const qt=document.getElementById('quit'); if(qt) qt.onclick=()=>{stopTimer();S.phase='end';render();};
+  [0,1].forEach(k=>{const b=document.getElementById('bz'+k); if(b) b.onclick=()=>buzz(k);});
+  if(rev&&st.who!=null){const e=document.getElementById('sc'+st.who); e&&e.classList.add('pop');}
+  paintBell();
+}
+
+/* ---------------- results ---------------- */
+function renderEnd(){
+  stopTimer();
+  const P=S.players, [a,b]=[P[0].score,P[1].score];
+  const head=a===b?`Dead heat at <span class="w1">${a}</span>`:`<span class="w${a>b?1:2}">${esc(S.names[a>b?0:1])}</span> takes the practical`;
+  const played=Math.min(S.deck.length,S.idx+(S.st&&S.st.sub==='reveal'?1:0));
+  const card=k=>{
+    const p=P[k];
+    const rows=Object.keys(SETS).filter(s=>p.bySet[s]).map(s=>`<tr><td>${esc(SETS[s])}</td><td class="n">${p.bySet[s].right} / ${p.bySet[s].seen}</td></tr>`).join('');
+    return `<div class="card ${k?'c2':''}">
+      <div class="tag">${esc(S.names[k])}</div>
+      <div class="big">${p.score}</div>
+      <div class="tag">${p.right} first-try correct · ${p.steals} steals · best streak ${p.best}</div>
+      ${rows?`<div style="overflow-x:auto"><table><thead><tr><th>Own stations</th><th class="n">Correct</th></tr></thead><tbody>${rows}</tbody></table></div>`:''}
+      <div class="lab tag">Review list (${p.missed.length})</div>
+      ${p.missed.length?`<ul class="missed">${p.missed.map(id=>{const q=byId[id];return `<li><span>${esc(SETS[q.set])}</span>${esc(q.opts[q.ans])} — ${esc(q.pearl)}</li>`}).join('')}</ul>`:'<p class="hint">Nothing missed. Clean run.</p>'}
+    </div>`;
+  };
+  app.innerHTML=`<section class="res">
+    <div><div class="tag">Final · ${played} of ${S.deck.length} stations played</div><h2>${head}</h2></div>
+    <div class="cards">${card(0)}${card(1)}</div>
+    <div class="actions"><button class="btn" id="again">Rematch · same settings</button><button class="btn ghost" id="setup">Change settings</button></div>
+  </section>`;
+  document.getElementById('again').onclick=begin;
+  document.getElementById('setup').onclick=()=>{S.phase='setup';render();};
+}
+
+function render(){ if(S.phase==='setup')renderSetup(); else if(S.phase==='play')renderPlay(); else renderEnd(); }
+
+document.addEventListener('keydown',e=>{
+  if(!S||S.phase!=='play'||e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey)return;
+  const st=S.st, k=e.key.toLowerCase();
+  if(st.sub==='buzz'){ if(k==='q')buzz(0); else if(k==='p')buzz(1); return; }
+  if(st.sub==='reveal'){ if(k==='enter'&&document.activeElement.id!=='quit'){e.preventDefault();next();} return; }
+  const n='12345'.indexOf(k); const l='abcde'.indexOf(k);
+  const i=n>=0?n:l; if(i>=0){e.preventDefault();choose(i);}
+});
+
+function boot(data){
+  S=(data&&data.S)||fresh();
+  if(!S.sets||Object.keys(SETS).some(k=>!(k in S.sets))||(S.deck&&S.deck.some(id=>!byId[id]))){const f=fresh();f.names=S.names||f.names;S=f;}
+  if(S.phase==='play'&&S.st&&S.st.sub!=='reveal'&&S.timer) S.st.deadline=Date.now()+S.timer*1000;
+  render(); if(S.phase==='play') startTimer();
+}
+window.claude?.hot?.snapshot?.(()=>({S}));
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+})();
+</script>
+</body></html>
