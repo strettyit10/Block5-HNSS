@@ -1,0 +1,128 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Lesion Rounds Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+:root{
+  --ground:#E9EEF2; --sheet:#FBFCFD; --sunk:#F1F5F8; --rule:#C8D3DA; --ink:#13212B; --muted:#5B6B76;
+  --pen:#C8352B; --pen-soft:#F7E1DE;
+  --one:#2F6FB5; --one-ink:#1F5590; --one-soft:#DFEAF6;
+  --two:#1D8352; --two-ink:#166644; --two-soft:#DDF1E6;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --display:"Archivo Narrow","Arial Narrow",sans-serif;
+  --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F171C; --sheet:#172229; --sunk:#131D23; --rule:#2A3A43; --ink:#E3ECF0; --muted:#8FA3AD;
+    --pen:#F0675B; --pen-soft:#3A1E1C;
+    --one:#6AA8EC; --one-ink:#8DBDF2; --one-soft:#162A40;
+    --two:#4CC38A; --two-ink:#6ED3A3; --two-soft:#14301F;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+  }
+}
+:root[data-theme="dark"]{
+    --ground:#0F171C; --sheet:#172229; --sunk:#131D23; --rule:#2A3A43; --ink:#E3ECF0; --muted:#8FA3AD;
+    --pen:#F0675B; --pen-soft:#3A1E1C;
+    --one:#6AA8EC; --one-ink:#8DBDF2; --one-soft:#162A40;
+    --two:#4CC38A; --two-ink:#6ED3A3; --two-soft:#14301F;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:16px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:18px 44px}
+.wrap{max-width:1060px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--one);outline-offset:3px}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mast{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1.5px solid var(--ink);padding-bottom:8px}
+.brand{font-family:var(--display);font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:.02em}
+.brand b{color:var(--pen)}
+.lede h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,6vw,62px);line-height:.95;margin:6px 0 8px;text-transform:uppercase;text-wrap:balance}
+.lede p{margin:0;max-width:64ch;color:var(--muted)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--sheet);border:1px solid var(--rule);border-top:5px solid var(--accent);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.card.one{--accent:var(--one);--accent-ink:var(--one-ink);--accent-soft:var(--one-soft)}
+.card.two{--accent:var(--two);--accent-ink:var(--two-ink);--accent-soft:var(--two-soft)}
+.card h2{font-family:var(--display);font-weight:700;font-size:30px;line-height:1;margin:0;text-transform:uppercase;color:var(--accent-ink)}
+.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent);border-radius:3px;padding:2px 8px;align-self:flex-start}
+.card p{margin:0;font-size:14.5px}
+.covers{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--muted)}
+.covers li{display:grid;grid-template-columns:14px 1fr;gap:6px}
+.covers li::before{content:"·";color:var(--accent)}
+.launch{margin-top:auto;padding-top:10px;border-top:1px dashed var(--rule);font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:19px;letter-spacing:.03em;color:var(--accent-ink);display:flex;align-items:center;gap:8px}
+.launch svg{width:16px;height:16px}
+.card:hover .launch svg{transform:translateX(3px)}
+.rules{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;padding:14px 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rules div h3{font-family:var(--display);font-size:18px;text-transform:uppercase;margin:0 0 2px}
+.rules div p{margin:0;font-size:13.5px;color:var(--muted)}
+.hy{background:var(--hy-bg);border:1.5px solid var(--hy-line);color:var(--hy-ink);border-radius:4px;padding:10px 14px;font-size:14.5px}
+.hy b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.extras{display:flex;gap:10px;flex-wrap:wrap}
+.extra{background:var(--sunk);border:1px solid var(--rule);border-radius:4px;padding:9px 14px;text-decoration:none;font-size:14px;display:flex;gap:8px;align-items:baseline}
+.extra span{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--muted)}
+.foot{font-family:var(--mono);font-size:10.5px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid var(--rule);padding-top:10px;text-transform:uppercase}
+@media (max-width:820px){.cards{grid-template-columns:1fr}.rules{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <div class="brand">HoyaDocs <b>/</b> Lesion Rounds</div>
+    <div class="mono">Block 5 · HNSS · Rev 1 · Updated Sep 23, 2026</div>
+  </header>
+
+  <section class="lede">
+    <div class="mono">Head, Neck &amp; Special Senses · two-player · pick a round</div>
+    <h1>Two decks. One exam room.</h1>
+    <p>Both games play the same way: findings appear one at a time and you buzz in to name the lesion, predict what a given lesion causes, spot what it spares, or call the side. Round I covers every nerve on the structure list; Round II drills the branches.</p>
+  </section>
+
+  <div class="cards">
+    <a class="card one" href="Lesion%20Rounds.html">
+      <span class="badge">Round I · 67 lesions</span>
+      <h2>Lesion Rounds</h2>
+      <p>Every nerve on the HNSS structure list, plus the skull-base openings they pass through.</p>
+      <ul class="covers">
+        <li><span>Cervical plexus, phrenic, ansa, CN XI and XII</span></li>
+        <li><span>Vagus and the laryngeal nerves; facial nerve branches</span></li>
+        <li><span>V1, V2, V3 and their named branches</span></li>
+        <li><span>Orbit, the four ganglia, and Horner syndrome</span></li>
+        <li><span>10 skull-base sites: jugular foramen, cavernous sinus, IAM…</span></li>
+      </ul>
+      <div class="launch">Start Round I <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="card two" href="Lesion%20Rounds%20II.html">
+      <span class="badge">Round II · 51 lesions</span>
+      <h2>Lesion Rounds II</h2>
+      <p>Cranial nerves and their branches only — nothing repeated from Round I.</p>
+      <ul class="covers">
+        <li><span>V2 down to the superior alveolar and palatine branches</span></li>
+        <li><span>V3 motor twigs: masseteric, deep temporal, both pterygoids</span></li>
+        <li><span>Facial nerve from geniculate (Ramsay Hunt) to parotid</span></li>
+        <li><span>Petrosal nerves, Jacobson, Hering, Arnold, Vidian</span></li>
+        <li><span>CN III split into its superior and inferior divisions</span></li>
+      </ul>
+      <div class="launch">Start Round II <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+  </div>
+
+  <section class="rules">
+    <div><h3>Case</h3><p>Findings reveal one at a time. Buzz early for more points — 100 down to 30.</p></div>
+    <div><h3>Predict</h3><p>Given the lesion, pick the finding you expect. A miss opens a steal.</p></div>
+    <div><h3>Spared</h3><p>Given the lesion, pick the finding you would <em>not</em> see.</p></div>
+    <div><h3>Which side?</h3><p>Deviation and reflex patterns — name the nerve and the side.</p></div>
+  </section>
+
+  <div class="hy"><b>How to use the pair</b>Start with Round I to localize by region, then run Round II when you want the branch-level detail — which division of CN III, how high a facial nerve lesion sits, which petrosal nerve carries what. Each game has its own searchable atlas listing every lesion, its findings, and whether the nerve is a cranial nerve or a branch of one.</div>
+
+  <div class="extras">
+    <a class="extra" href="Lesion%20Atlas.pdf">Lesion Atlas (PDF) <span>Round I · 39 pages</span></a>
+    <a class="extra" href="index.html">All HNSS games <span>Game hub</span></a>
+  </div>
+
+  <footer class="foot"><span>HoyaDocs · Lesion Rounds hub</span><span>Rev 1 · Updated Sep 23, 2026</span></footer>
+</div>
+</body></html>
