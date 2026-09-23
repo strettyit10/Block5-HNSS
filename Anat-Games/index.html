@@ -85,9 +85,9 @@ a{color:inherit}
 
 /* ---------- sections ---------- */
 .sec{display:flex;flex-direction:column;gap:12px;--accent:var(--p1);--accent-ink:var(--p1-ink);--accent-soft:var(--p1-soft)}
-.sec#sec-lesion{--accent:var(--p2);--accent-ink:var(--p2-ink);--accent-soft:var(--p2-soft)}
-.sec#sec-gym{--accent:var(--gym);--accent-ink:var(--gym-ink);--accent-soft:var(--gym-soft)}
-.sec#sec-hydra{--accent:var(--arena);--accent-ink:var(--arena-ink);--accent-soft:var(--arena-soft)}
+.sec#sec-focused{--accent:var(--p2);--accent-ink:var(--p2-ink);--accent-soft:var(--p2-soft)}
+
+.sec#sec-cumulative{--accent:var(--arena);--accent-ink:var(--arena-ink);--accent-soft:var(--arena-soft)}
 .sechead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:3px solid var(--accent);padding-top:12px}
 .sechead .dot{width:15px;height:15px;border-radius:3px;background:var(--accent);flex:none}
 .sechead .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:3px 10px;line-height:1;margin-left:2px}
@@ -142,7 +142,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <header class="mast">
     <div class="brand">HoyaDocs <b>&middot;</b> Game Hub</div>
-    <div class="tag">Block 5 &middot; HNSS &middot; Rev 12 &middot; Updated Sep 23, 2026</div>
+    <div class="tag">Block 5 &middot; HNSS &middot; Rev 13 &middot; Updated Sep 23, 2026</div>
   </header>
 
   <div class="tag subhead">Head, Neck &amp; Special Senses &middot; anatomy review arcade</div>
@@ -190,10 +190,10 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
     </div>
   </section>
 
-  <section class="sec" id="sec-bell">
+  <section class="sec" id="sec-cumulative">
     <div class="sechead">
       <span class="dot" aria-hidden="true"></span>
-      <h2>Bell Ringer</h2>
+      <h2>Cumulative Exam Questions</h2>
       <span class="n"></span>
     </div>
     <div class="grid">
@@ -206,13 +206,21 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
         <div class="go">Open the hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
+      <a class="card arena big" href="Boss%20Battles%20Hub.html" data-tags="neck face cranial orbit nasaloral larynx cn step1" data-text="boss battles hub decks 1 2 3 4 5 co-op boss battle campaign seven bosses carotid warden parotid gorgon glottis siren sinus leviathan six-muscle cyclops foramen keeper cranial nerve hydra yield tier highest high middle lower edge cases health damage assist hint potion spoils retry 320 questions">
+        <div class="ctop"><h3>Boss Battles &middot; Hub</h3><span class="qn">320 Q &middot; 5 decks</span></div>
+        <div class="kick">Decks 1&ndash;5 &middot; seven bosses each &middot; co-op 2P</div>
+        <p>One page into all five decks, sorted by yield &mdash; Deck&nbsp;1 is the material most likely to be tested, Deck&nbsp;5 the edge cases. Each deck is a full campaign: one boss per region (neck, face, larynx, nose &amp; mouth, orbit, skull) ending with the Cranial Nerve Hydra, and every question in the deck gets asked once, so nothing is skipped. Correct answers damage the boss, misses let it hit you, and your teammate can assist; lose a fight and you can retry that boss with the same questions reshuffled.</p>
+        <div class="tags"><span class="t">all regions</span><span class="t">yield tiers</span><span class="t">co-op</span><span class="t">hints &amp; potions</span><span class="t">full coverage</span></div>
+        <div class="go">Open the hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      </a>
+
     </div>
   </section>
 
-  <section class="sec" id="sec-lesion">
+  <section class="sec" id="sec-focused">
     <div class="sechead">
       <span class="dot" aria-hidden="true"></span>
-      <h2>Lesion Rounds &amp; Trap Hunter</h2>
+      <h2>Focused Practice Questions</h2>
       <span class="n"></span>
     </div>
     <div class="grid">
@@ -225,29 +233,6 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
         <div class="go">Open the hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
-
-      <a class="card trap" href="Trap%20Hunter.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1" data-text="trap hunter solo distractors traps exam forecast predicted questions confusable pairs tell them apart recall drill gauntlet weak spots spaced repetition streak timed binary discrimination tag pairs 1p single player self test">
-        <div class="ctop"><h3>Trap Hunter</h3><span class="qn">64 Q</span></div>
-        <div class="kick">Spot the distractor &middot; 4 modes &middot; 1P</div>
-        <p>Built from the Anatomy Exam Forecast. Every question carries the distractor the examiners actually use, so getting it right means <em>seeing the trap coming</em>. Four modes: 32 spot-the-trap MCQs, 20 timed confusable-pair calls, 12 open-recall cards, and a mixed Gauntlet. Misses queue into a Weak Spots drill that clears as you beat them.</p>
-        <div class="tags"><span class="t">distractors</span><span class="t">confusable pairs</span><span class="t">ganglia</span><span class="t">larynx</span><span class="t">foramina</span><span class="t">solo</span></div>
-        <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
-      </a>
-
-
-
-    </div>
-  </section>
-
-
-  <section class="sec" id="sec-gym">
-    <div class="sechead">
-      <span class="dot" aria-hidden="true"></span>
-      <h2>Gym Leaders</h2>
-      <span class="n"></span>
-    </div>
-    <div class="grid">
-
       <a class="card gym" href="Drainage%20Gym%20Leaders.html" data-tags="neck face cranial orbit nasaloral larynx step1" data-text="drainage gym leaders lymphatic lymph nodes deep cervical virchow tear lacrimal nasolacrimal duct paranasal sinus meatus hiatus semilunaris venous dural sinuses cavernous sinus thrombosis emissary veins danger space danger zone scalp danger triangle face retropharyngeal alar prevertebral fascia ludwig lemierre badges elite four solo 1p">
         <div class="ctop"><h3>Drainage Gym Leaders</h3><span class="qn">65 Q</span></div>
         <div class="kick">6 lab gyms &middot; Elite Four &middot; 1P</div>
@@ -259,28 +244,17 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
       <a class="card gym" href="Muscle%20Gym%20Leaders.html" data-tags="neck face orbit nasaloral larynx cn step1" data-text="muscle gym leaders larynx cricothyroid posterior cricoarytenoid recurrent laryngeal superior laryngeal infrahyoid strap suprahyoid thyrohyoid ansa cervicalis digastric mylohyoid geniohyoid pharynx constrictors stylopharyngeus salpingopharyngeus zenker trapezius sternocleidomastoid scm scalenes thoracic outlet phrenic torticollis accessory nerve extraocular medial lateral superior inferior rectus oblique levator palpebrae tongue intrinsic genioglossus hyoglossus styloglossus palatoglossus palate levator tensor veli palatini palatopharyngeus musculus uvulae face frontalis orbicularis oculi oris buccinator zygomaticus depressor anguli oris mentalis platysma innervation action paralysis high yield bell palsy uvula tongue deviation elite four badges solo 1p">
         <div class="ctop"><h3>Muscle Gym Leaders</h3><span class="qn">183 Q</span></div>
         <div class="kick">7 region gyms &middot; Elite Four &middot; 1P</div>
-        <p>Extraocular, tongue, palate, face, larynx (intrinsic vs extrinsic), pharynx (constrictors vs longitudinal), and neck (SCM, trapezius, platysma, scalenes) gyms. Every muscle is tested at least four ways: innervation, action, paralysis or clinical, and a high-yield fact. Collect all seven badges to face an Elite Four themed by question type, where each master draws 8 random questions from every region.</p>
+        <p>Extraocular, tongue, palate, face, larynx (intrinsic vs extrinsic), pharynx (constrictors vs longitudinal), and neck (SCM, trapezius, platysma, scalenes) gyms. Every muscle is tested at least four ways: innervation, action, paralysis or clinical, and a high-yield fact. Collect all seven badges to face an Elite Four themed by question type, where each master asks every question of that type from all seven gyms (187 in total, no cap).</p>
         <div class="tags"><span class="t">innervation</span><span class="t">paralysis</span><span class="t">badges</span><span class="t">solo</span></div>
         <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
-    </div>
-  </section>
-
-  <section class="sec" id="sec-hydra">
-    <div class="sechead">
-      <span class="dot" aria-hidden="true"></span>
-      <h2>Boss Battles</h2>
-      <span class="n"></span>
-    </div>
-    <div class="grid">
-
-      <a class="card arena big" href="Boss%20Battles%20Hub.html" data-tags="neck face cranial orbit nasaloral larynx cn step1" data-text="boss battles hub decks 1 2 3 4 5 co-op boss battle campaign seven bosses carotid warden parotid gorgon glottis siren sinus leviathan six-muscle cyclops foramen keeper cranial nerve hydra yield tier highest high middle lower edge cases health damage assist hint potion spoils retry 320 questions">
-        <div class="ctop"><h3>Boss Battles &middot; Hub</h3><span class="qn">320 Q &middot; 5 decks</span></div>
-        <div class="kick">Decks 1&ndash;5 &middot; seven bosses each &middot; co-op 2P</div>
-        <p>One page into all five decks, sorted by yield &mdash; Deck&nbsp;1 is the material most likely to be tested, Deck&nbsp;5 the edge cases. Each deck is a full campaign: one boss per region (neck, face, larynx, nose &amp; mouth, orbit, skull) ending with the Cranial Nerve Hydra, and every question in the deck gets asked once, so nothing is skipped. Correct answers damage the boss, misses let it hit you, and your teammate can assist; lose a fight and you can retry that boss with the same questions reshuffled.</p>
-        <div class="tags"><span class="t">all regions</span><span class="t">yield tiers</span><span class="t">co-op</span><span class="t">hints &amp; potions</span><span class="t">full coverage</span></div>
-        <div class="go">Open the hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <a class="card trap" href="Trap%20Hunter.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1" data-text="trap hunter solo distractors traps exam forecast predicted questions confusable pairs tell them apart recall drill gauntlet weak spots spaced repetition streak timed binary discrimination tag pairs 1p single player self test">
+        <div class="ctop"><h3>Trap Hunter</h3><span class="qn">64 Q</span></div>
+        <div class="kick">Spot the distractor &middot; 4 modes &middot; 1P</div>
+        <p>Built from the Anatomy Exam Forecast. Every question carries the distractor the examiners actually use, so getting it right means <em>seeing the trap coming</em>. Four modes: 32 spot-the-trap MCQs, 20 timed confusable-pair calls, 12 open-recall cards, and a mixed Gauntlet. Misses queue into a Weak Spots drill that clears as you beat them.</p>
+        <div class="tags"><span class="t">distractors</span><span class="t">confusable pairs</span><span class="t">ganglia</span><span class="t">larynx</span><span class="t">foramina</span><span class="t">solo</span></div>
+        <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
     </div>
@@ -290,7 +264,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; HNSS Anatomy Game Hub</div>
-    <div class="tag">Rev 12 &middot; Updated Sep 23, 2026</div>
+    <div class="tag">Rev 13 &middot; Updated Sep 23, 2026</div>
   </footer>
 
 </div>
