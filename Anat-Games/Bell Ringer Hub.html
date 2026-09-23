@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bell Ringer Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ground:#EEF3F0; --panel:#FFFFFF; --sunk:#E2EAE6; --line:#C9D6D0;
+  --ink:#13201D; --muted:#566963;
+  --p1:#E3AE12; --p1-ink:#7A5B00; --p1-soft:#FBF1CF;
+  --p2:#2E86C8; --p2-ink:#155987; --p2-soft:#DDEDF8;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+  }
+}
+:root[data-theme="dark"]{
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:16px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:18px 44px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p2);outline-offset:3px}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mast{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:9px}
+.brand{font-family:var(--display);font-weight:800;font-size:29px;text-transform:uppercase;letter-spacing:.02em;line-height:1}
+.brand b{color:var(--p1-ink)}
+.lede h1{font-family:var(--display);font-weight:800;font-size:clamp(42px,6.6vw,74px);line-height:.9;margin:6px 0 10px;text-transform:uppercase;text-wrap:balance}
+.lede h1 span{color:var(--p1-ink)}
+.lede p{margin:0;max-width:64ch;color:var(--muted)}
+.rounds{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.round{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--p1);border-radius:6px;padding:15px;display:flex;flex-direction:column;gap:9px;text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
+.round:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10)}
+.round.img{border-left-color:var(--p2)}
+.rtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.rtop h2{font-family:var(--display);font-weight:800;font-size:27px;text-transform:uppercase;line-height:1;margin:0}
+.qn{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--p1-ink);background:var(--p1-soft);border:1px solid var(--p1);border-radius:3px;padding:2px 7px;white-space:nowrap}
+.round.img .qn{color:var(--p2-ink);background:var(--p2-soft);border-color:var(--p2)}
+.kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:-5px}
+.round p{margin:0;font-size:14px}
+.src{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--muted)}
+.src li::before{content:"· "}
+.launch{margin-top:auto;padding-top:9px;border-top:1px dashed var(--line);font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--p1-ink);display:flex;align-items:center;gap:7px}
+.round.img .launch{color:var(--p2-ink)}
+.launch svg{width:15px;height:15px;transition:transform .12s}
+.round:hover .launch svg{transform:translateX(3px)}
+.how{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.how h3{font-family:var(--display);font-weight:800;font-size:19px;text-transform:uppercase;margin:0 0 2px}
+.how p{margin:0;font-size:13.5px;color:var(--muted)}
+.hy{background:var(--hy-bg);border:1.5px solid var(--hy-line);color:var(--hy-ink);border-radius:5px;padding:11px 14px;font-size:14.5px}
+.hy b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.extras{display:flex;gap:10px;flex-wrap:wrap}
+.extra{background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:9px 14px;text-decoration:none;font-size:14px;display:flex;gap:8px;align-items:baseline}
+.extra span{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--muted)}
+.foot{font-family:var(--mono);font-size:10.5px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px;text-transform:uppercase}
+@media (max-width:820px){.how{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="brand">HoyaDocs <b>&middot;</b> Bell Ringer</div>
+    <div class="mono">Block 5 &middot; HNSS &middot; Rev 1 &middot; Updated Sep 23, 2026</div>
+  </header>
+
+  <section class="lede">
+    <div class="mono">Head, Neck &amp; Special Senses &middot; two-player &middot; pick a round</div>
+    <h1>Five rounds. <span>256 questions.</span></h1>
+    <p>Every Bell Ringer plays the same way: stations alternate between players, a miss opens a steal for the other player, and each answer is followed by the explanation and a high-yield pearl. Rounds I and III carry the lab specimen photos; II, IV and V are text only.</p>
+  </section>
+
+  <div class="rounds">
+
+    <a class="round img" href="HNSS%20Bell%20Ringer.html">
+      <div class="rtop"><h2>Bell Ringer</h2><span class="qn">27 Q</span></div>
+      <div class="kick">Round I &middot; image stations</div>
+      <p>The original round, built straight from the in-house material.</p>
+      <ul class="src"><li>Lab Quizzes 1&ndash;3, each station with its photo</li><li>Step 1 practice vignettes from the lecture questions</li><li>Neck, face &amp; scalp, infratemporal fossa, cranial cavity</li></ul>
+      <div class="launch">Start Round I <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="round" href="HNSS%20Bell%20Ringer%20II.html">
+      <div class="rtop"><h2>Bell Ringer II</h2><span class="qn">51 Q</span></div>
+      <div class="kick">Round II &middot; distractor clean-up</div>
+      <p>Same concepts as Round I, asked a different way &mdash; and the structures that were <em>wrong</em> answers there are the right answers here.</p>
+      <ul class="src"><li>Cervical skin nerves, strap muscles, facial nerve branches</li><li>All four parasympathetic ganglia</li><li>Eyelid muscles, the H-test, the corneal reflex</li></ul>
+      <div class="launch">Start Round II <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="round img" href="HNSS%20Bell%20Ringer%20III.html">
+      <div class="rtop"><h2>Bell Ringer III</h2><span class="qn">58 Q</span></div>
+      <div class="kick">Round III &middot; 35 image stations</div>
+      <p>The in-house question set, gathered in one place.</p>
+      <ul class="src"><li>Foundational Rounds and both formative quizzes</li><li>Lab Quiz 4 (orbit), with its photos</li><li>30 practical practice stations</li></ul>
+      <div class="launch">Start Round III <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="round" href="HNSS%20Bell%20Ringer%20IV.html">
+      <div class="rtop"><h2>Bell Ringer IV</h2><span class="qn">60 Q</span></div>
+      <div class="kick">Round IV &middot; concept sweep</div>
+      <p>The concepts behind the practical questions, plus the correct versions of their wrong answers.</p>
+      <ul class="src"><li>Foramina, skull &amp; vessels &middot; muscles &amp; motor supply</li><li>Ganglia, glands &amp; reflexes</li><li>Orbit &amp; eye &middot; larynx, pharynx &amp; nose</li></ul>
+      <div class="launch">Start Round IV <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="round" href="HNSS%20Bell%20Ringer%20V.html">
+      <div class="rtop"><h2>Bell Ringer V</h2><span class="qn">60 Q</span></div>
+      <div class="kick">Round V &middot; exam forecast</div>
+      <p>Weighted the way the exam blueprint is &mdash; written themes and the structures predicted to be tagged.</p>
+      <ul class="src"><li>Ganglia and parasympathetic pathways</li><li>The vagus in the larynx &middot; foramina &middot; the orbit</li><li>Second-order questions hung on tagged structures</li></ul>
+      <div class="launch">Start Round V <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+  </div>
+
+  <section class="how">
+    <div><h3>Alternate turns</h3><p>Stations alternate. Correct on your own station scores 100, plus a speed bonus.</p></div>
+    <div><h3>Steal</h3><p>A miss hands your opponent one shot with the wrong pick crossed out.</p></div>
+    <div><h3>Buzzer race</h3><p>Or switch modes: both read, first to buzz answers (Q and P).</p></div>
+    <div><h3>Review</h3><p>Every answer shows why, why not, and a pearl; misses land on a review list.</p></div>
+  </section>
+
+  <div class="hy"><b>Suggested order</b>Run <strong>III</strong> first &mdash; it is the in-house material itself. Then <strong>I</strong> for the lab photos, <strong>IV</strong> for the concepts underneath them, <strong>II</strong> to clean up the distractors, and <strong>V</strong> last as a forecast-weighted dress rehearsal.</div>
+
+  <div class="extras">
+    <a class="extra" href="Lesion%20Rounds%20Hub.html">Lesion Rounds hub <span>Rounds I &amp; II</span></a>
+    <a class="extra" href="index.html">All HNSS games <span>Game hub</span></a>
+  </div>
+
+  <footer class="foot"><span>HoyaDocs &middot; Bell Ringer hub</span><span>Rev 1 &middot; Updated Sep 23, 2026</span></footer>
+</div>
+</body>
+</html>

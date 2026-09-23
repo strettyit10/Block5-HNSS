@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Boss Battles Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=Silkscreen&display=swap">
+<style>
+/* single-theme night arena, matching the Boss Battles games */
+:root{
+  --ground:#17142B; --ground2:#120F22; --panel:#221D3F; --sunk:#1B1734; --line:#3A3366;
+  --ink:#EEEAFB; --muted:#A39CC8;
+  --p1:#FFB341; --p2:#3DD6C6; --boss:#FF4F8B; --heal:#6BD88E;
+  --hy-bg:#3A3212; --hy-line:#D9AE2B; --hy-ink:#F7E6A6;
+  --display:"Chakra Petch","Arial Narrow",sans-serif;
+  --pix:"Silkscreen","Courier New",monospace;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:16px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:18px 44px;
+  background-image:radial-gradient(ellipse 80% 45% at 50% 0%, #2A2352 0%, transparent 70%);background-attachment:fixed}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p2);outline-offset:3px}
+.pix{font-family:var(--pix);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mast{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:9px}
+.brand{font-family:var(--display);font-weight:700;font-size:23px;text-transform:uppercase;letter-spacing:.04em}
+.brand b{color:var(--boss)}
+.lede h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,6.4vw,70px);line-height:.92;margin:8px 0 10px;text-transform:uppercase;text-wrap:balance}
+.lede h1 em{font-style:normal;color:var(--boss)}
+.lede p{margin:0;max-width:64ch;color:var(--muted)}
+.bosses{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 2px}
+.bosses span{font-family:var(--pix);font-size:10px;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;padding:4px 8px;color:var(--muted)}
+.bosses span.final{border-color:var(--boss);color:var(--boss)}
+.decks{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+.deck{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:15px;display:flex;flex-direction:column;gap:9px;text-decoration:none;position:relative;overflow:hidden;transition:transform .12s ease,box-shadow .12s ease}
+.deck:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.deck::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--tier)}
+.d1{--tier:#FF4F8B} .d2{--tier:#FF8A5B} .d3{--tier:#FFB341} .d4{--tier:#6BD88E} .d5{--tier:#3DD6C6}
+.dtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dtop h2{font-family:var(--display);font-weight:700;font-size:25px;text-transform:uppercase;line-height:1;margin:0}
+.qn{font-family:var(--pix);font-size:10.5px;color:var(--tier);border:1px solid var(--tier);border-radius:3px;padding:2px 7px;white-space:nowrap}
+.kick{font-family:var(--pix);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:-4px}
+.deck p{margin:0;font-size:14px}
+.hpbar{height:7px;background:var(--ground2);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.hpbar i{display:block;height:100%;background:var(--tier)}
+.launch{margin-top:auto;padding-top:9px;border-top:1px dashed var(--line);font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--tier);display:flex;align-items:center;gap:7px}
+.launch svg{width:15px;height:15px;transition:transform .12s}
+.deck:hover .launch svg{transform:translateX(3px)}
+.rules{background:var(--sunk);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rules h3{font-family:var(--display);font-weight:700;font-size:18px;text-transform:uppercase;margin:0 0 2px}
+.rules p{margin:0;font-size:13.5px;color:var(--muted)}
+.hy{background:var(--hy-bg);border:1.5px solid var(--hy-line);color:var(--hy-ink);border-radius:5px;padding:11px 14px;font-size:14.5px}
+.hy b{display:block;font-family:var(--pix);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.extras{display:flex;gap:10px;flex-wrap:wrap}
+.extra{background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:9px 14px;text-decoration:none;font-size:14px;display:flex;gap:8px;align-items:baseline}
+.extra span{font-family:var(--pix);font-size:10px;text-transform:uppercase;color:var(--muted)}
+.foot{font-family:var(--pix);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px;text-transform:uppercase}
+@media (max-width:820px){.rules{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="brand">HoyaDocs <b>//</b> Boss Battles</div>
+    <div class="pix">Block 5 &middot; HNSS &middot; Rev 1 &middot; Updated Sep 23, 2026</div>
+  </header>
+
+  <section class="lede">
+    <div class="pix">Head, Neck &amp; Special Senses &middot; two-player co-op &middot; pick a deck</div>
+    <h1>Five decks. <em>Seven bosses each.</em></h1>
+    <p>Team up against one boss per region, ending with the Cranial Nerve Hydra. Each deck is a full campaign on its own slice of the 320-question pool, sorted by yield: Deck&nbsp;1 is the material most likely to be tested, Deck&nbsp;5 the edge cases. Every question in a deck is asked once per campaign, so nothing is skipped.</p>
+    <div class="bosses">
+      <span>Carotid Warden &middot; neck</span><span>Parotid Gorgon &middot; face</span><span>Glottis Siren &middot; larynx</span><span>Sinus Leviathan &middot; nose &amp; mouth</span><span>Six-Muscle Cyclops &middot; orbit</span><span>Foramen Keeper &middot; skull</span><span class="final">Cranial Nerve Hydra &middot; final</span>
+    </div>
+  </section>
+
+  <div class="decks">
+
+    <a class="deck d1" href="Boss%20Battles%201.html">
+      <div class="dtop"><h2>Deck 1</h2><span class="qn">67 Q</span></div>
+      <div class="kick">Highest yield &middot; start here</div>
+      <div class="hpbar"><i style="width:100%"></i></div>
+      <p>The questions most likely to show up, pulled from all seven bosses. If you only run one deck, run this one.</p>
+      <div class="launch">Fight Deck 1 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="deck d2" href="Boss%20Battles%202.html">
+      <div class="dtop"><h2>Deck 2</h2><span class="qn">65 Q</span></div>
+      <div class="kick">High yield &middot; more traps</div>
+      <div class="hpbar"><i style="width:82%"></i></div>
+      <p>Core concepts again, asked with sharper distractors. A good second sitting once Deck&nbsp;1 feels comfortable.</p>
+      <div class="launch">Fight Deck 2 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="deck d3" href="Boss%20Battles%203.html">
+      <div class="dtop"><h2>Deck 3</h2><span class="qn">64 Q</span></div>
+      <div class="kick">Middle tier</div>
+      <div class="hpbar"><i style="width:64%"></i></div>
+      <p>Solid exam material, one step less central &mdash; the relations and branches that fill out each region.</p>
+      <div class="launch">Fight Deck 3 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="deck d4" href="Boss%20Battles%204.html">
+      <div class="dtop"><h2>Deck 4</h2><span class="qn">63 Q</span></div>
+      <div class="kick">Lower yield &middot; second pass</div>
+      <div class="hpbar"><i style="width:46%"></i></div>
+      <p>Worth running once Decks&nbsp;1&ndash;3 are automatic. Fills the gaps the first three leave behind.</p>
+      <div class="launch">Fight Deck 4 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+    <a class="deck d5" href="Boss%20Battles%205.html">
+      <div class="dtop"><h2>Deck 5</h2><span class="qn">61 Q</span></div>
+      <div class="kick">Details &amp; edge cases &middot; finish here</div>
+      <div class="hpbar"><i style="width:28%"></i></div>
+      <p>The long tail: unusual presentations and fine detail. Clearing all five covers the whole 320-question pool.</p>
+      <div class="launch">Fight Deck 5 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+
+  </div>
+
+  <section class="rules">
+    <div><h3>Strike</h3><p>Correct = 20 damage, +10 answered fast, +5 on a team streak of three.</p></div>
+    <div><h3>Take hits</h3><p>A miss lets the boss hit you. Below half health it enrages: harder hits, shorter timer.</p></div>
+    <div><h3>Assist &amp; items</h3><p>Your teammate gets one shot after your miss. One hint per boss, one potion per run.</p></div>
+    <div><h3>Spoils</h3><p>Questions left after a boss falls still get asked &mdash; each one right heals the team 10.</p></div>
+  </section>
+
+  <div class="hy"><b>How a deck plays</b>Seven fights, roughly 6&ndash;12 questions each. Boss health scales to the number of questions it holds, so you can miss several and still win. Lose a fight and you can retry that boss with the same questions reshuffled &mdash; a loss never costs you the questions.</div>
+
+  <div class="extras">
+    <a class="extra" href="Bell%20Ringer%20Hub.html">Bell Ringer hub <span>Rounds I&ndash;V</span></a>
+    <a class="extra" href="Lesion%20Rounds%20Hub.html">Lesion Rounds hub <span>Rounds I &amp; II</span></a>
+    <a class="extra" href="index.html">All HNSS games <span>Game hub</span></a>
+  </div>
+
+  <footer class="foot"><span>HoyaDocs &middot; Boss Battles hub</span><span>Rev 1 &middot; Updated Sep 23, 2026</span></footer>
+</div>
+</body>
+</html>
