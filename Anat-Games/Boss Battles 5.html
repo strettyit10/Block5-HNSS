@@ -1,0 +1,564 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Boss Battles 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=Silkscreen&display=swap">
+<style>
+/* Deliberately single-theme: a night-arena world. Every color is painted explicitly. */
+:root{
+  --ground:#17142B; --ground2:#120F22; --panel:#221D3F; --sunk:#1B1734; --line:#3A3366;
+  --ink:#EEEAFB; --muted:#A39CC8;
+  --p1:#FFB341; --p2:#3DD6C6; --boss:#FF4F8B; --heal:#6BD88E; --bad:#FF6B5B;
+  --hy-bg:#3A3212; --hy-line:#D9AE2B; --hy-ink:#F7E6A6;
+  --display:"Chakra Petch","Arial Narrow",sans-serif;
+  --pix:"Silkscreen","Courier New",monospace;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:15px/1.55 var(--body);padding-inline:16px;padding-block:16px 40px;
+  background-image:radial-gradient(ellipse 80% 50% at 50% 0%, #2A2352 0%, transparent 70%);background-attachment:fixed}
+.wrap{max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--p2);outline-offset:2px}
+.pix{font-family:var(--pix);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mast{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:8px}
+.brand{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
+.brand b{color:var(--boss)}
+
+/* ---------- setup ---------- */
+.setup{display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:start}
+.hero{display:flex;flex-direction:column;gap:14px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(40px,6.4vw,74px);line-height:.92;margin:0;text-transform:uppercase;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--boss)}
+.hero p{margin:0;color:var(--muted);max-width:54ch}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.foe{background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:8px;display:flex;gap:8px;align-items:center}
+.foe svg{width:44px;height:44px;flex:none}
+.foe b{display:block;font-family:var(--display);font-size:13.5px;line-height:1.15}
+.foe span{font-family:var(--pix);font-size:9.5px;color:var(--muted);text-transform:uppercase}
+.rules{margin:0;padding:0;list-style:none;display:grid;gap:6px;max-width:58ch}
+.rules li{display:grid;grid-template-columns:92px 1fr;gap:10px;border-top:1px dashed var(--line);padding-top:6px;font-size:14px}
+.rules b{font-family:var(--pix);font-size:11px;color:var(--p1);font-weight:400;padding-top:3px}
+.form{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.fl{display:flex;flex-direction:column;gap:6px}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.names input{width:100%;background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:9px 10px;border-left:5px solid var(--p1)}
+.names input#p2name{border-left-color:var(--p2)}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg button{flex:1;min-width:72px;background:var(--sunk);border:0;border-right:1px solid var(--line);padding:9px 8px;font-size:14px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--ground);font-weight:600}
+.hint{margin:0;font-size:12.5px;color:var(--muted)}
+.picker{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.picker button{background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:7px 9px;text-align:left;font-size:13px;display:flex;justify-content:space-between;gap:6px}
+.picker button[aria-pressed="true"]{border-color:var(--boss);box-shadow:inset 3px 0 0 var(--boss)}
+.picker em{font-style:normal;font-family:var(--pix);font-size:10px;color:var(--muted)}
+.go{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.06em;text-transform:uppercase;background:var(--boss);color:#1a0610;border:0;border-radius:4px;padding:11px 16px}
+
+/* ---------- arena ---------- */
+.arena{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:12px;align-items:stretch}
+.hero-card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:8px;position:relative;transition:box-shadow .2s,opacity .3s}
+.hero-card.p1{--c:var(--p1)} .hero-card.p2{--c:var(--p2)}
+.hero-card.on{box-shadow:0 0 0 2px var(--c),0 0 24px -4px var(--c)}
+.hero-card.ko{opacity:.45}
+.hero-card .nm{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.1;color:var(--c)}
+.hero-card .role{font-family:var(--pix);font-size:10px;color:var(--muted);text-transform:uppercase}
+.bar{height:14px;background:var(--ground2);border:1px solid var(--line);border-radius:3px;overflow:hidden;position:relative}
+.bar i{position:absolute;inset:0;transform-origin:left;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.bar.hp i{background:var(--heal)} .bar.hp.low i{background:var(--bad)}
+.bar.boss{height:18px} .bar.boss i{background:linear-gradient(90deg,#B8265A,var(--boss))}
+.hpnum{font-family:var(--pix);font-size:11px;display:flex;justify-content:space-between;color:var(--muted);font-variant-numeric:tabular-nums}
+.stats{font-size:12.5px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.abil{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.abil button{flex:1;min-width:90px;background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:6px 6px;font-size:12.5px;line-height:1.2}
+.abil button small{display:block;font-family:var(--pix);font-size:9px;color:var(--muted)}
+.abil button:disabled{opacity:.35;cursor:not-allowed}
+.abil button:not(:disabled):hover{border-color:var(--c)}
+.ko-tag{position:absolute;top:10px;right:10px;font-family:var(--pix);font-size:12px;color:var(--bad)}
+.boss-card{background:var(--sunk);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;align-items:stretch;text-align:center}
+.boss-card .bn{font-family:var(--display);font-weight:700;font-size:24px;text-transform:uppercase;line-height:1;letter-spacing:.03em}
+.boss-card .bt{font-size:12.5px;color:var(--muted)}
+.beast{height:150px;display:grid;place-items:center}
+.beast svg{display:block;height:150px;width:auto;max-width:100%;overflow:visible}
+.beast.hit svg{animation:hit .45s}
+.beast.atk svg{animation:atk .5s}
+.beast.dead svg{animation:dead .9s forwards}
+.beast.gone svg{transform:translateY(20px) scale(.6);opacity:.1;filter:grayscale(1)}
+@keyframes hit{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px);filter:brightness(2.2)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(3px)}}
+@keyframes atk{0%,100%{transform:scale(1)}40%{transform:scale(1.14) translateY(8px)}}
+@keyframes dead{to{transform:translateY(20px) scale(.6);opacity:.1;filter:grayscale(1)}}
+.rage{font-family:var(--pix);font-size:10.5px;color:var(--boss)}
+.dmg{position:absolute;font-family:var(--display);font-weight:700;font-size:30px;pointer-events:none;animation:float 1s forwards;text-shadow:0 2px 0 #000}
+@keyframes float{from{transform:translateY(0);opacity:1}to{transform:translateY(-44px);opacity:0}}
+.timer{height:6px;background:var(--ground2);border-radius:3px;overflow:hidden}
+.timer i{display:block;height:100%;background:var(--muted);transform-origin:left;transition:transform .25s linear}
+.timer.warn i{background:var(--bad)}
+.log{font-family:var(--pix);font-size:11px;color:var(--muted);min-height:16px;text-transform:uppercase;letter-spacing:.04em}
+.log b{color:var(--ink);font-weight:400}
+
+.qpanel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.qhead{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{font-family:var(--pix);font-size:10.5px;text-transform:uppercase;padding:3px 8px;border-radius:3px;border:1px solid var(--line)}
+.chip.p1{background:var(--p1);color:#231500;border-color:var(--p1)}
+.chip.p2{background:var(--p2);color:#032421;border-color:var(--p2)}
+.chip.dash{border-style:dashed}
+.stem{margin:0;font-size:16px;line-height:1.62;max-width:76ch}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:center;text-align:left;background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:8px 12px}
+.opt .lt{font-family:var(--display);font-weight:700;font-size:17px;width:28px;height:28px;border:1.5px solid var(--line);border-radius:3px;display:grid;place-items:center;transform:rotate(45deg)}
+.opt .lt span{transform:rotate(-45deg)}
+.opt:not(:disabled):hover{border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.opt.out{opacity:.3;text-decoration:line-through}
+.opt.right{border-color:var(--heal);background:#193326}
+.opt.right .lt{background:var(--heal);border-color:var(--heal);color:#07210F}
+.opt.wrong{border-color:var(--bad);background:#3A1A22}
+.opt.wrong .lt{background:var(--bad);border-color:var(--bad);color:#2a0606}
+.verdict{border:1px solid var(--line);border-radius:4px;padding:12px;display:flex;flex-direction:column;gap:6px;background:var(--sunk)}
+.verdict h3{margin:0;font-family:var(--display);font-size:22px;text-transform:uppercase}
+.verdict.good h3{color:var(--heal)} .verdict.bad h3{color:var(--bad)}
+.verdict p{margin:0;max-width:76ch}
+.why{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--muted)}
+.why b{color:var(--ink);font-family:var(--pix);font-weight:400;margin-right:6px}
+.hy{background:var(--hy-bg);border:1.5px solid var(--hy-line);color:var(--hy-ink);border-radius:4px;padding:9px 12px;font-size:14px}
+.hy b{display:block;font-family:var(--pix);font-size:10px;font-weight:400;letter-spacing:.1em;text-transform:uppercase}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{background:var(--ink);color:var(--ground);border:0;border-radius:4px;padding:10px 16px;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+kbd{font-family:var(--pix);font-size:10px;border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;padding:0 5px;color:var(--muted)}
+
+/* ---------- interlude / end ---------- */
+.interlude{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:22px;display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:center}
+.interlude svg{width:100%;height:auto}
+.interlude h2,.end h2{font-family:var(--display);font-weight:700;font-size:clamp(32px,5vw,54px);line-height:.95;margin:0 0 8px;text-transform:uppercase;text-wrap:balance}
+.interlude p{margin:0 0 12px;color:var(--muted);max-width:60ch}
+.path{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px}
+.path span{font-family:var(--pix);font-size:10px;padding:3px 7px;border:1px solid var(--line);border-radius:3px;color:var(--muted)}
+.path span.done{color:var(--heal);border-color:var(--heal)}
+.path span.now{color:var(--boss);border-color:var(--boss)}
+.end{display:flex;flex-direction:column;gap:18px}
+.end h2.win{color:var(--heal)} .end h2.lose{color:var(--bad)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:6px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.card.p1{--c:var(--p1)} .card.p2{--c:var(--p2)}
+.big{font-family:var(--display);font-weight:700;font-size:44px;line-height:1;font-variant-numeric:tabular-nums;color:var(--c)}
+.missed{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;max-height:340px;overflow:auto}
+.missed li{font-size:13.5px;border-left:3px solid var(--line);padding-left:9px}
+.missed li span{display:block;font-family:var(--pix);font-size:9.5px;color:var(--muted);text-transform:uppercase}
+.foot{font-family:var(--pix);font-size:10px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:8px;text-transform:uppercase}
+@media (max-width:860px){
+  .setup,.cards,.interlude{grid-template-columns:1fr}
+  .interlude svg{max-width:160px}
+  .arena{grid-template-columns:1fr 1fr}
+  .boss-card{grid-column:1 / -1;order:-1}
+  .beast{height:110px}.beast svg{height:110px}
+  .names,.picker{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- return to hub (added Sep 22, 2026) ---------- */
+.tohub{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+  font-family:var(--mono,var(--pix,ui-monospace,Menlo,monospace));font-size:11px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted);background:transparent;border:1px solid var(--line);
+  border-radius:999px;padding:5px 12px;line-height:1;
+  transition:color .12s,border-color .12s,background .12s}
+.tohub:hover{color:var(--ink);border-color:var(--muted);background:var(--sunk)}
+.tohub:focus-visible{outline:2px solid var(--p2,var(--p1,currentColor));outline-offset:2px}
+.tohub svg{width:13px;height:13px;flex:none;transition:transform .12s}
+.tohub:hover svg{transform:translateX(-2px)}
+@media print{.tohub{display:none}}
+</style>
+
+<div class="wrap">
+  <a class="tohub" href="index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8H3M7 4L3 8l4 4"/></svg>All HNSS games</a>
+  <header class="mast">
+    <div class="brand">HoyaDocs <b>//</b> Boss Battles 5</div>
+    <div class="pix">Block 5 · HNSS · Rev 2 · Updated Sep 23, 2026</div>
+  </header>
+  <main id="app"></main>
+  <footer class="foot"><span>HoyaDocs · Boss Battles 5 of 5</span><span>Rev 2 · Updated Sep 23, 2026</span></footer>
+</div>
+
+<script>
+const DECK=5;
+const SETS={"neck": "The Neck", "face": "Face, Scalp & ITF", "cranial": "Skull, Meninges & Foramina", "orbit": "Orbit & Eye Reflexes", "nasal_oral": "Nose, Pharynx, Palate & Oral Cavity", "larynx": "Larynx", "cn": "Cranial Nerve Lesions"};
+const Q=[{"id": "G-32", "stem": "A 70-year-old man with severe headaches has difficulty coughing and swallowing. MRI shows a tumor affecting a cranial nerve. Which nerve is most likely affected?", "opts": ["Mandibular", "Maxillary", "Glossopharyngeal", "Vagus", "Hypoglossal"], "ans": 3, "why": "The vagus provides laryngeal sensation and the motor supply to pharyngeal and laryngeal muscles needed for cough and swallowing.", "wrong": ["Motor to mastication muscles; not responsible for cough or swallowing.", "Purely sensory to the midface.", "Motor only to stylopharyngeus; sensory limb of gag, not cough.", "", "Moves the tongue; not involved in the cough reflex."], "pearl": "Cough reflex: CN X (internal laryngeal) afferent and CN X efferent; CN X also supplies nearly all pharyngeal and palatal muscles.", "set": "cn"}, {"id": "G-18", "stem": "A 68-year-old woman has excruciating, sudden bouts of pain over her midface and is diagnosed with tic douloureux (trigeminal neuralgia). In which ganglion are the cell bodies of the neurons mediating this pain located?", "opts": ["Geniculate", "Trigeminal (semilunar or Gasserian)", "Inferior glossopharyngeal", "Otic", "Pterygopalatine"], "ans": 1, "why": "Pseudounipolar sensory neurons of CN V, which carry the facial pain of trigeminal neuralgia, have their cell bodies in the trigeminal (semilunar) ganglion.", "wrong": ["Sensory ganglion of CN VII (taste from anterior tongue), not facial pain.", "", "Sensory ganglion of CN IX, not trigeminal territory.", "Parasympathetic ganglion for the parotid; no sensory cell bodies.", "Parasympathetic ganglion for lacrimal and nasal glands; no sensory cell bodies."], "pearl": "Sensory cell bodies of CN V = trigeminal ganglion in Meckel's cave; parasympathetic ganglia hanging off V branches contain no sensory somata.", "set": "cn"}, {"id": "BH-31", "stem": "A 37-year-old man has discomfort moving his tongue, pharynx, and larynx. Examination shows that the muscles attached to the styloid process are paralyzed. Which group of cranial nerves is damaged?", "opts": ["Facial, glossopharyngeal, and hypoglossal nerves", "Hypoglossal, vagus, and facial nerves", "Glossopharyngeal, trigeminal, and vagus nerves", "Vagus, spinal accessory, and hypoglossal nerves", "Facial, glossopharyngeal, and vagus nerves"], "ans": 0, "why": "Three muscles arise from the styloid process: stylohyoid (CN VII), stylopharyngeus (CN IX), and styloglossus (CN XII).", "wrong": ["", "Vagus supplies no styloid muscle; CN IX (stylopharyngeus) is missing.", "Neither CN V nor CN X supplies a styloid muscle.", "CN X and XI supply no styloid muscle.", "Vagus supplies no styloid muscle; CN XII (styloglossus) is missing."], "pearl": "Styloid muscles: stylohyoid (VII), stylopharyngeus (IX), styloglossus (XII).", "set": "cn"}, {"id": "LH-14", "stem": "A 22-year-old man receives a 3-cm-deep stab wound in the left anterior cervical region at the C2 vertebral level, anterior to the sternocleidomastoid and superior to the greater horn of the hyoid bone. Postoperatively he has dysarthria (difficulty speaking). Which structure is most likely damaged?", "opts": ["Hypoglossal nerve", "Accessory nerve", "Mandibular division of trigeminal nerve", "Lingual branch of glossopharyngeal nerve", "Roots of the brachial plexus"], "ans": 0, "why": "CN XII crosses the carotid arteries just above the greater horn of the hyoid in the anterior triangle. It supplies all intrinsic and most extrinsic tongue muscles, so injury impairs articulation, and the tongue deviates toward the injured side on protrusion.", "wrong": ["", "Supplies only SCM and trapezius; lies posterior, deep to SCM", "Lies high in the infratemporal fossa, not the anterior neck at C2", "Sensory/taste to posterior tongue; no motor role in speech", "Lie between the scalenes low in the neck, far from this wound"], "pearl": "CN XII lesion: dysarthria + tongue deviates toward the lesion ('licks the wound').", "set": "cn"}, {"id": "BC-21", "stem": "A 24-year-old man falls from his motorcycle and lands in a creek. Bilateral severance of which of the following nerves may result in death?", "opts": ["Trigeminal nerve", "Facial nerve", "Vagus nerve", "Spinal accessory nerve", "Hypoglossal nerve"], "ans": 2, "why": "Cutting both vagus nerves paralyzes laryngeal and pharyngeal muscles (airway compromise) and removes reflex cardiovascular and GI control, which can be fatal.", "wrong": ["Bilateral trigeminal loss impairs chewing/sensation but is not lethal.", "Bilateral facial palsy is disfiguring but not lethal.", "", "Bilateral CN XI loss weakens SCM/trapezius only.", "Bilateral CN XII loss impairs tongue movement but is not typically lethal."], "pearl": "Bilateral vagal injury -> bilateral vocal cord paralysis/airway obstruction - life-threatening.", "set": "cn"}, {"id": "G-286", "stem": "A 28-year-old woman has a painful outer-ear infection. When a speculum is pressed against the posterior wall of her external auditory meatus, she coughs and feels dizzy. Which nerve was most likely stimulated?", "opts": ["Vestibulocochlear", "Vagus", "Trigeminal", "Facial", "Accessory"], "ans": 1, "why": "The posterior canal wall is supplied by the auricular branch of the vagus. Stimulating it can trigger a cough or a vasovagal response (bradycardia, hypotension, lightheadedness).", "wrong": ["CN VIII serves hearing and balance, not canal skin.", "", "The auriculotemporal (V3) supplies most of the canal but does not provoke cough/syncope.", "CN VII's small sensory contribution does not trigger these reflexes.", "CN XI is motor only."], "pearl": "Posterior ear canal = auricular br. of X -> cough or vasovagal syncope.", "set": "cn"}, {"id": "BH-49", "stem": "A 59-year-old stroke patient cannot swallow because of a nerve injury. Which of the following nerves is NOT involved in swallowing?", "opts": ["Hypoglossal nerve", "Spinal accessory nerve", "Vagus nerve", "Facial nerve", "Trigeminal nerve"], "ans": 1, "why": "The spinal accessory nerve supplies only the SCM and trapezius, which have no role in swallowing.", "wrong": ["CN XII moves the tongue to push the bolus back.", "", "CN X supplies palate, pharynx, and larynx muscles.", "CN VII supplies posterior digastric and stylohyoid, elevating the hyoid.", "V3 supplies mylohyoid and anterior digastric, elevating the hyoid."], "pearl": "CN XI = SCM + trapezius only.", "set": "cn"}, {"id": "G-300", "stem": "A 40-year-old woman has 3 months of vertigo, nausea, and reduced hearing in the left ear, along with a dry mouth and dry left eye. CT shows thickening of the skull bones. Which area is most likely affected?", "opts": ["Petrous temporal bone", "Infratemporal fossa", "Facial canal", "Middle ear", "Inner ear"], "ans": 0, "why": "The petrous temporal bone contains the inner ear (CN VIII: hearing, balance) and the facial canal with CN VII (greater petrosal and chorda tympani carrying lacrimal and salivary secretomotor fibers), so one lesion there explains all findings.", "wrong": ["", "An ITF lesion would not cause hearing loss or vertigo.", "A facial canal lesion alone would not cause vertigo or hearing loss.", "Middle ear disease explains hearing loss but not dry eye/mouth.", "Inner ear disease explains vertigo and hearing loss but not dry eye/mouth."], "pearl": "Petrous temporal bone houses CN VII (facial canal) and CN VIII (inner ear).", "set": "cn"}, {"id": "G-223", "stem": "A 22-year-old man undergoes surgery for multiple facial fractures and afterward cannot taste on the tip of his tongue. Which ganglion contains the neuron cell bodies of taste fibers from this part of the tongue?", "opts": ["Trigeminal", "Geniculate", "Inferior glossopharyngeal", "Submandibular ganglion", "Pterygopalatine"], "ans": 1, "why": "Taste from the anterior two-thirds of the tongue travels in the chorda tympani (CN VII), whose sensory cell bodies are in the geniculate ganglion.", "wrong": ["Holds cell bodies of general sensation (lingual nerve), not taste.", "", "Holds cell bodies for posterior-third taste (CN IX).", "Parasympathetic ganglion; contains postganglionic motor neurons, not sensory ones.", "Parasympathetic ganglion for lacrimal/nasal glands."], "pearl": "Anterior 2/3 taste: chorda tympani -> geniculate ganglion; general sensation: lingual -> trigeminal ganglion.", "set": "cn"}, {"id": "G-120", "stem": "A 14-year-old girl has a right peritonsillar abscess (quinsy). Which artery is at greatest risk during removal or incision and drainage of the diseased tissue?", "opts": ["Lingual", "A branch of facial", "Superior laryngeal artery", "Ascending pharyngeal artery", "Descending palatine artery"], "ans": 1, "why": "The tonsillar branch of the facial artery is the main supply to the palatine tonsil and lies right in the surgical field.", "wrong": ["Runs below the oropharynx, deep to the hyoglossus.", "", "Lies lower, at the thyrohyoid membrane.", "Arises low in the carotid triangle and is a minor tonsillar supplier.", "Only its terminal branches reach the upper pole of the tonsil; the main vessel is not at risk."], "pearl": "Tonsillar surgery puts the tonsillar branch of the facial artery at risk.", "set": "nasal_oral"}, {"id": "G-110", "stem": "An 11-year-old boy has swollen palatine tonsils. Which artery supplies most of the blood to these tonsils?", "opts": ["Ascending pharyngeal", "Facial", "Lingual", "Descending palatine", "Superior thyroid"], "ans": 1, "why": "The tonsillar branch of the facial artery is the main blood supply to the palatine tonsil, so it must be controlled during tonsillectomy.", "wrong": ["A minor contributor to the tonsil.", "", "Contributes only small dorsal lingual branches.", "Contributes only via the lesser palatine branches, a minor supply.", "Supplies the thyroid and larynx, not the tonsil."], "pearl": "Main tonsillar artery = tonsillar branch of the facial artery.", "set": "nasal_oral"}, {"id": "G-98", "stem": "A 4-year-old boy with ankyloglossia is seen by a speech therapist and referred to a pediatric surgeon. Which operation is most appropriate for this condition?", "opts": ["Removal of pterygomandibular raphe", "Resection of the pterygoid hamulus bilaterally", "Cutting the lingual frenulum", "Repair of the palate", "Removal of the central segment of the hyoid bone"], "ans": 2, "why": "In ankyloglossia (tongue-tie), the lingual frenulum is abnormally short or reaches the tip of the tongue, which limits movement. Cutting it (frenotomy) is the treatment.", "wrong": ["The raphe anchors the buccinator and superior constrictor; it has nothing to do with tongue-tie.", "The hamulus is the pulley for the tensor veli palatini; it does not tether the tongue.", "", "Palate repair treats cleft palate, not tongue-tie.", "Removing part of the hyoid is used for thyroglossal duct cysts (Sistrunk), not tongue-tie."], "pearl": "Ankyloglossia = short lingual frenulum -> frenotomy.", "set": "nasal_oral"}, {"id": "G-303", "stem": "A 30-year-old woman has nasal congestion, headache, clear rhinorrhea, fever, and swollen conchae. There is tenderness over the forehead above the nasal root and on either side of the glabella. Which structure is the most likely passage for spread of infection?", "opts": ["Pharyngotympanic tube", "Ethmoidal infundibulum", "Nasolacrimal duct", "Spheno-ethmoidal recess", "Superior nasal meatus"], "ans": 1, "why": "The frontal sinus and anterior ethmoidal cells drain into the middle meatus through the ethmoidal infundibulum and semilunar hiatus, linking nasal infection to the tender sinuses near the glabella.", "wrong": ["The pharyngotympanic tube links the nasopharynx to the middle ear.", "", "The nasolacrimal duct drains tears to the inferior meatus.", "The sphenoethmoidal recess drains the sphenoid sinus.", "The superior meatus drains the posterior ethmoidal cells."], "pearl": "Middle meatus (semilunar hiatus/infundibulum): frontal, maxillary, anterior ethmoid sinuses.", "set": "nasal_oral"}, {"id": "BC-17", "stem": "A 71-year-old man has a benign tumor in the pterygoid canal. Which of the following nerve fibers could be injured by this condition?", "opts": ["Preganglionic parasympathetic fibers", "Taste fibers from the epiglottis", "Somatic afferent (SA) fibers", "Preganglionic sympathetic fibers", "Branchiomeric muscle fibers"], "ans": 0, "why": "The nerve of the pterygoid canal (Vidian nerve) is formed by the greater petrosal nerve (preganglionic parasympathetic plus palatal taste) and the deep petrosal nerve (postganglionic sympathetic), heading to the pterygopalatine ganglion.", "wrong": ["", "Epiglottic taste travels with the internal laryngeal nerve (CN X).", "Vidian nerve carries visceral, not somatic, afferents.", "Its sympathetic fibers are postganglionic (deep petrosal), not preganglionic.", "It carries no branchial motor fibers."], "pearl": "Vidian nerve = greater petrosal (pre-parasympathetic) + deep petrosal (post-sympathetic).", "set": "nasal_oral"}, {"id": "BC-14", "stem": "A young boy with a long-standing tooth abscess suffers damage to the lingual nerve as it enters the oral cavity. Which of the following structures contain the cell bodies of the injured sensory nerve fibers?", "opts": ["Geniculate and otic ganglia", "Trigeminal and submandibular ganglia", "Trigeminal and dorsal root ganglia", "Geniculate and trigeminal ganglia", "Geniculate and pterygopalatine ganglia"], "ans": 3, "why": "Distal to its union with the chorda tympani, the lingual nerve carries general sensory fibers (cell bodies in the trigeminal ganglion) and taste fibers (cell bodies in the geniculate ganglion).", "wrong": ["Otic ganglion is parasympathetic to the parotid; no lingual fibers.", "Submandibular ganglion is autonomic, not a sensory cell-body site.", "Dorsal root ganglia belong to spinal nerves.", "", "Pterygopalatine ganglion serves lacrimal/nasal/palatal glands."], "pearl": "Lingual n. (after chorda joins): general sensation = trigeminal ganglion; taste = geniculate ganglion.", "set": "nasal_oral"}, {"id": "LH-66", "stem": "During a mixed martial arts fight, a fighter is punched in the anterior neck, fracturing the hyoid bone. Which of the following muscles would be most directly affected?", "opts": ["Palatopharyngeus", "Stylopharyngeus", "Superior pharyngeal constrictor", "Middle pharyngeal constrictor", "Inferior pharyngeal constrictor"], "ans": 3, "why": "The middle pharyngeal constrictor arises from the greater and lesser horns of the hyoid and the stylohyoid ligament, so a hyoid fracture directly disrupts its attachment.", "wrong": ["Arises from the palate and inserts into the pharynx/thyroid cartilage", "Arises from the styloid process", "Arises from the pterygomandibular raphe, pterygoid hamulus, and mandible", "", "Arises from the thyroid and cricoid cartilages"], "pearl": "Constrictor origins: superior = pterygomandibular raphe; middle = hyoid; inferior = thyroid & cricoid.", "set": "nasal_oral"}, {"id": "BH-3", "stem": "A 19-year-old woman complains of numbness of the nasopharynx after surgical removal of the adenoids. A lesion of which of the following nerves would be expected?", "opts": ["Maxillary nerve", "Superior cervical ganglion", "External laryngeal nerve", "Glossopharyngeal nerve", "Vagus nerve"], "ans": 3, "why": "Sensory innervation of the upper pharyngeal mucosa is provided by CN IX via the pharyngeal plexus; the vagus covers the lower pharynx and larynx.", "wrong": ["V2 supplies nasal mucosa and palate, not the pharyngeal wall per the book.", "Superior cervical ganglion contributes sympathetics with no afferent fibers.", "External laryngeal nerve is motor to cricothyroid and inferior constrictor.", "", "Vagus supplies sensation to the lower pharynx and larynx."], "pearl": "Pharyngeal sensation = CN IX (upper) / CN X (lower); pharyngeal motor = CN X.", "set": "nasal_oral"}, {"id": "G-296", "stem": "A 20-year-old motorcyclist has a minimally displaced fracture of the floor of the middle cranial fossa involving the pterygoid canal. Which fiber types are most likely affected?", "opts": ["Presynaptic parasympathetic", "Postsynaptic sympathetic; presynaptic parasympathetic", "Postsynaptic sympathetic; postsynaptic parasympathetic", "Special sensory; postsynaptic parasympathetic", "General sensory; postsynaptic parasympathetic"], "ans": 1, "why": "The nerve of the pterygoid canal forms from the greater petrosal nerve (preganglionic parasympathetic from CN VII) and the deep petrosal nerve (postganglionic sympathetic from the internal carotid plexus).", "wrong": ["Omits the postganglionic sympathetic fibers of the deep petrosal nerve.", "", "The parasympathetic fibers have not yet synapsed in the pterygopalatine ganglion.", "Taste and postganglionic fibers are not in the Vidian nerve.", "General sensory and postganglionic parasympathetic fibers travel with V2 branches, not the canal."], "pearl": "Vidian nerve = greater petrosal (pre-parasympathetic) + deep petrosal (post-sympathetic) -> pterygopalatine ganglion.", "set": "nasal_oral"}, {"id": "LC-27", "stem": "A 14-year-old girl develops Horner syndrome after surgical removal of a posterior mediastinal mass. Which nerve would be affected by the loss of sympathetic innervation to the head?", "opts": ["Lesser petrosal", "Deep petrosal", "Greater petrosal", "Chorda tympani", "Optic"], "ans": 1, "why": "The deep petrosal nerve is made of postganglionic sympathetic fibers from the internal carotid plexus. It joins the greater petrosal to form the vidian nerve, so a sympathetic chain lesion removes its fibers.", "wrong": ["Carries CN IX preganglionic parasympathetics to the otic ganglion.", "", "Carries CN VII preganglionic parasympathetics for lacrimation.", "Carries CN VII taste and parasympathetic fibers.", "Pure special sensory; carries no autonomic fibers."], "pearl": "Deep petrosal = sympathetic; greater and lesser petrosal = parasympathetic.", "set": "nasal_oral"}, {"id": "G-187", "stem": "A 55-year-old woman with an acute myocardial infarction is given sublingual nitroglycerin. Which of the following structures is most likely the route of absorption of this drug?", "opts": ["Deep lingual vein", "Submandibular duct", "Sublingual duct", "Lingual vein", "Sublingual vein"], "ans": 0, "why": "The deep lingual veins are visible through the thin mucosa on the underside of the tongue, making them the most direct route for rapid absorption of sublingual drugs.", "wrong": ["", "Carries saliva out of the gland; ducts do not absorb drugs.", "Excretory ducts; they secrete, not absorb.", "Lies deeper within the tongue/floor of mouth.", "Lies deeper in the floor of the mouth; less direct than the deep lingual vein."], "pearl": "Sublingual drugs absorb via the thin-walled deep lingual veins on the tongue's underside.", "set": "nasal_oral"}, {"id": "G-267", "stem": "A 75-year-old woman has double vision and cannot abduct her right eye. An aneurysm of which artery would most likely compress the nerve responsible?", "opts": ["Posterior cerebral artery", "Internal carotid artery", "External carotid artery", "Anterior cerebral artery", "Posterior communicating artery"], "ans": 1, "why": "CN VI runs through the cavernous sinus right beside the internal carotid artery, free in the sinus rather than in its lateral wall. An ICA aneurysm there readily compresses CN VI, causing lateral rectus palsy.", "wrong": ["PCA aneurysms typically compress CN III.", "", "The ECA stays outside the cranium.", "ACA/AComm aneurysms affect the optic chiasm.", "PComm aneurysms classically compress CN III (ptosis, blown pupil)."], "pearl": "CN VI lies free in the cavernous sinus next to the ICA -> first nerve hit by cavernous ICA aneurysm.", "set": "cranial"}, {"id": "G-4", "stem": "Early closure of the fontanelles of the infant skull can compress the brain and restrict its growth. Which fontanelle lies at the junction of the sagittal and coronal sutures, and at about what age does it typically close?", "opts": ["Posterior fontanelle, which closes at about 2 years", "Mastoid fontanelle, which closes at about 16 months", "Lambdoid fontanelle, which closes at 8 months to 1 year", "Sphenoidal fontanelle, which closes at 3 years", "Anterior fontanelle, which closes at 18 months"], "ans": 4, "why": "The anterior fontanelle sits where the sagittal and coronal sutures meet (the future bregma) and is the last to close, at roughly 18 months.", "wrong": ["Posterior fontanelle is at sagittal–lambdoid junction (lambda) and closes by 2–3 months.", "Mastoid fontanelle is at squamous–lambdoid junction and closes near the end of year 1.", "There is a lambdoid suture but no 'lambdoid fontanelle'.", "Sphenoidal fontanelle is at squamous–coronal junction (pterion) and closes by 2–3 months.", ""], "pearl": "Anterior fontanelle = future bregma (sagittal + coronal), closes ~18 months; posterior = lambda, closes ~2–3 months.", "set": "cranial"}, {"id": "G-270", "stem": "A 10-year-old child has severe ear pain, headache, and fever for 5 days. The tympanic membrane is red and bulging with purulent effusion, and there is tenderness over the mastoid process. If the mastoid air cells are now infected, which venous channel is most at risk of thrombosis due to its proximity to the infected bone?", "opts": ["Cavernous sinus", "Pterygoid venous plexus", "Sigmoid sinus", "Straight sinus", "Superior petrosal sinus"], "ans": 2, "why": "The sigmoid sinus grooves the inner surface of the mastoid part of the temporal bone and receives mastoid emissary veins, so mastoiditis can spread directly to it and cause thrombosis.", "wrong": ["The cavernous sinus is beside the sella, not the mastoid.", "The pterygoid plexus is in the infratemporal fossa.", "", "The straight sinus lies at the falx-tentorium junction in the midline.", "The superior petrosal sinus runs along the petrous ridge, not the mastoid."], "pearl": "Mastoiditis -> sigmoid sinus thrombosis (sigmoid sinus lies directly behind mastoid air cells).", "set": "cranial"}, {"id": "G-125", "stem": "A 54-year-old man is hit by a car. Imaging shows a fracture through the crista galli with slow local bleeding. What is the most likely source of the bleeding?", "opts": ["Middle meningeal artery", "The great cerebral vein of Galen", "Superior sagittal sinus", "Straight sinus", "Superior ophthalmic vein"], "ans": 2, "why": "The falx cerebri, which carries the superior sagittal sinus, attaches in front to the crista galli. Venous bleeding from the sinus is slow.", "wrong": ["Lies near the pterion and would bleed briskly (arterial).", "Lies at the back, near the straight sinus.", "", "Lies at the back, where the falx meets the tentorium.", "Runs from the orbit to the cavernous sinus, not near the crista galli."], "pearl": "The falx cerebri (with the superior sagittal sinus) anchors to the crista galli in front.", "set": "cranial"}, {"id": "LH-69", "stem": "An 82-year-old woman develops a dural meningioma that compresses the confluence of the dural venous sinuses. Drainage from which of the following vessels would be impeded by the tumor?", "opts": ["Superior sagittal sinus", "Transverse sinus", "Cavernous sinus", "Superior petrosal sinus", "Inferior petrosal sinus"], "ans": 0, "why": "The superior sagittal sinus runs in the attached border of the falx cerebri and empties into the confluence of sinuses near the internal occipital protuberance. Blocking the confluence backs up flow in the superior sagittal sinus.", "wrong": ["", "Carries blood AWAY from the confluence, so it is downstream, not impeded", "Drains via the petrosal sinuses, not the confluence", "Drains the cavernous sinus into the transverse/sigmoid junction, bypassing the confluence", "Drains the cavernous sinus directly into the internal jugular vein"], "pearl": "Superior sagittal (+ straight, occipital) -> confluence -> transverse -> sigmoid -> IJV.", "set": "cranial"}, {"id": "G-45", "stem": "A 45-year-old woman with severe ear pain has chronic mastoiditis. The infection can erode the thin bone between the mastoid air cells and the posterior cranial fossa. Into which venous structure does it most commonly spread?", "opts": ["Superior sagittal sinus", "Inferior sagittal sinus", "Straight sinus", "Cavernous sinus", "Sigmoid sinus"], "ans": 4, "why": "The sigmoid sinus grooves the posterior cranial fossa immediately medial to the mastoid air cells before becoming the IJV, so mastoid infection readily causes sigmoid sinus thrombosis.", "wrong": ["Runs in the superior margin of the falx cerebri, far from the mastoid.", "Lies in the free lower edge of the falx.", "Runs at the falx–tentorium junction, midline.", "Lies beside the sella in the middle cranial fossa.", ""], "pearl": "Mastoiditis → sigmoid sinus thrombophlebitis (lateral sinus thrombosis).", "set": "cranial"}, {"id": "G-280", "stem": "A 25-year-old man has an occipital bone fracture extending upward from the foramen magnum. Which structure passes through the foramen magnum?", "opts": ["Cranial nerve I", "Cranial nerve IX", "Cranial nerve X", "Cranial nerve XI", "Cranial nerve XII"], "ans": 3, "why": "The spinal roots of CN XI ascend through the foramen magnum (along with the medulla, vertebral arteries, and spinal arteries) before exiting via the jugular foramen.", "wrong": ["CN I passes through the cribriform plate.", "CN IX exits through the jugular foramen.", "CN X exits through the jugular foramen.", "", "CN XII exits through the hypoglossal canal."], "pearl": "Foramen magnum: medulla, vertebral aa., spinal aa., spinal roots of CN XI.", "set": "cranial"}, {"id": "G-272", "stem": "A physician palpates the mastoid process of an adolescent with pain behind the ear. Which bone is being palpated?", "opts": ["Occipital", "Zygomatic", "Temporal", "Parietal", "Sphenoid"], "ans": 2, "why": "The mastoid process belongs to the mastoid part of the temporal bone (the others being squamous, petrous, and tympanic parts).", "wrong": ["The occipital bone is posterior but does not form the mastoid process.", "The zygomatic bone forms the cheek.", "", "The parietal bone forms the upper side of the vault.", "The sphenoid is central in the skull base."], "pearl": "Temporal bone parts: squamous, petrous, tympanic, mastoid (+ styloid and zygomatic processes).", "set": "cranial"}, {"id": "G-299", "stem": "A 30-year-old man is struck just below the right eye by a cricket ball and has severe pain and double vision. CT shows a displaced fracture of the inferior orbital margin and floor along the zygomaticomaxillary suture. Which finding best explains his symptoms?", "opts": ["Partial ptosis of the upper eyelid", "Complete ptosis of the upper eyelid", "Inability to elevate the abducted eyeball", "Inability to depress the abducted eyeball", "Inability to produce tears"], "ans": 2, "why": "An orbital floor fracture can entrap the inferior muscles (inferior rectus/inferior oblique) and tether the globe, so the eye cannot be elevated and the patient has diplopia on upgaze.", "wrong": ["Ptosis requires levator or tarsal muscle injury in the upper orbit.", "Complete ptosis requires CN III or levator injury.", "", "Depression in abduction is inferior rectus action; the key issue is restricted elevation.", "Tear production depends on the lacrimal gland/parasympathetics, not the orbital floor."], "pearl": "Orbital floor fracture -> restricted upgaze, diplopia, infraorbital numbness.", "set": "orbit"}, {"id": "G-163", "stem": "A 36-year-old man presents with a painful rash on the dorsum of his nose. Examination reveals a herpetic lesion affecting the dorsum of the nose and the eyeball. Which of the following nerves is most likely responsible for transmission of the virus to the eye?", "opts": ["Nasociliary", "Supratrochlear", "Infraorbital", "Posterior ethmoidal", "Anterior ethmoidal"], "ans": 0, "why": "Vesicles on the tip/dorsum of the nose (Hutchinson sign) indicate V1 zoster in the nasociliary distribution. The nasociliary nerve also supplies the globe (long ciliary nerves), so nasal involvement predicts eye involvement.", "wrong": ["", "Frontal nerve branch supplying the forehead skin; no sensory branches to the globe.", "V2 branch supplying cheek and upper lip, not the eyeball.", "Nasociliary branch to sphenoid/posterior ethmoid cells; does not reach the nasal dorsum skin.", "Supplies the nasal tip via external nasal branch but not the eyeball itself."], "pearl": "Hutchinson sign: nasal tip zoster = nasociliary (V1) -> high risk of ocular involvement.", "set": "orbit"}, {"id": "G-243", "stem": "An 82-year-old man is noted to have unequal pupils. Which test would help determine which eye is abnormal and whether the problem is a sympathetic or an oculomotor lesion?", "opts": ["Startle reflex", "Blink reflex", "Pupillary light reflex", "H-test", "Vision test (reading chart)"], "ans": 2, "why": "Testing direct and consensual responses to light shows which pupil fails to constrict (CN III efferent) versus a small pupil that reacts but fails to dilate (sympathetic lesion).", "wrong": ["Startle is an acoustic reflex, not a pupil test.", "Blink (corneal) reflex tests V1 and VII.", "", "H-test assesses extraocular muscles, not pupil size.", "Visual acuity tests the optic pathway, not pupillary innervation."], "pearl": "Anisocoria worse in light = parasympathetic (CN III) problem; worse in dark = sympathetic (Horner).", "set": "orbit"}, {"id": "G-105", "stem": "A 22-year-old man is hit in the right eye by a frozen fish. His eyelids are swollen and bruised, and he cannot turn the eye outward from straight-ahead gaze, suggesting a trapped muscle. Which bone is most likely fractured?", "opts": ["Orbital plate of the frontal bone", "Lamina papyracea of the ethmoid bone", "Orbital plate of the maxilla", "Cribriform plate of the ethmoid bone", "Greater wing of the sphenoid bone"], "ans": 1, "why": "The paper-thin lamina papyracea forms the medial orbital wall. A blowout through it can trap the medial rectus, which then cannot relax, so the eye cannot turn outward.", "wrong": ["A roof fracture would rarely trap the superior muscles.", "", "A floor fracture traps the inferior rectus or oblique and limits upward gaze.", "Causes anosmia and CSF rhinorrhea, not muscle entrapment.", "The lateral wall is thick and does not typically trap muscles."], "pearl": "Medial wall (ethmoid) blowout traps the medial rectus; floor (maxilla) blowout traps the inferior rectus.", "set": "orbit"}, {"id": "G-161", "stem": "A 36-year-old female racquetball player is struck in the orbital region. Radiographs reveal a blow-out fracture of the medial wall of the orbit. The pupil of the affected eye cannot be turned laterally. Which of the following muscles is most likely injured or trapped?", "opts": ["Lateral rectus", "Medial and inferior recti", "Medial rectus", "Medial rectus and superior oblique", "Inferior rectus"], "ans": 2, "why": "In a medial wall fracture the medial rectus becomes caught between bone fragments. The trapped muscle tethers the globe, so the eye cannot be moved laterally (abducted), even though its nerve is intact.", "wrong": ["Abducts the eye but lies along the lateral wall, away from a medial fracture.", "Inferior rectus relates to the floor; the deficit here is only abduction.", "", "Superior oblique is superomedial and would not block abduction.", "Lies on the orbital floor; entrapment limits upgaze, not abduction."], "pearl": "Entrapped muscle limits movement OPPOSITE to its action: medial wall -> medial rectus -> can't abduct.", "set": "orbit"}, {"id": "G-164", "stem": "A 22-year-old man is injured in a street fight and suffers a forehead fracture, resulting in black, swollen eyes. Because he is in severe pain, an anesthetic solution is injected into his orbit toward the orbital apex. Which of the following nerves is most likely to be anesthetized?", "opts": ["Ophthalmic", "Infraorbital", "Anterior ethmoidal", "Frontal", "Optic"], "ans": 0, "why": "A needle passed through the upper eyelid near the orbital margin and directed toward the orbital apex bathes the branches of the ophthalmic division (V1), including the nasociliary, frontal, and lacrimal nerves, anesthetizing the orbit.", "wrong": ["", "V2 branch in the orbital floor canal; not the target of an orbital apex block.", "Only one small branch of the nasociliary; the block affects the whole V1 division.", "Only one V1 branch; the apex injection reaches the entire ophthalmic division.", "Special sensory nerve for vision, not the target for pain relief."], "pearl": "Retrobulbar/orbital apex block anesthetizes V1 branches (and nearby motor nerves).", "set": "orbit"}, {"id": "BH-30", "stem": "A benign orbital tumor in a 49-year-old man compresses a structure that passes through both the superior orbital fissure and the common tendinous ring. Which structure is most likely damaged?", "opts": ["Frontal nerve", "Lacrimal nerve", "Trochlear nerve", "Abducens nerve", "Ophthalmic vein"], "ans": 3, "why": "The abducens nerve (with CN III divisions and nasociliary) passes through the SOF within the common tendinous ring.", "wrong": ["Frontal nerve passes through the SOF outside the ring.", "Lacrimal nerve passes through the SOF outside the ring.", "Trochlear nerve passes through the SOF outside the ring.", "", "Superior ophthalmic vein passes above/outside the ring."], "pearl": "Inside the ring: CN III (sup & inf), nasociliary, CN VI. Outside: LFT (lacrimal, frontal, trochlear) + vein.", "set": "orbit"}, {"id": "G-189", "stem": "A 22-year-old man has a sinus infection involving the posterior ethmoidal cells and complains of progressive loss of vision. Which of the following structures is most likely affected?", "opts": ["Ophthalmic artery", "Nasociliary nerve", "Anterior ethmoidal nerve", "Trochlear nerve", "Abducens nerve"], "ans": 0, "why": "The ophthalmic artery gives rise to the central retinal artery, an end artery. Spread of posterior ethmoidal infection near the orbital apex compromising this blood supply leads to loss of vision.", "wrong": ["", "Sensory to the eye (corneal reflex afferent); no role in vision.", "Sensory to the anterior ethmoid cells and nose; no role in vision.", "Motor to superior oblique; affects movement, not vision.", "Motor to lateral rectus; affects abduction, not vision."], "pearl": "Ophthalmic a. -> central retinal a. (end artery): compromise = vision loss.", "set": "orbit"}, {"id": "G-126", "stem": "During a routine eye exam, which nerves must work properly for a patient to turn the eye outward (abduction) smoothly, without drifting up or down?", "opts": ["Superior division of oculomotor, ophthalmic nerve, abducens nerve", "Trochlear nerve, abducens nerve, nasociliary nerve", "Inferior division of oculomotor, trochlear, abducens", "Oculomotor and ophthalmic nerves", "Superior division of oculomotor, trochlear, and abducens nerves"], "ans": 2, "why": "The lateral rectus (CN VI) does the main abduction, the superior oblique (CN IV) helps, and the inferior rectus (inferior division of CN III) balances the upward pull of the superior rectus so the eye stays level.", "wrong": ["The ophthalmic nerve is sensory and has no motor role.", "The nasociliary nerve is sensory.", "", "The ophthalmic nerve is sensory, and CN VI is missing.", "The superior division supplies the superior rectus and levator; it does not balance upward drift."], "pearl": "Only CN III, IV and VI move the eye; V1 branches are purely sensory.", "set": "orbit"}, {"id": "G-166", "stem": "A 56-year-old woman presents with eye pain that is excruciating with any eye movement. MRI reveals that the optic nerve is inflamed. What is the most likely explanation?", "opts": ["The anular tendon (of Zinn) is inflamed", "The inflammation has affected the nerves innervating the eye muscles", "The muscles are contracting due to generalized inflammation", "The nasociliary nerve is affected", "The ophthalmic artery is constricted"], "ans": 0, "why": "The dural sheath of the optic nerve blends with the common tendinous (anular) ring from which the four recti arise. In optic neuritis, rectus contraction pulls on this inflamed ring and nerve sheath, causing pain with eye movement.", "wrong": ["", "Motor nerve involvement would cause weakness/diplopia, not movement-evoked pain.", "No generalized muscle inflammation is described.", "Nasociliary involvement would affect sensation, not explain pain triggered by movement.", "Vascular constriction would affect vision/ischemia, not pain on movement."], "pearl": "Optic neuritis hurts with eye movement because recti arise from the anular tendon fused to the optic sheath.", "set": "orbit"}, {"id": "G-139", "stem": "A 54-year-old man fractures his frontozygomatic suture in a car crash. His upper eyelid has several cuts and small fragments of his glasses are in the sclera. Where should the needle be placed to anesthetize the orbital contents and then the injured eyelid?", "opts": ["Into the sclera in the limbic region and also into the infraorbital foramen", "Into the lacrimal fossa and also beneath the lateral bulbar conjunctiva", "Into the supraorbital foramen and also into the lacrimal caruncle", "Through the upper eyelid deeply toward the orbital apex and also between the orbital septum and the palpebral musculature laterally", "Directly posteriorly through the anulus tendineus and superior orbital fissure"], "ans": 3, "why": "The needle aimed deep toward the orbital apex blocks the nasociliary nerve (V1), which supplies the globe. A second injection laterally, between the septum and the lid muscle, blocks the lacrimal nerve supply to the lid.", "wrong": ["Injecting into the sclera would injure the globe.", "The lacrimal fossa is too far medial and does not anesthetize the globe.", "The supraorbital nerve supplies the forehead, not the globe.", "", "Driving the needle through the common tendinous ring risks nerve and vessel injury."], "pearl": "Nasociliary n. (V1) supplies the cornea and globe (the afferent limb of the corneal reflex).", "set": "orbit"}, {"id": "LH-37", "stem": "A 9-year-old girl with mumps has painful unilateral inflammation of her right parotid gland due to the stretched capsule. Her physician is concerned about the structures contained within the gland. Which of the following may be directly compressed?", "opts": ["Buccal nerve of CN V3", "Auriculotemporal nerve", "Posterior belly of the digastric muscle", "External jugular vein", "Facial artery"], "ans": 1, "why": "The auriculotemporal nerve (CN V3) passes through the upper parotid gland and supplies its capsule, so it can be compressed by the swollen gland and carries much of the pain.", "wrong": ["Runs anteriorly on the buccinator, not within the parotid", "", "Lies deep to the parotid, not inside it", "Forms below the gland from the retromandibular and posterior auricular veins", "Runs in the submandibular region and face, not through the parotid"], "pearl": "Parotid contents: CN VII branches, retromandibular v., ECA (and its terminal branches), auriculotemporal n.", "set": "face"}, {"id": "LH-58", "stem": "A 35-year-old woman has tenderness in her cheek near the parotid gland, bad breath, and a foul taste at mealtimes. Sialography confirms a stone (sialolith) blocking the parotid duct. Through which muscle does the parotid duct pass, most likely creating the narrowing where the stone lodged?", "opts": ["Buccinator", "Mentalis", "Temporalis", "Orbicularis oris", "Masseter"], "ans": 0, "why": "The parotid duct crosses superficial to the masseter, then turns medially to pierce the buccinator before opening opposite the upper second molar. The passage through the buccinator narrows the duct and is a common site for a stone to lodge.", "wrong": ["", "In the chin; unrelated to the parotid duct", "Lies in the temporal fossa, above the duct", "Surrounds the mouth; the duct does not pass through it", "The duct crosses its surface but does not pierce it"], "pearl": "Parotid (Stensen) duct: over masseter -> pierces buccinator -> opens opposite upper 2nd molar.", "set": "face"}, {"id": "LH-65", "stem": "A 17-year-old woman has an anterior dislocation of her temporomandibular joint, with her mandible stuck in the protruded position. Her dentist pulls the mandible inferiorly so that muscle tone can retract it. Which muscle returns the mandibular condyle to its normal position after it clears the articular eminence?", "opts": ["Lateral pterygoid", "Masseter", "Medial pterygoid", "Stylohyoid", "Temporalis"], "ans": 4, "why": "The horizontal posterior fibers of the temporalis retract (retrude) the mandible, pulling the condyle back into the mandibular fossa once it is past the articular eminence.", "wrong": ["Protrudes the mandible; its spasm helps cause the dislocation", "Mainly elevates the mandible; its spasm contributes to locking", "Elevates and protrudes the mandible", "Elevates and retracts the hyoid, not the mandible", ""], "pearl": "Retrusion of the mandible = posterior fibers of temporalis; protrusion = lateral pterygoid.", "set": "face"}, {"id": "LC-17", "stem": "A 32-year-old man has paralysis of the muscles of mastication on the right side, causing facial asymmetry and difficulty chewing. His chief complaint is difficulty swallowing (dysphagia). Which muscle is most likely involved in his dysphagia?", "opts": ["Sternohyoid", "Stylohyoid", "Cricothyroid", "Stylopharyngeus", "Mylohyoid"], "ans": 4, "why": "Paralysis of mastication muscles points to a V3 lesion. V3 also supplies mylohyoid (and anterior digastric), which elevate the hyoid and floor of mouth during swallowing, so its loss causes dysphagia.", "wrong": ["Innervated by ansa cervicalis (C1-C3), not V3.", "Innervated by CN VII, not V3.", "Innervated by the external branch of the superior laryngeal nerve; affects pitch.", "Innervated by CN IX, not V3.", ""], "pearl": "V3 motor: 4 muscles of mastication + MATT (Mylohyoid, Anterior digastric, Tensor tympani, Tensor veli palatini).", "set": "face"}, {"id": "G-74", "stem": "A 59-year-old man has acute pain in his mandible. MRI reveals acute arthritic inflammation of the temporomandibular joint. Which muscle will most likely be affected by the inflammatory process in this joint?", "opts": ["Temporalis", "Medial pterygoid", "Masseter", "Lateral pterygoid", "Buccinator"], "ans": 3, "why": "Part of the lateral pterygoid inserts into the TMJ capsule and articular disc, so joint inflammation directly involves it.", "wrong": ["Inserts on the coronoid process; elevates/retracts the jaw.", "Inserts on the medial angle of the mandible; elevates the jaw.", "Inserts on the lateral ramus/angle; elevates the jaw.", "", "Facial muscle of the cheek; unrelated to the TMJ."], "pearl": "Lateral pterygoid (superior head) attaches to the TMJ disc; it is the main protractor/depressor (opens mouth).", "set": "face"}, {"id": "LH-38", "stem": "After facial injuries in an automobile accident, a 17-year-old girl is unable to close her lips together tightly. Which of the following muscles is paralyzed?", "opts": ["Zygomaticus major", "Buccinator", "Levator labii superioris", "Orbicularis oris", "Mentalis"], "ans": 3, "why": "The orbicularis oris is the sphincter encircling the mouth; it closes and purses the lips. Its paralysis (CN VII buccal/mandibular branches) prevents tight lip closure.", "wrong": ["Elevates the corners of the mouth", "Compresses the cheek against the teeth", "Elevates the upper lip", "", "Elevates and protrudes the lower lip and wrinkles the chin"], "pearl": "Orbicularis oris = oral sphincter (CN VII).", "set": "face"}, {"id": "G-291", "stem": "A 40-year-old woman has painful, warm swelling over the left mandible in front of the ear. Ultrasound shows a stone in the parotid duct with the duct distended proximally. Which other clinical feature is most likely?", "opts": ["Weak deviation of the mandible to the right", "Complete ptosis of the left eyelid", "Numbness of the skin over the left lower mandible", "Excessive tearing", "Pain over the anterior auricle, tragus, and anterior helix"], "ans": 4, "why": "A swollen parotid can irritate the auriculotemporal nerve, which runs through/near the gland and supplies the anterior auricle, tragus, and helix, giving pain there.", "wrong": ["Lateral jaw movement is by the pterygoids (V3), not in the gland.", "Complete ptosis is CN III.", "Skin over the lower mandible is supplied by the mental nerve and great auricular nerve.", "Tearing is driven by CN VII via the pterygopalatine ganglion, not the parotid.", ""], "pearl": "Parotid swelling -> auriculotemporal pain (pre-auricular/temple); CN VII branches also run through gland.", "set": "face"}, {"id": "G-279", "stem": "A 20-year-old man has a deep 10-cm oblique laceration across his right cheek from a broken bottle. He cannot close his right eye or smile on the right side. Which additional structure was most likely damaged?", "opts": ["Vertebral artery", "Common carotid artery", "Parotid gland", "Lateral pterygoid muscle", "Temporalis muscle"], "ans": 2, "why": "CN VII branches radiate from within the parotid gland across the cheek. A wound deep enough to cut the zygomatic and buccal branches will likely also injure the parotid gland (and possibly its duct).", "wrong": ["The vertebral artery is deep in the neck, not the cheek.", "The common carotid artery is in the neck, below the face.", "", "Lateral pterygoid is a deep V3 muscle; injury would not cause facial palsy.", "Temporalis is in the temporal fossa and supplied by V3."], "pearl": "CN VII branches in parotid: To Zanzibar By Motor Car (temporal, zygomatic, buccal, marginal mandibular, cervical).", "set": "face"}, {"id": "G-108", "stem": "A 45-year-old woman has a parotid tumor removed. Three months later, her face sweats heavily when she tastes or smells food, and Frey syndrome (gustatory sweating) is diagnosed. Which nerve was most likely injured during the operation?", "opts": ["Buccal", "Inferior alveolar", "Auriculotemporal", "Facial", "Lingual"], "ans": 2, "why": "The auriculotemporal nerve carries parasympathetic fibers from the otic ganglion to the parotid. After it is cut, these fibers can regrow into the skin's sweat glands, so eating triggers sweating instead of salivation.", "wrong": ["Sensory to the cheek; it carries no parotid secretomotor fibers.", "Supplies the lower teeth; it is not in the parotid.", "", "Injury to CN VII causes facial paralysis, not gustatory sweating.", "Carries fibers to the submandibular ganglion, not the parotid."], "pearl": "Frey syndrome = misdirected regrowth of the auriculotemporal nerve (CN IX fibers via the otic ganglion) after parotid surgery.", "set": "face"}, {"id": "G-308", "stem": "A 64-year-old man had a parotidectomy for a malignant tumor. About a year later, he sweats on that side of his face when he sees appetizing food. Where are the cell bodies of the nerve fibers now innervating his sweat glands?", "opts": ["Ciliary ganglion", "Pterygopalatine ganglion", "Otic ganglion", "Submandibular ganglion", "Superior salivatory nucleus"], "ans": 2, "why": "In Frey syndrome, cut postganglionic parasympathetic fibers from the otic ganglion regrow along the auriculotemporal nerve into facial sweat glands, so salivary stimuli now cause sweating.", "wrong": ["The ciliary ganglion supplies the sphincter pupillae and ciliary muscle.", "The pterygopalatine ganglion supplies lacrimal and nasal/palatal glands.", "", "The submandibular ganglion supplies the submandibular/sublingual glands.", "The superior salivatory nucleus holds preganglionic CN VII cell bodies, not postganglionic."], "pearl": "Frey syndrome: otic ganglion fibers via auriculotemporal n. aberrantly reinnervate sweat glands.", "set": "face"}, {"id": "G-58", "stem": "A 43-year-old man has a laryngeal carcinoma removed. The right ansa cervicalis is anastomosed with the right recurrent laryngeal nerve to reinnervate the laryngeal muscles and restore phonation. Which muscle will most likely be paralyzed after this operation?", "opts": ["Sternocleidomastoid", "Platysma", "Sternohyoid", "Trapezius", "Cricothyroid"], "ans": 2, "why": "Dividing the ansa cervicalis to redirect it denervates the infrahyoid strap muscles it supplies, such as sternohyoid.", "wrong": ["Supplied by CN XI.", "Supplied by the cervical branch of CN VII.", "", "Supplied by CN XI.", "Supplied by the external laryngeal nerve (CN X)."], "pearl": "Ansa cervicalis (C1–C3) → sternohyoid, sternothyroid, omohyoid; thyrohyoid and geniohyoid get C1 via CN XII.", "set": "neck"}, {"id": "G-200", "stem": "Cardiac pain is sometimes referred to the mandible and the region of the temporomandibular joint. Cutaneous sensation over the angle of the mandible is normally supplied by which nerve?", "opts": ["Cervical branch of facial", "Great auricular nerve", "Mandibular branch of trigeminal nerve", "Mandibular branch of facial nerve", "Transverse cervical nerve"], "ans": 1, "why": "The great auricular nerve (C2-C3, cervical plexus) supplies skin over the angle of the mandible, the parotid region, and the ear up toward the TMJ, an area not covered by V3.", "wrong": ["Motor to platysma; facial nerve branches carry no skin sensation.", "", "V3 supplies most of the lower face but spares the angle of the mandible.", "Motor to lower lip muscles; not cutaneous.", "Supplies skin of the anterior neck, below the mandible."], "pearl": "Angle of the mandible = great auricular nerve (C2-C3), not trigeminal.", "set": "neck"}, {"id": "G-140", "stem": "A 45-year-old construction worker falls onto a nail, which pierces the skin over the submental triangle just lateral to the midline. Which muscle would the nail pass through last?", "opts": ["Platysma", "Mylohyoid", "Anterior belly of the digastric", "Geniohyoid", "Genioglossus"], "ans": 4, "why": "Going upward from the skin, the layers are platysma, anterior digastric, mylohyoid, geniohyoid and then genioglossus, the deepest.", "wrong": ["The most superficial muscle, pierced first.", "The third layer, forming the floor of the mouth.", "The second layer, just deep to the platysma.", "The fourth layer, lying just above the mylohyoid.", ""], "pearl": "Submental layers from below: platysma -> anterior digastric -> mylohyoid -> geniohyoid -> genioglossus.", "set": "neck"}, {"id": "BH-32", "stem": "A high school basketball player develops sudden difficulty breathing. When a low tracheotomy is performed below the isthmus of the thyroid, which vessels may be encountered?", "opts": ["Inferior thyroid artery", "Inferior thyroid vein", "Costocervical trunk", "Superior thyroid artery", "Right brachiocephalic vein"], "ans": 1, "why": "The inferior thyroid veins descend from the isthmus on the anterior trachea to the brachiocephalic veins, directly in the path of a low tracheotomy.", "wrong": ["Inferior thyroid artery approaches the gland laterally, behind the carotid sheath.", "", "Costocervical trunk lies deep, posterior in the root of the neck.", "Superior thyroid artery reaches the upper poles.", "The brachiocephalic veins lie lower and more lateral."], "pearl": "Low tracheotomy hazards: inferior thyroid veins (and a thyroid ima artery, if present).", "set": "neck"}, {"id": "LC-32", "stem": "A first-year medical student accidentally walks into the wrong locker room, is shocked and embarrassed, and runs away with his heart pounding. In this agitated state, which ganglion is showing an extremely high rate of activity?", "opts": ["Ciliary ganglion", "Trigeminal ganglion", "Inferior (nodose) vagal ganglion", "Superior cervical ganglion", "Pterygopalatine ganglion"], "ans": 3, "why": "This is a sympathetic fight-or-flight response. The superior cervical ganglion (about C2, top of the sympathetic chain) holds the postganglionic sympathetic cell bodies for the head, so it is the sympathetic ganglion listed.", "wrong": ["Parasympathetic ganglion for the eye.", "Sensory ganglion of CN V.", "Visceral sensory ganglion of CN X.", "", "Parasympathetic ganglion for lacrimal and nasal glands."], "pearl": "SCG (≈C2) = all postganglionic sympathetics to the head.", "set": "neck"}, {"id": "LH-24", "stem": "A 36-year-old woman has palpitations, weight loss, anxiety, insomnia, fatigue, and amenorrhea. The physician palpates a 1.5-cm neck mass that elevates on swallowing, located inferior to the cricoid cartilage and off the midline. What is the most likely structure involved?", "opts": ["Enlarged deep cervical lymph node", "Thyroid nodule", "Benign parathyroid adenoma", "Thyroglossal duct cyst", "Branchial cyst"], "ans": 1, "why": "The thyroid lobes lie lateral to the trachea below the cricoid and move with swallowing because they are enclosed in pretracheal fascia. A hyperfunctioning nodule explains the hyperthyroid symptoms.", "wrong": ["Lies along the IJV in the carotid sheath and would not cause hyperthyroidism", "", "Would cause hypercalcemia symptoms, not hyperthyroidism", "Midline, usually at the hyoid level, and moves with tongue protrusion", "Lateral neck mass at the anterior SCM border; does not cause hyperthyroidism"], "pearl": "Neck mass that moves with swallowing = thyroid (invested by pretracheal fascia).", "set": "neck"}, {"id": "G-282", "stem": "A 70-year-old patient with sudden hoarseness has a small carcinoma in the mucosa over the right vocalis muscle. Which structure lies immediately lateral to the vocalis?", "opts": ["Lateral cricoarytenoid muscle", "Aryepiglottic muscle", "Posterior cricoarytenoid muscle", "Oblique arytenoid muscle", "Thyroarytenoid muscle"], "ans": 4, "why": "The vocalis is the medial slip of the thyroarytenoid, lying just lateral to the vocal ligament; the main thyroarytenoid lies directly lateral to it.", "wrong": ["Lateral cricoarytenoid runs from the cricoid arch to the arytenoid, further posterior-inferior.", "Aryepiglottic muscle lies in the aryepiglottic fold, superior.", "Posterior cricoarytenoid lies on the back of the cricoid lamina.", "Oblique arytenoids lie on the posterior arytenoids.", ""], "pearl": "Medial to lateral in the vocal fold: vocal ligament -> vocalis -> thyroarytenoid.", "set": "larynx"}, {"id": "LH-15", "stem": "A 60-year-old female yodeler with a 43-year smoking history has pain on swallowing and hoarseness. Fiberoptic endoscopy reveals a laryngeal squamous cell carcinoma. Given her hoarseness, what structure is most likely affected by this cancer?", "opts": ["Infraglottic cavity", "Vocal folds", "Vestibular folds", "Laryngeal vestibule", "Epiglottis"], "ans": 1, "why": "Hoarseness is the hallmark of glottic cancer, which arises on the true vocal folds, the most common site of laryngeal squamous cell carcinoma, especially in smokers.", "wrong": ["Subglottic tumors are rare and present later with airway obstruction", "", "False folds are protective and not the main phonatory structure", "Supraglottic tumors cause dysphagia/throat pain before hoarseness", "Supraglottic; typically causes dysphagia rather than early hoarseness"], "pearl": "Glottic (true vocal fold) SCC = early hoarseness, most common laryngeal cancer site.", "set": "larynx"}, {"id": "LH-12", "stem": "A newborn exhibits labored, gasping breaths and unusual vocal tones when crying. Examination reveals malformed vocal folds due to displaced attachments of the vocal ligaments. Which of the following structures is most likely defective?", "opts": ["Arytenoid cartilages", "Cricoid cartilage", "Epiglottic cartilage", "Corniculate cartilages", "Cuneiform cartilages"], "ans": 0, "why": "Each vocal ligament runs from the inner surface of the thyroid cartilage anteriorly to the vocal process of the arytenoid cartilage posteriorly. Arytenoid movements set vocal fold position and tension, so malformed arytenoids displace the ligament attachments.", "wrong": ["", "Unpaired ring articulating with thyroid and arytenoids; vocal ligaments do not attach to it", "Leaf-shaped cartilage that covers the laryngeal inlet; no vocal ligament attachment", "Small cartilages on the arytenoid apices within the aryepiglottic folds", "Small cartilages within the aryepiglottic folds; not vocal ligament attachments"], "pearl": "Vocal ligament: thyroid cartilage (anterior) -> vocal process of arytenoid (posterior).", "set": "larynx"}, {"id": "BH-7", "stem": "A 26-year-old singer sees an ENT surgeon for changes in her voice. Laryngoscopy shows a lesion of the superior laryngeal nerve. This causes weakness of which of the following muscles?", "opts": ["Inferior pharyngeal constrictor", "Middle pharyngeal constrictor", "Superior pharyngeal constrictor", "Thyroarytenoid", "Thyrohyoid"], "ans": 0, "why": "The external branch of the superior laryngeal nerve supplies both the cricothyroid and part of the inferior pharyngeal constrictor.", "wrong": ["", "Middle constrictor is supplied by the vagal pharyngeal plexus.", "Superior constrictor is supplied by the vagal pharyngeal plexus.", "Thyroarytenoid is supplied by the recurrent (inferior) laryngeal nerve.", "Thyrohyoid is supplied by C1 fibers carried with CN XII."], "pearl": "External laryngeal n. = cricothyroid + inferior pharyngeal constrictor.", "set": "larynx"}, {"id": "G-127", "stem": "A 34-year-old woman has had hoarseness for 3 months. Imaging shows a laryngeal cancer with no spread, in an area with very little lymphatic drainage. Where is the tumor most likely located?", "opts": ["Anterior commissure of the vocal ligaments", "Interarytenoid fold", "Laryngeal ventricle", "Cricothyroid ligament", "Middle segment of the vocal cord"], "ans": 4, "why": "The true vocal folds have almost no lymphatic vessels, so glottic cancers stay local for a long time and cause hoarseness early.", "wrong": ["Has more lymphatic drainage than the mid-fold.", "The supraglottic area drains well to the superior deep cervical nodes.", "The supraglottic ventricle has rich lymphatic drainage.", "The subglottic region drains to the pretracheal and inferior deep cervical nodes.", ""], "pearl": "Vocal fold = lymphatic watershed: supraglottic drains to superior deep cervical nodes, subglottic to pretracheal/inferior deep cervical nodes.", "set": "larynx"}, {"id": "BH-36", "stem": "A 76-year-old man with swallowing difficulty undergoes imaging. A CT image at the level of the cricothyroid ligament should show which of the following structures?", "opts": ["Inferior laryngeal nerves", "External carotid arteries", "Inferior thyroid veins", "Thyrocervical trunks", "Internal laryngeal nerves"], "ans": 0, "why": "The inferior laryngeal nerves, the terminal parts of the recurrent laryngeal nerves, ascend at the cricoid level and so lie at the level of the cricothyroid ligament.", "wrong": ["", "External carotids begin higher, at the upper thyroid cartilage border.", "Inferior thyroid veins lie below, anterior to the trachea.", "Thyrocervical trunks arise low, in the root of the neck.", "Internal laryngeal nerves pierce the thyrohyoid membrane, above this level."], "pearl": "Recurrent laryngeal n. becomes the inferior laryngeal n. as it enters the larynx near the cricothyroid joint.", "set": "larynx"}];
+</script>
+<script>
+(function(){
+const app=document.getElementById('app');
+const byId=Object.fromEntries(Q.map(q=>[q.id,q]));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LET=['A','B','C','D','E'];
+
+/* ---- bosses: one per topic, final is the Hydra ---- */
+const BOSSES=[
+ {key:'neck',name:'The Carotid Warden',title:'Keeper of the sheath — IJV, CN X, common carotid',hue:'#E86A4A',eyes:2,horns:2,shape:'wide'},
+ {key:'face',name:'The Parotid Gorgon',title:'Five facial branches writhe through its gland',hue:'#D9A43B',eyes:2,horns:5,shape:'round'},
+ {key:'larynx',name:'The Glottis Siren',title:'Sings only through the rima glottidis',hue:'#4FC0B0',eyes:2,horns:0,shape:'tall'},
+ {key:'nasal_oral',name:'The Sinus Leviathan',title:'Drains into every meatus at once',hue:'#5B8DEF',eyes:3,horns:1,shape:'wide'},
+ {key:'orbit',name:'The Six-Muscle Cyclops',title:'LR6 · SO4 · the rest are III',hue:'#B06CF0',eyes:1,horns:2,shape:'round'},
+ {key:'cranial',name:'The Foramen Keeper',title:'Guards every hole in the skull base',hue:'#C9C2A8',eyes:4,horns:3,shape:'tall'},
+ {key:'cn',name:'The Cranial Nerve Hydra',title:'Twelve heads. Olfactory to hypoglossal.',hue:'#FF4F8B',eyes:2,horns:0,shape:'hydra',final:true}
+];
+const BY_KEY=Object.fromEntries(BOSSES.map(b=>[b.key,b]));
+const TOPIC_COUNT={};Q.forEach(q=>TOPIC_COUNT[q.set]=(TOPIC_COUNT[q.set]||0)+1);
+
+function beastSVG(b,small){
+  const c=b.hue, W=200,H=170;
+  let g='';
+  if(b.shape==='hydra'){
+    // 12 heads on necks fanning from one body
+    for(let i=0;i<12;i++){
+      const a=(-150+i*(120/11))*Math.PI/180, r=i%2?78:92;
+      const x=100+Math.cos(a)*r, y=128+Math.sin(a)*r;
+      g+=`<path d="M100 130 Q${(100+x)/2+(i%2?8:-8)} ${(130+y)/2} ${x.toFixed(1)} ${y.toFixed(1)}" stroke="${c}" stroke-width="7" fill="none" stroke-linecap="round" opacity=".9"/>`;
+      g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9" fill="${c}"/><circle cx="${(x+2.5).toFixed(1)}" cy="${(y-2).toFixed(1)}" r="2.6" fill="#17142B"/>`;
+    }
+    g+=`<ellipse cx="100" cy="142" rx="54" ry="26" fill="${c}"/><ellipse cx="100" cy="146" rx="36" ry="12" fill="#17142B" opacity=".35"/>`;
+    g+=`<text x="100" y="150" text-anchor="middle" font-family="Silkscreen,monospace" font-size="11" fill="#17142B">I–XII</text>`;
+  }else{
+    const rx=b.shape==='wide'?78:b.shape==='tall'?52:64, ry=b.shape==='tall'?70:b.shape==='wide'?52:60, cy=98;
+    for(let i=0;i<b.horns;i++){
+      const t=b.horns===1?0.5:i/(b.horns-1), hx=100-rx*0.8+t*rx*1.6, top=cy-ry-26+Math.abs(t-.5)*18;
+      g+=`<polygon points="${hx-9},${cy-ry+14} ${hx+9},${cy-ry+14} ${hx+(t-.5)*14},${top}" fill="${c}" opacity=".85"/>`;
+    }
+    g+=`<ellipse cx="100" cy="${cy}" rx="${rx}" ry="${ry}" fill="${c}"/>`;
+    g+=`<ellipse cx="100" cy="${cy+ry*0.45}" rx="${rx*0.62}" ry="${ry*0.3}" fill="#17142B" opacity=".18"/>`;
+    const n=b.eyes, span=Math.min(rx*1.1,26*n);
+    for(let i=0;i<n;i++){
+      const ex=n===1?100:100-span/2+i*(span/(n-1)), er=n===1?22:n>2?9:13, ey=cy-ry*0.18;
+      g+=`<circle cx="${ex}" cy="${ey}" r="${er}" fill="#F4F0FF"/><circle class="pupil" cx="${ex}" cy="${ey+1}" r="${er*0.45}" fill="#17142B"/>`;
+    }
+    // mouth with teeth
+    const mw=rx*0.9, my=cy+ry*0.32;
+    g+=`<path d="M${100-mw/2} ${my} Q100 ${my+22} ${100+mw/2} ${my} Z" fill="#17142B"/>`;
+    for(let i=0;i<5;i++){const tx=100-mw/2+8+i*((mw-16)/4);g+=`<polygon points="${tx-4},${my+2} ${tx+4},${my+2} ${tx},${my+10}" fill="#F4F0FF"/>`;}
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(b.name)}">${g}</svg>`;
+}
+
+/* ---- state ---- */
+let S, tick=null;
+function fresh(){return{phase:'setup',names:['Player 1','Player 2'],mode:'campaign',pick:'cn',timer:60,diff:'normal'};}
+/* Every question in the boss's deck pool is asked. Boss HP = share of the max base damage. */
+const DIFF={normal:{ratio:.6,finalRatio:.65,dmg:20,rage:30,hit:15},hard:{ratio:.75,finalRatio:.8,dmg:20,rage:40,hit:22}};
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function begin(){
+  const order=S.mode==='campaign'?BOSSES.map(b=>b.key):[S.pick];
+  Object.assign(S,{phase:'intro',order,stage:0,
+    players:[0,1].map(()=>({hp:100,dmg:0,right:0,seen:0,assists:0,potion:1,missed:[]})),
+    seenIds:[],turn:0,teamStreak:0,soloStreak:0,log:'',tries:0});
+  render();
+}
+function poolSize(key){return TOPIC_COUNT[key]||0;}
+function bossMax(b){const d=DIFF[S.diff];return Math.max(40,Math.round(poolSize(b.key)*d.dmg*(b.final?d.finalRatio:d.ratio)/5)*5);}
+function startBoss(retry){
+  const b=BY_KEY[S.order[S.stage]], d=DIFF[S.diff];
+  const n=poolSize(b.key);
+  const max=bossMax(b);
+  S.boss={key:b.key,hp:max,max,pool:shuffle(Q.filter(q=>q.set===b.key).map(q=>q.id)),n,asked:0};
+  S.players.forEach(p=>{p.hint=1; if(retry)p.hp=Math.max(p.hp,60); else if(p.hp<=0)p.hp=30;});
+  if(retry)S.tries++;
+  S.teamStreak=0;S.soloStreak=0;
+  S.phase='fight'; S.log=retry?`${b.name} rises again — same ${n} questions, reshuffled.`:`${b.name} appears — ${n} questions stand between you.`;
+  S.turn=alive(S.turn)?S.turn:1-S.turn;
+  newRound();
+}
+function alive(k){return S.players[k].hp>0}
+function spoils(){return S.boss.hp<=0}
+function newRound(){
+  const q=S.boss.pool.pop(); S.boss.asked++;
+  if(!S.seenIds.includes(q))S.seenIds.push(q);
+  S.r={qid:q,sub:spoils()?'spoils':'answer',active:S.turn,origin:S.turn,out:[],wp:[],picked:null,hinted:false,
+       deadline:S.timer?Date.now()+limit()*1000:0,total:limit()};
+  render();startTimer();
+}
+function enraged(){return !spoils()&&S.boss.hp<=S.boss.max/2}
+function limit(){return S.timer?(enraged()?Math.max(20,Math.round(S.timer*0.75)):S.timer):0}
+
+function startTimer(){stopTimer(); if(!S.timer)return; tick=setInterval(()=>{if(!S.r||S.r.sub==='reveal'){stopTimer();return;} paintTimer(); if(Date.now()>=S.r.deadline) answer(-1);},250);}
+function stopTimer(){if(tick){clearInterval(tick);tick=null;}}
+function paintTimer(){
+  const t=document.querySelector('.timer'); if(!t||!S.timer||!S.r)return;
+  const left=Math.max(0,S.r.deadline-Date.now());
+  t.firstElementChild.style.transform=`scaleX(${left/(S.r.total*1000)})`;
+  t.classList.toggle('warn',left<10000);
+  const s=document.getElementById('secs'); if(s)s.textContent=Math.ceil(left/1000)+'s';
+}
+
+function answer(i){
+  const r=S.r; if(!r||!['answer','assist','spoils'].includes(r.sub))return;
+  if(i>=0&&r.out.includes(i))return;
+  const q=byId[r.qid], p=S.players[r.active], d=DIFF[S.diff], b=BY_KEY[S.boss.key];
+  const ok=i===q.ans; r.picked=i; if(i>=0&&!ok)r.wp.push(i);
+  if(r.sub==='spoils'){
+    p.seen++;
+    if(ok){ p.right++; S.players.forEach(x=>{if(x.hp>0)x.hp=Math.min(100,x.hp+10);}); S.log=`${S.names[r.active]} claims spoils · team +10 HP`; }
+    else { if(!p.missed.includes(q.id))p.missed.push(q.id); S.log=`${S.names[r.active]} misses — no spoils this time`; }
+    return reveal(ok,0,null);
+  }
+  if(r.sub==='answer'){
+    p.seen++;
+    if(ok){
+      let dmg=d.dmg; const fast=S.timer&&(r.deadline-Date.now())>r.total*500;
+      if(fast)dmg+=10; S.teamStreak++; if(S.teamStreak>=3)dmg+=5; if(r.hinted)dmg=Math.round(dmg/2);
+      p.right++; p.dmg+=dmg; hurtBoss(dmg);
+      S.log=`${S.names[r.active]} hits for ${dmg}${fast?' · swift strike':''}${S.teamStreak>=3?` · combo ×${S.teamStreak}`:''}${r.hinted?' · halved by hint':''}${spoils()?` · ${b.name} falls!`:''}`;
+      soloRevive(r.active);
+      return reveal(true,dmg,'boss');
+    }
+    S.teamStreak=0; if(!p.missed.includes(q.id))p.missed.push(q.id);
+    const hit=enraged()?d.rage:d.hit; hurtPlayer(r.active,hit);
+    if(i>=0)r.out.push(i);
+    const mate=1-r.active;
+    S.log=`${i<0?'Time is up. ':''}${b.name} strikes ${S.names[r.active]} for ${hit}`;
+    if(alive(mate)){ r.sub='assist'; r.active=mate; r.first=i;
+      r.total=S.timer?Math.max(15,Math.round(limit()/3)):0; r.deadline=S.timer?Date.now()+r.total*1000:0;
+      render(); anim('atk'); startTimer(); return; }
+    return reveal(false,0,'player');
+  }else{
+    if(ok){ const dmg=10; p.dmg+=dmg; p.assists++; hurtBoss(dmg); S.log=`${S.names[r.active]} assists for ${dmg}${spoils()?` · ${b.name} falls!`:''}`; return reveal(true,dmg,'boss'); }
+    if(i>=0)r.out.push(i);
+    S.log+=` · assist missed`;
+    return reveal(false,0,null);
+  }
+}
+function soloRevive(k){
+  const mate=1-k;
+  if(alive(mate)){S.soloStreak=0;return;}
+  S.soloStreak=(S.soloStreak||0)+1;
+  if(S.soloStreak>=3){S.players[mate].hp=30;S.soloStreak=0;S.log+=` · ${S.names[mate]} is revived at 30 HP`;}
+}
+function hurtBoss(n){S.boss.hp=Math.max(0,S.boss.hp-n);}
+function hurtPlayer(k,n){S.players[k].hp=Math.max(0,S.players[k].hp-n);}
+function reveal(ok,dmg,target){
+  stopTimer(); S.r.sub='reveal'; S.r.ok=ok; S.r.dealt=target==='boss'; render();
+  if(target==='boss'){anim(S.boss.hp<=0?'dead':'hit'); pop('-'+dmg,'.beast','var(--p1)');}
+  else if(target==='player'){anim('atk');}
+}
+function anim(cls){const e=document.querySelector('.beast'); if(!e)return; e.classList.remove('hit','atk'); void e.offsetWidth; e.classList.add(cls);}
+function pop(txt,sel,color){const host=document.querySelector(sel); if(!host)return; const s=document.createElement('span'); s.className='dmg'; s.textContent=txt; s.style.color=color; host.style.position='relative'; s.style.left='50%'; s.style.top='20%'; host.appendChild(s); setTimeout(()=>s.remove(),1000);}
+
+function cont(){
+  const done=!S.boss.pool.length;
+  if(!alive(0)&&!alive(1)){S.phase='fallen';S.fallReason='ko';render();return;}
+  if(done){
+    if(spoils()){ S.stage++; S.players.forEach(p=>{if(p.hp>0)p.hp=Math.min(100,p.hp+40);});
+      if(S.stage>=S.order.length){S.phase='end';S.won=true;} else S.phase='intro';
+    } else { S.phase='fallen'; S.fallReason='survived'; }
+    render(); return;
+  }
+  let nt=1-S.r.origin; if(!alive(nt))nt=1-nt; S.turn=nt; newRound();
+}
+function renderFallen(){
+  stopTimer();
+  const b=BY_KEY[S.boss.key];
+  app.innerHTML=`<section class="interlude">${beastSVG(b)}<div>
+    ${S.order.length>1?pathHTML():''}
+    <div class="pix">${S.fallReason==='ko'?'Party knocked out':'Out of questions'}</div>
+    <h2>${esc(b.name)} still stands</h2>
+    <p>${S.fallReason==='ko'?'Both players are down.':`All ${S.boss.n} questions were asked and the boss kept ${S.boss.hp} HP.`} Retry this boss with the same questions reshuffled — both players return with at least 60 HP. Your misses stay on the review list.</p>
+    <div class="actions"><button class="btn" id="retry">Retry this boss</button><kbd>Enter</kbd><button class="btn ghost" id="giveup">End the run</button></div>
+  </div></section>`;
+  const r=document.getElementById('retry'); r.onclick=()=>startBoss(true); r.focus({preventScroll:true});
+  document.getElementById('giveup').onclick=()=>{S.phase='end';S.won=false;render();};
+}
+function usePotion(k){
+  const p=S.players[k]; if(!p.potion||S.r.sub==='reveal')return;
+  const target=[0,1].filter(i=>S.players[i].hp>0).sort((a,b)=>S.players[a].hp-S.players[b].hp)[0];
+  if(target==null)return;
+  // revive KO'd teammate first if possible
+  const mate=1-k; const tgt=!alive(mate)?mate:target;
+  S.players[tgt].hp=Math.min(100,(S.players[tgt].hp||0)+35); p.potion=0;
+  S.log=`${S.names[k]} uses a potion on ${S.names[tgt]} (+35)`; render();
+}
+function useHint(k){
+  const r=S.r, p=S.players[k], q=byId[r.qid];
+  if(!p.hint||r.sub!=='answer'||r.active!==k||r.hinted)return;
+  const wrongs=shuffle(q.opts.map((_,i)=>i).filter(i=>i!==q.ans&&!r.out.includes(i))).slice(0,2);
+  r.out.push(...wrongs); r.hinted=true; p.hint=0;
+  S.log=`${S.names[k]} uses a hint — two wrong answers vanish (damage halved)`; render();
+}
+
+/* ---- render ---- */
+function renderSetup(){
+  stopTimer();
+  app.innerHTML=`<section class="setup">
+    <div class="hero">
+      <div class="pix">Head, Neck &amp; Special Senses · two-player co-op · Deck ${DECK} of 5</div>
+      <h1>Seven bosses. <em>Twelve heads.</em> One team.</h1>
+      <p>Deck ${DECK} holds ${Q.length} of the 361 board-style HNSS questions, split evenly by topic across five decks. Every question in this deck is asked once during a full campaign. Each boss guards one region; the Cranial Nerve Hydra waits at the end.</p>
+      <div class="roster">${BOSSES.map(b=>`<div class="foe">${beastSVG(b)}<div><b>${esc(b.name)}</b><span>${TOPIC_COUNT[b.key]||0} questions</span></div></div>`).join('')}</div>
+      <ul class="rules">
+        <li><b>Clear it</b><span>Each boss asks every question in its pool. Drop its HP to 0 before the questions run out. Questions left after it falls are spoils: each correct answer heals the team 10.</span></li>
+        <li><b>Strike</b><span>Correct answer: 20 damage. +10 if answered in the first half of the timer. +5 once the team has 3 correct in a row.</span></li>
+        <li><b>Take hits</b><span>A miss or timeout lets the boss hit you for 15 (22 on hard). Below half health it enrages: harder hits, shorter timer.</span></li>
+        <li><b>Assist</b><span>After a miss, your teammate gets one shot (with the wrong pick crossed out) for 10 damage.</span></li>
+        <li><b>Items</b><span>Hint: once per boss, removes two wrong answers, halves damage. Potion: once per run, +35 health or revives a knocked-out teammate.</span></li>
+        <li><b>Solo</b><span>If your teammate is knocked out, 3 correct in a row brings them back at 30. Beating a boss restores 40 to everyone still standing. Lose a fight and you can retry that boss.</span></li>
+      </ul>
+    </div>
+    <div class="form">
+      <div class="fl"><span class="pix">Party</span>
+        <div class="names"><input id="p1name" aria-label="Player 1 name" maxlength="16" value="${esc(S.names[0])}"><input id="p2name" aria-label="Player 2 name" maxlength="16" value="${esc(S.names[1])}"></div></div>
+      <div class="fl"><span class="pix">Run</span>
+        <div class="seg" id="mode"><button data-v="campaign" aria-pressed="${S.mode==='campaign'}">Full campaign · 7 bosses</button><button data-v="single" aria-pressed="${S.mode==='single'}">Single boss</button></div>
+        ${S.mode==='single'?`<div class="picker">${BOSSES.map(b=>`<button data-k="${b.key}" aria-pressed="${S.pick===b.key}"><span>${esc(b.name)}</span><em>${TOPIC_COUNT[b.key]||0}</em></button>`).join('')}</div>`:`<p class="hint">Order: ${BOSSES.map(b=>esc(b.name.replace('The ',''))).join(' → ')}</p>`}
+      </div>
+      <div class="fl"><span class="pix">Difficulty</span>
+        <div class="seg" id="diff"><button data-v="normal" aria-pressed="${S.diff==='normal'}">Normal</button><button data-v="hard" aria-pressed="${S.diff==='hard'}">Hard</button></div>
+        <p class="hint">${S.diff==='normal'?'Boss health ≈ 60% of its questions × 20 (Hydra 65%). Hits 15, enraged 30.':'Boss health ≈ 75% of its questions × 20 (Hydra 80%). Hits 22, enraged 40.'}</p></div>
+      <div class="fl"><span class="pix">Timer per question</span>
+        <div class="seg" id="timer">${[[0,'Off'],[45,'45 s'],[60,'60 s'],[90,'90 s']].map(([v,l])=>`<button data-v="${v}" aria-pressed="${S.timer===v}">${l}</button>`).join('')}</div>
+        ${S.timer?'':'<p class="hint">With the timer off, there are no swift-strike bonuses.</p>'}</div>
+      <button class="go" id="start">Enter the arena</button>
+    </div></section>`;
+  const save=()=>{S.names=[document.getElementById('p1name').value.trim()||'Player 1',document.getElementById('p2name').value.trim()||'Player 2'];};
+  app.querySelectorAll('#mode button').forEach(b=>b.onclick=()=>{save();S.mode=b.dataset.v;render();});
+  app.querySelectorAll('.picker button').forEach(b=>b.onclick=()=>{save();S.pick=b.dataset.k;render();});
+  app.querySelectorAll('#diff button').forEach(b=>b.onclick=()=>{save();S.diff=b.dataset.v;render();});
+  app.querySelectorAll('#timer button').forEach(b=>b.onclick=()=>{save();S.timer=+b.dataset.v;render();});
+  document.getElementById('start').onclick=()=>{save();begin();};
+}
+
+function pathHTML(){return `<div class="path">${S.order.map((k,i)=>`<span class="${i<S.stage?'done':i===S.stage?'now':''}">${esc(BY_KEY[k].name.replace('The ',''))}</span>`).join('')}</div>`;}
+
+function renderIntro(){
+  stopTimer();
+  const b=BY_KEY[S.order[S.stage]];
+  const P=S.players;
+  app.innerHTML=`<section class="interlude">
+    ${beastSVG(b)}
+    <div>
+      ${S.order.length>1?pathHTML():''}
+      <div class="pix">${S.order.length>1?`Boss ${S.stage+1} of ${S.order.length}`:'Single boss'}${b.final?' · final':''}</div>
+      <h2>${esc(b.name)}</h2>
+      <p>${esc(b.title)}. All <b>${TOPIC_COUNT[b.key]} ${esc(SETS[b.key])}</b> questions in this deck will be asked. Boss health: ${bossMax(b)}.</p>
+      <p>${esc(S.names[0])}: ${P[0].hp>0?P[0].hp+' HP':'knocked out, returns at 30'} · ${esc(S.names[1])}: ${P[1].hp>0?P[1].hp+' HP':'knocked out, returns at 30'}</p>
+      <div class="actions"><button class="btn" id="fight">Fight</button><kbd>Enter</kbd><button class="btn ghost" id="flee">Leave the run</button></div>
+    </div></section>`;
+  const f=document.getElementById('fight'); f.onclick=()=>startBoss(); f.focus({preventScroll:true});
+  document.getElementById('flee').onclick=()=>{S.phase='end';S.won=false;S.fled=true;render();};
+}
+
+function heroHTML(k){
+  const p=S.players[k], r=S.r, on=r&&r.sub!=='reveal'&&r.active===k;
+  const canHint=p.hint&&r&&r.sub==='answer'&&r.active===k&&!r.hinted;
+  const canPot=p.potion&&r&&r.sub!=='reveal'&&(alive(k))&&(S.players[1-k].hp<100||p.hp<100);
+  return `<div class="hero-card p${k+1} ${on?'on':''} ${p.hp<=0?'ko':''}">
+    ${p.hp<=0?'<span class="ko-tag">KO</span>':''}
+    <div class="role">${k?'Player 2':'Player 1'}${on?(r.sub==='assist'?' · assisting':' · your turn'):''}</div>
+    <div class="nm">${esc(S.names[k])}</div>
+    <div class="bar hp ${p.hp<35?'low':''}"><i style="transform:scaleX(${p.hp/100})"></i></div>
+    <div class="hpnum"><span>HP</span><span>${p.hp} / 100</span></div>
+    <div class="stats"><span>Damage <b>${p.dmg}</b></span><span>Correct <b>${p.right}/${p.seen}</b></span><span>Assists <b>${p.assists}</b></span></div>
+    <div class="abil">
+      <button data-hint="${k}" ${canHint?'':'disabled'}>Hint<small>${p.hint?'1 left this boss':'used'}</small></button>
+      <button data-pot="${k}" ${canPot?'':'disabled'}>Potion +35<small>${p.potion?'1 left this run':'used'}</small></button>
+    </div></div>`;
+}
+
+function renderFight(){
+  const r=S.r, q=byId[r.qid], b=BY_KEY[S.boss.key], rev=r.sub==='reveal';
+  let chip='';
+  if(r.sub==='answer') chip=`<span class="chip p${r.active+1}">${esc(S.names[r.active])} attacks</span>`;
+  else if(r.sub==='spoils') chip=`<span class="chip p${r.active+1}">${esc(S.names[r.active])} · spoils: +10 team HP</span>`;
+  else if(r.sub==='assist') chip=`<span class="chip p${r.active+1}">${esc(S.names[r.active])} · assist for 10</span><span class="chip dash">${r.first>=0?`${LET[r.first]} was wrong`:'time ran out'}</span>`;
+  const cls=i=>{ if(rev){ if(i===q.ans)return 'right'; if(r.wp.includes(i))return 'wrong'; if(r.out.includes(i))return 'out'; return '';} return r.out.includes(i)?'out':''; };
+  const bossDown=S.boss.hp<=0, partyDown=!alive(0)&&!alive(1);
+  const left=S.boss.pool.length;
+  let contLabel='Next question';
+  if(partyDown) contLabel='Continue';
+  else if(!left) contLabel=bossDown?(S.stage+1>=S.order.length?'Claim victory':'Onward'):'Continue';
+  const block=rev?`
+    <div class="verdict ${r.ok?'good':'bad'}">
+      <h3>${r.ok?(bossDown&&!S.r.dealt?'Correct':'Hit'):'Answer: '+LET[q.ans]}</h3>
+      <p><b>${LET[q.ans]}. ${esc(q.opts[q.ans])}</b> — ${esc(q.why)}</p>
+      <ul class="why">${q.wrong.map((w,i)=>w?`<li><b>${LET[i]}</b>${esc(w)}</li>`:'').join('')}</ul>
+    </div>
+    <div class="hy"><b>High-yield pearl</b>${esc(q.pearl)}</div>
+    <div class="actions"><button class="btn" id="cont">${contLabel}</button><kbd>Enter</kbd><button class="btn ghost" id="quit">Leave the run</button></div>`
+    :`<div class="actions"><span class="hint">Tap an answer or press <kbd>1</kbd>–<kbd>${q.opts.length}</kbd>. Items: <kbd>H</kbd> hint, <kbd>P</kbd> potion.</span></div>`;
+  app.innerHTML=`<section style="display:flex;flex-direction:column;gap:12px">
+    ${S.order.length>1?pathHTML():''}
+    <div class="arena">
+      ${heroHTML(0)}
+      <div class="boss-card">
+        <div class="pix">${esc(SETS[b.key])}${enraged()&&!bossDown?' · <span class="rage">enraged</span>':''}</div>
+        <div class="bn">${esc(b.name)}</div>
+        <div class="beast ${bossDown?(rev&&r.dealt?'dead':'gone'):''}">${beastSVG(b)}</div>
+        <div class="bar boss"><i style="transform:scaleX(${S.boss.hp/S.boss.max})"></i></div>
+        <div class="hpnum"><span>Boss HP</span><span>${S.boss.hp} / ${S.boss.max}</span></div>
+        <div class="pix">${bossDown?(left?`Defeated · spoils round · ${left} left`:'Defeated'):`Question ${S.boss.asked} of ${S.boss.n} · ${left} left`}</div>
+        <div class="log">${esc(S.log)}</div>
+      </div>
+      ${heroHTML(1)}
+    </div>
+    ${S.timer&&!rev?`<div class="timer"><i></i></div>`:''}
+    <div class="qpanel">
+      <div class="qhead">${chip}${S.timer&&!rev?`<span class="pix" id="secs"></span>`:''}</div>
+      <p class="stem">${esc(q.stem)}</p>
+      <div class="opts">${q.opts.map((o,i)=>`<button class="opt ${cls(i)}" data-i="${i}" ${rev||r.out.includes(i)?'disabled':''}><span class="lt"><span>${LET[i]}</span></span><span>${esc(o)}</span></button>`).join('')}</div>
+      ${block}
+    </div></section>`;
+  app.querySelectorAll('.opt').forEach(e=>e.onclick=()=>answer(+e.dataset.i));
+  app.querySelectorAll('[data-hint]').forEach(e=>e.onclick=()=>useHint(+e.dataset.hint));
+  app.querySelectorAll('[data-pot]').forEach(e=>e.onclick=()=>usePotion(+e.dataset.pot));
+  const c=document.getElementById('cont'); if(c){c.onclick=cont;c.focus({preventScroll:true});}
+  const qt=document.getElementById('quit'); if(qt)qt.onclick=()=>{S.phase='end';S.won=false;S.fled=true;render();};
+  paintTimer();
+}
+
+function renderEnd(){
+  stopTimer();
+  const P=S.players, beaten=S.stage;
+  const head=S.won?'The arena is cleared':S.fled?'Retreat':'The party has fallen';
+  const card=k=>{const p=P[k];return `<div class="card p${k+1}">
+    <div class="pix">${esc(S.names[k])}</div>
+    <div class="big">${p.dmg}</div><div class="pix">damage dealt</div>
+    <div class="stats"><span>Correct <b>${p.right}/${p.seen}</b></span><span>Accuracy <b>${p.seen?Math.round(100*p.right/p.seen):0}%</b></span><span>Assists <b>${p.assists}</b></span></div>
+    <div class="pix">Review list (${p.missed.length})</div>
+    ${p.missed.length?`<ul class="missed">${p.missed.map(id=>{const q=byId[id];return `<li><span>${esc(SETS[q.set])}</span><b>${esc(q.opts[q.ans])}</b> — ${esc(q.pearl)}</li>`}).join('')}</ul>`:'<p class="hint">No misses.</p>'}
+  </div>`};
+  const mvp=P[0].dmg===P[1].dmg?'':` MVP: ${esc(S.names[P[0].dmg>P[1].dmg?0:1])}.`;
+  app.innerHTML=`<section class="end">
+    <div>${S.order.length>1?pathHTML():''}<div class="pix">${beaten} of ${S.order.length} boss${S.order.length>1?'es':''} defeated · ${S.seenIds.length} of ${Q.length} deck questions answered${S.tries?` · ${S.tries} retr${S.tries>1?'ies':'y'}`:''}</div>
+    <h2 class="${S.won?'win':'lose'}">${head}</h2><p class="hint">${S.won?'Every guardian is down.':'Study the review list and try again.'}${mvp}</p></div>
+    <div class="cards">${card(0)}${card(1)}</div>
+    <div class="actions"><button class="btn" id="again">Run it back</button><button class="btn ghost" id="setup">Change settings</button></div>
+  </section>`;
+  document.getElementById('again').onclick=begin;
+  document.getElementById('setup').onclick=()=>{S.phase='setup';render();};
+}
+
+function render(){({setup:renderSetup,intro:renderIntro,fight:renderFight,fallen:renderFallen,end:renderEnd})[S.phase]();}
+
+document.addEventListener('keydown',e=>{
+  if(!S||e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||e.altKey)return;
+  const k=e.key.toLowerCase();
+  if(S.phase==='intro'&&k==='enter'&&document.activeElement.id!=='flee'){e.preventDefault();startBoss();return;}
+  if(S.phase==='fallen'&&k==='enter'&&document.activeElement.id!=='giveup'){e.preventDefault();startBoss(true);return;}
+  if(S.phase!=='fight'||!S.r)return;
+  if(S.r.sub==='reveal'){ if(k==='enter'&&document.activeElement.id!=='quit'){e.preventDefault();cont();} return; }
+  if(k==='h'){useHint(S.r.active);return;}
+  if(k==='p'){usePotion(S.r.active);return;}
+  const i='12345'.indexOf(k); if(i>=0&&i<byId[S.r.qid].opts.length){e.preventDefault();answer(i);}
+});
+
+function boot(data){
+  S=(data&&data.S)||fresh();
+  if((S.phase==='fight'&&S.r&&!byId[S.r.qid])||(S.phase!=='setup'&&!S.seenIds)||(S.boss&&!S.boss.pool)){const n=S.names;S=fresh();if(n)S.names=n;}
+  if(S.phase==='fight'&&S.r&&S.r.sub!=='reveal'&&S.timer){S.r.deadline=Date.now()+S.r.total*1000;}
+  render(); if(S.phase==='fight')startTimer();
+}
+window.claude?.hot?.snapshot?.(()=>({S}));
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+})();
+</script>
+</body></html>
