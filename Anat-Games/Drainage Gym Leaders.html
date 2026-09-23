@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
 <title>Drainage Gym Leaders</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,7 @@
   --hy-bg:#fff4c2;
   --hy-border:#d4a017;
   --hy-ink:#4a3a05;
-  --g1:#2fb9a3; --g2:#e0525f; --g3:#8d7bf0; --g4:#4fa8ea; --g5:#f09a3e; --g6:#c56ad6;
+  --g1:#2fb9a3; --g2:#e0525f; --g3:#8d7bf0; --g4:#4fa8ea; --g5:#f09a3e; --g6:#c56ad6; --g7:#9bd14b;
   --elite:#f2c14e;
   --display:"Bungee", "Trebuchet MS", system-ui, sans-serif;
   --label:"IBM Plex Mono", "Courier New", monospace;
@@ -71,7 +71,7 @@ h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;l
 .slot svg{width:82%;height:82%}
 .slot.empty svg{opacity:.18;filter:grayscale(1)}
 .meter{height:10px;background:#d8cda9;border-radius:6px;margin-top:12px;overflow:hidden;border:2px solid var(--ink)}
-.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--g1),var(--g4),var(--g3),var(--g6),var(--g2),var(--g5));transition:width .5s}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--g1),var(--g4),var(--g3),var(--g6),var(--g2),var(--g5),var(--g7));transition:width .5s}
 .trainer .foot{display:flex;justify-content:space-between;margin-top:8px;font-size:13px;gap:8px;flex-wrap:wrap}
 
 /* ---------- gym grid ---------- */
@@ -80,6 +80,19 @@ h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;l
 .gyms{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .gym{position:relative;text-align:left;background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start;transition:transform .15s,border-color .15s}
 .gym:hover{transform:translateY(-2px);border-color:var(--c)}
+.gym.wide{grid-column:1/-1;background:linear-gradient(100deg,color-mix(in srgb,var(--c) 14%,var(--panel)),var(--panel) 55%)}
+.rounds{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.rounds span{font-family:var(--label);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:3px 7px;border-radius:4px;border:1px solid color-mix(in srgb,var(--c) 60%,transparent);color:var(--cream)}
+.round-pill{display:inline-block;font-family:var(--label);font-size:10px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--cream);padding:2px 7px;border-radius:4px;margin-top:4px}
+.rpick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.rbtn{text-align:left;background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:4px;transition:border-color .15s,transform .15s}
+.rbtn:hover{border-color:var(--c);transform:translateY(-2px)}
+.rbtn b{font-family:var(--display);font-weight:400;font-size:17px;color:var(--cream)}
+.rbtn small{font-size:12.5px;color:var(--muted);line-height:1.35}
+.rbtn .status{justify-self:start;margin-top:4px}
+.rounds span.ok{background:var(--c);color:var(--ink)}
+@media (max-width:820px){.rpick{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.rpick{grid-template-columns:1fr}}
 .gym .emb{width:56px;height:56px;border-radius:10px;background:color-mix(in srgb,var(--c) 18%,var(--ground));display:grid;place-items:center;border:2px solid color-mix(in srgb,var(--c) 55%,transparent)}
 .gym .emb svg{width:40px;height:40px}
 .gym h3{font-size:19px;color:var(--cream);line-height:1.1}
@@ -218,11 +231,11 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);display
 
 <script>
 /* =========================================================
-   HoyaDocs · Drainage Gym Leaders · Rev 1.0 · Sep 23, 2026
+   HoyaDocs · Drainage Gym Leaders · Rev 1.3 · Sep 23, 2026
    ========================================================= */
 
 const UPDATED = "Sep 23, 2026";
-const REV = "Rev 1.0";
+const REV = "Rev 1.3";
 
 /* ---------- emblem art ---------- */
 const EMB = {
@@ -232,6 +245,7 @@ const EMB = {
   drop:c=>`<svg viewBox="0 0 48 48"><path d="M24 5C18 16 11 23 11 31a13 13 0 0 0 26 0c0-8-7-15-13-26z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M18 31a6 6 0 0 0 6 6" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".75"/></svg>`,
   hex:c=>`<svg viewBox="0 0 48 48"><path d="M24 4 41 14v20L24 44 7 34V14z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="24" cy="24" rx="6" ry="4" fill="#1d1a14"/></svg>`,
   layers:c=>`<svg viewBox="0 0 48 48"><path d="M6 12h36M6 20h36" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M6 28h36" stroke="#1d1a14" stroke-width="2" stroke-dasharray="3 3"/><path d="M6 36h36" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M40 24l4 4-4 4" fill="none" stroke="#1d1a14" stroke-width="2.5"/></svg>`,
+  dumbbell:c=>`<svg viewBox="0 0 48 48"><rect x="4" y="16" width="7" height="16" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><rect x="11" y="12" width="7" height="24" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><rect x="30" y="12" width="7" height="24" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><rect x="37" y="16" width="7" height="16" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><rect x="18" y="21" width="12" height="6" fill="#1d1a14"/></svg>`,
   crown:c=>`<svg viewBox="0 0 48 48"><path d="M7 36 5 14l11 9 8-14 8 14 11-9-2 22z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><rect x="7" y="36" width="34" height="6" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><circle cx="24" cy="27" r="3" fill="#1d1a14"/></svg>`
 };
 const heart = on => `<svg viewBox="0 0 24 24" class="${on?'':'gone'}"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z" fill="#e5566b" stroke="#1d1a14" stroke-width="1.8"/></svg>`;
@@ -728,6 +742,7 @@ const ELITE = [
 }
 ];
 
+const ELITE_TOTAL = ELITE.reduce((t,e)=>t+(e.pick||e.qs.length),0);
 /* ---------- state ---------- */
 const KEY = "hoyadocs-gymleaders-v1";
 let S = {badges:{}, best:{}, elite:false, eliteBest:null};
@@ -765,14 +780,14 @@ function renderMap(){
   const gyms = GYMS.map((g,i)=>{
     const done = S.badges[g.id];
     const best = S.best[g.id];
-    return `<button class="gym" style="--c:${g.color}" data-gym="${i}" aria-label="${g.name}, ${g.topic}">
+    return `<button class="gym ${g.wide?"wide":""}" style="--c:${g.color}" data-gym="${i}" aria-label="${g.name}, ${g.topic}">
       <div class="emb">${EMB[g.emb](g.hex)}</div>
-      <div><div class="lab">${g.lab}</div><h3>${g.name}</h3><div class="leader">${g.leader}</div></div>
+      <div><div class="lab">${g.lab}</div><h3>${g.name}</h3><div class="leader">${g.leader} · ${g.rounds?`${g.rounds.length} round battles · ${g.qs.length} questions`:`${g.hearts||3} hearts · ${g.qs.length} questions`}</div>${g.rounds?`<div class="rounds">${g.rounds.map((r,k)=>`<span class="${roundDone(g,k)?"ok":""}">${roundDone(g,k)?"✓ ":""}R${k+1} · ${r.name}</span>`).join("")}</div>`:""}</div>
       <div class="topic"><span>${g.topic}</span>${done?`<span class="status done">★ Badge</span>`:`<span class="status go">Challenge</span>`}</div>
       ${best!=null?`<div class="best" style="grid-column:1/-1">Best: ${best}/${g.qs.length} correct</div>`:""}
     </button>`;
   }).join("");
-  const unlocked = n===6;
+  const unlocked = n===GYMS.length;
   const eliteDots = ELITE.map((e,i)=>`<span class="${S.elite?'on':''}">${["I","II","III","IV"][i]}</span>`).join("");
   app().innerHTML = `
   ${topbar(`<button class="navbtn" id="resetBtn">Reset progress</button>`)}
@@ -780,26 +795,26 @@ function renderMap(){
   <section class="hero">
     <div>
       <h1>Drainage<br><span>Gym Leaders</span></h1>
-      <p>Six labs, six gym leaders. Beat each leader's battle to earn their badge. Collect all six to face the Elite Four: 20 mixed Step 1 vignettes in a row, with your hearts carrying over from one battle to the next.</p>
+      <p>Six labs, six gym leaders. Beat each leader's battle to earn their badge. Collect all six to face the Elite Four: ${ELITE_TOTAL} mixed Step 1 vignettes in a row, with your hearts carrying over from one battle to the next.</p>
       <div class="chips"><span class="chip">Lymphatic</span><span class="chip">Tear</span><span class="chip">Paranasal</span><span class="chip">Venous</span><span class="chip">Danger space</span><span class="chip">Danger zone</span><span class="chip">Danger triangle</span></div>
     </div>
     <div class="trainer">
-      <div class="row"><h2>Trainer Card</h2><span class="lbl">Badges ${n}/6</span></div>
+      <div class="row"><h2>Trainer Card</h2><span class="lbl">Badges ${n}/${GYMS.length}</span></div>
       <div class="badgecase">${slots}</div>
-      <div class="meter"><i style="width:${(n/6)*100}%"></i></div>
-      <div class="foot"><span>${S.elite?"🏆 Hall of Fame":unlocked?"Elite Four unlocked":`${6-n} badge${6-n===1?"":"s"} to the Elite Four`}</span><span>${S.eliteBest!=null?`Elite best: ${S.eliteBest}/20`:""}</span></div>
+      <div class="meter"><i style="width:${(n/GYMS.length)*100}%"></i></div>
+      <div class="foot"><span>${S.elite?"🏆 Hall of Fame":unlocked?"Elite Four unlocked":`${GYMS.length-n} badge${GYMS.length-n===1?"":"s"} to the Elite Four`}</span><span>${S.eliteBest!=null?`Elite best: ${S.eliteBest}/${ELITE_TOTAL}`:""}</span></div>
     </div>
   </section>
-  <div class="section-h"><h2>Gyms</h2><span class="lbl">3 hearts per battle · any order</span></div>
+  <div class="section-h"><h2>Gyms</h2><span class="lbl">Any order · hearts shown on each gym</span></div>
   <div class="gyms">${gyms}</div>
   <div class="elite-card ${unlocked?'':'locked'}">
     <div class="four">${eliteDots}</div>
-    <div class="grow"><h2>The Elite Four</h2><p>${unlocked?"Four masters, five vignettes each, all topics mixed. You start with 5 hearts that carry over, and win 1 back after each victory.":"Locked. Earn all six gym badges to challenge the Elite Four."}</p></div>
+    <div class="grow"><h2>The Elite Four</h2><p>${unlocked?`Four masters, ${ELITE[0].qs.length} vignettes each, all topics mixed.`+" You start with 5 hearts that carry over, and win 1 back after each victory.":`Locked. Earn all ${GYMS.length} gym badges to challenge the Elite Four.`}</p></div>
     <button class="btn" id="eliteBtn" ${unlocked?"":"disabled"}>${unlocked?(S.elite?"Rematch":"Challenge"):"🔒 Locked"}</button>
   </div>
   ${footer()}`;
   document.querySelectorAll("[data-gym]").forEach(b=>b.onclick=()=>{view={screen:"intro",gym:+b.dataset.gym};render();window.scrollTo(0,0);});
-  $("#eliteBtn").onclick=()=>{ if(badgeCount()===6){view={screen:"eliteIntro",idx:0};B=null;render();window.scrollTo(0,0);} };
+  $("#eliteBtn").onclick=()=>{ if(badgeCount()===GYMS.length){view={screen:"eliteIntro",idx:0};B=null;render();window.scrollTo(0,0);} };
   $("#resetBtn").onclick=()=>{
     $("#confirmSlot").innerHTML = `<div class="confirm" style="margin:-8px 0 16px">Erase all badges and scores?
       <button class="navbtn" id="yesReset" style="border-color:var(--bad);color:var(--bad)">Erase</button>
@@ -809,6 +824,19 @@ function renderMap(){
   };
 }
 
+function roundDone(g,k){ return !!(S.rounds && S.rounds[g.id] && S.rounds[g.id][k]); }
+function roundPicker(g){
+  return `<div class="rpick">${g.rounds.map((r,k)=>{
+    const muscles=[...new Set(r.qs.map(q=>q.m))];
+    const best=S.best[g.id+":"+k];
+    return `<button class="rbtn" data-round="${k}" style="--c:${g.color}">
+      <span class="lbl">Round ${k+1} · ${r.qs.length} Qs · ${r.hearts} hearts</span>
+      <b>${r.name}</b>
+      <small>${muscles.join(" · ")}</small>
+      <span class="status ${roundDone(g,k)?"done":"go"}">${roundDone(g,k)?"✓ Cleared":"Battle"}</span>
+      ${best!=null?`<small>Best: ${best}/${r.qs.length}</small>`:""}
+    </button>`;}).join("")}</div>`;
+}
 function renderIntro(){
   const g = GYMS[view.gym];
   app().innerHTML = `
@@ -819,41 +847,49 @@ function renderIntro(){
       <div><div class="lab">${g.lab} · ${g.topic}</div><h1>${g.name}</h1></div>
     </div>
     <div class="dialog"><div class="who">${g.leader}</div><p>${g.intro}</p></div>
-    <div class="cta-row"><button class="btn" id="fight">Battle ${g.leader.replace("Leader ","")} →</button><span class="lbl">${g.qs.length} questions · 3 hearts</span></div>
+    ${g.rounds?roundPicker(g):`<div class="cta-row"><button class="btn" id="fight">Battle ${g.leader.replace("Leader ","")} →</button><span class="lbl">${g.qs.length} questions · ${g.hearts||3} hearts</span></div>`}
     <div class="notes">
       <h2>Leader's Field Notes</h2>
       ${g.notes}
     </div>
-    <div class="cta-row"><button class="btn" id="fight2">Battle ${g.leader.replace("Leader ","")} →</button></div>
+    ${g.rounds?roundPicker(g):`<div class="cta-row"><button class="btn" id="fight2">Battle ${g.leader.replace("Leader ","")} →</button></div>`}
   </div>
   ${footer()}`;
   $("#back").onclick=()=>{view={screen:"map"};render();};
+  if(g.rounds){ document.querySelectorAll("[data-round]").forEach(b=>b.onclick=()=>startGym(view.gym,+b.dataset.round)); return; }
   const go=()=>startGym(view.gym);
   $("#fight").onclick=go; $("#fight2").onclick=go;
 }
 
-function startGym(i){
+function startGym(i, r){
   const g = GYMS[i];
-  B = {kind:"gym", gym:i, qs:prepQs(g.qs), i:0, hearts:3, max:3, hp:g.qs.length, hpMax:g.qs.length, correct:0, missed:[], answered:null};
+  const isR = g.rounds && r!=null;
+  const H = isR ? g.rounds[r].hearts : (g.hearts||3);
+  const qs = isR ? prepQs(g.rounds[r].qs) : prepQs(g.qs);
+  B = {kind:"gym", gym:i, round:isR?r:null, qs, i:0, hearts:H, max:H, hp:qs.length, hpMax:qs.length, correct:0, missed:[], answered:null};
   view={screen:"battle"}; render(); window.scrollTo(0,0);
 }
 function startElite(idx, carry){
   const e = ELITE[idx];
   const hearts = carry==null?5:carry;
-  B = {kind:"elite", idx, qs:prepQs(e.qs), i:0, hearts, max:5, hp:e.qs.length, hpMax:e.qs.length, correct:0, missed:[], answered:null,
+  const src = e.pick ? shuffle(e.qs).slice(0,e.pick) : e.qs;
+  B = {kind:"elite", idx, qs:prepQs(src), i:0, hearts, max:5, hp:src.length, hpMax:src.length, correct:0, missed:[], answered:null,
        total: (B && B.kind==="elite" && idx>0) ? B.total : 0};
   view={screen:"battle"}; render(); window.scrollTo(0,0);
 }
 
 function foeInfo(){
-  if(B.kind==="gym"){const g=GYMS[B.gym];return {name:g.leader,sub:g.name,color:g.hex,emb:EMB[g.emb](g.hex),lab:g.topic};}
+  if(B.kind==="gym"){const g=GYMS[B.gym];
+    if(B.round!=null){const R=g.rounds[B.round];
+      return {name:g.leader,sub:g.name,color:g.hex,emb:EMB[g.emb](g.hex),lab:`Round ${B.round+1}/${g.rounds.length} · ${R.name}`,round:`R${B.round+1} · ${R.name}`};}
+    return {name:g.leader,sub:g.name,color:g.hex,emb:EMB[g.emb](g.hex),lab:g.topic};}
   const e=ELITE[B.idx];return {name:e.name,sub:e.title,color:e.color,emb:EMB.crown(e.color),lab:"Mixed · Step 1"};
 }
 
 function renderBattle(){
   const f = foeInfo();
   const q = B.qs[B.i];
-  const pct = Math.max(0,(B.hp/B.hpMax)*100);
+  const pct = Math.max(0, f.hpPct!=null ? f.hpPct : (B.hp/B.hpMax)*100);
   const cls = pct>50?"":pct>20?"mid":"low";
   const hearts = Array.from({length:B.max},(_,k)=>heart(k<B.hearts)).join("");
   const letters = "ABCDE";
@@ -876,7 +912,7 @@ function renderBattle(){
       <div class="verdict ${ok?'ok':'no'}">${ok?"✓ ":"✗ "}${v}</div>
       <p>${q.why}</p>
       ${q.trap?`<div class="trap"><b>TRAP</b>${q.trap}</div>`:""}
-      <button class="btn" id="next">${B.hearts===0?"Continue":last?"Finish battle":"Next question →"}</button>
+      <button class="btn" id="next">${B.hearts===0?"Continue":last?"Finish battle":(q.round!=null && B.qs[B.i+1].round!==q.round)?`Next round: ${GYMS[B.gym].rounds[B.qs[B.i+1].round].name} →`:"Next question →"}</button>
     </div>`;
   }
   const eliteTag = B.kind==="elite"?` · Elite ${B.idx+1}/4`:"";
@@ -889,7 +925,7 @@ function renderBattle(){
         <div class="foe">
           <div class="mini" id="foeMini" style="--c:${f.color}">${f.emb}</div>
           <div style="flex:1">
-            <div class="nm"><b>${f.name}</b><small>${f.sub}</small></div>
+            <div class="nm"><b>${f.name}</b><small>${f.sub}</small></div>${f.round?`<span class="round-pill">${f.round}</span>`:""}
             <div class="hp"><span class="lbl">HP</span><div class="bar"><i class="${cls}" style="width:${pct}%"></i></div></div>
           </div>
         </div>
@@ -900,7 +936,7 @@ function renderBattle(){
       </div>
     </div>
     <div class="qbox">
-      <div class="qmeta"><span class="lbl">Question ${B.i+1} of ${B.qs.length}</span><span class="lbl">${f.lab}</span></div>
+      <div class="qmeta"><span class="lbl">Question ${B.i+1} of ${B.qs.length}</span><span class="lbl">${q.m?`${q.m} · ${q.t}`:f.lab}</span></div>
       <p class="qtext">${q.q}</p>
       <div class="opts">${opts}</div>
       ${fb}
@@ -936,11 +972,22 @@ function advance(){
   // battle won
   if(B.kind==="gym"){
     const g=GYMS[B.gym];
-    const first = !S.badges[g.id];
-    S.badges[g.id]=true;
-    S.best[g.id]=Math.max(S.best[g.id]||0,B.correct);
-    save();
-    view={screen:"win", first};
+    if(B.round!=null){
+      S.rounds=S.rounds||{}; S.rounds[g.id]=S.rounds[g.id]||[];
+      S.rounds[g.id][B.round]=true;
+      const key=g.id+":"+B.round; S.best[key]=Math.max(S.best[key]||0,B.correct);
+      const all=g.rounds.every((_,k)=>roundDone(g,k));
+      const first = all && !S.badges[g.id];
+      if(all) S.badges[g.id]=true;
+      save();
+      view={screen:"win", first, roundWin:true, all};
+    } else {
+      const first = !S.badges[g.id];
+      S.badges[g.id]=true;
+      S.best[g.id]=Math.max(S.best[g.id]||0,B.correct);
+      save();
+      view={screen:"win", first};
+    }
   } else {
     if(B.idx<3){ view={screen:"eliteIntro", idx:B.idx+1}; }
     else {
@@ -960,19 +1007,21 @@ function renderWin(){
   const g=GYMS[B.gym]; const n=badgeCount();
   app().innerHTML = `${topbar()}
   <div class="result" style="--c:${g.color}">
-    <div class="lbl" style="color:${g.hex}">${g.name} cleared</div>
-    <h1>${view.first?`You earned the ${g.badge}!`:`${g.leader.replace("Leader ","")} defeated again`}</h1>
+    <div class="lbl" style="color:${g.hex}">${B.round!=null?`${g.name} · Round ${B.round+1} (${g.rounds[B.round].name}) cleared`:`${g.name} cleared`}</div>
+    <h1>${view.first?`You earned the ${g.badge}!`:B.round!=null?(view.all?`${g.rounds[B.round].name} round cleared`:`${g.rounds[B.round].name} round cleared: ${g.rounds.filter((_,k)=>roundDone(g,k)).length}/${g.rounds.length}`):`${g.leader.replace("Leader ","")} defeated again`}</h1>
     <div class="award">${EMB[g.emb](g.hex)}</div>
-    <p>${B.correct} of ${B.qs.length} correct with ${B.hearts} heart${B.hearts===1?"":"s"} left. ${n===6?"All six badges collected. The Elite Four is waiting.":`${n}/6 badges collected.`}</p>
+    <p>${B.correct} of ${B.qs.length} correct with ${B.hearts} heart${B.hearts===1?"":"s"} left. ${n===GYMS.length?`All ${GYMS.length} badges collected. The Elite Four is waiting.`:`${n}/${GYMS.length} badges collected.`}</p>
     <div class="cta-row">
-      ${n===6?`<button class="btn" id="toElite">Face the Elite Four →</button>`:""}
-      <button class="btn ${n===6?'ghost':''}" id="toMap">Back to map</button>
+      ${n===GYMS.length?`<button class="btn" id="toElite">Face the Elite Four →</button>`:""}
+      ${B.round!=null && !view.all?`<button class="btn" id="toRounds">Pick next round →</button>`:""}
+      <button class="btn ${n===GYMS.length||(B.round!=null&&!view.all)?'ghost':''}" id="toMap">Back to map</button>
       <button class="btn ghost" id="again">Rematch</button>
     </div>
     ${reviewBlock()}
   </div>${footer()}`;
   $("#toMap").onclick=()=>{view={screen:"map"};render();window.scrollTo(0,0);};
-  $("#again").onclick=()=>startGym(B.gym);
+  $("#again").onclick=()=>startGym(B.gym,B.round);
+  const tr=$("#toRounds"); if(tr) tr.onclick=()=>{view={screen:"intro",gym:B.gym};render();window.scrollTo(0,0);};
   const te=$("#toElite"); if(te) te.onclick=()=>{view={screen:"eliteIntro",idx:0};B=null;render();window.scrollTo(0,0);};
 }
 
@@ -992,7 +1041,7 @@ function renderLose(){
     ${reviewBlock()}
   </div>${footer()}`;
   $("#toMap").onclick=()=>{view={screen:"map"};render();window.scrollTo(0,0);};
-  $("#retry").onclick=()=>{ if(isGym) startGym(B.gym); else { B=null; startElite(0); } };
+  $("#retry").onclick=()=>{ if(isGym) startGym(B.gym,B.round); else { B=null; startElite(0); } };
   const nb=$("#notes"); if(nb) nb.onclick=()=>{view={screen:"intro",gym:B.gym};render();window.scrollTo(0,0);};
 }
 
@@ -1008,7 +1057,7 @@ function renderEliteIntro(){
   <div class="dialog" style="--c:${e.color}"><div class="who">${e.name}</div><p>${e.intro}</p></div>
   <div class="cta-row">
     <button class="btn" id="go">Begin →</button>
-    <span class="lbl">${e.qs.length} vignettes · ${carry} heart${carry===1?"":"s"}${healed?" (+1 restored)":""}</span>
+    <span class="lbl">${e.pick||e.qs.length} questions · ${carry} heart${carry===1?"":"s"}${healed?" (+1 restored)":""}</span>
   </div>
   <div class="notes" style="--c:${e.color}">
     <h2>Before you step in</h2>
@@ -1029,8 +1078,8 @@ function renderChampion(){
     <div class="lbl" style="color:var(--gold)">Hall of Fame</div>
     <h1>Head &amp; Neck Champion</h1>
     <div class="award">${EMB.crown("#f2c14e")}</div>
-    <p>You beat all four Elite masters with ${B.total||0} of 20 correct. You can trace lymph, tears, sinus drainage, and veins, and you know the danger space, danger zone, and danger triangle.</p>
-    <div class="badgecase" style="max-width:420px;margin:18px auto 0;background:var(--cream-2)">${GYMS.map(g=>`<div class="slot">${EMB[g.emb](g.hex)}</div>`).join("")}</div>
+    <p>You beat all four Elite masters with ${B.total||0} of ${ELITE_TOTAL} correct. You can trace lymph, tears, sinus drainage, and veins, and you know the danger space, danger zone, and danger triangle.</p>
+    <div class="badgecase" style="max-width:460px;margin:18px auto 0;background:var(--cream-2)">${GYMS.map(g=>`<div class="slot">${EMB[g.emb](g.hex)}</div>`).join("")}</div>
     <div class="cta-row" style="margin-top:22px">
       <button class="btn" id="toMap">Back to map</button>
       <button class="btn ghost" id="again">Run the Elite Four again</button>
@@ -1074,5 +1123,4 @@ function start(data){
 try{ window.claude?.hot?.snapshot?.(()=>({S,view,B})); }catch(e){}
 window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
 </script>
-
 </body></html>

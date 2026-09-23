@@ -17,6 +17,7 @@
   --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
   --arena:#3B2F6E; --arena-soft:#E8E3F7; --arena-ink:#332766;
   --trap:#96313B; --trap-soft:#F8E8E9; --trap-ink:#8A2C35;
+  --gym:#3F8A2E; --gym-soft:#E3F1DC; --gym-ink:#2F6B22;
   --plate:#0E1413;
   --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -32,6 +33,7 @@
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
     --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
     --trap:#E2727A; --trap-soft:#2E1A1D; --trap-ink:#EB8A91;
+    --gym:#8CCB5E; --gym-soft:#1C2A15; --gym-ink:#A6DA80;
     --plate:#080C0B;
   }
 }
@@ -44,6 +46,7 @@
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
     --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
     --trap:#E2727A; --trap-soft:#2E1A1D; --trap-ink:#EB8A91;
+    --gym:#8CCB5E; --gym-soft:#1C2A15; --gym-ink:#A6DA80;
     --plate:#080C0B;
 }
 *{box-sizing:border-box}
@@ -83,6 +86,7 @@ a{color:inherit}
 /* ---------- sections ---------- */
 .sec{display:flex;flex-direction:column;gap:12px;--accent:var(--p1);--accent-ink:var(--p1-ink);--accent-soft:var(--p1-soft)}
 .sec#sec-lesion{--accent:var(--p2);--accent-ink:var(--p2-ink);--accent-soft:var(--p2-soft)}
+.sec#sec-gym{--accent:var(--gym);--accent-ink:var(--gym-ink);--accent-soft:var(--gym-soft)}
 .sec#sec-hydra{--accent:var(--arena);--accent-ink:var(--arena-ink);--accent-soft:var(--arena-soft)}
 .sechead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:3px solid var(--accent);padding-top:12px}
 .sechead .dot{width:15px;height:15px;border-radius:3px;background:var(--accent);flex:none}
@@ -99,6 +103,7 @@ a{color:inherit}
 .card.arena{border-left-color:var(--arena)}
 .card.lesion{border-left-color:var(--p2)}
 .card.trap{border-left-color:var(--trap)}
+.card.gym{border-left-color:var(--gym)}
 .card.big{grid-column:span 2}
 @media (max-width:760px){.card.big{grid-column:span 1}}
 .ctop{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
@@ -107,6 +112,7 @@ a{color:inherit}
 .qn{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--p1-ink);background:var(--p1-soft);border:1px solid var(--p1);border-radius:3px;padding:2px 7px;white-space:nowrap;flex:none}
 .card.arena .qn{color:var(--arena-ink);background:var(--arena-soft);border-color:var(--arena)}
 .card.lesion .qn{color:var(--p2-ink);background:var(--p2-soft);border-color:var(--p2)}
+.card.gym .qn{color:var(--gym-ink);background:var(--gym-soft);border-color:var(--gym)}
 .card.trap .qn{color:var(--trap-ink);background:var(--trap-soft);border-color:var(--trap)}
 .kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:-4px}
 .card p{margin:0;font-size:13.8px;color:var(--ink)}
@@ -116,6 +122,7 @@ a{color:inherit}
 .card.arena .go{color:var(--arena-ink)}
 .card.lesion .go{color:var(--p2-ink)}
 .card.trap .go{color:var(--trap-ink)}
+.card.gym .go{color:var(--gym-ink)}
 .go svg{width:15px;height:15px;transition:transform .12s}
 .card:hover .go svg{transform:translateX(3px)}
 
@@ -135,7 +142,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <header class="mast">
     <div class="brand">HoyaDocs <b>&middot;</b> Game Hub</div>
-    <div class="tag">Block 5 &middot; HNSS &middot; Rev 9 &middot; Updated Sep 23, 2026</div>
+    <div class="tag">Block 5 &middot; HNSS &middot; Rev 10 &middot; Updated Sep 23, 2026</div>
   </header>
 
   <div class="tag subhead">Head, Neck &amp; Special Senses &middot; anatomy review arcade</div>
@@ -146,7 +153,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
         <input id="q" type="search" placeholder="Search games, topics, formats&hellip; (e.g. orbit, foramina, images, boss)" autocomplete="off" aria-label="Search games">
         <button class="clr" id="clr" title="Clear search" aria-label="Clear search">&times;</button>
       </div>
-      <div class="count" id="count">13 games shown</div>
+      <div class="count" id="count">16 games shown</div>
     </div>
     <div class="chips" id="chips">
       <span class="chiplab">Topic</span>
@@ -262,6 +269,33 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
   </section>
 
 
+  <section class="sec" id="sec-gym">
+    <div class="sechead">
+      <span class="dot" aria-hidden="true"></span>
+      <h2>Gym Leaders</h2>
+      <span class="n"></span>
+    </div>
+    <div class="grid">
+
+      <a class="card gym" href="Drainage%20Gym%20Leaders.html" data-tags="neck face cranial orbit nasaloral larynx step1" data-text="drainage gym leaders lymphatic lymph nodes deep cervical virchow tear lacrimal nasolacrimal duct paranasal sinus meatus hiatus semilunaris venous dural sinuses cavernous sinus thrombosis emissary veins danger space danger zone scalp danger triangle face retropharyngeal alar prevertebral fascia ludwig lemierre badges elite four solo 1p">
+        <div class="ctop"><h3>Drainage Gym Leaders</h3><span class="qn">65 Q</span></div>
+        <div class="kick">6 lab gyms &middot; Elite Four &middot; 1P</div>
+        <p>Each lab is a gym with a themed leader: lymphatic, venous, tear, and paranasal sinus drainage, plus the danger zone of the scalp, the danger triangle of the face, and the danger space of the neck. Every gym opens with Field Notes and a Step 1 box. Beat all six to unlock an Elite Four of 20 mixed Step 1 vignettes, with hearts carrying over between battles.</p>
+        <div class="tags"><span class="t">drainage</span><span class="t">danger areas</span><span class="t">badges</span><span class="t">solo</span></div>
+        <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      </a>
+
+      <a class="card gym" href="Muscle%20Gym%20Leaders.html" data-tags="face orbit nasaloral cn step1" data-text="muscle gym leaders extraocular medial lateral superior inferior rectus oblique levator palpebrae tongue intrinsic genioglossus hyoglossus styloglossus palatoglossus palate levator tensor veli palatini palatopharyngeus musculus uvulae face frontalis orbicularis oculi oris buccinator zygomaticus depressor anguli oris mentalis platysma innervation action paralysis high yield bell palsy uvula tongue deviation elite four badges solo 1p">
+        <div class="ctop"><h3>Muscle Gym Leaders</h3><span class="qn">112 Q</span></div>
+        <div class="kick">4 region gyms &middot; Elite Four &middot; 1P</div>
+        <p>Extraocular, tongue, palate, and face gyms. Every muscle is tested at least four ways: innervation, action, paralysis, and a high-yield fact. Collect all four badges to face an Elite Four themed by question type, where each master draws 6 random questions from every region.</p>
+        <div class="tags"><span class="t">innervation</span><span class="t">paralysis</span><span class="t">badges</span><span class="t">solo</span></div>
+        <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      </a>
+
+    </div>
+  </section>
+
   <section class="sec" id="sec-hydra">
     <div class="sechead">
       <span class="dot" aria-hidden="true"></span>
@@ -317,7 +351,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; HNSS Anatomy Game Hub</div>
-    <div class="tag">Rev 9 &middot; Updated Sep 23, 2026</div>
+    <div class="tag">Rev 10 &middot; Updated Sep 23, 2026</div>
   </footer>
 
 </div>

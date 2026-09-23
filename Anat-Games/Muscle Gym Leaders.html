@@ -1,0 +1,1319 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>Muscle Gym Leaders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=IBM+Plex+Mono:wght@500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --ground:#10152a;
+  --ground-2:#161d38;
+  --panel:#1c2446;
+  --line:#2c3663;
+  --text:#e9e6f5;
+  --muted:#a5a9c8;
+  --cream:#f4eedb;
+  --cream-2:#e8dfc3;
+  --ink:#1d1a14;
+  --gold:#f2c14e;
+  --gold-deep:#b98a16;
+  --good:#3fbf7f;
+  --bad:#e5566b;
+  --hy-bg:#fff4c2;
+  --hy-border:#d4a017;
+  --hy-ink:#4a3a05;
+  --g1:#2fb9a3; --g2:#e0525f; --g3:#8d7bf0; --g4:#4fa8ea; --g5:#f09a3e; --g6:#c56ad6; --g7:#9bd14b;
+  --elite:#f2c14e;
+  --display:"Bungee", "Trebuchet MS", system-ui, sans-serif;
+  --label:"IBM Plex Mono", "Courier New", monospace;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+[class],h1,h2,h3,b{font-synthesis:none}
+html,body{background:var(--ground)}
+body{
+  color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-inline:16px;padding-block:20px 40px;
+  background:
+    radial-gradient(1200px 500px at 50% -120px, #232c57 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.012) 3px 4px),
+    var(--ground);
+  min-height:100%;
+}
+.wrap{max-width:980px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:.01em}
+.lbl{font-family:var(--label);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- top bar ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:34px;height:34px;display:grid;place-items:center;background:var(--gold);color:var(--ink);font-family:var(--display);font-weight:700;border-radius:6px;box-shadow:0 3px 0 var(--gold-deep)}
+.brand b{font-family:var(--display);font-size:18px;letter-spacing:.02em}
+.brand small{display:block;font-family:var(--label);font-size:10px;color:var(--muted);letter-spacing:.08em}
+.navbtn{background:transparent;border:2px solid var(--line);border-radius:8px;padding:6px 12px;font-family:var(--label);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.navbtn:hover{border-color:var(--muted);color:var(--text)}
+
+/* ---------- hero / trainer card ---------- */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:stretch;margin-bottom:28px}
+.hero h1{font-size:clamp(30px,5.2vw,52px);line-height:.95;color:var(--cream)}
+.hero h1 span{color:var(--gold)}
+.hero p{color:var(--muted);max-width:52ch;margin:12px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{font-family:var(--label);font-size:10px;letter-spacing:.06em;padding:4px 8px;border-radius:4px;background:var(--ground-2);border:1px solid var(--line);color:var(--muted);text-transform:uppercase}
+.trainer{background:var(--cream);color:var(--ink);border-radius:10px;padding:16px;border:3px solid var(--ink);box-shadow:0 6px 0 #0a0d1c}
+.trainer .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.trainer h2{font-size:20px}
+.trainer .lbl{color:#6b6350}
+.badgecase{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;background:var(--cream-2);padding:10px;border-radius:6px;border:2px solid #cbbf9c}
+.slot{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:#d8cda9;box-shadow:inset 0 2px 0 rgba(0,0,0,.12)}
+.slot svg{width:82%;height:82%}
+.slot.empty svg{opacity:.18;filter:grayscale(1)}
+.meter{height:10px;background:#d8cda9;border-radius:6px;margin-top:12px;overflow:hidden;border:2px solid var(--ink)}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--g1),var(--g4),var(--g3),var(--g6),var(--g2),var(--g5),var(--g7));transition:width .5s}
+.trainer .foot{display:flex;justify-content:space-between;margin-top:8px;font-size:13px;gap:8px;flex-wrap:wrap}
+
+/* ---------- gym grid ---------- */
+.section-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px;flex-wrap:wrap}
+.section-h h2{font-size:24px;color:var(--cream)}
+.gyms{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.gym{position:relative;text-align:left;background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start;transition:transform .15s,border-color .15s}
+.gym:hover{transform:translateY(-2px);border-color:var(--c)}
+.gym.wide{grid-column:1/-1;background:linear-gradient(100deg,color-mix(in srgb,var(--c) 14%,var(--panel)),var(--panel) 55%)}
+.rounds{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.rounds span{font-family:var(--label);font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:3px 7px;border-radius:4px;border:1px solid color-mix(in srgb,var(--c) 60%,transparent);color:var(--cream)}
+.round-pill{display:inline-block;font-family:var(--label);font-size:10px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--cream);padding:2px 7px;border-radius:4px;margin-top:4px}
+.rpick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.rbtn{text-align:left;background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:4px;transition:border-color .15s,transform .15s}
+.rbtn:hover{border-color:var(--c);transform:translateY(-2px)}
+.rbtn b{font-family:var(--display);font-weight:400;font-size:17px;color:var(--cream)}
+.rbtn small{font-size:12.5px;color:var(--muted);line-height:1.35}
+.rbtn .status{justify-self:start;margin-top:4px}
+.rounds span.ok{background:var(--c);color:var(--ink)}
+@media (max-width:820px){.rpick{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:420px){.rpick{grid-template-columns:1fr}}
+.gym .emb{width:56px;height:56px;border-radius:10px;background:color-mix(in srgb,var(--c) 18%,var(--ground));display:grid;place-items:center;border:2px solid color-mix(in srgb,var(--c) 55%,transparent)}
+.gym .emb svg{width:40px;height:40px}
+.gym h3{font-size:19px;color:var(--cream);line-height:1.1}
+.gym .lab{font-family:var(--label);font-size:10px;color:var(--c);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.gym .leader{font-size:14px;color:var(--muted);margin-top:4px}
+.gym .topic{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px dashed var(--line);padding-top:10px;font-size:13px}
+.status{font-family:var(--label);font-size:10px;letter-spacing:.06em;padding:3px 7px;border-radius:4px;text-transform:uppercase;white-space:nowrap}
+.status.go{background:var(--c);color:var(--ink)}
+.status.done{background:var(--gold);color:var(--ink)}
+.best{font-size:12px;color:var(--muted)}
+
+.elite-card{margin-top:18px;border:2px solid var(--line);border-radius:12px;padding:18px;background:
+  linear-gradient(135deg, rgba(242,193,78,.10), transparent 60%), var(--ground-2);display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.elite-card.locked{opacity:.85}
+.elite-card h2{font-size:26px;color:var(--gold)}
+.elite-card p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.elite-card .grow{flex:1 1 280px}
+.four{display:flex;gap:8px}
+.four span{width:40px;height:40px;border-radius:8px;display:grid;place-items:center;font-family:var(--display);font-weight:700;background:var(--panel);border:2px solid var(--line);color:var(--muted)}
+.four span.on{border-color:var(--gold);color:var(--gold)}
+
+.btn{border:3px solid var(--ink);background:var(--gold);color:var(--ink);font-family:var(--display);font-weight:700;font-size:17px;padding:10px 18px;border-radius:8px;box-shadow:0 4px 0 var(--gold-deep);letter-spacing:.02em}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--gold-deep)}
+.btn[disabled]{background:#4b5277;color:#9aa0c2;box-shadow:0 4px 0 #2d3252;cursor:not-allowed;border-color:#2d3252}
+.btn.ghost{background:transparent;color:var(--cream);border-color:var(--line);box-shadow:none}
+
+/* ---------- gym intro ---------- */
+.intro-head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;margin-bottom:16px}
+.bigemb{width:96px;height:96px;border-radius:16px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 20%,var(--ground));border:3px solid var(--c)}
+.bigemb svg{width:70px;height:70px}
+.intro-head h1{font-size:clamp(28px,5vw,42px);color:var(--cream);line-height:1}
+.intro-head .lab{font-family:var(--label);font-size:11px;color:var(--c);letter-spacing:.08em;text-transform:uppercase}
+.dialog{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:10px;padding:14px 16px;box-shadow:0 5px 0 #0a0d1c;position:relative}
+.dialog .who{font-family:var(--display);font-weight:700;font-size:15px;margin-bottom:4px;color:color-mix(in srgb,var(--c) 70%,var(--ink))}
+.dialog p{margin:0}
+.notes{margin-top:22px;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:18px}
+.notes h2{font-size:20px;color:var(--cream);display:flex;gap:10px;align-items:center}
+.notes h3{font-size:16px;color:var(--c);margin:18px 0 6px}
+.notes ul{margin:6px 0;padding-left:20px}
+.notes li{margin:3px 0}
+.notes li ul{margin:2px 0}
+.notes strong{color:var(--cream)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;font-size:14px}
+.flow span{background:var(--ground-2);border:1px solid var(--line);padding:4px 9px;border-radius:5px}
+.flow b{color:var(--c);font-family:var(--display)}
+.flow span.end{border-color:var(--c);color:var(--cream)}
+.tbl{overflow-x:auto;margin:8px 0}
+.tbl table{border-collapse:collapse;width:100%;font-size:14px;min-width:420px}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.tbl th{font-family:var(--label);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-border);color:var(--hy-ink);border-radius:8px;padding:12px 14px;margin:14px 0 4px}
+.hy .tag{font-family:var(--label);font-size:10px;letter-spacing:.08em;background:var(--hy-border);color:#fff;padding:2px 6px;border-radius:3px;display:inline-block;margin-bottom:6px}
+.hy ul{margin:4px 0;padding-left:18px}
+.hy strong{color:#2e2402}
+.mnem{border-left:4px solid var(--c);padding:8px 12px;background:var(--ground-2);border-radius:0 6px 6px 0;margin:10px 0;font-size:15px}
+.mnem b{font-family:var(--display);color:var(--c)}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
+
+/* ---------- battle ---------- */
+.arena{display:grid;gap:14px}
+.hud{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:10px;padding:10px 14px;box-shadow:0 5px 0 #0a0d1c}
+.card .nm{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card .nm b{font-family:var(--display);font-size:18px}
+.card .nm small{font-family:var(--label);font-size:10px;color:#6b6350}
+.hp{display:flex;align-items:center;gap:8px;margin-top:6px}
+.hp .lbl{color:#6b6350;font-size:10px}
+.bar{flex:1;height:12px;background:#d8cda9;border:2px solid var(--ink);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--good);transition:width .45s ease, background .3s}
+.bar i.mid{background:#e7b73a}.bar i.low{background:var(--bad)}
+.hearts{display:flex;gap:4px;margin-top:6px}
+.hearts svg{width:20px;height:20px}
+.hearts .gone{opacity:.2}
+.foe{display:flex;align-items:center;gap:12px}
+.foe .mini{width:52px;height:52px;flex:none;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 22%,#fff);border:2px solid var(--ink)}
+.foe .mini svg{width:38px;height:38px}
+.foe .mini.hit{animation:hit .45s}
+@keyframes hit{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{opacity:.3}}
+.qbox{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:12px;padding:16px 18px;box-shadow:0 5px 0 #0a0d1c}
+.qmeta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.qmeta .lbl{color:#6b6350}
+.qtext{font-size:17px;line-height:1.55;margin:0}
+.opts{display:grid;gap:8px;margin-top:14px}
+.opt{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;text-align:left;background:#fffaf0;border:2px solid var(--ink);border-radius:8px;padding:9px 12px;font-size:15.5px;line-height:1.4;transition:background .12s,transform .12s}
+.opt:hover:not([disabled]){background:#fff;transform:translateX(3px)}
+.opt .k{font-family:var(--display);font-weight:700;width:26px;height:26px;display:grid;place-items:center;border-radius:5px;background:var(--ink);color:var(--cream);font-size:14px}
+.opt[disabled]{cursor:default}
+.opt.right{background:#d8f3e4;border-color:#1f7a4c}
+.opt.right .k{background:#1f7a4c}
+.opt.wrong{background:#fbdde1;border-color:#a3243a}
+.opt.wrong .k{background:#a3243a}
+.opt.dim{opacity:.55}
+.fb{margin-top:14px;border-top:2px dashed #b9ad8a;padding-top:12px}
+.fb .verdict{font-family:var(--display);font-weight:700;font-size:19px}
+.fb .verdict.ok{color:#1f7a4c}.fb .verdict.no{color:#a3243a}
+.fb p{margin:6px 0 0;font-size:15px}
+.trap{margin-top:10px;background:var(--hy-bg);border:2px solid var(--hy-border);border-radius:6px;padding:8px 10px;font-size:14px;color:var(--hy-ink)}
+.trap b{font-family:var(--label);font-size:10px;letter-spacing:.08em;background:var(--hy-border);color:#fff;padding:1px 5px;border-radius:3px;margin-right:6px}
+.fb .btn{margin-top:12px}
+.hint-keys{font-size:12px;color:#6b6350;margin-top:8px}
+
+/* ---------- result ---------- */
+.result{text-align:center;padding:28px 18px;background:var(--panel);border:2px solid var(--line);border-radius:14px}
+.result h1{font-size:clamp(30px,6vw,48px);color:var(--cream)}
+.result p{color:var(--muted);max-width:56ch;margin:10px auto 0}
+.award{width:140px;height:140px;margin:18px auto;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle,rgba(242,193,78,.25),transparent 70%)}
+.award svg{width:110px;height:110px;animation:spin-in .9s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes spin-in{from{transform:scale(.2) rotate(-200deg);opacity:0}to{transform:none;opacity:1}}
+.review{text-align:left;margin:22px auto 0;max-width:720px}
+.review h3{font-size:17px;color:var(--cream);margin-bottom:8px}
+.rv{background:var(--ground-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:14.5px}
+.rv .a{color:var(--good);font-weight:700}
+.result .cta-row{justify-content:center}
+
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:var(--label);font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr}
+  .gyms{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:560px){
+  .gyms{grid-template-columns:1fr}
+  .hud{grid-template-columns:1fr}
+  .intro-head{grid-template-columns:1fr}
+  .bigemb{width:72px;height:72px}.bigemb svg{width:52px;height:52px}
+  .qtext{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* =========================================================
+   HoyaDocs · Muscle Gym Leaders · Rev 1.0 · Sep 23, 2026
+   ========================================================= */
+
+const UPDATED = "Sep 23, 2026";
+const REV = "Rev 1.0";
+
+/* ---------- emblem art ---------- */
+const EMB = {
+  node:c=>`<svg viewBox="0 0 48 48"><path d="M14 10c8-6 22-3 25 8 3 10-4 21-15 21-6 0-6-6-11-7-6-1-8-6-7-11 1-5 4-8 8-11z" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><path d="M21 22c2-3 6-3 8 0" fill="none" stroke="#1d1a14" stroke-width="2.5" stroke-linecap="round"/><circle cx="33" cy="16" r="2.5" fill="#fff" opacity=".7"/></svg>`,
+  tri:c=>`<svg viewBox="0 0 48 48"><path d="M24 6 42 40H6z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 18v10" stroke="#1d1a14" stroke-width="3.5" stroke-linecap="round"/><circle cx="24" cy="34" r="2.2" fill="#1d1a14"/></svg>`,
+  conf:c=>`<svg viewBox="0 0 48 48"><path d="M24 4v16M24 28v16M4 24h16M28 24h16" stroke="${c}" stroke-width="7" stroke-linecap="round"/><path d="M24 4v16M24 28v16M4 24h16M28 24h16" stroke="#1d1a14" stroke-width="1.5" stroke-linecap="round" opacity=".35"/><circle cx="24" cy="24" r="8" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/></svg>`,
+  drop:c=>`<svg viewBox="0 0 48 48"><path d="M24 5C18 16 11 23 11 31a13 13 0 0 0 26 0c0-8-7-15-13-26z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M18 31a6 6 0 0 0 6 6" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".75"/></svg>`,
+  hex:c=>`<svg viewBox="0 0 48 48"><path d="M24 4 41 14v20L24 44 7 34V14z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="24" cy="24" rx="6" ry="4" fill="#1d1a14"/></svg>`,
+  layers:c=>`<svg viewBox="0 0 48 48"><path d="M6 12h36M6 20h36" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M6 28h36" stroke="#1d1a14" stroke-width="2" stroke-dasharray="3 3"/><path d="M6 36h36" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M40 24l4 4-4 4" fill="none" stroke="#1d1a14" stroke-width="2.5"/></svg>`,
+  dumbbell:c=>`<svg viewBox="0 0 48 48"><rect x="4" y="16" width="7" height="16" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><rect x="11" y="12" width="7" height="24" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><rect x="30" y="12" width="7" height="24" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><rect x="37" y="16" width="7" height="16" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><rect x="18" y="21" width="12" height="6" fill="#1d1a14"/></svg>`,
+  eye:c=>`<svg viewBox="0 0 48 48"><path d="M4 24C10 13 17 9 24 9s14 4 20 15c-6 11-13 15-20 15S10 35 4 24z" fill="#fff" stroke="#1d1a14" stroke-width="2.5"/><circle cx="24" cy="24" r="9" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><circle cx="24" cy="24" r="4" fill="#1d1a14"/><path d="M24 2v6M24 40v6M2 24h4M42 24h4" stroke="#1d1a14" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+  tongue:c=>`<svg viewBox="0 0 48 48"><path d="M10 8h28v14c0 12-6 20-14 20S10 34 10 22z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 12v18" stroke="#1d1a14" stroke-width="2.5" stroke-linecap="round"/><path d="M16 14c2 3 2 6 0 9M32 14c-2 3-2 6 0 9" fill="none" stroke="#1d1a14" stroke-width="1.8" opacity=".5"/></svg>`,
+  arch:c=>`<svg viewBox="0 0 48 48"><path d="M4 40V22C4 11 13 5 24 5s20 6 20 17v18h-8V23c0-7-5-11-12-11s-12 4-12 11v17z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 12v10" stroke="#1d1a14" stroke-width="2.5"/><circle cx="24" cy="25" r="3.5" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/></svg>`,
+  face:c=>`<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><path d="M14 16l6 2M34 16l-6 2" stroke="#1d1a14" stroke-width="2.5" stroke-linecap="round"/><circle cx="17" cy="22" r="2.4" fill="#1d1a14"/><circle cx="31" cy="22" r="2.4" fill="#1d1a14"/><path d="M15 30c5 6 13 6 18 0" fill="none" stroke="#1d1a14" stroke-width="2.8" stroke-linecap="round"/></svg>`,
+  crown:c=>`<svg viewBox="0 0 48 48"><path d="M7 36 5 14l11 9 8-14 8 14 11-9-2 22z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><rect x="7" y="36" width="34" height="6" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><circle cx="24" cy="27" r="3" fill="#1d1a14"/></svg>`
+};
+const heart = on => `<svg viewBox="0 0 24 24" class="${on?'':'gone'}"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z" fill="#e5566b" stroke="#1d1a14" stroke-width="1.8"/></svg>`;
+
+/* ---------- content ---------- */
+const GYMS = [];
+const MUSCLE_META = {"Extraocular": {"id": "eom", "name": "Extraocular Gym", "lab": "Lab 4 \u00b7 The Orbit", "leader": "Leader Trochlea", "hex": "#4fa8ea", "emb": "eye", "badge": "Rectus Badge", "topic": "7 muscles \u00b7 CN III, IV, VI", "intro": "Six muscles move the eye and a seventh lifts the lid, supplied by three different nerves. Tell me which nerve, which way each one moves the eye, and what the eye looks like when each one fails."}, "Tongue": {"id": "tongue", "name": "Tongue Gym", "lab": "Lab 6 \u00b7 Oral Cavity", "leader": "Leader Glossa", "hex": "#e0525f", "emb": "tongue", "badge": "Glossus Badge", "topic": "5 muscles \u00b7 CN XII (and one X)", "intro": "Every muscle ending in -glossus answers to CN XII except one. Know which way the tongue deviates and why, and you'll earn my badge."}, "Palate": {"id": "palate", "name": "Palate Gym", "lab": "Lab 6 \u00b7 Palate", "leader": "Leader Velum", "hex": "#c56ad6", "emb": "arch", "badge": "Velum Badge", "topic": "5 muscles \u00b7 CN X (and one V3)", "intro": "My soft palate seals the nose, opens the ear, and moves the uvula. Four of my muscles get the vagus nerve and one gets V3. Which one?"}, "Face": {"id": "face", "name": "Face Gym", "lab": "Lab 2 \u00b7 The Face", "leader": "Leader Mimica", "hex": "#9bd14b", "emb": "face", "badge": "Mimic Badge", "topic": "10 muscles \u00b7 CN VII branches", "intro": "Every expression you make is CN VII and arch 2. Raise your eyebrows, squint, whistle, smile, frown, pout. Name the branch behind each one, and what goes wrong when it's cut."}};
+const MUSCLE_HY = {"Extraocular": "<div class=\"hy\"><span class=\"tag\">USMLE STEP 1 \u00b7 HIGH YIELD</span><ul>\n<li><strong>CN III palsy:</strong> down and out + complete ptosis. <em>Dilated pupil</em> = compression (PComm aneurysm). <em>Pupil spared</em> = ischemia (diabetes)</li>\n<li><strong>CN IV palsy:</strong> vertical diplopia on stairs/reading. Head tilts <em>away</em> from the weak SO</li>\n<li><strong>CN VI palsy:</strong> eye turned in. False localizing sign of \u2191 ICP</li>\n<li><strong>INO</strong> (MLF, MS): adduction fails, the other eye has nystagmus, convergence is normal</li>\n<li>Mild ptosis + small pupil = <strong>Horner</strong> (M\u00fcller). Ptosis that changes through the day with a normal pupil = <strong>myasthenia gravis</strong></li></ul></div>", "Tongue": "<div class=\"hy\"><span class=\"tag\">USMLE STEP 1 \u00b7 HIGH YIELD</span><ul>\n<li><strong>LMN (CN XII):</strong> tongue deviates <em>toward</em> the lesion, with atrophy and fasciculations. <strong>UMN:</strong> deviates <em>away</em> from the lesion, no atrophy</li>\n<li><strong>Palatoglossus = CN X.</strong> It is the only tongue muscle not supplied by XII</li>\n<li><strong>Genioglossus</strong> keeps the airway open (anesthesia, sleep apnea, CN XII stimulator)</li>\n<li><strong>Lingual artery runs deep to the hyoglossus.</strong> XII, the lingual nerve, and the submandibular duct run superficial to it</li>\n<li>Tongue muscles come from <strong>occipital somites</strong> (hence XII). The mucosa comes from arches 1, 3, and 4</li></ul></div>", "Palate": "<div class=\"hy\"><span class=\"tag\">USMLE STEP 1 \u00b7 HIGH YIELD</span><ul>\n<li><strong>Uvula deviates away</strong> from the side of a CN X lesion</li>\n<li><strong>Tensor veli palatini = V3</strong>, opens the auditory tube \u2192 cleft palate leads to otitis media with effusion</li>\n<li>Gag reflex: afferent <strong>IX</strong> / efferent <strong>X</strong>. Nucleus ambiguus lesion (PICA) \u2192 nasal regurgitation, hoarseness</li>\n<li><strong>Bifid uvula</strong> \u2192 submucous cleft palate</li>\n<li>Stylopharyngeus is the only muscle supplied by CN <strong>IX</strong></li></ul></div>", "Face": "<div class=\"hy\"><span class=\"tag\">USMLE STEP 1 \u00b7 HIGH YIELD</span><ul>\n<li><strong>Forehead test:</strong> UMN (stroke) \u2192 <em>opposite</em> lower face only, forehead spared. LMN (Bell palsy) \u2192 <em>whole same side</em></li>\n<li>Bell palsy = idiopathic/HSV. <strong>Bilateral</strong> \u2192 Lyme, sarcoidosis, Guillain-Barr\u00e9</li>\n<li>Corneal reflex: V1 afferent \u2192 <strong>VII efferent</strong> (orbicularis oculi)</li>\n<li><strong>Buccinator = CN VII.</strong> The buccal nerve of V3 is sensory only. Mentalis = VII. The mental nerve is sensory only</li>\n<li>Marginal mandibular injury (submandibular surgery) \u2192 DAO weakness, uneven lower lip</li>\n<li>Botulinum toxin cleaves SNARE proteins \u2192 no ACh release</li></ul></div>"};
+const Q=(m,t,q,a,why,trap)=>({m,t,q,a,why,trap});
+GYMS.push({
+  id:"muscle", name:"Muscle Gym", lab:"Labs 2, 4 & 6 · Motor Review", leader:"Leader Myra", color:"var(--g7)", hex:"#9bd14b",
+  emb:"dumbbell", badge:"Motor Badge", topic:"Innervation · Action · Paralysis · High yield", wide:true,
+  intro:"I fight with four teams: eye, tongue, palate, face. Every muscle on my roster gets at least four questions: its nerve, what it does, what happens when it's paralyzed, and one high-yield fact. Each round is a separate battle. Clear all four and the Motor Badge is yours.",
+  notes:`
+  <h3>The innervation rules that cover almost everything</h3>
+  <div class="tbl"><table>
+    <tr><th>Region</th><th>Rule</th><th>The exception</th></tr>
+    <tr><td><strong>Extraocular</strong></td><td>CN III supplies all of them…</td><td>…except <strong>LR6 SO4</strong> (lateral rectus → VI, superior oblique → IV)</td></tr>
+    <tr><td><strong>Tongue</strong></td><td>CN XII supplies all intrinsic and extrinsic muscles…</td><td>…except <strong>palatoglossus</strong> → CN X (pharyngeal plexus)</td></tr>
+    <tr><td><strong>Palate</strong></td><td>CN X (pharyngeal plexus / nucleus ambiguus) supplies all of them…</td><td>…except <strong>tensor veli palatini</strong> → V3 (arch 1, like tensor tympani)</td></tr>
+    <tr><td><strong>Face (expression)</strong></td><td>CN VII, arch 2. Branches: temporal, zygomatic, buccal, marginal mandibular, cervical</td><td>No exceptions. The <em>buccal nerve of V3</em> is only sensory</td></tr>
+  </table></div>
+  <div class="mnem"><b>"-glossus = XII, palat- = X."</b> Palatoglossus is in both groups, and the palate rule wins (X). Tensor veli palatini is the one "tensor" in the palate, and tensors are V3.</div>
+
+  <h3>Round 1 · Extraocular muscles</h3>
+  <div class="tbl"><table>
+    <tr><th>Muscle</th><th>Nerve</th><th>Main action</th><th>Also</th><th>Clinical test (isolates it)</th></tr>
+    <tr><td>Medial rectus</td><td>III</td><td>Adduction</td><td>—</td><td>Look toward nose</td></tr>
+    <tr><td>Lateral rectus</td><td>VI</td><td>Abduction</td><td>—</td><td>Look out</td></tr>
+    <tr><td>Superior rectus</td><td>III</td><td>Elevation</td><td>Intorsion, adduction</td><td>Look <em>out</em>, then up</td></tr>
+    <tr><td>Inferior rectus</td><td>III</td><td>Depression</td><td>Extorsion, adduction</td><td>Look <em>out</em>, then down</td></tr>
+    <tr><td>Superior oblique</td><td>IV</td><td>Intorsion</td><td>Depression, abduction</td><td>Look <em>in</em> (toward nose), then down</td></tr>
+    <tr><td>Inferior oblique</td><td>III</td><td>Extorsion</td><td>Elevation, abduction</td><td>Look <em>in</em>, then up</td></tr>
+    <tr><td>Levator palpebrae sup.</td><td>III</td><td>Raises upper lid</td><td colspan="2">The superior tarsal (Müller) muscle helps and is <strong>sympathetic</strong></td></tr>
+  </table></div>
+  <ul>
+    <li>The 4 recti start at the <strong>common tendinous ring</strong>. The IO is the only EOM that starts from the orbital <em>floor</em> (maxilla). The SO tendon runs through the <strong>trochlea</strong></li>
+    <li>Rule for testing: <strong>recti are tested with the eye turned out, obliques with the eye turned in</strong>. Obliques move the eye the opposite way to their name (SO depresses, IO elevates)</li>
+    <li><strong>CN III divisions:</strong> superior → SR + levator. Inferior → MR, IR, IO + parasympathetic root to the <strong>ciliary ganglion</strong> (the pupil fibers travel with the IO branch)</li>
+    <li><strong>Near reflex</strong> = both MR converge + miosis + accommodation</li>
+    <li><strong>INO</strong> (MLF lesion, MS): the eye on the lesion side can't adduct, the other eye has nystagmus, convergence is normal</li>
+    <li><strong>Facial colliculus</strong> (dorsal pons): CN VII fibers loop over the CN VI nucleus → same-side LR palsy + LMN facial palsy</li>
+    <li>CN IV <strong>nucleus</strong> lesion → the <em>opposite</em> SO is weak (the fibers cross over)</li>
+    <li><strong>Orbital floor (blowout) fracture</strong> → IR trapped → can't look up + infraorbital numbness</li>
+    <li><strong>Myasthenia gravis</strong> → ptosis that changes through the day (levator), improves with an ice pack, pupil normal</li>
+  </ul>
+  <div class="tbl"><table>
+    <tr><th>Palsy</th><th>What you see</th><th>Classic cause</th></tr>
+    <tr><td><strong>CN III</strong></td><td>"Down and out" (LR + SO unopposed), marked ptosis, ± dilated pupil</td><td><em>Pupil involved</em> = compression (PComm aneurysm; the parasympathetic fibers run on the outside of the nerve). <em>Pupil spared</em> = ischemia (diabetes)</td></tr>
+    <tr><td><strong>CN IV</strong></td><td>Affected eye sits higher and is extorted. Vertical diplopia worse looking down and in (stairs, reading). Patient tilts head <em>away</em> from the affected side</td><td>Head trauma. Only CN that exits the dorsal brainstem and crosses over</td></tr>
+    <tr><td><strong>CN VI</strong></td><td>Eye turned in, horizontal diplopia worse looking toward the affected side</td><td>↑ ICP (long course over the petrous apex, a false localizing sign), cavernous sinus lesions</td></tr>
+    <tr><td><strong>Horner</strong></td><td><em>Mild</em> ptosis (Müller), miosis, anhidrosis</td><td>Pancoast tumor, carotid dissection</td></tr>
+  </table></div>
+
+  <h3>Round 2 · Tongue</h3>
+  <div class="tbl"><table>
+    <tr><th>Muscle</th><th>Nerve</th><th>Action</th><th>Pearls</th></tr>
+    <tr><td>Intrinsic (longitudinal, transverse, vertical)</td><td>XII</td><td>Change tongue <em>shape</em> (speech, swallowing)</td><td>No bony attachment</td></tr>
+    <tr><td><strong>Genioglossus</strong></td><td>XII</td><td><strong>Protrusion</strong>, depresses center</td><td>Starts at genial tubercles. Keeps the airway open (anesthesia, sleep apnea)</td></tr>
+    <tr><td>Hyoglossus</td><td>XII</td><td>Depresses and retracts</td><td><strong>Lingual a. runs deep</strong> to it. CN XII, the lingual n. and the submandibular duct run on its surface</td></tr>
+    <tr><td>Styloglossus</td><td>XII</td><td>Retracts and <strong>elevates</strong> (pulls up and back to swallow)</td><td>From the styloid process</td></tr>
+    <tr><td>Palatoglossus</td><td><strong>X</strong></td><td>Elevates the back of the tongue, narrows the oropharyngeal isthmus</td><td>Forms the palatoglossal arch (anterior pillar)</td></tr>
+  </table></div>
+  <ul>
+    <li><strong>LMN (CN XII) lesion:</strong> tongue deviates <strong>toward</strong> the lesion (the healthy genioglossus pushes it over). Also atrophy and fasciculations. Tongue muscles come from occipital somites, which is why XII supplies them</li>
+    <li><strong>UMN (cortex/corticobulbar) lesion:</strong> tongue deviates <strong>away</strong> from the lesion (toward the weak side). No atrophy</li>
+    <li>CN XII leaves through the <strong>hypoglossal canal</strong>. A CN XII stimulator for sleep apnea activates the <strong>genioglossus</strong></li>
+    <li><strong>Hyoglossus trap:</strong> ‘hyo-’ doesn't mean ansa cervicalis. It is XII</li>
+    <li><strong>Stylo- trio:</strong> styloglossus XII · stylohyoid VII · stylopharyngeus IX (the only muscle CN IX supplies)</li>
+    <li>The palatoglossal arch is the border between the mouth and the oropharynx. Palatoglossus still works after a CN XII cut</li>
+  </ul>
+
+  <h3>Round 3 · Palate</h3>
+  <div class="tbl"><table>
+    <tr><th>Muscle</th><th>Nerve</th><th>Action</th><th>Pearls</th></tr>
+    <tr><td><strong>Levator veli palatini</strong></td><td>X</td><td><strong>Elevates</strong> the soft palate and seals off the nasopharynx</td><td>Weak → nasal speech, fluid comes out the nose</td></tr>
+    <tr><td><strong>Tensor veli palatini</strong></td><td><strong>V3</strong></td><td>Tenses the palate, <strong>opens the auditory tube</strong></td><td>Tendon hooks around the <strong>pterygoid hamulus</strong>. Cleft palate → otitis media with effusion</td></tr>
+    <tr><td>Palatoglossus</td><td>X</td><td>Pulls palate down onto the tongue, closes the isthmus</td><td>Anterior pillar</td></tr>
+    <tr><td>Palatopharyngeus</td><td>X</td><td>Raises the pharynx and larynx, narrows the isthmus</td><td>Posterior pillar. The palatine tonsil sits between the pillars</td></tr>
+    <tr><td>Musculus uvulae</td><td>X</td><td>Shortens and lifts the uvula</td><td>—</td></tr>
+  </table></div>
+  <ul>
+    <li><strong>CN X lesion:</strong> palate droops on the affected side and the <strong>uvula points away from the lesion</strong> (pulled by the healthy LVP)</li>
+    <li>Gag reflex: afferent <strong>IX</strong>, efferent <strong>X</strong></li>
+    <li><strong>Both</strong> CN X damaged → palate doesn't rise on either side, uvula stays in the midline</li>
+    <li>Motor neurons for the palate, pharynx, and larynx = <strong>nucleus ambiguus</strong> (PICA / lateral medullary syndrome)</li>
+    <li>Longitudinal pharyngeal elevators: palatopharyngeus + salpingopharyngeus (X), stylopharyngeus (IX)</li>
+    <li><strong>Bifid uvula</strong> → think submucous cleft palate (velopharyngeal insufficiency, middle-ear effusions)</li>
+    <li>“Tensors are V3”: tensor veli palatini and tensor tympani both come from arch 1</li>
+  </ul>
+
+  <h3>Round 4 · Face (all CN VII)</h3>
+  <div class="tbl"><table>
+    <tr><th>Muscle</th><th>Branch</th><th>Action / expression</th><th>If paralyzed</th></tr>
+    <tr><td>Frontalis</td><td>Temporal</td><td>Raises eyebrows, wrinkles forehead (surprise)</td><td>Flat forehead, eyebrow droops</td></tr>
+    <tr><td>Orbicularis oculi · <strong>palpebral</strong></td><td>Temporal / zygomatic</td><td><strong>Gentle</strong> closure: blinking, sleep</td><td>Can't close the eye → corneal dryness/ulcer. No efferent limb for the corneal reflex</td></tr>
+    <tr><td>Orbicularis oculi · <strong>orbital</strong></td><td>Temporal / zygomatic</td><td><strong>Forced</strong> closure (squinting)</td><td>Weak squeeze. Lower lid falls outward → tears spill over</td></tr>
+    <tr><td>Orbicularis oris</td><td>Buccal (+ marginal mandibular)</td><td>Closes and purses lips (whistling, kissing)</td><td>Drooling, liquid leaks from the corner of the mouth</td></tr>
+    <tr><td><strong>Buccinator</strong></td><td>Buccal</td><td>Presses cheek against teeth, blows air out (trumpeter)</td><td><strong>Food collects in the cheek pocket</strong>. The parotid duct pierces it opposite the upper 2nd molar</td></tr>
+    <tr><td>Zygomaticus major</td><td>Zygomatic / buccal</td><td>Pulls the mouth corner <strong>up and out</strong> (smile)</td><td>Lopsided smile</td></tr>
+    <tr><td>Zygomaticus minor</td><td>Zygomatic / buccal</td><td>Raises the <strong>upper lip</strong>, deepens the nasolabial fold</td><td>Flat nasolabial fold</td></tr>
+    <tr><td>Depressor anguli oris</td><td>Marginal mandibular</td><td>Pulls the mouth corner <strong>down</strong> (frown)</td><td>Lopsided lower lip. Missing at birth → asymmetric crying face</td></tr>
+    <tr><td>Mentalis</td><td>Marginal mandibular</td><td>Raises and pushes out the lower lip, wrinkles the chin (pout, doubt)</td><td>Lower lip sags</td></tr>
+    <tr><td>Platysma</td><td><strong>Cervical</strong> (of VII)</td><td>Tenses neck skin, pulls mouth corners and mandible down</td><td>Minor. Lies over the EJV</td></tr>
+  </table></div>
+  <ul>
+    <li><strong>Temporal branch</strong> crosses the zygomatic arch, so temple cuts lead to a drooping brow</li>
+    <li><strong>Bell phenomenon:</strong> when a paralyzed eye tries to close, the eyeball rolls up and the white shows</li>
+    <li><strong>Can't bury the eyelashes</strong> on forced closure = mild orbicularis oculi weakness</li>
+    <li><strong>Botulinum toxin</strong> (blepharospasm, crow's feet) cleaves SNARE proteins → no ACh release</li>
+    <li>Parotid duct pierces the <strong>buccinator</strong> opposite the upper 2nd molar</li>
+    <li>Cleft lip = failed fusion of the <strong>maxillary + medial nasal prominences</strong></li>
+    <li>Marginal mandibular branch runs <strong>superficial to the facial artery and vein</strong> at the mandible</li>
+    <li>Cervical branch (platysma) injury looks like a marginal mandibular injury, but the patient <em>can</em> still evert the lower lip</li>
+    <li>The <strong>EJV</strong> lies just deep to the platysma</li>
+  </ul>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span>
+    <ul>
+      <li><strong>Forehead test:</strong> the upper face gets input from <em>both</em> motor cortices. <strong>UMN lesion</strong> (stroke) → only the <em>opposite lower face</em> is weak and the forehead is spared. <strong>LMN lesion</strong> (Bell palsy) → the <em>whole same side</em>, forehead included</li>
+      <li>Bell palsy = idiopathic/HSV. Bilateral facial palsy → think <strong>Lyme</strong>, sarcoidosis, Guillain-Barré</li>
+      <li>Marginal mandibular branch is at risk in submandibular gland surgery and neck dissection → DAO weakness, lopsided lower lip</li>
+      <li>Tongue points <strong>toward</strong> an LMN lesion. Uvula points <strong>away</strong> from the lesion. Jaw (V3) deviates <strong>toward</strong> the lesion</li>
+      <li>Compressive CN III palsy (dilated pupil) is an emergency until a PComm aneurysm is ruled out</li>
+    </ul>
+  </div>`,
+  rounds:[
+    {name:"Extraocular", hearts:6, qs:[
+      /* ---- Medial rectus ---- */
+      Q("Medial rectus","Innervation","The medial rectus is supplied by which nerve?",
+        ["Inferior division of the oculomotor nerve (CN III)","Superior division of the oculomotor nerve (CN III)","Abducens nerve (CN VI)","Trochlear nerve (CN IV)","Nasociliary nerve (V1)"],
+        "CN III splits in the superior orbital fissure. The superior division supplies SR and levator. The inferior division supplies MR, IR, IO, plus the parasympathetic root to the ciliary ganglion.",
+        "Nasociliary is <em>sensory</em> (V1). It carries the corneal reflex afferent, not motor fibers."),
+      Q("Medial rectus","Action","What is the only action of the medial rectus in primary gaze?",
+        ["Adduction","Abduction","Intorsion","Elevation in adduction","Depression in adduction"],
+        "The MR runs straight along the medial orbital wall, parallel to the visual axis, so it only adducts. The only other rectus with a single action is the lateral rectus (abduction).",
+        null),
+      Q("Medial rectus","Paralysis","A patient with a complete right CN III palsy has a right eye that rests abducted and depressed. Losing which muscle mainly explains the <em>abducted</em> position?",
+        ["Medial rectus","Superior oblique","Inferior rectus","Lateral rectus","Superior rectus"],
+        "With the MR paralyzed, the lateral rectus (CN VI) pulls the eye out with nothing to oppose it. The SO (CN IV) adds depression, giving the ‘down and out’ eye.",
+        "The lateral rectus is <em>working</em> here. It is the <em>unopposed</em> muscle, not the paralyzed one."),
+      Q("Medial rectus","High yield","A 29-year-old woman with multiple sclerosis looks to the right. Her left eye doesn't adduct and her right eye shows nystagmus. Convergence is normal. Where is the lesion?",
+        ["Left medial longitudinal fasciculus","Left oculomotor nerve","Right abducens nucleus","Left medial rectus muscle","Right paramedian pontine reticular formation"],
+        "This is internuclear ophthalmoplegia. The MLF carries signals from the opposite CN VI nucleus to the CN III subnucleus for the MR. Convergence uses a different pathway, which proves the MR and CN III are fine. The lesion is on the side of the eye that doesn't adduct.",
+        "Intact convergence rules out a CN III or MR lesion. Bilateral INO in a young adult → MS."),
+      Q("Medial rectus","High yield","A patient focuses on a pen moved toward her nose. Along with pupillary constriction and accommodation, which extraocular muscles contract on both sides?",
+        ["Medial recti","Lateral recti","Superior obliques","Inferior recti","Inferior obliques"],
+        "The near reflex is convergence (both MR, CN III), miosis (sphincter pupillae), and accommodation (ciliary muscle). The parasympathetic parts come from the Edinger–Westphal nucleus.",
+        "Argyll Robertson pupil (neurosyphilis) keeps the near reflex but loses the light reflex: it ‘accommodates but doesn’t react.’"),
+
+      /* ---- Lateral rectus ---- */
+      Q("Lateral rectus","Innervation","The lateral rectus is supplied by a nerve whose nucleus is located where?",
+        ["Dorsal pons, beneath the facial colliculus (CN VI)","Midbrain at the level of the superior colliculus (CN III)","Midbrain at the level of the inferior colliculus (CN IV)","Medulla, near the hypoglossal trigone (CN XII)","Trigeminal ganglion (V1)"],
+        "The abducens nucleus is in the dorsal pons. The facial nerve fibers loop over it (internal genu), which forms the facial colliculus in the floor of the 4th ventricle.",
+        null),
+      Q("Lateral rectus","Action","Which movement is the lateral rectus alone responsible for?",
+        ["Abduction","Adduction","Elevation","Extorsion","Depression in abduction"],
+        "The LR only abducts. <b>LR6</b>: lateral rectus = CN VI.",
+        "The obliques also help abduct a little, but they aren't strong enough to stop the eye from turning in when the LR is paralyzed."),
+      Q("Lateral rectus","Paralysis","A patient has horizontal double vision that gets worse when looking to the right. At rest, the right eye is turned slightly inward. Which muscle is weak?",
+        ["Right lateral rectus","Left lateral rectus","Right medial rectus","Left medial rectus","Right superior oblique"],
+        "Right LR (CN VI) weakness → the unopposed MR turns the eye in (esotropia). The images are farthest apart when looking toward the weak muscle's side, to the right.",
+        null),
+      Q("Lateral rectus","High yield","A small pontine infarct causes weakness of the right lateral rectus and of the whole right side of the face, forehead included. Where is the lesion?",
+        ["Right facial colliculus (CN VI nucleus + looping CN VII fibers)","Right cavernous sinus","Left motor cortex","Right internal acoustic meatus","Right superior orbital fissure"],
+        "At the facial colliculus, CN VII fibers wrap around the CN VI nucleus. One lesion there causes same-side LR palsy and LMN facial palsy (forehead included). A lesion of the CN VI <em>nucleus</em> can also cause a horizontal gaze palsy.",
+        "Cortical lesions spare the forehead. Here the forehead is weak, so the lesion is LMN (in the pons)."),
+
+      /* ---- Superior rectus ---- */
+      Q("Superior rectus","Innervation","The superior rectus is supplied by which nerve branch, which also supplies the levator palpebrae superioris?",
+        ["Superior division of CN III","Inferior division of CN III","Trochlear nerve","Frontal nerve (V1)","Abducens nerve"],
+        "The superior division of CN III supplies the two muscles in the upper orbit: SR and levator palpebrae superioris.",
+        "The frontal nerve runs on top of the levator but is sensory (supraorbital and supratrochlear branches)."),
+      Q("Superior rectus","Action","What are the main and secondary actions of the superior rectus?",
+        ["Elevation; intorsion and adduction","Elevation; extorsion and abduction","Intorsion; depression and abduction","Depression; extorsion and adduction","Adduction only"],
+        "The SR pulls up and toward the nose from its origin at the medial-positioned apex. So it elevates (main action), intorts, and adducts.",
+        "<b>Recti adduct, obliques abduct</b> (except MR and LR). <b>SIN</b>: superior muscles intort."),
+      Q("Superior rectus","Paralysis","A patient with an orbital apex lesion has a complete droop of the left upper eyelid and can't elevate the left eye. Adduction, depression, and the pupil are normal. What is injured?",
+        ["Superior division of left CN III","Inferior division of left CN III","Left CN IV","Left oculomotor nucleus","Left sympathetic chain"],
+        "Ptosis (levator) plus no elevation (SR), with MR, IR, IO and pupil spared, means only the superior division is damaged. The pupil fibers travel with the inferior division.",
+        null),
+      Q("Superior rectus","High yield","To test the right superior rectus on its own, where should the patient look?",
+        ["Out to the right, then up","Toward the nose (left), then up","Out to the right, then down","Toward the nose, then down","Straight up"],
+        "With the eye abducted about 23°, the SR's pull lines up with the visual axis, so it becomes a pure elevator. Recti are tested with the eye turned out, obliques with the eye turned in.",
+        null),
+
+      /* ---- Inferior rectus ---- */
+      Q("Inferior rectus","Innervation","Which nerve supplies the inferior rectus?",
+        ["Inferior division of CN III","Superior division of CN III","Trochlear nerve","Infraorbital nerve (V2)","Abducens nerve"],
+        "The inferior division of CN III supplies MR, IR, and IO. <em>Mnemonic:</em> ‘the inferior division gets the inferior muscles (IR, IO) plus the MR.’",
+        "The infraorbital nerve runs in the orbital floor right under the IR, but it is sensory."),
+      Q("Inferior rectus","Action","What are the actions of the inferior rectus?",
+        ["Depression; extorsion and adduction","Depression; intorsion and abduction","Elevation; intorsion and adduction","Extorsion; elevation and abduction","Abduction only"],
+        "The IR mirrors the SR: it depresses (main action), extorts, and adducts. <em>Inferior muscles extort.</em>",
+        null),
+      Q("Inferior rectus","Paralysis","A boxer is hit in the eye by a fist. He has double vision looking up, the eye can't move up normally, and his cheek and upper lip are numb on that side. CT shows a ‘teardrop’ sign in the maxillary sinus. What explains the eye movement problem?",
+        ["Inferior rectus trapped in an orbital floor fracture","Superior division CN III palsy","Superior oblique tendon rupture","Inferior oblique paralysis","Lateral rectus contusion"],
+        "In an orbital floor (blowout) fracture, the IR and its fat herniate into the maxillary sinus. The trapped muscle can't relax, so it holds the eye down and blocks upgaze. The infraorbital nerve in the floor is also damaged, causing numbness.",
+        "The IR isn't paralyzed. It is <em>trapped</em>, so the eye can't be moved up even when pushed (positive forced duction test)."),
+      Q("Inferior rectus","High yield","To test the left inferior rectus on its own, where should the patient look?",
+        ["Out to the left, then down","Toward the nose (right), then down","Out to the left, then up","Toward the nose, then up","Straight down"],
+        "Rectus muscles are tested with the eye turned out. In abduction the IR is a pure depressor.",
+        "‘In and down’ tests the <em>superior oblique</em>, a common mix-up."),
+
+      /* ---- Superior oblique ---- */
+      Q("Superior oblique","Innervation","A small lesion damages the <em>left</em> trochlear nucleus in the midbrain. Which superior oblique is weak?",
+        ["Right superior oblique","Left superior oblique","Both superior obliques","Neither, because the nucleus has input from both sides","Left inferior oblique"],
+        "CN IV is the only cranial nerve that exits the <em>dorsal</em> brainstem, and its fibers cross over. So a nucleus lesion weakens the <em>opposite</em> SO. A nerve lesion after it has crossed weakens the SO on the same side.",
+        "Nucleus lesion → opposite SO. Nerve lesion → same-side SO."),
+      Q("Superior oblique","Action","The superior oblique tendon runs through the trochlea and attaches to the back of the globe. What is its main action?",
+        ["Intorsion (with depression and abduction as secondary actions)","Extorsion (with elevation and abduction)","Depression only","Adduction (with elevation)","Elevation in abduction"],
+        "The trochlea redirects the SO's pull so it acts from the front and inside. That rotates the top of the eye inward (intorsion, main action), and also depresses and abducts.",
+        "Obliques move the eye the opposite way to their name: SO <em>depresses</em>, IO <em>elevates</em>."),
+      Q("Superior oblique","Paralysis","After head trauma, a patient has vertical double vision that is worst walking downstairs and reading. The right eye sits higher, and he tilts his head to the left. Which muscle is weak?",
+        ["Right superior oblique","Left superior oblique","Right inferior rectus","Right inferior oblique","Left superior rectus"],
+        "Right CN IV palsy → the right eye can't depress when turned in or intort. It sits higher and is extorted. Tilting the head away (to the left) lets the eye use its remaining intorsion and lines the images up.",
+        null),
+      Q("Superior oblique","High yield","To test the left superior oblique on its own, where should the patient look?",
+        ["Toward the nose (right), then down","Out to the left, then down","Toward the nose (right), then up","Out to the left, then up","Straight down"],
+        "Obliques are tested with the eye turned in. In adduction the SO is a pure depressor, which is the ‘look at the tip of your nose’ position.",
+        null),
+
+      /* ---- Inferior oblique ---- */
+      Q("Inferior oblique","Innervation","The branch of CN III that supplies the inferior oblique also carries preganglionic parasympathetic fibers to which ganglion?",
+        ["Ciliary ganglion","Pterygopalatine ganglion","Otic ganglion","Submandibular ganglion","Superior cervical ganglion"],
+        "The nerve to the IO (inferior division of CN III) sends the short parasympathetic root to the ciliary ganglion. Postganglionic short ciliary nerves then supply the sphincter pupillae and ciliary muscle.",
+        null),
+      Q("Inferior oblique","Action","What is the main action of the inferior oblique?",
+        ["Extorsion (with elevation and abduction as secondary actions)","Intorsion (with depression and abduction)","Elevation in abduction","Adduction","Depression in adduction"],
+        "The IO runs from the front of the orbital floor, back and out under the globe. It rotates the top of the eye outward (extorsion), and also elevates and abducts.",
+        null),
+      Q("Inferior oblique","Paralysis","A patient can't elevate the right eye when it is turned toward the nose, but can elevate it normally when it is turned out. The right eye sits slightly lower in primary gaze. Which muscle is weak?",
+        ["Right inferior oblique","Right superior rectus","Right superior oblique","Right inferior rectus","Left superior rectus"],
+        "When the eye is turned in, the IO is the main elevator. When it is turned out, the SR takes over. Weak elevation only in adduction therefore isolates the IO (inferior division of CN III).",
+        "Weak elevation in <em>abduction</em> = SR. Weak elevation in <em>adduction</em> = IO."),
+      Q("Inferior oblique","High yield","Which extraocular muscle does NOT start from the orbital apex?",
+        ["Inferior oblique","Superior oblique","Lateral rectus","Superior rectus","Levator palpebrae superioris"],
+        "The IO starts on the orbital floor (maxilla), lateral to the nasolacrimal canal, at the front of the orbit. All the others start at the apex (the recti from the common tendinous ring).",
+        null),
+
+      /* ---- Levator palpebrae superioris ---- */
+      Q("Levator palpebrae superioris","Innervation","Which statement about the nerve supply of the upper eyelid elevators is correct?",
+        ["The levator gets the superior division of CN III; the superior tarsal (Müller) muscle gets sympathetic fibers","Both the levator and the tarsal muscle get CN III","The levator gets CN VII; the tarsal muscle gets CN III","The levator gets sympathetic fibers; the tarsal muscle gets CN III","Both get the frontal nerve (V1)"],
+        "The levator is skeletal muscle (superior division of CN III). The superior tarsal muscle is smooth muscle attached to it. It gets sympathetic fibers from the superior cervical ganglion and adds 1–2 mm of lift.",
+        null),
+      Q("Levator palpebrae superioris","Action","What does the levator palpebrae superioris do, and which muscle is its direct antagonist?",
+        ["Raises the upper eyelid; orbicularis oculi (CN VII)","Raises the upper eyelid; superior rectus","Closes the eyelid; frontalis","Lowers the eyelid; superior tarsal muscle","Raises the eyebrow; corrugator supercilii"],
+        "The levator opens the eye. The orbicularis oculi (CN VII) closes it. So CN III palsy → the eye can't open (ptosis), and CN VII palsy → the eye can't close.",
+        "Frontalis raises the <em>eyebrow</em>. People with ptosis use it to compensate, which wrinkles the forehead."),
+      Q("Levator palpebrae superioris","Paralysis","A smoker with an apical lung mass has 2 mm of right ptosis, a small right pupil, and a dry right forehead. Weakness of which muscle causes the ptosis?",
+        ["Superior tarsal (Müller) muscle","Levator palpebrae superioris","Orbicularis oculi, palpebral part","Frontalis","Superior rectus"],
+        "This is Horner syndrome from a Pancoast tumor. Losing sympathetic supply to the superior tarsal muscle causes only mild ptosis. A <em>complete</em> droop means the levator (CN III) is out.",
+        "Mild ptosis + small pupil = Horner. Complete ptosis + dilated pupil = CN III."),
+      Q("Levator palpebrae superioris","High yield","A 34-year-old woman has drooping eyelids that get worse through the day and double vision that changes over time. Her pupils are normal. An ice pack on the lid improves the ptosis. What is the most likely diagnosis?",
+        ["Myasthenia gravis (antibodies to acetylcholine receptors at the levator NMJ)","CN III compression by an aneurysm","Horner syndrome","Bell palsy","Lambert–Eaton syndrome"],
+        "Eye muscles like the levator are often the first affected in MG. Cold slows acetylcholinesterase, so the ice pack helps. MG never involves the pupil.",
+        "Lambert–Eaton gets <em>better</em> with repeated use and has autonomic symptoms. MG gets <em>worse</em> with use."),
+      Q("Levator palpebrae superioris","High yield","A 54-year-old woman has the worst headache of her life. Her right eyelid is completely closed, the eye rests down and out, and the pupil is dilated and fixed. What should you suspect first?",
+        ["Posterior communicating artery aneurysm compressing CN III","Diabetic microvascular CN III palsy","Horner syndrome","Myasthenia gravis","Cavernous sinus thrombosis limited to CN VI"],
+        "Complete ptosis (levator) + down and out + dilated pupil = compressive CN III palsy. The parasympathetic fibers run on the outside of the nerve and are affected first. It is an emergency until an aneurysm is ruled out.",
+        "Diabetic CN III palsy usually <em>spares</em> the pupil, because ischemia damages the center of the nerve.")
+    ]},
+
+    {name:"Tongue", hearts:5, qs:[
+      /* ---- Intrinsic ---- */
+      Q("Intrinsic tongue muscles","Innervation","The superior and inferior longitudinal, transverse, and vertical muscles of the tongue are supplied by:",
+        ["Hypoglossal nerve (CN XII)","Lingual nerve (V3)","Chorda tympani (CN VII)","Glossopharyngeal nerve (CN IX)","Pharyngeal plexus (CN X)"],
+        "All intrinsic tongue muscles are supplied by CN XII. The lingual nerve and chorda tympani carry <em>sensation</em> and taste from the anterior tongue.",
+        "Motor to the tongue = XII (except palatoglossus). General sensation to the anterior 2/3 = V3. Taste to the anterior 2/3 = VII."),
+      Q("Intrinsic tongue muscles","Action","What do the intrinsic tongue muscles do?",
+        ["Change the tongue's shape: lengthen, shorten, curl, and flatten it","Protrude the tongue","Pull the whole tongue up and back","Move the hyoid bone","Close the oropharyngeal isthmus"],
+        "Intrinsic muscles have no bony attachment, so they only change the tongue's <em>shape</em> (important for speech and moving food). The extrinsic muscles change its <em>position</em>.",
+        null),
+      Q("Intrinsic tongue muscles","Paralysis","A 58-year-old man with progressive weakness has an atrophied, fasciculating tongue and slurred lingual sounds (‘t’, ‘d’, ‘l’). Where are the damaged neurons?",
+        ["Hypoglossal nucleus in the medulla (lower motor neurons)","Precentral gyrus only (upper motor neurons)","Nucleus ambiguus","Facial motor nucleus in the pons","Trigeminal motor nucleus"],
+        "Atrophy and fasciculations are LMN signs, which means the hypoglossal nucleus or nerve. In ALS, bulbar LMN loss affects the tongue, while UMN signs show up elsewhere.",
+        "An UMN lesion alone causes a weak, spastic tongue <em>without</em> atrophy or fasciculations."),
+      Q("Intrinsic tongue muscles","High yield","Tongue muscles are supplied by CN XII rather than a pharyngeal arch nerve. Why?",
+        ["They come from occipital somites (myotomes) that migrate into the tongue","They come from the 1st pharyngeal arch","They come from the 2nd pharyngeal arch","They come from neural crest","They come from the 4th pharyngeal arch"],
+        "The tongue <em>mucosa</em> comes from arches 1, 3, and 4 (hence V3, IX, X sensation and VII taste). The <em>muscles</em> come from occipital myotomes, which bring CN XII with them.",
+        null),
+
+      /* ---- Genioglossus ---- */
+      Q("Genioglossus","Innervation","The nerve that supplies the genioglossus leaves the skull through which opening?",
+        ["Hypoglossal canal","Jugular foramen","Foramen ovale","Stylomastoid foramen","Foramen magnum"],
+        "CN XII leaves through the hypoglossal canal (in the occipital condyle). It curves forward under the posterior digastric and runs over the hyoglossus to reach the genioglossus.",
+        "The jugular foramen carries IX, X, XI. A glomus tumor there spares XII unless it grows larger."),
+      Q("Genioglossus","Action","Which muscle is mainly responsible for sticking the tongue out?",
+        ["Genioglossus","Styloglossus","Hyoglossus","Palatoglossus","Mylohyoid"],
+        "The genioglossus runs from the genial tubercles fan-wise into the tongue. Its back fibers pull the tongue root forward, pushing the tongue out. Styloglossus and hyoglossus <em>retract</em> it.",
+        null),
+      Q("Genioglossus","Paralysis","A patient's tongue has atrophy on the left and deviates to the left when protruded. The deviation is caused by the unopposed action of which muscle?",
+        ["Right genioglossus","Left genioglossus","Right hyoglossus","Left styloglossus","Right palatoglossus"],
+        "Each genioglossus pushes the tongue forward and toward the opposite side. With the left CN XII (LMN) out, the right genioglossus pushes the tongue toward the weak left side.",
+        "LMN → tongue goes <em>toward</em> the lesion. The muscle doing the pushing is on the <em>healthy</em> side."),
+      Q("Genioglossus","Paralysis","A stroke in the right motor cortex damages corticobulbar fibers to the hypoglossal nucleus. On protrusion, which way does the tongue go?",
+        ["To the left, with no atrophy","To the right, with atrophy and fasciculations","To the right, with no atrophy","Straight out","To the left, with fasciculations"],
+        "Corticobulbar fibers to the genioglossus mostly cross over. A right cortical lesion weakens the left genioglossus, so the tongue deviates left, away from the lesion. No atrophy, because it is an UMN lesion.",
+        "UMN → <em>away</em> from the lesion. LMN → <em>toward</em> the lesion."),
+      Q("Genioglossus","High yield","A patient with obstructive sleep apnea who can't tolerate CPAP gets an implanted stimulator for CN XII. Which muscle does the stimulator activate to open the airway?",
+        ["Genioglossus","Styloglossus","Hyoglossus","Palatoglossus","Superior pharyngeal constrictor"],
+        "During sleep (and anesthesia) genioglossus tone drops, the tongue falls back, and the airway closes. Stimulating it pushes the tongue forward. A jaw thrust works the same way by moving the genioglossus attachment forward.",
+        null),
+
+      /* ---- Hyoglossus ---- */
+      Q("Hyoglossus","Innervation","Which nerve supplies the hyoglossus?",
+        ["Hypoglossal nerve (CN XII)","Ansa cervicalis (C1–C3)","Nerve to mylohyoid (V3)","Pharyngeal plexus (CN X)","Facial nerve (CN VII)"],
+        "Every muscle ending in ‘-glossus’ except palatoglossus gets CN XII. The ‘hyo’ part describes where it starts (the hyoid), not its nerve.",
+        "The <em>infrahyoid</em> strap muscles get ansa cervicalis. Don't let the ‘hyo-’ prefix mislead you."),
+      Q("Hyoglossus","Action","What does the hyoglossus do?",
+        ["Depresses and retracts the tongue","Protrudes the tongue","Elevates the back of the tongue","Tenses the soft palate","Raises the hyoid bone"],
+        "Hyoglossus fibers run straight up from the greater horn and body of the hyoid into the side of the tongue. It pulls the side of the tongue down and back.",
+        null),
+      Q("Hyoglossus","Paralysis","A patient with a complete right CN XII injury has trouble pushing food around the mouth. Besides weak protrusion, which movement is weak on the right because of hyoglossus paralysis?",
+        ["Depressing and retracting the right side of the tongue","Elevating the soft palate","Closing the lips","Opening the auditory tube","Depressing the mandible"],
+        "The hyoglossus lowers and pulls back the side of the tongue. With XII out, it is paralyzed along with all other XII muscles, so shaping and moving food is poor on that side.",
+        null),
+      Q("Hyoglossus","High yield","While dissecting the floor of the mouth, a surgeon retracts the hyoglossus. Which structure is found on its deep (medial) surface?",
+        ["Lingual artery","Hypoglossal nerve","Lingual nerve","Submandibular duct","Submandibular ganglion"],
+        "The lingual artery runs <em>deep</em> to the hyoglossus. The hypoglossal nerve, lingual nerve (with the submandibular ganglion), and submandibular duct all run on its <em>outer</em> surface.",
+        "Hyoglossus is the key landmark here: the artery is deep, the nerves and duct are superficial."),
+
+      /* ---- Styloglossus ---- */
+      Q("Styloglossus","Innervation","Which nerve supplies the styloglossus?",
+        ["Hypoglossal nerve (CN XII)","Glossopharyngeal nerve (CN IX)","Facial nerve (CN VII)","Vagus nerve (CN X)","Lingual nerve (V3)"],
+        "Styloglossus is an extrinsic tongue muscle, so it gets CN XII like the others.",
+        "The three ‘stylo-’ muscles each get a <em>different</em> nerve: stylo<b>glossus</b> XII, stylo<b>hyoid</b> VII, stylo<b>pharyngeus</b> IX."),
+      Q("Styloglossus","Action","What does the styloglossus do?",
+        ["Retracts and elevates the tongue","Protrudes the tongue","Depresses the center of the tongue","Tenses the soft palate","Lowers the soft palate"],
+        "From the styloid process, its fibers run forward and down into the side of the tongue. It pulls the tongue up and back, forming a trough that pushes food toward the oropharynx.",
+        null),
+      Q("Styloglossus","Paralysis","A patient has trouble starting a swallow because she can't pull the tongue up and back to push the bolus into the oropharynx. Weakness of which extrinsic tongue muscle best explains this?",
+        ["Styloglossus","Genioglossus","Hyoglossus","Mylohyoid","Tensor veli palatini"],
+        "The voluntary oral phase of swallowing needs the tongue to rise and move back. The styloglossus (helped by palatoglossus) does this.",
+        null),
+      Q("Styloglossus","High yield","Which pairing of a stylo- muscle with its nerve is correct?",
+        ["Stylopharyngeus – CN IX (the only muscle CN IX supplies)","Styloglossus – CN VII","Stylohyoid – CN XII","Stylopharyngeus – CN X","Styloglossus – CN IX"],
+        "Stylopharyngeus is the only muscle supplied by CN IX (3rd arch). Stylohyoid gets CN VII (2nd arch). Styloglossus gets CN XII (occipital somites).",
+        null),
+
+      /* ---- Palatoglossus ---- */
+      Q("Palatoglossus","Innervation","Which tongue muscle is NOT supplied by the hypoglossal nerve?",
+        ["Palatoglossus","Genioglossus","Hyoglossus","Styloglossus","Vertical intrinsic muscle"],
+        "Palatoglossus is supplied by CN X through the pharyngeal plexus. It acts more like a palate muscle.",
+        "<b>‘-glossus = XII, palat- = X.’</b> When a name fits both rules, the palate rule wins."),
+      Q("Palatoglossus","Action","What does the palatoglossus do?",
+        ["Elevates the back of the tongue and narrows the oropharyngeal isthmus","Protrudes the tongue","Opens the auditory tube","Depresses the tip of the tongue","Tenses the soft palate"],
+        "The palatoglossus pulls the back of the tongue and the soft palate toward each other. This closes off the mouth from the oropharynx, for example to hold a bolus in the mouth.",
+        null),
+      Q("Palatoglossus","Paralysis","After a complete transection of the right hypoglossal nerve, which muscle that moves the tongue still works on the right?",
+        ["Palatoglossus","Genioglossus","Styloglossus","Hyoglossus","Transverse intrinsic muscle"],
+        "Palatoglossus gets CN X, so it still works after a CN XII injury. All other tongue muscles on that side are paralyzed.",
+        null),
+      Q("Palatoglossus","High yield","The palatoglossal arch marks the border between which two regions?",
+        ["Oral cavity proper and oropharynx","Nasopharynx and oropharynx","Oropharynx and laryngopharynx","Vestibule and oral cavity proper","Nasal cavity and nasopharynx"],
+        "The palatoglossal arch (anterior pillar) is the border of the oropharyngeal isthmus between the mouth and the oropharynx. The palatine tonsil sits just behind it.",
+        null)
+    ]},
+
+    {name:"Palate", hearts:5, qs:[
+      /* ---- Levator veli palatini ---- */
+      Q("Levator veli palatini","Innervation","Where are the cell bodies of the motor neurons that supply the levator veli palatini?",
+        ["Nucleus ambiguus (via CN X and the pharyngeal plexus)","Hypoglossal nucleus","Trigeminal motor nucleus","Facial motor nucleus","Inferior salivatory nucleus"],
+        "The nucleus ambiguus sends branchial motor fibers through CN IX/X to the pharynx, larynx, and palate. The LVP gets CN X through the pharyngeal plexus.",
+        null),
+      Q("Levator veli palatini","Action","What is the main action of the levator veli palatini?",
+        ["Elevates the soft palate to seal off the nasopharynx","Tenses the soft palate","Opens the auditory tube alone","Depresses the soft palate onto the tongue","Shortens the uvula"],
+        "The LVP runs from the petrous temporal bone and auditory tube cartilage down into the palatine aponeurosis. It lifts the soft palate against the back wall of the pharynx when swallowing and saying sounds like ‘k’ and ‘g’.",
+        null),
+      Q("Levator veli palatini","Paralysis","A patient says “ahh” and the uvula deviates to the right. The left side of the soft palate droops. Where is the lesion?",
+        ["Left vagus nerve","Right vagus nerve","Left glossopharyngeal nerve only","Left hypoglossal nerve","Left mandibular nerve (V3)"],
+        "The healthy right LVP lifts its side and pulls the uvula to the right, away from the weak left side.",
+        "The uvula points <em>away</em> from the lesion, the opposite of the tongue rule."),
+      Q("Levator veli palatini","High yield","A patient with a lateral medullary (PICA) infarct has hoarseness, difficulty swallowing, liquid coming out of the nose when drinking, and nasal-sounding speech. What causes the nasal symptoms?",
+        ["The levator veli palatini can't close off the nasopharynx","Tensor veli palatini paralysis","Genioglossus weakness","Superior laryngeal nerve injury","Hypoglossal nucleus damage"],
+        "The nucleus ambiguus is damaged, so the LVP can't lift the palate. Air and fluid go up into the nose. Hoarseness comes from the laryngeal muscles (CN X).",
+        null),
+
+      /* ---- Tensor veli palatini ---- */
+      Q("Tensor veli palatini","Innervation","Which palatal muscle is NOT supplied by the vagus nerve, and what supplies it?",
+        ["Tensor veli palatini; V3 (nerve to medial pterygoid)","Levator veli palatini; V3","Musculus uvulae; CN VII","Palatopharyngeus; CN IX","Palatoglossus; CN XII"],
+        "Tensor veli palatini comes from the 1st pharyngeal arch, so it gets V3. The fibers pass through the otic ganglion without synapsing. Every other palate muscle gets CN X.",
+        null),
+      Q("Tensor veli palatini","Action","What does the tensor veli palatini do?",
+        ["Tenses the soft palate and opens the auditory (Eustachian) tube","Elevates the soft palate","Pulls the palate down onto the tongue","Raises the larynx during swallowing","Shortens the uvula"],
+        "Its tendon hooks around the pterygoid hamulus and spreads into the palatine aponeurosis, making the palate taut. When it contracts during swallowing or yawning, it pulls the auditory tube open.",
+        null),
+      Q("Tensor veli palatini","Paralysis","A 4-year-old born with a cleft palate keeps getting middle-ear effusions and has conductive hearing loss. Poor function of which muscle is mainly responsible?",
+        ["Tensor veli palatini","Levator veli palatini","Musculus uvulae","Palatoglossus","Stapedius"],
+        "With a cleft, the TVP has no stable aponeurosis to pull on, so it can't open the auditory tube. The middle ear can't ventilate and fluid builds up.",
+        null),
+      Q("Tensor veli palatini","High yield","The tensor veli palatini shares its nerve supply and pharyngeal arch origin with which muscle?",
+        ["Tensor tympani","Stapedius","Stylopharyngeus","Levator veli palatini","Posterior belly of digastric"],
+        "Both tensors (tensor veli palatini and tensor tympani) come from the 1st arch and get V3, along with the muscles of mastication, mylohyoid, and anterior digastric. Stapedius and posterior digastric are 2nd arch (VII).",
+        "<b>‘Tensors are V3’</b>: both tensors come from arch 1."),
+      Q("Tensor veli palatini","High yield","The tendon of the tensor veli palatini turns 90° around which structure before inserting into the palatine aponeurosis?",
+        ["Pterygoid hamulus of the medial pterygoid plate","Styloid process","Lateral pterygoid plate","Hyoid bone","Posterior nasal spine"],
+        "The hamulus acts as a pulley. It changes the tendon's vertical pull into a horizontal pull that tightens the palate.",
+        null),
+
+      /* ---- Palatoglossus (palate view) ---- */
+      Q("Palatoglossus","Innervation","Where are the motor cell bodies that control the palatoglossus?",
+        ["Nucleus ambiguus","Hypoglossal nucleus","Trigeminal motor nucleus","Dorsal motor nucleus of the vagus","Nucleus solitarius"],
+        "Palatoglossus is a palate muscle supplied by CN X through the pharyngeal plexus, and its motor neurons are in the nucleus ambiguus. The dorsal motor nucleus of X is parasympathetic, and the nucleus solitarius handles taste and visceral sensation.",
+        null),
+      Q("Palatoglossus","Action","While chewing with the lips open and breathing through the nose, which palate muscle pulls the soft palate down onto the tongue to keep food in the mouth?",
+        ["Palatoglossus","Levator veli palatini","Tensor veli palatini","Musculus uvulae","Salpingopharyngeus"],
+        "The palatoglossus pulls the soft palate down and the back of the tongue up, closing the oropharyngeal isthmus. That keeps food in the mouth while air still passes through the nose.",
+        null),
+      Q("Palatoglossus","Paralysis","After a unilateral CN X injury, the anterior pillar on that side sags and doesn't narrow the isthmus. Which muscle is paralyzed?",
+        ["Palatoglossus","Palatopharyngeus","Styloglossus","Superior pharyngeal constrictor","Tensor veli palatini"],
+        "The anterior pillar is the palatoglossal arch, which contains the palatoglossus. Losing it lets food slip into the pharynx too early.",
+        null),
+      Q("Palatoglossus","High yield","The palatine tonsil sits in a fossa between two mucosal folds. Which muscles form the front and back folds?",
+        ["Palatoglossus (front) and palatopharyngeus (back)","Palatopharyngeus (front) and palatoglossus (back)","Levator veli palatini (front) and tensor veli palatini (back)","Styloglossus (front) and stylopharyngeus (back)","Musculus uvulae (front) and superior constrictor (back)"],
+        "The palatoglossal arch is the anterior pillar and the palatopharyngeal arch is the posterior pillar. The superior constrictor forms the floor of the tonsillar bed.",
+        null),
+
+      /* ---- Palatopharyngeus ---- */
+      Q("Palatopharyngeus","Innervation","A glomus jugulare tumor at the right jugular foramen would weaken the right palatopharyngeus because it compresses which nerve?",
+        ["Vagus nerve (pharyngeal branch)","Hypoglossal nerve","Mandibular nerve (V3)","Facial nerve","Accessory nerve alone"],
+        "The palatopharyngeus gets CN X through the pharyngeal plexus. CN X goes through the jugular foramen with IX and XI.",
+        null),
+      Q("Palatopharyngeus","Action","What does the palatopharyngeus do during swallowing?",
+        ["Elevates the pharynx and larynx and pulls the palatopharyngeal folds together","Opens the auditory tube","Protrudes the tongue","Depresses the hyoid bone","Tenses the vocal folds"],
+        "It is one of the three longitudinal pharyngeal muscles (with salpingopharyngeus and stylopharyngeus). They shorten the pharynx and lift the larynx during swallowing, and it also narrows the passage behind the soft palate.",
+        null),
+      Q("Palatopharyngeus","Paralysis","Two of the three longitudinal muscles that elevate the pharynx are weak after a vagal injury. Which one still works, and why?",
+        ["Stylopharyngeus, because it is supplied by CN IX","Palatopharyngeus, because it is supplied by V3","Salpingopharyngeus, because it is supplied by CN XII","Stylopharyngeus, because it is supplied by CN VII","None; all three are supplied by CN X"],
+        "Palatopharyngeus and salpingopharyngeus get CN X. Stylopharyngeus is the only muscle CN IX supplies, so it keeps working after an isolated vagal lesion.",
+        null),
+      Q("Palatopharyngeus","High yield","During tonsillectomy, the surgeon removes the tonsil from its bed. The palatine tonsil lies directly in front of which muscle's arch?",
+        ["Palatopharyngeus","Palatoglossus","Levator veli palatini","Styloglossus","Tensor veli palatini"],
+        "The tonsil sits between the palatoglossal arch in front and the palatopharyngeal arch behind. Bleeding after tonsillectomy most often comes from the tonsillar branch of the facial artery and the external palatine vein.",
+        "The glossopharyngeal nerve runs deep to the tonsil bed. Injury → loss of taste on the posterior tongue and a reduced gag reflex."),
+
+      /* ---- Musculus uvulae ---- */
+      Q("Musculus uvulae","Innervation","Which nerve supplies the musculus uvulae?",
+        ["Vagus nerve via the pharyngeal plexus","Mandibular nerve (V3)","Glossopharyngeal nerve","Facial nerve (lesser petrosal)","Hypoglossal nerve"],
+        "Every palate muscle except tensor veli palatini gets CN X through the pharyngeal plexus. That includes the musculus uvulae.",
+        null),
+      Q("Musculus uvulae","Action","What does the musculus uvulae do?",
+        ["Shortens and lifts the uvula, helping the palate seal the nasopharynx","Tenses the soft palate","Opens the auditory tube","Pulls the palate down onto the tongue","Raises the larynx"],
+        "It runs from the posterior nasal spine and palatine aponeurosis into the uvula. By shortening the uvula, it adds bulk to the top of the palate so it seals better against the back of the pharynx.",
+        null),
+      Q("Musculus uvulae","Paralysis","A patient has damage to <em>both</em> vagus nerves. What do you see when he says “ahh”?",
+        ["Neither side of the palate rises, and the uvula stays in the midline","The uvula deviates to the right","The uvula deviates to the left","The palate rises normally","The tongue deviates to the left"],
+        "With both sides weak, nothing pulls the uvula off-center, so it stays midline while the palate fails to rise. Deviation only happens with a <em>one-sided</em> lesion (away from the weak side).",
+        null),
+      Q("Musculus uvulae","High yield","A child with nasal-sounding speech has a bifid uvula and a notch you can feel in the back of the hard palate. What does this suggest?",
+        ["Submucous cleft palate (the palate muscles, including musculus uvulae, didn't fuse at the midline)","Normal variant with no significance","Tensor tympani dysfunction","Cleft lip from failed fusion of the maxillary and medial nasal prominences","Bilateral hypoglossal nerve palsy"],
+        "A bifid uvula is a sign of submucous cleft palate. The mucosa is intact, but the muscles didn't fuse in the midline, causing velopharyngeal insufficiency and a higher risk of middle-ear effusions.",
+        null)
+    ]},
+
+    {name:"Face", hearts:8, qs:[
+      /* ---- Frontalis ---- */
+      Q("Frontalis","Innervation","A laceration crossing the middle of the zygomatic arch leaves the patient unable to raise the eyebrow on that side. Which nerve branch was cut?",
+        ["Temporal (frontal) branch of CN VII","Zygomatic branch of CN VII","Supraorbital nerve (V1)","Auriculotemporal nerve (V3)","Buccal branch of CN VII"],
+        "The temporal branch crosses the zygomatic arch in the superficial fascia to supply the frontalis and the upper orbicularis oculi. It is easily injured by temple lacerations and facelifts.",
+        "The supraorbital nerve gives <em>sensation</em> to the forehead. Cutting it causes numbness, not a drooping brow."),
+      Q("Frontalis","Action","What does the frontalis do?",
+        ["Raises the eyebrows and wrinkles the forehead horizontally","Closes the eye tightly","Pulls the eyebrows toward the midline to frown","Elevates the upper eyelid","Depresses the eyebrows"],
+        "Frontalis (the front belly of occipitofrontalis, joined to the occipitalis by the galea) raises the brows (surprise) and makes horizontal forehead lines.",
+        "<em>Corrugator supercilii</em> pulls the brows together (vertical frown lines). The <em>levator palpebrae</em> raises the eyelid."),
+      Q("Frontalis","Paralysis","A patient with right Bell palsy is asked to look up. What do you see on the right?",
+        ["Smooth forehead with no wrinkles and a lower eyebrow","Normal forehead wrinkles with a drooping mouth corner","Complete ptosis of the eyelid","Eye turned inward","Wrinkles on both sides of the forehead"],
+        "Bell palsy is an LMN lesion of CN VII, so the frontalis on that side is paralyzed: no forehead wrinkles and the brow droops.",
+        null),
+      Q("Frontalis","High yield","A 70-year-old man has sudden weakness of his left lower face, but he can raise both eyebrows and wrinkle both sides of his forehead. Where is the lesion?",
+        ["Right motor cortex / internal capsule (UMN)","Left facial nerve at the stylomastoid foramen","Left facial nucleus in the pons","Right facial nerve in the parotid","Left temporal branch of CN VII"],
+        "The part of the facial nucleus that controls the forehead gets input from <em>both</em> cortices. A cortical or capsular lesion spares the forehead and weakens only the opposite lower face.",
+        "If the forehead is weak too, the lesion is LMN on the same side."),
+
+      /* ---- Orbicularis oculi – palpebral ---- */
+      Q("Orbicularis oculi (palpebral)","Innervation","Which branches of the facial nerve supply the palpebral part of the orbicularis oculi?",
+        ["Temporal and zygomatic branches","Buccal and marginal mandibular branches","Cervical branch","Posterior auricular branch","Nerve to stapedius"],
+        "The upper part of the orbicularis oculi gets the temporal branch and the lower part gets the zygomatic branch. Damage to the zygomatic branch is a main cause of incomplete eye closure.",
+        null),
+      Q("Orbicularis oculi (palpebral)","Action","Which part of the orbicularis oculi does involuntary blinking and gentle closure during sleep?",
+        ["Palpebral part","Orbital part","Lacrimal part","Superior tarsal muscle","Levator palpebrae superioris"],
+        "The thin palpebral part (in the eyelids) closes the lids gently. The thicker orbital part squeezes the eye shut forcefully. The lacrimal part helps pump tears into the lacrimal sac.",
+        null),
+      Q("Orbicularis oculi (palpebral)","Paralysis","A patient with right Bell palsy tries to close her eyes. The right lid stays partly open and the right eyeball rolls upward, showing the white of the eye. What explains this?",
+        ["Paralysis of the right orbicularis oculi with a normal Bell phenomenon","Paralysis of the right levator palpebrae","Right superior rectus palsy","Right Horner syndrome","Right CN III palsy"],
+        "The lid can't close (lagophthalmos) because the orbicularis oculi is paralyzed. The eyeball still rolls up normally when trying to close (Bell phenomenon), so the white shows. The cornea is at risk of drying, so treat with lubricants and tape the eye at night.",
+        null),
+      Q("Orbicularis oculi (palpebral)","High yield","Touching either cornea makes only the left eye blink. The right eye never blinks. Where is the lesion?",
+        ["Right facial nerve","Right ophthalmic nerve (V1)","Left facial nerve","Left ophthalmic nerve (V1)","Right oculomotor nerve"],
+        "Afferent = V1 on the touched side. Efferent = CN VII to <em>both</em> orbicularis oculi. Both afferents work, because touching either side makes the left eye blink. The right eye never blinks, so its efferent (right CN VII) is damaged.",
+        "If the right <em>afferent</em> (V1) were damaged, touching the right cornea would make <em>neither</em> eye blink, and touching the left would make <em>both</em> blink."),
+
+      /* ---- Orbicularis oculi – orbital ---- */
+      Q("Orbicularis oculi (orbital)","Innervation","You ask a patient to squeeze his eyes shut as hard as he can while you try to open them. Which cranial nerve are you testing?",
+        ["Facial nerve (CN VII)","Oculomotor nerve (CN III)","Trigeminal nerve (V1)","Trochlear nerve (CN IV)","Sympathetic chain"],
+        "Forced eye closure depends on the orbital part of the orbicularis oculi, which is supplied by CN VII (temporal and zygomatic branches). CN III does the opposite job: it <em>opens</em> the eye through the levator.",
+        null),
+      Q("Orbicularis oculi (orbital)","Action","What does the orbital part of the orbicularis oculi do?",
+        ["Closes the eye forcefully (squinting) and pulls the skin toward the medial canthus, causing crow's feet","Closes the lids gently for blinking","Pumps tears into the lacrimal sac","Raises the upper lid","Raises the eyebrow"],
+        "The orbital part surrounds the orbit and pulls the forehead, temple, and cheek skin inward to protect the eye from glare or impact. It causes crow's feet over time.",
+        null),
+      Q("Orbicularis oculi (orbital)","Paralysis","A patient with mild facial weakness can close both eyes, but when squeezing tightly, his right eyelashes stay more visible than his left. What does this show?",
+        ["Mild weakness of the right orbital orbicularis oculi (CN VII)","Right levator palpebrae weakness","Right Horner syndrome","Normal finding","Right superior rectus palsy"],
+        "Failing to bury the eyelashes is a sensitive sign of mild orbicularis oculi weakness, even when simple closure still looks normal.",
+        null),
+      Q("Orbicularis oculi (orbital)","High yield","Blepharospasm (involuntary forceful eye closure) is treated by injecting botulinum toxin into the orbicularis oculi. How does it work?",
+        ["It cleaves SNARE proteins, so acetylcholine isn't released at the NMJ","It blocks nicotinic acetylcholine receptors","It inhibits acetylcholinesterase","It blocks voltage-gated calcium channels on the presynaptic terminal","It destroys the facial nerve axons"],
+        "Botulinum toxin cleaves SNARE proteins (e.g., SNAP-25, synaptobrevin), which stops acetylcholine vesicles from releasing. The muscle is weakened until new nerve terminals sprout, typically about 3 months.",
+        "Antibodies against presynaptic calcium channels = Lambert–Eaton. Antibodies against the ACh receptor = myasthenia gravis."),
+
+      /* ---- Orbicularis oris ---- */
+      Q("Orbicularis oris","Innervation","The orbicularis oris gets its motor supply mainly from which facial nerve branches?",
+        ["Buccal and marginal mandibular branches","Temporal and zygomatic branches","Cervical branch only","Buccal nerve of V3","Inferior alveolar nerve"],
+        "The buccal branch supplies the upper lip and the marginal mandibular branch supplies the lower lip.",
+        "The <em>buccal nerve of V3</em> only gives sensation to the cheek."),
+      Q("Orbicularis oris","Action","What does the orbicularis oris do?",
+        ["Closes and purses the lips (whistling, kissing)","Pulls the mouth corners up","Presses the cheek against the teeth","Pulls the lower lip down","Wrinkles the chin"],
+        "The orbicularis oris is a ring of muscle around the mouth. It closes, purses, and pushes out the lips.",
+        null),
+      Q("Orbicularis oris","Paralysis","After a facial nerve injury, a patient drools from one corner of the mouth, can't whistle, and has trouble saying ‘p’ and ‘b’. Which muscle is mainly weak?",
+        ["Orbicularis oris","Buccinator","Zygomaticus major","Platysma","Masseter"],
+        "Sounds like ‘p’ and ‘b’ need the lips pressed together (orbicularis oris). Without it, the lips can't seal, so saliva and liquid leak out.",
+        "The buccinator keeps food out of the cheek pocket. It isn't the main muscle for sealing the lips."),
+      Q("Orbicularis oris","High yield","In a baby with a unilateral cleft lip, the orbicularis oris doesn't form a complete ring. Cleft lip results from failed fusion of which structures?",
+        ["Maxillary prominence and the medial nasal prominence (intermaxillary segment)","The two palatine shelves","The two mandibular prominences","The lateral and medial nasal prominences","The frontonasal prominence and the mandibular prominence"],
+        "Cleft lip = maxillary prominence fails to fuse with the merged medial nasal prominences. Cleft palate = the palatine shelves fail to fuse with each other or with the primary palate.",
+        null),
+
+      /* ---- Buccinator ---- */
+      Q("Buccinator","Innervation","Which nerve supplies the buccinator?",
+        ["Buccal branch of the facial nerve","Buccal nerve of V3","Masseteric nerve (V3)","Marginal mandibular branch only","Glossopharyngeal nerve"],
+        "The buccinator is a muscle of facial expression (2nd arch), so the buccal branch of CN VII supplies it.",
+        "The <em>buccal nerve of V3</em> passes through the buccinator but only gives sensation to the cheek skin and lining."),
+      Q("Buccinator","Action","What does the buccinator do?",
+        ["Presses the cheek against the teeth, keeps food on the chewing surfaces, and pushes air out (blowing)","Closes the lips","Raises the mandible","Pulls the mouth corner up in a smile","Tenses the neck skin"],
+        "The buccinator holds the cheek tight against the teeth so food stays between the molars. It also forces air out when blowing (buccinator comes from the Latin for trumpeter).",
+        null),
+      Q("Buccinator","Paralysis","After parotid surgery, food keeps collecting between the patient's cheek and gums on that side, and the cheek puffs out when she blows. Which muscle is weak?",
+        ["Buccinator","Masseter","Orbicularis oris","Zygomaticus major","Medial pterygoid"],
+        "Without the buccinator, the cheek can't be pressed against the teeth. Food falls into the cheek pocket and the cheek balloons out when blowing.",
+        "The masseter is a chewing muscle (V3). Chewing <em>strength</em> would be normal."),
+      Q("Buccinator","High yield","The parotid duct pierces the buccinator and opens into the mouth opposite which tooth?",
+        ["Upper (maxillary) second molar","Lower first molar","Upper canine","Lower second premolar","Upper central incisor"],
+        "The parotid duct crosses the masseter, turns inward through the buccal fat and the buccinator, and opens on a small bump (papilla) opposite the upper 2nd molar.",
+        null),
+
+      /* ---- Zygomaticus major ---- */
+      Q("Zygomaticus major","Innervation","Which facial nerve branches supply the zygomaticus major?",
+        ["Zygomatic and buccal branches","Temporal branch only","Marginal mandibular branch only","Cervical branch","Zygomaticofacial nerve (V2)"],
+        "Zygomaticus major and minor get the zygomatic and buccal branches of CN VII.",
+        "The <em>zygomaticofacial nerve</em> (V2) gives sensation to the skin over the cheekbone."),
+      Q("Zygomaticus major","Action","Which muscle pulls the corner of the mouth up and out to make a smile?",
+        ["Zygomaticus major","Zygomaticus minor","Depressor anguli oris","Mentalis","Buccinator"],
+        "Zygomaticus major runs from the zygomatic bone to the corner of the mouth (the modiolus) and pulls it up and out.",
+        "Major goes to the <em>corner of the mouth</em> (smile). Minor goes to the <em>upper lip</em>."),
+      Q("Zygomaticus major","Paralysis","A patient with right Bell palsy is asked to smile. What do you see?",
+        ["The mouth is pulled to the left, and the right corner stays flat or droops","The mouth is pulled to the right","The smile is symmetric","Only the right forehead moves","The mouth corners are pulled down on both sides"],
+        "With the right zygomaticus major paralyzed, the working left side pulls the mouth toward it. The right corner droops at rest too.",
+        null),
+      Q("Zygomaticus major","High yield","A deep cut over the body of the zygomatic bone divides a muscle that runs toward the mouth corner, and now the patient's smile is uneven. Which muscle was cut?",
+        ["Zygomaticus major","Masseter","Levator labii superioris","Temporalis","Orbicularis oculi (palpebral part)"],
+        "Zygomaticus major starts on the side of the zygomatic bone and inserts into the modiolus at the mouth corner. It is the main smile muscle.",
+        null),
+
+      /* ---- Zygomaticus minor ---- */
+      Q("Zygomaticus minor","Innervation","Which nerve supplies the zygomaticus minor?",
+        ["Facial nerve (zygomatic and buccal branches)","Infraorbital nerve (V2)","Buccal nerve (V3)","Zygomaticotemporal nerve (V2)","Hypoglossal nerve"],
+        "All muscles of facial expression get CN VII. The branches of V2 near the zygoma only carry sensation.",
+        null),
+      Q("Zygomaticus minor","Action","What does the zygomaticus minor do?",
+        ["Raises the upper lip and deepens the nasolabial fold (sad or smug look)","Pulls the mouth corner up and out","Pulls the mouth corner down","Pushes out the lower lip","Closes the eye"],
+        "Zygomaticus minor inserts into the upper lip next to the levator labii superioris. It raises the lip, shows the upper teeth, and deepens the nasolabial fold.",
+        null),
+      Q("Zygomaticus minor","Paralysis","A patient with facial nerve palsy has a flattened nasolabial fold on the affected side. Weakness of which muscle group causes this?",
+        ["Upper-lip elevators such as zygomaticus minor and levator labii superioris","Depressor anguli oris and mentalis","Platysma","Frontalis","Masseter and temporalis"],
+        "The nasolabial fold is shaped by the muscles that raise the upper lip. When they are paralyzed, the fold flattens. This is a classic finding in both LMN and UMN facial palsy, because both affect the lower face.",
+        null),
+      Q("Zygomaticus minor","High yield","A surgeon needs to tell the two zygomaticus muscles apart. Which feature identifies zygomaticus <em>minor</em>?",
+        ["It inserts into the upper lip, next to the levator labii superioris","It inserts into the modiolus at the mouth corner","It inserts into the skin of the chin","It starts from the mandible","It is supplied by the marginal mandibular branch"],
+        "Minor → upper lip (sneer, sadness). Major → mouth corner (smile). Both start on the zygomatic bone, with minor more to the front and inside.",
+        null),
+
+      /* ---- Depressor anguli oris ---- */
+      Q("Depressor anguli oris","Innervation","Which facial nerve branch supplies the depressor anguli oris?",
+        ["Marginal mandibular branch","Buccal branch","Cervical branch","Zygomatic branch","Mental nerve (V3)"],
+        "The marginal mandibular branch runs along the lower border of the mandible and supplies the lower-lip muscles: depressor anguli oris, depressor labii inferioris, and mentalis.",
+        null),
+      Q("Depressor anguli oris","Action","Which muscle pulls the corner of the mouth down (frowning, sadness)?",
+        ["Depressor anguli oris","Zygomaticus major","Levator anguli oris","Mentalis","Risorius"],
+        "The depressor anguli oris starts on the oblique line of the mandible and pulls the mouth corner down and out. Levator anguli oris does the opposite.",
+        null),
+      Q("Depressor anguli oris","Paralysis","After a left submandibular gland excision, the patient's left lower lip doesn't move down when he smiles or frowns, so his smile looks uneven. Which muscle is weak?",
+        ["Depressor anguli oris (marginal mandibular branch)","Zygomaticus major (zygomatic branch)","Buccinator (buccal branch)","Platysma (cervical plexus)","Orbicularis oris (buccal nerve of V3)"],
+        "The marginal mandibular branch runs close to the submandibular gland and is often injured in surgery there. The result is an uneven lower lip.",
+        null),
+      Q("Depressor anguli oris","High yield","A newborn has normal eye closure, forehead wrinkling, and nasolabial folds. But when he cries, the right corner of the mouth doesn't move down. What is the most likely cause, and what should you check for?",
+        ["Congenital underdevelopment of the depressor anguli oris; check for heart defects","Birth-trauma CN VII palsy; no further workup","Möbius syndrome; check CN VI","Bell palsy; start steroids","Horner syndrome; check the sympathetic chain"],
+        "Asymmetric crying face comes from an underdeveloped DAO while the rest of the face works normally. It is associated with congenital anomalies, mainly cardiac (including 22q11 deletion), so the child needs an evaluation.",
+        null),
+
+      /* ---- Mentalis ---- */
+      Q("Mentalis","Innervation","Which nerve supplies the mentalis muscle?",
+        ["Marginal mandibular branch of CN VII","Mental nerve (V3)","Inferior alveolar nerve (V3)","Cervical branch of CN VII","Nerve to mylohyoid"],
+        "The mentalis is a muscle of facial expression, so it gets the marginal mandibular branch of CN VII.",
+        "The <em>mental nerve</em> (from the inferior alveolar, V3) only gives sensation to the chin and lower lip."),
+      Q("Mentalis","Action","What does the mentalis do?",
+        ["Raises and pushes out the lower lip and wrinkles the chin (pouting, doubt)","Pulls the mouth corner down","Tenses the neck skin","Closes the lips","Depresses the mandible"],
+        "The mentalis runs from the incisive fossa of the mandible to the chin skin. It raises the chin skin and pushes the lower lip out.",
+        null),
+      Q("Mentalis","Paralysis","After a neck dissection, a patient can't pout or wrinkle the skin of her chin on one side, and her lower lip droops a little. Which muscle and nerve are affected?",
+        ["Mentalis; marginal mandibular branch of CN VII","Mentalis; mental nerve","Platysma; cervical branch","Orbicularis oris; buccal branch","Depressor labii inferioris; lingual nerve"],
+        "The mentalis raises the chin skin and pushes out the lower lip. Without it, the lower lip droops and can't pout on that side. This happens with marginal mandibular injury.",
+        null),
+      Q("Mentalis","High yield","At the lower border of the mandible, next to the front edge of the masseter, the marginal mandibular branch crosses over which structures?",
+        ["Facial artery and facial vein","Lingual artery and hypoglossal nerve","External jugular vein and great auricular nerve","Retromandibular vein and external carotid artery","Submandibular duct and lingual nerve"],
+        "The marginal mandibular branch runs superficial to the facial vessels as they cross the mandible. This is where you feel the facial pulse, and surgeons protect the nerve there.",
+        null),
+
+      /* ---- Platysma ---- */
+      Q("Platysma","Innervation","A surgeon raises a skin flap in the anterior neck and sees a thin sheet of muscle over the external jugular vein. Which nerve supplies this muscle?",
+        ["Cervical branch of the facial nerve","Transverse cervical nerve (cervical plexus)","Ansa cervicalis","Spinal accessory nerve","Marginal mandibular branch only"],
+        "The platysma is a muscle of facial expression (2nd arch), so the cervical branch of CN VII supplies it, even though it lies in the neck.",
+        "The transverse cervical nerve gives <em>sensation</em> to the skin over the platysma but doesn't move it."),
+      Q("Platysma","Action","What does the platysma do?",
+        ["Tenses the neck skin (vertical ridges) and pulls the mouth corners and mandible down","Raises the hyoid","Rotates the head","Closes the lips","Raises the lower lip"],
+        "The platysma runs from the fascia over the upper chest to the mandible and mouth corners. When you grimace, it tenses the neck skin and pulls the lower face down.",
+        null),
+      Q("Platysma","Paralysis","After cervical branch injury, a patient has a slightly uneven lower lip when grimacing, but he can still push out and evert his lower lip normally. What does this show?",
+        ["Cervical branch injury (platysma), not marginal mandibular injury","Marginal mandibular branch injury","Mental nerve injury","Hypoglossal nerve injury","Buccal branch injury"],
+        "A weak platysma can mimic a marginal mandibular palsy (sometimes called ‘pseudo-paralysis’). If the patient can still evert the lower lip, the mentalis and depressor labii inferioris work, so the marginal mandibular branch is intact.",
+        null),
+      Q("Platysma","High yield","What lies immediately deep to the platysma on the side of the neck?",
+        ["External jugular vein","Internal jugular vein","Common carotid artery","Vagus nerve","Phrenic nerve"],
+        "The platysma is in the superficial fascia. The EJV runs deep to it, over the SCM. Neck incisions go through the platysma, and closing it separately gives a better scar.",
+        null)
+    ]}
+  ]
+});
+
+
+const M = GYMS.pop();
+(function(){
+  const parts = M.notes.split('<h3>Round ');
+  const rules = parts[0];
+  M.rounds.forEach((r,k)=>{
+    let sec = '<h3>Round ' + parts[k+1];
+    const hyAt = sec.indexOf('<div class="hy">'); if(hyAt>=0) sec = sec.slice(0,hyAt);
+    sec = sec.replace(/<h3>Round \d+ · /,'<h3>');
+    const mm = MUSCLE_META[r.name];
+    GYMS.push({id:mm.id,name:mm.name,lab:mm.lab,leader:mm.leader,color:mm.hex,hex:mm.hex,emb:mm.emb,badge:mm.badge,topic:mm.topic,
+      hearts:r.hearts,intro:mm.intro,notes:rules+sec+MUSCLE_HY[r.name],qs:r.qs});
+  });
+})();
+const EXTRA_V = [
+Object.assign({q:"A 49-year-old man has a sudden severe headache. His left pupil is fixed and dilated, and there is early left ptosis. Eye movements are still normal. Why is the pupil affected first?",
+     a:["Parasympathetic pupillomotor fibers run on the outside of CN III, where a PComm aneurysm presses first","Pupillary fibers travel with CN VI in the cavernous sinus","The ciliary ganglion sits beside the PComm artery","Sympathetic fibers are cut, causing mydriasis","The Edinger–Westphal nucleus is supplied by the PComm artery"],
+     why:"The parasympathetic fibers lie on the outside of CN III. A PComm aneurysm presses on the nerve from outside, so the pupil is affected before the eye muscles. Diabetic (ischemic) CN III palsy damages the center of the nerve and usually spares the pupil.",
+     trap:"Losing <em>sympathetic</em> fibers causes a <em>small</em> pupil (Horner), not a dilated one."},{m:"Oculomotor nerve",t:"Paralysis"}),
+Object.assign({q:"During removal of the submandibular (level I) nodes for an oral cavity SCC, the surgeon identifies and protects a nerve along the lower border of the mandible. If it were injured, which finding would you expect?",
+     a:["Lopsided lower lip because the depressor anguli oris is weak","Tongue deviating toward the injured side","Uvula deviating away from the injured side","Loss of taste on the anterior two-thirds of the tongue","Unable to close the eye on that side"],
+     why:"The marginal mandibular branch of CN VII runs along the lower border of the mandible, over the submandibular nodes and gland. It supplies the depressor anguli oris, depressor labii inferioris, and mentalis.",
+     trap:"The hypoglossal and lingual nerves are also near level I, but they sit <em>deep</em> to the gland on the hyoglossus. Tongue deviation would mean CN XII."},{m:"Depressor anguli oris",t:"Paralysis"}),
+Object.assign({q:"A glomus jugulare tumor expands the right jugular foramen. When the patient says \"ahh,\" which way does the uvula deviate, and why?",
+     a:["To the left, because the healthy left levator veli palatini pulls it","To the right, because the right levator veli palatini is unopposed","To the right, because the left tensor veli palatini is paralyzed","It stays midline because the palate gets V3 on both sides","To the left, because the right genioglossus is weak"],
+     why:"CN X runs through the jugular foramen and supplies the levator veli palatini. With the right side weak, the left LVP lifts its side and pulls the uvula away from the lesion, to the left. CN IX and XI are also affected (gag, shoulder shrug).",
+     trap:"Tensor veli palatini is V3 and doesn't pass through the jugular foramen."},{m:"Levator veli palatini",t:"Paralysis"}),
+Object.assign({q:"A patient with right Bell palsy can't close the right eye. Two weeks later the right cornea is irritated and dry-looking, even though tear production tests normal. Which muscle's paralysis most directly causes this?",
+     a:["Orbicularis oculi","Levator palpebrae superioris","Superior tarsal muscle","Frontalis","Lateral rectus"],
+     why:"Orbicularis oculi (temporal and zygomatic branches of CN VII) closes the lids. Without it, the cornea is exposed, and the tear film isn't spread or drained properly. The treatment is lubrication and taping the eye shut.",
+     trap:"The <em>levator</em> opens the lid. If it were paralyzed you'd get ptosis, which actually <em>protects</em> the cornea."},{m:"Orbicularis oculi (palpebral)",t:"Paralysis"})
+];
+const POOL = GYMS.flatMap(g=>g.qs).concat(EXTRA_V);
+const ELITE = [
+  {name:"Elite I · Neuron", title:"Master of Innervation", color:"#4fa8ea", pick:6,
+   intro:"Nerves only. Every question asks which nerve or branch supplies a muscle, from any region. Watch for the sensory nerves used as traps.",
+   qs:POOL.filter(q=>q.t==="Innervation")},
+  {name:"Elite II · Kinesis", title:"Master of Movement", color:"#9bd14b", pick:6,
+   intro:"Every question is about what a muscle does. Obliques that move the eye the opposite way to their name, and muscles that only change the tongue's shape.",
+   qs:POOL.filter(q=>q.t==="Action")},
+  {name:"Elite III · Palsy", title:"Master of Paralysis", color:"#e0525f", pick:6,
+   intro:"I cut a nerve, and you tell me what the patient looks like. Or I show you the patient, and you tell me which nerve I cut.",
+   qs:POOL.filter(q=>q.t==="Paralysis")},
+  {name:"Elite IV · Apex", title:"Master of High Yield", color:"#f2c14e", pick:6,
+   intro:"The last challenge: the high-yield facts from every region. Embryology, reflexes, surgical landmarks, and lesion localization.",
+   qs:POOL.filter(q=>q.t==="High yield")}
+];
+const ELITE_TOTAL = ELITE.reduce((t,e)=>t+(e.pick||e.qs.length),0);
+/* ---------- state ---------- */
+const KEY = "hoyadocs-musclegym-v1";
+let S = {badges:{}, best:{}, elite:false, eliteBest:null};
+let view = {screen:"map"};
+let B = null; // battle
+
+function load(){ try{ const r = localStorage.getItem(KEY); if(r){ const d = JSON.parse(r); S = Object.assign(S,d);} }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function prepQs(qs){
+  return shuffle(qs).map(q=>{
+    const opts = shuffle(q.a.map((t,i)=>({t,ok:i===0})));
+    return {...q, opts};
+  });
+}
+const badgeCount = () => GYMS.filter(g=>S.badges[g.id]).length;
+const $ = s => document.querySelector(s);
+const app = () => document.getElementById("app");
+
+/* ---------- screens ---------- */
+function topbar(extra=""){
+  return `<div class="topbar">
+    <div class="brand"><div class="brand-mark">H</div><div><b>HoyaDocs</b><small>HEAD &amp; NECK · GYM LEADERS</small></div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${extra}</div>
+  </div>`;
+}
+function footer(){
+  return `<footer><span>HoyaDocs · Muscle Gym Leaders</span><span>Updated ${UPDATED} · ${REV}</span></footer>`;
+}
+
+function renderMap(){
+  const n = badgeCount();
+  const slots = GYMS.map(g=>`<div class="slot ${S.badges[g.id]?'':'empty'}" title="${g.badge}">${EMB[g.emb](g.hex)}</div>`).join("");
+  const gyms = GYMS.map((g,i)=>{
+    const done = S.badges[g.id];
+    const best = S.best[g.id];
+    return `<button class="gym ${g.wide?"wide":""}" style="--c:${g.color}" data-gym="${i}" aria-label="${g.name}, ${g.topic}">
+      <div class="emb">${EMB[g.emb](g.hex)}</div>
+      <div><div class="lab">${g.lab}</div><h3>${g.name}</h3><div class="leader">${g.leader} · ${g.rounds?`${g.rounds.length} round battles · ${g.qs.length} questions`:`${g.hearts||3} hearts · ${g.qs.length} questions`}</div>${g.rounds?`<div class="rounds">${g.rounds.map((r,k)=>`<span class="${roundDone(g,k)?"ok":""}">${roundDone(g,k)?"✓ ":""}R${k+1} · ${r.name}</span>`).join("")}</div>`:""}</div>
+      <div class="topic"><span>${g.topic}</span>${done?`<span class="status done">★ Badge</span>`:`<span class="status go">Challenge</span>`}</div>
+      ${best!=null?`<div class="best" style="grid-column:1/-1">Best: ${best}/${g.qs.length} correct</div>`:""}
+    </button>`;
+  }).join("");
+  const unlocked = n===GYMS.length;
+  const eliteDots = ELITE.map((e,i)=>`<span class="${S.elite?'on':''}">${["I","II","III","IV"][i]}</span>`).join("");
+  app().innerHTML = `
+  ${topbar(`<button class="navbtn" id="resetBtn">Reset progress</button>`)}
+  <div id="confirmSlot"></div>
+  <section class="hero">
+    <div>
+      <h1>Muscle<br><span>Gym Leaders</span></h1>
+      <p>Four gyms: eye, tongue, palate, face. Every muscle is tested at least four ways: innervation, action, paralysis, and a high-yield fact. Collect all four badges to face the Elite Four. Each master draws ${ELITE[0].pick} random questions of one type from every region, so every run is different, and your hearts carry over from one battle to the next.</p>
+      <div class="chips"><span class="chip">Extraocular</span><span class="chip">Tongue</span><span class="chip">Palate</span><span class="chip">Face</span><span class="chip">Innervation</span><span class="chip">Action</span><span class="chip">Paralysis</span><span class="chip">High yield</span></div>
+    </div>
+    <div class="trainer">
+      <div class="row"><h2>Trainer Card</h2><span class="lbl">Badges ${n}/${GYMS.length}</span></div>
+      <div class="badgecase">${slots}</div>
+      <div class="meter"><i style="width:${(n/GYMS.length)*100}%"></i></div>
+      <div class="foot"><span>${S.elite?"🏆 Hall of Fame":unlocked?"Elite Four unlocked":`${GYMS.length-n} badge${GYMS.length-n===1?"":"s"} to the Elite Four`}</span><span>${S.eliteBest!=null?`Elite best: ${S.eliteBest}/${ELITE_TOTAL}`:""}</span></div>
+    </div>
+  </section>
+  <div class="section-h"><h2>Gyms</h2><span class="lbl">Any order · hearts shown on each gym</span></div>
+  <div class="gyms">${gyms}</div>
+  <div class="elite-card ${unlocked?'':'locked'}">
+    <div class="four">${eliteDots}</div>
+    <div class="grow"><h2>The Elite Four</h2><p>${unlocked?`Four masters (Innervation, Action, Paralysis, High yield). Each draws ${ELITE[0].pick} random questions from every region.`+" You start with 5 hearts that carry over, and win 1 back after each victory.":`Locked. Earn all ${GYMS.length} gym badges to challenge the Elite Four.`}</p></div>
+    <button class="btn" id="eliteBtn" ${unlocked?"":"disabled"}>${unlocked?(S.elite?"Rematch":"Challenge"):"🔒 Locked"}</button>
+  </div>
+  ${footer()}`;
+  document.querySelectorAll("[data-gym]").forEach(b=>b.onclick=()=>{view={screen:"intro",gym:+b.dataset.gym};render();window.scrollTo(0,0);});
+  $("#eliteBtn").onclick=()=>{ if(badgeCount()===GYMS.length){view={screen:"eliteIntro",idx:0};B=null;render();window.scrollTo(0,0);} };
+  $("#resetBtn").onclick=()=>{
+    $("#confirmSlot").innerHTML = `<div class="confirm" style="margin:-8px 0 16px">Erase all badges and scores?
+      <button class="navbtn" id="yesReset" style="border-color:var(--bad);color:var(--bad)">Erase</button>
+      <button class="navbtn" id="noReset">Keep</button></div>`;
+    $("#yesReset").onclick=()=>{S={badges:{},best:{},elite:false,eliteBest:null};save();render();};
+    $("#noReset").onclick=()=>{$("#confirmSlot").innerHTML="";};
+  };
+}
+
+function roundDone(g,k){ return !!(S.rounds && S.rounds[g.id] && S.rounds[g.id][k]); }
+function roundPicker(g){
+  return `<div class="rpick">${g.rounds.map((r,k)=>{
+    const muscles=[...new Set(r.qs.map(q=>q.m))];
+    const best=S.best[g.id+":"+k];
+    return `<button class="rbtn" data-round="${k}" style="--c:${g.color}">
+      <span class="lbl">Round ${k+1} · ${r.qs.length} Qs · ${r.hearts} hearts</span>
+      <b>${r.name}</b>
+      <small>${muscles.join(" · ")}</small>
+      <span class="status ${roundDone(g,k)?"done":"go"}">${roundDone(g,k)?"✓ Cleared":"Battle"}</span>
+      ${best!=null?`<small>Best: ${best}/${r.qs.length}</small>`:""}
+    </button>`;}).join("")}</div>`;
+}
+function renderIntro(){
+  const g = GYMS[view.gym];
+  app().innerHTML = `
+  ${topbar(`<button class="navbtn" id="back">← Map</button>`)}
+  <div style="--c:${g.color}">
+    <div class="intro-head">
+      <div class="bigemb">${EMB[g.emb](g.hex)}</div>
+      <div><div class="lab">${g.lab} · ${g.topic}</div><h1>${g.name}</h1></div>
+    </div>
+    <div class="dialog"><div class="who">${g.leader}</div><p>${g.intro}</p></div>
+    ${g.rounds?roundPicker(g):`<div class="cta-row"><button class="btn" id="fight">Battle ${g.leader.replace("Leader ","")} →</button><span class="lbl">${g.qs.length} questions · ${g.hearts||3} hearts</span></div>`}
+    <div class="notes">
+      <h2>Leader's Field Notes</h2>
+      ${g.notes}
+    </div>
+    ${g.rounds?roundPicker(g):`<div class="cta-row"><button class="btn" id="fight2">Battle ${g.leader.replace("Leader ","")} →</button></div>`}
+  </div>
+  ${footer()}`;
+  $("#back").onclick=()=>{view={screen:"map"};render();};
+  if(g.rounds){ document.querySelectorAll("[data-round]").forEach(b=>b.onclick=()=>startGym(view.gym,+b.dataset.round)); return; }
+  const go=()=>startGym(view.gym);
+  $("#fight").onclick=go; $("#fight2").onclick=go;
+}
+
+function startGym(i, r){
+  const g = GYMS[i];
+  const isR = g.rounds && r!=null;
+  const H = isR ? g.rounds[r].hearts : (g.hearts||3);
+  const qs = isR ? prepQs(g.rounds[r].qs) : prepQs(g.qs);
+  B = {kind:"gym", gym:i, round:isR?r:null, qs, i:0, hearts:H, max:H, hp:qs.length, hpMax:qs.length, correct:0, missed:[], answered:null};
+  view={screen:"battle"}; render(); window.scrollTo(0,0);
+}
+function startElite(idx, carry){
+  const e = ELITE[idx];
+  const hearts = carry==null?5:carry;
+  const src = e.pick ? shuffle(e.qs).slice(0,e.pick) : e.qs;
+  B = {kind:"elite", idx, qs:prepQs(src), i:0, hearts, max:5, hp:src.length, hpMax:src.length, correct:0, missed:[], answered:null,
+       total: (B && B.kind==="elite" && idx>0) ? B.total : 0};
+  view={screen:"battle"}; render(); window.scrollTo(0,0);
+}
+
+function foeInfo(){
+  if(B.kind==="gym"){const g=GYMS[B.gym];
+    if(B.round!=null){const R=g.rounds[B.round];
+      return {name:g.leader,sub:g.name,color:g.hex,emb:EMB[g.emb](g.hex),lab:`Round ${B.round+1}/${g.rounds.length} · ${R.name}`,round:`R${B.round+1} · ${R.name}`};}
+    return {name:g.leader,sub:g.name,color:g.hex,emb:EMB[g.emb](g.hex),lab:g.topic};}
+  const e=ELITE[B.idx];return {name:e.name,sub:e.title,color:e.color,emb:EMB.crown(e.color),lab:"Mixed · Step 1"};
+}
+
+function renderBattle(){
+  const f = foeInfo();
+  const q = B.qs[B.i];
+  const pct = Math.max(0, f.hpPct!=null ? f.hpPct : (B.hp/B.hpMax)*100);
+  const cls = pct>50?"":pct>20?"mid":"low";
+  const hearts = Array.from({length:B.max},(_,k)=>heart(k<B.hearts)).join("");
+  const letters = "ABCDE";
+  const opts = q.opts.map((o,k)=>{
+    let c="";
+    if(B.answered!=null){
+      if(o.ok) c="right"; else if(k===B.answered) c="wrong"; else c="dim";
+    }
+    return `<button class="opt ${c}" data-o="${k}" ${B.answered!=null?"disabled":""}><span class="k">${letters[k]}</span><span>${o.t}</span></button>`;
+  }).join("");
+  let fb="";
+  if(B.answered!=null){
+    const ok = q.opts[B.answered].ok;
+    const lines = ok
+      ? ["Super effective!","Critical hit!","Direct hit!","It's super effective!"]
+      : ["Not very effective…","The distractor landed.","Trap sprung!","Missed!"];
+    const v = lines[(B.i+B.hearts)%lines.length];
+    const last = B.i===B.qs.length-1 || B.hearts===0;
+    fb = `<div class="fb" role="status">
+      <div class="verdict ${ok?'ok':'no'}">${ok?"✓ ":"✗ "}${v}</div>
+      <p>${q.why}</p>
+      ${q.trap?`<div class="trap"><b>TRAP</b>${q.trap}</div>`:""}
+      <button class="btn" id="next">${B.hearts===0?"Continue":last?"Finish battle":(q.round!=null && B.qs[B.i+1].round!==q.round)?`Next round: ${GYMS[B.gym].rounds[B.qs[B.i+1].round].name} →`:"Next question →"}</button>
+    </div>`;
+  }
+  const eliteTag = B.kind==="elite"?` · Elite ${B.idx+1}/4`:"";
+  app().innerHTML = `
+  ${topbar(`<button class="navbtn" id="flee">Leave battle</button>`)}
+  <div id="confirmSlot"></div>
+  <div class="arena">
+    <div class="hud">
+      <div class="card">
+        <div class="foe">
+          <div class="mini" id="foeMini" style="--c:${f.color}">${f.emb}</div>
+          <div style="flex:1">
+            <div class="nm"><b>${f.name}</b><small>${f.sub}</small></div>${f.round?`<span class="round-pill">${f.round}</span>`:""}
+            <div class="hp"><span class="lbl">HP</span><div class="bar"><i class="${cls}" style="width:${pct}%"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="nm"><b>You</b><small>${B.correct} correct${eliteTag}</small></div>
+        <div class="hearts" aria-label="${B.hearts} hearts left">${hearts}</div>
+      </div>
+    </div>
+    <div class="qbox">
+      <div class="qmeta"><span class="lbl">Question ${B.i+1} of ${B.qs.length}</span><span class="lbl">${q.m?`${q.m} · ${q.t}`:f.lab}</span></div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts">${opts}</div>
+      ${fb}
+      ${B.answered==null?`<div class="hint-keys">Press A–E (or 1–5) to answer. Enter continues.</div>`:""}
+    </div>
+  </div>
+  ${footer()}`;
+  document.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>answer(+b.dataset.o));
+  const n=$("#next"); if(n){ n.onclick=advance; n.focus({preventScroll:true}); }
+  $("#flee").onclick=()=>{
+    $("#confirmSlot").innerHTML = `<div class="confirm" style="margin:-8px 0 14px">Leave now? This battle's progress will be lost.
+      <button class="navbtn" id="yesFlee" style="border-color:var(--bad);color:var(--bad)">Leave</button>
+      <button class="navbtn" id="noFlee">Keep battling</button></div>`;
+    $("#yesFlee").onclick=()=>{B=null;view={screen:"map"};render();};
+    $("#noFlee").onclick=()=>{$("#confirmSlot").innerHTML="";};
+  };
+}
+
+function answer(k){
+  if(!B || B.answered!=null) return;
+  B.answered=k;
+  const q=B.qs[B.i];
+  if(q.opts[k].ok){ B.hp--; B.correct++; if(B.kind==="elite") B.total=(B.total||0)+1; }
+  else { B.hearts--; B.missed.push(q); }
+  render();
+  if(q.opts[k].ok){ const m=$("#foeMini"); if(m){ m.classList.add("hit"); } }
+  const fb=document.querySelector(".fb"); if(fb) fb.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function advance(){
+  if(B.hearts<=0){ view={screen:"lose"}; render(); window.scrollTo(0,0); return; }
+  if(B.i < B.qs.length-1){ B.i++; B.answered=null; render(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  // battle won
+  if(B.kind==="gym"){
+    const g=GYMS[B.gym];
+    if(B.round!=null){
+      S.rounds=S.rounds||{}; S.rounds[g.id]=S.rounds[g.id]||[];
+      S.rounds[g.id][B.round]=true;
+      const key=g.id+":"+B.round; S.best[key]=Math.max(S.best[key]||0,B.correct);
+      const all=g.rounds.every((_,k)=>roundDone(g,k));
+      const first = all && !S.badges[g.id];
+      if(all) S.badges[g.id]=true;
+      save();
+      view={screen:"win", first, roundWin:true, all};
+    } else {
+      const first = !S.badges[g.id];
+      S.badges[g.id]=true;
+      S.best[g.id]=Math.max(S.best[g.id]||0,B.correct);
+      save();
+      view={screen:"win", first};
+    }
+  } else {
+    if(B.idx<3){ view={screen:"eliteIntro", idx:B.idx+1}; }
+    else {
+      S.elite=true; S.eliteBest=Math.max(S.eliteBest||0,B.total||0); save();
+      view={screen:"champion"};
+    }
+  }
+  render(); window.scrollTo(0,0);
+}
+
+function reviewBlock(){
+  if(!B || !B.missed.length) return "";
+  return `<div class="review"><h3>Review what you missed</h3>${B.missed.map(q=>`<div class="rv"><div>${q.q}</div><div style="margin-top:6px">→ <span class="a">${q.a[0]}</span></div><div style="margin-top:4px;color:var(--muted)">${q.why}</div></div>`).join("")}</div>`;
+}
+
+function renderWin(){
+  const g=GYMS[B.gym]; const n=badgeCount();
+  app().innerHTML = `${topbar()}
+  <div class="result" style="--c:${g.color}">
+    <div class="lbl" style="color:${g.hex}">${B.round!=null?`${g.name} · Round ${B.round+1} (${g.rounds[B.round].name}) cleared`:`${g.name} cleared`}</div>
+    <h1>${view.first?`You earned the ${g.badge}!`:B.round!=null?(view.all?`${g.rounds[B.round].name} round cleared`:`${g.rounds[B.round].name} round cleared: ${g.rounds.filter((_,k)=>roundDone(g,k)).length}/${g.rounds.length}`):`${g.leader.replace("Leader ","")} defeated again`}</h1>
+    <div class="award">${EMB[g.emb](g.hex)}</div>
+    <p>${B.correct} of ${B.qs.length} correct with ${B.hearts} heart${B.hearts===1?"":"s"} left. ${n===GYMS.length?`All ${GYMS.length} badges collected. The Elite Four is waiting.`:`${n}/${GYMS.length} badges collected.`}</p>
+    <div class="cta-row">
+      ${n===GYMS.length?`<button class="btn" id="toElite">Face the Elite Four →</button>`:""}
+      ${B.round!=null && !view.all?`<button class="btn" id="toRounds">Pick next round →</button>`:""}
+      <button class="btn ${n===GYMS.length||(B.round!=null&&!view.all)?'ghost':''}" id="toMap">Back to map</button>
+      <button class="btn ghost" id="again">Rematch</button>
+    </div>
+    ${reviewBlock()}
+  </div>${footer()}`;
+  $("#toMap").onclick=()=>{view={screen:"map"};render();window.scrollTo(0,0);};
+  $("#again").onclick=()=>startGym(B.gym,B.round);
+  const tr=$("#toRounds"); if(tr) tr.onclick=()=>{view={screen:"intro",gym:B.gym};render();window.scrollTo(0,0);};
+  const te=$("#toElite"); if(te) te.onclick=()=>{view={screen:"eliteIntro",idx:0};B=null;render();window.scrollTo(0,0);};
+}
+
+function renderLose(){
+  const isGym=B.kind==="gym";
+  const name=isGym?GYMS[B.gym].leader:ELITE[B.idx].name;
+  app().innerHTML = `${topbar()}
+  <div class="result">
+    <div class="lbl" style="color:var(--bad)">Out of hearts</div>
+    <h1>${name} wins this round</h1>
+    <p>${isGym?"Read the Field Notes again and rematch. The questions and answer order are shuffled each time.":"The Elite Four starts over from Elite I. Your gym badges are safe."}</p>
+    <div class="cta-row">
+      <button class="btn" id="retry">${isGym?"Rematch":"Restart Elite Four"}</button>
+      ${isGym?`<button class="btn ghost" id="notes">Study Field Notes</button>`:""}
+      <button class="btn ghost" id="toMap">Map</button>
+    </div>
+    ${reviewBlock()}
+  </div>${footer()}`;
+  $("#toMap").onclick=()=>{view={screen:"map"};render();window.scrollTo(0,0);};
+  $("#retry").onclick=()=>{ if(isGym) startGym(B.gym,B.round); else { B=null; startElite(0); } };
+  const nb=$("#notes"); if(nb) nb.onclick=()=>{view={screen:"intro",gym:B.gym};render();window.scrollTo(0,0);};
+}
+
+function renderEliteIntro(){
+  const e=ELITE[view.idx];
+  const carry = (B && B.kind==="elite") ? Math.min(5,B.hearts+1) : 5;
+  const healed = (B && B.kind==="elite") && B.hearts<5;
+  app().innerHTML = `${topbar(`<button class="navbtn" id="back">← Map</button>`)}
+  <div class="intro-head" style="--c:${e.color}">
+    <div class="bigemb" style="--c:${e.color}">${EMB.crown(e.color)}</div>
+    <div><div class="lab" style="color:${e.color}">Elite Four · ${view.idx+1} of 4 · ${e.title}</div><h1>${e.name}</h1></div>
+  </div>
+  <div class="dialog" style="--c:${e.color}"><div class="who">${e.name}</div><p>${e.intro}</p></div>
+  <div class="cta-row">
+    <button class="btn" id="go">Begin →</button>
+    <span class="lbl">${e.pick||e.qs.length} questions · ${carry} heart${carry===1?"":"s"}${healed?" (+1 restored)":""}</span>
+  </div>
+  <div class="notes" style="--c:${e.color}">
+    <h2>Before you step in</h2>
+    <ul>
+      <li>Questions are drawn at random from all four gyms, so eye, tongue, palate, and face questions come up mixed together.</li>
+      <li>Read the last line of the stem first, then find the anatomic clue in the vignette.</li>
+      <li>Hearts carry across all four battles. Losing all of them sends you back to Elite I.</li>
+    </ul>
+  </div>
+  ${footer()}`;
+  $("#back").onclick=()=>{B=null;view={screen:"map"};render();};
+  $("#go").onclick=()=>startElite(view.idx, view.idx===0?5:carry);
+}
+
+function renderChampion(){
+  app().innerHTML = `${topbar()}
+  <div class="result">
+    <div class="lbl" style="color:var(--gold)">Hall of Fame</div>
+    <h1>Muscle Champion</h1>
+    <div class="award">${EMB.crown("#f2c14e")}</div>
+    <p>You beat all four Elite masters with ${B.total||0} of ${ELITE_TOTAL} correct. For every muscle in the eye, tongue, palate, and face, you know its nerve, what it does, and what happens when it’s paralyzed.</p>
+    <div class="badgecase" style="max-width:460px;margin:18px auto 0;background:var(--cream-2)">${GYMS.map(g=>`<div class="slot">${EMB[g.emb](g.hex)}</div>`).join("")}</div>
+    <div class="cta-row" style="margin-top:22px">
+      <button class="btn" id="toMap">Back to map</button>
+      <button class="btn ghost" id="again">Run the Elite Four again</button>
+    </div>
+    ${reviewBlock()}
+  </div>${footer()}`;
+  $("#toMap").onclick=()=>{view={screen:"map"};render();window.scrollTo(0,0);};
+  $("#again").onclick=()=>{B=null;view={screen:"eliteIntro",idx:0};render();window.scrollTo(0,0);};
+}
+
+function render(){
+  switch(view.screen){
+    case "map": return renderMap();
+    case "intro": return renderIntro();
+    case "battle": return renderBattle();
+    case "win": return renderWin();
+    case "lose": return renderLose();
+    case "eliteIntro": return renderEliteIntro();
+    case "champion": return renderChampion();
+  }
+}
+
+document.addEventListener("keydown",e=>{
+  if(view.screen!=="battle"||!B) return;
+  if(e.target && (e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA")) return;
+  if(B.answered==null){
+    const k=e.key.toLowerCase();
+    let idx="abcde".indexOf(k); if(idx<0) idx="12345".indexOf(k);
+    if(idx>=0 && idx<B.qs[B.i].opts.length){ e.preventDefault(); answer(idx); }
+  } else if(e.key==="Enter"){ e.preventDefault(); advance(); }
+});
+
+function start(data){
+  load();
+  if(data && data.S) S=data.S;
+  if(data && data.view) view=data.view;
+  if(data && data.B) B=data.B;
+  if((view.screen==="battle"||view.screen==="win"||view.screen==="lose"||view.screen==="champion") && !B) view={screen:"map"};
+  render();
+}
+try{ window.claude?.hot?.snapshot?.(()=>({S,view,B})); }catch(e){}
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+</script>
+</body></html>
