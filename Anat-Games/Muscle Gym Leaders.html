@@ -66,7 +66,7 @@ h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;l
 .trainer .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .trainer h2{font-size:20px}
 .trainer .lbl{color:#6b6350}
-.badgecase{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px;background:var(--cream-2);padding:10px;border-radius:6px;border:2px solid #cbbf9c}
+.badgecase{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:12px;background:var(--cream-2);padding:10px;border-radius:6px;border:2px solid #cbbf9c}
 .slot{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:#d8cda9;box-shadow:inset 0 2px 0 rgba(0,0,0,.12)}
 .slot svg{width:82%;height:82%}
 .slot.empty svg{opacity:.18;filter:grayscale(1)}
@@ -77,7 +77,10 @@ h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;l
 /* ---------- gym grid ---------- */
 .section-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px;flex-wrap:wrap}
 .section-h h2{font-size:24px;color:var(--cream)}
-.gyms{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.gyms{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.gyms .gym{grid-column:span 3}
+.gyms .gym.g3{grid-column:span 2}
+.grouphead{grid-column:1/-1;margin-top:6px;font-family:var(--label);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px dashed var(--line);padding-bottom:4px}
 .gym{position:relative;text-align:left;background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start;transition:transform .15s,border-color .15s}
 .gym:hover{transform:translateY(-2px);border-color:var(--c)}
 .gym.wide{grid-column:1/-1;background:linear-gradient(100deg,color-mix(in srgb,var(--c) 14%,var(--panel)),var(--panel) 55%)}
@@ -214,9 +217,11 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);display
 @media (max-width:820px){
   .hero{grid-template-columns:1fr}
   .gyms{grid-template-columns:repeat(2,1fr)}
+  .gyms .gym,.gyms .gym.g3{grid-column:span 1}
 }
 @media (max-width:560px){
   .gyms{grid-template-columns:1fr}
+  .gyms .gym,.gyms .gym.g3{grid-column:span 1}
   .hud{grid-template-columns:1fr}
   .intro-head{grid-template-columns:1fr}
   .bigemb{width:72px;height:72px}.bigemb svg{width:52px;height:52px}
@@ -231,11 +236,11 @@ footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);display
 
 <script>
 /* =========================================================
-   HoyaDocs · Muscle Gym Leaders · Rev 1.0 · Sep 23, 2026
+   HoyaDocs · Muscle Gym Leaders · Rev 1.1 · Sep 23, 2026
    ========================================================= */
 
 const UPDATED = "Sep 23, 2026";
-const REV = "Rev 1.0";
+const REV = "Rev 1.1";
 
 /* ---------- emblem art ---------- */
 const EMB = {
@@ -250,6 +255,9 @@ const EMB = {
   tongue:c=>`<svg viewBox="0 0 48 48"><path d="M10 8h28v14c0 12-6 20-14 20S10 34 10 22z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 12v18" stroke="#1d1a14" stroke-width="2.5" stroke-linecap="round"/><path d="M16 14c2 3 2 6 0 9M32 14c-2 3-2 6 0 9" fill="none" stroke="#1d1a14" stroke-width="1.8" opacity=".5"/></svg>`,
   arch:c=>`<svg viewBox="0 0 48 48"><path d="M4 40V22C4 11 13 5 24 5s20 6 20 17v18h-8V23c0-7-5-11-12-11s-12 4-12 11v17z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 12v10" stroke="#1d1a14" stroke-width="2.5"/><circle cx="24" cy="25" r="3.5" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/></svg>`,
   face:c=>`<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><path d="M14 16l6 2M34 16l-6 2" stroke="#1d1a14" stroke-width="2.5" stroke-linecap="round"/><circle cx="17" cy="22" r="2.4" fill="#1d1a14"/><circle cx="31" cy="22" r="2.4" fill="#1d1a14"/><path d="M15 30c5 6 13 6 18 0" fill="none" stroke="#1d1a14" stroke-width="2.8" stroke-linecap="round"/></svg>`,
+  larynx:c=>`<svg viewBox="0 0 48 48"><path d="M10 6h28l-3 30c-1 5-5 8-11 8s-10-3-11-8z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 14l-8 22M24 14l8 22" stroke="#1d1a14" stroke-width="2.8" stroke-linecap="round"/><path d="M18 8l6 6 6-6" fill="none" stroke="#1d1a14" stroke-width="2.5"/></svg>`,
+  pharynx:c=>`<svg viewBox="0 0 48 48"><path d="M14 4h20v40H14z" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><path d="M14 15h20M14 26h20M14 37h20" stroke="#1d1a14" stroke-width="2.5"/><path d="M24 6v36" stroke="#fff" stroke-width="2" stroke-dasharray="3 3" opacity=".7"/></svg>`,
+  neck:c=>`<svg viewBox="0 0 48 48"><path d="M16 4h16v12l10 28H6l10-28z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M18 10l10 30M30 10L20 40" stroke="#1d1a14" stroke-width="2.2" stroke-linecap="round" opacity=".8"/></svg>`,
   crown:c=>`<svg viewBox="0 0 48 48"><path d="M7 36 5 14l11 9 8-14 8 14 11-9-2 22z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><rect x="7" y="36" width="34" height="6" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><circle cx="24" cy="27" r="3" fill="#1d1a14"/></svg>`
 };
 const heart = on => `<svg viewBox="0 0 24 24" class="${on?'':'gone'}"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z" fill="#e5566b" stroke="#1d1a14" stroke-width="1.8"/></svg>`;
@@ -271,6 +279,11 @@ GYMS.push({
     <tr><td><strong>Tongue</strong></td><td>CN XII supplies all intrinsic and extrinsic muscles…</td><td>…except <strong>palatoglossus</strong> → CN X (pharyngeal plexus)</td></tr>
     <tr><td><strong>Palate</strong></td><td>CN X (pharyngeal plexus / nucleus ambiguus) supplies all of them…</td><td>…except <strong>tensor veli palatini</strong> → V3 (arch 1, like tensor tympani)</td></tr>
     <tr><td><strong>Face (expression)</strong></td><td>CN VII, arch 2. Branches: temporal, zygomatic, buccal, marginal mandibular, cervical</td><td>No exceptions. The <em>buccal nerve of V3</em> is only sensory</td></tr>
+    <tr><td><strong>Larynx (intrinsic)</strong></td><td>Recurrent laryngeal n. (X) supplies all of them…</td><td>…except <strong>cricothyroid</strong> → external branch of the superior laryngeal n.</td></tr>
+    <tr><td><strong>Pharynx</strong></td><td>CN X (pharyngeal plexus) supplies all of them…</td><td>…except <strong>stylopharyngeus</strong> → CN IX</td></tr>
+    <tr><td><strong>Infrahyoid (strap)</strong></td><td>Ansa cervicalis (C1–C3) supplies all of them…</td><td>…except <strong>thyrohyoid</strong> → C1 via XII</td></tr>
+    <tr><td><strong>Suprahyoid</strong></td><td>Mixed: ant. digastric + mylohyoid V3 · post. digastric + stylohyoid VII</td><td><strong>Geniohyoid</strong> → C1 via XII</td></tr>
+    <tr><td><strong>Neck</strong></td><td>SCM + trapezius → CN XI. Scalenes → cervical ventral rami</td><td><strong>Platysma</strong> → CN VII (cervical branch)</td></tr>
   </table></div>
   <div class="mnem"><b>"-glossus = XII, palat- = X."</b> Palatoglossus is in both groups, and the palate rule wins (X). Tensor veli palatini is the one "tensor" in the palate, and tensors are V3.</div>
 
@@ -892,7 +905,7 @@ GYMS.push({
 const M = GYMS.pop();
 (function(){
   const parts = M.notes.split('<h3>Round ');
-  const rules = parts[0];
+  const rules = parts[0]; window.MUSCLE_RULES = rules;
   M.rounds.forEach((r,k)=>{
     let sec = '<h3>Round ' + parts[k+1];
     const hyAt = sec.indexOf('<div class="hy">'); if(hyAt>=0) sec = sec.slice(0,hyAt);
@@ -902,6 +915,423 @@ const M = GYMS.pop();
       hearts:r.hearts,intro:mm.intro,notes:rules+sec+MUSCLE_HY[r.name],qs:r.qs});
   });
 })();
+
+/* ================= NECK-REGION GYMS (Larynx · Pharynx · Neck) ================= */
+GYMS.forEach(g=>g.group="Head: eye, mouth & face");
+const RULES = window.MUSCLE_RULES || "";
+GYMS.push({
+  id:"larynx", group:"Neck: larynx, pharynx & neck", name:"Larynx Gym", lab:"Lab 6 · Larynx", leader:"Leader Arytena", color:"#f09a3e", hex:"#f09a3e",
+  emb:"larynx", badge:"Glottis Badge", topic:"Intrinsic vs extrinsic · RLN, SLN, ansa", hearts:5,
+  intro:"My voice box has two teams. The intrinsic muscles move the vocal folds. The extrinsic muscles move the whole larynx up and down. Tell me which nerve supplies each one, and you'll know which patient is hoarse and which one can't breathe.",
+  notes: RULES + `
+  <h3>Intrinsic vs extrinsic</h3>
+  <ul>
+    <li><strong>Intrinsic</strong> muscles attach laryngeal cartilages to each other. They move the <em>vocal folds</em> (open, close, tense). All are CN X</li>
+    <li><strong>Extrinsic</strong> muscles attach the larynx/hyoid to <em>other</em> structures. They move the <em>whole larynx</em> up (suprahyoid) or down (infrahyoid)</li>
+  </ul>
+  <h3>Intrinsic</h3>
+  <div class="tbl"><table>
+    <tr><th>Muscle</th><th>Nerve</th><th>Action</th><th>If paralyzed</th></tr>
+    <tr><td><strong>Cricothyroid</strong></td><td><strong>External branch of superior laryngeal n.</strong> (X, arch 4)</td><td>Tilts thyroid cartilage forward → <strong>lengthens and tenses</strong> the folds → <strong>higher pitch</strong></td><td>Can't reach high notes, monotone voice that tires easily (runs with the superior thyroid a.)</td></tr>
+    <tr><td><strong>Posterior cricoarytenoid</strong></td><td><strong>Recurrent laryngeal n.</strong> (X, arch 6)</td><td><strong>The ONLY abductor</strong>: opens the rima glottidis</td><td>One side: hoarse, breathy voice. <strong>Both sides: folds stay near midline → stridor, airway emergency</strong></td></tr>
+  </table></div>
+  <ul><li>All other intrinsic muscles (lateral cricoarytenoid, arytenoids, thyroarytenoid) get the RLN and <em>close</em> or relax the glottis</li>
+  <li>Left RLN hooks under the <strong>aortic arch</strong>. Right RLN hooks under the <strong>subclavian artery</strong></li></ul>
+  <h3>Extrinsic</h3>
+  <div class="tbl"><table>
+    <tr><th>Group</th><th>Muscles</th><th>Nerve</th><th>Action</th></tr>
+    <tr><td><strong>Infrahyoid (strap)</strong></td><td>Sternohyoid, sternothyroid, omohyoid</td><td><strong>Ansa cervicalis (C1–C3)</strong></td><td><strong>Depress</strong> the hyoid/larynx after swallowing and speaking</td></tr>
+    <tr><td><strong>Thyrohyoid</strong></td><td>—</td><td><strong>C1 fibers traveling with CN XII</strong> (not the ansa)</td><td>Depresses the hyoid, or <strong>elevates the larynx</strong> when the hyoid is fixed</td></tr>
+    <tr><td><strong>Suprahyoid</strong></td><td>Digastric, stylohyoid, mylohyoid, geniohyoid</td><td>Ant. digastric + mylohyoid = <strong>V3</strong>. Post. digastric + stylohyoid = <strong>VII</strong>. Geniohyoid = <strong>C1 via XII</strong></td><td><strong>Elevate</strong> hyoid and larynx (swallowing). Open the jaw when the hyoid is fixed</td></tr>
+  </table></div>
+  <div class="mnem"><b>"Sup = up, Inf = down."</b> Supra<b>hyoids</b> pull the larynx up to swallow, infra<b>hyoids</b> pull it back down. <b>Thyrohyoid is the odd one out:</b> it's a strap muscle, but gets C1 through XII.</div>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span><ul>
+    <li><strong>Thyroidectomy:</strong> superior thyroid a. ↔ <em>external laryngeal n.</em> (pitch). Inferior thyroid a. ↔ <em>recurrent laryngeal n.</em> (hoarseness, or stridor if both sides)</li>
+    <li><strong>Left RLN</strong> compression: aortic aneurysm, left atrial enlargement (Ortner), lung cancer at the aortopulmonary window → hoarseness</li>
+    <li>Cricothyroid = arch <strong>4</strong>. All other intrinsic muscles = arch <strong>6</strong></li>
+    <li><strong>Thyrohyoid membrane</strong> is pierced by the <em>internal laryngeal n.</em> + superior laryngeal a. Internal laryngeal injury → no sensation above the folds → aspiration</li>
+  </ul></div>`,
+  qs:[
+    /* Cricothyroid */
+    Q("Cricothyroid","Innervation","Which intrinsic laryngeal muscle is NOT supplied by the recurrent laryngeal nerve?",
+      ["Cricothyroid","Posterior cricoarytenoid","Lateral cricoarytenoid","Transverse arytenoid","Thyroarytenoid"],
+      "The cricothyroid gets the external branch of the superior laryngeal nerve (CN X). Every other intrinsic laryngeal muscle gets the recurrent (inferior) laryngeal nerve.",
+      "The <em>internal</em> branch of the superior laryngeal nerve is sensory (mucosa above the folds). The <em>external</em> branch is the motor one."),
+    Q("Cricothyroid","Action","What does the cricothyroid do to the vocal folds?",
+      ["Tilts the thyroid cartilage forward, lengthening and tensing the folds to raise pitch","Opens the rima glottidis","Closes the rima glottidis","Shortens and relaxes the folds to lower pitch","Pulls the whole larynx up during swallowing"],
+      "Contracting the cricothyroid pulls the thyroid and cricoid cartilages closer together at the front. That stretches the vocal ligaments, which raises pitch.",
+      "Shortening and relaxing the folds (lower pitch) is the <em>thyroarytenoid/vocalis</em>, which gets the RLN."),
+    Q("Cricothyroid","Paralysis","A professional soprano has a thyroidectomy. Her airway is normal, but she can no longer reach high notes and her voice tires quickly. Which nerve was most likely injured, and during which step?",
+      ["External laryngeal nerve, while ligating the superior thyroid artery","Recurrent laryngeal nerve, while ligating the inferior thyroid artery","Internal laryngeal nerve, while dividing the thyrohyoid membrane","Ansa cervicalis, while dividing the strap muscles","Vagus nerve, inside the carotid sheath"],
+      "The external laryngeal nerve runs close to the superior thyroid artery as it goes down to the cricothyroid. Tying off the artery without seeing the nerve can cut it, and the cricothyroid is paralyzed. That causes loss of pitch, not an airway problem.",
+      "RLN injury causes hoarseness (or stridor if both sides), not an isolated problem with high notes."),
+    Q("Cricothyroid","High yield","The cricothyroid is the only intrinsic laryngeal muscle that comes from which pharyngeal arch?",
+      ["4th arch (superior laryngeal nerve)","6th arch (recurrent laryngeal nerve)","3rd arch (glossopharyngeal nerve)","2nd arch (facial nerve)","1st arch (mandibular nerve)"],
+      "Arch 4 gives the cricothyroid (plus the pharyngeal constrictors and levator veli palatini), supplied by the superior laryngeal nerve and pharyngeal branches of X. Arch 6 gives all the other intrinsic laryngeal muscles, supplied by the RLN.",
+      null),
+    /* Posterior cricoarytenoid */
+    Q("Posterior cricoarytenoid","Innervation","Which nerve supplies the posterior cricoarytenoid?",
+      ["Recurrent (inferior) laryngeal nerve","External laryngeal nerve","Internal laryngeal nerve","Pharyngeal plexus","Ansa cervicalis"],
+      "The RLN enters the larynx behind the cricothyroid joint and supplies every intrinsic muscle except the cricothyroid, including the PCA.",
+      null),
+    Q("Posterior cricoarytenoid","Action","Which muscle is the only one that abducts the vocal folds?",
+      ["Posterior cricoarytenoid","Lateral cricoarytenoid","Cricothyroid","Thyroarytenoid","Transverse arytenoid"],
+      "The PCA rotates the arytenoids outward, which opens the rima glottidis to let you breathe in. Every other intrinsic muscle closes the glottis or changes fold tension.",
+      "The <em>lateral</em> cricoarytenoid <em>adducts</em> the folds. <b>‘Posterior Pulls apart.’</b>"),
+    Q("Posterior cricoarytenoid","Paralysis","After a total thyroidectomy, a patient develops loud inspiratory stridor and respiratory distress when the breathing tube is removed. Laryngoscopy shows both vocal folds fixed near the midline. Paralysis of which muscles explains this?",
+      ["Both posterior cricoarytenoids (bilateral RLN injury)","Both cricothyroids (bilateral external laryngeal injury)","Both lateral cricoarytenoids","The infrahyoid strap muscles","Both thyrohyoids"],
+      "With both RLNs injured, nothing can open the glottis. The folds sit near the midline and block the airway, so the patient needs reintubation or a tracheostomy. One-sided injury mainly causes hoarseness.",
+      null),
+    Q("Posterior cricoarytenoid","High yield","A 62-year-old woman with long-standing mitral stenosis and a very large left atrium becomes hoarse. Why is the <em>left</em> recurrent laryngeal nerve vulnerable?",
+      ["It hooks under the aortic arch next to the ligamentum arteriosum, where the enlarged heart structures press on it","It hooks under the left subclavian artery","It runs inside the carotid sheath next to the left atrium","It passes through the thyrohyoid membrane","It branches off the vagus above the hyoid"],
+      "The left RLN hooks under the aortic arch (the right one hooks under the subclavian artery). A large left atrium, aortic aneurysm, or tumor at the aortopulmonary window can compress it and paralyze the PCA and other intrinsic muscles on that side (Ortner syndrome).",
+      null),
+    /* Infrahyoid */
+    Q("Infrahyoid (strap) muscles","Innervation","Which nerve supplies the sternohyoid, sternothyroid, and omohyoid?",
+      ["Ansa cervicalis (C1–C3)","Hypoglossal nerve (CN XII) proper","Cervical branch of CN VII","Spinal accessory nerve (CN XI)","Recurrent laryngeal nerve"],
+      "The ansa cervicalis is a loop in front of the carotid sheath. Its superior root (C1, which travels with XII for a while) and inferior root (C2–C3) together supply the strap muscles.",
+      "The superior root <em>travels with</em> XII, but its fibers are C1, not hypoglossal fibers."),
+    Q("Infrahyoid (strap) muscles","Action","What is the main job of the infrahyoid strap muscles?",
+      ["Depress the hyoid and larynx after swallowing and speaking","Elevate the hyoid during swallowing","Protrude the mandible","Tense the vocal folds","Open the auditory tube"],
+      "The strap muscles pull the hyoid and larynx back down after swallowing. They also hold the hyoid steady so the suprahyoid muscles can open the jaw.",
+      null),
+    Q("Infrahyoid (strap) muscles","Clinical","During thyroidectomy, a surgeon needs to divide the strap muscles to reach a large gland. Where should they be cut to keep them working afterward, and why?",
+      ["In the upper part, because the ansa cervicalis branches enter them from below","In the lower part, because the ansa cervicalis branches enter from above","In the middle, because the nerve enters at the intermediate tendon","Anywhere, because they get blood supply from both ends","They can't be divided without paralyzing the tongue"],
+      "The ansa cervicalis branches enter the strap muscles from below. Cutting the muscles high leaves the nerve supply to most of the muscle intact.",
+      null),
+    Q("Infrahyoid (strap) muscles","High yield","A large multinodular goiter grows down behind the sternum rather than up toward the jaw. Which muscle attachment limits upward growth?",
+      ["The sternothyroid's insertion on the oblique line of the thyroid cartilage","The sternohyoid's insertion on the hyoid body","The omohyoid's intermediate tendon","The platysma's attachment to the mandible","The thyrohyoid membrane"],
+      "The sternothyroid lies directly on the thyroid gland and attaches to the oblique line of the thyroid cartilage. It forms a ‘lid’ above the gland, so an enlarging goiter grows downward into the chest.",
+      null),
+    /* Suprahyoid */
+    Q("Suprahyoid muscles","Innervation","Which suprahyoid muscle is supplied by C1 fibers traveling with the hypoglossal nerve?",
+      ["Geniohyoid","Mylohyoid","Anterior belly of digastric","Stylohyoid","Posterior belly of digastric"],
+      "Geniohyoid (and thyrohyoid) get C1 fibers that travel with XII. Mylohyoid and anterior digastric get V3 (nerve to mylohyoid). Posterior digastric and stylohyoid get VII.",
+      null),
+    Q("Suprahyoid muscles","Innervation","Why does the digastric muscle have two different nerves?",
+      ["Its anterior belly comes from arch 1 (V3) and its posterior belly from arch 2 (VII)","Both bellies come from arch 2 but are supplied by both VII and XII","The anterior belly gets C1 and the posterior belly gets ansa cervicalis","It is an intrinsic tongue muscle that gets XII","Both bellies come from arch 3 (IX)"],
+      "The two bellies come from different arches. Anterior belly: 1st arch → nerve to mylohyoid (V3). Posterior belly: 2nd arch → facial nerve.",
+      "<b>‘Front = Five (V3), back = seVen.’</b>"),
+    Q("Suprahyoid muscles","Action","What do the suprahyoid muscles do during swallowing?",
+      ["Pull the hyoid and larynx up and forward, which helps the epiglottis cover the laryngeal inlet","Pull the hyoid and larynx down","Abduct the vocal folds","Tense the soft palate","Close the upper esophageal sphincter"],
+      "Moving the hyoid and larynx up and forward tucks the laryngeal inlet under the epiglottis and base of tongue, and helps pull the upper esophageal sphincter open. When the infrahyoids fix the hyoid, the same muscles open the jaw.",
+      null),
+    Q("Suprahyoid muscles","Paralysis","A tumor at the foramen ovale damages the motor root of V3. Which suprahyoid muscles are weak?",
+      ["Mylohyoid and anterior belly of digastric","Posterior belly of digastric and stylohyoid","Geniohyoid only","All four suprahyoid muscles","Thyrohyoid and geniohyoid"],
+      "V3's nerve to mylohyoid supplies the mylohyoid and anterior digastric. The same lesion also weakens the chewing muscles (the jaw deviates toward the lesion when opened) and the tensor muscles.",
+      null),
+    Q("Suprahyoid muscles","High yield","The submandibular gland wraps around the free back edge of which suprahyoid muscle, giving it a superficial and a deep part?",
+      ["Mylohyoid","Hyoglossus","Anterior belly of digastric","Geniohyoid","Stylohyoid"],
+      "The mylohyoid forms the floor of the mouth. The large superficial part of the gland sits below it, the deep part and the duct sit above it, and the two parts connect around its back edge. The mylohyoid also separates the sublingual and submandibular spaces (Ludwig angina).",
+      null),
+    /* Thyrohyoid */
+    Q("Thyrohyoid","Innervation","Which nerve supplies the thyrohyoid?",
+      ["C1 fibers traveling with the hypoglossal nerve","Inferior root of the ansa cervicalis (C2–C3)","Fibers from the hypoglossal nucleus","External laryngeal nerve","Recurrent laryngeal nerve"],
+      "The thyrohyoid is a strap muscle, but its C1 fibers leave XII directly instead of going through the ansa loop. (Geniohyoid gets its supply the same way.)",
+      null),
+    Q("Thyrohyoid","Action","What does the thyrohyoid do?",
+      ["Depresses the hyoid, or elevates the larynx when the hyoid is fixed","Abducts the vocal folds","Tenses the vocal folds","Protrudes the tongue","Depresses the mandible directly"],
+      "It runs from the oblique line of the thyroid cartilage up to the hyoid. It can pull the hyoid down, or pull the larynx up toward a fixed hyoid (for example, at the start of a swallow).",
+      null),
+    Q("Thyrohyoid","Paralysis","During a neck dissection, the ansa cervicalis is cut. Which infrahyoid muscle keeps working?",
+      ["Thyrohyoid","Sternohyoid","Sternothyroid","Superior belly of omohyoid","Inferior belly of omohyoid"],
+      "The thyrohyoid gets C1 fibers directly from XII, not through the ansa loop, so cutting the ansa doesn't affect it. The other strap muscles are paralyzed, usually with little effect on function.",
+      null),
+    Q("Thyrohyoid","High yield","A fish bone lodged in the piriform recess injures a nerve that pierces the thyrohyoid membrane (just deep to the thyrohyoid). Which deficit follows?",
+      ["Loss of sensation in the larynx above the vocal folds, with a weaker cough reflex and aspiration","Loss of the ability to abduct the vocal folds","Loss of high pitch","Tongue deviation","Loss of taste on the anterior tongue"],
+      "The internal laryngeal nerve (sensory branch of the superior laryngeal nerve) pierces the thyrohyoid membrane with the superior laryngeal artery, then runs under the mucosa of the piriform recess. Losing it removes sensation above the folds, so the cough reflex fails to protect the airway.",
+      null)
+  ]
+});
+
+GYMS.push({
+  id:"pharynx", group:"Neck: larynx, pharynx & neck", name:"Pharynx Gym", lab:"Lab 5 · Pharynx", leader:"Leader Constricta", color:"#2fb9a3", hex:"#2fb9a3",
+  emb:"pharynx", badge:"Constrictor Badge", topic:"Constrictors vs longitudinal · X (and one IX)", hearts:5,
+  intro:"My outer ring squeezes food down, and my inner layer lifts the pharynx up to meet it. Five of my six muscles get the vagus nerve. Name the one that doesn't, and name what passes through each gap between my constrictors.",
+  notes: RULES + `
+  <h3>Two layers (the reverse of the gut)</h3>
+  <ul>
+    <li><strong>Outer circular layer = constrictors</strong> (superior, middle, inferior): stacked like cups, they <em>squeeze the bolus down</em></li>
+    <li><strong>Inner longitudinal layer</strong> (stylopharyngeus, palatopharyngeus, salpingopharyngeus): <em>lift and shorten</em> the pharynx and larynx during swallowing</li>
+    <li>Motor supply: <strong>pharyngeal plexus (CN X, from the nucleus ambiguus)</strong>. Sensory: CN IX. The <strong>only exception is stylopharyngeus (CN IX)</strong></li>
+  </ul>
+  <div class="tbl"><table>
+    <tr><th>Muscle</th><th>Origin</th><th>Nerve</th><th>Key point</th></tr>
+    <tr><td>Superior constrictor</td><td>Pterygoid hamulus, <strong>pterygomandibular raphe</strong> (shared with buccinator), mandible</td><td>X</td><td>Forms the tonsil bed. Helps seal the nasopharynx (Passavant ridge)</td></tr>
+    <tr><td>Middle constrictor</td><td><strong>Hyoid</strong> (greater and lesser horns), stylohyoid ligament</td><td>X</td><td>Moves the bolus down through the oropharynx</td></tr>
+    <tr><td>Inferior constrictor</td><td>Thyroid (<em>thyropharyngeus</em>) + cricoid (<em>cricopharyngeus</em>)</td><td>X (pharyngeal plexus ± external and recurrent laryngeal)</td><td><strong>Cricopharyngeus = upper esophageal sphincter</strong>. Killian triangle → Zenker</td></tr>
+    <tr><td>Stylopharyngeus</td><td>Styloid process</td><td><strong>IX</strong> (arch 3)</td><td>The only muscle CN IX supplies. Lifts and widens the pharynx</td></tr>
+    <tr><td>Palatopharyngeus</td><td>Palatine aponeurosis</td><td>X</td><td>Posterior pillar. Lifts the larynx (inserts on the thyroid cartilage)</td></tr>
+    <tr><td>Salpingopharyngeus</td><td><strong>Torus tubarius</strong> (auditory tube cartilage)</td><td>X</td><td>Salpingopharyngeal fold. Lifts the pharynx and helps open the tube</td></tr>
+  </table></div>
+  <h3>What passes through the gaps</h3>
+  <div class="tbl"><table>
+    <tr><th>Gap</th><th>Structures</th></tr>
+    <tr><td>Skull base ↔ superior</td><td>Levator veli palatini, auditory tube, ascending palatine a.</td></tr>
+    <tr><td>Superior ↔ middle</td><td><strong>Stylopharyngeus + CN IX</strong>, stylohyoid ligament</td></tr>
+    <tr><td>Middle ↔ inferior</td><td><strong>Internal laryngeal n. + superior laryngeal a.</strong> (through the thyrohyoid membrane)</td></tr>
+    <tr><td>Below inferior</td><td><strong>Recurrent laryngeal n.</strong> + inferior laryngeal a.</td></tr>
+  </table></div>
+  <div class="mnem"><b>"Pharynx = X, except the STYLE of IX."</b> <b>Stylo</b>pharyngeus is the only IX muscle.</div>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span><ul>
+    <li><strong>Zenker diverticulum:</strong> pouch through <em>Killian triangle</em> (between thyropharyngeus and cricopharyngeus). Bad breath, regurgitating undigested food, gurgling neck mass</li>
+    <li><strong>Gag reflex:</strong> afferent IX, efferent X (constrictors)</li>
+    <li><strong>Curtain sign:</strong> with a CN X lesion, the back wall of the pharynx shifts toward the <em>healthy</em> side</li>
+    <li><strong>Pharyngeal recess (fossa of Rosenmüller)</strong> behind the torus tubarius = the most common site of nasopharyngeal carcinoma</li>
+    <li>Arch 3 → stylopharyngeus. Arch 4 → constrictors, cricothyroid, levator veli palatini</li>
+  </ul></div>`,
+  qs:[
+    /* Superior constrictor */
+    Q("Superior constrictor","Innervation","Which nerve supplies the superior pharyngeal constrictor?",
+      ["Vagus nerve (CN X) via the pharyngeal plexus","Glossopharyngeal nerve (CN IX) motor branch","Mandibular nerve (V3)","Hypoglossal nerve","Cervical sympathetic trunk"],
+      "All three constrictors get motor fibers from CN X (nucleus ambiguus) through the pharyngeal plexus. CN IX adds mainly <em>sensory</em> fibers to the plexus.",
+      "CN IX's only muscle is the stylopharyngeus, not a constrictor."),
+    Q("Superior constrictor","Action","Besides squeezing the upper pharynx, how does the superior constrictor help during swallowing?",
+      ["It forms a ridge (Passavant ridge) that meets the raised soft palate to seal off the nasopharynx","It opens the auditory tube","It relaxes to open the upper esophageal sphincter","It elevates the hyoid","It tenses the vocal folds"],
+      "Upper fibers of the superior constrictor (with palatopharyngeus) push a ridge forward from the back wall of the pharynx. The ridge meets the soft palate so food doesn't go up into the nose.",
+      null),
+    Q("Superior constrictor","Paralysis","When a patient says “ahh,” the back wall of the pharynx shifts toward the left like a curtain. Where is the lesion?",
+      ["Right vagus nerve","Left vagus nerve","Right glossopharyngeal nerve only","Left hypoglossal nerve","Right mandibular nerve"],
+      "The healthy left constrictors pull the pharyngeal wall toward themselves, so the wall moves toward the normal side. This is the curtain sign of a right CN X lesion, and the uvula also points away from the lesion.",
+      null),
+    Q("Superior constrictor","High yield","The superior constrictor shares its origin at the pterygomandibular raphe with which facial muscle?",
+      ["Buccinator","Masseter","Orbicularis oris","Medial pterygoid","Zygomaticus major"],
+      "The pterygomandibular raphe runs from the pterygoid hamulus to the mandible. The buccinator attaches to its front and the superior constrictor to its back, making one continuous muscle wall from cheek to pharynx. It is a landmark for the inferior alveolar nerve block.",
+      null),
+    /* Middle constrictor */
+    Q("Middle constrictor","Innervation","The pharyngeal plexus supplies the middle constrictor. Where do its <em>motor</em> fibers mainly come from?",
+      ["CN X (nucleus ambiguus)","CN IX (inferior salivatory nucleus)","CN XI (spinal nucleus)","CN VII (facial nucleus)","Superior cervical ganglion"],
+      "In the pharyngeal plexus, CN X provides the motor fibers, CN IX provides sensation, and the superior cervical ganglion provides sympathetic fibers.",
+      null),
+    Q("Middle constrictor","Action","How do the three constrictors work together during the pharyngeal phase of swallowing?",
+      ["They contract one after another from top to bottom, pushing the bolus into the esophagus","They all contract at once to close the larynx","They relax to widen the pharynx for the bolus","They pull the pharynx up toward the skull base","They open the auditory tube"],
+      "The constrictors contract in a wave (superior → middle → inferior) that pushes the bolus down. The longitudinal muscles lift the pharynx up to meet it.",
+      null),
+    Q("Middle constrictor","Paralysis","A patient with a lateral medullary infarct damaging the nucleus ambiguus has food residue building up in the pharynx and coughing during meals. What causes this?",
+      ["Weak constrictors that can't clear the bolus, so material builds up and is aspirated","Weak tongue protrusion","Loss of taste","A paralyzed orbicularis oris","Loss of lacrimation"],
+      "Damage to the nucleus ambiguus weakens the constrictors, palate, and laryngeal muscles. Food isn't cleared from the pharynx and can be aspirated. Hoarseness and a drooping palate usually come with it.",
+      null),
+    Q("Middle constrictor","High yield","Which structures pass through the gap between the superior and middle constrictors?",
+      ["Stylopharyngeus and the glossopharyngeal nerve","Internal laryngeal nerve and superior laryngeal artery","Recurrent laryngeal nerve and inferior laryngeal artery","Levator veli palatini and the auditory tube","Hypoglossal nerve and lingual artery"],
+      "The stylopharyngeus and CN IX slip in between the superior and middle constrictors (with the stylohyoid ligament). The internal laryngeal nerve and superior laryngeal artery go through the next gap down (middle/inferior).",
+      null),
+    /* Inferior constrictor */
+    Q("Inferior constrictor","Innervation","Which statement about the nerve supply of the inferior constrictor is correct?",
+      ["All from CN X: the pharyngeal plexus plus branches of the external and recurrent laryngeal nerves","Only CN IX","V3 via the nerve to mylohyoid","Ansa cervicalis","Only the hypoglossal nerve"],
+      "The inferior constrictor (thyropharyngeus and cricopharyngeus) gets vagal fibers from the pharyngeal plexus. The external and recurrent laryngeal nerves add branches, especially to the cricopharyngeus.",
+      null),
+    Q("Inferior constrictor","Action","What does the cricopharyngeus part of the inferior constrictor do?",
+      ["Acts as the upper esophageal sphincter: stays contracted at rest and relaxes during a swallow","Opens the auditory tube","Abducts the vocal folds","Raises the soft palate","Pushes the tongue forward"],
+      "The cricopharyngeus stays contracted at rest to keep air out of the esophagus and stop reflux. It relaxes during a swallow as the larynx moves up and forward.",
+      null),
+    Q("Inferior constrictor","Clinical","A 72-year-old man has bad breath, regurgitates undigested food eaten days ago, and has a gurgling mass in the left neck. Barium swallow shows a pouch at the back of the pharyngoesophageal junction. Where did it form?",
+      ["Killian triangle, between the thyropharyngeus and cricopharyngeus","Between the superior and middle constrictors","Through the thyrohyoid membrane","At the lower esophageal sphincter","Through the lamina papyracea"],
+      "Zenker diverticulum is a <em>false</em> (pulsion) diverticulum. The mucosa bulges out through the weak spot (Killian triangle) above a cricopharyngeus that doesn't relax properly.",
+      "Zenker is <em>false</em> (mucosa only). A traction diverticulum in the mid-esophagus is <em>true</em> (all layers)."),
+    Q("Inferior constrictor","High yield","Which structures pass through the gap between the middle and inferior constrictors?",
+      ["Internal laryngeal nerve and superior laryngeal artery","Stylopharyngeus and CN IX","Recurrent laryngeal nerve and inferior laryngeal artery","Auditory tube and levator veli palatini","External jugular vein"],
+      "The internal laryngeal nerve and superior laryngeal artery go through this gap and pierce the thyrohyoid membrane. The <em>recurrent</em> laryngeal nerve enters <em>below</em> the lower edge of the inferior constrictor, next to the cricothyroid joint.",
+      null),
+    /* Stylopharyngeus */
+    Q("Stylopharyngeus","Innervation","Which muscle is the only one supplied by the glossopharyngeal nerve?",
+      ["Stylopharyngeus","Palatopharyngeus","Salpingopharyngeus","Styloglossus","Superior constrictor"],
+      "CN IX (3rd arch) supplies only one muscle: the stylopharyngeus. All other pharyngeal and palatal muscles get CN X, except tensor veli palatini (V3).",
+      "Styloglossus = XII. Stylohyoid = VII. Stylopharyngeus = IX. Three stylo- muscles, three different nerves."),
+    Q("Stylopharyngeus","Action","What does the stylopharyngeus do?",
+      ["Elevates and widens the pharynx and lifts the larynx during swallowing and speech","Constricts the pharynx","Depresses the hyoid","Opens the auditory tube","Tenses the soft palate"],
+      "It runs from the styloid process down between the superior and middle constrictors and inserts on the thyroid cartilage and pharyngeal wall. It shortens and widens the pharynx to take in the bolus.",
+      null),
+    Q("Stylopharyngeus","Paralysis","A patient has an isolated right CN IX lesion. Which motor deficit would you expect?",
+      ["Slight weakness lifting the pharynx (stylopharyngeus), which is usually hard to notice","Uvula deviation away from the lesion","Hoarseness","Tongue deviation toward the lesion","Weak shoulder shrug"],
+      "CN IX has only one muscle, so a pure CN IX lesion causes almost no motor problem. The obvious findings are sensory: a missing gag <em>afferent</em> on that side, loss of taste and sensation on the posterior 1/3 of the tongue, and a reduced carotid sinus reflex.",
+      "Uvula deviation and hoarseness mean CN <em>X</em> is involved (for example, a jugular foramen lesion)."),
+    Q("Stylopharyngeus","High yield","The stylopharyngeus develops from the same pharyngeal arch as which other structure?",
+      ["Greater horn of the hyoid and the common/internal carotid artery","Stapes and the stapedial artery","Mandible and the maxillary artery","Thyroid cartilage and the aortic arch","Cricoid cartilage and the pulmonary arteries"],
+      "Arch 3 (CN IX) gives the stylopharyngeus, the greater horn and lower body of the hyoid, and the common carotid and proximal internal carotid arteries.",
+      null),
+    /* Palatopharyngeus */
+    Q("Palatopharyngeus","Innervation","Which longitudinal pharyngeal muscles get the pharyngeal plexus (CN X)?",
+      ["Palatopharyngeus and salpingopharyngeus","Stylopharyngeus and palatopharyngeus","All three, including stylopharyngeus","Salpingopharyngeus only","None; all three get CN IX"],
+      "Palatopharyngeus and salpingopharyngeus get CN X through the pharyngeal plexus. Stylopharyngeus is the exception (CN IX).",
+      null),
+    Q("Palatopharyngeus","Action","Some palatopharyngeus fibers insert on the back edge of the thyroid cartilage. What does that let the muscle do?",
+      ["Pull the larynx up and shorten the pharynx during swallowing","Abduct the vocal folds","Tense the vocal folds for high pitch","Depress the larynx after swallowing","Open the upper esophageal sphincter by contracting"],
+      "The palatopharyngeus pulls the larynx and pharynx up toward the palate and brings the palatopharyngeal folds together. That narrows the opening into the nasopharynx.",
+      null),
+    Q("Palatopharyngeus","Paralysis","After a left vagal injury, the left posterior pillar sags and doesn't move during a swallow. Besides weak palate movement, which swallowing function is reduced on that side?",
+      ["Lifting of the pharynx and larynx","Tongue protrusion","Opening of the jaw","Tear secretion","Tensing of the soft palate by V3"],
+      "Palatopharyngeus paralysis reduces how much the pharynx and larynx rise on that side. Together with weak constrictors and palate muscles, this makes aspiration more likely.",
+      null),
+    Q("Palatopharyngeus","High yield","How is the muscle wall of the pharynx organized, compared with the rest of the GI tract?",
+      ["Outer circular (constrictors) and inner longitudinal, which is the reverse of the gut","Inner circular and outer longitudinal, like the gut","Only circular","Only longitudinal","Three separate layers of smooth muscle"],
+      "In the pharynx, the constrictors form the <em>outer</em> circular layer and the longitudinal muscles are on the <em>inside</em>. Along most of the GI tract, the circular layer is inside and the longitudinal layer is outside.",
+      null),
+    /* Salpingopharyngeus */
+    Q("Salpingopharyngeus","Innervation","Which nerve supplies the salpingopharyngeus?",
+      ["Vagus nerve via the pharyngeal plexus","Mandibular nerve (V3)","Glossopharyngeal nerve","Facial nerve","Hypoglossal nerve"],
+      "Like most pharyngeal muscles, the salpingopharyngeus gets CN X through the pharyngeal plexus.",
+      "It works with the auditory tube, but it's <em>not</em> V3. That's tensor veli palatini."),
+    Q("Salpingopharyngeus","Action","What does the salpingopharyngeus do?",
+      ["Lifts the pharynx and larynx, and helps open the auditory tube during swallowing","Squeezes the bolus down","Depresses the soft palate","Abducts the vocal folds","Protrudes the tongue"],
+      "It runs from the cartilage of the auditory tube (the ‘salpinx’) down into the side wall of the pharynx. It lifts the pharynx and gently pulls on the tube, helping it open.",
+      null),
+    Q("Salpingopharyngeus","Paralysis","A patient with a unilateral CN X lesion has a weak salpingopharyngeus on that side but no middle-ear effusion. What explains this?",
+      ["The main muscle that opens the auditory tube is tensor veli palatini, which is supplied by V3 and still works","The auditory tube has no muscle attachments","Salpingopharyngeus is supplied by IX","The levator veli palatini is supplied by V3","The stapedius takes over"],
+      "Tensor veli palatini (V3) opens the tube most of the time. Salpingopharyngeus and levator veli palatini only help, so a vagal lesion rarely causes ear symptoms. A cleft palate, which disables the TVP, does.",
+      null),
+    Q("Salpingopharyngeus","High yield","The salpingopharyngeal fold starts at the torus tubarius. What lies just behind the torus, and why does it matter?",
+      ["The pharyngeal recess (fossa of Rosenmüller), the most common site of nasopharyngeal carcinoma","The piriform recess, where fish bones get stuck","The vallecula, where the epiglottis sits","The tonsillar fossa, where tonsillar cancer arises","The sphenoethmoidal recess, where the sphenoid sinus drains"],
+      "The pharyngeal recess behind the torus tubarius is where nasopharyngeal carcinoma (linked to EBV) usually starts. It can block the auditory tube and cause a middle-ear effusion on one side in an adult, which is a red flag.",
+      null)
+  ]
+});
+
+GYMS.push({
+  id:"neck", group:"Neck: larynx, pharynx & neck", name:"Neck Gym", lab:"Lab 1 · The Neck", leader:"Leader Scalena", color:"#8d7bf0", hex:"#8d7bf0",
+  emb:"neck", badge:"Scalene Badge", topic:"Superficial muscles & scalenes · VII, XI, cervical rami", hearts:6,
+  intro:"Three superficial muscles cover my neck, and three scalenes sit beneath them with the brachial plexus and the subclavian artery passing between them. Each one gets a different nerve: VII, XI, or the cervical spinal nerves. Mix them up and the shoulder droops.",
+  notes: RULES + `
+  <h3>Superficial neck muscles</h3>
+  <div class="tbl"><table>
+    <tr><th>Muscle</th><th>Nerve</th><th>Action</th><th>If paralyzed / clinical</th></tr>
+    <tr><td><strong>Platysma</strong></td><td><strong>Cervical branch of CN VII</strong></td><td>Tenses neck skin, pulls the mouth corners and mandible down (grimace)</td><td>Minor deficit. Lies in the superficial fascia over the EJV</td></tr>
+    <tr><td><strong>Sternocleidomastoid</strong></td><td><strong>CN XI</strong> (+ C2–C3 proprioception)</td><td>One side: <strong>tilts head to the same side, turns the face to the opposite side</strong>. Both sides: flex the neck, help with inspiration</td><td>XI lesion → weak turning of the head <em>away</em> from the lesion. Torticollis</td></tr>
+    <tr><td><strong>Trapezius</strong></td><td><strong>CN XI</strong> (+ C3–C4 proprioception)</td><td>Upper fibers: <strong>shrug</strong> + rotate the scapula up (arm above 90°). Middle: pull back. Lower: pull down</td><td>Shoulder droops, weak shrug, can't raise the arm above horizontal</td></tr>
+  </table></div>
+  <ul>
+    <li>CN XI: roots from the <strong>upper cervical cord</strong> → up through the <strong>foramen magnum</strong> → out through the <strong>jugular foramen</strong> → SCM → crosses the <strong>posterior triangle</strong> (superficial, easily injured) → trapezius</li>
+    <li>Posterior-triangle injury (node biopsy) → <em>trapezius weak, SCM spared</em>. Jugular foramen lesion → <em>both weak</em> (+ IX, X)</li>
+  </ul>
+  <h3>Scalenes</h3>
+  <div class="tbl"><table>
+    <tr><th>Muscle</th><th>Nerve</th><th>Attaches</th><th>Key point</th></tr>
+    <tr><td><strong>Anterior scalene</strong></td><td>Ventral rami <strong>C4–C6</strong></td><td>C3–C6 transverse processes → <strong>1st rib</strong> (scalene tubercle)</td><td><strong>Phrenic n. runs on its front surface.</strong> Subclavian <em>vein</em> passes in front of it, subclavian <em>artery</em> behind it</td></tr>
+    <tr><td><strong>Middle scalene</strong></td><td>Ventral rami <strong>C3–C8</strong></td><td>C2–C7 → <strong>1st rib</strong></td><td>Back wall of the interscalene triangle. <strong>Long thoracic</strong> and dorsal scapular nerves pierce it</td></tr>
+    <tr><td><strong>Posterior scalene</strong></td><td>Ventral rami <strong>C6–C8</strong></td><td>C4–C6 → <strong>2nd rib</strong></td><td>Smallest and deepest. The only scalene that attaches to the 2nd rib</td></tr>
+  </table></div>
+  <div class="flow"><span>Interscalene triangle</span><b>=</b><span>Anterior scalene (front)</span><b>+</b><span>Middle scalene (back)</span><b>+</b><span>1st rib (floor)</span><b>→</b><span class="end">Brachial plexus roots/trunks + subclavian ARTERY</span></div>
+  <div class="mnem"><b>"The VEIN goes in front, the ARTERY goes between."</b> Subclavian vein → in front of the anterior scalene. Subclavian artery + plexus → between the anterior and middle scalenes.</div>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span><ul>
+    <li><strong>Thoracic outlet syndrome</strong> (scalene hypertrophy, cervical rib): compresses the <em>lower trunk (C8–T1)</em> + subclavian artery → numbness on the ulnar side, weak hand muscles, pulse drops with Adson maneuver</li>
+    <li><strong>Interscalene block</strong> almost always blocks the <strong>phrenic nerve</strong> too → same-side hemidiaphragm paralysis</li>
+    <li><strong>CN XI injury</strong> in the posterior triangle → shoulder droop, weak shrug, trouble raising the arm above horizontal, mild scapular winging</li>
+    <li><strong>Congenital torticollis:</strong> fibrotic SCM → head tilted <em>toward</em> it, chin turned <em>away</em></li>
+    <li>COPD/respiratory distress → <strong>scalenes and SCM</strong> are recruited as accessory muscles of inspiration</li>
+  </ul></div>`,
+  qs:[
+    /* Platysma */
+    Q("Platysma","Innervation","The platysma lies entirely in the neck. Why does the facial nerve supply it?",
+      ["It is a muscle of facial expression from the 2nd pharyngeal arch","It comes from occipital somites","It comes from the 1st arch with the muscles of mastication","It is supplied by the cervical plexus, and CN VII only gives sensation","It comes from the 3rd arch"],
+      "All 2nd-arch muscles (facial expression, platysma, stapedius, stylohyoid, posterior digastric) get CN VII. The platysma gets the <em>cervical branch</em> of VII.",
+      "The cervical plexus (transverse cervical nerve) gives only <em>sensation</em> to the skin over the platysma."),
+    Q("Platysma","Action","A person pulls a face of horror or strain, and thin vertical ridges appear in the neck skin. Which muscle is contracting, and what else does it do?",
+      ["Platysma; it pulls the mouth corners and mandible down","Sternocleidomastoid; it rotates the head","Trapezius; it elevates the scapula","Anterior scalene; it elevates the 1st rib","Omohyoid; it depresses the hyoid"],
+      "The platysma runs from the fascia of the upper chest to the mandible and mouth corners. It tenses the neck skin and pulls the lower face down.",
+      null),
+    Q("Platysma","Paralysis","A surgeon sacrifices the cervical branch of the facial nerve during a parotidectomy. What is the most likely functional effect?",
+      ["Minimal: loss of neck-skin tensing and a slightly weaker lower-lip pull, but the patient can still evert the lower lip","Complete inability to close the eye","Weak shoulder shrug","Hoarseness","Tongue deviation"],
+      "Losing the platysma has little effect on function. It can make the lower lip look slightly uneven (a pseudo-marginal mandibular palsy), but the mentalis and depressor labii inferioris still work, so the patient can evert the lip.",
+      null),
+    Q("Platysma","High yield","In which layer of the neck does the platysma lie?",
+      ["The superficial (subcutaneous) fascia, superficial to the investing layer of deep cervical fascia","Inside the investing layer, with the SCM","Inside the pretracheal fascia","Inside the prevertebral fascia","Inside the carotid sheath"],
+      "The platysma is a skin muscle in the superficial fascia. The EJV and cutaneous nerves run just deep to it. Neck incisions go through it, and closing it separately gives a better scar.",
+      null),
+    /* Trapezius */
+    Q("Trapezius","Innervation","Which nerve provides the motor supply to the trapezius?",
+      ["Spinal accessory nerve (CN XI)","Dorsal scapular nerve (C5)","Long thoracic nerve (C5–C7)","Suprascapular nerve","Ansa cervicalis"],
+      "CN XI supplies both the trapezius and the SCM. Branches of C3–C4 add proprioceptive fibers but no real motor power.",
+      "The <em>dorsal scapular</em> nerve supplies the rhomboids and levator scapulae, which also move the scapula."),
+    Q("Trapezius","Action","Which action depends most on the upper fibers of the trapezius?",
+      ["Shrugging the shoulders and rotating the scapula upward so the arm can go above horizontal","Abducting the arm from 0–15°","Rotating the head to the opposite side","Flexing the elbow","Pulling the 1st rib up"],
+      "The upper trapezius lifts the scapula (shrug) and, with the serratus anterior, rotates it upward so the arm can be raised above 90°.",
+      null),
+    Q("Trapezius","Paralysis","A week after a lymph node biopsy in the posterior triangle, a patient's shoulder droops, she can't shrug, and she has trouble raising her arm above her head. Turning her head is normal. What was injured?",
+      ["Spinal accessory nerve in the posterior triangle, after its branch to the SCM","Spinal accessory nerve at the jugular foramen","Long thoracic nerve","Suprascapular nerve","Upper trunk of the brachial plexus"],
+      "CN XI supplies the SCM first, then crosses the posterior triangle superficially to reach the trapezius. Injury there paralyzes only the trapezius. It is the most common iatrogenic XI injury.",
+      "A <em>jugular foramen</em> lesion would weaken the SCM too, and would affect IX and X as well."),
+    Q("Trapezius","High yield","Which path correctly describes the spinal accessory nerve?",
+      ["Upper cervical cord → up through the foramen magnum → out through the jugular foramen","Medulla → hypoglossal canal → posterior triangle","Pons → internal acoustic meatus → stylomastoid foramen","Brachial plexus → axilla → trapezius","Medulla → foramen ovale → neck"],
+      "The spinal roots of XI start in the upper cervical cord (C1–C5). They go up through the foramen magnum, then leave the skull through the jugular foramen with IX and X.",
+      null),
+    /* SCM */
+    Q("Sternocleidomastoid","Innervation","What nerve supply does the sternocleidomastoid have?",
+      ["Motor from CN XI; proprioception from C2–C3","Motor from the cervical branch of CN VII","Motor from the ansa cervicalis","Motor from C4–C6 ventral rami","Motor from the phrenic nerve"],
+      "CN XI supplies the SCM (usually running through its deep surface) before crossing the posterior triangle. Branches of C2–C3 carry proprioception.",
+      null),
+    Q("Sternocleidomastoid","Action","What happens when the right SCM contracts on its own?",
+      ["The head tilts to the right and the face turns to the left","The head tilts to the left and the face turns to the right","The neck extends","The right shoulder elevates","The mandible depresses"],
+      "The SCM pulls the mastoid toward the same-side sternum and clavicle. That tilts the head to the same side and turns the chin to the opposite side. Both SCMs together flex the neck, and they help with breathing in.",
+      null),
+    Q("Sternocleidomastoid","Paralysis","A patient with a right jugular foramen tumor has a weak right shoulder shrug. Which way is it hard to turn his head?",
+      ["To the left (turning the chin away from the lesion)","To the right (turning the chin toward the lesion)","Down toward the chest only","Neither, because the SCM gets both sides","Up toward the ceiling only"],
+      "The right SCM turns the face to the <em>left</em>. With right CN XI damaged, turning left against resistance is weak, and the right shoulder droops.",
+      "Test the SCM by having the patient turn the chin <em>away</em> from the side being tested against your hand."),
+    Q("Sternocleidomastoid","High yield","A 3-week-old born breech keeps his head tilted to the right with his chin turned to the left. There is a firm, non-tender lump in the right SCM. What is the diagnosis?",
+      ["Congenital muscular torticollis from fibrosis of the right SCM","Left CN XI palsy","Right Klumpke palsy","Left SCM hematoma","Atlantoaxial instability"],
+      "A shortened, fibrotic right SCM holds the head in its own action position: tilted right, chin turned left. It is linked to intrauterine crowding and difficult deliveries (check the hips for dysplasia). Treatment is stretching.",
+      null),
+    Q("Sternocleidomastoid","High yield","For a superficial cervical plexus block, the anesthetist injects at the nerve point of the neck. Where is it?",
+      ["Midpoint of the posterior border of the SCM","Anterior border of the trapezius at the clavicle","Tip of the mastoid process","Carotid tubercle of C6","Suprasternal notch"],
+      "The great auricular, lesser occipital, transverse cervical, and supraclavicular nerves all come out around the midpoint of the SCM's posterior border (Erb's point of the neck). CN XI crosses the posterior triangle just above this point.",
+      null),
+    /* Anterior scalene */
+    Q("Anterior scalene","Innervation","Which nerves supply the anterior scalene?",
+      ["Ventral rami of C4–C6","Dorsal rami of C4–C6","Spinal accessory nerve","Ansa cervicalis","Phrenic nerve"],
+      "All the scalenes get branches from the <em>ventral</em> rami of the cervical spinal nerves. For the anterior scalene that is about C4–C6.",
+      "The phrenic nerve runs <em>on</em> the anterior scalene but doesn't supply it."),
+    Q("Anterior scalene","Action","What does the anterior scalene do?",
+      ["Elevates the 1st rib (accessory muscle of inspiration) and bends the neck to the side","Depresses the 1st rib","Rotates the scapula","Extends the neck","Elevates the hyoid"],
+      "With the neck fixed, it lifts the 1st rib during forced breathing in. With the rib fixed, it bends the neck to the same side (and flexes it slightly).",
+      null),
+    Q("Anterior scalene","Clinical","A 28-year-old swimmer has numbness along the medial forearm and small finger, weak hand muscles, and a radial pulse that fades when he turns his head to the same side while breathing in. What is compressed, and where?",
+      ["Lower trunk of the brachial plexus and subclavian artery in the interscalene triangle","Upper trunk in the posterior triangle","Median nerve in the carpal tunnel","Ulnar nerve at the medial epicondyle","Subclavian vein in front of the anterior scalene"],
+      "Thoracic outlet (scalene) syndrome: a tight or enlarged anterior scalene, or a cervical rib, squeezes the plexus (mostly C8–T1) and the subclavian artery between the anterior and middle scalenes. A positive Adson test supports it.",
+      null),
+    Q("Anterior scalene","High yield","Which structures pass <em>in front of</em> the anterior scalene?",
+      ["Subclavian vein and phrenic nerve","Subclavian artery and brachial plexus","Vertebral artery and sympathetic trunk","Recurrent laryngeal nerve","Long thoracic nerve"],
+      "The phrenic nerve runs down across the front of the anterior scalene, under the prevertebral fascia. The subclavian vein passes in front of the muscle at the 1st rib. The subclavian artery and the brachial plexus pass <em>behind</em> it.",
+      "Vein in front, artery between the scalenes."),
+    Q("Anterior scalene","High yield","After an interscalene brachial plexus block for shoulder surgery, a patient becomes short of breath. Her chest X-ray shows a raised hemidiaphragm on the same side. Why?",
+      ["The anesthetic spread onto the phrenic nerve on the front of the anterior scalene","Pneumothorax from puncturing the pleura at the posterior scalene","Block of the long thoracic nerve","Recurrent laryngeal nerve block","Stellate ganglion block causing Horner syndrome"],
+      "The phrenic nerve (C3–C5) lies right on the anterior scalene next to the injection site. It is blocked in almost every interscalene block, which paralyzes the diaphragm on that side for a while. This matters in patients with poor lung reserve.",
+      "Horner syndrome and hoarseness (RLN) can also happen, but they don't raise the diaphragm."),
+    /* Middle scalene */
+    Q("Middle scalene","Innervation","Which nerves supply the middle scalene, the largest scalene?",
+      ["Ventral rami of about C3–C8","Spinal accessory nerve","Dorsal rami of the cervical nerves","Ansa cervicalis","Cervical branch of CN VII"],
+      "The middle scalene gets branches from the ventral rami along most of the cervical spine (about C3–C8), which fits its long origin from C2–C7.",
+      null),
+    Q("Middle scalene","Action","What does the middle scalene do?",
+      ["Elevates the 1st rib and bends the neck to the side","Elevates the 2nd rib","Rotates the face to the opposite side","Depresses the hyoid","Shrugs the shoulder"],
+      "It attaches to the 1st rib behind the subclavian artery groove. It lifts that rib during forced inspiration and bends the neck to the side.",
+      null),
+    Q("Middle scalene","Clinical","A weightlifter develops winging of the medial border of the scapula when pushing against a wall, with no history of trauma. The nerve involved is known to pierce which muscle?",
+      ["Middle scalene (long thoracic nerve)","Anterior scalene (phrenic nerve)","Trapezius (spinal accessory nerve)","Posterior scalene (dorsal scapular nerve only)","Sternocleidomastoid (great auricular nerve)"],
+      "The long thoracic nerve (C5–C7) passes through the middle scalene and can be compressed there. It supplies the serratus anterior, so weakness causes <em>medial</em> winging. The dorsal scapular nerve also pierces the middle scalene.",
+      "Trapezius (XI) weakness causes <em>lateral</em>, milder winging."),
+    Q("Middle scalene","High yield","The brachial plexus roots and the subclavian artery pass through a triangle bounded by which structures?",
+      ["Anterior scalene in front, middle scalene behind, 1st rib below","Middle scalene in front, posterior scalene behind, 2nd rib below","SCM in front, trapezius behind, clavicle below","Anterior scalene in front, longus colli behind, 1st rib below","Omohyoid in front, middle scalene behind, clavicle below"],
+      "This is the interscalene triangle. The middle scalene forms its back wall. The subclavian vein stays <em>outside</em> it, in front of the anterior scalene.",
+      null),
+    /* Posterior scalene */
+    Q("Posterior scalene","Innervation","Which nerves supply the posterior scalene?",
+      ["Ventral rami of the lower cervical nerves (about C6–C8)","Spinal accessory nerve","Dorsal scapular nerve only","Phrenic nerve","Hypoglossal nerve"],
+      "Like the other scalenes, the posterior scalene gets branches from cervical ventral rami. Because it sits lower and further back, those come from the lower cervical nerves.",
+      null),
+    Q("Posterior scalene","Action","What does the posterior scalene do?",
+      ["Elevates the 2nd rib and bends the neck to the side","Elevates the 1st rib only","Depresses the scapula","Rotates the face to the opposite side","Protrudes the mandible"],
+      "The posterior scalene runs from the C4–C6 transverse processes to the 2nd rib. It lifts that rib during forced inspiration and bends the neck to the side.",
+      null),
+    Q("Posterior scalene","Clinical","A patient with a severe COPD flare is sitting upright in the tripod position. You can see muscles in the neck contracting every time she breathes in. Which muscles are these?",
+      ["Scalenes and sternocleidomastoids (accessory muscles of inspiration)","Platysma and trapezius","Infrahyoid strap muscles","Suprahyoid muscles","Internal intercostals"],
+      "In respiratory distress, the scalenes lift the upper ribs and the SCMs lift the sternum. Visible use of these accessory muscles is a sign of a high work of breathing.",
+      "Internal intercostals help with <em>forced expiration</em>, not inspiration."),
+    Q("Posterior scalene","High yield","Which feature is unique to the posterior scalene?",
+      ["It is the only scalene that inserts on the 2nd rib","It is the only scalene with the phrenic nerve on its surface","It is the only scalene the long thoracic nerve pierces","It forms the front wall of the interscalene triangle","It is supplied by CN XI"],
+      "The anterior and middle scalenes insert on the 1st rib. The smallest and deepest one, the posterior scalene, is the only one that reaches the 2nd rib.",
+      null)
+  ]
+});
+
 const EXTRA_V = [
 Object.assign({q:"A 49-year-old man has a sudden severe headache. His left pupil is fixed and dilated, and there is early left ptosis. Eye movements are still normal. Why is the pupil affected first?",
      a:["Parasympathetic pupillomotor fibers run on the outside of CN III, where a PComm aneurysm presses first","Pupillary fibers travel with CN VI in the cavernous sinus","The ciliary ganglion sits beside the PComm artery","Sympathetic fibers are cut, causing mydriasis","The Edinger–Westphal nucleus is supplied by the PComm artery"],
@@ -922,16 +1352,16 @@ Object.assign({q:"A patient with right Bell palsy can't close the right eye. Two
 ];
 const POOL = GYMS.flatMap(g=>g.qs).concat(EXTRA_V);
 const ELITE = [
-  {name:"Elite I · Neuron", title:"Master of Innervation", color:"#4fa8ea", pick:6,
+  {name:"Elite I · Neuron", title:"Master of Innervation", color:"#4fa8ea", pick:8,
    intro:"Nerves only. Every question asks which nerve or branch supplies a muscle, from any region. Watch for the sensory nerves used as traps.",
    qs:POOL.filter(q=>q.t==="Innervation")},
-  {name:"Elite II · Kinesis", title:"Master of Movement", color:"#9bd14b", pick:6,
+  {name:"Elite II · Kinesis", title:"Master of Movement", color:"#9bd14b", pick:8,
    intro:"Every question is about what a muscle does. Obliques that move the eye the opposite way to their name, and muscles that only change the tongue's shape.",
    qs:POOL.filter(q=>q.t==="Action")},
-  {name:"Elite III · Palsy", title:"Master of Paralysis", color:"#e0525f", pick:6,
-   intro:"I cut a nerve, and you tell me what the patient looks like. Or I show you the patient, and you tell me which nerve I cut.",
-   qs:POOL.filter(q=>q.t==="Paralysis")},
-  {name:"Elite IV · Apex", title:"Master of High Yield", color:"#f2c14e", pick:6,
+  {name:"Elite III · Palsy", title:"Master of Paralysis", color:"#e0525f", pick:8,
+   intro:"I cut a nerve, and you tell me what the patient looks like. Or I show you the patient, and you tell me which nerve I cut. Thyroidectomies, node biopsies, and thoracic outlets are all fair game.",
+   qs:POOL.filter(q=>q.t==="Paralysis"||q.t==="Clinical")},
+  {name:"Elite IV · Apex", title:"Master of High Yield", color:"#f2c14e", pick:8,
    intro:"The last challenge: the high-yield facts from every region. Embryology, reflexes, surgical landmarks, and lesion localization.",
    qs:POOL.filter(q=>q.t==="High yield")}
 ];
@@ -970,10 +1400,14 @@ function footer(){
 function renderMap(){
   const n = badgeCount();
   const slots = GYMS.map(g=>`<div class="slot ${S.badges[g.id]?'':'empty'}" title="${g.badge}">${EMB[g.emb](g.hex)}</div>`).join("");
+  let lastGroup=null;
   const gyms = GYMS.map((g,i)=>{
+    const gh = (g.group && g.group!==lastGroup) ? `<div class="grouphead">${g.group}</div>` : "";
+    lastGroup = g.group;
     const done = S.badges[g.id];
     const best = S.best[g.id];
-    return `<button class="gym ${g.wide?"wide":""}" style="--c:${g.color}" data-gym="${i}" aria-label="${g.name}, ${g.topic}">
+    const inGroup = GYMS.filter(x=>x.group===g.group).length;
+    return gh+`<button class="gym ${g.wide?"wide":""} ${inGroup===3?"g3":""}" style="--c:${g.color}" data-gym="${i}" aria-label="${g.name}, ${g.topic}">
       <div class="emb">${EMB[g.emb](g.hex)}</div>
       <div><div class="lab">${g.lab}</div><h3>${g.name}</h3><div class="leader">${g.leader} · ${g.rounds?`${g.rounds.length} round battles · ${g.qs.length} questions`:`${g.hearts||3} hearts · ${g.qs.length} questions`}</div>${g.rounds?`<div class="rounds">${g.rounds.map((r,k)=>`<span class="${roundDone(g,k)?"ok":""}">${roundDone(g,k)?"✓ ":""}R${k+1} · ${r.name}</span>`).join("")}</div>`:""}</div>
       <div class="topic"><span>${g.topic}</span>${done?`<span class="status done">★ Badge</span>`:`<span class="status go">Challenge</span>`}</div>
@@ -988,8 +1422,8 @@ function renderMap(){
   <section class="hero">
     <div>
       <h1>Muscle<br><span>Gym Leaders</span></h1>
-      <p>Four gyms: eye, tongue, palate, face. Every muscle is tested at least four ways: innervation, action, paralysis, and a high-yield fact. Collect all four badges to face the Elite Four. Each master draws ${ELITE[0].pick} random questions of one type from every region, so every run is different, and your hearts carry over from one battle to the next.</p>
-      <div class="chips"><span class="chip">Extraocular</span><span class="chip">Tongue</span><span class="chip">Palate</span><span class="chip">Face</span><span class="chip">Innervation</span><span class="chip">Action</span><span class="chip">Paralysis</span><span class="chip">High yield</span></div>
+      <p>Seven gyms: eye, tongue, palate, face, larynx, pharynx, and neck. Every muscle is tested at least four ways: innervation, action, paralysis or clinical, and a high-yield fact. Collect all seven badges to face the Elite Four. Each master draws ${ELITE[0].pick} random questions of one type from every region, so every run is different, and your hearts carry over from one battle to the next.</p>
+      <div class="chips"><span class="chip">Extraocular</span><span class="chip">Tongue</span><span class="chip">Palate</span><span class="chip">Face</span><span class="chip">Larynx</span><span class="chip">Pharynx</span><span class="chip">Neck &amp; scalenes</span><span class="chip">Innervation</span><span class="chip">Action</span><span class="chip">Paralysis</span><span class="chip">High yield</span></div>
     </div>
     <div class="trainer">
       <div class="row"><h2>Trainer Card</h2><span class="lbl">Badges ${n}/${GYMS.length}</span></div>
@@ -1255,7 +1689,7 @@ function renderEliteIntro(){
   <div class="notes" style="--c:${e.color}">
     <h2>Before you step in</h2>
     <ul>
-      <li>Questions are drawn at random from all four gyms, so eye, tongue, palate, and face questions come up mixed together.</li>
+      <li>Questions are drawn at random from all seven gyms, so eye, tongue, palate, face, larynx, pharynx, and neck questions come up mixed together.</li>
       <li>Read the last line of the stem first, then find the anatomic clue in the vignette.</li>
       <li>Hearts carry across all four battles. Losing all of them sends you back to Elite I.</li>
     </ul>
@@ -1271,7 +1705,7 @@ function renderChampion(){
     <div class="lbl" style="color:var(--gold)">Hall of Fame</div>
     <h1>Muscle Champion</h1>
     <div class="award">${EMB.crown("#f2c14e")}</div>
-    <p>You beat all four Elite masters with ${B.total||0} of ${ELITE_TOTAL} correct. For every muscle in the eye, tongue, palate, and face, you know its nerve, what it does, and what happens when it’s paralyzed.</p>
+    <p>You beat all four Elite masters with ${B.total||0} of ${ELITE_TOTAL} correct. For every muscle from the orbit to the scalenes, you know its nerve, what it does, and what happens when it’s paralyzed.</p>
     <div class="badgecase" style="max-width:460px;margin:18px auto 0;background:var(--cream-2)">${GYMS.map(g=>`<div class="slot">${EMB[g.emb](g.hex)}</div>`).join("")}</div>
     <div class="cta-row" style="margin-top:22px">
       <button class="btn" id="toMap">Back to map</button>
