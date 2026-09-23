@@ -1,0 +1,1078 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Drainage Gym Leaders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=IBM+Plex+Mono:wght@500&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --ground:#10152a;
+  --ground-2:#161d38;
+  --panel:#1c2446;
+  --line:#2c3663;
+  --text:#e9e6f5;
+  --muted:#a5a9c8;
+  --cream:#f4eedb;
+  --cream-2:#e8dfc3;
+  --ink:#1d1a14;
+  --gold:#f2c14e;
+  --gold-deep:#b98a16;
+  --good:#3fbf7f;
+  --bad:#e5566b;
+  --hy-bg:#fff4c2;
+  --hy-border:#d4a017;
+  --hy-ink:#4a3a05;
+  --g1:#2fb9a3; --g2:#e0525f; --g3:#8d7bf0; --g4:#4fa8ea; --g5:#f09a3e; --g6:#c56ad6;
+  --elite:#f2c14e;
+  --display:"Bungee", "Trebuchet MS", system-ui, sans-serif;
+  --label:"IBM Plex Mono", "Courier New", monospace;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+[class],h1,h2,h3,b{font-synthesis:none}
+html,body{background:var(--ground)}
+body{
+  color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-inline:16px;padding-block:20px 40px;
+  background:
+    radial-gradient(1200px 500px at 50% -120px, #232c57 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.012) 3px 4px),
+    var(--ground);
+  min-height:100%;
+}
+.wrap{max-width:980px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:.01em}
+.lbl{font-family:var(--label);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- top bar ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:34px;height:34px;display:grid;place-items:center;background:var(--gold);color:var(--ink);font-family:var(--display);font-weight:700;border-radius:6px;box-shadow:0 3px 0 var(--gold-deep)}
+.brand b{font-family:var(--display);font-size:18px;letter-spacing:.02em}
+.brand small{display:block;font-family:var(--label);font-size:10px;color:var(--muted);letter-spacing:.08em}
+.navbtn{background:transparent;border:2px solid var(--line);border-radius:8px;padding:6px 12px;font-family:var(--label);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.navbtn:hover{border-color:var(--muted);color:var(--text)}
+
+/* ---------- hero / trainer card ---------- */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:stretch;margin-bottom:28px}
+.hero h1{font-size:clamp(30px,5.2vw,52px);line-height:.95;color:var(--cream)}
+.hero h1 span{color:var(--gold)}
+.hero p{color:var(--muted);max-width:52ch;margin:12px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{font-family:var(--label);font-size:10px;letter-spacing:.06em;padding:4px 8px;border-radius:4px;background:var(--ground-2);border:1px solid var(--line);color:var(--muted);text-transform:uppercase}
+.trainer{background:var(--cream);color:var(--ink);border-radius:10px;padding:16px;border:3px solid var(--ink);box-shadow:0 6px 0 #0a0d1c}
+.trainer .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.trainer h2{font-size:20px}
+.trainer .lbl{color:#6b6350}
+.badgecase{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px;background:var(--cream-2);padding:10px;border-radius:6px;border:2px solid #cbbf9c}
+.slot{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:#d8cda9;box-shadow:inset 0 2px 0 rgba(0,0,0,.12)}
+.slot svg{width:82%;height:82%}
+.slot.empty svg{opacity:.18;filter:grayscale(1)}
+.meter{height:10px;background:#d8cda9;border-radius:6px;margin-top:12px;overflow:hidden;border:2px solid var(--ink)}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--g1),var(--g4),var(--g3),var(--g6),var(--g2),var(--g5));transition:width .5s}
+.trainer .foot{display:flex;justify-content:space-between;margin-top:8px;font-size:13px;gap:8px;flex-wrap:wrap}
+
+/* ---------- gym grid ---------- */
+.section-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px;flex-wrap:wrap}
+.section-h h2{font-size:24px;color:var(--cream)}
+.gyms{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.gym{position:relative;text-align:left;background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start;transition:transform .15s,border-color .15s}
+.gym:hover{transform:translateY(-2px);border-color:var(--c)}
+.gym .emb{width:56px;height:56px;border-radius:10px;background:color-mix(in srgb,var(--c) 18%,var(--ground));display:grid;place-items:center;border:2px solid color-mix(in srgb,var(--c) 55%,transparent)}
+.gym .emb svg{width:40px;height:40px}
+.gym h3{font-size:19px;color:var(--cream);line-height:1.1}
+.gym .lab{font-family:var(--label);font-size:10px;color:var(--c);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.gym .leader{font-size:14px;color:var(--muted);margin-top:4px}
+.gym .topic{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px dashed var(--line);padding-top:10px;font-size:13px}
+.status{font-family:var(--label);font-size:10px;letter-spacing:.06em;padding:3px 7px;border-radius:4px;text-transform:uppercase;white-space:nowrap}
+.status.go{background:var(--c);color:var(--ink)}
+.status.done{background:var(--gold);color:var(--ink)}
+.best{font-size:12px;color:var(--muted)}
+
+.elite-card{margin-top:18px;border:2px solid var(--line);border-radius:12px;padding:18px;background:
+  linear-gradient(135deg, rgba(242,193,78,.10), transparent 60%), var(--ground-2);display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.elite-card.locked{opacity:.85}
+.elite-card h2{font-size:26px;color:var(--gold)}
+.elite-card p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.elite-card .grow{flex:1 1 280px}
+.four{display:flex;gap:8px}
+.four span{width:40px;height:40px;border-radius:8px;display:grid;place-items:center;font-family:var(--display);font-weight:700;background:var(--panel);border:2px solid var(--line);color:var(--muted)}
+.four span.on{border-color:var(--gold);color:var(--gold)}
+
+.btn{border:3px solid var(--ink);background:var(--gold);color:var(--ink);font-family:var(--display);font-weight:700;font-size:17px;padding:10px 18px;border-radius:8px;box-shadow:0 4px 0 var(--gold-deep);letter-spacing:.02em}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--gold-deep)}
+.btn[disabled]{background:#4b5277;color:#9aa0c2;box-shadow:0 4px 0 #2d3252;cursor:not-allowed;border-color:#2d3252}
+.btn.ghost{background:transparent;color:var(--cream);border-color:var(--line);box-shadow:none}
+
+/* ---------- gym intro ---------- */
+.intro-head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;margin-bottom:16px}
+.bigemb{width:96px;height:96px;border-radius:16px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 20%,var(--ground));border:3px solid var(--c)}
+.bigemb svg{width:70px;height:70px}
+.intro-head h1{font-size:clamp(28px,5vw,42px);color:var(--cream);line-height:1}
+.intro-head .lab{font-family:var(--label);font-size:11px;color:var(--c);letter-spacing:.08em;text-transform:uppercase}
+.dialog{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:10px;padding:14px 16px;box-shadow:0 5px 0 #0a0d1c;position:relative}
+.dialog .who{font-family:var(--display);font-weight:700;font-size:15px;margin-bottom:4px;color:color-mix(in srgb,var(--c) 70%,var(--ink))}
+.dialog p{margin:0}
+.notes{margin-top:22px;background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:18px}
+.notes h2{font-size:20px;color:var(--cream);display:flex;gap:10px;align-items:center}
+.notes h3{font-size:16px;color:var(--c);margin:18px 0 6px}
+.notes ul{margin:6px 0;padding-left:20px}
+.notes li{margin:3px 0}
+.notes li ul{margin:2px 0}
+.notes strong{color:var(--cream)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;font-size:14px}
+.flow span{background:var(--ground-2);border:1px solid var(--line);padding:4px 9px;border-radius:5px}
+.flow b{color:var(--c);font-family:var(--display)}
+.flow span.end{border-color:var(--c);color:var(--cream)}
+.tbl{overflow-x:auto;margin:8px 0}
+.tbl table{border-collapse:collapse;width:100%;font-size:14px;min-width:420px}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.tbl th{font-family:var(--label);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-border);color:var(--hy-ink);border-radius:8px;padding:12px 14px;margin:14px 0 4px}
+.hy .tag{font-family:var(--label);font-size:10px;letter-spacing:.08em;background:var(--hy-border);color:#fff;padding:2px 6px;border-radius:3px;display:inline-block;margin-bottom:6px}
+.hy ul{margin:4px 0;padding-left:18px}
+.hy strong{color:#2e2402}
+.mnem{border-left:4px solid var(--c);padding:8px 12px;background:var(--ground-2);border-radius:0 6px 6px 0;margin:10px 0;font-size:15px}
+.mnem b{font-family:var(--display);color:var(--c)}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
+
+/* ---------- battle ---------- */
+.arena{display:grid;gap:14px}
+.hud{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:10px;padding:10px 14px;box-shadow:0 5px 0 #0a0d1c}
+.card .nm{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card .nm b{font-family:var(--display);font-size:18px}
+.card .nm small{font-family:var(--label);font-size:10px;color:#6b6350}
+.hp{display:flex;align-items:center;gap:8px;margin-top:6px}
+.hp .lbl{color:#6b6350;font-size:10px}
+.bar{flex:1;height:12px;background:#d8cda9;border:2px solid var(--ink);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--good);transition:width .45s ease, background .3s}
+.bar i.mid{background:#e7b73a}.bar i.low{background:var(--bad)}
+.hearts{display:flex;gap:4px;margin-top:6px}
+.hearts svg{width:20px;height:20px}
+.hearts .gone{opacity:.2}
+.foe{display:flex;align-items:center;gap:12px}
+.foe .mini{width:52px;height:52px;flex:none;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 22%,#fff);border:2px solid var(--ink)}
+.foe .mini svg{width:38px;height:38px}
+.foe .mini.hit{animation:hit .45s}
+@keyframes hit{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{opacity:.3}}
+.qbox{background:var(--cream);color:var(--ink);border:3px solid var(--ink);border-radius:12px;padding:16px 18px;box-shadow:0 5px 0 #0a0d1c}
+.qmeta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.qmeta .lbl{color:#6b6350}
+.qtext{font-size:17px;line-height:1.55;margin:0}
+.opts{display:grid;gap:8px;margin-top:14px}
+.opt{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;text-align:left;background:#fffaf0;border:2px solid var(--ink);border-radius:8px;padding:9px 12px;font-size:15.5px;line-height:1.4;transition:background .12s,transform .12s}
+.opt:hover:not([disabled]){background:#fff;transform:translateX(3px)}
+.opt .k{font-family:var(--display);font-weight:700;width:26px;height:26px;display:grid;place-items:center;border-radius:5px;background:var(--ink);color:var(--cream);font-size:14px}
+.opt[disabled]{cursor:default}
+.opt.right{background:#d8f3e4;border-color:#1f7a4c}
+.opt.right .k{background:#1f7a4c}
+.opt.wrong{background:#fbdde1;border-color:#a3243a}
+.opt.wrong .k{background:#a3243a}
+.opt.dim{opacity:.55}
+.fb{margin-top:14px;border-top:2px dashed #b9ad8a;padding-top:12px}
+.fb .verdict{font-family:var(--display);font-weight:700;font-size:19px}
+.fb .verdict.ok{color:#1f7a4c}.fb .verdict.no{color:#a3243a}
+.fb p{margin:6px 0 0;font-size:15px}
+.trap{margin-top:10px;background:var(--hy-bg);border:2px solid var(--hy-border);border-radius:6px;padding:8px 10px;font-size:14px;color:var(--hy-ink)}
+.trap b{font-family:var(--label);font-size:10px;letter-spacing:.08em;background:var(--hy-border);color:#fff;padding:1px 5px;border-radius:3px;margin-right:6px}
+.fb .btn{margin-top:12px}
+.hint-keys{font-size:12px;color:#6b6350;margin-top:8px}
+
+/* ---------- result ---------- */
+.result{text-align:center;padding:28px 18px;background:var(--panel);border:2px solid var(--line);border-radius:14px}
+.result h1{font-size:clamp(30px,6vw,48px);color:var(--cream)}
+.result p{color:var(--muted);max-width:56ch;margin:10px auto 0}
+.award{width:140px;height:140px;margin:18px auto;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle,rgba(242,193,78,.25),transparent 70%)}
+.award svg{width:110px;height:110px;animation:spin-in .9s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes spin-in{from{transform:scale(.2) rotate(-200deg);opacity:0}to{transform:none;opacity:1}}
+.review{text-align:left;margin:22px auto 0;max-width:720px}
+.review h3{font-size:17px;color:var(--cream);margin-bottom:8px}
+.rv{background:var(--ground-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:14.5px}
+.rv .a{color:var(--good);font-weight:700}
+.result .cta-row{justify-content:center}
+
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:var(--label);font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr}
+  .gyms{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:560px){
+  .gyms{grid-template-columns:1fr}
+  .hud{grid-template-columns:1fr}
+  .intro-head{grid-template-columns:1fr}
+  .bigemb{width:72px;height:72px}.bigemb svg{width:52px;height:52px}
+  .qtext{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* =========================================================
+   HoyaDocs · Drainage Gym Leaders · Rev 1.0 · Sep 23, 2026
+   ========================================================= */
+
+const UPDATED = "Sep 23, 2026";
+const REV = "Rev 1.0";
+
+/* ---------- emblem art ---------- */
+const EMB = {
+  node:c=>`<svg viewBox="0 0 48 48"><path d="M14 10c8-6 22-3 25 8 3 10-4 21-15 21-6 0-6-6-11-7-6-1-8-6-7-11 1-5 4-8 8-11z" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><path d="M21 22c2-3 6-3 8 0" fill="none" stroke="#1d1a14" stroke-width="2.5" stroke-linecap="round"/><circle cx="33" cy="16" r="2.5" fill="#fff" opacity=".7"/></svg>`,
+  tri:c=>`<svg viewBox="0 0 48 48"><path d="M24 6 42 40H6z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 18v10" stroke="#1d1a14" stroke-width="3.5" stroke-linecap="round"/><circle cx="24" cy="34" r="2.2" fill="#1d1a14"/></svg>`,
+  conf:c=>`<svg viewBox="0 0 48 48"><path d="M24 4v16M24 28v16M4 24h16M28 24h16" stroke="${c}" stroke-width="7" stroke-linecap="round"/><path d="M24 4v16M24 28v16M4 24h16M28 24h16" stroke="#1d1a14" stroke-width="1.5" stroke-linecap="round" opacity=".35"/><circle cx="24" cy="24" r="8" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/></svg>`,
+  drop:c=>`<svg viewBox="0 0 48 48"><path d="M24 5C18 16 11 23 11 31a13 13 0 0 0 26 0c0-8-7-15-13-26z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><path d="M18 31a6 6 0 0 0 6 6" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".75"/></svg>`,
+  hex:c=>`<svg viewBox="0 0 48 48"><path d="M24 4 41 14v20L24 44 7 34V14z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="24" cy="24" rx="6" ry="4" fill="#1d1a14"/></svg>`,
+  layers:c=>`<svg viewBox="0 0 48 48"><path d="M6 12h36M6 20h36" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M6 28h36" stroke="#1d1a14" stroke-width="2" stroke-dasharray="3 3"/><path d="M6 36h36" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M40 24l4 4-4 4" fill="none" stroke="#1d1a14" stroke-width="2.5"/></svg>`,
+  crown:c=>`<svg viewBox="0 0 48 48"><path d="M7 36 5 14l11 9 8-14 8 14 11-9-2 22z" fill="${c}" stroke="#1d1a14" stroke-width="2.5" stroke-linejoin="round"/><rect x="7" y="36" width="34" height="6" rx="2" fill="${c}" stroke="#1d1a14" stroke-width="2.5"/><circle cx="24" cy="27" r="3" fill="#1d1a14"/></svg>`
+};
+const heart = on => `<svg viewBox="0 0 24 24" class="${on?'':'gone'}"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z" fill="#e5566b" stroke="#1d1a14" stroke-width="1.8"/></svg>`;
+
+/* ---------- content ---------- */
+const GYMS = [
+{
+  id:"cervical", name:"Cervical Gym", lab:"Lab 1 · The Neck", leader:"Leader Nodessa", color:"var(--g1)", hex:"#2fb9a3",
+  emb:"node", badge:"Node Badge", topic:"Lymphatic drainage",
+  intro:"Every drop of lymph in the head and neck ends up in my deep cervical chain. Name the first stop and you might just take my Node Badge.",
+  notes:`
+  <h3>The one rule</h3>
+  <div class="flow"><span>Superficial ring of nodes</span><b>→</b><span>Deep cervical nodes (along IJV)</span><b>→</b><span>Jugular lymph trunk</span><b>→</b><span class="end">Venous angle (IJV + subclavian)</span></div>
+  <ul>
+    <li><strong>Left:</strong> thoracic duct &nbsp;·&nbsp; <strong>Right:</strong> right lymphatic duct</li>
+    <li>Deep cervical nodes sit along the <strong>internal jugular vein</strong> inside/around the carotid sheath</li>
+  </ul>
+  <h3>First-stop nodes (superficial ring)</h3>
+  <div class="tbl"><table>
+    <tr><th>Node group</th><th>Drains</th></tr>
+    <tr><td><strong>Submental</strong></td><td>Tip of tongue, central lower lip, chin, anterior floor of mouth</td></tr>
+    <tr><td><strong>Submandibular</strong></td><td>Upper lip, lateral lower lip, cheek, anterior nose, most teeth &amp; gums, lateral anterior 2/3 tongue, medial eyelid</td></tr>
+    <tr><td><strong>Parotid / preauricular</strong></td><td>Lateral eyelids &amp; conjunctiva, temple / frontal-temporal scalp, anterior auricle</td></tr>
+    <tr><td><strong>Retroauricular (mastoid)</strong></td><td>Scalp above and behind the ear, posterior auricle</td></tr>
+    <tr><td><strong>Occipital</strong></td><td>Occipital scalp</td></tr>
+    <tr><td><strong>Retropharyngeal</strong></td><td>Nasopharynx, auditory tube, posterior pharynx (prominent in young kids)</td></tr>
+  </table></div>
+  <h3>Named deep nodes</h3>
+  <ul>
+    <li><strong>Jugulodigastric</strong> (just below the angle of the mandible) → palatine tonsil, posterior tongue → the "tonsil node"</li>
+    <li><strong>Jugulo-omohyoid</strong> → tongue</li>
+    <li><strong>Larynx:</strong> <em>above</em> the vocal folds → superior deep cervical (travels with the superior laryngeal a. through the thyrohyoid membrane); <em>below</em> the folds → pre/paratracheal → inferior deep cervical</li>
+    <li>True vocal folds themselves have <strong>very few lymphatics</strong></li>
+  </ul>
+  <div class="mnem"><b>Tongue by zone:</b> Tip → submental · Sides → submandibular · Back 1/3 → deep cervical, <em>both sides</em></div>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span>
+    <ul>
+      <li><strong>Virchow node</strong> = hard <em>left supraclavicular</em> node → abdominal cancer (classically <strong>gastric</strong>) spreading up the thoracic duct</li>
+      <li>Lower lip SCC (sun exposure, pipe smokers) → submental / submandibular</li>
+      <li>Midline and posterior tongue cancers spread to <strong>both</strong> sides of the neck → bilateral neck dissection</li>
+    </ul>
+  </div>`,
+  qs:[
+    {q:"A 66-year-old pipe smoker has an ulcerated squamous cell carcinoma at the very tip of his tongue. Which lymph nodes are the first site of spread?",
+     a:["Submental nodes","Submandibular nodes","Jugulodigastric nodes","Retropharyngeal nodes","Parotid nodes"],
+     why:"The tip of the tongue drains to the submental nodes (below the chin, between the anterior bellies of the digastrics). Everything eventually goes to the deep cervical chain.",
+     trap:"The <em>sides</em> of the anterior tongue go to submandibular nodes. Read which part of the tongue the question names."},
+    {q:"A 9-year-old with exudative tonsillitis has a tender, enlarged node just below the angle of the mandible, deep to the SCM. Which node is it?",
+     a:["Jugulodigastric node","Submental node","Occipital node","Preauricular node","Left supraclavicular node"],
+     why:"The jugulodigastric node (where the posterior belly of digastric crosses the IJV) drains the palatine tonsil. It is the node that swells in tonsillitis.",
+     trap:"Preauricular nodes sit in front of the ear. The tonsil node sits below the angle of the jaw."},
+    {q:"Lymph from the left side of the head and neck collects in the left jugular lymph trunk. Where does it normally enter the blood?",
+     a:["At the junction of the left internal jugular and left subclavian veins, via the thoracic duct","The cisterna chyli","The azygos vein","The left external jugular vein at mid-neck","Directly into the superior vena cava"],
+     why:"On the left, the jugular trunk joins the thoracic duct, which drains into the venous angle (IJV + subclavian). On the right, the right lymphatic duct drains into the right venous angle.",
+     trap:"The cisterna chyli is the <em>start</em> of the thoracic duct in the abdomen, not where lymph ends up."},
+    {q:"A stye infection on the lateral part of the upper eyelid causes lymphadenopathy. Which node group enlarges first?",
+     a:["Parotid (preauricular) nodes","Submandibular nodes","Submental nodes","Occipital nodes","Retroauricular nodes"],
+     why:"The lateral eyelids and conjunctiva drain laterally to the parotid/preauricular nodes. The medial eyelid drains along the facial vessels to the submandibular nodes.",
+     trap:"Medial vs lateral eyelid is the split. Lateral → preauricular, medial → submandibular."},
+    {q:"A supraglottic carcinoma of the false (vestibular) vocal fold spreads to regional nodes. Which route is most likely?",
+     a:["Along the superior laryngeal artery through the thyrohyoid membrane to superior deep cervical nodes","Through pretracheal/paratracheal nodes to inferior deep cervical nodes","To submental nodes","To retroauricular nodes","Directly to the right lymphatic duct, skipping nodes"],
+     why:"Above the vocal folds, lymph follows the superior laryngeal vessels through the thyrohyoid membrane to the superior deep cervical nodes. Below the folds, it drains to pre/paratracheal nodes and then the inferior deep cervical nodes.",
+     trap:"The vocal fold is the dividing line, just like the sensory split between the internal laryngeal (above) and recurrent laryngeal (below) nerves."},
+    {q:"An infected scalp laceration just above and behind the right ear causes a tender node. Where is that node?",
+     a:["Over the mastoid process (retroauricular node)","At the angle of the mandible (jugulodigastric node)","Under the chin (submental node)","In front of the tragus (preauricular node)","At the left root of the neck (Virchow node)"],
+     why:"Scalp above and behind the ear and the back of the auricle drain to the retroauricular (mastoid) nodes. The back of the head drains to occipital nodes, and the temple drains to preauricular nodes.",
+     trap:null},
+    {q:"A 64-year-old man with early satiety and a 9-kg weight loss has a hard, fixed, non-tender left supraclavicular node. Which organ is the most likely primary site?",
+     a:["Stomach","Larynx","Thyroid","Parotid gland","Tip of the tongue"],
+     why:"This is a Virchow node (Troisier sign). Abdominal lymph, including from gastric adenocarcinoma, climbs the thoracic duct, which ends at the left venous angle, so metastases can show up in the left supraclavicular nodes.",
+     trap:"A <em>left</em> supraclavicular node points to the abdomen through the thoracic duct. Head and neck primaries usually reach the upper deep cervical nodes first."},
+    {q:"A lesion in the posterior third of the tongue near the midline is resected. Why is a bilateral neck dissection planned?",
+     a:["Lymph from the posterior tongue drains to deep cervical nodes on both sides","The posterior tongue drains only to submental nodes","The lingual veins cross to the opposite IJV","The hypoglossal nerve supplies both halves","The posterior tongue has no lymphatics"],
+     why:"Lymph from the posterior third and the central tongue drains to deep cervical nodes on both sides, so cancer can spread to the opposite side of the neck.",
+     trap:null}
+  ]
+},
+{
+  id:"galea", name:"Galea Gym", lab:"Lab 2 · Face, Scalp & ITF", leader:"Leader Emissa", color:"var(--g2)", hex:"#e0525f",
+  emb:"tri", badge:"Triangle Badge", topic:"Danger zone of the scalp · Danger triangle of the face",
+  intro:"Two danger areas, one theme: veins without valves that lead into the skull. Squeeze the wrong pimple in my gym and you'll end up in the cavernous sinus.",
+  notes:`
+  <h3>Scalp layers: S · C · A · L · P</h3>
+  <div class="tbl"><table>
+    <tr><th>Layer</th><th>Why it matters</th></tr>
+    <tr><td><strong>S</strong>kin</td><td>Hair follicles, sebaceous cysts</td></tr>
+    <tr><td><strong>C</strong>onnective tissue (dense)</td><td>Vessels are held open, so cuts bleed a lot and don't retract</td></tr>
+    <tr><td><strong>A</strong>poneurosis (galea)</td><td>Connects frontalis and occipitalis. A transverse cut gapes open</td></tr>
+    <tr><td><strong>L</strong>oose areolar CT</td><td><strong>DANGER ZONE</strong>: emissary veins run through it into the skull</td></tr>
+    <tr><td><strong>P</strong>ericranium</td><td>Attached at the sutures, so a subperiosteal bleed stays within one bone</td></tr>
+  </table></div>
+  <div class="flow"><span>Scalp infection (layer 4)</span><b>→</b><span>Valveless emissary veins</span><b>→</b><span>Diploic veins / skull</span><b>→</b><span class="end">Dural venous sinuses</span></div>
+  <ul>
+    <li>Results: osteomyelitis, meningitis, dural sinus thrombosis</li>
+    <li>Blood/pus in layer 4 can move <strong>forward into the eyelids and root of the nose</strong> (frontalis inserts into skin, not bone), causing "black eyes" after a scalp injury</li>
+    <li>It is stopped posteriorly at the superior nuchal line and laterally at the temporal lines/zygomatic arch</li>
+  </ul>
+  <h3>Danger triangle of the face</h3>
+  <ul><li>From the <strong>corners of the mouth to the bridge of the nose</strong> (upper lip + nose)</li></ul>
+  <div class="flow"><span>Nose / upper-lip infection</span><b>→</b><span>Facial v.</span><b>→</b><span>Angular v.</span><b>→</b><span>Superior ophthalmic v.</span><b>→</b><span class="end">Cavernous sinus</span></div>
+  <div class="flow"><span>Deep route</span><b>→</b><span>Deep facial v.</span><b>→</b><span>Pterygoid venous plexus</span><b>→</b><span>Inferior ophthalmic v. / emissary vv.</span><b>→</b><span class="end">Cavernous sinus</span></div>
+  <div class="mnem"><b>Why so dangerous?</b> These facial and emissary veins lack effective valves, so blood can flow <em>backward</em> into the skull.</div>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span>
+    <ul>
+      <li><strong>Cavernous sinus thrombosis:</strong> fever, headache, proptosis, chemosis, ophthalmoplegia, V1/V2 numbness. Usually <em>S. aureus</em></li>
+      <li><strong>CN VI is usually affected first</strong> because it runs <em>through</em> the sinus next to the ICA, not protected in the lateral wall. First sign: can't abduct the eye</li>
+      <li>Newborn scalp swellings: <strong>caput</strong> (subcutaneous, crosses sutures, harmless) · <strong>cephalohematoma</strong> (subperiosteal, does NOT cross sutures) · <strong>subgaleal hemorrhage</strong> (loose areolar layer, crosses sutures, can cause hypovolemic shock)</li>
+    </ul>
+  </div>`,
+  qs:[
+    {q:"Which scalp layer is called the \"danger zone\"?",
+     a:["Loose areolar connective tissue","Dense connective tissue","Epicranial aponeurosis (galea)","Pericranium","Skin"],
+     why:"The 4th layer (loose areolar tissue) lets fluid and infection spread widely. It also contains emissary veins that connect to the dural venous sinuses.",
+     trap:"Layer 2 (dense CT) explains the heavy <em>bleeding</em>. Layer 4 explains the <em>infection</em> risk. Don't mix them up."},
+    {q:"Why can a scalp infection in the danger zone cause meningitis or dural sinus thrombosis?",
+     a:["Valveless emissary veins connect scalp veins to the dural venous sinuses","Scalp lymphatics drain directly into the subarachnoid space","The layer is continuous with the subarachnoid space","Scalp arteries anastomose with the middle meningeal artery","The pericranium is absent over the vertex"],
+     why:"Emissary veins pass through the skull and join the scalp veins with the diploic veins and dural sinuses. They have no effective valves, so infection can travel inward.",
+     trap:null},
+    {q:"Two days after a blow to the top of the head, a patient has bilateral bruising of the upper eyelids with no orbital fracture. Blood in which layer caused this, and why did it reach the eyelids?",
+     a:["Loose areolar layer; frontalis inserts into skin, not bone, so nothing blocks spread forward","Dense connective tissue; it is continuous with the orbital septum","Subperiosteal space; the pericranium is continuous with periorbita","Subarachnoid space; blood tracks along the optic nerve","Galea; it attaches to the supraorbital margin"],
+     why:"Blood under the galea spreads freely in the loose areolar layer. Frontalis has no bony attachment in front, so blood drains down into the eyelids and root of the nose. Behind, the occipitalis attachment at the superior nuchal line stops it.",
+     trap:"Bilateral periorbital bruising can also mean a basilar skull fracture (\"raccoon eyes\"). This stem rules that out, so think about the scalp layers."},
+    {q:"A newborn delivered by vacuum extraction develops a boggy scalp swelling that crosses suture lines and keeps growing over 12 hours. Heart rate is climbing and hematocrit is falling. Where is the bleed?",
+     a:["Between the galea and the pericranium (subgaleal)","Between the pericranium and the skull (cephalohematoma)","In the subcutaneous tissue (caput succedaneum)","In the epidural space","In the subdural space"],
+     why:"Subgaleal hemorrhage is in the loose areolar layer, which has no suture boundaries. It can hold a large amount of the newborn's blood volume, causing shock.",
+     trap:"Cephalohematoma does <em>not</em> cross sutures because the pericranium attaches there. Caput is present at birth and harmless."},
+    {q:"What are the boundaries of the \"danger triangle\" of the face?",
+     a:["Corners of the mouth to the bridge of the nose","Angles of the mandible to the vertex","Lateral canthi to the chin","Tragus to the ala of the nose on each side","Supraorbital notches to the philtrum"],
+     why:"The triangle covers the nose and upper lip, from the corners of the mouth up to the nasal bridge. Veins here connect to the cavernous sinus.",
+     trap:null},
+    {q:"A teenager squeezes an infected pustule beside the nose. What is the most direct superficial venous route to the cavernous sinus?",
+     a:["Facial v. → angular v. → superior ophthalmic v. → cavernous sinus","Facial v. → retromandibular v. → external jugular v.","Facial v. → internal jugular v. → sigmoid sinus","Superficial temporal v. → maxillary v. → cavernous sinus","Anterior jugular v. → subclavian v."],
+     why:"The facial vein starts as the angular vein at the medial eye, which connects to the superior ophthalmic vein. That vein goes through the superior orbital fissure into the cavernous sinus.",
+     trap:"Normally facial blood drains <em>down</em> to the IJV. The danger is the valveless connection that lets it flow <em>up</em>."},
+    {q:"Five days after a maxillary molar abscess, a patient develops proptosis and ophthalmoplegia. The infection most likely reached the cavernous sinus through which structure?",
+     a:["Pterygoid venous plexus (via deep facial and emissary veins)","External jugular vein","Anterior jugular vein","Superior thyroid vein","Lingual vein"],
+     why:"The pterygoid plexus in the infratemporal fossa drains the teeth and deep face. It connects to the cavernous sinus through emissary veins (e.g., foramen ovale) and the inferior ophthalmic vein. This is the deep route from the danger area.",
+     trap:null},
+    {q:"A patient with cavernous sinus thrombosis has only one cranial nerve deficit so far. Which finding is most likely?",
+     a:["Inability to abduct the ipsilateral eye","Ptosis with a dilated pupil","Loss of taste to the anterior tongue","Jaw deviation toward the lesion","Loss of the gag reflex"],
+     why:"CN VI runs through the middle of the sinus next to the ICA. It is not protected in the lateral wall like CN III, IV, V1 and V2, so it is usually affected first, causing lateral rectus palsy.",
+     trap:"V3 is <em>not</em> in the cavernous sinus (it leaves through foramen ovale), so jaw-muscle weakness does not point here."}
+  ]
+},
+{
+  id:"dural", name:"Dural Gym", lab:"Lab 3 · Cranial Fossae", leader:"Leader Duran", color:"var(--g3)", hex:"#8d7bf0",
+  emb:"conf", badge:"Confluence Badge", topic:"Venous drainage",
+  intro:"The brain's blood leaves through my network of dural sinuses. All of it reaches the jugular foramen in the end. Can you trace each route?",
+  notes:`
+  <h3>Dural venous sinuses</h3>
+  <ul>
+    <li>They sit between the periosteal and meningeal layers of dura, have an endothelial lining, and <strong>no valves</strong></li>
+    <li>They receive cerebral veins, diploic veins, emissary veins, and CSF</li>
+  </ul>
+  <div class="flow"><span>Superior sagittal</span><b>→</b><span>Confluence of sinuses</span><b>→</b><span>Transverse</span><b>→</b><span>Sigmoid</span><b>→</b><span class="end">IJV (jugular foramen)</span></div>
+  <div class="flow"><span>Inferior sagittal</span><b>+</b><span>Great cerebral v. (of Galen)</span><b>→</b><span>Straight sinus</span><b>→</b><span class="end">Confluence</span></div>
+  <div class="flow"><span>Cavernous</span><b>→</b><span>Superior petrosal</span><b>→</b><span>Transverse/sigmoid</span>&nbsp;&nbsp;·&nbsp;&nbsp;<span>Cavernous</span><b>→</b><span>Inferior petrosal</span><b>→</b><span class="end">IJV</span></div>
+  <ul>
+    <li><strong>CSF</strong> → arachnoid granulations → superior sagittal sinus</li>
+    <li><strong>Cavernous sinus:</strong> lateral wall has <strong>III, IV, V1, V2</strong>. The <strong>ICA + VI</strong> run through the middle. V3 is not in it.</li>
+  </ul>
+  <h3>Face &amp; neck veins</h3>
+  <div class="flow"><span>Superficial temporal v. + maxillary v.</span><b>→</b><span class="end">Retromandibular v.</span></div>
+  <div class="flow"><span>Retromandibular (anterior div.) + facial v.</span><b>→</b><span>Common facial v.</span><b>→</b><span class="end">IJV</span></div>
+  <div class="flow"><span>Retromandibular (posterior div.) + posterior auricular v.</span><b>→</b><span>EJV</span><b>→</b><span class="end">Subclavian v.</span></div>
+  <ul><li>IJV + subclavian → brachiocephalic → SVC. The right IJV is in a straight line with the right atrium, so it is used for JVP.</li></ul>
+  <div class="mnem"><b>Cavernous sinus:</b> the <b>wall</b> holds III, IV, V1, V2 (top → bottom). The <b>middle</b> holds the ICA with CN VI "swimming" beside it, so VI is hit first. V3 is not in the sinus.</div>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span>
+    <ul>
+      <li><strong>Subdural hematoma</strong> = torn <strong>bridging veins</strong> (cortex → superior sagittal sinus). Crescent shape that <em>crosses</em> sutures. Seen in elderly, alcohol use, shaken babies</li>
+      <li><strong>Superior sagittal sinus thrombosis:</strong> hypercoagulable states (OCPs, pregnancy). Headache, papilledema, seizures, "empty delta" sign. ↓ CSF absorption → ↑ ICP</li>
+      <li>Mastoiditis → <strong>sigmoid sinus</strong> thrombosis (the sinus grooves the mastoid)</li>
+    </ul>
+  </div>`,
+  qs:[
+    {q:"A red blood cell leaves the superior sagittal sinus. Which route takes it to the internal jugular vein?",
+     a:["Confluence of sinuses → transverse sinus → sigmoid sinus → IJV","Straight sinus → inferior sagittal sinus → IJV","Cavernous sinus → inferior petrosal sinus → IJV","Confluence → occipital sinus → EJV","Transverse sinus → superior petrosal sinus → cavernous sinus → IJV"],
+     why:"The superior sagittal sinus runs back to the confluence (at the internal occipital protuberance). From there the transverse sinus leads to the S-shaped sigmoid sinus, which becomes the IJV at the jugular foramen.",
+     trap:null},
+    {q:"The great cerebral vein (of Galen) joins the inferior sagittal sinus to form which sinus?",
+     a:["Straight sinus","Superior sagittal sinus","Sigmoid sinus","Occipital sinus","Sphenoparietal sinus"],
+     why:"The inferior sagittal sinus (in the lower edge of the falx) and the great cerebral vein together form the straight sinus. It runs along the junction of the falx and tentorium to the confluence.",
+     trap:null},
+    {q:"CSF is normally reabsorbed into the venous system mainly through which structures?",
+     a:["Arachnoid granulations into the superior sagittal sinus","Choroid plexus into the great cerebral vein","Emissary veins into the scalp","Diploic veins into the transverse sinus","Foramina of Luschka into the cavernous sinus"],
+     why:"Arachnoid granulations push into the superior sagittal sinus and its lateral lacunae. They are one-way valves that move CSF into venous blood.",
+     trap:"The choroid plexus <em>makes</em> CSF. Arachnoid granulations <em>absorb</em> it."},
+    {q:"An 81-year-old man on warfarin fell a week ago and is now increasingly confused. CT shows a crescent-shaped collection that crosses the coronal suture. Which vessels were torn?",
+     a:["Bridging veins between the cortex and the superior sagittal sinus","Middle meningeal artery","Great cerebral vein","Lenticulostriate arteries","Internal jugular vein"],
+     why:"This is a subdural hematoma. Bridging veins stretch as the brain shrinks with age and tear with minor trauma. Blood collects between dura and arachnoid, so it can cross sutures.",
+     trap:"A lens-shaped bleed that stops at sutures after a pterion fracture = <em>epidural</em> (middle meningeal <em>artery</em>)."},
+    {q:"A pituitary macroadenoma grows laterally into the right cavernous sinus. Which nerve would you expect to be SPARED?",
+     a:["Mandibular nerve (V3)","Abducens nerve (VI)","Oculomotor nerve (III)","Ophthalmic nerve (V1)","Maxillary nerve (V2)"],
+     why:"V3 leaves from the trigeminal ganglion through foramen ovale and never goes through the cavernous sinus. III, IV, V1 and V2 are in the lateral wall. VI and the ICA are in the middle.",
+     trap:"V2 <em>is</em> in the lower part of the lateral wall. Only V3 is left out."},
+    {q:"Which sinus drains the cavernous sinus straight into the internal jugular vein through the jugular foramen?",
+     a:["Inferior petrosal sinus","Superior petrosal sinus","Sphenoparietal sinus","Straight sinus","Occipital sinus"],
+     why:"The inferior petrosal sinus runs in the petro-occipital groove and passes through the front of the jugular foramen to join the IJV. The superior petrosal sinus drains into the transverse/sigmoid junction instead.",
+     trap:null},
+    {q:"The retromandibular vein is formed within the parotid gland by the union of which veins?",
+     a:["Superficial temporal and maxillary veins","Facial and lingual veins","Posterior auricular and occipital veins","Angular and supraorbital veins","Anterior and external jugular veins"],
+     why:"The superficial temporal and maxillary veins join inside the parotid to form the retromandibular vein. Its anterior division joins the facial vein (common facial → IJV). Its posterior division joins the posterior auricular vein to form the EJV.",
+     trap:null},
+    {q:"A 6-year-old with untreated acute mastoiditis develops a severe headache, fever, and signs of raised intracranial pressure. Thrombosis of which sinus is most likely?",
+     a:["Sigmoid sinus","Superior sagittal sinus","Inferior sagittal sinus","Cavernous sinus","Straight sinus"],
+     why:"The sigmoid sinus lies in a groove on the inner surface of the mastoid part of the temporal bone. Infection spreads through the thin bone and mastoid emissary veins.",
+     trap:null}
+  ]
+},
+{
+  id:"orbit", name:"Orbit Gym", lab:"Lab 4 · The Orbit", leader:"Leader Lacrima", color:"var(--g4)", hex:"#4fa8ea",
+  emb:"drop", badge:"Teardrop Badge", topic:"Tear drainage",
+  intro:"Tears are made up and out to the side, then drain down and in toward the nose. Follow them from my gland to your nose and the Teardrop Badge is yours.",
+  notes:`
+  <h3>The tear pathway</h3>
+  <div class="flow"><span>Lacrimal gland (superolateral orbit)</span><b>→</b><span>Superior conjunctival fornix</span><b>→</b><span>Across cornea (blinking moves tears lateral → medial)</span><b>→</b><span>Lacrimal lake</span></div>
+  <div class="flow"><span>Lacrimal puncta</span><b>→</b><span>Lacrimal canaliculi</span><b>→</b><span>Lacrimal sac</span><b>→</b><span>Nasolacrimal duct</span><b>→</b><span class="end">Inferior meatus</span></div>
+  <ul>
+    <li>The lacrimal sac sits in a fossa formed by the <strong>lacrimal bone</strong> and the frontal process of the maxilla</li>
+    <li>The NL duct opens under the inferior concha. Its fold at the opening is the <strong>valve of Hasner</strong></li>
+    <li>The <strong>orbicularis oculi</strong> (CN VII) closes the lids and pumps tears into the puncta</li>
+  </ul>
+  <h3>Secretomotor pathway (parasympathetic)</h3>
+  <div class="flow"><span>Superior salivatory nucleus</span><b>→</b><span>CN VII (nervus intermedius)</span><b>→</b><span>Greater petrosal n.</span><b>→</b><span>N. of pterygoid canal</span><b>→</b><span class="end">Pterygopalatine ganglion</span></div>
+  <div class="flow"><span>Postganglionic fibers</span><b>→</b><span>Zygomatic n. (V2)</span><b>→</b><span>Communicating branch</span><b>→</b><span>Lacrimal n. (V1)</span><b>→</b><span class="end">Lacrimal gland</span></div>
+  <div class="mnem"><b>Lacrimation reflex:</b> afferent V1 (cornea) → efferent VII (gland). Same loop as the corneal blink reflex.</div>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span>
+    <ul>
+      <li>CN VII lesion <strong>proximal to the geniculate ganglion</strong> → <em>dry eye</em> (greater petrosal lost) + hyperacusis + taste loss + facial paralysis</li>
+      <li>Lesion at the <strong>stylomastoid foramen</strong> (Bell palsy, parotid tumor) → tears still made, but they <em>spill onto the cheek</em> (orbicularis weak, lower lid sags away from the eye)</li>
+      <li><strong>Congenital NL duct obstruction</strong> (valve of Hasner hasn't opened) → infant with constant tearing and crusting but a white eye. Treat with lacrimal sac massage</li>
+      <li>Crying makes your nose run because tears drain into the <strong>inferior meatus</strong></li>
+    </ul>
+  </div>`,
+  qs:[
+    {q:"Which sequence correctly traces tears from the eye surface into the nose?",
+     a:["Lacrimal puncta → canaliculi → lacrimal sac → nasolacrimal duct → inferior meatus","Lacrimal sac → puncta → canaliculi → nasolacrimal duct → middle meatus","Canaliculi → puncta → nasolacrimal duct → lacrimal sac → inferior meatus","Lacrimal puncta → nasolacrimal duct → lacrimal sac → sphenoethmoidal recess","Lacrimal gland ducts → canaliculi → lacrimal sac → superior meatus"],
+     why:"Tears gather at the lacrimal lake, enter the puncta on the lid margins, run through the canaliculi to the lacrimal sac, then down the nasolacrimal duct to the inferior meatus.",
+     trap:"The middle meatus is where the <em>sinuses</em> drain. The inferior meatus receives only the nasolacrimal duct."},
+    {q:"A patient says their nose runs whenever they cry. Where does the nasolacrimal duct open?",
+     a:["Inferior nasal meatus","Middle nasal meatus","Superior nasal meatus","Sphenoethmoidal recess","Nasopharynx at the torus tubarius"],
+     why:"The nasolacrimal duct opens into the front of the inferior meatus, under the inferior concha. It is the only structure that drains there.",
+     trap:null},
+    {q:"A 6-week-old has had constant tearing and crusted discharge from the left eye since birth. The conjunctiva is not red, and pressing over the medial canthus pushes mucus out of the punctum. Where is the most likely blockage?",
+     a:["Distal nasolacrimal duct at the valve of Hasner","Lacrimal gland ducts","Superior lacrimal canaliculus","Lacrimal punctum on the upper lid","Frontonasal duct"],
+     why:"Congenital nasolacrimal duct obstruction happens when the membrane at the lower end of the duct (valve of Hasner) doesn't open. Tears and mucus back up into the sac. Most cases clear up with massage.",
+     trap:"A red eye with discharge in a newborn suggests conjunctivitis. Here the conjunctiva is white, so the drainage is blocked."},
+    {q:"Preganglionic parasympathetic fibers for tear secretion synapse in which ganglion?",
+     a:["Pterygopalatine ganglion","Ciliary ganglion","Otic ganglion","Submandibular ganglion","Geniculate ganglion"],
+     why:"The greater petrosal nerve (CN VII) carries preganglionic fibers to the pterygopalatine ganglion. Postganglionic fibers then travel with V2 and V1 branches to the lacrimal gland.",
+     trap:"The geniculate ganglion holds <em>sensory</em> (taste) cell bodies. Nothing synapses there."},
+    {q:"Postganglionic secretomotor fibers reach the lacrimal gland by traveling with which nerves?",
+     a:["Zygomatic branch of V2, then a communicating branch to the lacrimal nerve (V1)","Nasociliary nerve (V1) directly","Chorda tympani","Auriculotemporal nerve (V3)","Short ciliary nerves"],
+     why:"From the pterygopalatine ganglion, fibers join the zygomatic nerve (V2) and then cross to the lacrimal nerve (V1), which enters the gland.",
+     trap:"The auriculotemporal nerve carries parasympathetic fibers to the <em>parotid</em> (from the otic ganglion, CN IX)."},
+    {q:"After a parotid tumor damages the facial nerve at the stylomastoid foramen, a patient says tears keep running down the affected cheek. What is the mechanism?",
+     a:["Orbicularis oculi is paralyzed, so the lid doesn't pump tears into the puncta and the lower lid sags away from the eye","Tear production goes up because the greater petrosal nerve is irritated","The nasolacrimal duct is compressed by the tumor","The lacrimal nerve (V1) is cut","Sympathetic supply to the lacrimal gland is lost"],
+     why:"A lesion at the stylomastoid foramen is <em>distal</em> to where the greater petrosal nerve branches, so tear production is normal. Tears overflow because the orbicularis oculi can no longer pump them into the puncta or hold the lower lid against the eye.",
+     trap:"Dry eye means the lesion is <em>proximal</em> to the geniculate ganglion. Overflowing tears with a distal lesion is expected."},
+    {q:"Where does the lacrimal gland empty tears onto the eye?",
+     a:["Superolateral part of the superior conjunctival fornix","Medial canthus near the caruncle","Inferior conjunctival fornix medially","Lacrimal lake","Directly into the lacrimal sac"],
+     why:"The gland sits in the lacrimal fossa of the frontal bone (superolateral orbit). About 12 ducts open into the lateral superior fornix. Blinking then moves the tear film toward the medial side.",
+     trap:null}
+  ]
+},
+{
+  id:"sinus", name:"Sinus Gym", lab:"Lab 5 · Pharynx, Nose & Nasal Cavity", leader:"Leader Ostius", color:"var(--g5)", hex:"#f09a3e",
+  emb:"hex", badge:"Ostium Badge", topic:"Paranasal sinus drainage",
+  intro:"Each sinus drains through its own opening into the nose. Know which opening, and why the maxillary sinus drains so badly, and you'll get past me.",
+  notes:`
+  <h3>Where each opening drains (top → bottom)</h3>
+  <div class="tbl"><table>
+    <tr><th>Location</th><th>What drains there</th></tr>
+    <tr><td><strong>Sphenoethmoidal recess</strong> (above superior concha)</td><td>Sphenoid sinus</td></tr>
+    <tr><td><strong>Superior meatus</strong></td><td>Posterior ethmoidal cells</td></tr>
+    <tr><td><strong>Middle meatus</strong></td><td>Frontal (frontonasal duct → ethmoidal infundibulum), anterior ethmoidal and maxillary (hiatus semilunaris), middle ethmoidal (ethmoid bulla)</td></tr>
+    <tr><td><strong>Inferior meatus</strong></td><td>Nasolacrimal duct only</td></tr>
+  </table></div>
+  <div class="mnem"><b>"The middle gets almost everything":</b> Frontal, Anterior &amp; Middle ethmoid, Maxillary. Only <b>S</b>phenoid (recess) and <b>P</b>osterior ethmoid (superior meatus) drain higher up.</div>
+  <h3>Clinically important relationships</h3>
+  <ul>
+    <li><strong>Maxillary:</strong> largest. Its <strong>opening is high on the medial wall</strong>, so it can't drain by gravity when upright and is the most commonly infected. Molar/premolar roots poke into its floor. The infraorbital n. runs in its roof</li>
+    <li><strong>Ethmoid:</strong> separated from the orbit only by the paper-thin <strong>lamina papyracea</strong>, so kids can get orbital cellulitis from ethmoid sinusitis</li>
+    <li><strong>Sphenoid:</strong> pituitary sits above it (transsphenoidal surgery). The cavernous sinus, ICA and optic nerve are beside it</li>
+    <li><strong>Frontal:</strong> not present until about age 7. It drains by gravity through the frontonasal duct</li>
+    <li>At birth only the maxillary and ethmoid sinuses exist</li>
+  </ul>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span>
+    <ul>
+      <li>Maxillary sinusitis → pain referred to the <strong>upper teeth</strong> (superior alveolar nn., V2)</li>
+      <li>Extracting an upper molar → <strong>oroantral fistula</strong> (fluid comes out the nose when drinking)</li>
+      <li>Child with sinusitis, then proptosis + painful eye movements → <strong>orbital cellulitis</strong> via the ethmoid sinus. This is an emergency</li>
+      <li>Chronic sinusitis + infertility + situs inversus → <strong>primary ciliary dyskinesia</strong> (Kartagener). Mucociliary clearance moves mucus toward the ostia</li>
+    </ul>
+  </div>`,
+  qs:[
+    {q:"Where does the maxillary sinus drain?",
+     a:["Hiatus semilunaris of the middle meatus","Inferior meatus","Superior meatus","Sphenoethmoidal recess","Nasopharynx"],
+     why:"The maxillary opening empties into the back of the hiatus semilunaris in the middle meatus. The frontal and anterior ethmoidal sinuses also drain into this area.",
+     trap:null},
+    {q:"The sphenoid sinus drains into which space?",
+     a:["Sphenoethmoidal recess","Middle meatus","Inferior meatus","Superior meatus","Ethmoidal infundibulum"],
+     why:"The sphenoethmoidal recess sits above and behind the superior concha, in front of the sphenoid body. It is the highest drainage point in the nasal cavity.",
+     trap:null},
+    {q:"Which sinus cells open into the superior meatus?",
+     a:["Posterior ethmoidal cells","Anterior ethmoidal cells","Middle ethmoidal cells","Frontal sinus","Maxillary sinus"],
+     why:"Only the posterior ethmoidal cells open into the superior meatus. Anterior and middle ethmoidal cells drain to the middle meatus.",
+     trap:"Ethmoid cells are split by position: posterior drain to the superior meatus, anterior and middle drain to the middle meatus."},
+    {q:"Why is the maxillary sinus the most commonly infected paranasal sinus in adults?",
+     a:["Its opening is high on the medial wall, so it can't drain by gravity when upright","It has no mucociliary lining","It drains into the nasolacrimal duct","It connects directly with the nasopharynx","It has no innervation, so symptoms show up late"],
+     why:"The maxillary opening sits near the top of the sinus. Drainage depends on cilia pushing mucus upward, so swelling or thick mucus easily causes a backup.",
+     trap:null},
+    {q:"A patient with acute sinusitis says their upper back teeth ache, but the teeth look healthy. Which sinus is most likely involved, and which nerve carries the referred pain?",
+     a:["Maxillary sinus; superior alveolar nerves (V2)","Frontal sinus; supraorbital nerve (V1)","Sphenoid sinus; optic nerve","Ethmoid sinus; inferior alveolar nerve (V3)","Maxillary sinus; chorda tympani"],
+     why:"The roots of the upper molars and premolars sit against the floor of the maxillary sinus. The superior alveolar nerves supply both the teeth and the sinus lining, so sinus pain feels like tooth pain.",
+     trap:"Upper teeth are V2 (superior alveolar). Lower teeth are V3 (inferior alveolar)."},
+    {q:"A 7-year-old with a week of sinusitis now has eyelid swelling, proptosis, pain with eye movement, and worse vision. Which structure did the infection most likely cross?",
+     a:["Lamina papyracea (orbital plate of the ethmoid)","Cribriform plate","Orbital floor over the maxillary sinus","Anterior wall of the frontal sinus","Nasolacrimal duct"],
+     why:"The ethmoid air cells are separated from the medial orbit only by the thin lamina papyracea. This is the classic route to orbital cellulitis in children.",
+     trap:"Painful eye movement, proptosis, or vision loss means the infection is <em>orbital</em> (behind the septum), not just periorbital."},
+    {q:"A neurosurgeon removes a pituitary adenoma through the nose. Which sinus does the approach go through, and where does that sinus normally drain?",
+     a:["Sphenoid sinus; sphenoethmoidal recess","Ethmoid sinus; superior meatus","Maxillary sinus; middle meatus","Frontal sinus; middle meatus","Sphenoid sinus; inferior meatus"],
+     why:"The sella turcica sits directly above the sphenoid sinus. The sphenoid sinus opens into the sphenoethmoidal recess. The cavernous sinus and ICA run along each side, so they are at risk during surgery.",
+     trap:null}
+  ]
+},
+{
+  id:"larynx", name:"Larynx Gym", lab:"Lab 6 · Palate, Oral Cavity & Larynx", leader:"Leader Alara", color:"var(--g6)", hex:"#c56ad6",
+  emb:"layers", badge:"Alar Badge", topic:"Danger space of the neck",
+  intro:"A bad molar can lead to an infection in the chest. My fascial layers decide how far it goes. Learn which space runs down to the diaphragm.",
+  notes:`
+  <h3>Deep cervical fascia layers</h3>
+  <ul>
+    <li><strong>Investing layer:</strong> surrounds the neck. Encloses SCM, trapezius, parotid, and submandibular glands</li>
+    <li><strong>Pretracheal (visceral) layer:</strong> thyroid, trachea, esophagus. Behind the pharynx it is the <strong>buccopharyngeal fascia</strong></li>
+    <li><strong>Prevertebral layer:</strong> covers the spine and deep muscles. In front it splits into the <strong>alar fascia</strong> (front) and the prevertebral fascia proper (back)</li>
+    <li><strong>Carotid sheath:</strong> made from all three layers. Contains the CCA/ICA, IJV, and CN X</li>
+  </ul>
+  <h3>Order from the pharynx back to the spine</h3>
+  <div class="flow"><span>Pharynx</span><b>→</b><span>Buccopharyngeal fascia</span><b>→</b><span>Retropharyngeal space</span><b>→</b><span>Alar fascia</span><b>→</b><span class="end">DANGER SPACE</span><b>→</b><span>Prevertebral fascia</span><b>→</b><span>Prevertebral space</span><b>→</b><span>Vertebrae</span></div>
+  <div class="tbl"><table>
+    <tr><th>Space</th><th>Between</th><th>Extends to</th></tr>
+    <tr><td>Pretracheal</td><td>Investing &amp; pretracheal fascia</td><td>Anterior (superior) mediastinum → pericardium</td></tr>
+    <tr><td>Retropharyngeal</td><td>Buccopharyngeal &amp; alar fascia</td><td>Superior mediastinum (~T1–T2, where alar fuses)</td></tr>
+    <tr><td><strong>Danger space</strong></td><td><strong>Alar &amp; prevertebral fascia</strong></td><td><strong>Skull base → diaphragm</strong> (posterior mediastinum)</td></tr>
+    <tr><td>Prevertebral</td><td>Prevertebral fascia &amp; vertebrae</td><td>Along the spine to the coccyx</td></tr>
+  </table></div>
+  <div class="flow"><span>Tooth / tonsil infection</span><b>→</b><span>Parapharyngeal space</span><b>→</b><span>Retropharyngeal space</span><b>→</b><span>Danger space</span><b>→</b><span class="end">Posterior mediastinitis</span></div>
+  <div class="mnem"><b>Think "A-P":</b> the danger space is between the <b>A</b>lar and <b>P</b>revertebral fascia, and it runs the full length of the neck and chest down to the diaphragm.</div>
+  <div class="hy"><span class="tag">USMLE STEP 1 · HIGH YIELD</span>
+    <ul>
+      <li><strong>Retropharyngeal abscess</strong> (usually under 5 years): fever, drooling, muffled voice, won't extend the neck, widened prevertebral soft tissue on lateral X-ray. The retropharyngeal nodes (of Rouvière) that suppurate shrink after childhood</li>
+      <li><strong>Ludwig angina:</strong> 2nd/3rd lower molar roots lie <em>below the mylohyoid line</em> → submandibular space → spreads on both sides, pushes the tongue up, threatens the airway</li>
+      <li><strong>Lemierre syndrome:</strong> pharyngitis → <em>Fusobacterium necrophorum</em> septic thrombophlebitis of the <strong>IJV</strong> → septic lung emboli</li>
+    </ul>
+  </div>`,
+  qs:[
+    {q:"Which two fascial layers form the boundaries of the \"danger space\" of the neck?",
+     a:["Alar fascia (front) and prevertebral fascia (back)","Buccopharyngeal fascia and alar fascia","Investing fascia and pretracheal fascia","Pretracheal fascia and carotid sheath","Prevertebral fascia and the vertebral bodies"],
+     why:"The danger space is between the alar fascia and the prevertebral fascia proper, both of which come from the prevertebral layer. The retropharyngeal space is just in front of it.",
+     trap:"Buccopharyngeal + alar = <em>retropharyngeal</em> space. It is one space further forward."},
+    {q:"A 38-year-old man with an untreated lower molar abscess has a deep neck abscess strictly between the alar and prevertebral fasciae. Without treatment, how far could it spread?",
+     a:["Down the posterior mediastinum to the diaphragm","Anterior mediastinum down to the pericardium","Into the infratemporal fossa along the carotid sheath","Into the submandibular triangle through the investing fascia","Only to the superior mediastinum at T1–T2"],
+     why:"The danger space runs without a break from the skull base to the diaphragm, so infection can reach the posterior mediastinum (descending necrotizing mediastinitis).",
+     trap:"Stopping at T1–T2 describes the <em>retropharyngeal</em> space. Spreading to the pericardium describes the <em>pretracheal</em> space."},
+    {q:"A needle is passed from the posterior pharyngeal wall straight back toward the C3 vertebral body. What order does it go through the layers?",
+     a:["Buccopharyngeal fascia → retropharyngeal space → alar fascia → danger space → prevertebral fascia","Alar fascia → buccopharyngeal fascia → danger space → retropharyngeal space → prevertebral fascia","Prevertebral fascia → danger space → alar fascia → retropharyngeal space → buccopharyngeal fascia","Investing fascia → pretracheal space → alar fascia → prevertebral fascia","Buccopharyngeal fascia → danger space → alar fascia → retropharyngeal space → prevertebral fascia"],
+     why:"Going front to back behind the pharynx: buccopharyngeal fascia, retropharyngeal space, alar fascia, danger space, prevertebral fascia, prevertebral space, then bone.",
+     trap:null},
+    {q:"A 3-year-old has fever, drooling, a muffled voice, and won't extend his neck. A lateral neck X-ray shows widened prevertebral soft tissue. Why does this condition mostly affect young children?",
+     a:["Retropharyngeal lymph nodes that suppurate in young children shrink as they get older","Children have no alar fascia","The danger space does not exist until puberty","Children have a larger thyroid that blocks drainage","The buccopharyngeal fascia is not complete until adolescence"],
+     why:"Retropharyngeal abscesses in children usually come from suppurative retropharyngeal (Rouvière) nodes that drain the nasopharynx and adenoids. These nodes shrink after about age 5, so adults get it mainly from trauma or spread from other spaces.",
+     trap:"Drooling and a toxic appearance can also suggest epiglottitis. The key finding here is widened <em>prevertebral soft tissue</em>, not a thumbprint sign."},
+    {q:"Infection in the pretracheal (visceral) space of the neck spreads downward most directly into which region?",
+     a:["Anterior (superior) mediastinum","Posterior mediastinum to the diaphragm","Along the vertebral column to the coccyx","Into the axilla along the axillary sheath","Into the cranial cavity through the jugular foramen"],
+     why:"The pretracheal fascia continues down along the trachea and great vessels into the anterior/superior mediastinum and blends with the fibrous pericardium.",
+     trap:null},
+    {q:"A 3rd mandibular molar abscess causes firm, bilateral swelling under the jaw with the tongue pushed upward. Which anatomic feature explains why it started in the submandibular space?",
+     a:["The molar roots sit below the mylohyoid line","The molar roots sit above the mylohyoid line","The molar drains into submental lymph nodes","The buccinator attaches below the molar","The lingual nerve runs in the tooth socket"],
+     why:"The roots of the 2nd and 3rd lower molars end below the mylohyoid attachment, so pus breaks into the submandibular space. Roots of the incisors, premolars, and 1st molar are above it, so they drain into the sublingual space.",
+     trap:"Ludwig angina is a surgical airway emergency. Securing the airway comes before any imaging."},
+    {q:"Tuberculosis of the cervical spine forms an abscess deep to the prevertebral fascia. Where can it track?",
+     a:["Along the vertebral column, as far as the coccyx and into the psoas sheath","Only into the posterior mediastinum to the diaphragm","Into the anterior mediastinum","Into the submandibular space","Into the retropharyngeal space, stopping at T1"],
+     why:"The prevertebral space (behind the prevertebral fascia) runs the whole length of the spine. It can also spread laterally along the axillary sheath and down into the psoas region (Pott disease).",
+     trap:null}
+  ]
+}
+];
+
+const ELITE = [
+{
+  name:"Elite I · Stasis", title:"Master of Thrombi", color:"#e0525f",
+  intro:"Clots, veins, and cranial nerves. My questions combine all three.",
+  qs:[
+    {q:"A 24-year-old woman squeezed a pimple on her nose 5 days ago. She now has fever, headache, bilateral proptosis, and chemosis. On exam, her right eye cannot move laterally. Which other finding is most likely?",
+     a:["Decreased sensation over the forehead","Deviation of the jaw to the right on opening","Loss of taste on the anterior two-thirds of the tongue","Tongue deviation to the right","Hoarseness"],
+     why:"Cavernous sinus thrombosis affects the nerves in and around the sinus: III, IV, V1, V2 (lateral wall) and VI (middle). V1 numbness of the forehead fits. The infection spreads to the other side through the intercavernous sinuses, so it is often bilateral.",
+     trap:"Jaw deviation = V3, which is <em>not</em> in the cavernous sinus. Taste = VII. Tongue = XII. Hoarseness = X."},
+    {q:"An 18-year-old had a sore throat 1 week ago. He now has high fever, a tender swollen area along the anterior border of the SCM, and pleuritic chest pain. CT shows several cavitating lung nodules. Which vessel is thrombosed?",
+     a:["Internal jugular vein","External jugular vein","Anterior jugular vein","Superior ophthalmic vein","Vertebral vein"],
+     why:"This is Lemierre syndrome. Oropharyngeal infection (<em>Fusobacterium necrophorum</em>) spreads through the parapharyngeal space to cause septic thrombophlebitis of the IJV. Infected emboli then travel to the lungs.",
+     trap:null},
+    {q:"A 31-year-old woman taking oral contraceptives has a worsening headache, papilledema, and a seizure. Contrast CT shows an \"empty delta\" sign at the back of the superior sagittal sinus. Which process is most directly impaired and causing her raised ICP?",
+     a:["CSF reabsorption through arachnoid granulations","CSF production by the choroid plexus","CSF flow through the cerebral aqueduct","Arterial inflow through the internal carotid arteries","Drainage of the cavernous sinus into the inferior petrosal sinus"],
+     why:"Arachnoid granulations drain CSF into the superior sagittal sinus. When that sinus clots, venous pressure rises and CSF absorption drops, causing papilledema and raised ICP. Venous infarcts can also cause seizures.",
+     trap:null},
+    {q:"A 5-year-old with untreated otitis media and mastoiditis develops a severe headache and papilledema. The clot most likely formed first in the sinus that grooves which bone surface?",
+     a:["Inner surface of the mastoid part of the temporal bone (sigmoid sinus)","Clivus (basilar plexus)","Body of the sphenoid (cavernous sinus)","Lower edge of the falx cerebri (inferior sagittal sinus)","Along the lesser wing of the sphenoid (sphenoparietal sinus)"],
+     why:"The sigmoid sinus makes a deep S-shaped groove on the inner surface of the mastoid. Infection crosses thin bone and mastoid emissary veins, and the clot can extend into the IJV.",
+     trap:null},
+    {q:"After a high-speed crash, a patient develops a pulsating protruding eye, a bruit heard over the orbit, and swollen conjunctiva. Arterial blood is flowing backward through which vein?",
+     a:["Superior ophthalmic vein","Facial vein","Retromandibular vein","Great cerebral vein","Inferior petrosal sinus"],
+     why:"A carotid–cavernous fistula lets high-pressure ICA blood into the cavernous sinus. It flows backward into the valveless superior ophthalmic vein, causing pulsating proptosis, chemosis, and an orbital bruit.",
+     trap:null}
+  ]
+},
+{
+  name:"Elite II · Sentinel", title:"Keeper of the Nodes", color:"#2fb9a3",
+  intro:"Every cancer spreads through lymph. I'll ask where it goes first.",
+  qs:[
+    {q:"A 45-year-old man of southern Chinese descent has unilateral hearing loss from middle-ear fluid and a painless upper neck mass. Biopsy shows EBV-positive undifferentiated carcinoma. Which nodes are the first to receive spread from this tumor?",
+     a:["Retropharyngeal (lateral, of Rouvière) nodes","Submental nodes","Submandibular nodes","Occipital nodes","Left supraclavicular nodes"],
+     why:"Nasopharyngeal carcinoma drains first to the retropharyngeal nodes, then to the upper deep cervical and posterior triangle nodes. Middle-ear fluid comes from the tumor blocking the auditory tube.",
+     trap:null},
+    {q:"A melanoma on the lateral forehead near the temple needs sentinel node biopsy. Which structure is most at risk during removal of the most likely sentinel node?",
+     a:["Branches of the facial nerve","Hypoglossal nerve","Spinal accessory nerve","Marginal mandibular branch only, at the submental triangle","Vagus nerve in the carotid sheath"],
+     why:"The temple and lateral forehead drain to the parotid/preauricular nodes, which sit in and on the parotid gland. The facial nerve branches run through the parotid.",
+     trap:"A sentinel node in the <em>posterior triangle</em> would put CN XI at risk. Match the node to the nerve next to it."},
+    {q:"A 60-year-old smoker has a squamous cell carcinoma confined to the true vocal folds. Why does this tumor rarely spread to lymph nodes early?",
+     a:["The true vocal folds have very few lymphatic vessels","All laryngeal lymph drains to the thoracic duct, skipping nodes","The vocal folds drain to submental nodes, which are hard to feel","The recurrent laryngeal nerve blocks lymph flow","The thyroid cartilage filters the lymph"],
+     why:"The true vocal folds (with their tightly bound mucosa) have very few lymphatics. That is why glottic cancer found early has a good prognosis. Supraglottic tumors spread to nodes early because that area has many lymphatics.",
+     trap:null},
+    {q:"A 50-year-old has a squamous cell carcinoma of the central lower lip. Which node group should be checked first?",
+     a:["Submental nodes","Parotid nodes","Occipital nodes","Retroauricular nodes","Jugulo-omohyoid node on one side only"],
+     why:"The central lower lip drains to the submental nodes, often on both sides. The lateral lower lip and upper lip drain to the submandibular nodes.",
+     trap:null},
+    {q:"During a left radical neck dissection, milky fluid collects in the wound near the junction of the left IJV and subclavian vein. Which structure was injured?",
+     a:["Thoracic duct","Right lymphatic duct","Jugulodigastric node","Cisterna chyli","External jugular vein"],
+     why:"The thoracic duct arches over at about C7 and empties into the left venous angle. Injury causes a chyle leak (milky fluid).",
+     trap:"The right lymphatic duct is on the <em>right</em> side and carries much less lymph. Chyle leaks happen far more often on the left."}
+  ]
+},
+{
+  name:"Elite III · Fascia", title:"Architect of Spaces", color:"#c56ad6",
+  intro:"Infections follow the fascial planes, so I'll test how well you know them.",
+  qs:[
+    {q:"A 52-year-old with diabetes has a deep neck infection after a dental abscess. CT shows gas and fluid behind the pharynx that continues into the posterior mediastinum below T6. Which fascia forms the front wall of the space involved?",
+     a:["Alar fascia","Buccopharyngeal fascia","Investing fascia","Pretracheal fascia","Carotid sheath"],
+     why:"Spread below the level where the alar fascia fuses (about T1–T2) into the posterior mediastinum means the danger space is involved. The alar fascia is its front wall and the prevertebral fascia is its back wall.",
+     trap:"The buccopharyngeal fascia forms the front wall of the <em>retropharyngeal</em> space, which ends higher up."},
+    {q:"A wrestler has an infected laceration under the galea over the parietal bone. Days later he develops fever, headache, and signs of superior sagittal sinus thrombosis. Which structures most directly carried the infection inward?",
+     a:["Parietal emissary veins","Superficial temporal arteries","Occipital lymphatics","Supraorbital nerves","Middle meningeal arteries"],
+     why:"Parietal emissary veins pass through the parietal foramina and connect scalp veins to the superior sagittal sinus. They lack effective valves, which is why the loose areolar layer is the danger zone.",
+     trap:null},
+    {q:"Which muscle attachment decides whether a lower tooth infection spreads into the sublingual or the submandibular space?",
+     a:["Mylohyoid","Buccinator","Genioglossus","Hyoglossus","Anterior belly of digastric"],
+     why:"The mylohyoid forms the floor of the mouth. Roots ending above its line (incisors to 1st molar) drain into the sublingual space. Roots ending below it (2nd and 3rd molars) drain into the submandibular space, the starting point of Ludwig angina.",
+     trap:"The buccinator decides whether infection points into the mouth or into the cheek (buccal space). That is a different question."},
+    {q:"A 4-year-old with a retropharyngeal abscess is treated in time. If the infection had crossed only the alar fascia, into which space would it have spread next?",
+     a:["Danger space","Prevertebral space","Pretracheal space","Parotid space","Carotid sheath only"],
+     why:"The alar fascia separates the retropharyngeal space (in front) from the danger space (behind). Getting through it opens a route to the posterior mediastinum and diaphragm.",
+     trap:null},
+    {q:"A 60-year-old develops chest pain, fever, and a widened mediastinum after an esophageal perforation in the neck from a swallowed fish bone. The perforation is in the front wall of the cervical esophagus, inside the visceral compartment. Which mediastinal region is at greatest risk?",
+     a:["Anterior (superior) mediastinum","Posterior mediastinum via the danger space","Prevertebral space to the coccyx","Middle cranial fossa","Axilla via the axillary sheath"],
+     why:"Infection in the pretracheal/visceral compartment follows the trachea and great vessels into the superior/anterior mediastinum toward the pericardium.",
+     trap:"If the infection were behind the alar fascia, the answer would be the <em>posterior</em> mediastinum. Where the infection starts decides the answer."}
+  ]
+},
+{
+  name:"Elite IV · Ostia", title:"Warden of Openings", color:"#4fa8ea",
+  intro:"The last challenge covers tears, sinuses, and the nerves that supply them.",
+  qs:[
+    {q:"After a temporal bone fracture, a patient has right facial paralysis, a dry right eye, loud sounds on the right, and lost taste on the right anterior tongue. Which nerve's fibers explain the dry eye?",
+     a:["Greater petrosal nerve","Chorda tympani","Nerve to stapedius","Lesser petrosal nerve","Lacrimal nerve (V1) sensory fibers"],
+     why:"The greater petrosal nerve branches off at the geniculate ganglion. A lesion proximal to it removes the preganglionic parasympathetic supply to the pterygopalatine ganglion, so the lacrimal gland stops secreting.",
+     trap:"The chorda tympani explains the taste loss, and the nerve to stapedius explains the hyperacusis. Neither affects tears."},
+    {q:"A 34-year-old has nasal polyps filling the middle meatus. Which sinus is most likely to still drain normally?",
+     a:["Sphenoid sinus","Maxillary sinus","Frontal sinus","Anterior ethmoidal cells","Middle ethmoidal cells"],
+     why:"The frontal, maxillary, anterior and middle ethmoidal sinuses all drain into the middle meatus. The sphenoid sinus drains into the sphenoethmoidal recess, which the polyps don't block (the posterior ethmoidal cells, in the superior meatus, are also spared).",
+     trap:null},
+    {q:"Three weeks after an upper first molar extraction, a patient says water comes out of her nose when she drinks, and she has chronic sinus pain. What is the problem?",
+     a:["An oroantral fistula between the tooth socket and the maxillary sinus","A tear in the nasolacrimal duct","A cleft of the secondary palate","A defect in the cribriform plate","Blockage of the frontonasal duct"],
+     why:"The roots of the upper molars can sit directly under the maxillary sinus floor. Removing the tooth can leave an opening between the mouth and the sinus. Fluid then passes into the sinus and out through the middle meatus.",
+     trap:null},
+    {q:"A Le Fort II fracture runs through the frontal process of the maxilla and the medial orbital wall. Months later the patient has constant tearing onto the cheek, but his blink and eyelid position are normal. Which structure is most likely injured?",
+     a:["Nasolacrimal duct / lacrimal sac region","Lacrimal gland","Greater petrosal nerve","Orbicularis oculi","Zygomatic nerve"],
+     why:"The lacrimal sac sits in the fossa formed by the lacrimal bone and the frontal process of the maxilla, and the duct runs down through the maxilla. A fracture here can block drainage, so tears overflow even though they are produced normally and the lids work.",
+     trap:"If the blink and lid position were abnormal, orbicularis/CN VII would be more likely. The stem rules that out."},
+    {q:"A 7-year-old with frontal headache and fever has swelling above one eyebrow. His 3-year-old brother has maxillary and ethmoid sinusitis but no frontal sinus involvement. Why is the younger child's frontal sinus spared?",
+     a:["The frontal sinus usually does not develop until about age 7 or later","The frontal sinus drains into the inferior meatus in young children","Young children have no frontonasal duct","Frontal sinusitis is only caused by dental infection","The frontal sinus drains into the sphenoethmoidal recess until puberty"],
+     why:"Only the maxillary and ethmoid sinuses are present at birth. The frontal sinus develops later (around age 6–7 and keeps growing through adolescence), and the sphenoid sinus develops even later. So frontal sinusitis is rare in toddlers.",
+     trap:"Swelling above the eyebrow in an older child with frontal sinusitis may be a Pott puffy tumor (subperiosteal abscess with frontal bone osteomyelitis)."}
+  ]
+}
+];
+
+/* ---------- state ---------- */
+const KEY = "hoyadocs-gymleaders-v1";
+let S = {badges:{}, best:{}, elite:false, eliteBest:null};
+let view = {screen:"map"};
+let B = null; // battle
+
+function load(){ try{ const r = localStorage.getItem(KEY); if(r){ const d = JSON.parse(r); S = Object.assign(S,d);} }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function shuffle(arr){ const a = arr.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function prepQs(qs){
+  return shuffle(qs).map(q=>{
+    const opts = shuffle(q.a.map((t,i)=>({t,ok:i===0})));
+    return {...q, opts};
+  });
+}
+const badgeCount = () => GYMS.filter(g=>S.badges[g.id]).length;
+const $ = s => document.querySelector(s);
+const app = () => document.getElementById("app");
+
+/* ---------- screens ---------- */
+function topbar(extra=""){
+  return `<div class="topbar">
+    <div class="brand"><div class="brand-mark">H</div><div><b>HoyaDocs</b><small>HEAD &amp; NECK · GYM LEADERS</small></div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${extra}</div>
+  </div>`;
+}
+function footer(){
+  return `<footer><span>HoyaDocs · Drainage Gym Leaders</span><span>Updated ${UPDATED} · ${REV}</span></footer>`;
+}
+
+function renderMap(){
+  const n = badgeCount();
+  const slots = GYMS.map(g=>`<div class="slot ${S.badges[g.id]?'':'empty'}" title="${g.badge}">${EMB[g.emb](g.hex)}</div>`).join("");
+  const gyms = GYMS.map((g,i)=>{
+    const done = S.badges[g.id];
+    const best = S.best[g.id];
+    return `<button class="gym" style="--c:${g.color}" data-gym="${i}" aria-label="${g.name}, ${g.topic}">
+      <div class="emb">${EMB[g.emb](g.hex)}</div>
+      <div><div class="lab">${g.lab}</div><h3>${g.name}</h3><div class="leader">${g.leader}</div></div>
+      <div class="topic"><span>${g.topic}</span>${done?`<span class="status done">★ Badge</span>`:`<span class="status go">Challenge</span>`}</div>
+      ${best!=null?`<div class="best" style="grid-column:1/-1">Best: ${best}/${g.qs.length} correct</div>`:""}
+    </button>`;
+  }).join("");
+  const unlocked = n===6;
+  const eliteDots = ELITE.map((e,i)=>`<span class="${S.elite?'on':''}">${["I","II","III","IV"][i]}</span>`).join("");
+  app().innerHTML = `
+  ${topbar(`<button class="navbtn" id="resetBtn">Reset progress</button>`)}
+  <div id="confirmSlot"></div>
+  <section class="hero">
+    <div>
+      <h1>Drainage<br><span>Gym Leaders</span></h1>
+      <p>Six labs, six gym leaders. Beat each leader's battle to earn their badge. Collect all six to face the Elite Four: 20 mixed Step 1 vignettes in a row, with your hearts carrying over from one battle to the next.</p>
+      <div class="chips"><span class="chip">Lymphatic</span><span class="chip">Tear</span><span class="chip">Paranasal</span><span class="chip">Venous</span><span class="chip">Danger space</span><span class="chip">Danger zone</span><span class="chip">Danger triangle</span></div>
+    </div>
+    <div class="trainer">
+      <div class="row"><h2>Trainer Card</h2><span class="lbl">Badges ${n}/6</span></div>
+      <div class="badgecase">${slots}</div>
+      <div class="meter"><i style="width:${(n/6)*100}%"></i></div>
+      <div class="foot"><span>${S.elite?"🏆 Hall of Fame":unlocked?"Elite Four unlocked":`${6-n} badge${6-n===1?"":"s"} to the Elite Four`}</span><span>${S.eliteBest!=null?`Elite best: ${S.eliteBest}/20`:""}</span></div>
+    </div>
+  </section>
+  <div class="section-h"><h2>Gyms</h2><span class="lbl">3 hearts per battle · any order</span></div>
+  <div class="gyms">${gyms}</div>
+  <div class="elite-card ${unlocked?'':'locked'}">
+    <div class="four">${eliteDots}</div>
+    <div class="grow"><h2>The Elite Four</h2><p>${unlocked?"Four masters, five vignettes each, all topics mixed. You start with 5 hearts that carry over, and win 1 back after each victory.":"Locked. Earn all six gym badges to challenge the Elite Four."}</p></div>
+    <button class="btn" id="eliteBtn" ${unlocked?"":"disabled"}>${unlocked?(S.elite?"Rematch":"Challenge"):"🔒 Locked"}</button>
+  </div>
+  ${footer()}`;
+  document.querySelectorAll("[data-gym]").forEach(b=>b.onclick=()=>{view={screen:"intro",gym:+b.dataset.gym};render();window.scrollTo(0,0);});
+  $("#eliteBtn").onclick=()=>{ if(badgeCount()===6){view={screen:"eliteIntro",idx:0};B=null;render();window.scrollTo(0,0);} };
+  $("#resetBtn").onclick=()=>{
+    $("#confirmSlot").innerHTML = `<div class="confirm" style="margin:-8px 0 16px">Erase all badges and scores?
+      <button class="navbtn" id="yesReset" style="border-color:var(--bad);color:var(--bad)">Erase</button>
+      <button class="navbtn" id="noReset">Keep</button></div>`;
+    $("#yesReset").onclick=()=>{S={badges:{},best:{},elite:false,eliteBest:null};save();render();};
+    $("#noReset").onclick=()=>{$("#confirmSlot").innerHTML="";};
+  };
+}
+
+function renderIntro(){
+  const g = GYMS[view.gym];
+  app().innerHTML = `
+  ${topbar(`<button class="navbtn" id="back">← Map</button>`)}
+  <div style="--c:${g.color}">
+    <div class="intro-head">
+      <div class="bigemb">${EMB[g.emb](g.hex)}</div>
+      <div><div class="lab">${g.lab} · ${g.topic}</div><h1>${g.name}</h1></div>
+    </div>
+    <div class="dialog"><div class="who">${g.leader}</div><p>${g.intro}</p></div>
+    <div class="cta-row"><button class="btn" id="fight">Battle ${g.leader.replace("Leader ","")} →</button><span class="lbl">${g.qs.length} questions · 3 hearts</span></div>
+    <div class="notes">
+      <h2>Leader's Field Notes</h2>
+      ${g.notes}
+    </div>
+    <div class="cta-row"><button class="btn" id="fight2">Battle ${g.leader.replace("Leader ","")} →</button></div>
+  </div>
+  ${footer()}`;
+  $("#back").onclick=()=>{view={screen:"map"};render();};
+  const go=()=>startGym(view.gym);
+  $("#fight").onclick=go; $("#fight2").onclick=go;
+}
+
+function startGym(i){
+  const g = GYMS[i];
+  B = {kind:"gym", gym:i, qs:prepQs(g.qs), i:0, hearts:3, max:3, hp:g.qs.length, hpMax:g.qs.length, correct:0, missed:[], answered:null};
+  view={screen:"battle"}; render(); window.scrollTo(0,0);
+}
+function startElite(idx, carry){
+  const e = ELITE[idx];
+  const hearts = carry==null?5:carry;
+  B = {kind:"elite", idx, qs:prepQs(e.qs), i:0, hearts, max:5, hp:e.qs.length, hpMax:e.qs.length, correct:0, missed:[], answered:null,
+       total: (B && B.kind==="elite" && idx>0) ? B.total : 0};
+  view={screen:"battle"}; render(); window.scrollTo(0,0);
+}
+
+function foeInfo(){
+  if(B.kind==="gym"){const g=GYMS[B.gym];return {name:g.leader,sub:g.name,color:g.hex,emb:EMB[g.emb](g.hex),lab:g.topic};}
+  const e=ELITE[B.idx];return {name:e.name,sub:e.title,color:e.color,emb:EMB.crown(e.color),lab:"Mixed · Step 1"};
+}
+
+function renderBattle(){
+  const f = foeInfo();
+  const q = B.qs[B.i];
+  const pct = Math.max(0,(B.hp/B.hpMax)*100);
+  const cls = pct>50?"":pct>20?"mid":"low";
+  const hearts = Array.from({length:B.max},(_,k)=>heart(k<B.hearts)).join("");
+  const letters = "ABCDE";
+  const opts = q.opts.map((o,k)=>{
+    let c="";
+    if(B.answered!=null){
+      if(o.ok) c="right"; else if(k===B.answered) c="wrong"; else c="dim";
+    }
+    return `<button class="opt ${c}" data-o="${k}" ${B.answered!=null?"disabled":""}><span class="k">${letters[k]}</span><span>${o.t}</span></button>`;
+  }).join("");
+  let fb="";
+  if(B.answered!=null){
+    const ok = q.opts[B.answered].ok;
+    const lines = ok
+      ? ["Super effective!","Critical hit!","Direct hit!","It's super effective!"]
+      : ["Not very effective…","The distractor landed.","Trap sprung!","Missed!"];
+    const v = lines[(B.i+B.hearts)%lines.length];
+    const last = B.i===B.qs.length-1 || B.hearts===0;
+    fb = `<div class="fb" role="status">
+      <div class="verdict ${ok?'ok':'no'}">${ok?"✓ ":"✗ "}${v}</div>
+      <p>${q.why}</p>
+      ${q.trap?`<div class="trap"><b>TRAP</b>${q.trap}</div>`:""}
+      <button class="btn" id="next">${B.hearts===0?"Continue":last?"Finish battle":"Next question →"}</button>
+    </div>`;
+  }
+  const eliteTag = B.kind==="elite"?` · Elite ${B.idx+1}/4`:"";
+  app().innerHTML = `
+  ${topbar(`<button class="navbtn" id="flee">Leave battle</button>`)}
+  <div id="confirmSlot"></div>
+  <div class="arena">
+    <div class="hud">
+      <div class="card">
+        <div class="foe">
+          <div class="mini" id="foeMini" style="--c:${f.color}">${f.emb}</div>
+          <div style="flex:1">
+            <div class="nm"><b>${f.name}</b><small>${f.sub}</small></div>
+            <div class="hp"><span class="lbl">HP</span><div class="bar"><i class="${cls}" style="width:${pct}%"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="nm"><b>You</b><small>${B.correct} correct${eliteTag}</small></div>
+        <div class="hearts" aria-label="${B.hearts} hearts left">${hearts}</div>
+      </div>
+    </div>
+    <div class="qbox">
+      <div class="qmeta"><span class="lbl">Question ${B.i+1} of ${B.qs.length}</span><span class="lbl">${f.lab}</span></div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts">${opts}</div>
+      ${fb}
+      ${B.answered==null?`<div class="hint-keys">Press A–E (or 1–5) to answer. Enter continues.</div>`:""}
+    </div>
+  </div>
+  ${footer()}`;
+  document.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>answer(+b.dataset.o));
+  const n=$("#next"); if(n){ n.onclick=advance; n.focus({preventScroll:true}); }
+  $("#flee").onclick=()=>{
+    $("#confirmSlot").innerHTML = `<div class="confirm" style="margin:-8px 0 14px">Leave now? This battle's progress will be lost.
+      <button class="navbtn" id="yesFlee" style="border-color:var(--bad);color:var(--bad)">Leave</button>
+      <button class="navbtn" id="noFlee">Keep battling</button></div>`;
+    $("#yesFlee").onclick=()=>{B=null;view={screen:"map"};render();};
+    $("#noFlee").onclick=()=>{$("#confirmSlot").innerHTML="";};
+  };
+}
+
+function answer(k){
+  if(!B || B.answered!=null) return;
+  B.answered=k;
+  const q=B.qs[B.i];
+  if(q.opts[k].ok){ B.hp--; B.correct++; if(B.kind==="elite") B.total=(B.total||0)+1; }
+  else { B.hearts--; B.missed.push(q); }
+  render();
+  if(q.opts[k].ok){ const m=$("#foeMini"); if(m){ m.classList.add("hit"); } }
+  const fb=document.querySelector(".fb"); if(fb) fb.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function advance(){
+  if(B.hearts<=0){ view={screen:"lose"}; render(); window.scrollTo(0,0); return; }
+  if(B.i < B.qs.length-1){ B.i++; B.answered=null; render(); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  // battle won
+  if(B.kind==="gym"){
+    const g=GYMS[B.gym];
+    const first = !S.badges[g.id];
+    S.badges[g.id]=true;
+    S.best[g.id]=Math.max(S.best[g.id]||0,B.correct);
+    save();
+    view={screen:"win", first};
+  } else {
+    if(B.idx<3){ view={screen:"eliteIntro", idx:B.idx+1}; }
+    else {
+      S.elite=true; S.eliteBest=Math.max(S.eliteBest||0,B.total||0); save();
+      view={screen:"champion"};
+    }
+  }
+  render(); window.scrollTo(0,0);
+}
+
+function reviewBlock(){
+  if(!B || !B.missed.length) return "";
+  return `<div class="review"><h3>Review what you missed</h3>${B.missed.map(q=>`<div class="rv"><div>${q.q}</div><div style="margin-top:6px">→ <span class="a">${q.a[0]}</span></div><div style="margin-top:4px;color:var(--muted)">${q.why}</div></div>`).join("")}</div>`;
+}
+
+function renderWin(){
+  const g=GYMS[B.gym]; const n=badgeCount();
+  app().innerHTML = `${topbar()}
+  <div class="result" style="--c:${g.color}">
+    <div class="lbl" style="color:${g.hex}">${g.name} cleared</div>
+    <h1>${view.first?`You earned the ${g.badge}!`:`${g.leader.replace("Leader ","")} defeated again`}</h1>
+    <div class="award">${EMB[g.emb](g.hex)}</div>
+    <p>${B.correct} of ${B.qs.length} correct with ${B.hearts} heart${B.hearts===1?"":"s"} left. ${n===6?"All six badges collected. The Elite Four is waiting.":`${n}/6 badges collected.`}</p>
+    <div class="cta-row">
+      ${n===6?`<button class="btn" id="toElite">Face the Elite Four →</button>`:""}
+      <button class="btn ${n===6?'ghost':''}" id="toMap">Back to map</button>
+      <button class="btn ghost" id="again">Rematch</button>
+    </div>
+    ${reviewBlock()}
+  </div>${footer()}`;
+  $("#toMap").onclick=()=>{view={screen:"map"};render();window.scrollTo(0,0);};
+  $("#again").onclick=()=>startGym(B.gym);
+  const te=$("#toElite"); if(te) te.onclick=()=>{view={screen:"eliteIntro",idx:0};B=null;render();window.scrollTo(0,0);};
+}
+
+function renderLose(){
+  const isGym=B.kind==="gym";
+  const name=isGym?GYMS[B.gym].leader:ELITE[B.idx].name;
+  app().innerHTML = `${topbar()}
+  <div class="result">
+    <div class="lbl" style="color:var(--bad)">Out of hearts</div>
+    <h1>${name} wins this round</h1>
+    <p>${isGym?"Read the Field Notes again and rematch. The questions and answer order are shuffled each time.":"The Elite Four starts over from Elite I. Your gym badges are safe."}</p>
+    <div class="cta-row">
+      <button class="btn" id="retry">${isGym?"Rematch":"Restart Elite Four"}</button>
+      ${isGym?`<button class="btn ghost" id="notes">Study Field Notes</button>`:""}
+      <button class="btn ghost" id="toMap">Map</button>
+    </div>
+    ${reviewBlock()}
+  </div>${footer()}`;
+  $("#toMap").onclick=()=>{view={screen:"map"};render();window.scrollTo(0,0);};
+  $("#retry").onclick=()=>{ if(isGym) startGym(B.gym); else { B=null; startElite(0); } };
+  const nb=$("#notes"); if(nb) nb.onclick=()=>{view={screen:"intro",gym:B.gym};render();window.scrollTo(0,0);};
+}
+
+function renderEliteIntro(){
+  const e=ELITE[view.idx];
+  const carry = (B && B.kind==="elite") ? Math.min(5,B.hearts+1) : 5;
+  const healed = (B && B.kind==="elite") && B.hearts<5;
+  app().innerHTML = `${topbar(`<button class="navbtn" id="back">← Map</button>`)}
+  <div class="intro-head" style="--c:${e.color}">
+    <div class="bigemb" style="--c:${e.color}">${EMB.crown(e.color)}</div>
+    <div><div class="lab" style="color:${e.color}">Elite Four · ${view.idx+1} of 4 · ${e.title}</div><h1>${e.name}</h1></div>
+  </div>
+  <div class="dialog" style="--c:${e.color}"><div class="who">${e.name}</div><p>${e.intro}</p></div>
+  <div class="cta-row">
+    <button class="btn" id="go">Begin →</button>
+    <span class="lbl">${e.qs.length} vignettes · ${carry} heart${carry===1?"":"s"}${healed?" (+1 restored)":""}</span>
+  </div>
+  <div class="notes" style="--c:${e.color}">
+    <h2>Before you step in</h2>
+    <ul>
+      <li>Elite questions combine topics: a vein question may really be testing a cranial nerve, and a lymph question may be testing a nearby nerve.</li>
+      <li>Read the last line of the stem first, then find the anatomic clue in the vignette.</li>
+      <li>Hearts carry across all four battles. Losing all of them sends you back to Elite I.</li>
+    </ul>
+  </div>
+  ${footer()}`;
+  $("#back").onclick=()=>{B=null;view={screen:"map"};render();};
+  $("#go").onclick=()=>startElite(view.idx, view.idx===0?5:carry);
+}
+
+function renderChampion(){
+  app().innerHTML = `${topbar()}
+  <div class="result">
+    <div class="lbl" style="color:var(--gold)">Hall of Fame</div>
+    <h1>Head &amp; Neck Champion</h1>
+    <div class="award">${EMB.crown("#f2c14e")}</div>
+    <p>You beat all four Elite masters with ${B.total||0} of 20 correct. You can trace lymph, tears, sinus drainage, and veins, and you know the danger space, danger zone, and danger triangle.</p>
+    <div class="badgecase" style="max-width:420px;margin:18px auto 0;background:var(--cream-2)">${GYMS.map(g=>`<div class="slot">${EMB[g.emb](g.hex)}</div>`).join("")}</div>
+    <div class="cta-row" style="margin-top:22px">
+      <button class="btn" id="toMap">Back to map</button>
+      <button class="btn ghost" id="again">Run the Elite Four again</button>
+    </div>
+    ${reviewBlock()}
+  </div>${footer()}`;
+  $("#toMap").onclick=()=>{view={screen:"map"};render();window.scrollTo(0,0);};
+  $("#again").onclick=()=>{B=null;view={screen:"eliteIntro",idx:0};render();window.scrollTo(0,0);};
+}
+
+function render(){
+  switch(view.screen){
+    case "map": return renderMap();
+    case "intro": return renderIntro();
+    case "battle": return renderBattle();
+    case "win": return renderWin();
+    case "lose": return renderLose();
+    case "eliteIntro": return renderEliteIntro();
+    case "champion": return renderChampion();
+  }
+}
+
+document.addEventListener("keydown",e=>{
+  if(view.screen!=="battle"||!B) return;
+  if(e.target && (e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA")) return;
+  if(B.answered==null){
+    const k=e.key.toLowerCase();
+    let idx="abcde".indexOf(k); if(idx<0) idx="12345".indexOf(k);
+    if(idx>=0 && idx<B.qs[B.i].opts.length){ e.preventDefault(); answer(idx); }
+  } else if(e.key==="Enter"){ e.preventDefault(); advance(); }
+});
+
+function start(data){
+  load();
+  if(data && data.S) S=data.S;
+  if(data && data.view) view=data.view;
+  if(data && data.B) B=data.B;
+  if((view.screen==="battle"||view.screen==="win"||view.screen==="lose"||view.screen==="champion") && !B) view={screen:"map"};
+  render();
+}
+try{ window.claude?.hot?.snapshot?.(()=>({S,view,B})); }catch(e){}
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+</script>
+
+</body></html>
