@@ -209,6 +209,23 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* ---------- lists / dex / party ---------- */
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
+.sheet{background:#fff;color:var(--ink);border:3px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto}
+.sheet h2{font-family:var(--pixel);font-size:11px;line-height:1.5;margin:18px 0 8px}
+.sheet table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+.sheet th,.sheet td{border-bottom:1px solid #D5D9E5;padding:7px 8px;text-align:left;vertical-align:top}
+.sheet th{background:var(--ink);color:#fff;font-weight:600;position:sticky;top:0}
+.sheet td,.sheet td b,.sheet p,.sheet h2{color:var(--ink)}
+.sheet td small{display:block;color:var(--mute)}
+.sheet .area{font-family:var(--mono);font-size:11.5px;color:var(--mute);white-space:nowrap}
+.sheet .hy{margin:10px 0}
+.atlas-sec{font-family:var(--pixel);font-size:10px;line-height:1.5;margin:20px 0 8px;padding-bottom:6px;border-bottom:3px solid var(--line);color:var(--ink)}
+.srch{width:100%;padding:9px 11px;border:3px solid var(--line);border-radius:6px;font:15px var(--body);background:#fff;color:var(--ink);color-scheme:light}
+.pdfcard{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+details.tog{margin:6px 0}
+details.tog>summary{cursor:pointer;list-style:none;padding:6px 0}
+details.tog>summary::before{content:'▸ ';color:var(--gold-ink);font-size:14px}
+details.tog[open]>summary::before{content:'▾ '}
+details.tog>summary::-webkit-details-marker{display:none}
 .tab{background:#fff;border:3px solid var(--line);border-radius:6px;padding:7px 10px;font-family:var(--pixel);font-size:8.5px;line-height:1.3}
 .tab[aria-pressed="true"]{background:var(--ink);color:#fff}
 .dexgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
@@ -258,7 +275,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 24 · Updated Sep 24, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 26 · Updated Sep 24, 2026</span></footer>
 </div>
 
 <script>
@@ -2155,6 +2172,55 @@ FO_PATCHES.mid.sp.push('lr1:s_orbapex','lr2:s_ppfmcf');
 FO_PATCHES.face.sp.push('lr1:s_parmast');
 CNL_PATCHES_BY_NERVE.IV.sp.push('lr1:p_chtr');
 
+/* ===== Rev 26: Summit · Sensory Hot Spots (bank 'hs') =====
+   zones: z = portion, n = nerve, d = division / source. Every zone and every division is asked before the Neuromon can faint. */
+const HSA=[
+ {id:'hs_ear',t:'SPECIAL',name:'Ear Sensory',what:'Auricle, external ear canal and tympanic membrane',zones:[
+  {z:'Front of the auricle (upper lateral surface), the front of the ear canal and the outer eardrum in front',n:'Auriculotemporal nerve',d:'V3'},
+  {z:'Lower lateral auricle and the ear lobe',n:'Great auricular nerve',d:'C2–C3 (cervical plexus)'},
+  {z:'Upper back (medial) surface of the auricle and the scalp behind it',n:'Lesser occipital nerve',d:'C2 (cervical plexus)'},
+  {z:'Concha, back of the ear canal and the lower outer eardrum',n:'Auricular branch of CN X (Arnold nerve)',d:'CN X'},
+  {z:'Inner surface of the eardrum and the middle ear',n:'Tympanic nerve (Jacobson nerve)',d:'CN IX'}],
+  pearl:'Five sources: V3, C2–C3, C2, CN X and CN IX. That is why ear pain is referred from the jaw (V3), throat (IX, X) and neck (C2–C3), and why cleaning the canal can trigger a cough (Arnold reflex).'},
+ {id:'hs_nose',t:'TRIGEM',name:'Nose Sensory',what:'External nose and nasal cavity',zones:[
+  {z:'Bridge (upper dorsum) of the nose, near the medial angle of the eye',n:'Infratrochlear nerve',d:'V1'},
+  {z:'Tip and lower dorsum of the nose',n:'External nasal branch of the anterior ethmoidal nerve',d:'V1'},
+  {z:'Side of the nose and the ala',n:'Infraorbital nerve',d:'V2'},
+  {z:'Front and roof of the nasal cavity (anterior septum and lateral wall)',n:'Anterior ethmoidal nerve',d:'V1'},
+  {z:'Back and lower septum, down to the palate behind the incisors',n:'Nasopalatine nerve',d:'V2'},
+  {z:'Back of the lateral wall (superior and middle conchae)',n:'Posterior superior lateral nasal nerves',d:'V2'},
+  {z:'Olfactory area in the roof (special sense: smell)',n:'Olfactory nerve',d:'CN I'}],
+  pearl:'Front and top = V1 (anterior ethmoidal, infratrochlear); back and bottom = V2 (nasopalatine, lateral nasal, infraorbital). Zoster on the nose tip (Hutchinson sign) = V1 nasociliary involvement → eye at risk.'},
+ {id:'hs_tongue',t:'SPECIAL',name:'Tongue Sensory',what:'General sensation and taste of the tongue',zones:[
+  {z:'Anterior 2/3: general sensation (touch, pain, temperature)',n:'Lingual nerve',d:'V3'},
+  {z:'Anterior 2/3: taste',n:'Chorda tympani (traveling with the lingual nerve)',d:'CN VII'},
+  {z:'Posterior 1/3: taste AND general sensation',n:'Lingual branch of CN IX',d:'CN IX'},
+  {z:'Root of the tongue near the epiglottis (vallecula): taste and general sensation',n:'Internal laryngeal nerve',d:'CN X'}],
+  pearl:'Front 2/3: touch = V3 (lingual), taste = VII (chorda tympani). Back 1/3: both = IX. Root near the epiglottis: X. Motor is all CN XII except palatoglossus (CN X).'},
+ {id:'hs_lids',t:'OCULAR',name:'Eyelids Sensory',what:'Upper and lower eyelids',zones:[
+  {z:'Upper eyelid, central part',n:'Supraorbital nerve',d:'V1'},
+  {z:'Upper eyelid, medial part',n:'Supratrochlear nerve',d:'V1'},
+  {z:'Upper eyelid, lateral part',n:'Lacrimal nerve',d:'V1'},
+  {z:'Medial angle of both lids and the lacrimal sac region',n:'Infratrochlear nerve',d:'V1'},
+  {z:'Lower eyelid',n:'Infraorbital nerve (palpebral branches)',d:'V2'}],
+  pearl:'Upper lid = V1 (four branches: supraorbital, supratrochlear, lacrimal, infratrochlear). Lower lid = V2 (infraorbital). Closing the lids is CN VII (orbicularis oculi); opening is CN III (levator) plus sympathetics (Müller).'},
+ {id:'hs_lips',t:'TRIGEM',name:'Lips Sensory',what:'Skin and mucosa of the lips and mouth corner',zones:[
+  {z:'Upper lip (skin and mucosa)',n:'Infraorbital nerve (superior labial branches)',d:'V2'},
+  {z:'Lower lip (skin and mucosa) and the chin',n:'Mental nerve',d:'V3'},
+  {z:'Inner cheek mucosa at the corner of the mouth',n:'Buccal nerve',d:'V3'}],
+  pearl:'Upper lip = V2 (infraorbital); lower lip = V3 (mental). "Numb chin" after dental work = mental or inferior alveolar nerve. Lip MOVEMENT is CN VII (orbicularis oris).'},
+ {id:'hs_face',t:'TRIGEM',name:'Face Sensory',what:'Skin of the face and front of the scalp',zones:[
+  {z:'Forehead and scalp back to the vertex',n:'Supraorbital and supratrochlear nerves',d:'V1'},
+  {z:'Cheek, side of the nose and the upper lip',n:'Infraorbital nerve',d:'V2'},
+  {z:'Skin over the cheekbone (zygomatic prominence)',n:'Zygomaticofacial nerve',d:'V2'},
+  {z:'Front of the temple',n:'Zygomaticotemporal nerve',d:'V2'},
+  {z:'Lower lip and chin',n:'Mental nerve',d:'V3'},
+  {z:'Temple and the skin in front of the ear',n:'Auriculotemporal nerve',d:'V3'},
+  {z:'Lower cheek over buccinator',n:'Buccal nerve',d:'V3'},
+  {z:'Angle of the jaw and the skin over the parotid',n:'Great auricular nerve',d:'C2–C3 (cervical plexus)'}],
+  pearl:'V1 above the eye, V2 between eye and mouth, V3 below the mouth and up in front of the ear. The angle of the jaw is NOT trigeminal (great auricular, C2–C3). Facial muscles are CN VII.'}
+];
+
 /* ===== Muscle bank (Neuromon: Myo Ridge) =====
    Wording follows the HNSS Lab 1, 2, 4, 5 & 6 structure-worksheet answer keys.
    Stylopharyngeus and musculus uvulae are not in those keys and use standard anatomy.
@@ -3105,6 +3171,7 @@ const AUTH={
    stem:{site:S=>`Where is <strong>${esc(S.name)}</strong> done, or what path does it take?`,risk:S=>`Which structures or nerves are at risk in <strong>${esc(S.name)}</strong>?`,musc:S=>`How are the muscles involved in <strong>${esc(S.name)}</strong>?`},
    revText:S=>S.site,revMv:['WHICH PROCEDURE?','Which procedure uses this route?'],revStem:t=>`Which procedure is this? <strong>${esc(t)}</strong>`
  }),
+ hs:mkHS(HSA),
  ml:mkAuth('ml',MLA,{
    patchOf:S=>S.p,idStem:'Which muscle lesion or clinical picture is this?',
    rows:S=>[['Key sign',S.sign],['Muscles',S.musc],['Nerve',S.nerve||''],['Cause',S.cause||'']],
@@ -3115,6 +3182,35 @@ const AUTH={
    revText:S=>S.sign,revMv:['SPOT IT','Which lesion shows this sign?'],revStem:t=>`Which lesion or clinical picture shows this? <strong>${esc(t)}</strong>`
  })
 };
+/* Sensory Hot Spots bank: one question per zone (which nerve and division) + one per division (which portion) */
+function mkHS(LIST){
+  const BY=Object.fromEntries(LIST.map(s=>[s.id,s]));let AV=new Set();
+  const fresh=a=>[...a.filter(x=>!AV.has(x)),...a.filter(x=>AV.has(x))];
+  const lab=z=>`${z.n} (${z.d})`;
+  const mk=(S,o)=>Object.assign({bank:'hs',node:S.id,miss:`hs:n:${S.id}`},o);
+  const allLabs=[...new Set(LIST.flatMap(S=>S.zones.map(lab)))];
+  const divs=S=>[...new Set(S.zones.map(z=>z.d))];
+  const Q={
+    req(S){return [...S.zones.map((z,i)=>'hz:'+i),...divs(S).map(dv=>'hd:'+dv)];},
+    identify(S){const rows=[['Covers',S.what],...S.zones.slice(0,4).map(z=>['Zone',z.z])];const others=LIST.filter(x=>x.id!==S.id).map(x=>x.name);const opts=shuffle([S.name,...shuffle(others).slice(0,3)]);
+      return mk(S,{type:'case',sig:'c',rows,shown:1,opts,ans:opts.indexOf(S.name),stem:'Which sensory hot spot is this?',explain:`<p class="ans"><b>${esc(S.name)}</b>: ${esc(S.what)}.</p>`});},
+    hz(S,asked){const c=S.zones.map((z,i)=>i).filter(i=>!(asked&&asked.has('hz:'+i)));if(!c.length)return null;const i=pick(c);const z=S.zones[i];const ans=lab(z);
+      const own=new Set(S.zones.filter(y=>y.n===z.n).map(lab));
+      const same=S.zones.map(lab).filter(x=>!own.has(x)&&x!==ans);const rest=allLabs.filter(x=>!own.has(x)&&x!==ans&&!same.includes(x)&&!x.startsWith(z.n));
+      const opts=shuffle([ans,...[...new Set([...fresh(shuffle(same)),...fresh(shuffle(rest))])].slice(0,3)]);
+      return mk(S,{type:'f_hz',sig:'hz:'+i,mv:'SENSORY MAP',hint:'Which nerve supplies this zone?',opts,ans:opts.indexOf(ans),stem:`<strong>${esc(S.name)}</strong>: which nerve supplies the <strong>${esc(z.z.charAt(0).toLowerCase()+z.z.slice(1))}</strong>?`,
+        explain:`<p class="ans"><b>${esc(ans)}</b>.</p><ul class="whys">${S.zones.map(y=>`<li>${y===z?'<b>':''}${esc(y.z)}: ${esc(lab(y))}${y===z?'</b>':''}</li>`).join('')}</ul>`});},
+    hd(S,asked){const c=divs(S).filter(dv=>!(asked&&asked.has('hd:'+dv)));if(!c.length)return null;const dv=pick(c);
+      const mine=S.zones.filter(z=>z.d===dv);const z=pick(mine);const own=S.zones.filter(y=>y.d!==dv).map(y=>y.z);const other=LIST.filter(x=>x.id!==S.id).flatMap(x=>x.zones).filter(y=>y.d!==dv).map(y=>y.z);
+      const pool=[...new Set([...shuffle(own),...shuffle(other)])].filter(x=>!mine.some(m=>m.z===x));if(pool.length<2)return null;
+      const opts=shuffle([z.z,...pool.slice(0,3)]);
+      return mk(S,{type:'f_hd',sig:'hd:'+dv,mv:'WHICH PORTION?',hint:`What does ${dv} cover here?`,opts,ans:opts.indexOf(z.z),stem:`<strong>${esc(S.name)}</strong>: which portion is supplied by <strong>${esc(dv)}</strong>?`,
+        explain:`<p class="ans"><b>${esc(dv)}</b> here: ${mine.map(y=>`<b>${esc(y.z)}</b> (${esc(y.n)})`).join('; ')}.</p>`});},
+    rev(S,asked){const c=S.zones.map((z,i)=>i).filter(i=>!(asked&&asked.has('rv:'+i)));if(!c.length)return null;const ri=pick(c);const z=S.zones[ri];const opts=shuffle([S.name,...shuffle(LIST.filter(x=>x.id!==S.id).map(x=>x.name)).slice(0,3)]);
+      return mk(S,{type:'f_rev',sig:'rv:'+ri,mv:'WHERE?',hint:'Which hot spot has this zone?',opts,ans:opts.indexOf(S.name),stem:`Which sensory hot spot includes this zone? <strong>${esc(z.z)}: ${esc(lab(z))}</strong>`,explain:`<p class="ans"><b>${esc(S.name)}</b>.</p>`});}
+  };
+  return Object.assign({bank:'hs',BY,LIST,TYPES:['hz','hz','hd','rev'],setAvoid:s=>{AV=s||new Set();},plabel:x=>x},Q);
+}
 function authCard(bank,id,compact){const A=AUTH[bank];const S=A&&A.BY[id];if(!S)return '';
   if(compact)return S.pearl?`<div class="hy"><b>HIGH-YIELD · ${esc(S.name).toUpperCase()}</b>${esc(S.pearl)}</div>`:'';
   const row=(k,v)=>v?`<li><span>${k}</span><span>${v}</span></li>`:'';let r='';
@@ -3129,6 +3225,7 @@ function authCard(bank,id,compact){const A=AUTH[bank];const S=A&&A.BY[id];if(!S)
   if(bank==='rx')r+=row('Stimulus',S.trig.map(k=>esc(RXTRIG[k])).join('<br>'))+row('Afferent limb',S.aff.map(k=>esc(RXAFF[k])).join('<br>'))+row('Center',esc(S.center))+row('Efferent limb',S.eff.map(k=>esc(RXEFF[k])).join('<br>'))+row('Response',S.resp.map(k=>esc(RXRESP[k])).join('<br>'))+row('When it breaks',esc(S.lesion));
   if(bank==='sn')r+=row('Division',esc(S.div))+row('Nerve',esc(S.nerve))+row('Pain felt',esc(S.pain))+row('Drains to',esc(S.drain))+row('Key points',S.fx.map(k=>esc(SNFX[k])).join('<br>'));
   if(bank==='pr')r+=row('Site / path',esc(S.site))+row('At risk',esc(S.risk))+row('Muscles',esc(S.musc))+row('Key anatomy',S.fx.map(k=>esc(PRFX[k])).join('<br>'));
+  if(bank==='hs')r+=row('Covers',esc(S.what))+S.zones.map(z=>row(esc(z.d),`<b>${esc(z.n)}</b><small>${esc(z.z)}</small>`)).join('');
   if(bank==='ml')r+=row('Key sign',esc(S.sign))+row('Muscles',esc(S.musc))+row('Nerve',esc(S.nerve||''))+row('Cause',esc(S.cause||''))+row('Key points',(S.fx||[]).map(k=>esc(MLFX[k])).join('<br>'));
   if(bank==='fo')r+=row('Fossa',esc(FOSSA[S.fossa]))+row('Bone',esc(S.bone))+row('Contents',esc(S.trans))+row('Why it matters',esc(S.why));
   if(S.a)r+=row('Artery',`${esc(S.a[0])}<small>${esc(S.a[1])}</small>`);
@@ -3140,6 +3237,7 @@ function authNext(e){
   let L=null;if(S.lr){const [b,id]=S.lr.split(':');if(BANK[b]&&BANK[b].BY[id])L={b:BANK[b],T:BANK[b].BY[id]};}
   const track=q=>{if(q){e.asked.add(q.sig);(q.used||[]).forEach(u=>e.asked.add(u));q.opts.forEach(o=>e.seenOpts.add(o));}A.setAvoid(null);if(L)L.b.setAvoid(null);return q;};
   if(e.hidden){const q=A.identify(S);if(q)return track(q);e.hidden=false;}
+  if(e.bank==='hs'){for(const r of A.req(S)){if(!e.asked.has(r)){const q=r.startsWith('hz:')?A.hz(S,new Set(A.req(S).filter(x=>x!==r&&x.startsWith('hz:')))):A.hd(S,new Set(A.req(S).filter(x=>x!==r&&x.startsWith('hd:'))));if(q)return track(q);}}}
   if(e.bank==='rx')for(const f of ['trig','aff','eff','resp']){if(![...e.asked].some(s=>s.startsWith(f+':'))){const q=A['s_'+f](S,e.asked);if(q&&!e.asked.has(q.sig))return track(q);}}
   const types=[...A.TYPES];if(L)types.push('Lpredict','Lspared','Lreverse','Lpredict');
   for(let t=0;t<40;t++){const ty=pick(types);let q=null;
@@ -3256,13 +3354,75 @@ function toast(t){const d=document.createElement('div');d.className='toast';d.te
 function renderHud(){
   if(!G||!G.party.length){hud.hidden=true;return;}
   hud.hidden=false;
-  hud.innerHTML=`<button class="hbtn" data-go="map">Map</button><button class="hbtn" data-go="party">Party <b>${G.party.length}</b></button><button class="hbtn" data-go="dex">Nervedex <b>${Object.keys(G.dex).filter(k=>!k.startsWith('st:')).length}</b></button><button class="hbtn" data-go="study">Review <b>${Object.keys(G.dex).filter(k=>G.dex[k]==='caught'&&!k.startsWith('st:')).length}</b></button><button class="hbtn" data-go="weak">Weak spots <b>${Object.keys(G.missed).length}</b></button>`;
+  hud.innerHTML=`<button class="hbtn" data-go="map">Map</button><button class="hbtn" data-go="party">Party <b>${G.party.length}</b></button><button class="hbtn" data-go="dex">Nervedex <b>${Object.keys(G.dex).filter(k=>!k.startsWith('st:')).length}</b></button><button class="hbtn" data-go="study">Review <b>${Object.keys(G.dex).filter(k=>G.dex[k]==='caught'&&!k.startsWith('st:')).length}</b></button><button class="hbtn" data-go="weak">Weak spots <b>${Object.keys(G.missed).length}</b></button><button class="hbtn" data-go="sheets">Cheat sheets</button>`;
   hud.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(inBattle){toast('Finish the battle first!');return;}go(b.dataset.go);});
 }
 let inBattle=false, keyHandler=null;
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(keyHandler)keyHandler(e);});
 function go(where,arg){keyHandler=null;window.scrollTo({top:0,behavior:'smooth'});renderHud();
-  ({title:renderTitle,map:renderMap,route:renderRoute,party:renderParty,dex:renderDex,weak:renderReview,review:renderReview,study:renderStudy})[where](arg);}
+  ({title:renderTitle,map:renderMap,route:renderRoute,party:renderParty,dex:renderDex,weak:renderReview,review:renderReview,study:renderStudy,sheets:renderSheets})[where](arg);}
+
+/* ================= cheat sheets ================= */
+let sheetTab='atlas',sheetQ='';
+const CLIN_IDS=['frey','acc_v2','jaw_dev','geniculate','ian_block','s_adenoid','s_etd','s_npc','s_tonsil','s_pit','s_parotid_bed','s_thyroid','s_fom','s_ptb','s_ppfmcf','s_parmast','s_orbapex','s_occond','s_danger','s_dspace','s_retro','s_rootn','s_tfossa','s_cartri','s_anttri','s_posttri','s_erb','s_parsurg','s_facelift','s_ethsurg','s_septsurg','s_palsurg','s_cav','s_petrous','s_cpa','s_jugular','s_ppf','s_itf'];
+const CLIN_RX=/tumor|abscess|surgery|thyroidectomy|tonsillectomy|carcinoma|hypertrophy|dysfunction|fracture|Pancoast|danger|block|biopsy|trauma|facelift|extraction|syndrome|neuroma|apnea|sign|neuralgia|thrombosis/i;
+function isClinical(n){return /^p_/.test(n.id)||CLIN_IDS.includes(n.id)||CLIN_RX.test(n.name);}
+function areaOfKey(k){const a=Object.keys(AREAS).find(x=>areaKeys(x).includes(k));return a?AREAS[a].name:'';}
+function renderSheets(tab){
+  if(tab)sheetTab=tab;
+  const tabs={pdf:'Cranial Nerve Pathways (PDF)',atlas:'Lesion Atlas',clin:'Clinical conditions',hot:'Sensory hot spots',mus:'Muscle quick hits'};
+  let body='';
+  if(sheetTab==='pdf')body=`<div class="sheet"><div class="pdfcard"><div style="flex:1;min-width:220px"><div class="h2" style="color:var(--ink)">Cranial Nerve Pathways</div><p class="small">Quick physiology review note and outline: every cranial nerve's nuclei, fibers, course and targets. Opens in a new tab.</p></div>
+    <a class="btn gold" href="CranialNervePathways.pdf" target="_blank" rel="noopener">Open PDF &gt;</a></div>
+    <p class="small" style="margin-top:10px">If the link does not open, the PDF sits in the same folder as this game (<b>CranialNervePathways.pdf</b>).</p></div>`;
+  if(sheetTab==='atlas'){
+    const inGame=new Set(Object.keys(AREAS).flatMap(areaKeys));
+    const SEC=[['Neck & cervical plexus',{lr1:['neck']}],['Vagus, glossopharyngeal & larynx',{lr1:['larynx'],lr2:['ixx']}],['Facial nerve',{lr1:['face'],lr2:['vii']}],['Trigeminal nerve (V1 · V2 · V3)',{lr1:['trig'],lr2:['v12','v3']}],['Orbit & eye',{lr1:['orbit'],lr2:['eye']}],['CN I, II, VIII, XI, XII & ganglia',{lr1:['other'],lr2:['oth']}],['Sites along the nerves (foramina, canals, fossae, ganglia)',{lr1:['site'],lr2:['site']}]];
+    const q=sheetQ.toLowerCase();
+    body=`<input class="srch" id="srch" placeholder="Search lesions, findings or causes…" value="${esc(sheetQ)}"><p class="small">The effect of a lesion at each point along the nerves and their branches, built from the current game data. Clinical conditions and pathologies are on the Clinical conditions tab. Tap a section to open it. Findings marked <em>(sometimes)</em> are true but never used as the expected answer. Yellow boxes are high-yield pearls.</p>`+
+      SEC.map(([title,m])=>{const cards=Object.entries(m).flatMap(([bk,grps])=>BANK[bk].D.NODES.filter(n=>grps.includes(n.grp)&&inGame.has(`${bk}:${n.id}`)&&!isClinical(n)).map(n=>[bk,n]));
+        const shown=cards.filter(([bk,n])=>!q||(n.name+' '+n.cause+' '+[...BANK[bk].signs(n.id)].map(s=>(BANK[bk].D.SIG[s]||[])[1]).join(' ')).toLowerCase().includes(q));
+        if(!shown.length)return '';
+        return `<details class="tog" ${q?'open':''}><summary class="atlas-sec">${esc(title)} <span class="small">(${shown.length})</span></summary><div style="display:flex;flex-direction:column;gap:10px">${shown.map(([bk,n])=>lrCard(bk,n.id,false)).join('')}</div></details>`;}).join('');
+  }
+  if(sheetTab==='clin'){
+    const inGame=new Set(Object.keys(AREAS).flatMap(areaKeys));
+    const rows=[];
+    ['lr1','lr2'].forEach(bk=>{const b=BANK[bk];b.D.NODES.forEach(n=>{const k=`${bk}:${n.id}`;if(!inGame.has(k))return;
+      if(!(isClinical(n)||n.kind==='site'||/^(ii_|s_)/.test(n.id)))return;
+      const hit=(n.inc||[]).map(c=>b.BY[c]&&b.BY[c].name).filter(Boolean);
+      const key=[...b.signs(n.id)].filter(s=>b.D.SIG[s]&&!b.D.MINOR.has(s)&&b.D.SIG[s][0]!=='History').slice(0,4).map(s=>b.D.SIG[s][0]+': '+b.D.SIG[s][1]);
+      rows.push({name:n.name,hit:hit.length?hit.join(' · '):'—',fx:key,cause:n.cause,area:areaOfKey(k)});});});
+    MLA.forEach(a=>{const k='ml:'+a.id;if(!inGame.has(k))return;rows.push({name:a.name,hit:[a.nerve,a.musc].filter(Boolean).join(' · '),fx:[a.sign],cause:a.cause||'',area:areaOfKey(k)});});
+    PRA.forEach(a=>{const k='pr:'+a.id;if(!inGame.has(k))return;rows.push({name:a.name,hit:a.risk,fx:[a.site],cause:'Airway procedure',area:areaOfKey(k)});});
+    RXA.filter(x=>!x.ref).forEach(a=>{const k='rx:'+a.id;if(!inGame.has(k))return;rows.push({name:a.name+' (when it breaks)',hit:a.aff.map(x=>RXAFF[x]).join('; ')+' → '+a.eff.map(x=>RXEFF[x]).join('; '),fx:[a.lesion],cause:'Reflex arc',area:areaOfKey(k)});});
+    const q=sheetQ.toLowerCase();const shown=rows.filter(r=>!q||JSON.stringify(r).toLowerCase().includes(q)).sort((a,b)=>a.area.localeCompare(b.area)||a.name.localeCompare(b.name));
+    body=`<input class="srch" id="srch" placeholder="Search conditions, nerves or findings…" value="${esc(sheetQ)}"><div class="sheet" style="margin-top:10px"><p class="small">${shown.length} clinical conditions, lesion sites, syndromes and procedures from across the game: what each one damages and what you would see.</p>
+      <table><thead><tr><th style="width:22%">Condition</th><th style="width:26%">What it hits (nerves · structures · muscles)</th><th>Key findings (motor · sensory · autonomic)</th><th style="width:11%">Where</th></tr></thead><tbody>
+      ${shown.map(r=>`<tr><td><b>${esc(r.name)}</b><small>${esc(r.cause)}</small></td><td>${esc(r.hit)}</td><td>${r.fx.map(f=>esc(f)).join('<br>')}</td><td class="area">${esc(r.area)}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  if(sheetTab==='hot'){
+    body=`<div class="sheet"><div class="hy"><b>HIGH-YIELD</b>V1 above the eye (forehead, upper lid, nose bridge and tip), V2 between the eye and the mouth (lower lid, cheek, side of the nose, upper lip), V3 below the mouth and up in front of the ear (lower lip, chin, temple). The angle of the jaw is C2–C3 (great auricular), not trigeminal. Tongue: front 2/3 touch V3, taste VII; back 1/3 both IX; root near the epiglottis X.</div>
+      ${HSA.map(h=>`<details class="tog"><summary><h2 style="display:inline">${esc(h.name)}</h2> <span class="small">(${h.zones.length} zones)</span></summary>
+        <table><thead><tr><th>Portion</th><th style="width:30%">Nerve</th><th style="width:17%">Division / source</th></tr></thead><tbody>${h.zones.map(z=>`<tr><td>${esc(z.z)}</td><td><b>${esc(z.n)}</b></td><td>${esc(z.d)}</td></tr>`).join('')}</tbody></table>
+        <div class="hy"><b>HIGH-YIELD PEARL</b>${esc(h.pearl)}</div></details>`).join('')}</div>`;
+  }
+  if(sheetTab==='mus'){
+    const grp=(p,title,hy)=>{const ms=MUSCLES.filter(m=>m.p.includes(p));const ls=MLA.filter(a=>a.p===p);
+      return `<details class="tog"><summary><h2 style="display:inline">${title}</h2> <span class="small">(${ms.length} muscles)</span></summary><div class="hy"><b>HIGH-YIELD</b>${hy}</div>
+      <table><thead><tr><th style="width:20%">Muscle</th><th style="width:19%">Nerve</th><th>Movement / function</th><th style="width:24%">If paralyzed</th></tr></thead><tbody>
+      ${ms.map(m=>`<tr><td><b>${esc(m.name)}</b>${m.lm&&m.lm[0]?`<small>${esc(m.lm[0])}</small>`:''}</td><td>${esc(MNV[m.n][0])}</td><td>${esc(m.act)}${m.mv?`<small>${esc(m.mv.join(' · '))}</small>`:''}</td><td>${esc(m.par)}</td></tr>`).join('')}</tbody></table>
+      ${ls.length?`<p class="small" style="margin-top:8px"><b>Clinical:</b> ${ls.map(a=>`<b>${esc(a.name)}</b>: ${esc(a.sign)}`).join(' · ')}</p>`:''}</details>`;};
+    body=`<div class="sheet">${grp('face','Muscles of facial expression','All muscles of facial expression are CN VII (2nd arch). Buccinator is CN VII (buccal branch), NOT V3; the buccal nerve of V3 only pierces it. Upper motor neuron (stroke) lesion spares the forehead; lower motor neuron (Bell palsy) lesion does not. Two bellies, two branches: frontal belly = temporal branch, occipital belly = posterior auricular branch.')}
+      ${grp('tongue','Tongue muscles','Every tongue muscle is CN XII EXCEPT palatoglossus (CN X, pharyngeal plexus). Genioglossus protrudes; hyoglossus depresses and retracts; styloglossus retracts and elevates. LMN CN XII lesion: tongue deviates TOWARD the lesion with atrophy. UMN lesion: deviates AWAY from the cortical lesion, no atrophy.')}
+      ${grp('mom','Muscles of mastication','All four are V3 (1st arch). CLOSE: masseter, temporalis, medial pterygoid. OPEN and PROTRUDE: lateral pterygoid (the only opener). RETRACT: posterior fibers of temporalis. GRIND: pterygoids of one side swing the jaw to the opposite side. Weak lateral pterygoid → jaw deviates TOWARD the lesion.')}</div>`;
+  }
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Cheat sheets</div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <div class="tabs">${Object.entries(tabs).map(([k,v])=>`<button class="tab" data-t="${k}" aria-pressed="${k===sheetTab}">${v}</button>`).join('')}</div>${body}</div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  app.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{sheetTab=b.dataset.t;renderSheets();});
+  const s=document.getElementById('srch');if(s){s.oninput=()=>{sheetQ=s.value;const pos=s.selectionStart;renderSheets();const s2=document.getElementById('srch');s2.focus();s2.setSelectionRange(pos,pos);};}
+}
 
 /* ================= title / starter ================= */
 function renderTitle(){
@@ -3290,7 +3450,7 @@ function renderTitle(){
 const AREAS={
  cn:{name:'Cranial Nerve Trail',sub:'CN I–XII & branches',blurb:'Anatomy only: exits, fibers, jobs, branches, muscles and arteries of CN I–XII. CN V stays at the V1 / V2 / V3 overview.',
    scene:'',patches:Object.fromEntries(Object.entries(CN_PATCHES_BY_NERVE).map(([k,v])=>[k,{...v,sp:v.sp.map(id=>'cn:'+id)}]))},
- gang:{name:'Ganglion Grove',sub:'Parasympathetic ganglia · reflexes · cervical plexus',blurb:'Trace every parasympathetic pathway (nucleus → preganglionic nerve → ganglion → carrier → target) and what a lesion at each stop does. The ansa cervicalis patch is anatomy only.',
+ gang:{name:'Ganglion Grove',sub:'Ganglia · reflexes · plexus',blurb:'Trace every parasympathetic pathway (nucleus → preganglionic nerve → ganglion → carrier → target) and what a lesion at each stop does. The ansa cervicalis patch is anatomy only.',
    scene:'',patches:{...Object.fromEntries(Object.entries(GG_PATCHES).map(([k,v])=>[k,{...v,sp:[...(k==='ciliary'?['rx:rx_plr','rx:rx_acc']:[]),...v.sp.filter(id=>!(k==='ciliary'&&id==='plr')).map(id=>'gg:'+id),...(GG_EXTRA[k]||[])]}])),rg_ansa:{...RG_PATCHES.ansa,sp:RG_PATCHES.ansa.sp.map(id=>'rg:'+id)},rg_c1:{...RG_PATCHES.c1,sp:RG_PATCHES.c1.sp.map(id=>'rg:'+id)},rg_cut:{...RG_PATCHES.cut,sp:RG_PATCHES.cut.sp.map(id=>'rg:'+id)},cpl:CPL_LES,rx:{...RX_PATCHES.reflex,sp:RX_PATCHES.reflex.sp.map(id=>'rx:'+id)}}},
  vbr:{name:'Trigeminal Cave',sub:'V1 · V2 · V3 branches',blurb:'Anatomy only: which division, which parent, which foramen or route, what territory, and which borrowed fibers ride along.',
    scene:'cave',patches:Object.fromEntries(Object.entries(VB_PATCHES).map(([k,v])=>[k,{...v,sp:v.sp.map(id=>'vb:'+id)}]))},
@@ -3298,12 +3458,12 @@ const AREAS={
    scene:'',patches:CNL_PATCHES_BY_NERVE},
  vl:{name:'Numb Hollow',sub:'V1 · V2 · V3 branch lesions',blurb:'Lesions and clinical correlations only: the branches of V1, V2 and V3 and the openings along each pathway. Wild lesions hide their name until you localize them.',
    scene:'cave',patches:VL_PATCHES_V9},
- for:{name:'Foramina & Fossae',sub:'Skull base openings',blurb:'Every opening on the skull-base list: which cranial fossa, which bone, what passes through, and the syndrome it produces.',
+ for:{name:'Foramina & Fossae',sub:'Skull openings & lesions',blurb:'Every opening on the skull-base list: which cranial fossa, which bone, what passes through, and the syndrome it produces.',
    scene:'cave',patches:{ant:FO_PATCHES.ant,mid:FO_PATCHES.mid,post:FO_PATCHES.post,face:FO_PATCHES.face,
      synd:FO_PATCHES.synd}},
- champ:{name:'Summit',sub:'Regions · confusable pairs · Champion',blurb:'Facial and neck regions, their lesions, and twenty confusable-pair calls from Trap Hunter guard the peak. The Champion waits at the top once you hold enough badges.',
-   scene:'gym',patches:{freg:{...RG_PATCHES.freg,sp:RG_PATCHES.freg.sp.map(id=>'rg:'+id)},nreg:{...RG_PATCHES.nreg,sp:RG_PATCHES.nreg.sp.map(id=>'rg:'+id)},fles:FACE_LES,nles:NECK_LES,pairs:{label:'Confusable pairs',type:'DECOY',sp:['trap:mimicell']}}},
- mus:{name:'Myo Ridge',sub:'Muscles',blurb:'Wild muscles hide their name. Identify them from the palsy, then battle through innervation, movements, landmarks, arch and attachments. Each card ends with its muscle lesions and clinical pictures.',
+ champ:{name:'Summit',sub:'Multi-area cumulative',blurb:'Facial and neck regions, their lesions, and twenty confusable-pair calls from Trap Hunter guard the peak. The Champion waits at the top once you hold enough badges.',
+   scene:'gym',patches:{freg:{...RG_PATCHES.freg,sp:RG_PATCHES.freg.sp.map(id=>'rg:'+id)},nreg:{...RG_PATCHES.nreg,sp:RG_PATCHES.nreg.sp.map(id=>'rg:'+id)},fles:FACE_LES,nles:NECK_LES,hot:{label:'Sensory Hot Spots',type:'TRIGEM',sp:HSA.map(h=>'hs:'+h.id)},pairs:{label:'Confusable pairs',type:'DECOY',sp:['trap:mimicell']}}},
+ mus:{name:'Myo Ridge',sub:'Muscles & paralysis',blurb:'Wild muscles hide their name. Identify them from the palsy, then battle through innervation, movements, landmarks, arch and attachments. Each card ends with its muscle lesions and clinical pictures.',
    scene:'',patches:Object.fromEntries(Object.entries(MGROUPS).map(([k,label])=>[k,{label,type:MGROUP_TYPE[k],sp:[...MUSCLES.filter(m=>m.p.includes(k)).map(m=>'mus:'+m.id),...MLA.filter(a=>a.p===k).map(a=>'ml:'+a.id)]}]))}
 };
 AREAS.vbr.patches.v1.sp.push('sn:sn_front','sn:sn_eth','sn:sn_sph');AREAS.vbr.patches.v2.sp.push('sn:sn_max');AREAS.champ.patches.freg.sp.push('pr:pr_intub');
@@ -3312,14 +3472,14 @@ const areaKeys=a=>[...new Set(Object.values(AREAS[a].patches).flatMap(p=>p.sp))]
 [...areaKeys('vl'),...areaKeys('cnl'),...NECK_LES.sp,...FACE_LES.sp,...CPL_LES.sp].filter(k=>SP[k]&&/^lr/.test(k)).forEach(k=>{if(!/^Lesion/.test(SP[k].name))SP[k].name='Lesion: '+SP[k].name;});
 const LOCS=[
  {id:'center',name:'Nerve Center',sub:'Heal party',x:9,y:74,ico:'center'},
- {id:'mus',name:'Myo Ridge',sub:'Muscles',x:11,y:22,ico:'ridge'},
+ {id:'mus',name:'Myo Ridge',sub:'Muscles & paralysis',x:11,y:22,ico:'ridge'},
  {id:'cn',name:'Cranial Nerve Trail',sub:'CN I–XII & branches',x:31,y:44,ico:'grass'},
- {id:'champ',name:'Summit',sub:'Regions · Pairs · Champion',x:51,y:13,ico:'summit'},
+ {id:'champ',name:'Summit',sub:'Multi-area cumulative',x:51,y:13,ico:'summit'},
  {id:'vbr',name:'Trigeminal Cave',sub:'V1 · V2 · V3 branches',x:80,y:26,ico:'cave'},
- {id:'gang',name:'Ganglion Grove',sub:'Parasympathetic ganglia · reflexes · cervical plexus',x:55,y:50,ico:'forest'},
+ {id:'gang',name:'Ganglion Grove',sub:'Ganglia · reflexes · plexus',x:55,y:50,ico:'forest'},
  {id:'cnl',name:'Palsy Pass',sub:'CN I–XII lesions',x:31,y:82,ico:'pass'},
  {id:'vl',name:'Numb Hollow',sub:'V branch lesions',x:84,y:72,ico:'hollow'},
- {id:'for',name:'Foramina & Fossae',sub:'Skull base openings',x:58,y:84,ico:'foramen'}
+ {id:'for',name:'Foramina & Fossae',sub:'Skull openings & lesions',x:58,y:84,ico:'foramen'}
 ];
 const PATHS=[['center','cn'],['cn','mus'],['cn','champ'],['cn','gang'],['center','cnl'],['cnl','gang'],['gang','vl'],['gang','vbr'],['vbr','champ'],['vl','vbr'],['cnl','for'],['for','vl'],['gang','for']];
 const CHAMP_NEED=4;
@@ -3396,7 +3556,7 @@ function trapEnemy(topic,opts={}){const m=TOPIC_MON[topic];return {sp:`trap:${m.
 function genEnemy(key,loc,opts={}){const s=SP[key];let e;
   if(s.bank==='mus')e=lrEnemy('mus',MUS.BY[s.node],{...opts,hp:opts.hp||280});
   else if(s.bank==='lr1'||s.bank==='lr2')e=lrEnemy(s.bank,BANK[s.bank].BY[s.node],opts);
-  else if(AUTH[s.bank]){const S=AUTH[s.bank].BY[s.node];const hp=opts.hp||(s.bank==='cn'?(S.parent?220:320):s.bank==='vb'?(S.trunk?220:150):s.bank==='ml'?200:s.bank==='rx'?400:(s.bank==='sn'||s.bank==='pr')?260:100);e={sp:key,bank:s.bank,node:s.node,lvl:opts.lvl||enemyLevel(3),hp,max:hp,hidden:true};}
+  else if(AUTH[s.bank]){const S=AUTH[s.bank].BY[s.node];const hp=opts.hp||(s.bank==='cn'?(S.parent?220:320):s.bank==='vb'?(S.trunk?220:150):s.bank==='ml'?200:s.bank==='rx'?400:(s.bank==='sn'||s.bank==='pr')?260:s.bank==='hs'?300:100);e={sp:key,bank:s.bank,node:s.node,lvl:opts.lvl||enemyLevel(3),hp,max:hp,hidden:true};}
   else e=trapEnemy(s.topic,opts);
   e.loc=loc;return e;}
 function startWild(id,patch){
@@ -3605,7 +3765,9 @@ async function fight(){
         const {m,eff}=dmgMult(e,q);const dmg=e.exhausted?e.hp:Math.round(40*m);
         await say(`${SP[B.pm.sp].name} used ${mvPair(q)[0]}!`,450);
         await anim('#pmon .mon','lunge',350);anim('#emon .mon','hit',500);
-        e.hp=Math.max(0,e.hp-dmg);updBars();await sleep(600);
+        e.hp=Math.max(0,e.hp-dmg);
+        if(e.bank==='hs'&&e.hp<=0){const left=AUTH.hs.req(AUTH.hs.BY[e.node]).filter(r=>!(e.asked||new Set()).has(r)).length;if(left){e.hp=1;updBars();await sleep(400);await say(`${SP[e.sp].name} holds on: ${left} sensory zone${left>1?'s':''} still to map!`,700);}}
+        updBars();await sleep(600);
         if(q.type==='case'&&q.shown===1)await say('A critical hit! Named on the first finding!',700);
         else if(q.type==='case'&&q.shown<=2)await say('Sharp localization — bonus damage!',600);
         if(eff)await say("It's super effective!",600);
@@ -3712,10 +3874,11 @@ function lrCard(bank,id,compact){
   const lin=D.LINEAGE&&D.LINEAGE[id];
   if(compact)return `<div class="hy"><b>HIGH-YIELD PEARL · ${esc(T.name).toUpperCase()}</b>${esc(T.pearl)}</div>`;
   const all=[...b.signs(id)].filter(s=>D.SIG[s]);const sp=(T.spared||[]).filter(s=>D.SIG[s]&&!b.signs(id).has(s));
+  const mAll=(x,seen=new Set())=>{if(seen.has(x)||!b.BY[x])return [];seen.add(x);return [...(b.BY[x].minorOwn||[]),...(b.BY[x].inc||[]).flatMap(c=>mAll(c,seen))];};const mset=new Set(mAll(id));
   return `<div class="card"><div class="row" style="justify-content:space-between"><h3>${esc(T.name)}</h3>${tchip(b.typeOf(T))}</div>
     ${lin?`<div class="lin"><b>${esc(D.LIN_LBL[lin[0]]||'')}</b> · ${esc(lin[1])}</div>`:''}
     <div class="small"><b>Classic cause:</b> ${esc(T.cause)}</div>
-    <ul class="fx-list">${all.map(s=>`<li><span>${esc(D.SIG[s][0])}</span><span>${esc(D.SIG[s][1])}${D.MINOR.has(s)||(T.minorOwn||[]).includes(s)?' <em class="small">(sometimes)</em>':''}<small>${esc(D.SIG[s][2])}</small></span></li>`).join('')}</ul>
+    <ul class="fx-list">${all.map(s=>`<li><span>${esc(D.SIG[s][0])}</span><span>${esc(D.SIG[s][1])}${D.MINOR.has(s)||mset.has(s)?' <em class="small">(sometimes)</em>':''}<small>${esc(D.SIG[s][2])}</small></span></li>`).join('')}</ul>
     ${sp.length?`<div class="small"><b>Not expected:</b> ${sp.map(s=>esc(D.SIG[s][1])).join(' · ')}</div>`:''}
     <div class="hy"><b>HIGH-YIELD PEARL</b>${esc(T.pearl)}</div></div>`;
 }
@@ -3839,6 +4002,7 @@ function dexSub(k){const s=SP[k];
   if(s.bank==='ml')return 'Muscle lesion / clinical';
   if(s.bank==='rx')return 'Reflex arc';
   if(s.bank==='sn')return 'Sinus pain';
+  if(s.bank==='hs')return 'Sensory hot spot';
   if(s.bank==='pr')return 'Airway procedure';
   if(s.bank==='fo')return FOSSA[AUTH.fo.BY[s.node].fossa].replace(' (face, jaw, temporal bone)','');
   return '';}
