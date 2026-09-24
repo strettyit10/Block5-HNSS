@@ -258,7 +258,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 22 · Updated Sep 24, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 23 · Updated Sep 24, 2026</span></footer>
 </div>
 
 <script>
@@ -378,6 +378,12 @@ const SIG = {
  dt_hist:["History","Infected pimple, boil or nasal furuncle in the triangle from the corners of the mouth to the bridge of the nose","Facial veins here drain through valveless ophthalmic veins to the cavernous sinus."],
  ds_hist:["History","Deep neck infection followed by chest pain, fever and sepsis","The danger space runs from the skull base straight down to the diaphragm."],
  face_umn_note:["Motor","Forehead involved: the patient cannot wrinkle the forehead or raise the brow on that side","A lower motor neuron lesion takes out the forehead too; an upper motor neuron lesion spares it."],
+ tn_pain:["Pain","Brief, electric, stabbing pain in one side of the face (usually V2 or V3), set off by touch, chewing, talking or shaving","Demyelination of trigeminal root fibers lets light touch trigger pain."],
+ tn_exam_ok:["Sensory","Normal facial sensation and corneal reflex between attacks","Classic trigeminal neuralgia is a pain disorder, not a sensory loss."],
+ osa_sx:["History","Loud snoring, witnessed pauses in breathing and daytime sleepiness","During sleep genioglossus loses tone and the tongue base falls back against the pharyngeal wall."],
+ osa_stim:["Motor","An implanted stimulator fires the protrusor branches of CN XII during breathing in, pushing the tongue forward to open the airway","Genioglossus (CN XII) is the main tongue protruder and airway dilator."],
+ m3_hist:["History","Numb, burning tongue with lost taste on one side right after a lower wisdom tooth was removed","The lingual nerve lies just medial to the lower 3rd molar, under thin mucosa."],
+ pit_endo:["History","Pituitary adenoma with headache and hormone excess or deficiency","The tumor grows up out of the sella turcica and sideways into the cavernous sinus."],
  cav_first:["Eye","Lateral gaze palsy is often the FIRST sign","CN VI runs through the middle of the sinus beside the ICA; the others run in the wall."]
 };
 const MINOR = new Set(["x_hr","vii_digas","i_flavor","ix_sinus","rln_bilat","csf_rhino","cav_first"]);
@@ -492,7 +498,11 @@ const NODES = [
 {id:"s_dspace",grp:"site",kind:"site",name:"Danger space (spread to the mediastinum)",cause:"Retropharyngeal or parapharyngeal infection breaking into the space between the alar and prevertebral fascia.",own:["ds_hist","rp_med"],spared:["xii_dev","rln_hoarse"],pearl:"The danger space runs from the skull base to the diaphragm with nothing to stop spread: deep neck infection → posterior mediastinitis."},
 {id:"cutbr",grp:"neck",name:"Cutaneous branches (cervical plexus)",cause:"Superficial neck incisions or trauma along the sternocleidomastoid (parotidectomy, neck dissection, thyroid or clavicle surgery).",inc:["great_aur","lesser_occ","trans_cerv","supraclav"],spared:["xi_shrug","phr"],pearl:"Four skin branches, all from Erb point: lesser occipital (C2), great auricular (C2–C3), transverse cervical (C2–C3), supraclavicular (C3–C4). Skin only: no weakness."},
 {id:"s_erb",grp:"site",kind:"site",name:"Erb point (nerve point of the neck)",cause:"Penetrating wound, lymph node biopsy or a misplaced superficial cervical plexus block at the midpoint of the posterior border of SCM.",inc:["cutbr","xi_pt"],spared:["phr","xii_dev"],pearl:"All four cervical plexus skin branches emerge here, and CN XI crosses just above it, so a lesion here numbs the neck skin AND can weaken trapezius. (Not the brachial plexus Erb point at C5–C6.)"},
-{id:"p_voice",grp:"larynx",name:"Voice changes (hoarseness vs lost vocal range)",ph:"A laryngeal nerve injury that changes the voice",cause:"Laryngeal nerve injury in thyroid, neck or chest surgery, or from a tumor.",inc:["eln","rln"],spared:["x_uvula","xii_dev"],pearl:"Hoarse, breathy voice = recurrent laryngeal (all intrinsic muscles except cricothyroid). Lost high notes, monotone = external laryngeal (cricothyroid). Both = the whole laryngeal supply of CN X."}
+{id:"p_voice",grp:"larynx",name:"Voice changes (hoarseness vs lost vocal range)",ph:"A laryngeal nerve injury that changes the voice",cause:"Laryngeal nerve injury in thyroid, neck or chest surgery, or from a tumor.",inc:["eln","rln"],spared:["x_uvula","xii_dev"],pearl:"Hoarse, breathy voice = recurrent laryngeal (all intrinsic muscles except cricothyroid). Lost high notes, monotone = external laryngeal (cricothyroid). Both = the whole laryngeal supply of CN X."},
+{id:"p_tn",grp:"trig",name:"Trigeminal neuralgia (tic douloureux)",cause:"A vascular loop (usually the superior cerebellar artery) compressing the trigeminal root; multiple sclerosis in younger patients.",own:["tn_pain","tn_exam_ok"],spared:["v3_chew","v1_blink"],pearl:"First-line treatment: carbamazepine. Refractory cases: microvascular decompression. Sensory loss or a young patient suggests MS or a tumor."},
+{id:"p_osa",grp:"other",name:"Sleep apnea (hypoglossal nerve stimulation)",ph:"Obstructive sleep apnea treated with a hypoglossal nerve stimulator",cause:"Obstructive sleep apnea: loss of genioglossus tone during sleep lets the tongue fall back; treated with CPAP or an implanted hypoglossal nerve stimulator.",own:["osa_sx","osa_stim"],spared:["x_uvula","ling_sens"],pearl:"The stimulator cuff targets the MEDIAL (protrusor) branches of CN XII to genioglossus; catching the lateral (retrusor) branches to hyoglossus and styloglossus would pull the tongue back and worsen obstruction."},
+{id:"p_3m",grp:"trig",kind:"site",name:"3rd molar extraction (lingual nerve injury)",ph:"Injury during a lower 3rd molar extraction",cause:"Lower wisdom tooth removal: the lingual nerve runs just medial to the 3rd molar, under thin mucosa, after the chorda tympani has joined it.",own:["m3_hist"],inc:["lingual"],spared:["ian_teeth","xii_dev"],pearl:"Distal lingual nerve injury = touch AND taste lost on the front 2/3 of the tongue, plus less submandibular saliva. The inferior alveolar nerve (lip and chin) is the other nerve at risk."},
+{id:"s_pit",grp:"site",kind:"site",name:"Pituitary tumor extension",ph:"A pituitary tumor growing out of the sella",cause:"Pituitary macroadenoma extending up into the optic chiasm and sideways into the cavernous sinus.",own:["pit_endo"],inc:["ii_chiasm","s_cav"],spared:["v3_chew","xii_dev"],pearl:"UP → optic chiasm (bitemporal hemianopsia). SIDEWAYS → cavernous sinus: CN III, IV, VI (eye muscles) and V1/V2 (forehead and cheek numbness). DOWN → sphenoid sinus. V3 and chewing are spared (foramen ovale is outside the sinus)."}
 ];
 
 /* ---------- "Which side?" templates ---------- */
@@ -539,6 +549,7 @@ LINEAGE.p_v=["cn","Cranial nerve V (trigeminal nerve)"];LINEAGE.p_vii=["cn","Cra
 LINEAGE.p_xi=["br","Cranial nerve XI in the posterior triangle"];LINEAGE.p_xii=["cn","Cranial nerve XII (hypoglossal nerve)"];
 LINEAGE.s_tfossa=["site","Facial region: temporal fossa (pterion)"];LINEAGE.s_danger=["site","Facial region: danger triangle draining to the cavernous sinus"];LINEAGE.s_dspace=["site","Neck space: danger space (alar to prevertebral fascia)"];
 LINEAGE.cutbr=["no","Not a cranial nerve: cervical plexus skin branches (C2–C4)"];LINEAGE.s_erb=["site","Neck landmark: midpoint of the posterior border of SCM"];LINEAGE.p_voice=["br","CN X: superior and recurrent laryngeal nerves"];
+LINEAGE.p_tn=["cn","Cranial nerve V (trigeminal nerve) root"];LINEAGE.p_osa=["cn","Cranial nerve XII (hypoglossal nerve), protrusor branches"];LINEAGE.p_3m=["br","CN V3: lingual nerve beside the lower 3rd molar"];LINEAGE.s_pit=["site","Sella turcica: pituitary gland"];
 return {SIG,MINOR,GROUPS,NODES,SIDE,LINEAGE,LIN_LBL,SIDE_GRP};
 })();
 /* ===== Source data: Lesion Rounds II (unchanged) ===== */
@@ -662,7 +673,7 @@ const NODES = [
 {id:"post_auric",grp:"vii",name:"Posterior auricular nerve (CN VII)",cause:"Cut in an incision behind the ear (mastoid surgery).",own:["pa_occip"],spared:["face_all"],pearl:"The first branch of CN VII outside the skull."},
 {id:"n_digastric",grp:"vii",name:"Nerve to posterior digastric and stylohyoid (CN VII)",cause:"Lesion just outside the stylomastoid foramen.",own:["vii_digas2"],spared:["myl_floor"],pearl:"Digastric has two nerves: anterior belly V3, posterior belly VII."},
 {id:"vii_parotid",grp:"vii",name:"Facial nerve within the parotid gland",cause:"Parotid malignancy or parotidectomy.",own:["face_pes","face_all"],spared:["ct_taste2","gp_tear","stap_hyper"],pearl:"Inside the parotid the nerve is purely motor — taste, tears, and hearing stay normal."},
-{id:"geniculate",grp:"vii",name:"Geniculate ganglion (Ramsay Hunt syndrome)",cause:"Varicella-zoster reactivation in the geniculate ganglion.",own:["rh_vesicle","rh_vertigo"],inc:["vii_parotid","chorda2","gr_petrosal","n_stapedius"],pearl:"Facial palsy + painful ear vesicles = Ramsay Hunt, not Bell palsy."},
+{id:"geniculate",grp:"vii",name:"Geniculate ganglion (Ramsay Hunt syndrome)",cause:"Varicella-zoster reactivation in the geniculate ganglion.",own:["rh_vesicle","rh_vertigo"],minorOwn:["face_pes"],inc:["vii_parotid","chorda2","gr_petrosal","n_stapedius"],pearl:"Facial palsy + painful ear vesicles = Ramsay Hunt, not Bell palsy."},
 {id:"nerv_interm",grp:"vii",name:"Nervus intermedius",cause:"Compressed by a vessel or tumor at the cerebellopontine angle.",own:["ni_only"],inc:["chorda2","gr_petrosal"],spared:["face_all"],pearl:"Nervus intermedius = the sensory and parasympathetic half of CN VII."},
 /* ---- IX and X ---- */
 {id:"tympanic_n",grp:"ixx",name:"Tympanic nerve (CN IX, Jacobson nerve)",cause:"Middle ear tumor (glomus tympanicum) or middle ear surgery.",own:["tymp_ear"],inc:["lesser_pet"],spared:["x_ear_sens"],pearl:"Tympanic n. forms the tympanic plexus, then continues as the lesser petrosal n."},
@@ -691,13 +702,13 @@ const NODES = [
 /* ---- sites ---- */
 {id:"s_ppf",grp:"site",kind:"site",name:"Pterygopalatine fossa",cause:"Perineural spread of a skin cancer or a juvenile angiofibroma.",inc:["zyg","psa","lesser_pal","v2_phar","vidian"],spared:["mass_weak"],pearl:"Pterygopalatine fossa = V2 + the pterygopalatine ganglion + the third part of the maxillary artery."},
 {id:"s_itf",grp:"site",kind:"site",name:"Infratemporal fossa",cause:"Tumor or a displaced mandibular ramus fracture.",inc:["masseteric","deep_temp","n_lat_pt","n_med_pt","ian_prox","ling_prox","auriculo2","otic_g"],spared:["gp_tear"],pearl:"Everything V3 does lives here — plus the otic ganglion and the maxillary artery."},
-{id:"s_facial_canal",grp:"site",kind:"site",name:"Facial canal (above the chorda tympani)",cause:"Temporal bone fracture or cholesteatoma.",inc:["vii_parotid","chorda2","n_stapedius"],spared:["coch_hear"],pearl:"Work out how high a CN VII lesion is by what is lost: tears → hyperacusis → taste → face."},
+{id:"s_facial_canal",grp:"site",kind:"site",name:"Facial canal (above the chorda tympani)",cause:"Temporal bone fracture or cholesteatoma.",minorOwn:["face_pes"],inc:["vii_parotid","chorda2","n_stapedius"],spared:["coch_hear"],pearl:"Work out how high a CN VII lesion is by what is lost: tears → hyperacusis → taste → face."},
 {id:"s_petrous",grp:"site",kind:"site",name:"Petrous apex (Gradenigo syndrome)",cause:"Petrous apicitis spreading from a middle ear infection.",own:["grad_pain","grad_ear"],inc:["vi_dorello_n"],spared:["face_all"],pearl:"Gradenigo triad: ear discharge + retro-orbital pain (V1) + lateral gaze palsy (VI)."},
-{id:"s_cpa",grp:"site",kind:"site",name:"Cerebellopontine angle",cause:"Vestibular schwannoma or meningioma.",inc:["cochlear","vestibular","nerv_interm","vii_parotid"],spared:["xii_distal"],pearl:"CPA tumors hit VIII first, then VII and V as they grow."},
+{id:"s_cpa",grp:"site",kind:"site",name:"Cerebellopontine angle",cause:"Vestibular schwannoma or meningioma.",minorOwn:["face_pes"],inc:["cochlear","vestibular","nerv_interm","vii_parotid"],spared:["xii_distal"],pearl:"CPA tumors hit VIII first, then VII and V as they grow."},
 {id:"s_parotid_bed",grp:"site",kind:"site",name:"Parotid gland (tumor or parotidectomy)",cause:"Parotid tumor or surgery.",inc:["vii_parotid","auriculo2"],spared:["ct_taste2"],pearl:"Facial weakness with a parotid mass suggests malignancy."},
 {id:"ix_tons",grp:"ixx",name:"Tonsillar branch of CN IX",cause:"Injured during tonsillectomy or by a peritonsillar abscess.",own:["ix_tons_sens"],spared:["ix_taste2","x_phar_motor"],pearl:"Referred otalgia after tonsillectomy travels on CN IX (tonsillar branch in, tympanic branch to the ear)."},
 {id:"s_tonsil",grp:"site",kind:"site",name:"Tonsillar bed (tonsillectomy)",cause:"Tonsillectomy that reaches through the superior constrictor to the CN IX branches just deep to the tonsillar bed.",inc:["ix_tons","ix_lingual"],spared:["x_phar_motor","ct_taste2"],pearl:"After tonsillectomy: lost taste AND touch on the posterior 1/3 of the tongue, plus referred ear pain. Palate and uvula movement stay normal (that is CN X)."},
-{id:"s_npc",grp:"site",kind:"site",name:"Pharyngeal recess (nasopharyngeal carcinoma)",cause:"Nasopharyngeal carcinoma arising in the fossa of Rosenmüller, its most common site.",own:["npc_effusion","npc_node","npc_nose"],inc:["v2_phar"],spared:["face_all"],pearl:"An adult with a NEW one-sided middle ear effusion needs the nasopharynx examined. Upward spread through foramen lacerum reaches the cavernous sinus (CN VI first)."},
+{id:"s_npc",grp:"site",kind:"site",name:"Pharyngeal recess (nasopharyngeal carcinoma)",cause:"Nasopharyngeal carcinoma arising in the fossa of Rosenmüller, its most common site.",own:["npc_effusion","npc_node","npc_nose","npc_vi"],inc:["v2_phar"],spared:["face_all"],pearl:"An adult with a NEW one-sided middle ear effusion needs the nasopharynx examined. Upward spread through foramen lacerum reaches the cavernous sinus (CN VI first)."},
 {id:"s_spf",grp:"site",kind:"site",name:"Sphenopalatine foramen (V2)",cause:"Endoscopic sphenopalatine artery ligation for posterior epistaxis, or a tumor at the foramen.",own:["np_sens2"],inc:["pslnasal"],spared:["gp_sens2","io_skin"],pearl:"Sphenopalatine foramen = sphenopalatine artery + nasopalatine and posterior superior lateral nasal nerves: pterygopalatine fossa → nasal cavity."},
 {id:"s_palf",grp:"site",kind:"site",name:"Greater and lesser palatine foramina (V2)",cause:"Palatal surgery, a palatal nerve block, or a palatal tumor.",own:["gp_sens2"],inc:["lesser_pal"],spared:["np_sens2","io_skin"],pearl:"Greater palatine foramen (medial to the 3rd molar) = hard palate; lesser palatine foramina just behind it = soft palate. The front of the palate stays normal (nasopalatine)."},
 {id:"s_iof",grp:"site",kind:"site",name:"Inferior orbital fissure (V2)",cause:"Orbital floor fracture extending back into the fissure, or a tumor spreading from the pterygopalatine fossa.",inc:["zyg","infraorb2"],spared:["psa_teeth","v2_naso"],pearl:"Inferior orbital fissure = infraorbital n. and vessels + zygomatic n. Upper molars are spared because the posterior superior alveolar nn. left V2 earlier, in the fossa."},
@@ -711,7 +722,11 @@ const NODES = [
 {id:"ian_block",grp:"site",kind:"site",name:"Mandibular foramen dental block (inferior alveolar nerve block)",cause:"Local anesthetic injected at the lingula for lower dental work; the lingual nerve lies just in front and is usually caught too.",own:["ian_teeth2","mn_chin","ling_touch"],spared:["myl_floor","at_temple"],pearl:"Classic IAN block: numb lower teeth, lip, chin AND tongue (lingual n.). Mylohyoid still works, since its nerve left above the injection site."},
 {id:"p_hear",grp:"oth",name:"Loss of hearing",cause:"Vestibular schwannoma, ototoxic drugs (aminoglycosides, cisplatin), loud noise or aging.",inc:["cochlear"],spared:["vest_vert","face_all"],pearl:"Sensorineural loss: Weber lateralizes to the GOOD ear and air conduction still beats bone (Rinne positive). Conductive loss: Weber to the BAD ear, bone beats air."},
 {id:"p_uvula",grp:"ixx",name:"Uvula deviation",cause:"Vagal lesion: jugular foramen tumor, lateral medullary stroke or a high neck injury.",inc:["x_pharyngeal"],spared:["ix_phar_sens","xii_distal"],pearl:"The uvula points AWAY from the damaged vagus: the intact levator veli palatini pulls it over."},
-{id:"jaw_dev",grp:"v3",name:"Deviated mandible",cause:"V3 lesion at the foramen ovale, injury to the nerve to lateral pterygoid, or a condylar fracture on that side.",inc:["n_lat_pt"],spared:["ling_touch","face_all"],pearl:"On opening, the jaw deviates TOWARD the weak side: the intact lateral pterygoid pulls its own condyle forward and swings the chin across."}
+{id:"jaw_dev",grp:"v3",name:"Deviated mandible",cause:"V3 lesion at the foramen ovale, injury to the nerve to lateral pterygoid, or a condylar fracture on that side.",inc:["n_lat_pt"],spared:["ling_touch","face_all"],pearl:"On opening, the jaw deviates TOWARD the weak side: the intact lateral pterygoid pulls its own condyle forward and swings the chin across."},
+{id:"p_rh",grp:"vii",name:"Ramsay Hunt syndrome",ph:"Ramsay Hunt syndrome (herpes zoster oticus)",cause:"Varicella-zoster reactivation in the geniculate ganglion of CN VII.",own:["rh_face"],inc:["geniculate"],spared:["ix_taste2","xii_distal"],pearl:"Facial palsy + painful vesicles in the ear canal or auricle (+ vertigo or hearing loss from nearby CN VIII). Worse prognosis than Bell palsy; treat with antivirals and steroids."},
+{id:"acc_v2",grp:"site",kind:"site",name:"Adenoid cystic carcinoma (perineural spread along V2)",ph:"Adenoid cystic carcinoma of the palate spreading along V2",cause:"Adenoid cystic carcinoma of a minor salivary gland of the palate tracking back along the palatine nerves into the pterygopalatine fossa and V2.",own:["acc_hist","gp_sens2"],inc:["lesser_pal","infraorb2"],spared:["face_all","ling_touch"],pearl:"Classic perineural invasion: palate → greater and lesser palatine nerves → pterygopalatine fossa → foramen rotundum → cavernous sinus. Numbness spreads from the palate to the whole V2 territory."},
+{id:"s_adenoid",grp:"site",kind:"site",name:"Adenoid hypertrophy (pharyngeal tonsil)",ph:"Enlarged adenoids (pharyngeal tonsil)",cause:"Enlargement of the pharyngeal tonsil on the roof and back wall of the nasopharynx, usually in young children.",own:["ad_hist","ad_ear"],spared:["face_all","xii_distal"],pearl:"No cranial nerve is cut: the adenoids block the choanae (mouth breathing) and the auditory tube opening beside the torus tubarius (effusion), overwhelming tensor veli palatini and salpingopharyngeus, which normally open the tube."},
+{id:"s_etd",grp:"site",kind:"site",name:"Eustachian tube dysfunction",ph:"Eustachian (auditory) tube dysfunction",cause:"Blocked or poorly opening auditory tube: colds and allergy, enlarged adenoids, nasopharyngeal carcinoma, cleft palate, or a V3 lesion weakening tensor veli palatini.",own:["etd_full","etd_tm"],inc:["n_med_pt"],minorOwn:["mp_close","tt_loud"],spared:["face_all","vest_vert"],pearl:"Tensor veli palatini (V3) opens the tube on swallowing, helped by salpingopharyngeus and levator veli palatini (CN X). Any nasopharyngeal mass or V3 lesion can cause it."}
 ];
 
 /* extra signs used above that belong to shared branches */
@@ -729,6 +744,13 @@ SIG.npc_node=["History","Painless upper neck lymph node mass; EBV-associated, mo
 SIG.npc_nose=["History","One-sided nasal obstruction and blood-stained nasal discharge","The tumor fills the nasopharynx behind the nose."];
 SIG.np_sens2=["Sensory","Numbness of the nasal septum and the palate behind the upper incisors","The nasopalatine n. (V2) crosses the septum after passing the sphenopalatine foramen."];
 SIG.gp_sens2=["Sensory","Numbness of the hard palate mucosa and palatal gums back to the canine","The greater palatine n. (V2) exits the greater palatine foramen."];
+SIG.acc_hist=["History","Slow-growing, painless palate or salivary gland mass that later causes pain and numbness","Adenoid cystic carcinoma spreads along nerves (perineural invasion)."];
+SIG.ad_hist=["History","Child with mouth breathing, snoring, a nasal (hyponasal) voice and an open-mouthed 'adenoid face'","Enlarged pharyngeal tonsils fill the nasopharynx behind the nose."];
+SIG.ad_ear=["Special sense","Recurrent middle ear infections and effusion with conductive hearing loss","Enlarged adenoids block the opening of the auditory tube on the lateral nasopharyngeal wall."];
+SIG.etd_full=["Special sense","Ear fullness, muffled (conductive) hearing and popping, worse with a cold or on a plane","The auditory tube fails to open on swallowing, so middle ear pressure is not equalized."];
+SIG.etd_tm=["Imaging","Retracted eardrum or fluid behind it on otoscopy","Negative middle ear pressure pulls the drum in and draws fluid out."];
+SIG.npc_vi=["Eye","Double vision from a lateral gaze palsy","Tumor spreads up through foramen lacerum to the cavernous sinus, where CN VI is hit first."];
+SIG.rh_face=["Motor","Whole half of the face weak, forehead included, with ear pain","Viral inflammation of the geniculate ganglion swells CN VII inside the facial canal."];
 SIG.b3_cheek=["Sensory","Numbness of the skin and inner mucosa of the cheek","The buccal n. is the one sensory branch of the anterior division of V3."];
 MINOR.add("psln_dry");
 
@@ -829,6 +851,7 @@ LINEAGE.otic_post=["site","Otic ganglion: postganglionic side (with the auriculo
 LINEAGE.ian_prox=["br","Branch of CN V3: inferior alveolar nerve above the mandibular foramen"];
 LINEAGE.ian_block=["site","Bone opening: mandibular foramen (V3), site of the dental block"];
 LINEAGE.p_hear=["br","Cochlear division of CN VIII"];LINEAGE.p_uvula=["br","Pharyngeal branch of CN X"];LINEAGE.jaw_dev=["br","CN V3: nerve to lateral pterygoid"];
+LINEAGE.p_rh=["gg","Sensory ganglion of CN VII (geniculate)"];LINEAGE.acc_v2=["site","Palate → pterygopalatine fossa along V2"];LINEAGE.s_adenoid=["site","Nasopharynx: pharyngeal tonsil"];LINEAGE.s_etd=["site","Auditory (pharyngotympanic) tube"];
 return {SIG,MINOR,GROUPS,NODES,SIDE,LINEAGE,LIN_LBL,SIDE_GRP};
 })();
 /* ===== Source data: Trap Hunter (unchanged) ===== */
@@ -1978,6 +2001,77 @@ RG_PATCHES.cut={label:'Cervical Plexus Cutaneous Branches',type:'CERV',sp:['leso
 const CPL_LES={label:'Cervical Plexus Lesions',type:'CERV',sp:['lr2:c1_xii','lr1:s_erb','lr1:cutbr','lr1:great_aur','lr1:lesser_occ','lr1:trans_cerv','lr1:supraclav','lr1:scg']};
 CNL_PATCHES_BY_NERVE.X.sp.splice(CNL_PATCHES_BY_NERVE.X.sp.indexOf('lr1:sln'),0,'lr1:p_voice');
 
+/* ===== Rev 23: sinus pain (bank 'sn', Trigeminal Cave) and airway procedures (bank 'pr', Summit) ===== */
+const SNFX={
+ fs1:'The supraorbital nerve (frontal nerve, V1) supplies its lining',
+ fs2:'Infection can spread through its thin posterior wall into the anterior cranial fossa (epidural or frontal lobe abscess)',
+ fs3:'Pott puffy tumor: frontal bone osteomyelitis with a doughy forehead swelling',
+ es1:'Only the paper-thin lamina papyracea separates it from the orbit, so infection spreads to orbital cellulitis',
+ es2:'The most common source of orbital cellulitis in children',
+ es3:'Its anterior ethmoidal nerve also ends as the external nasal nerve to the tip of the nose',
+ ss1:'It lies directly below the sella turcica: the route for transsphenoidal pituitary surgery',
+ ss2:'The optic nerve and the cavernous sinus (ICA, CN III, IV, V1, V2, VI) lie against its lateral walls',
+ ss3:'Its infection can spread to cavernous sinus thrombosis or the optic nerve',
+ ms1:'The roots of the upper molars sit in its floor: a dental infection or extraction can open into it (oroantral fistula)',
+ ms2:'The infraorbital nerve runs in its roof, so orbital floor fractures and sinus tumors numb the cheek',
+ ms3:'The largest sinus; its ostium is high on the medial wall, so it drains poorly when upright'
+};
+const SNA=[
+ {id:'sn_front',t:'TRIGEM',div:'V1 (ophthalmic)',name:'Frontal sinus pain',nerve:'Supraorbital nerve (frontal nerve, V1)',pain:'Forehead above the eyebrows, tender when the sinus floor above the medial orbit is pressed',drain:'Middle meatus (semilunar hiatus) through the frontonasal duct',fx:['fs1','fs2','fs3'],
+  pearl:'Frontal and ethmoid sinuses = V1; maxillary = V2; sphenoid = V1 (posterior ethmoidal) plus V2 orbital branches.'},
+ {id:'sn_eth',t:'TRIGEM',div:'V1 (ophthalmic)',name:'Ethmoid sinus pain',nerve:'Anterior and posterior ethmoidal nerves (nasociliary, V1)',pain:'Between the eyes and behind the bridge of the nose, often with pain on eye movement',drain:'Anterior and middle cells → middle meatus; posterior cells → superior meatus',fx:['es1','es2','es3'],
+  pearl:'Ethmoid sinusitis → orbital cellulitis across the lamina papyracea: proptosis, painful eye movements, reduced vision.'},
+ {id:'sn_sph',t:'TRIGEM',div:'V1 and V2 (both)',name:'Sphenoid sinus pain',nerve:'Posterior ethmoidal nerve (V1), with orbital branches from the pterygopalatine ganglion (V2)',pain:'Deep, poorly localized pain at the vertex or behind the eyes',drain:'Sphenoethmoidal recess, above the superior concha',fx:['ss1','ss2','ss3'],
+  pearl:'Deepest sinus, surrounded by the pituitary, optic nerves and cavernous sinuses: its complications are neurological.'},
+ {id:'sn_max',t:'TRIGEM',div:'V2 (maxillary)',name:'Maxillary sinus pain',nerve:'Posterior, middle and anterior superior alveolar nerves and the infraorbital nerve (V2)',pain:'The cheek, and often the upper molars and premolars (referred toothache)',drain:'Middle meatus (semilunar hiatus) through an ostium high on its medial wall',fx:['ms1','ms2','ms3'],
+  pearl:'"Toothache" in several upper molars at once, worse when bending forward = maxillary sinusitis.'}
+];
+const PRFX={
+ in1:'The curved (Macintosh) blade tip goes into the VALLECULA, in front of the epiglottis',
+ in2:'Pressing into the vallecula tenses the hyoepiglottic ligament and tips the epiglottis up, opening the laryngeal inlet',
+ in3:'The tube passes POSTERIOR to the epiglottis, through the laryngeal inlet, then between the vocal folds into the trachea',
+ in4:'The piriform recesses lie on EITHER SIDE of the laryngeal inlet: the tube must not be pushed into them',
+ in5:'The esophagus lies directly BEHIND the larynx: a tube there gives no breath sounds and no end-tidal CO2',
+ in6:'The vallecula is the pocket between the base of the tongue and the epiglottis, split by the median glossoepiglottic fold',
+ tr1:'Air bypasses the vocal folds, so the patient cannot speak while the cuff is inflated',
+ tr2:'Brisk bleeding days to weeks later suggests a tracheo-innominate (brachiocephalic) artery fistula',
+ tr3:'Placing it too high (1st ring or cricoid) risks subglottic stenosis',
+ tr4:'The thyroid isthmus lies over the 2nd–4th tracheal rings and must be divided or pushed up',
+ cr1:'The emergency surgical airway when you cannot intubate and cannot oxygenate',
+ cr2:'Find the soft gap just below the thyroid prominence: the membrane lies between the thyroid and cricoid cartilages',
+ cr3:'Cut through the LOWER part of the membrane to avoid the cricothyroid arteries running across its upper part',
+ cr4:'It opens the airway ABOVE the cricoid cartilage; a tracheostomy opens it BELOW the cricoid',
+ lx1:'Airway and food passage are permanently separated: breathing is only through the neck stoma, so aspiration cannot happen',
+ lx2:'The natural voice is lost; speech is restored with a tracheoesophageal puncture valve, esophageal speech or an electrolarynx',
+ lx3:'Smell and taste fall because air no longer flows through the nose',
+ lx4:'A pharyngocutaneous fistula (saliva leaking to the neck skin) is the classic early complication'
+};
+const PRA=[
+ {id:'pr_intub',p:'face',t:'VAGAL',name:'Endotracheal intubation',site:'Mouth → oropharynx → laryngopharynx → laryngeal inlet → glottis → trachea',
+  risk:'Tube in a piriform recess or the esophagus instead of the larynx; also broken teeth and arytenoid dislocation',
+  musc:'The blade lifts the tongue (genioglossus); pressure in the vallecula lifts the epiglottis through the hyoepiglottic ligament',fx:['in1','in2','in3','in4','in5','in6'],
+  pearl:'Blade in the vallecula → epiglottis tips up → see the glottis → tube behind the epiglottis and between the folds. Confirm with end-tidal CO2.'},
+ {id:'pr_trach',p:'neck',t:'CERV',name:'Tracheostomy',site:'Front of the trachea at the 2nd–4th rings, below the cricoid; the thyroid isthmus over rings 2–4 is divided or retracted',
+  risk:'Recurrent laryngeal nerves in the tracheoesophageal grooves (hoarseness); the brachiocephalic artery just below (fistula); anterior jugular veins and the thyroid isthmus (bleeding)',
+  musc:'Sternohyoid and sternothyroid are separated in the midline, not cut',fx:['tr1','tr2','tr3','tr4'],
+  pearl:'Elective, long-term airway below the larynx. Cuff up = no voice; a speaking valve lets air pass back up through the folds.'},
+ {id:'pr_crico',p:'neck',t:'CERV',name:'Cricothyroidotomy',site:'Cricothyroid membrane in the midline, between the thyroid and cricoid cartilages',
+  risk:'Cricothyroid arteries across the upper membrane; the vocal folds just above if the cut is too high; the back of the cricoid and the esophagus if too deep',
+  musc:'The cricothyroid muscles lie on each side and are spared by a midline incision',fx:['cr1','cr2','cr3','cr4'],
+  pearl:'Emergency airway: fast, superficial and avascular in the midline. Convert to a tracheostomy later.'},
+ {id:'pr_lxect',p:'neck',t:'VAGAL',name:'Laryngectomy (total)',site:'The whole larynx is removed, from the hyoid to the upper trachea; the trachea is brought out as a permanent stoma and the pharynx is closed',
+  risk:'The recurrent and superior laryngeal nerves are taken with the larynx; CN XII and the pharyngeal plexus lie close to the pharyngeal repair',
+  musc:'All intrinsic laryngeal muscles are removed with the larynx; strap muscles are often taken; the inferior constrictor is divided and re-sutured',fx:['lx1','lx2','lx3','lx4'],
+  pearl:'After total laryngectomy the patient breathes only through the stoma: an obstructed stoma cannot be bypassed through the mouth.'}
+];
+
+CNL_PATCHES_BY_NERVE.V.sp.splice(1,0,'lr1:p_tn');
+CNL_PATCHES_BY_NERVE.VII.sp.splice(CNL_PATCHES_BY_NERVE.VII.sp.indexOf('lr2:geniculate'),0,'lr2:p_rh');
+CNL_PATCHES_BY_NERVE.XII.sp.push('lr1:p_osa');
+VL_PATCHES_V9.v2.sp.push('lr2:acc_v2');VL_PATCHES_V9.v3.sp.push('lr1:p_3m');
+FACE_LES.sp.splice(4,0,'lr1:s_pit','lr2:acc_v2','lr2:s_adenoid','lr2:s_tonsil','lr2:s_etd','lr2:s_npc');
+NECK_LES.sp.push('pr:pr_trach','pr:pr_crico','pr:pr_lxect');
+
 /* ===== Muscle bank (Neuromon: Myo Ridge) =====
    Wording follows the HNSS Lab 1, 2, 4, 5 & 6 structure-worksheet answer keys.
    Stylopharyngeus and musculus uvulae are not in those keys and use standard anatomy.
@@ -2447,6 +2541,26 @@ const MLA=[
 
 const _FXX={"ml_xpal": ["pc1", "pc2", "pc3", "lg3", "tv2", "tv3"], "ml_con": ["xp1", "xp2", "xp3", "lg2", "lg3"], "ml_long": ["xp3", "pc2", "pc3"], "ml_rln1": ["el2", "r22"], "ml_rln2": ["r12", "r13", "el2"], "ml_eln": ["r12"], "ml_mt": ["r12", "el2"], "ml_smt": ["sn1", "sn3", "mm2"], "ml_smn": ["sm1", "sm4"], "ml_mm": ["sm2", "be3"], "ml_bell": ["mm3", "mm1"], "ml_blow": ["iii1"], "ml_tmj": ["td1", "tr1"], "ml_tmjd": ["tm1", "tm2", "tm5"], "ml_tris": ["tm2", "td1"], "ml_xi": ["tc3"], "ml_tort": ["xi1", "xi3"], "ml_xii": ["xu2"], "ml_xiiu": ["xl2", "xl3"], "ml_tvp": ["xp3", "pc2"]};MLA.forEach(a=>{a.fxX=_FXX[a.id]||[];});
 
+/* ===== Rev 23 ===== */
+MUSCLES.push({id:'lca',name:'Lateral cricoarytenoid',p:['lxi'],cls:['Intrinsic laryngeal muscle'],n:'RLN',ag:'adduct',arch:6,
+ act:'ADDUCTS the vocal folds by rotating the arytenoids inward (closes the rima glottidis)',par:'Breathy, weak voice from incomplete closure of the folds',
+ att:'Upper border of the cricoid arch → muscular process of the arytenoid',
+ pearl:'The main adductor and the direct opponent of the posterior cricoarytenoid, the only abductor. Both are recurrent laryngeal nerve muscles.',
+ mv:['Adducts the vocal folds'],lm:['It lies on the upper border of the cricoid arch, INSIDE the larynx, deep to the thyroid lamina','It pulls the muscular process of the arytenoid FORWARD, the opposite of the posterior cricoarytenoid']});
+Object.assign(MLFX,{
+ lu1:'The roots of the lower 2nd and 3rd molars lie BELOW the mylohyoid line, so their abscesses drain into the submandibular space',
+ lu2:'The infection spreads to both sides through the submandibular, sublingual and submental spaces around the free edge of mylohyoid',
+ lu3:'The tongue is pushed UP and BACK: the airway is the emergency, so secure it first',
+ ac1:'Classic perineural invasion: it tracks along V2 branches back to the pterygopalatine fossa and skull base',
+ ac2:'Cribriform ("Swiss cheese") pattern on histology',
+ ac3:'A malignant tumor of the minor salivary glands, which are densest on the hard and soft palate'
+});
+MLA.push(
+ {id:'ml_lud',p:'tongue',t:'SPECIAL',name:'Ludwig angina',sign:'Board-hard swelling of the floor of the mouth and upper neck, with the tongue pushed up and back, drooling and a muffled voice',musc:'Mylohyoid divides the sublingual space (above) from the submandibular space (below); the infection wraps around its free posterior edge',nerve:'None: a spreading infection (the airway is the danger)',cause:'Infected lower 2nd or 3rd molar',fx:['lu1','lu2','lu3'],fxX:['sn3']},
+ {id:'ml_acc',p:'palate',t:'TRIGEM',name:'Adenoid cystic carcinoma',sign:'Slow-growing, painless palate mass that later causes pain and palate numbness',musc:'Soft palate muscles invaded locally as it grows',nerve:'Greater and lesser palatine nerves (V2), tracked back to the pterygopalatine fossa',cause:'Malignant tumor of a minor salivary gland of the palate',fx:['ac1','ac2','ac3']}
+);
+MLA.find(a=>a.id==='ml_smn').fxX=(MLA.find(a=>a.id==='ml_smn').fxX||[]).concat(['lu2']);
+
 </script>
 <script>
 "use strict";
@@ -2881,6 +2995,24 @@ const AUTH={
    stem:{center:S=>`Where is the brainstem center of the <strong>${esc(S.name)}</strong>?`,lesion:S=>`Which clinical finding goes with a broken <strong>${esc(S.name)}</strong>?`},
    revText:S=>S.lesion,revMv:['LOCALIZE','Which reflex is broken?'],revStem:t=>`Which reflex does this describe? <strong>${esc(t)}</strong>`
  }),
+ sn:mkAuth('sn',SNA,{
+   patchOf:S=>S.div,idStem:'Which sinus is this?',
+   rows:S=>[['Pain felt',S.pain],['Nerve',S.nerve],['Drains to',S.drain],['Division',S.div]],
+   val:{div:S=>S.div,nerve:S=>S.nerve,pain:S=>S.pain,drain:S=>S.drain},extra:{div:['V3 (mandibular)','CN VII (facial)']},
+   sets:{fx:{dict:SNFX,mv:['KEY POINT','Which teaching point belongs here?'],stem:S=>`Which teaching point belongs to <strong>${esc(S.name)}</strong>?`,rmv:['WHICH SINUS?','Which sinus does this describe?'],rstem:t=>`Which sinus does this describe? <strong>${esc(t)}</strong>`}},
+   mv:{div:['DIVISION','V1 or V2?'],nerve:['NERVE','Which nerve carries the pain?'],pain:['REFERRED','Where is the pain felt?'],drain:['DRAINAGE','Where does the sinus drain?']},
+   stem:{div:S=>`Which trigeminal division carries <strong>${esc(S.name.toLowerCase())}</strong>?`,nerve:S=>`Which nerve carries <strong>${esc(S.name.toLowerCase())}</strong>?`,pain:S=>`Where is <strong>${esc(S.name.toLowerCase())}</strong> felt?`,drain:S=>`Where does the <strong>${esc(S.name.replace(' pain','').toLowerCase())}</strong> drain?`},
+   revText:S=>S.pain,revMv:['WHICH SINUS?','Which sinus hurts here?'],revStem:t=>`Pain felt here points to which sinus? <strong>${esc(t)}</strong>`
+ }),
+ pr:mkAuth('pr',PRA,{
+   patchOf:S=>S.p,idStem:'Which airway procedure is this?',
+   rows:S=>[['Site',S.site],['At risk',S.risk],['Muscles',S.musc]],
+   val:{site:S=>S.site,risk:S=>S.risk,musc:S=>S.musc},
+   sets:{fx:{dict:PRFX,mv:['KEY POINT','Which anatomical point belongs here?'],stem:S=>`Which anatomical point belongs to <strong>${esc(S.name)}</strong>?`,rmv:['WHICH PROCEDURE?','Which procedure does this describe?'],rstem:t=>`Which airway procedure does this describe? <strong>${esc(t)}</strong>`}},
+   mv:{site:['SITE','Where is it done?'],risk:['AT RISK','Which structures and nerves are at risk?'],musc:['MUSCLES','Which muscles are involved?']},
+   stem:{site:S=>`Where is <strong>${esc(S.name)}</strong> done, or what path does it take?`,risk:S=>`Which structures or nerves are at risk in <strong>${esc(S.name)}</strong>?`,musc:S=>`How are the muscles involved in <strong>${esc(S.name)}</strong>?`},
+   revText:S=>S.site,revMv:['WHICH PROCEDURE?','Which procedure uses this route?'],revStem:t=>`Which procedure is this? <strong>${esc(t)}</strong>`
+ }),
  ml:mkAuth('ml',MLA,{
    patchOf:S=>S.p,idStem:'Which muscle lesion or clinical picture is this?',
    rows:S=>[['Key sign',S.sign],['Muscles',S.musc],['Nerve',S.nerve||''],['Cause',S.cause||'']],
@@ -2903,6 +3035,8 @@ function authCard(bank,id,compact){const A=AUTH[bank];const S=A&&A.BY[id];if(!S)
     r+=row('Whole pathway',chain.join(' → ')+' → '+esc(S.target));}
   if(bank==='rg')r+=row('Type',esc(S.kind))+row('Where',esc(S.where||''))+row('Connects to',esc(S.conn||''))+row('Contents / carries',esc(S.trans))+row('Spinal roots',esc(S.roots||''));
   if(bank==='rx')r+=row('Stimulus',S.trig.map(k=>esc(RXTRIG[k])).join('<br>'))+row('Afferent limb',S.aff.map(k=>esc(RXAFF[k])).join('<br>'))+row('Center',esc(S.center))+row('Efferent limb',S.eff.map(k=>esc(RXEFF[k])).join('<br>'))+row('Response',S.resp.map(k=>esc(RXRESP[k])).join('<br>'))+row('When it breaks',esc(S.lesion));
+  if(bank==='sn')r+=row('Division',esc(S.div))+row('Nerve',esc(S.nerve))+row('Pain felt',esc(S.pain))+row('Drains to',esc(S.drain))+row('Key points',S.fx.map(k=>esc(SNFX[k])).join('<br>'));
+  if(bank==='pr')r+=row('Site / path',esc(S.site))+row('At risk',esc(S.risk))+row('Muscles',esc(S.musc))+row('Key anatomy',S.fx.map(k=>esc(PRFX[k])).join('<br>'));
   if(bank==='ml')r+=row('Key sign',esc(S.sign))+row('Muscles',esc(S.musc))+row('Nerve',esc(S.nerve||''))+row('Cause',esc(S.cause||''))+row('Key points',(S.fx||[]).map(k=>esc(MLFX[k])).join('<br>'));
   if(bank==='fo')r+=row('Fossa',esc(FOSSA[S.fossa]))+row('Bone',esc(S.bone))+row('Contents',esc(S.trans))+row('Why it matters',esc(S.why));
   if(S.a)r+=row('Artery',`${esc(S.a[0])}<small>${esc(S.a[1])}</small>`);
@@ -3080,9 +3214,10 @@ const AREAS={
  mus:{name:'Myo Ridge',sub:'Muscles',blurb:'Wild muscles hide their name. Identify them from the palsy, then battle through innervation, movements, landmarks, arch and attachments. Each card ends with its muscle lesions and clinical pictures.',
    scene:'',patches:Object.fromEntries(Object.entries(MGROUPS).map(([k,label])=>[k,{label,type:MGROUP_TYPE[k],sp:[...MUSCLES.filter(m=>m.p.includes(k)).map(m=>'mus:'+m.id),...MLA.filter(a=>a.p===k).map(a=>'ml:'+a.id)]}]))}
 };
+AREAS.vbr.patches.v1.sp.push('sn:sn_front','sn:sn_eth','sn:sn_sph');AREAS.vbr.patches.v2.sp.push('sn:sn_max');AREAS.champ.patches.freg.sp.push('pr:pr_intub');
 const areaKeys=a=>[...new Set(Object.values(AREAS[a].patches).flatMap(p=>p.sp))].filter(k=>SP[k]);
 /* Numb Hollow: every Neuromon there is a lesion, so say so in its name */
-[...areaKeys('vl'),...areaKeys('cnl'),...NECK_LES.sp.filter(k=>SP[k]),...FACE_LES.sp.filter(k=>SP[k]),...CPL_LES.sp.filter(k=>SP[k])].forEach(k=>{if(!/^Lesion/.test(SP[k].name))SP[k].name='Lesion: '+SP[k].name;});
+[...areaKeys('vl'),...areaKeys('cnl'),...NECK_LES.sp,...FACE_LES.sp,...CPL_LES.sp].filter(k=>SP[k]&&/^lr/.test(k)).forEach(k=>{if(!/^Lesion/.test(SP[k].name))SP[k].name='Lesion: '+SP[k].name;});
 const LOCS=[
  {id:'center',name:'Nerve Center',sub:'Heal party',x:9,y:74,ico:'center'},
  {id:'mus',name:'Myo Ridge',sub:'Muscles',x:11,y:22,ico:'ridge'},
@@ -3169,7 +3304,7 @@ function trapEnemy(topic,opts={}){const m=TOPIC_MON[topic];return {sp:`trap:${m.
 function genEnemy(key,loc,opts={}){const s=SP[key];let e;
   if(s.bank==='mus')e=lrEnemy('mus',MUS.BY[s.node],{...opts,hp:opts.hp||280});
   else if(s.bank==='lr1'||s.bank==='lr2')e=lrEnemy(s.bank,BANK[s.bank].BY[s.node],opts);
-  else if(AUTH[s.bank]){const S=AUTH[s.bank].BY[s.node];const hp=opts.hp||(s.bank==='cn'?(S.parent?220:320):s.bank==='vb'?(S.trunk?220:150):s.bank==='ml'?200:s.bank==='rx'?400:100);e={sp:key,bank:s.bank,node:s.node,lvl:opts.lvl||enemyLevel(3),hp,max:hp,hidden:true};}
+  else if(AUTH[s.bank]){const S=AUTH[s.bank].BY[s.node];const hp=opts.hp||(s.bank==='cn'?(S.parent?220:320):s.bank==='vb'?(S.trunk?220:150):s.bank==='ml'?200:s.bank==='rx'?400:(s.bank==='sn'||s.bank==='pr')?260:100);e={sp:key,bank:s.bank,node:s.node,lvl:opts.lvl||enemyLevel(3),hp,max:hp,hidden:true};}
   else e=trapEnemy(s.topic,opts);
   e.loc=loc;return e;}
 function startWild(id,patch){
@@ -3611,6 +3746,8 @@ function dexSub(k){const s=SP[k];
   if(s.bank==='vb')return VDIV[AUTH.vb.BY[s.node].div];
   if(s.bank==='ml')return 'Muscle lesion / clinical';
   if(s.bank==='rx')return 'Reflex arc';
+  if(s.bank==='sn')return 'Sinus pain';
+  if(s.bank==='pr')return 'Airway procedure';
   if(s.bank==='fo')return FOSSA[AUTH.fo.BY[s.node].fossa].replace(' (face, jaw, temporal bone)','');
   return '';}
 function renderDex(sel){
