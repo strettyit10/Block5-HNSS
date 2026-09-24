@@ -222,6 +222,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .srch{width:100%;padding:9px 11px;border:3px solid var(--line);border-radius:6px;font:15px var(--body);background:#fff;color:var(--ink);color-scheme:light}
 .pdfcard{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 details.tog{margin:6px 0}
+.atree{display:flex;flex-direction:column;gap:8px;margin-left:14px;padding-left:10px;border-left:3px solid #C9D0E0}
+.atree.top{margin-left:0;padding-left:0;border-left:0}
+details.grp>summary{font-family:var(--pixel);font-size:9px;line-height:1.6;color:var(--ink)}
+details.nerve>summary{font-weight:700;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:6px;padding:6px 10px}
 details.tog>summary{cursor:pointer;list-style:none;padding:6px 0}
 details.tog>summary::before{content:'▸ ';color:var(--gold-ink);font-size:14px}
 details.tog[open]>summary::before{content:'▾ '}
@@ -275,7 +279,7 @@ details.tog>summary::-webkit-details-marker{display:none}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 26 · Updated Sep 24, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 27 · Updated Sep 24, 2026</span></footer>
 </div>
 
 <script>
@@ -540,7 +544,9 @@ const NODES = [
 {id:"s_occond",grp:"site",kind:"site",name:"Occipital condyle fracture or tumor",ph:"An occipital condyle fracture or tumor",cause:"Occipital condyle fracture or a skull-base tumor involving the hypoglossal canal.",own:["oc_hist"],inc:["s_hypoglossal"],spared:["x_uvula","xi_shrug"],pearl:"The hypoglossal canal passes through the occipital condyle: an isolated CN XII palsy after skull-base trauma points here."},
 {id:"s_orbapex",grp:"site",kind:"site",name:"Orbital apex tumor or fracture",ph:"An orbital apex tumor or fracture",cause:"Tumor, fracture or inflammation at the orbital apex, involving the superior orbital fissure and the optic canal.",own:["oa_hist"],inc:["s_sof","cn2"],spared:["io_skin","v3_chew"],pearl:"Orbital apex syndrome = superior orbital fissure syndrome (III, IV, V1, VI) PLUS optic nerve loss. Vision loss is the difference."},
 {id:"s_parmast",grp:"site",kind:"site",name:"Parotid or mastoid tumor",ph:"A parotid or mastoid tumor",cause:"Tumor of the parotid or mastoid compressing CN VII at the stylomastoid foramen.",own:["pm_hist"],inc:["s_stylomastoid"],spared:["ct_taste","viii_hear"],pearl:"At the stylomastoid foramen CN VII is purely motor: face weak (forehead too), but taste, tears and hearing volume are normal."},
-{id:"p_chtr",grp:"orbit",name:"Closed head trauma (CN IV)",ph:"Closed head trauma injuring CN IV",cause:"Closed head injury shearing the long, thin trochlear nerve, often on both sides.",own:["chtr_hist"],inc:["cn4"],spared:["iii_ptosis","vi_eso"],pearl:"Trauma is the commonest cause of an acquired CN IV palsy. Bilateral palsies cause large torsional diplopia."}
+{id:"p_chtr",grp:"orbit",name:"Closed head trauma (CN IV)",ph:"Closed head trauma injuring CN IV",cause:"Closed head injury shearing the long, thin trochlear nerve, often on both sides.",own:["chtr_hist"],inc:["cn4"],spared:["iii_ptosis","vi_eso"],pearl:"Trauma is the commonest cause of an acquired CN IV palsy. Bilateral palsies cause large torsional diplopia."},
+{id:"vii_gen",grp:"face",name:"Facial nerve at the geniculate ganglion",cause:"Temporal bone fracture or inflammation at the genu of the facial canal, where the geniculate ganglion sits.",inc:["vii_prox"],spared:["viii_hear","ix_gag"],pearl:"At the geniculate ganglion EVERY CN VII function is lost: tears and nasal glands (greater petrosal leaves right here), hyperacusis (stapedius), taste and saliva (chorda tympani) and the whole face."},
+{id:"vii_iam",grp:"face",name:"Facial nerve at the internal acoustic meatus",cause:"Vestibular schwannoma or meningioma compressing CN VII (with the nervus intermedius) inside the internal acoustic meatus.",inc:["vii_gen","cn8"],spared:["ix_gag","xii_dev"],pearl:"CN VII and CN VIII share the internal acoustic meatus, so a facial nerve lesion here comes with hearing loss, tinnitus and vertigo. Every CN VII function is lost, as at the geniculate ganglion."}
 ];
 
 /* ---------- "Which side?" templates ---------- */
@@ -589,6 +595,7 @@ LINEAGE.s_tfossa=["site","Facial region: temporal fossa (pterion)"];LINEAGE.s_da
 LINEAGE.cutbr=["no","Not a cranial nerve: cervical plexus skin branches (C2–C4)"];LINEAGE.s_erb=["site","Neck landmark: midpoint of the posterior border of SCM"];LINEAGE.p_voice=["br","CN X: superior and recurrent laryngeal nerves"];
 LINEAGE.p_tn=["cn","Cranial nerve V (trigeminal nerve) root"];LINEAGE.p_osa=["cn","Cranial nerve XII (hypoglossal nerve), protrusor branches"];LINEAGE.p_3m=["br","CN V3: lingual nerve beside the lower 3rd molar"];LINEAGE.s_pit=["site","Sella turcica: pituitary gland"];
 LINEAGE.s_parsurg=["no","Cervical plexus: great auricular nerve (C2–C3)"];LINEAGE.s_facelift=["no","Cervical plexus: great auricular nerve (C2–C3)"];LINEAGE.p_hutch=["br","CN V1: nasociliary nerve"];LINEAGE.s_ethsurg=["site","Ethmoid sinus: between orbit and anterior cranial fossa"];LINEAGE.s_septsurg=["br","CN V2: nasopalatine nerve"];LINEAGE.s_palsurg=["br","CN V2: greater palatine nerve"];LINEAGE.s_occond=["site","Posterior cranial fossa: hypoglossal canal"];LINEAGE.s_orbapex=["site","Middle cranial fossa: orbital apex (optic canal + superior orbital fissure)"];LINEAGE.s_parmast=["site","Face: stylomastoid foramen"];LINEAGE.p_chtr=["cn","Cranial nerve IV (trochlear nerve)"];
+LINEAGE.vii_gen=["cn","Cranial nerve VII at the geniculate ganglion"];LINEAGE.vii_iam=["cn","Cranial nerve VII in the internal acoustic meatus (with CN VIII)"];
 return {SIG,MINOR,GROUPS,NODES,SIDE,LINEAGE,LIN_LBL,SIDE_GRP};
 })();
 /* ===== Source data: Lesion Rounds II (unchanged) ===== */
@@ -2221,6 +2228,8 @@ const HSA=[
   pearl:'V1 above the eye, V2 between eye and mouth, V3 below the mouth and up in front of the ear. The angle of the jaw is NOT trigeminal (great auricular, C2–C3). Facial muscles are CN VII.'}
 ];
 
+CNL_PATCHES_BY_NERVE.VII.sp.splice(CNL_PATCHES_BY_NERVE.VII.sp.indexOf('lr2:p_rh'),0,'lr1:vii_iam','lr1:vii_gen');
+
 /* ===== Muscle bank (Neuromon: Myo Ridge) =====
    Wording follows the HNSS Lab 1, 2, 4, 5 & 6 structure-worksheet answer keys.
    Stylopharyngeus and musculus uvulae are not in those keys and use standard anatomy.
@@ -3367,6 +3376,41 @@ let sheetTab='atlas',sheetQ='';
 const CLIN_IDS=['frey','acc_v2','jaw_dev','geniculate','ian_block','s_adenoid','s_etd','s_npc','s_tonsil','s_pit','s_parotid_bed','s_thyroid','s_fom','s_ptb','s_ppfmcf','s_parmast','s_orbapex','s_occond','s_danger','s_dspace','s_retro','s_rootn','s_tfossa','s_cartri','s_anttri','s_posttri','s_erb','s_parsurg','s_facelift','s_ethsurg','s_septsurg','s_palsurg','s_cav','s_petrous','s_cpa','s_jugular','s_ppf','s_itf'];
 const CLIN_RX=/tumor|abscess|surgery|thyroidectomy|tonsillectomy|carcinoma|hypertrophy|dysfunction|fracture|Pancoast|danger|block|biopsy|trauma|facelift|extraction|syndrome|neuroma|apnea|sign|neuralgia|thrombosis/i;
 function isClinical(n){return /^p_/.test(n.id)||CLIN_IDS.includes(n.id)||CLIN_RX.test(n.name);}
+/* Lesion atlas layout: sections → subheading toggles → upstream nerve toggles → branches */
+const G_=(g,...kids)=>({g,kids}),N_=(k,...kids)=>({k,kids});
+const ATLAS_TREE=[
+ ['Neck & cervical plexus',[G_('Cervical plexus cutaneous nerves',N_('lr1:cutbr','lr1:great_aur','lr1:lesser_occ','lr1:trans_cerv','lr1:supraclav')),
+   G_('Accessory nerve (CN XI)',N_('lr1:cn11','lr1:xi_pt'),'lr2:xi_cranial_root'),G_('C1 fibers',N_('lr2:c1_xii'))]],
+ ['Vagus, glossopharyngeal & larynx',[G_('Glossopharyngeal nerve (CN IX)',N_('lr1:cn9',N_('lr2:tympanic_n','lr2:lesser_pet'),'lr2:hering','lr2:ix_pharyngeal','lr2:ix_tons','lr2:ix_lingual')),
+   G_('Vagus nerve (CN X)',N_('lr1:cn10','lr2:x_pharyngeal','lr2:x_auricular',N_('lr1:sln','lr1:iln','lr1:eln'),N_('lr1:rln','lr2:rln_aortic')))]],
+ ['Facial nerve',[G_('Facial nerve lesion sites','lr1:vii_iam','lr1:vii_gen','lr1:vii_sm','lr1:vii_extra','lr2:vii_parotid'),
+   G_('Facial nerve branches',G_('Branches @ geniculate ganglion',N_('lr2:gr_petrosal','lr2:vidian')),G_('Branches @ mastoid area (facial canal)','lr2:n_stapedius','lr2:chorda2'),
+     G_('Branches @ stylomastoid foramen','lr2:post_auric','lr2:n_digastric'),
+     G_('Branches in the parotid','lr1:vii_buccal',G_('Temporofacial (upper) division','lr1:vii_temporal','lr1:vii_zygomatic'),G_('Cervicofacial (lower) division','lr1:vii_mandibular','lr1:vii_cervical')))]],
+ ['Trigeminal nerve (V1 · V2 · V3)',[N_('lr1:cn5'),
+   G_('V1 (ophthalmic)',N_('lr1:v1'),N_('lr1:frontal','lr1:supraorb','lr1:supratroch'),N_('lr1:nasocil','lr1:long_cil','lr1:infratroch','lr1:ant_eth','lr1:post_eth'),N_('lr1:lacrimal_n')),
+   G_('V2 (maxillary)',N_('lr1:v2'),N_('lr2:zyg','lr2:zf','lr2:zt'),N_('lr2:psa'),N_('lr2:infraorb2','lr2:msa','lr2:asa'),N_('lr2:pslnasal'),N_('lr1:nasopal'),N_('lr1:gr_pal'),N_('lr2:lesser_pal'),N_('lr2:v2_phar')),
+   G_('V3 (mandibular)',N_('lr1:v3'),N_('lr2:n_med_pt'),N_('lr2:v3_ant','lr2:masseteric','lr2:deep_temp','lr2:n_lat_pt','lr1:buccal_v3'),
+     N_('lr2:v3_post','lr2:auriculo2',N_('lr2:ling_prox','lr1:lingual'),N_('lr2:ian_prox','lr2:n_mylo',N_('lr2:ian2','lr1:mental'))))]],
+ ['Orbit & eye',[G_('Optic nerve & visual pathway (CN II)','lr1:cn2','lr1:ii_rmono','lr1:ii_tract'),G_('Oculomotor nerve (CN III)',N_('lr1:cn3','lr2:iii_sup',N_('lr2:iii_inf','lr1:ciliary_g'))),
+   G_('Trochlear (CN IV) & abducens (CN VI)','lr1:cn4',N_('lr1:cn6','lr2:vi_dorello_n'))]],
+ ['CN I, VIII & XII',[G_('Olfactory nerve (CN I)','lr1:cn1','lr2:olfactory2'),G_('Vestibulocochlear nerve (CN VIII)',N_('lr1:cn8','lr2:cochlear','lr2:vestibular')),G_('Hypoglossal nerve (CN XII)',N_('lr1:cn12','lr2:xii_submand'))]],
+ ['Sites along the nerves (foramina, canals, fossae, ganglia)',[G_('Skull-base openings','lr1:s_cribriform','lr1:s_optic','lr1:s_sof','lr1:s_rotundum','lr1:s_ovale','lr1:s_iam','lr1:s_stylomastoid','lr1:s_hypoglossal','lr1:s_fmag','lr2:s_facial_canal'),
+   G_('V1 pathway openings','lr1:s_supraorbf','lr1:s_ethf','lr1:s_nasal'),G_('V2 pathway openings','lr2:s_spf','lr2:s_palf','lr2:s_iof','lr2:s_iofor'),G_('V3 pathway openings','lr2:s_mandf','lr1:s_mentf'),
+   G_('Autonomic ganglia: proximal vs distal','lr2:ptg_pre','lr2:ptg_post','lr2:otic_pre','lr2:otic_post')]]
+];
+function atlasHTML(q){
+  const node=k=>{const [bk,id]=k.split(':');return BANK[bk]&&BANK[bk].BY[id]?[bk,BANK[bk].BY[id]]:null;};
+  const hit=k=>{const r=node(k);if(!r||isClinical(r[1]))return false;if(!q)return true;const [bk,n]=r;return (n.name+' '+n.cause+' '+[...BANK[bk].signs(n.id)].map(s=>(BANK[bk].D.SIG[s]||[])[1]).join(' ')).toLowerCase().includes(q);};
+  const count=x=>typeof x==='string'?(hit(x)?1:0):x.k?(hit(x.k)?1:0)+x.kids.reduce((a,c)=>a+count(c),0):x.kids.reduce((a,c)=>a+count(c),0);
+  const card=k=>{const [bk,n]=node(k);return lrCard(bk,n.id,false);};
+  const draw=x=>{if(!count(x))return '';
+    if(typeof x==='string')return card(x);
+    if(x.k){const [bk,n]=node(x.k);return `<details class="tog nerve" ${q?'open':''}><summary>${esc(n.name)}${x.kids.length?` <span class="small">(+${x.kids.reduce((a,c)=>a+count(c),0)} branch lesion${x.kids.reduce((a,c)=>a+count(c),0)===1?'':'s'})</span>`:''}</summary><div class="atree">${hit(x.k)?card(x.k):''}${x.kids.map(draw).join('')}</div></details>`;}
+    return `<details class="tog grp" ${q?'open':''}><summary>${esc(x.g)} <span class="small">(${count(x)})</span></summary><div class="atree">${x.kids.map(draw).join('')}</div></details>`;};
+  return ATLAS_TREE.map(([title,kids])=>{const n=kids.reduce((a,c)=>a+count(c),0);if(!n)return '';
+    return `<details class="tog" ${q?'open':''}><summary class="atlas-sec">${esc(title)} <span class="small">(${n})</span></summary><div class="atree top">${kids.map(draw).join('')}</div></details>`;}).join('');
+}
 function areaOfKey(k){const a=Object.keys(AREAS).find(x=>areaKeys(x).includes(k));return a?AREAS[a].name:'';}
 function renderSheets(tab){
   if(tab)sheetTab=tab;
@@ -3376,14 +3420,7 @@ function renderSheets(tab){
     <a class="btn gold" href="CranialNervePathways.pdf" target="_blank" rel="noopener">Open PDF &gt;</a></div>
     <p class="small" style="margin-top:10px">If the link does not open, the PDF sits in the same folder as this game (<b>CranialNervePathways.pdf</b>).</p></div>`;
   if(sheetTab==='atlas'){
-    const inGame=new Set(Object.keys(AREAS).flatMap(areaKeys));
-    const SEC=[['Neck & cervical plexus',{lr1:['neck']}],['Vagus, glossopharyngeal & larynx',{lr1:['larynx'],lr2:['ixx']}],['Facial nerve',{lr1:['face'],lr2:['vii']}],['Trigeminal nerve (V1 · V2 · V3)',{lr1:['trig'],lr2:['v12','v3']}],['Orbit & eye',{lr1:['orbit'],lr2:['eye']}],['CN I, II, VIII, XI, XII & ganglia',{lr1:['other'],lr2:['oth']}],['Sites along the nerves (foramina, canals, fossae, ganglia)',{lr1:['site'],lr2:['site']}]];
-    const q=sheetQ.toLowerCase();
-    body=`<input class="srch" id="srch" placeholder="Search lesions, findings or causes…" value="${esc(sheetQ)}"><p class="small">The effect of a lesion at each point along the nerves and their branches, built from the current game data. Clinical conditions and pathologies are on the Clinical conditions tab. Tap a section to open it. Findings marked <em>(sometimes)</em> are true but never used as the expected answer. Yellow boxes are high-yield pearls.</p>`+
-      SEC.map(([title,m])=>{const cards=Object.entries(m).flatMap(([bk,grps])=>BANK[bk].D.NODES.filter(n=>grps.includes(n.grp)&&inGame.has(`${bk}:${n.id}`)&&!isClinical(n)).map(n=>[bk,n]));
-        const shown=cards.filter(([bk,n])=>!q||(n.name+' '+n.cause+' '+[...BANK[bk].signs(n.id)].map(s=>(BANK[bk].D.SIG[s]||[])[1]).join(' ')).toLowerCase().includes(q));
-        if(!shown.length)return '';
-        return `<details class="tog" ${q?'open':''}><summary class="atlas-sec">${esc(title)} <span class="small">(${shown.length})</span></summary><div style="display:flex;flex-direction:column;gap:10px">${shown.map(([bk,n])=>lrCard(bk,n.id,false)).join('')}</div></details>`;}).join('');
+    body=`<input class="srch" id="srch" placeholder="Search lesions, findings or causes…" value="${esc(sheetQ)}"><p class="small">The effect of a lesion at each point along the nerves and their branches, built from the current game data. Tap a heading to open it; nerves open to show their branches. Clinical conditions and pathologies are on the Clinical conditions tab.</p>`+atlasHTML(sheetQ.toLowerCase());
   }
   if(sheetTab==='clin'){
     const inGame=new Set(Object.keys(AREAS).flatMap(areaKeys));
@@ -3505,7 +3542,7 @@ function renderMap(){
   const d=PATHS.map(([a,b])=>`M${at(a).x} ${at(a).y} L${at(b).x} ${at(b).y}`).join(' ');
   app.innerHTML=`<div class="map" id="map">
     <div class="pond" style="left:36%;top:60%;width:8%;height:12%"></div>
-    ${[[4,46],[20,62],[42,28],[70,38],[94,48],[22,10],[44,90],[93,94],[68,8],[74,92]].map(([x,y])=>`<div class="tree" style="left:${x}%;top:${y}%"></div>`).join('')}
+    ${[[4,46],[20,62],[42,28],[70,38],[94,48],[22,10],[44,90],[93,94],[68,8],[74,92]].map(([x,y])=>`<div class="atree" style="left:${x}%;top:${y}%"></div>`).join('')}
     <svg class="paths" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="#E6D39A" vector-effect="non-scaling-stroke" style="stroke-width:14px" stroke-linecap="round"/><path d="${d}" fill="none" stroke="#C9B06A" stroke-dasharray="2 3" vector-effect="non-scaling-stroke" style="stroke-width:2px"/></svg>
     ${LOCS.map(l=>{const lock=false;return `<button class="loc" data-l="${l.id}" style="left:${l.x}%;top:${l.y}%" ${lock?'disabled':''} aria-label="${l.name}">${locIcon(l.ico)}<span class="lbl">${l.name}<em>${l.id==='champ'&&nb<CHAMP_NEED?`${l.sub} · ${nb}/${CHAMP_NEED} badges`:l.sub}${G.badges[l.id]?' (badge)':''}</em></span></button>`;}).join('')}
     <div class="avatar" id="av" style="left:${cur.x}%;top:${cur.y-6}%">${trainerSVG('#E3AE12','#3A2A1E','')}</div>
