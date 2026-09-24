@@ -258,7 +258,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 21 · Updated Sep 24, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 22 · Updated Sep 24, 2026</span></footer>
 </div>
 
 <script>
@@ -489,7 +489,10 @@ const NODES = [
 {id:"p_xii",grp:"other",name:"Tongue deviation",cause:"Hypoglossal canal tumor, carotid endarterectomy or submandibular surgery.",inc:["cn12"],spared:["x_uvula","ling_sens"],pearl:"Lower motor neuron: the tongue licks the lesion, with atrophy. Upper motor neuron (stroke): it deviates AWAY from the brain lesion, without atrophy."},
 {id:"s_tfossa",grp:"site",kind:"site",name:"Temporal fossa (pterion fracture, epidural hematoma)",cause:"Blow to the side of the head fracturing the thin pterion in the floor of the temporal fossa.",own:["eh_lucid","eh_ct","eh_pupil"],spared:["xii_dev","vii_whole"],pearl:"Pterion = where frontal, parietal, temporal and sphenoid meet: thinnest part of the skull, with the middle meningeal artery just inside."},
 {id:"s_danger",grp:"site",kind:"site",name:"Danger zone of the face (danger triangle)",cause:"Squeezing or infection of a lesion in the triangle from the corners of the mouth to the bridge of the nose.",own:["dt_hist"],inc:["s_cav"],spared:["v3_chew","xii_dev"],pearl:"Facial vein → ophthalmic veins (no valves) → cavernous sinus. The feared result is cavernous sinus thrombosis."},
-{id:"s_dspace",grp:"site",kind:"site",name:"Danger space (spread to the mediastinum)",cause:"Retropharyngeal or parapharyngeal infection breaking into the space between the alar and prevertebral fascia.",own:["ds_hist","rp_med"],spared:["xii_dev","rln_hoarse"],pearl:"The danger space runs from the skull base to the diaphragm with nothing to stop spread: deep neck infection → posterior mediastinitis."}
+{id:"s_dspace",grp:"site",kind:"site",name:"Danger space (spread to the mediastinum)",cause:"Retropharyngeal or parapharyngeal infection breaking into the space between the alar and prevertebral fascia.",own:["ds_hist","rp_med"],spared:["xii_dev","rln_hoarse"],pearl:"The danger space runs from the skull base to the diaphragm with nothing to stop spread: deep neck infection → posterior mediastinitis."},
+{id:"cutbr",grp:"neck",name:"Cutaneous branches (cervical plexus)",cause:"Superficial neck incisions or trauma along the sternocleidomastoid (parotidectomy, neck dissection, thyroid or clavicle surgery).",inc:["great_aur","lesser_occ","trans_cerv","supraclav"],spared:["xi_shrug","phr"],pearl:"Four skin branches, all from Erb point: lesser occipital (C2), great auricular (C2–C3), transverse cervical (C2–C3), supraclavicular (C3–C4). Skin only: no weakness."},
+{id:"s_erb",grp:"site",kind:"site",name:"Erb point (nerve point of the neck)",cause:"Penetrating wound, lymph node biopsy or a misplaced superficial cervical plexus block at the midpoint of the posterior border of SCM.",inc:["cutbr","xi_pt"],spared:["phr","xii_dev"],pearl:"All four cervical plexus skin branches emerge here, and CN XI crosses just above it, so a lesion here numbs the neck skin AND can weaken trapezius. (Not the brachial plexus Erb point at C5–C6.)"},
+{id:"p_voice",grp:"larynx",name:"Voice changes (hoarseness vs lost vocal range)",ph:"A laryngeal nerve injury that changes the voice",cause:"Laryngeal nerve injury in thyroid, neck or chest surgery, or from a tumor.",inc:["eln","rln"],spared:["x_uvula","xii_dev"],pearl:"Hoarse, breathy voice = recurrent laryngeal (all intrinsic muscles except cricothyroid). Lost high notes, monotone = external laryngeal (cricothyroid). Both = the whole laryngeal supply of CN X."}
 ];
 
 /* ---------- "Which side?" templates ---------- */
@@ -535,6 +538,7 @@ LINEAGE.p_iii=["cn","Cranial nerve III (oculomotor nerve)"];LINEAGE.p_iv=["cn","
 LINEAGE.p_v=["cn","Cranial nerve V (trigeminal nerve)"];LINEAGE.p_vii=["cn","Cranial nerve VII (facial nerve), lower motor neuron"];
 LINEAGE.p_xi=["br","Cranial nerve XI in the posterior triangle"];LINEAGE.p_xii=["cn","Cranial nerve XII (hypoglossal nerve)"];
 LINEAGE.s_tfossa=["site","Facial region: temporal fossa (pterion)"];LINEAGE.s_danger=["site","Facial region: danger triangle draining to the cavernous sinus"];LINEAGE.s_dspace=["site","Neck space: danger space (alar to prevertebral fascia)"];
+LINEAGE.cutbr=["no","Not a cranial nerve: cervical plexus skin branches (C2–C4)"];LINEAGE.s_erb=["site","Neck landmark: midpoint of the posterior border of SCM"];LINEAGE.p_voice=["br","CN X: superior and recurrent laryngeal nerves"];
 return {SIG,MINOR,GROUPS,NODES,SIDE,LINEAGE,LIN_LBL,SIDE_GRP};
 })();
 /* ===== Source data: Lesion Rounds II (unchanged) ===== */
@@ -682,7 +686,7 @@ const NODES = [
 {id:"olfactory2",grp:"oth",name:"Olfactory nerve fila (CN I)",cause:"Frontal head trauma shearing the fila at the cribriform plate.",own:["olf_anosmia"],spared:["ix_taste2"],pearl:"Anosmia after head trauma; basic tastes (sweet, salt, sour, bitter) stay intact."},
 {id:"xi_cranial_root",grp:"oth",name:"Cranial root of CN XI",cause:"Lesion at the jugular foramen before the root joins CN X.",own:["xi_cranial"],spared:["xi_shrug2"],pearl:"The cranial root travels with CN X to the palate and larynx; the spinal root runs the shoulder."},
 {id:"xii_submand",grp:"oth",name:"Hypoglossal nerve in the submandibular triangle",cause:"Submandibular gland surgery or a floor-of-mouth tumor.",own:["xii_distal"],spared:["c1_strap"],pearl:"Distal CN XII lesion: tongue only — the C1 fibers have already left."},
-{id:"c1_xii",grp:"oth",name:"C1 fibers traveling with CN XII",cause:"High neck lesion where C1 runs with the hypoglossal nerve.",own:["c1_strap"],spared:["xii_distal"],pearl:"C1 hitchhikers: nerve to thyrohyoid and nerve to geniohyoid."},
+{id:"c1_xii",grp:"oth",name:"C1 fibers (traveling with CN XII)",cause:"High neck lesion where C1 runs with the hypoglossal nerve.",own:["c1_strap"],spared:["xii_distal"],pearl:"C1 hitchhikers: nerve to thyrohyoid and nerve to geniohyoid."},
 {id:"subm_g2",grp:"oth",name:"Submandibular ganglion",cause:"Floor-of-mouth surgery near the lingual nerve.",own:["sal_dry"],spared:["lpn_parotid","gp_tear"],pearl:"Hangs from the lingual n.: CN VII fibers in, submandibular and sublingual glands out."},
 /* ---- sites ---- */
 {id:"s_ppf",grp:"site",kind:"site",name:"Pterygopalatine fossa",cause:"Perineural spread of a skin cancer or a juvenile angiofibroma.",inc:["zyg","psa","lesser_pal","v2_phar","vidian"],spared:["mass_weak"],pearl:"Pterygopalatine fossa = V2 + the pterygopalatine ganglion + the third part of the maxillary artery."},
@@ -1944,6 +1948,36 @@ const VL_PPF=VL_PATCHES_V9.ppf,VL_ITF=VL_PATCHES_V9.itf;delete VL_PATCHES_V9.ppf
 const NECK_LES={label:'Neck Region lesions',type:'FORAMEN',sp:['lr1:s_anttri','lr1:s_cartri','lr1:s_posttri','lr1:s_rootn','lr1:s_retro','lr1:s_dspace']};
 const FACE_LES={label:'Facial Region lesions',type:'FORAMEN',sp:['lr1:s_tfossa','lr1:s_danger','lr1:s_cav','lr2:s_parotid_bed',...VL_PPF.sp,...VL_ITF.sp]};
 
+/* ===== Rev 22: Ganglion Grove · Cervical Plexus, cutaneous branches, cervical plexus lesions ===== */
+RGA.push(
+ {id:'phren',name:'Phrenic nerve',t:'CERV',kind:'Nerve',roots:'C3–C5',
+  where:'Forms at the lateral border of anterior scalene, then runs straight down on its ANTERIOR surface, from lateral to medial, under the prevertebral fascia in the floor of the posterior triangle (behind SCM and the IJV)',
+  conn:'Leaves the neck between the subclavian artery (behind) and subclavian vein (in front) to enter the thorax',
+  trans:'The ONLY motor supply to its half of the diaphragm, plus sensation from the central diaphragm, mediastinal pleura and pericardium',
+  lesion:'Paralyzed hemidiaphragm: raised on chest X-ray with paradoxical upward movement on a sniff test; diaphragm irritation refers pain to the shoulder (C4)',
+  pearl:'"C3, 4, 5 keeps the diaphragm alive." It lies DEEP to the prevertebral fascia on anterior scalene, so a superficial posterior-triangle dissection that cuts CN XI usually spares it. It is the one scalene-landmark nerve that runs IN FRONT of anterior scalene.'},
+ {id:'lesocc',name:'Lesser occipital nerve',t:'CERV',kind:'Nerve',roots:'C2',
+  where:'Emerges at Erb point on the posterior border of SCM, then hooks UP along that border toward the scalp',conn:'Cutaneous branch of the cervical plexus',
+  trans:'Skin of the scalp behind and above the ear',lesion:'Numb (or neuralgic) scalp behind and above the ear',
+  pearl:'Around the ear: front = auriculotemporal (V3); lobe and angle = great auricular (C2–C3); behind and above = lesser occipital (C2).'},
+ {id:'grtaur',name:'Great auricular nerve',t:'CERV',kind:'Nerve',roots:'C2–C3',
+  where:'Emerges at Erb point, then climbs VERTICALLY across SCM toward the ear lobe, beside the external jugular vein',conn:'Cutaneous branch of the cervical plexus',
+  trans:'Skin over the parotid, the angle of the mandible and the ear lobe',lesion:'Numb ear lobe and skin over the angle of the jaw after parotidectomy or a facelift',
+  pearl:'The skin over the angle of the mandible is NOT trigeminal: it is the great auricular nerve.'},
+ {id:'transcv',name:'Transverse cervical nerve',t:'CERV',kind:'Nerve',roots:'C2–C3',
+  where:'Emerges at Erb point and crosses SCM HORIZONTALLY, deep to the external jugular vein and platysma',conn:'Cutaneous branch of the cervical plexus',
+  trans:'Skin of the front of the neck (anterior triangle)',lesion:'Numb skin of the anterior neck after a low collar incision (thyroidectomy)',
+  pearl:'Its name tells its course: it runs transversely across the neck.'},
+ {id:'supcl',name:'Supraclavicular nerves',t:'CERV',kind:'Nerve',roots:'C3–C4',
+  where:'Emerge at Erb point and fan DOWN across the posterior triangle over the clavicle as medial, intermediate and lateral branches',conn:'Cutaneous branches of the cervical plexus',
+  trans:'Skin over the clavicle, upper chest and top of the shoulder',lesion:'Numb skin below the clavicle after clavicle fracture fixation',
+  pearl:'They share C3–C4 with the phrenic nerve, so diaphragm irritation is felt as shoulder-tip pain.'}
+);
+RG_PATCHES.c1={label:'Cervical Plexus',type:'CERV',sp:['c1f','n_th','n_gh','phren']};
+RG_PATCHES.cut={label:'Cervical Plexus Cutaneous Branches',type:'CERV',sp:['lesocc','grtaur','transcv','supcl']};
+const CPL_LES={label:'Cervical Plexus Lesions',type:'CERV',sp:['lr2:c1_xii','lr1:s_erb','lr1:cutbr','lr1:great_aur','lr1:lesser_occ','lr1:trans_cerv','lr1:supraclav','lr1:scg']};
+CNL_PATCHES_BY_NERVE.X.sp.splice(CNL_PATCHES_BY_NERVE.X.sp.indexOf('lr1:sln'),0,'lr1:p_voice');
+
 /* ===== Muscle bank (Neuromon: Myo Ridge) =====
    Wording follows the HNSS Lab 1, 2, 4, 5 & 6 structure-worksheet answer keys.
    Stylopharyngeus and musculus uvulae are not in those keys and use standard anatomy.
@@ -2522,7 +2556,7 @@ function mkLR(D,key,cfg,FX){
   const EXACT=new Set(['sd_aorta','sd2_hoarse','sd2_baro']); // stems that name a specific cause
   function sideFits(tid,T){const tg=SF[tid]||[];return EXACT.has(tid)?tg.includes(T.id):tg.some(target=>under(T.id,target));}
   function owner(sig){const n=D.NODES.find(n=>(n.own||[]).includes(sig));return n?n.name:null;}
-  const phrase=T=>/^(Proximal|Distal) /.test(T.name)?`A lesion <strong>${esc(T.name.charAt(0).toLowerCase()+T.name.slice(1))}</strong>`:T.kind==='site'?`A lesion at the <strong>${esc(T.name)}</strong>`:`A lesion of the <strong>${esc(T.name)}</strong>`;
+  const phrase=T=>T.ph?T.ph:/^(Proximal|Distal) /.test(T.name)?`A lesion <strong>${esc(T.name.charAt(0).toLowerCase()+T.name.slice(1))}</strong>`:T.kind==='site'?`A lesion at the <strong>${esc(T.name)}</strong>`:`A lesion of the <strong>${esc(T.name)}</strong>`;
   const mk=(o)=>Object.assign({bank:key,miss:`${key}:n:${o.node}`},o);
   return {
     key,D,BY,signs,keySigns,cfg,FX,setAvoid:s=>{AV=s||new Set();},...factQ,hasFacts:T=>!!(FX&&FX[T.id]),
@@ -2777,7 +2811,7 @@ const AUTH={
    extra:{kind:RKIND,roots:['C2','C3–C4','C1–C2','C4–C5']},
    mv:{kind:['WHAT IS IT?','Opening, artery, root…?'],where:['LOCATE','Where is it?'],conn:['DOORWAY','Where does it lead?'],trans:['CONTENTS','What passes through or what does it carry?'],roots:['ROOT CALL','Which spinal levels?']},
    stem:{kind:S=>`What kind of structure is the <strong>${esc(S.name)}</strong>?`,where:S=>`Where is the <strong>${esc(S.name)}</strong>?`,
-     conn:S=>`The <strong>${esc(S.name)}</strong> connects the fossa to where?`,trans:S=>`What passes through (or is carried by) the <strong>${esc(S.name)}</strong>?`,
+     conn:S=>/^Nerve/.test(S.kind)?`Where does the <strong>${esc(S.name)}</strong> go next, or which plexus does it belong to?`:S.kind==='Region'?`What does the <strong>${esc(S.name)}</strong> connect to or divide into?`:`The <strong>${esc(S.name)}</strong> connects the fossa to where?`,trans:S=>/^Nerve/.test(S.kind)?`What does the <strong>${esc(S.name)}</strong> supply or carry?`:`What passes through (or is carried by) the <strong>${esc(S.name)}</strong>?`,
      roots:S=>`Which spinal levels form the <strong>${esc(S.name)}</strong>?`},
    list:{mv:['TRANSIT','Which one passes through?'],stem:S=>`Which of these passes through the <strong>${esc(S.name)}</strong>?`,
      rmv:['DOORFINDER','Which opening does it use?'],rstem:x=>`Which opening does the <strong>${esc(x)}</strong> pass through?`},
@@ -3030,8 +3064,8 @@ function renderTitle(){
 const AREAS={
  cn:{name:'Cranial Nerve Trail',sub:'CN I–XII & branches',blurb:'Anatomy only: exits, fibers, jobs, branches, muscles and arteries of CN I–XII. CN V stays at the V1 / V2 / V3 overview.',
    scene:'',patches:Object.fromEntries(Object.entries(CN_PATCHES_BY_NERVE).map(([k,v])=>[k,{...v,sp:v.sp.map(id=>'cn:'+id)}]))},
- gang:{name:'Ganglion Grove',sub:'Parasympathetic ganglia · reflexes · ansa · C1',blurb:'Trace every parasympathetic pathway (nucleus → preganglionic nerve → ganglion → carrier → target) and what a lesion at each stop does. The ansa cervicalis patch is anatomy only.',
-   scene:'',patches:{...Object.fromEntries(Object.entries(GG_PATCHES).map(([k,v])=>[k,{...v,sp:k==='ciliary'?['rx:rx_plr','rx:rx_acc',...v.sp.filter(id=>id!=='plr').map(id=>'gg:'+id)]:v.sp.map(id=>'gg:'+id)}])),rg_ansa:{...RG_PATCHES.ansa,sp:RG_PATCHES.ansa.sp.map(id=>'rg:'+id)},rg_c1:{...RG_PATCHES.c1,sp:RG_PATCHES.c1.sp.map(id=>'rg:'+id)},rx:{...RX_PATCHES.reflex,sp:RX_PATCHES.reflex.sp.map(id=>'rx:'+id)}}},
+ gang:{name:'Ganglion Grove',sub:'Parasympathetic ganglia · reflexes · cervical plexus',blurb:'Trace every parasympathetic pathway (nucleus → preganglionic nerve → ganglion → carrier → target) and what a lesion at each stop does. The ansa cervicalis patch is anatomy only.',
+   scene:'',patches:{...Object.fromEntries(Object.entries(GG_PATCHES).map(([k,v])=>[k,{...v,sp:k==='ciliary'?['rx:rx_plr','rx:rx_acc',...v.sp.filter(id=>id!=='plr').map(id=>'gg:'+id)]:v.sp.map(id=>'gg:'+id)}])),rg_ansa:{...RG_PATCHES.ansa,sp:RG_PATCHES.ansa.sp.map(id=>'rg:'+id)},rg_c1:{...RG_PATCHES.c1,sp:RG_PATCHES.c1.sp.map(id=>'rg:'+id)},rg_cut:{...RG_PATCHES.cut,sp:RG_PATCHES.cut.sp.map(id=>'rg:'+id)},cpl:CPL_LES,rx:{...RX_PATCHES.reflex,sp:RX_PATCHES.reflex.sp.map(id=>'rx:'+id)}}},
  vbr:{name:'Trigeminal Cave',sub:'V1 · V2 · V3 branches',blurb:'Anatomy only: which division, which parent, which foramen or route, what territory, and which borrowed fibers ride along.',
    scene:'cave',patches:Object.fromEntries(Object.entries(VB_PATCHES).map(([k,v])=>[k,{...v,sp:v.sp.map(id=>'vb:'+id)}]))},
  cnl:{name:'Palsy Pass',sub:'CN I–XII lesions',blurb:'Lesions and clinical correlations of CN I–XII, one patch per nerve. For CN V, tell a V1, V2 and V3 lesion apart. Wild lesions hide their name until you localize them.',
@@ -3048,14 +3082,14 @@ const AREAS={
 };
 const areaKeys=a=>[...new Set(Object.values(AREAS[a].patches).flatMap(p=>p.sp))].filter(k=>SP[k]);
 /* Numb Hollow: every Neuromon there is a lesion, so say so in its name */
-[...areaKeys('vl'),...areaKeys('cnl'),...NECK_LES.sp.filter(k=>SP[k]),...FACE_LES.sp.filter(k=>SP[k])].forEach(k=>{if(!/^Lesion/.test(SP[k].name))SP[k].name='Lesion: '+SP[k].name;});
+[...areaKeys('vl'),...areaKeys('cnl'),...NECK_LES.sp.filter(k=>SP[k]),...FACE_LES.sp.filter(k=>SP[k]),...CPL_LES.sp.filter(k=>SP[k])].forEach(k=>{if(!/^Lesion/.test(SP[k].name))SP[k].name='Lesion: '+SP[k].name;});
 const LOCS=[
  {id:'center',name:'Nerve Center',sub:'Heal party',x:9,y:74,ico:'center'},
  {id:'mus',name:'Myo Ridge',sub:'Muscles',x:11,y:22,ico:'ridge'},
  {id:'cn',name:'Cranial Nerve Trail',sub:'CN I–XII & branches',x:31,y:44,ico:'grass'},
  {id:'champ',name:'Summit',sub:'Regions · Pairs · Champion',x:51,y:13,ico:'summit'},
  {id:'vbr',name:'Trigeminal Cave',sub:'V1 · V2 · V3 branches',x:80,y:26,ico:'cave'},
- {id:'gang',name:'Ganglion Grove',sub:'Parasympathetic ganglia · reflexes · ansa · C1',x:55,y:50,ico:'forest'},
+ {id:'gang',name:'Ganglion Grove',sub:'Parasympathetic ganglia · reflexes · cervical plexus',x:55,y:50,ico:'forest'},
  {id:'cnl',name:'Palsy Pass',sub:'CN I–XII lesions',x:31,y:82,ico:'pass'},
  {id:'vl',name:'Numb Hollow',sub:'V branch lesions',x:84,y:72,ico:'hollow'},
  {id:'for',name:'Foramina & Fossae',sub:'Skull base openings',x:58,y:84,ico:'foramen'}
