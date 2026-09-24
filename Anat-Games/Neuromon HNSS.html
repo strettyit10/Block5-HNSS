@@ -279,7 +279,7 @@ details.tog>summary::-webkit-details-marker{display:none}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 27 · Updated Sep 24, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 29 · Updated Sep 24, 2026</span></footer>
 </div>
 
 <script>
@@ -440,13 +440,13 @@ const NODES = [
 {id:"ansa",grp:"neck",name:"Ansa cervicalis",cause:"Cut during neck dissection along the carotid sheath.",own:["ansa"],spared:["thy","xii_dev"],pearl:"Ansa = omohyoid, sternohyoid, sternothyroid. Thyrohyoid and geniohyoid get C1 via CN XII instead."},
 {id:"n_thyrohyoid",grp:"neck",name:"Nerve to thyrohyoid",cause:"Injured high in the carotid triangle near CN XII.",own:["thy"],spared:["ansa","xii_dev"],pearl:"C1 fibers riding CN XII: nerve to thyrohyoid + nerve to geniohyoid."},
 {id:"xi_pt",grp:"neck",name:"Accessory nerve (CN XI) in the posterior triangle",cause:"Classic injury: lymph node biopsy in the posterior triangle.",own:["xi_shrug","xi_abd","xi_wing"],spared:["xi_scm"],pearl:"Posterior triangle injury spares the SCM — its branch leaves CN XI before the nerve enters the triangle."},
-{id:"cn11",grp:"neck",name:"Accessory nerve (CN XI) at the jugular foramen",cause:"Lesion at or just below the jugular foramen, before any branches.",own:["xi_scm"],inc:["xi_pt"],pearl:"Test CN XI with a head turn and a shoulder shrug against resistance. Right SCM turns the face LEFT."},
+{id:"cn11",grp:"neck",name:"Accessory nerve (CN XI)",cause:"Lesion at or just below the jugular foramen, before any branches.",own:["xi_scm"],inc:["xi_pt"],pearl:"Test CN XI with a head turn and a shoulder shrug against resistance. Right SCM turns the face LEFT."},
 /* larynx */
 {id:"iln",grp:"larynx",name:"Internal laryngeal nerve",cause:"Injured where it pierces the thyrohyoid membrane with the superior laryngeal a.",own:["iln_sens","iln_cough"],spared:["rln_hoarse"],pearl:"Internal laryngeal n. + superior laryngeal a. → thyrohyoid membrane."},
 {id:"eln",grp:"larynx",name:"External laryngeal nerve",cause:"Ligating the superior thyroid a. at the superior pole during thyroidectomy.",own:["eln_pitch"],spared:["rln_hoarse","rln_pca"],pearl:"\"The singer after thyroidectomy\" — cricothyroid lost, high notes gone, folds still move."},
 {id:"sln",grp:"larynx",name:"Superior laryngeal nerve (both branches)",cause:"High lesion before it splits, near the hyoid.",inc:["iln","eln"],spared:["rln_hoarse"],pearl:"Superior laryngeal n. → internal (sensory above folds) + external (cricothyroid)."},
 {id:"rln",grp:"larynx",name:"Recurrent laryngeal nerve",cause:"Thyroidectomy near the inferior thyroid a.; left side also by aortic arch aneurysm or lung tumor.",own:["rln_hoarse","rln_pca","rln_sens","rln_bilat"],spared:["eln_pitch","iln_cough"],pearl:"Left RLN hooks under the aortic arch; right RLN under the right subclavian a. The left is longer and more often injured."},
-{id:"cn10",grp:"larynx",name:"Vagus nerve (CN X), high lesion",cause:"Jugular foramen tumor, brainstem stroke, or high carotid sheath injury.",own:["x_uvula","x_gagm","x_dysph","x_hr"],inc:["sln","rln"],spared:["ix_taste","xii_dev"],pearl:"Uvula points AWAY from the bad CN X. Tongue points TOWARD the bad CN XII."},
+{id:"cn10",grp:"larynx",name:"Vagus nerve (CN X)",cause:"Jugular foramen tumor, brainstem stroke, or high carotid sheath injury.",own:["x_uvula","x_gagm","x_dysph","x_hr"],inc:["sln","rln"],spared:["ix_taste","xii_dev"],pearl:"Uvula points AWAY from the bad CN X. Tongue points TOWARD the bad CN XII."},
 /* face */
 {id:"vii_temporal",grp:"face",name:"Temporal branch of CN VII",cause:"Cut in a temple laceration or incision over the zygomatic arch.",own:["vii_brow"],spared:["so_skin"],pearl:"Temporal branch crosses the zygomatic arch superficially — the most exposed branch."},
 {id:"vii_zygomatic",grp:"face",name:"Zygomatic branch of CN VII",cause:"Laceration over the cheekbone.",own:["vii_close"],spared:["v2_zyg"],pearl:"Can't close the eye → protect the cornea (lubricants, taping)."},
@@ -3377,24 +3377,26 @@ const CLIN_IDS=['frey','acc_v2','jaw_dev','geniculate','ian_block','s_adenoid','
 const CLIN_RX=/tumor|abscess|surgery|thyroidectomy|tonsillectomy|carcinoma|hypertrophy|dysfunction|fracture|Pancoast|danger|block|biopsy|trauma|facelift|extraction|syndrome|neuroma|apnea|sign|neuralgia|thrombosis/i;
 function isClinical(n){return /^p_/.test(n.id)||CLIN_IDS.includes(n.id)||CLIN_RX.test(n.name);}
 /* Lesion atlas layout: sections → subheading toggles → upstream nerve toggles → branches */
-const G_=(g,...kids)=>({g,kids}),N_=(k,...kids)=>({k,kids});
+const G_=(g,...kids)=>({g,kids}),N_=(k,...kids)=>({k,kids}),NL_=(k,lab,...kids)=>({k,lab,kids});
 const ATLAS_TREE=[
- ['Neck & cervical plexus',[G_('Cervical plexus cutaneous nerves',N_('lr1:cutbr','lr1:great_aur','lr1:lesser_occ','lr1:trans_cerv','lr1:supraclav')),
-   G_('Accessory nerve (CN XI)',N_('lr1:cn11','lr1:xi_pt'),'lr2:xi_cranial_root'),G_('C1 fibers',N_('lr2:c1_xii'))]],
- ['Vagus, glossopharyngeal & larynx',[G_('Glossopharyngeal nerve (CN IX)',N_('lr1:cn9',N_('lr2:tympanic_n','lr2:lesser_pet'),'lr2:hering','lr2:ix_pharyngeal','lr2:ix_tons','lr2:ix_lingual')),
-   G_('Vagus nerve (CN X)',N_('lr1:cn10','lr2:x_pharyngeal','lr2:x_auricular',N_('lr1:sln','lr1:iln','lr1:eln'),N_('lr1:rln','lr2:rln_aortic')))]],
+ ['Neck & cervical plexus',[G_('Cervical plexus cutaneous nerves',NL_('lr1:cutbr','Cervical plexus cutaneous branches','lr1:great_aur','lr1:lesser_occ','lr1:trans_cerv','lr1:supraclav')),
+   NL_('lr1:cn11','Accessory nerve (CN XI) branches','lr1:xi_pt','lr2:xi_cranial_root'),'lr2:c1_xii']],
+ ['Vagus, glossopharyngeal & larynx',[NL_('lr1:cn9','Glossopharyngeal nerve (CN IX) branches',G_('Tympanic branch','lr2:tympanic_n','lr2:lesser_pet'),G_('Carotid branch','lr2:hering'),'lr2:ix_pharyngeal','lr2:ix_tons','lr2:ix_lingual'),
+   NL_('lr1:cn10','Vagus nerve (CN X) branches','lr2:x_auricular','lr2:x_pharyngeal','lr1:sln',G_('Superior laryngeal nerve branches','lr1:iln','lr1:eln'),'lr1:rln','lr2:rln_aortic')]],
  ['Facial nerve',[G_('Facial nerve lesion sites','lr1:vii_iam','lr1:vii_gen','lr1:vii_sm','lr1:vii_extra','lr2:vii_parotid'),
-   G_('Facial nerve branches',G_('Branches @ geniculate ganglion',N_('lr2:gr_petrosal','lr2:vidian')),G_('Branches @ mastoid area (facial canal)','lr2:n_stapedius','lr2:chorda2'),
+   G_('Facial nerve branches',G_('Branches @ geniculate ganglion',NL_('lr2:gr_petrosal','Greater petrosal nerve continuation','lr2:vidian')),G_('Branches @ mastoid area (facial canal)','lr2:n_stapedius','lr2:chorda2'),
      G_('Branches @ stylomastoid foramen','lr2:post_auric','lr2:n_digastric'),
      G_('Branches in the parotid','lr1:vii_buccal',G_('Temporofacial (upper) division','lr1:vii_temporal','lr1:vii_zygomatic'),G_('Cervicofacial (lower) division','lr1:vii_mandibular','lr1:vii_cervical')))]],
- ['Trigeminal nerve (V1 · V2 · V3)',[N_('lr1:cn5'),
-   G_('V1 (ophthalmic)',N_('lr1:v1'),N_('lr1:frontal','lr1:supraorb','lr1:supratroch'),N_('lr1:nasocil','lr1:long_cil','lr1:infratroch','lr1:ant_eth','lr1:post_eth'),N_('lr1:lacrimal_n')),
-   G_('V2 (maxillary)',N_('lr1:v2'),N_('lr2:zyg','lr2:zf','lr2:zt'),N_('lr2:psa'),N_('lr2:infraorb2','lr2:msa','lr2:asa'),N_('lr2:pslnasal'),N_('lr1:nasopal'),N_('lr1:gr_pal'),N_('lr2:lesser_pal'),N_('lr2:v2_phar')),
-   G_('V3 (mandibular)',N_('lr1:v3'),N_('lr2:n_med_pt'),N_('lr2:v3_ant','lr2:masseteric','lr2:deep_temp','lr2:n_lat_pt','lr1:buccal_v3'),
-     N_('lr2:v3_post','lr2:auriculo2',N_('lr2:ling_prox','lr1:lingual'),N_('lr2:ian_prox','lr2:n_mylo',N_('lr2:ian2','lr1:mental'))))]],
- ['Orbit & eye',[G_('Optic nerve & visual pathway (CN II)','lr1:cn2','lr1:ii_rmono','lr1:ii_tract'),G_('Oculomotor nerve (CN III)',N_('lr1:cn3','lr2:iii_sup',N_('lr2:iii_inf','lr1:ciliary_g'))),
-   G_('Trochlear (CN IV) & abducens (CN VI)','lr1:cn4',N_('lr1:cn6','lr2:vi_dorello_n'))]],
- ['CN I, VIII & XII',[G_('Olfactory nerve (CN I)','lr1:cn1','lr2:olfactory2'),G_('Vestibulocochlear nerve (CN VIII)',N_('lr1:cn8','lr2:cochlear','lr2:vestibular')),G_('Hypoglossal nerve (CN XII)',N_('lr1:cn12','lr2:xii_submand'))]],
+ ['Trigeminal nerve (V1 · V2 · V3)',[G_('Trigeminal nerve lesion sites','lr1:cn5','lr1:v1','lr1:v2','lr1:v3'),
+   G_('Trigeminal nerve branches',
+    G_('V1 (ophthalmic) branches',G_('Frontal nerve',NL_('lr1:frontal','Frontal nerve branches','lr1:supraorb','lr1:supratroch')),G_('Nasociliary nerve',NL_('lr1:nasocil','Nasociliary nerve branches','lr1:long_cil','lr1:infratroch','lr1:ant_eth','lr1:post_eth')),'lr1:lacrimal_n'),
+    G_('V2 (maxillary) branches',G_('Zygomatic nerve',NL_('lr2:zyg','Zygomatic nerve branches','lr2:zf','lr2:zt')),'lr2:psa',G_('Infraorbital nerve',NL_('lr2:infraorb2','Infraorbital nerve branches','lr2:msa','lr2:asa')),'lr2:pslnasal','lr1:nasopal','lr1:gr_pal','lr2:lesser_pal','lr2:v2_phar'),
+    G_('V3 (mandibular) branches','lr2:n_med_pt',G_('Anterior division',NL_('lr2:v3_ant','Anterior division branches','lr2:masseteric','lr2:deep_temp','lr2:n_lat_pt','lr1:buccal_v3')),
+     G_('Posterior division',NL_('lr2:v3_post','Posterior division branches','lr2:auriculo2',G_('Lingual nerve',NL_('lr2:ling_prox','Lingual nerve after the chorda tympani joins','lr1:lingual')),
+       G_('Inferior alveolar nerve',NL_('lr2:ian_prox','Inferior alveolar nerve branches','lr2:n_mylo',NL_('lr2:ian2','Branches in the mandibular canal','lr1:mental')))))))]],
+ ['Orbit & eye',[G_('Optic nerve & visual pathway (CN II)','lr1:cn2','lr1:ii_rmono','lr1:ii_tract'),NL_('lr1:cn3','Oculomotor nerve (CN III) branches','lr2:iii_sup',NL_('lr2:iii_inf','Inferior division branches','lr1:ciliary_g')),
+   'lr1:cn4',NL_('lr1:cn6','Abducens nerve (CN VI) along its course','lr2:vi_dorello_n')]],
+ ['CN I, VIII & XII',[G_('Olfactory nerve (CN I)','lr1:cn1','lr2:olfactory2'),NL_('lr1:cn8','Vestibulocochlear nerve (CN VIII) divisions','lr2:cochlear','lr2:vestibular'),NL_('lr1:cn12','Hypoglossal nerve (CN XII) along its course','lr2:xii_submand')]],
  ['Sites along the nerves (foramina, canals, fossae, ganglia)',[G_('Skull-base openings','lr1:s_cribriform','lr1:s_optic','lr1:s_sof','lr1:s_rotundum','lr1:s_ovale','lr1:s_iam','lr1:s_stylomastoid','lr1:s_hypoglossal','lr1:s_fmag','lr2:s_facial_canal'),
    G_('V1 pathway openings','lr1:s_supraorbf','lr1:s_ethf','lr1:s_nasal'),G_('V2 pathway openings','lr2:s_spf','lr2:s_palf','lr2:s_iof','lr2:s_iofor'),G_('V3 pathway openings','lr2:s_mandf','lr1:s_mentf'),
    G_('Autonomic ganglia: proximal vs distal','lr2:ptg_pre','lr2:ptg_post','lr2:otic_pre','lr2:otic_post')]]
@@ -3404,10 +3406,12 @@ function atlasHTML(q){
   const hit=k=>{const r=node(k);if(!r||isClinical(r[1]))return false;if(!q)return true;const [bk,n]=r;return (n.name+' '+n.cause+' '+[...BANK[bk].signs(n.id)].map(s=>(BANK[bk].D.SIG[s]||[])[1]).join(' ')).toLowerCase().includes(q);};
   const count=x=>typeof x==='string'?(hit(x)?1:0):x.k?(hit(x.k)?1:0)+x.kids.reduce((a,c)=>a+count(c),0):x.kids.reduce((a,c)=>a+count(c),0);
   const card=k=>{const [bk,n]=node(k);return lrCard(bk,n.id,false);};
+  const bar=k=>hit(k)?card(k):'';
+  const group=(label,kids)=>{const n=kids.reduce((a,c)=>a+count(c),0);if(!n)return '';return `<details class="tog grp" ${q?'open':''}><summary>${esc(label)} <span class="small">(${n})</span></summary><div class="atree">${kids.map(draw).join('')}</div></details>`;};
   const draw=x=>{if(!count(x))return '';
-    if(typeof x==='string')return card(x);
-    if(x.k){const [bk,n]=node(x.k);return `<details class="tog nerve" ${q?'open':''}><summary>${esc(n.name)}${x.kids.length?` <span class="small">(+${x.kids.reduce((a,c)=>a+count(c),0)} branch lesion${x.kids.reduce((a,c)=>a+count(c),0)===1?'':'s'})</span>`:''}</summary><div class="atree">${hit(x.k)?card(x.k):''}${x.kids.map(draw).join('')}</div></details>`;}
-    return `<details class="tog grp" ${q?'open':''}><summary>${esc(x.g)} <span class="small">(${count(x)})</span></summary><div class="atree">${x.kids.map(draw).join('')}</div></details>`;};
+    if(typeof x==='string')return bar(x);
+    if(x.k){const [bk,n]=node(x.k);return bar(x.k)+(x.kids.length?group(x.lab||`${n.name} branches`,x.kids):'');}
+    return group(x.g,x.kids);};
   return ATLAS_TREE.map(([title,kids])=>{const n=kids.reduce((a,c)=>a+count(c),0);if(!n)return '';
     return `<details class="tog" ${q?'open':''}><summary class="atlas-sec">${esc(title)} <span class="small">(${n})</span></summary><div class="atree top">${kids.map(draw).join('')}</div></details>`;}).join('');
 }
