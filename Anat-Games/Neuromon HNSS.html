@@ -258,7 +258,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 23 · Updated Sep 24, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS structure lists</span><span>Rev 24 · Updated Sep 24, 2026</span></footer>
 </div>
 
 <script>
@@ -384,6 +384,17 @@ const SIG = {
  osa_stim:["Motor","An implanted stimulator fires the protrusor branches of CN XII during breathing in, pushing the tongue forward to open the airway","Genioglossus (CN XII) is the main tongue protruder and airway dilator."],
  m3_hist:["History","Numb, burning tongue with lost taste on one side right after a lower wisdom tooth was removed","The lingual nerve lies just medial to the lower 3rd molar, under thin mucosa."],
  pit_endo:["History","Pituitary adenoma with headache and hormone excess or deficiency","The tumor grows up out of the sella turcica and sideways into the cavernous sinus."],
+ ga_par:["History","Numb ear lobe and skin over the angle of the jaw after parotid surgery","The great auricular nerve crosses SCM right over the parotid tail and is often cut in a parotidectomy."],
+ ga_fl:["History","Numb ear lobe after a facelift (rhytidectomy)","The great auricular nerve lies just under the platysma and SMAS as it crosses SCM, in the facelift dissection plane."],
+ hz_ves:["Skin","Zoster vesicles on the tip and side of the nose","The external nasal branch of the anterior ethmoidal nerve (nasociliary, V1) supplies the nose tip."],
+ es_hist:["History","Problems right after endoscopic ethmoid sinus surgery","The ethmoid labyrinth sits between the orbit (lamina papyracea) and the anterior cranial fossa (cribriform plate)."],
+ es_orbit:["Eye","Orbital bruising, swelling or double vision (medial rectus injury) after the surgery","Breaching the lamina papyracea enters the orbit next to the medial rectus."],
+ sep_hist:["History","Numb front of the palate and septum after septal surgery (septoplasty)","The nasopalatine nerve runs down the septum to the incisive canal."],
+ pal_hist:["History","Numb hard palate after palatal surgery or a greater palatine block","The greater palatine nerve exits the greater palatine foramen medial to the 3rd molar."],
+ oc_hist:["History","High-energy head or neck trauma, or a skull-base mass at the occipital condyle","The hypoglossal canal runs through the occipital condyle, above the condylar joint surface."],
+ oa_hist:["History","Orbital apex tumor or fracture","The orbital apex is where the optic canal and superior orbital fissure meet."],
+ pm_hist:["History","Parotid or mastoid tumor","The stylomastoid foramen sits between the mastoid and styloid processes, deep to the parotid."],
+ chtr_hist:["History","Closed head injury (fall, car crash) followed by vertical double vision","CN IV has the longest, thinnest intracranial course and is the only nerve to leave the BACK of the brainstem, so shearing forces injure it."],
  cav_first:["Eye","Lateral gaze palsy is often the FIRST sign","CN VI runs through the middle of the sinus beside the ICA; the others run in the wall."]
 };
 const MINOR = new Set(["x_hr","vii_digas","i_flavor","ix_sinus","rln_bilat","csf_rhino","cav_first"]);
@@ -474,7 +485,7 @@ const NODES = [
 {id:"ii_chiasm",grp:"orbit",name:"Bitemporal hemianopsia (optic chiasm: pituitary tumor)",cause:"Pituitary adenoma (or craniopharyngioma) pressing up on the chiasm.",own:["chi_bitemp","chi_endo"],spared:["ii_blind","tr_hom"],pearl:"In front of the chiasm = one eye. At the chiasm = bitemporal hemianopia. Behind the chiasm = contralateral homonymous hemianopia."},
 {id:"ii_tract",grp:"orbit",name:"Left homonymous hemianopsia (right optic tract)",cause:"Stroke, tumor or demyelination behind the chiasm.",own:["tr_hom"],spared:["ii_blind","chi_bitemp"],pearl:"Right optic tract lesion = LEFT homonymous hemianopia. Acuity in each eye is normal because each eye still has half its field."},
 {id:"vii_extra",grp:"face",name:"Facial nerve between the stylomastoid foramen and the parotid",cause:"Trauma or tumor on the short extracranial trunk, after the posterior auricular and digastric branches leave but before the parotid.",own:["vii_blink","vii_whole"],inc:["vii_temporal","vii_zygomatic","vii_buccal","vii_mandibular","vii_cervical"],spared:["vii_pad","ct_taste","ptg_tear","vii_hyper"],pearl:"Whole face weak (forehead included) but the auricle and posterior digastric still work, and taste, tears and hearing volume are normal."},
-{id:"s_thyroid",grp:"site",kind:"site",name:"Thyroid bed (thyroidectomy)",cause:"Thyroidectomy: the external laryngeal n. runs with the superior thyroid a.; the recurrent laryngeal n. runs with the inferior thyroid a.",inc:["eln","rln"],spared:["x_uvula","iln_cough"],pearl:"Superior pole ligation → external laryngeal n. (high notes lost). Inferior thyroid a. ligation → recurrent laryngeal n. (hoarse; both sides = stridor)."},
+{id:"s_thyroid",grp:"site",kind:"site",name:"Thyroid bed (thyroidectomy)",cause:"Thyroidectomy: the external laryngeal n. runs with the superior thyroid a.; the recurrent laryngeal n. runs with the inferior thyroid a.",inc:["eln","rln","trans_cerv"],spared:["x_uvula","iln_cough"],pearl:"The low collar incision also cuts the transverse cervical nerve (numb skin of the front of the neck). Superior pole ligation → external laryngeal n. (high notes lost). Inferior thyroid a. ligation → recurrent laryngeal n. (hoarse; both sides = stridor)."},
 {id:"s_fmag",grp:"site",kind:"site",name:"Foramen magnum",cause:"Foramen magnum meningioma or basilar invagination.",own:["fm_cord"],inc:["cn11"],spared:["x_uvula","xii_dev"],pearl:"The SPINAL root of CN XI climbs UP through the foramen magnum, then leaves with IX and X through the jugular foramen."},
 {id:"s_supraorbf",grp:"site",kind:"site",name:"Supraorbital foramen (V1)",cause:"Brow trauma or a supraorbital nerve block at the notch.",inc:["supraorb"],spared:["st_skin","vii_brow"],pearl:"Only the supraorbital n. is lost: the supratrochlear n. exits more medially, and brow elevation (CN VII) is normal."},
 {id:"s_ethf",grp:"site",kind:"site",name:"Ethmoidal foramina (V1)",cause:"Medial orbital wall fracture or ethmoidectomy.",inc:["ant_eth","post_eth"],spared:["so_skin","v1_blink"],pearl:"Anterior ethmoidal n. = anterior nasal cavity and nose tip; posterior ethmoidal n. = sphenoid sinus and posterior ethmoid cells. Both are nasociliary (V1)."},
@@ -502,7 +513,17 @@ const NODES = [
 {id:"p_tn",grp:"trig",name:"Trigeminal neuralgia (tic douloureux)",cause:"A vascular loop (usually the superior cerebellar artery) compressing the trigeminal root; multiple sclerosis in younger patients.",own:["tn_pain","tn_exam_ok"],spared:["v3_chew","v1_blink"],pearl:"First-line treatment: carbamazepine. Refractory cases: microvascular decompression. Sensory loss or a young patient suggests MS or a tumor."},
 {id:"p_osa",grp:"other",name:"Sleep apnea (hypoglossal nerve stimulation)",ph:"Obstructive sleep apnea treated with a hypoglossal nerve stimulator",cause:"Obstructive sleep apnea: loss of genioglossus tone during sleep lets the tongue fall back; treated with CPAP or an implanted hypoglossal nerve stimulator.",own:["osa_sx","osa_stim"],spared:["x_uvula","ling_sens"],pearl:"The stimulator cuff targets the MEDIAL (protrusor) branches of CN XII to genioglossus; catching the lateral (retrusor) branches to hyoglossus and styloglossus would pull the tongue back and worsen obstruction."},
 {id:"p_3m",grp:"trig",kind:"site",name:"3rd molar extraction (lingual nerve injury)",ph:"Injury during a lower 3rd molar extraction",cause:"Lower wisdom tooth removal: the lingual nerve runs just medial to the 3rd molar, under thin mucosa, after the chorda tympani has joined it.",own:["m3_hist"],inc:["lingual"],spared:["ian_teeth","xii_dev"],pearl:"Distal lingual nerve injury = touch AND taste lost on the front 2/3 of the tongue, plus less submandibular saliva. The inferior alveolar nerve (lip and chin) is the other nerve at risk."},
-{id:"s_pit",grp:"site",kind:"site",name:"Pituitary tumor extension",ph:"A pituitary tumor growing out of the sella",cause:"Pituitary macroadenoma extending up into the optic chiasm and sideways into the cavernous sinus.",own:["pit_endo"],inc:["ii_chiasm","s_cav"],spared:["v3_chew","xii_dev"],pearl:"UP → optic chiasm (bitemporal hemianopsia). SIDEWAYS → cavernous sinus: CN III, IV, VI (eye muscles) and V1/V2 (forehead and cheek numbness). DOWN → sphenoid sinus. V3 and chewing are spared (foramen ovale is outside the sinus)."}
+{id:"s_pit",grp:"site",kind:"site",name:"Pituitary tumor extension",ph:"A pituitary tumor growing out of the sella",cause:"Pituitary macroadenoma extending up into the optic chiasm and sideways into the cavernous sinus.",own:["pit_endo"],inc:["ii_chiasm","s_cav"],spared:["v3_chew","xii_dev"],pearl:"UP → optic chiasm (bitemporal hemianopsia). SIDEWAYS → cavernous sinus: CN III, IV, VI (eye muscles) and V1/V2 (forehead and cheek numbness). DOWN → sphenoid sinus. V3 and chewing are spared (foramen ovale is outside the sinus)."},
+{id:"s_parsurg",grp:"neck",kind:"site",name:"Parotid surgery (great auricular nerve)",ph:"Parotid surgery injuring the great auricular nerve",cause:"Parotidectomy: the great auricular nerve is divided as it crosses SCM over the parotid tail.",own:["ga_par"],inc:["great_aur"],spared:["xi_shrug","vii_whole"],pearl:"Earlobe numbness is the classic sensory complication of parotidectomy; facial nerve injury and Frey syndrome are the others."},
+{id:"s_facelift",grp:"neck",kind:"site",name:"Facelift surgery (great auricular nerve)",ph:"Facelift surgery injuring the great auricular nerve",cause:"Rhytidectomy (facelift): the great auricular nerve is the nerve most often injured, where it crosses SCM just under the platysma.",own:["ga_fl"],inc:["great_aur"],spared:["xi_shrug","vii_whole"],pearl:"The great auricular nerve is the most commonly injured nerve in facelift surgery."},
+{id:"p_hutch",grp:"trig",name:"Hutchinson sign (herpes zoster ophthalmicus)",ph:"Herpes zoster ophthalmicus with a Hutchinson sign",cause:"Varicella-zoster reactivation in the trigeminal ganglion involving V1.",own:["hz_ves"],inc:["nasocil"],spared:["io_skin","v3_chew"],pearl:"Vesicles on the nose tip = nasociliary nerve involvement, which also supplies the cornea and eye: high risk of keratitis and uveitis. Refer to ophthalmology."},
+{id:"s_ethsurg",grp:"trig",kind:"site",name:"Ethmoid sinus surgery",ph:"Injury during ethmoid sinus surgery",cause:"Endoscopic ethmoidectomy breaching the lamina papyracea (orbit) or the cribriform plate (anterior cranial fossa).",own:["es_hist","es_orbit","csf_rhino"],minorOwn:["csf_rhino"],inc:["ant_eth","post_eth"],spared:["io_skin","v3_chew"],pearl:"Ethmoid surgery risks: orbital hematoma and medial rectus injury (lamina papyracea), CSF leak (cribriform plate), and anterior ethmoidal artery bleeding into the orbit."},
+{id:"s_septsurg",grp:"trig",kind:"site",name:"Septal surgery (nasopalatine nerve)",ph:"Injury during septal surgery",cause:"Septoplasty or submucous resection of the septum cutting the nasopalatine nerve on the septum.",own:["sep_hist"],inc:["nasopal"],spared:["gp_sens","io_skin"],pearl:"Nasopalatine = septum and the palate behind the upper incisors (incisive canal). The rest of the hard palate stays normal (greater palatine)."},
+{id:"s_palsurg",grp:"trig",kind:"site",name:"Palatal surgery (greater palatine nerve)",ph:"Injury during palatal surgery",cause:"Palatal flap surgery, a graft harvest or a greater palatine block near the greater palatine foramen.",own:["pal_hist"],inc:["gr_pal"],spared:["np_sens","io_skin"],pearl:"Greater palatine = hard palate back from the canine; the greater palatine artery runs with it (bleeding risk)."},
+{id:"s_occond",grp:"site",kind:"site",name:"Occipital condyle fracture or tumor",ph:"An occipital condyle fracture or tumor",cause:"Occipital condyle fracture or a skull-base tumor involving the hypoglossal canal.",own:["oc_hist"],inc:["s_hypoglossal"],spared:["x_uvula","xi_shrug"],pearl:"The hypoglossal canal passes through the occipital condyle: an isolated CN XII palsy after skull-base trauma points here."},
+{id:"s_orbapex",grp:"site",kind:"site",name:"Orbital apex tumor or fracture",ph:"An orbital apex tumor or fracture",cause:"Tumor, fracture or inflammation at the orbital apex, involving the superior orbital fissure and the optic canal.",own:["oa_hist"],inc:["s_sof","cn2"],spared:["io_skin","v3_chew"],pearl:"Orbital apex syndrome = superior orbital fissure syndrome (III, IV, V1, VI) PLUS optic nerve loss. Vision loss is the difference."},
+{id:"s_parmast",grp:"site",kind:"site",name:"Parotid or mastoid tumor",ph:"A parotid or mastoid tumor",cause:"Tumor of the parotid or mastoid compressing CN VII at the stylomastoid foramen.",own:["pm_hist"],inc:["s_stylomastoid"],spared:["ct_taste","viii_hear"],pearl:"At the stylomastoid foramen CN VII is purely motor: face weak (forehead too), but taste, tears and hearing volume are normal."},
+{id:"p_chtr",grp:"orbit",name:"Closed head trauma (CN IV)",ph:"Closed head trauma injuring CN IV",cause:"Closed head injury shearing the long, thin trochlear nerve, often on both sides.",own:["chtr_hist"],inc:["cn4"],spared:["iii_ptosis","vi_eso"],pearl:"Trauma is the commonest cause of an acquired CN IV palsy. Bilateral palsies cause large torsional diplopia."}
 ];
 
 /* ---------- "Which side?" templates ---------- */
@@ -550,6 +571,7 @@ LINEAGE.p_xi=["br","Cranial nerve XI in the posterior triangle"];LINEAGE.p_xii=[
 LINEAGE.s_tfossa=["site","Facial region: temporal fossa (pterion)"];LINEAGE.s_danger=["site","Facial region: danger triangle draining to the cavernous sinus"];LINEAGE.s_dspace=["site","Neck space: danger space (alar to prevertebral fascia)"];
 LINEAGE.cutbr=["no","Not a cranial nerve: cervical plexus skin branches (C2–C4)"];LINEAGE.s_erb=["site","Neck landmark: midpoint of the posterior border of SCM"];LINEAGE.p_voice=["br","CN X: superior and recurrent laryngeal nerves"];
 LINEAGE.p_tn=["cn","Cranial nerve V (trigeminal nerve) root"];LINEAGE.p_osa=["cn","Cranial nerve XII (hypoglossal nerve), protrusor branches"];LINEAGE.p_3m=["br","CN V3: lingual nerve beside the lower 3rd molar"];LINEAGE.s_pit=["site","Sella turcica: pituitary gland"];
+LINEAGE.s_parsurg=["no","Cervical plexus: great auricular nerve (C2–C3)"];LINEAGE.s_facelift=["no","Cervical plexus: great auricular nerve (C2–C3)"];LINEAGE.p_hutch=["br","CN V1: nasociliary nerve"];LINEAGE.s_ethsurg=["site","Ethmoid sinus: between orbit and anterior cranial fossa"];LINEAGE.s_septsurg=["br","CN V2: nasopalatine nerve"];LINEAGE.s_palsurg=["br","CN V2: greater palatine nerve"];LINEAGE.s_occond=["site","Posterior cranial fossa: hypoglossal canal"];LINEAGE.s_orbapex=["site","Middle cranial fossa: orbital apex (optic canal + superior orbital fissure)"];LINEAGE.s_parmast=["site","Face: stylomastoid foramen"];LINEAGE.p_chtr=["cn","Cranial nerve IV (trochlear nerve)"];
 return {SIG,MINOR,GROUPS,NODES,SIDE,LINEAGE,LIN_LBL,SIDE_GRP};
 })();
 /* ===== Source data: Lesion Rounds II (unchanged) ===== */
@@ -700,7 +722,7 @@ const NODES = [
 {id:"c1_xii",grp:"oth",name:"C1 fibers (traveling with CN XII)",cause:"High neck lesion where C1 runs with the hypoglossal nerve.",own:["c1_strap"],spared:["xii_distal"],pearl:"C1 hitchhikers: nerve to thyrohyoid and nerve to geniohyoid."},
 {id:"subm_g2",grp:"oth",name:"Submandibular ganglion",cause:"Floor-of-mouth surgery near the lingual nerve.",own:["sal_dry"],spared:["lpn_parotid","gp_tear"],pearl:"Hangs from the lingual n.: CN VII fibers in, submandibular and sublingual glands out."},
 /* ---- sites ---- */
-{id:"s_ppf",grp:"site",kind:"site",name:"Pterygopalatine fossa",cause:"Perineural spread of a skin cancer or a juvenile angiofibroma.",inc:["zyg","psa","lesser_pal","v2_phar","vidian"],spared:["mass_weak"],pearl:"Pterygopalatine fossa = V2 + the pterygopalatine ganglion + the third part of the maxillary artery."},
+{id:"s_ppf",grp:"site",kind:"site",name:"Pterygopalatine fossa (tumor)",cause:"Perineural spread of a skin cancer or a juvenile angiofibroma.",inc:["zyg","psa","lesser_pal","v2_phar","vidian"],spared:["mass_weak"],pearl:"Pterygopalatine fossa = V2 + the pterygopalatine ganglion + the third part of the maxillary artery."},
 {id:"s_itf",grp:"site",kind:"site",name:"Infratemporal fossa",cause:"Tumor or a displaced mandibular ramus fracture.",inc:["masseteric","deep_temp","n_lat_pt","n_med_pt","ian_prox","ling_prox","auriculo2","otic_g"],spared:["gp_tear"],pearl:"Everything V3 does lives here — plus the otic ganglion and the maxillary artery."},
 {id:"s_facial_canal",grp:"site",kind:"site",name:"Facial canal (above the chorda tympani)",cause:"Temporal bone fracture or cholesteatoma.",minorOwn:["face_pes"],inc:["vii_parotid","chorda2","n_stapedius"],spared:["coch_hear"],pearl:"Work out how high a CN VII lesion is by what is lost: tears → hyperacusis → taste → face."},
 {id:"s_petrous",grp:"site",kind:"site",name:"Petrous apex (Gradenigo syndrome)",cause:"Petrous apicitis spreading from a middle ear infection.",own:["grad_pain","grad_ear"],inc:["vi_dorello_n"],spared:["face_all"],pearl:"Gradenigo triad: ear discharge + retro-orbital pain (V1) + lateral gaze palsy (VI)."},
@@ -726,7 +748,12 @@ const NODES = [
 {id:"p_rh",grp:"vii",name:"Ramsay Hunt syndrome",ph:"Ramsay Hunt syndrome (herpes zoster oticus)",cause:"Varicella-zoster reactivation in the geniculate ganglion of CN VII.",own:["rh_face"],inc:["geniculate"],spared:["ix_taste2","xii_distal"],pearl:"Facial palsy + painful vesicles in the ear canal or auricle (+ vertigo or hearing loss from nearby CN VIII). Worse prognosis than Bell palsy; treat with antivirals and steroids."},
 {id:"acc_v2",grp:"site",kind:"site",name:"Adenoid cystic carcinoma (perineural spread along V2)",ph:"Adenoid cystic carcinoma of the palate spreading along V2",cause:"Adenoid cystic carcinoma of a minor salivary gland of the palate tracking back along the palatine nerves into the pterygopalatine fossa and V2.",own:["acc_hist","gp_sens2"],inc:["lesser_pal","infraorb2"],spared:["face_all","ling_touch"],pearl:"Classic perineural invasion: palate → greater and lesser palatine nerves → pterygopalatine fossa → foramen rotundum → cavernous sinus. Numbness spreads from the palate to the whole V2 territory."},
 {id:"s_adenoid",grp:"site",kind:"site",name:"Adenoid hypertrophy (pharyngeal tonsil)",ph:"Enlarged adenoids (pharyngeal tonsil)",cause:"Enlargement of the pharyngeal tonsil on the roof and back wall of the nasopharynx, usually in young children.",own:["ad_hist","ad_ear"],spared:["face_all","xii_distal"],pearl:"No cranial nerve is cut: the adenoids block the choanae (mouth breathing) and the auditory tube opening beside the torus tubarius (effusion), overwhelming tensor veli palatini and salpingopharyngeus, which normally open the tube."},
-{id:"s_etd",grp:"site",kind:"site",name:"Eustachian tube dysfunction",ph:"Eustachian (auditory) tube dysfunction",cause:"Blocked or poorly opening auditory tube: colds and allergy, enlarged adenoids, nasopharyngeal carcinoma, cleft palate, or a V3 lesion weakening tensor veli palatini.",own:["etd_full","etd_tm"],inc:["n_med_pt"],minorOwn:["mp_close","tt_loud"],spared:["face_all","vest_vert"],pearl:"Tensor veli palatini (V3) opens the tube on swallowing, helped by salpingopharyngeus and levator veli palatini (CN X). Any nasopharyngeal mass or V3 lesion can cause it."}
+{id:"s_etd",grp:"site",kind:"site",name:"Eustachian tube dysfunction",ph:"Eustachian (auditory) tube dysfunction",cause:"Blocked or poorly opening auditory tube: colds and allergy, enlarged adenoids, nasopharyngeal carcinoma, cleft palate, or a V3 lesion weakening tensor veli palatini.",own:["etd_full","etd_tm"],inc:["n_med_pt"],minorOwn:["mp_close","tt_loud"],spared:["face_all","vest_vert"],pearl:"Tensor veli palatini (V3) opens the tube on swallowing, helped by salpingopharyngeus and levator veli palatini (CN X). Any nasopharyngeal mass or V3 lesion can cause it."},
+{id:"frey",grp:"vii",name:"Frey syndrome (gustatory sweating)",ph:"Frey syndrome after parotid surgery",cause:"Parotidectomy: cut postganglionic parasympathetic fibers (otic ganglion → auriculotemporal nerve) regrow into the sweat glands of the cheek skin.",own:["frey_hist","at_frey2"],minorOwn:["at_frey2"],inc:["otic_post"],spared:["face_all","ct_taste2"],pearl:"Parasympathetic fibers to the parotid misdirected to sympathetically innervated (cholinergic) sweat glands. Minor starch-iodine test; treat with botulinum toxin."},
+{id:"p_an",grp:"oth",name:"Acoustic neuroma (vestibular schwannoma)",ph:"An acoustic neuroma (vestibular schwannoma)",cause:"Benign Schwann cell tumor of CN VIII in the internal acoustic meatus and cerebellopontine angle; bilateral in neurofibromatosis type 2.",own:["an_v","face_all"],minorOwn:["face_all"],inc:["cochlear","vestibular"],spared:["xii_distal","x_phar_motor"],pearl:"First: one-sided hearing loss and tinnitus (CN VIII). Growing: loss of the corneal reflex (CN V) and later facial weakness (CN VII). Bilateral = NF2."},
+{id:"s_ptb",grp:"site",kind:"site",name:"Petrous temporal bone fracture",ph:"A petrous temporal bone fracture",cause:"Basal skull fracture through the petrous temporal bone (transverse fractures hit the inner ear and facial canal more often).",own:["ptb_hist"],inc:["cochlear","vestibular","gr_petrosal","s_facial_canal"],spared:["xii_distal","ling_touch"],pearl:"The petrous bone holds the cochlea, vestibule and the facial canal: fracture → hearing loss, vertigo, facial palsy, dry eye (greater petrosal), hyperacusis and lost taste."},
+{id:"s_fom",grp:"site",kind:"site",name:"Floor of mouth surgery (lingual nerve, submandibular ganglion)",ph:"Floor of mouth surgery",cause:"Floor-of-mouth or submandibular duct surgery injuring the lingual nerve and the submandibular ganglion on hyoglossus.",own:["fom_hist","ling_touch","ct_taste2","xii_distal"],minorOwn:["xii_distal"],inc:["subm_g2"],spared:["face_all","mn_chin"],pearl:"The lingual nerve loops under the submandibular duct on hyoglossus, with the submandibular ganglion hanging from it; CN XII runs lower on the same muscle."},
+{id:"s_ppfmcf",grp:"site",kind:"site",name:"Tumor spreading from the pterygopalatine fossa",ph:"A tumor spreading from the pterygopalatine fossa into the middle cranial fossa",cause:"Pterygopalatine fossa tumor (juvenile angiofibroma, perineural cancer) spreading back through foramen rotundum and the pterygoid canal.",own:["ppfm_hist","vi_dorello"],minorOwn:["vi_dorello"],inc:["s_ppf"],spared:["face_all","ling_touch"],pearl:"Pterygopalatine fossa → foramen rotundum → middle cranial fossa → cavernous sinus. V2 numbness first, then eye movement problems."}
 ];
 
 /* extra signs used above that belong to shared branches */
@@ -751,6 +778,11 @@ SIG.etd_full=["Special sense","Ear fullness, muffled (conductive) hearing and po
 SIG.etd_tm=["Imaging","Retracted eardrum or fluid behind it on otoscopy","Negative middle ear pressure pulls the drum in and draws fluid out."];
 SIG.npc_vi=["Eye","Double vision from a lateral gaze palsy","Tumor spreads up through foramen lacerum to the cavernous sinus, where CN VI is hit first."];
 SIG.rh_face=["Motor","Whole half of the face weak, forehead included, with ear pain","Viral inflammation of the geniculate ganglion swells CN VII inside the facial canal."];
+SIG.frey_hist=["History","Months after parotid surgery, the cheek sweats and flushes whenever the patient eats","Cut parasympathetic (secretomotor) fibers in the auriculotemporal nerve regrow into the sweat glands of the overlying skin."];
+SIG.an_v=["Sensory","Reduced corneal reflex and facial numbness on that side as the tumor grows","A large tumor in the cerebellopontine angle presses on CN V."];
+SIG.ptb_hist=["History","Battle sign (mastoid bruising), blood behind the eardrum or CSF leaking from the ear after head trauma","The petrous temporal bone houses the inner ear and the facial canal."];
+SIG.fom_hist=["History","Numb tongue with lost taste and a dry mouth after floor-of-mouth surgery","The lingual nerve and the submandibular ganglion hanging from it lie in the floor of the mouth on hyoglossus."];
+SIG.ppfm_hist=["History","Numbness spreading from the palate and cheek to the whole V2 area, then double vision","Tumor spreads from the pterygopalatine fossa back through foramen rotundum to the middle cranial fossa and cavernous sinus."];
 SIG.b3_cheek=["Sensory","Numbness of the skin and inner mucosa of the cheek","The buccal n. is the one sensory branch of the anterior division of V3."];
 MINOR.add("psln_dry");
 
@@ -852,6 +884,7 @@ LINEAGE.ian_prox=["br","Branch of CN V3: inferior alveolar nerve above the mandi
 LINEAGE.ian_block=["site","Bone opening: mandibular foramen (V3), site of the dental block"];
 LINEAGE.p_hear=["br","Cochlear division of CN VIII"];LINEAGE.p_uvula=["br","Pharyngeal branch of CN X"];LINEAGE.jaw_dev=["br","CN V3: nerve to lateral pterygoid"];
 LINEAGE.p_rh=["gg","Sensory ganglion of CN VII (geniculate)"];LINEAGE.acc_v2=["site","Palate → pterygopalatine fossa along V2"];LINEAGE.s_adenoid=["site","Nasopharynx: pharyngeal tonsil"];LINEAGE.s_etd=["site","Auditory (pharyngotympanic) tube"];
+LINEAGE.frey=["gg","Otic ganglion postganglionics on the auriculotemporal nerve"];LINEAGE.p_an=["br","CN VIII in the internal acoustic meatus"];LINEAGE.s_ptb=["site","Temporal bone: petrous part"];LINEAGE.s_fom=["site","Floor of the mouth: lingual nerve and submandibular ganglion"];LINEAGE.s_ppfmcf=["site","Pterygopalatine fossa → middle cranial fossa"];
 return {SIG,MINOR,GROUPS,NODES,SIDE,LINEAGE,LIN_LBL,SIDE_GRP};
 })();
 /* ===== Source data: Trap Hunter (unchanged) ===== */
@@ -2072,6 +2105,56 @@ VL_PATCHES_V9.v2.sp.push('lr2:acc_v2');VL_PATCHES_V9.v3.sp.push('lr1:p_3m');
 FACE_LES.sp.splice(4,0,'lr1:s_pit','lr2:acc_v2','lr2:s_adenoid','lr2:s_tonsil','lr2:s_etd','lr2:s_npc');
 NECK_LES.sp.push('pr:pr_trach','pr:pr_crico','pr:pr_lxect');
 
+/* ===== Rev 24 ===== */
+/* where each region-card nerve comes FROM and goes TO */
+Object.entries({
+ ansa:'From: superior root (C1, riding CN XII) + inferior root (C2–C3, cervical plexus) → To: the strap muscles, from a loop on the carotid sheath',
+ ansa_sup:'From: C1 fibers that have ridden CN XII from the skull base → To: down the front of the carotid sheath to join the inferior root',
+ ansa_inf:'From: the cervical plexus (C2–C3) deep to SCM → To: forward around the internal jugular vein to join the superior root',
+ n_th:'From: C1 fibers leaving CN XII near the greater horn of the hyoid → To: thyrohyoid',
+ n_gh:'From: C1 fibers leaving CN XII above the hyoid → To: geniohyoid in the floor of the mouth',
+ c1f:'From: the C1 ventral ramus, joining CN XII just below the skull → To: the superior root of the ansa, the nerve to thyrohyoid and the nerve to geniohyoid',
+ phren:'From: C3–C5 ventral rami at the lateral border of anterior scalene → To: the thorax, passing in front of the subclavian artery and behind the subclavian vein, then over the pericardium to the diaphragm',
+ lesocc:'From: the C2 ventral ramus (cervical plexus) deep to SCM → Erb point → To: the scalp behind and above the ear',
+ grtaur:'From: C2–C3 (cervical plexus) deep to SCM → Erb point → To: the ear lobe, the angle of the jaw and the skin over the parotid',
+ transcv:'From: C2–C3 (cervical plexus) deep to SCM → Erb point → To: the skin of the front of the neck',
+ supcl:'From: C3–C4 (cervical plexus) deep to SCM → Erb point → To: the skin over the clavicle, upper chest and shoulder'
+}).forEach(([id,c])=>{RGA.find(x=>x.id===id).conn=c;});
+const PHREN_REL='It descends on the ANTERIOR surface of anterior scalene (under the prevertebral fascia), then enters the thorax in front of the subclavian artery and behind the subclavian vein';
+RGA.find(x=>x.id==='phren').rel=PHREN_REL;RGA.find(x=>x.id==='phren').relg='phr';RGA.find(x=>x.id==='posttri').relg='phr';
+RGA.find(x=>x.id==='posttri').rel='Phrenic nerve: '+PHREN_REL.charAt(0).toLowerCase()+PHREN_REL.slice(1);
+const REL_FALSE=['It descends on the POSTERIOR surface of anterior scalene, then enters the thorax behind the subclavian artery',
+ 'It runs superficially across the posterior triangle with CN XI, on levator scapulae, then crosses the clavicle',
+ 'It descends on the anterior surface of MIDDLE scalene and passes behind the subclavian artery with the brachial plexus',
+ 'It runs inside the carotid sheath between the internal jugular vein and the common carotid artery'];
+RGA.push({id:'carsh',name:'Carotid sheath',t:'CERV',kind:'Region',where:'Tube of deep cervical fascia from the skull base to the aortic arch, deep to SCM and lateral to the pharynx, trachea and thyroid',
+ conn:'The sympathetic trunk lies just BEHIND it on the prevertebral fascia (not inside); the ansa cervicalis is embedded in its front wall',
+ trans:'Common and internal carotid arteries (medial), internal jugular vein (lateral) and the vagus nerve (behind, between them); deep cervical lymph nodes along the IJV',
+ rel:'CN X lies BEHIND and between the carotid artery (medial) and the internal jugular vein (lateral)',
+ lesion:'Carotid dissection or penetrating neck trauma: Horner syndrome (sympathetic plexus on the ICA) with CN IX, X, XI or XII palsies',
+ pearl:'"I See 10 CC\'s in the IV": IJV, CN X, common carotid. Ansa on its surface, sympathetic trunk behind it.'});
+RG_PATCHES.nreg.sp.splice(2,0,'carsh');
+/* reflexes: tearing */
+Object.assign(RXTRIG,{t_irrit:'Irritation of the cornea or conjunctiva (dust, onion vapors, a foreign body)'});
+Object.assign(RXEFF,{e_tear:'CN VII: superior salivatory nucleus → greater petrosal → pterygopalatine ganglion → zygomatic (V2) → lacrimal (V1) → lacrimal gland'});
+Object.assign(RXRESP,{r_tear:'Reflex tearing from the lacrimal gland on that side'});
+RXA.push({id:'rx_tear',t:'FACIAL',cg:'pons',name:'Tearing (lacrimation) reflex',aff:['a_v1'],eff:['e_tear'],trig:['t_irrit'],trigX:['t_cornea'],resp:['r_tear'],
+ center:'Pons: spinal trigeminal nucleus → superior salivatory nucleus',
+ lesion:'Lesion of CN VII above the geniculate ganglion (or of the greater petrosal nerve) → a dry eye with no reflex tearing; aberrant regrowth into the lacrimal pathway → "crocodile tears" when eating',
+ pearl:'Afferent = V1; efferent = CN VII parasympathetics through the pterygopalatine ganglion, carried to the gland by the zygomatic (V2) and lacrimal (V1) nerves.'});
+RXA.find(x=>x.id==='rx_corn').trigX=['t_irrit'];
+const GG_EXTRA={otic:['lr2:frey'],ptg:['rx:rx_tear']};
+/* patches */
+CPL_LES.sp.splice(CPL_LES.sp.indexOf('lr1:great_aur'),0,'lr1:s_parsurg','lr1:s_facelift');
+FACE_LES.sp.push('lr2:p_an','lr2:s_ptb','lr2:s_fom');
+NECK_LES.sp.push('lr1:s_thyroid');
+VL_PATCHES_V9.v1.sp.push('lr1:p_hutch','lr1:s_ethsurg');
+VL_PATCHES_V9.v2.sp.push('lr1:s_septsurg','lr1:s_palsurg');
+FO_PATCHES.post.sp.push('lr1:s_occond');
+FO_PATCHES.mid.sp.push('lr1:s_orbapex','lr2:s_ppfmcf');
+FO_PATCHES.face.sp.push('lr1:s_parmast');
+CNL_PATCHES_BY_NERVE.IV.sp.push('lr1:p_chtr');
+
 /* ===== Muscle bank (Neuromon: Myo Ridge) =====
    Wording follows the HNSS Lab 1, 2, 4, 5 & 6 structure-worksheet answer keys.
    Stylopharyngeus and musculus uvulae are not in those keys and use standard anatomy.
@@ -2561,6 +2644,15 @@ MLA.push(
 );
 MLA.find(a=>a.id==='ml_smn').fxX=(MLA.find(a=>a.id==='ml_smn').fxX||[]).concat(['lu2']);
 
+/* ===== Rev 24 ===== */
+Object.assign(MLFX,{
+ or1:'The mass pushes the eyeball DOWN and forward (proptosis)',
+ or2:'The frontal nerve (V1) on top of levator is compressed: numb forehead and upper eyelid',
+ or3:'Levator palpebrae and superior rectus (superior division of CN III) are compressed: ptosis and poor upgaze'
+});
+MLA.push({id:'ml_roof',p:'eom',t:'OCULAR',name:'Orbital roof tumor',sign:'Eye pushed down and forward, with ptosis, poor upgaze and a numb forehead',musc:'Levator palpebrae superioris and superior rectus (sometimes superior oblique)',nerve:'Frontal nerve (V1) and the superior division of CN III, just under the orbital roof',cause:'Orbital roof mass: meningioma, dermoid cyst, frontal sinus mucocele or metastasis',fx:['or1','or2','or3'],fxX:['iii2','bo4']});
+MLA.find(a=>a.id==='ml_iii').fxX=(MLA.find(a=>a.id==='ml_iii').fxX||[]).concat(['or3']);
+
 </script>
 <script>
 "use strict";
@@ -2921,11 +3013,11 @@ const AUTH={
  rg:mkAuth('rg',RGA,{
    patchOf:S=>rgPatch[S.id],idStem:'Which structure is this?',
    rows:S=>[['Contents / carries',S.trans],['Type',S.kind],['Where',S.where||''],['Connects to',S.conn||''],['Spinal roots',S.roots||'']],
-   val:{kind:S=>S.kind,where:S=>S.where,conn:S=>S.conn,trans:S=>S.trans,roots:S=>S.roots},
-   extra:{kind:RKIND,roots:['C2','C3–C4','C1–C2','C4–C5']},
-   mv:{kind:['WHAT IS IT?','Opening, artery, root…?'],where:['LOCATE','Where is it?'],conn:['DOORWAY','Where does it lead?'],trans:['CONTENTS','What passes through or what does it carry?'],roots:['ROOT CALL','Which spinal levels?']},
+   val:{kind:S=>S.kind,where:S=>S.where,conn:S=>S.conn,trans:S=>S.trans,roots:S=>S.roots,rel:S=>S.rel},
+   extra:{kind:RKIND,roots:['C2','C3–C4','C1–C2','C4–C5'],rel:REL_FALSE},peerKey:{rel:'relg'},
+   mv:{kind:['WHAT IS IT?','Opening, artery, root…?'],where:['LOCATE','Where is it?'],conn:['DOORWAY','Where does it lead?'],trans:['CONTENTS','What passes through or what does it carry?'],roots:['ROOT CALL','Which spinal levels?'],rel:['RELATIONSHIP','Which relationship is true?']},
    stem:{kind:S=>`What kind of structure is the <strong>${esc(S.name)}</strong>?`,where:S=>`Where is the <strong>${esc(S.name)}</strong>?`,
-     conn:S=>/^Nerve/.test(S.kind)?`Where does the <strong>${esc(S.name)}</strong> go next, or which plexus does it belong to?`:S.kind==='Region'?`What does the <strong>${esc(S.name)}</strong> connect to or divide into?`:`The <strong>${esc(S.name)}</strong> connects the fossa to where?`,trans:S=>/^Nerve/.test(S.kind)?`What does the <strong>${esc(S.name)}</strong> supply or carry?`:`What passes through (or is carried by) the <strong>${esc(S.name)}</strong>?`,
+     rel:S=>`Which anatomical relationship is TRUE of the <strong>${esc(S.name)}</strong>?`,conn:S=>/^Nerve/.test(S.kind)?`Where does the <strong>${esc(S.name)}</strong> come from, and where does it go?`:S.kind==='Region'?`What does the <strong>${esc(S.name)}</strong> connect to or divide into?`:`The <strong>${esc(S.name)}</strong> connects the fossa to where?`,trans:S=>/^Nerve/.test(S.kind)?`What does the <strong>${esc(S.name)}</strong> supply or carry?`:`What passes through (or is carried by) the <strong>${esc(S.name)}</strong>?`,
      roots:S=>`Which spinal levels form the <strong>${esc(S.name)}</strong>?`},
    list:{mv:['TRANSIT','Which one passes through?'],stem:S=>`Which of these passes through the <strong>${esc(S.name)}</strong>?`,
      rmv:['DOORFINDER','Which opening does it use?'],rstem:x=>`Which opening does the <strong>${esc(x)}</strong> pass through?`},
@@ -3199,7 +3291,7 @@ const AREAS={
  cn:{name:'Cranial Nerve Trail',sub:'CN I–XII & branches',blurb:'Anatomy only: exits, fibers, jobs, branches, muscles and arteries of CN I–XII. CN V stays at the V1 / V2 / V3 overview.',
    scene:'',patches:Object.fromEntries(Object.entries(CN_PATCHES_BY_NERVE).map(([k,v])=>[k,{...v,sp:v.sp.map(id=>'cn:'+id)}]))},
  gang:{name:'Ganglion Grove',sub:'Parasympathetic ganglia · reflexes · cervical plexus',blurb:'Trace every parasympathetic pathway (nucleus → preganglionic nerve → ganglion → carrier → target) and what a lesion at each stop does. The ansa cervicalis patch is anatomy only.',
-   scene:'',patches:{...Object.fromEntries(Object.entries(GG_PATCHES).map(([k,v])=>[k,{...v,sp:k==='ciliary'?['rx:rx_plr','rx:rx_acc',...v.sp.filter(id=>id!=='plr').map(id=>'gg:'+id)]:v.sp.map(id=>'gg:'+id)}])),rg_ansa:{...RG_PATCHES.ansa,sp:RG_PATCHES.ansa.sp.map(id=>'rg:'+id)},rg_c1:{...RG_PATCHES.c1,sp:RG_PATCHES.c1.sp.map(id=>'rg:'+id)},rg_cut:{...RG_PATCHES.cut,sp:RG_PATCHES.cut.sp.map(id=>'rg:'+id)},cpl:CPL_LES,rx:{...RX_PATCHES.reflex,sp:RX_PATCHES.reflex.sp.map(id=>'rx:'+id)}}},
+   scene:'',patches:{...Object.fromEntries(Object.entries(GG_PATCHES).map(([k,v])=>[k,{...v,sp:[...(k==='ciliary'?['rx:rx_plr','rx:rx_acc']:[]),...v.sp.filter(id=>!(k==='ciliary'&&id==='plr')).map(id=>'gg:'+id),...(GG_EXTRA[k]||[])]}])),rg_ansa:{...RG_PATCHES.ansa,sp:RG_PATCHES.ansa.sp.map(id=>'rg:'+id)},rg_c1:{...RG_PATCHES.c1,sp:RG_PATCHES.c1.sp.map(id=>'rg:'+id)},rg_cut:{...RG_PATCHES.cut,sp:RG_PATCHES.cut.sp.map(id=>'rg:'+id)},cpl:CPL_LES,rx:{...RX_PATCHES.reflex,sp:RX_PATCHES.reflex.sp.map(id=>'rx:'+id)}}},
  vbr:{name:'Trigeminal Cave',sub:'V1 · V2 · V3 branches',blurb:'Anatomy only: which division, which parent, which foramen or route, what territory, and which borrowed fibers ride along.',
    scene:'cave',patches:Object.fromEntries(Object.entries(VB_PATCHES).map(([k,v])=>[k,{...v,sp:v.sp.map(id=>'vb:'+id)}]))},
  cnl:{name:'Palsy Pass',sub:'CN I–XII lesions',blurb:'Lesions and clinical correlations of CN I–XII, one patch per nerve. For CN V, tell a V1, V2 and V3 lesion apart. Wild lesions hide their name until you localize them.',
