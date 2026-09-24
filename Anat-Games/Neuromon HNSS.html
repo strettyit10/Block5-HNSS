@@ -126,6 +126,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 @keyframes slideP{from{transform:translateX(-160%)}to{transform:none}}
 .mon.hit{animation:blink .5s steps(2) 2}
 @keyframes blink{50%{opacity:.1}}
+.mon.e.leave{animation:slideOut .5s steps(6) forwards}
 .mon.faint{animation:faint .6s ease-in forwards}
 @keyframes faint{to{transform:translateY(60%);opacity:0}}
 .mon.lunge.p{animation:lungeP .35s ease-out}
@@ -241,7 +242,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     <div class="hud" id="hud" hidden></div>
   </div>
   <main class="screen" id="app" aria-live="polite"></main>
-  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS muscle lists</span><span>Rev 4 · Updated Sep 23, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs · Neuromon: HNSS Edition · built from Lesion Rounds I &amp; II, Trap Hunter &amp; the HNSS muscle lists</span><span>Rev 7 · Updated Sep 23, 2026</span></footer>
 </div>
 
 <script>
@@ -260,11 +261,6 @@ const SIG = {
  phr:["Motor","Paralysis of the hemidiaphragm on that side (elevated on X-ray, paradoxical movement on sniff test)","The phrenic n. (C3–C5) is the only motor supply to its half of the diaphragm."],
  ansa:["Motor","Weakness of the infrahyoid strap muscles (omohyoid, sternohyoid, sternothyroid)","The ansa cervicalis (C1–C3) supplies these hyoid/larynx depressors."],
  thy:["Motor","Weakness of the thyrohyoid alone, with the other strap muscles intact","Thyrohyoid gets C1 fibers that travel with CN XII and leave it beyond the ansa."],
- erb1:["Motor","Loss of shoulder abduction, external rotation, and elbow flexion","Upper trunk (C5–C6) supplies deltoid, supraspinatus, infraspinatus, biceps."],
- erb2:["Posture","Arm hangs adducted and internally rotated, elbow extended, forearm pronated (\"waiter's tip\")","Unopposed muscles after upper trunk (Erb) injury."],
- erb3:["Sensory","Numbness of the lateral arm and forearm","C5–C6 dermatomes."],
- kl1:["Motor","Weakness of the intrinsic hand muscles with clawing","Lower trunk (C8–T1) supplies the intrinsic hand muscles (Klumpke palsy)."],
- kl2:["Sensory","Numbness of the medial forearm and hand","C8–T1 dermatomes."],
  xi_scm:["Motor","Weakness turning the chin to the OPPOSITE side against resistance","The SCM (CN XI) turns the face to the opposite side."],
  xi_shrug:["Motor","Drooping shoulder and weak shoulder shrug","Trapezius (CN XI) elevates the scapula."],
  xi_abd:["Motor","Difficulty abducting the arm above 90°","Trapezius rotates the scapula upward, needed for overhead abduction."],
@@ -371,8 +367,6 @@ const NODES = [
 {id:"n_thyrohyoid",grp:"neck",name:"Nerve to thyrohyoid",cause:"Injured high in the carotid triangle near CN XII.",own:["thy"],spared:["ansa","xii_dev"],pearl:"C1 fibers riding CN XII: nerve to thyrohyoid + nerve to geniohyoid."},
 {id:"xi_pt",grp:"neck",name:"Accessory nerve (CN XI) in the posterior triangle",cause:"Classic injury: lymph node biopsy in the posterior triangle.",own:["xi_shrug","xi_abd","xi_wing"],spared:["xi_scm"],pearl:"Posterior triangle injury spares the SCM — its branch leaves CN XI before the nerve enters the triangle."},
 {id:"cn11",grp:"neck",name:"Accessory nerve (CN XI), whole nerve",cause:"Lesion near the skull base, before any branches.",own:["xi_scm"],inc:["xi_pt"],pearl:"Test CN XI with a head turn and a shoulder shrug against resistance. Right SCM turns the face LEFT."},
-{id:"upper_trunk",grp:"neck",name:"Upper trunk of the brachial plexus (Erb palsy)",cause:"Head and shoulder forced apart — difficult birth or motorcycle fall.",own:["erb1","erb2","erb3","xi_abd"],minorOwn:["xi_abd"],spared:["kl1"],pearl:"Erb (C5–C6) = waiter's tip. Klumpke (C8–T1) = claw hand ± Horner."},
-{id:"lower_trunk",grp:"neck",name:"Lower trunk of the brachial plexus (Klumpke palsy)",cause:"Arm forced upward (grabbing a branch while falling) or a Pancoast tumor.",own:["kl1","kl2","hor_ptosis","hor_miosis","hor_anhid"],minorOwn:["hor_ptosis","hor_miosis","hor_anhid"],spared:["erb2"],pearl:"T1 root damage can add Horner syndrome to Klumpke palsy."},
 /* larynx */
 {id:"iln",grp:"larynx",name:"Internal laryngeal nerve",cause:"Injured where it pierces the thyrohyoid membrane with the superior laryngeal a.",own:["iln_sens","iln_cough"],spared:["rln_hoarse"],pearl:"Internal laryngeal n. + superior laryngeal a. → thyrohyoid membrane."},
 {id:"eln",grp:"larynx",name:"External laryngeal nerve",cause:"Ligating the superior thyroid a. at the superior pole during thyroidectomy.",own:["eln_pitch"],spared:["rln_hoarse","rln_pca"],pearl:"\"The singer after thyroidectomy\" — cricothyroid lost, high notes gone, folds still move."},
@@ -456,7 +450,7 @@ const SIDE = [
  {id:"sd_aorta",fixed:"left",f:()=>`An aortic arch aneurysm causes hoarseness with one vocal fold fixed near the midline.`,nerve:["Recurrent laryngeal nerve","External laryngeal nerve"],ans:()=>[0,"left"],why:"Only the LEFT recurrent laryngeal n. hooks under the aortic arch."}
 ];
 
-const LINEAGE={"great_aur": ["no", "Not a cranial nerve — cervical plexus (ventral rami C2–C3)"], "lesser_occ": ["no", "Not a cranial nerve — cervical plexus (ventral ramus C2)"], "trans_cerv": ["no", "Not a cranial nerve — cervical plexus (ventral rami C2–C3)"], "supraclav": ["no", "Not a cranial nerve — cervical plexus (ventral rami C3–C4)"], "phrenic": ["no", "Not a cranial nerve — cervical plexus (C3–C5)"], "ansa": ["no", "Not a cranial nerve — cervical plexus loop (C1–C3); its superior root rides with CN XII"], "n_thyrohyoid": ["no", "Not a cranial nerve — C1 fibers that travel with CN XII"], "xi_pt": ["cn", "Cranial nerve XI (accessory nerve) — portion in the posterior triangle"], "cn11": ["cn", "Cranial nerve XI (accessory nerve)"], "upper_trunk": ["no", "Not a cranial nerve — brachial plexus (C5–C6)"], "lower_trunk": ["no", "Not a cranial nerve — brachial plexus (C8–T1)"], "iln": ["br", "Branch of CN X → superior laryngeal nerve → internal laryngeal nerve"], "eln": ["br", "Branch of CN X → superior laryngeal nerve → external laryngeal nerve"], "sln": ["br", "Branch of CN X (vagus)"], "rln": ["br", "Branch of CN X (vagus)"], "cn10": ["cn", "Cranial nerve X (vagus nerve)"], "vii_temporal": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_zygomatic": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_buccal": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_mandibular": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_cervical": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_sm": ["cn", "Cranial nerve VII (facial nerve) — at its exit from the skull"], "chorda": ["br", "Branch of CN VII (facial nerve); joins the lingual nerve (CN V3)"], "vii_prox": ["cn", "Cranial nerve VII (facial nerve) — inside the temporal bone"], "supraorb": ["br", "Branch of CN V1 → frontal nerve → supraorbital nerve"], "supratroch": ["br", "Branch of CN V1 → frontal nerve → supratrochlear nerve"], "frontal": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "lacrimal_n": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "long_cil": ["br", "Branch of CN V1 → nasociliary nerve → long ciliary nerves"], "infratroch": ["br", "Branch of CN V1 → nasociliary nerve → infratrochlear nerve"], "ant_eth": ["br", "Branch of CN V1 → nasociliary nerve → anterior ethmoidal nerve"], "post_eth": ["br", "Branch of CN V1 → nasociliary nerve → posterior ethmoidal nerve"], "nasocil": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "v1": ["br", "Division of CN V (trigeminal nerve)"], "infraorb": ["br", "Branch of CN V2 (maxillary division of trigeminal)"], "nasopal": ["br", "Branch of CN V2 (via the pterygopalatine ganglion)"], "gr_pal": ["br", "Branch of CN V2 (via the pterygopalatine ganglion)"], "v2": ["br", "Division of CN V (trigeminal nerve)"], "mental": ["br", "Branch of CN V3 → inferior alveolar nerve → mental nerve"], "ian": ["br", "Branch of CN V3 (mandibular division of trigeminal)"], "lingual": ["br", "Branch of CN V3 (mandibular division of trigeminal); carries chorda tympani fibers from CN VII"], "buccal_v3": ["br", "Branch of CN V3 (mandibular division of trigeminal)"], "auriculotemp": ["br", "Branch of CN V3 (mandibular division of trigeminal); carries otic ganglion fibers from CN IX"], "v3": ["br", "Division of CN V (trigeminal nerve)"], "cn5": ["cn", "Cranial nerve V (trigeminal nerve)"], "cn2": ["cn", "Cranial nerve II (optic nerve)"], "ciliary_g": ["gg", "Parasympathetic ganglion of CN III; hangs from the nasociliary nerve (CN V1)"], "cn3": ["cn", "Cranial nerve III (oculomotor nerve)"], "cn4": ["cn", "Cranial nerve IV (trochlear nerve)"], "cn6": ["cn", "Cranial nerve VI (abducens nerve)"], "scg": ["no", "Not a cranial nerve — sympathetic chain (preganglionic fibers from T1)"], "cn1": ["cn", "Cranial nerve I (olfactory nerve)"], "cn8": ["cn", "Cranial nerve VIII (vestibulocochlear nerve)"], "cn9": ["cn", "Cranial nerve IX (glossopharyngeal nerve)"], "cn12": ["cn", "Cranial nerve XII (hypoglossal nerve)"], "ptg_g": ["gg", "Parasympathetic ganglion of CN VII (greater petrosal nerve); hangs from CN V2"], "subm_g": ["gg", "Parasympathetic ganglion of CN VII (chorda tympani); hangs from the lingual nerve (CN V3)"], "s_cribriform": ["site", "Skull-base opening — transmits CN I"], "s_optic": ["site", "Skull-base opening — transmits CN II"], "s_sof": ["site", "Skull-base opening — transmits CN III, IV, V1, VI"], "s_cav": ["site", "Dural venous sinus — contains CN III, IV, V1, V2, VI"], "s_rotundum": ["site", "Skull-base opening — transmits CN V2"], "s_ovale": ["site", "Skull-base opening — transmits CN V3"], "s_stylomastoid": ["site", "Skull-base opening — transmits CN VII"], "s_iam": ["site", "Skull-base opening — transmits CN VII and VIII"], "s_jugular": ["site", "Skull-base opening — transmits CN IX, X, XI"], "s_hypoglossal": ["site", "Skull-base opening — transmits CN XII"]};
+const LINEAGE={"great_aur": ["no", "Not a cranial nerve — cervical plexus (ventral rami C2–C3)"], "lesser_occ": ["no", "Not a cranial nerve — cervical plexus (ventral ramus C2)"], "trans_cerv": ["no", "Not a cranial nerve — cervical plexus (ventral rami C2–C3)"], "supraclav": ["no", "Not a cranial nerve — cervical plexus (ventral rami C3–C4)"], "phrenic": ["no", "Not a cranial nerve — cervical plexus (C3–C5)"], "ansa": ["no", "Not a cranial nerve — cervical plexus loop (C1–C3); its superior root rides with CN XII"], "n_thyrohyoid": ["no", "Not a cranial nerve — C1 fibers that travel with CN XII"], "xi_pt": ["cn", "Cranial nerve XI (accessory nerve) — portion in the posterior triangle"], "cn11": ["cn", "Cranial nerve XI (accessory nerve)"], "iln": ["br", "Branch of CN X → superior laryngeal nerve → internal laryngeal nerve"], "eln": ["br", "Branch of CN X → superior laryngeal nerve → external laryngeal nerve"], "sln": ["br", "Branch of CN X (vagus)"], "rln": ["br", "Branch of CN X (vagus)"], "cn10": ["cn", "Cranial nerve X (vagus nerve)"], "vii_temporal": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_zygomatic": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_buccal": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_mandibular": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_cervical": ["br", "Branch of CN VII (facial nerve) — terminal branch in the parotid"], "vii_sm": ["cn", "Cranial nerve VII (facial nerve) — at its exit from the skull"], "chorda": ["br", "Branch of CN VII (facial nerve); joins the lingual nerve (CN V3)"], "vii_prox": ["cn", "Cranial nerve VII (facial nerve) — inside the temporal bone"], "supraorb": ["br", "Branch of CN V1 → frontal nerve → supraorbital nerve"], "supratroch": ["br", "Branch of CN V1 → frontal nerve → supratrochlear nerve"], "frontal": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "lacrimal_n": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "long_cil": ["br", "Branch of CN V1 → nasociliary nerve → long ciliary nerves"], "infratroch": ["br", "Branch of CN V1 → nasociliary nerve → infratrochlear nerve"], "ant_eth": ["br", "Branch of CN V1 → nasociliary nerve → anterior ethmoidal nerve"], "post_eth": ["br", "Branch of CN V1 → nasociliary nerve → posterior ethmoidal nerve"], "nasocil": ["br", "Branch of CN V1 (ophthalmic division of trigeminal)"], "v1": ["br", "Division of CN V (trigeminal nerve)"], "infraorb": ["br", "Branch of CN V2 (maxillary division of trigeminal)"], "nasopal": ["br", "Branch of CN V2 (via the pterygopalatine ganglion)"], "gr_pal": ["br", "Branch of CN V2 (via the pterygopalatine ganglion)"], "v2": ["br", "Division of CN V (trigeminal nerve)"], "mental": ["br", "Branch of CN V3 → inferior alveolar nerve → mental nerve"], "ian": ["br", "Branch of CN V3 (mandibular division of trigeminal)"], "lingual": ["br", "Branch of CN V3 (mandibular division of trigeminal); carries chorda tympani fibers from CN VII"], "buccal_v3": ["br", "Branch of CN V3 (mandibular division of trigeminal)"], "auriculotemp": ["br", "Branch of CN V3 (mandibular division of trigeminal); carries otic ganglion fibers from CN IX"], "v3": ["br", "Division of CN V (trigeminal nerve)"], "cn5": ["cn", "Cranial nerve V (trigeminal nerve)"], "cn2": ["cn", "Cranial nerve II (optic nerve)"], "ciliary_g": ["gg", "Parasympathetic ganglion of CN III; hangs from the nasociliary nerve (CN V1)"], "cn3": ["cn", "Cranial nerve III (oculomotor nerve)"], "cn4": ["cn", "Cranial nerve IV (trochlear nerve)"], "cn6": ["cn", "Cranial nerve VI (abducens nerve)"], "scg": ["no", "Not a cranial nerve — sympathetic chain (preganglionic fibers from T1)"], "cn1": ["cn", "Cranial nerve I (olfactory nerve)"], "cn8": ["cn", "Cranial nerve VIII (vestibulocochlear nerve)"], "cn9": ["cn", "Cranial nerve IX (glossopharyngeal nerve)"], "cn12": ["cn", "Cranial nerve XII (hypoglossal nerve)"], "ptg_g": ["gg", "Parasympathetic ganglion of CN VII (greater petrosal nerve); hangs from CN V2"], "subm_g": ["gg", "Parasympathetic ganglion of CN VII (chorda tympani); hangs from the lingual nerve (CN V3)"], "s_cribriform": ["site", "Skull-base opening — transmits CN I"], "s_optic": ["site", "Skull-base opening — transmits CN II"], "s_sof": ["site", "Skull-base opening — transmits CN III, IV, V1, VI"], "s_cav": ["site", "Dural venous sinus — contains CN III, IV, V1, V2, VI"], "s_rotundum": ["site", "Skull-base opening — transmits CN V2"], "s_ovale": ["site", "Skull-base opening — transmits CN V3"], "s_stylomastoid": ["site", "Skull-base opening — transmits CN VII"], "s_iam": ["site", "Skull-base opening — transmits CN VII and VIII"], "s_jugular": ["site", "Skull-base opening — transmits CN IX, X, XI"], "s_hypoglossal": ["site", "Skull-base opening — transmits CN XII"]};
 const LIN_LBL={"cn": "Cranial nerve", "br": "Cranial nerve branch", "gg": "CN ganglion", "no": "Not a cranial nerve", "site": "Site"};
 function opp(s){return s==="left"?"right":"left";}
 
@@ -984,11 +978,6 @@ const MUSC={
  stylohyoid:['Stylohyoid','Pulls the hyoid up and back during swallowing','hyoup'],
  trapezius:['Trapezius','Elevates the shoulder and rotates the scapula for overhead abduction','trap'],
  scm:['Sternocleidomastoid','Turns the face to the OPPOSITE side; both together flex the neck','scm'],
- deltoid:['Deltoid','Abducts the arm from 15° to 90°','abd'],
- supraspinatus:['Supraspinatus','Starts arm abduction (first 15°)','abd'],
- infraspinatus:['Infraspinatus','Externally rotates the arm','er'],
- biceps:['Biceps brachii','Flexes the elbow and supinates the forearm','biceps'],
- interossei:['Interossei (intrinsic hand muscles)','Spread apart and bring together the fingers','hand'],
  cricothyroid:['Cricothyroid','Tilts the thyroid cartilage forward, tensing the vocal folds (raises pitch)','ct'],
  pca:['Posterior cricoarytenoid','The ONLY abductor: opens the vocal folds and the airway','pca'],
  lca:['Lateral cricoarytenoid','Adducts the vocal folds (closes the glottis)','lca'],
@@ -1037,8 +1026,6 @@ const FACTS={
   n_thyrohyoid:{r:'C1',f:'M',m:['thyrohyoid']},
   xi_pt:{f:'M',m:['trapezius']},
   cn11:{x:'Jugular foramen',f:'M',m:['scm','trapezius']},
-  upper_trunk:{r:'C5–C6',x:'Between the anterior and middle scalenes',f:'MS',a:['Subclavian artery','The brachial plexus trunks and the subclavian artery pass together between the anterior and middle scalenes.'],m:['deltoid','supraspinatus','infraspinatus','biceps']},
-  lower_trunk:{r:'C8–T1',x:'Between the anterior and middle scalenes',f:'MS',a:['Subclavian artery','The brachial plexus trunks and the subclavian artery pass together between the anterior and middle scalenes.'],m:['interossei']},
   iln:{x:'Pierces the thyrohyoid membrane',f:'S',a:['Superior laryngeal artery','Both pierce the thyrohyoid membrane together.']},
   eln:{f:'M',a:['Superior thyroid artery','It descends with the superior thyroid artery; ligate the artery close to the gland to protect the nerve.'],m:['cricothyroid']},
   sln:{f:'MS',m:['cricothyroid']},
@@ -1363,7 +1350,7 @@ const MUSCLES=[
 {id:'asc',name:'Anterior scalene',p:['neck'],cls:['Scalene muscle'],n:'rA',ag:'rib',arch:0,
  act:'Elevates the first rib (accessory inspiration); flexes and bends the neck laterally',par:'Weak accessory inspiration and neck side-bending',
  att:'Anterior tubercles of C3–C6 → scalene tubercle of the first rib',
- pearl:'THE landmark of the root of the neck: the phrenic nerve and subclavian VEIN lie in front; the subclavian ARTERY and brachial plexus pass behind.'},
+ pearl:'THE landmark of the root of the neck: the phrenic nerve and subclavian VEIN lie in front; the subclavian ARTERY passes behind it.'},
 {id:'msc',name:'Middle scalene',p:['neck'],cls:['Scalene muscle'],n:'rM',ag:'rib',arch:0,
  act:'Elevates the first rib; bends the neck laterally',par:'Weak accessory inspiration and neck side-bending',
  att:'Posterior tubercles of C2–C7 → upper surface of the first rib, behind the subclavian groove',
@@ -1459,7 +1446,7 @@ function mkLR(D,key,cfg,FX){
       return mk({type:'mfunc',sig:'mf:'+k,node:T.id,opts,ans:opts.indexOf(MUSC[k][1]),stem:`The <strong>${esc(T.name)}</strong> supplies <strong>${esc(MUSC[k][0])}</strong>. What does that muscle do?`,
         explain:`<p class="ans"><b>${esc(MUSC[k][0])}</b>: ${esc(MUSC[k][1])}.</p>`});},
     roots(T){const F=FX&&FX[T.id];if(!F||!F.r)return null;
-      const pool=['C1','C2','C2–C3','C3–C4','C3–C5','C1–C3','C5–C6','C8–T1','C5–T1','C4–C5','T1–T2'].filter(x=>x!==F.r);
+      const pool=['C1','C2','C2–C3','C3–C4','C3–C5','C1–C3','C4–C5','C2–C4','C1–C2'].filter(x=>x!==F.r);
       const opts=shuffle([F.r,...pickK(pool,3)]);
       return mk({type:'roots',sig:'rt',node:T.id,opts,ans:opts.indexOf(F.r),stem:`Which spinal cord levels give rise to the <strong>${esc(T.name)}</strong>?`,
         explain:`<p class="ans">The ${esc(T.name)} comes from <b>${esc(F.r)}</b>.</p>${lin(T)}`});},
@@ -1476,6 +1463,10 @@ function mkLR(D,key,cfg,FX){
       return mk({type:'whonerve',sig:'w:'+k,node:T.id,opts,ans:opts.indexOf(T.name),stem:`Which nerve supplies <strong>${esc(MUSC[k][0])}</strong>?`,
         explain:`<p class="ans"><b>${esc(MUSC[k][0])}</b> (${esc(MUSC[k][1].charAt(0).toLowerCase()+MUSC[k][1].slice(1))}) is supplied by the <b>${esc(T.name)}</b>.</p>`});}
   };
+  const SF=(SIDE_FOR[key]||{});
+  function under(id,target,seen=new Set()){if(id===target)return true;if(seen.has(id))return false;seen.add(id);const n=BY[id];return !!(n&&(n.inc||[]).some(c=>under(c,target,seen)));}
+  const EXACT=new Set(['sd_aorta','sd2_hoarse','sd2_baro']); // stems that name a specific cause
+  function sideFits(tid,T){const tg=SF[tid]||[];return EXACT.has(tid)?tg.includes(T.id):tg.some(target=>under(T.id,target));}
   function owner(sig){const n=D.NODES.find(n=>(n.own||[]).includes(sig));return n?n.name:null;}
   const phrase=T=>T.kind==='site'?`A lesion at the <strong>${esc(T.name)}</strong>`:`A lesion of the <strong>${esc(T.name)}</strong>`;
   const mk=(o)=>Object.assign({bank:key,miss:`${key}:n:${o.node}`},o);
@@ -1515,7 +1506,8 @@ function mkLR(D,key,cfg,FX){
         explain:`<p class="ans">${esc(D.SIG[x][2])}</p>`});
     },
     side(grp,T,avoid){
-      let pool=D.SIDE.filter(t=>D.SIDE_GRP[t.id]===grp&&!(avoid&&avoid.has('d:'+t.id)));if(!pool.length)return null;
+      // only ask a "Which side?" pattern that this lesion actually produces
+      let pool=D.SIDE.filter(t=>sideFits(t.id,T)&&!(avoid&&avoid.has('d:'+t.id)));if(!pool.length)return null;
       const t=pick(pool);const s=t.fixed||(Math.random()<.5?'left':'right');const [ni,side]=t.ans(s);
       const cap=x=>x[0].toUpperCase()+x.slice(1);
       const opts=[];t.nerve.forEach(n=>['left','right'].forEach(sd=>opts.push(`${cap(sd)} ${n.charAt(0).toLowerCase()+n.slice(1)}`)));
@@ -1524,6 +1516,11 @@ function mkLR(D,key,cfg,FX){
     sideById(id){const t=D.SIDE.find(x=>x.id===id);return t;}
   };
 }
+/* "Which side?" patterns → the lesion(s) that cause them (a site or whole nerve that contains one also counts) */
+const SIDE_FOR={
+ lr1:{sd_tongue:['cn12'],sd_uvula:['cn10'],sd_jaw:['v3'],sd_scm:['cn11'],sd_v1:['v1'],sd_vii:['vii_sm'],sd_gag:['cn9'],sd_iv:['cn4'],sd_vi:['cn6'],sd_iii:['cn3'],sd_horner:['scg'],sd_ii:['cn2'],sd_phrenic:['phrenic'],sd_bell:['vii_sm'],sd_aorta:['rln']},
+ lr2:{sd2_jaw:['n_lat_pt'],sd2_uvula:['x_pharyngeal'],sd2_gag:['ix_pharyngeal'],sd2_taste_ant:['chorda2'],sd2_taste_post:['ix_lingual'],sd2_tongue:['xii_submand'],sd2_abduct:['vi_dorello_n'],sd2_iii_sup:['iii_sup'],sd2_iii_inf:['iii_inf'],sd2_tear:['gr_petrosal','vidian'],sd2_hyperacusis:['s_facial_canal','geniculate'],sd2_hoarse:['rln_aortic'],sd2_masseter:['masseteric'],sd2_baro:['hering']}
+};
 const LR_CFG1={name:'Lesion Rounds I',types:{neck:'CERV',larynx:'VAGAL',face:'FACIAL',trig:'TRIGEM',orbit:'OCULAR',other:'SPECIAL',site:'FORAMEN'}};
 const LR_CFG2={name:'Lesion Rounds II',types:{v12:'TRIGEM',v3:'TRIGEM',vii:'FACIAL',ixx:'VAGAL',eye:'OCULAR',oth:'SPECIAL',site:'FORAMEN'}};
 const BANK={lr1:mkLR(LR1,'lr1',LR_CFG1,FACTS.lr1),lr2:mkLR(LR2,'lr2',LR_CFG2,FACTS.lr2)};
@@ -1690,7 +1687,7 @@ const GYMS={
 const KEY='hoyadocs-neuromon-hnss-v1';
 let G=null;
 function fresh(){return{name:'',party:[],items:{potion:3,lens:2,orb:5},badges:{},dex:{},missed:{},stats:{right:0,wrong:0,traps:0,caught:0,battles:0},loc:'center',uid:1};}
-function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);if(d&&d.party&&d.party.length)return Object.assign(fresh(),d);}}catch(e){}return null;}
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);if(d&&d.party&&d.party.length){d.party=d.party.filter(m=>SP[m.sp]);Object.keys(d.dex||{}).forEach(k=>{if(!SP[k])delete d.dex[k];});Object.keys(d.missed||{}).forEach(k=>{if(/_trunk$/.test(k))delete d.missed[k];});if(d.party.length)return Object.assign(fresh(),d);}}}catch(e){}return null;}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(G));}catch(e){}}
 const maxHP=l=>30+5*l, xpNeed=l=>25+l*5;
 function newMon(key,lvl){const m={uid:G.uid++,sp:key,lvl,xp:0,max:maxHP(lvl)};m.hp=m.max;return m;}
@@ -1702,13 +1699,13 @@ function toast(t){const d=document.createElement('div');d.className='toast';d.te
 function renderHud(){
   if(!G||!G.party.length){hud.hidden=true;return;}
   hud.hidden=false;
-  hud.innerHTML=`<button class="hbtn" data-go="map">Map</button><button class="hbtn" data-go="party">Party <b>${G.party.length}</b></button><button class="hbtn" data-go="dex">Nervedex <b>${Object.keys(G.dex).filter(k=>!k.startsWith('st:')).length}</b></button><button class="hbtn" data-go="review">Review <b>${Object.keys(G.missed).length}</b></button>`;
+  hud.innerHTML=`<button class="hbtn" data-go="map">Map</button><button class="hbtn" data-go="party">Party <b>${G.party.length}</b></button><button class="hbtn" data-go="dex">Nervedex <b>${Object.keys(G.dex).filter(k=>!k.startsWith('st:')).length}</b></button><button class="hbtn" data-go="study">Review <b>${Object.keys(G.dex).filter(k=>G.dex[k]==='caught'&&!k.startsWith('st:')).length}</b></button><button class="hbtn" data-go="weak">Weak spots <b>${Object.keys(G.missed).length}</b></button>`;
   hud.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(inBattle){toast('Finish the battle first!');return;}go(b.dataset.go);});
 }
 let inBattle=false, keyHandler=null;
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(keyHandler)keyHandler(e);});
 function go(where,arg){keyHandler=null;window.scrollTo({top:0,behavior:'smooth'});renderHud();
-  ({title:renderTitle,map:renderMap,route:renderRoute,party:renderParty,dex:renderDex,review:renderReview})[where](arg);}
+  ({title:renderTitle,map:renderMap,route:renderRoute,party:renderParty,dex:renderDex,weak:renderReview,review:renderReview,study:renderStudy})[where](arg);}
 
 /* ================= title / starter ================= */
 function renderTitle(){
@@ -1810,7 +1807,18 @@ function startWild(id,patch){
   if(id==='mus'){const ms=MUSCLES.filter(m=>m.p.includes(patch));const w=ms.flatMap(m=>G.dex[`mus:${m.id}`]==='caught'?[m]:G.dex[`mus:${m.id}`]?[m,m]:[m,m,m,m]);e=lrEnemy('mus',pick(w));}
   else if(id==='trap')e=trapEnemy(patch);
   else{const nodes=BANK[id].D.NODES.filter(n=>n.grp===patch);const w=nodes.flatMap(n=>G.dex[`${id}:${n.id}`]==='caught'?[n]:G.dex[`${id}:${n.id}`]?[n,n]:[n,n,n,n]);e=lrEnemy(id,pick(w));}
-  battle({kind:'wild',enemies:[e],scene:id==='trap'?'cave':'',back:id});
+  battle({kind:'wild',enemies:[e],scene:id==='trap'?'cave':'',back:id,area:{route:id,patch}});
+}
+/* every Neuromon that lives in the current wild area (a grass patch; the whole cave for Trap Hunter) */
+function areaFoes(a){
+  if(a.route==='mus')return MUSCLES.filter(m=>m.p.includes(a.patch)).map(m=>`mus:${m.id}`);
+  if(a.route==='trap')return TRAP_TOPICS.map(t=>`trap:${TOPIC_MON[t].id}`);
+  return BANK[a.route].D.NODES.filter(n=>n.grp===a.patch).map(n=>`${a.route}:${n.id}`);
+}
+function foeFromKey(k){const s=SP[k];
+  if(s.bank==='trap')return trapEnemy(s.topic);
+  if(s.bank==='mus')return lrEnemy('mus',MUS.BY[s.node]);
+  return lrEnemy(s.bank,BANK[s.bank].BY[s.node]);
 }
 function startGym(id){
   const g=GYMS[id];let es=[];
@@ -1830,7 +1838,7 @@ function startReview(){
     if(b==='trap'){const e=TRAP_BY_ID[kind];if(!e)return;const topic=e.kind==='pair'?'Confusable pairs':e.it.topic;es.push(trapEnemy(topic,{forced:kind}));}
     else if(b==='mus'){if(MUS.BY[id])es.push(lrEnemy('mus',MUS.BY[id]));}
     else if(kind==='n'&&BANK[b].BY[id])es.push(lrEnemy(b,BANK[b].BY[id]));
-    else if(kind==='s'){const grp=BANK[b].D.SIDE_GRP[id];const cand=BANK[b].D.NODES.filter(n=>n.grp===grp);if(cand.length){const e=lrEnemy(b,pick(cand),{forced:id});es.push(e);}}});
+    else if(kind==='s'){const tg=(SIDE_FOR[b]||{})[id]||[];const grp=BANK[b].D.SIDE_GRP[id];let cand=BANK[b].D.NODES.filter(n=>tg.includes(n.id));if(!cand.length)cand=BANK[b].D.NODES.filter(n=>n.grp===grp);if(cand.length){const e=lrEnemy(b,pick(cand),{forced:id});es.push(e);}}});
   if(!es.length){toast('Nothing to review yet!');return;}
   battle({kind:'review',enemies:es,scene:'',back:'review'});
 }
@@ -1957,7 +1965,7 @@ async function battle(cfg){
   }
   persist();goBack();
 }
-function goBack(){go(B.back==='map'?'map':B.back==='review'?'review':'route',B.back);}
+function goBack(){go(B.back==='map'?'map':B.back==='review'?'weak':'route',B.back);}
 function drawVictory(g){const qp=document.getElementById('qp');if(qp)qp.innerHTML='';const em=document.getElementById('emon');if(em)em.innerHTML=`<div class="leader" style="right:4%;top:6%">${trainerSVG(g.coat,g.hair,'')}</div>`;}
 
 function dmgMult(e,q){
@@ -1985,6 +1993,14 @@ async function fight(){
     else{
       const r=await ask(q,e);
       if(r.act==='run'){await say('Got away safely!',700);return 'run';}
+      if(r.act==='swap'){
+        const old=B.enemies[B.ei];const n=foeFromKey(r.key);n.hidden=false;n.lvl=old.lvl;
+        await anim('#emon .mon','leave',520);
+        await say(`${eName(old)} slipped back into the grass…`,600);
+        B.enemies[B.ei]=n;seen(n.sp,'seen');
+        document.getElementById('emon').innerHTML=spriteSVG(n.sp,{cls:'mon e enter'});redrawEnemyBox();
+        await say(`A wild ${SP[n.sp].name} appeared!`,700);q=null;continue;
+      }
       if(r.act==='examine'){
         q.shown++;await say(`${SP[B.pm.sp].name} examined the patient… a new finding!`,600);
         await enemyAttack(.1,'Distract');if(B.pm.hp<=0){const s=await faintSwitch();if(s==='lose')return 'lose';}continue;
@@ -2069,7 +2085,7 @@ function ask(q,e){
         ${chart}<p class="stem">${q.stem}</p>
         <div class="moves">${q.opts.map((o,i)=>`<button class="move ${q.removed.includes(i)?'gone':''}" data-i="${i}"><span class="k">${LET[i]}</span><span>${q.type==='mcq'||q.type==='pair'?o:esc(o)}</span></button>`).join('')}</div>
         <div class="cmds">${q.type==='case'?`<button class="cmd examine" id="ex" ${q.shown>=q.rows.length?'disabled':''}>EXAMINE: next finding</button>`:''}
-          <button class="cmd" id="bag">BAG</button><button class="cmd" id="sw" ${G.party.filter(m=>m.hp>0&&m!==B.pm).length?'':'disabled'}>SWITCH</button>${canRun?'<button class="cmd" id="run">RUN</button>':''}</div>
+          <button class="cmd" id="bag">BAG</button><button class="cmd" id="sw" ${B.area?'':(G.party.filter(m=>m.hp>0&&m!==B.pm).length?'':'disabled')}>SWITCH</button>${canRun?'<button class="cmd" id="run">RUN</button>':''}</div>
         ${sub}`;
       qp.querySelectorAll('.move').forEach(b=>b.onclick=()=>done({act:'answer',i:+b.dataset.i}));
       const ex=document.getElementById('ex');if(ex)ex.onclick=()=>done({act:'examine'});
@@ -2082,13 +2098,14 @@ function ask(q,e){
           const wrong=shuffle(q.opts.map((_,i)=>i).filter(i=>i!==q.ans&&i!==q.trapIdx));q.removed=wrong.slice(0,2);sub='';render();
           say(q.trapIdx>=0?'The Clue Lens cleared two options… but the trap is still there!':'The Clue Lens cleared two wrong options!',700);};}
       const sp=document.getElementById('swp');
+      if(sp)sp.querySelectorAll('[data-foe]').forEach(b=>b.onclick=()=>done({act:'swap',key:b.dataset.foe}));
       if(sp)sp.querySelectorAll('[data-u]').forEach(b=>b.onclick=async()=>{const m=G.party.find(x=>x.uid===+b.dataset.u);B.pm=m;sub='';
         document.getElementById('pmon').innerHTML=spriteSVG(m.sp,{cls:'mon p enter',back:true});
         const tmp=document.createElement('div');tmp.innerHTML=sceneHTML();document.getElementById('pbox').replaceWith(tmp.querySelector('#pbox'));render();say(`Go, ${SP[m.sp].name}!`,500);});
     };
     const bagHTML=()=>`<div class="sub" id="bagp"><div class="opt"><span>Potion ×${G.items.potion} — heal half HP (free action)</span><button class="cmd" data-it="potion" ${G.items.potion&&B.pm.hp<B.pm.max?'':'disabled'}>Use</button></div>
       <div class="opt"><span>Clue Lens ×${G.items.lens} — remove two wrong options (the trap stays)</span><button class="cmd" data-it="lens" ${G.items.lens&&q.opts.length>2&&!(q.removed||[]).length?'':'disabled'}>Use</button></div></div>`;
-    const swHTML=()=>`<div class="sub" id="swp">${G.party.filter(m=>m.hp>0&&m!==B.pm).map(m=>`<div class="opt"><span>${esc(SP[m.sp].name)} · ${TYPES[SP[m.sp].t].n} · Lv${m.lvl} · HP ${m.hp}/${m.max}</span><button class="cmd" data-u="${m.uid}">Switch in</button></div>`).join('')}</div>`;
+    const swHTML=()=>B.area?`<div class="sub" id="swp"><div class="h2">Battle a different Neuromon from this area</div><div class="small">No turn lost. You'll face it by name, so there's no identify round.</div>${areaFoes(B.area).filter(k=>k!==e.sp).map(k=>{const st=G.dex[k];return `<div class="opt"><span class="row" style="gap:8px">${spriteSVG(k,{cls:'spr',sil:!st}).replace('class="spr"','class="spr" style="width:32px;height:36px"')}<span>${esc(SP[k].name)}${st==='caught'?' <span class="small">(caught)</span>':st?' <span class="small">(seen)</span>':' <span class="small">(new)</span>'}</span></span><button class="cmd" data-foe="${k}">Battle</button></div>`;}).join('')}</div>`:`<div class="sub" id="swp">${G.party.filter(m=>m.hp>0&&m!==B.pm).map(m=>`<div class="opt"><span>${esc(SP[m.sp].name)} · ${TYPES[SP[m.sp].t].n} · Lv${m.lvl} · HP ${m.hp}/${m.max}</span><button class="cmd" data-u="${m.uid}">Switch in</button></div>`).join('')}</div>`;
     const done=v=>{B.keys=null;keyHandler=null;qp.innerHTML='';res(v);};
     B.keys=ev=>{const n=parseInt(ev.key,10);if(n>=1&&n<=q.opts.length&&!(q.removed||[]).includes(n-1)){done({act:'answer',i:n-1});}else if((ev.key==='e'||ev.key==='E')&&q.type==='case'&&q.shown<q.rows.length)done({act:'examine'});};
     keyHandler=B.keys;
@@ -2212,9 +2229,42 @@ function missLabel(k){const [b,kind,id]=k.split(':');
   if(b==='mus')return `Muscle · ${MUS.BY[id]?MUS.BY[id].name:id}`;
   if(kind==='n')return `${b==='lr1'?'LR I':'LR II'} · ${BANK[b].BY[id]?BANK[b].BY[id].name:id}`;
   const t=BANK[b].sideById(id);return `${b==='lr1'?'LR I':'LR II'} · Which side? ${t?t.nerve[0]:id}`;}
+function factsBlock(bank,id){const F=(FACTS[bank]||{})[id];if(!F)return '';
+  const row=(k,v)=>`<li><span>${k}</span><span>${v}</span></li>`;let r='';
+  if(F.f)r+=row('Fibers',esc(FIB[F.f][0]));
+  if(F.r)r+=row('Spinal levels',esc(F.r));
+  if(F.x)r+=row('Exit / where',esc(F.x));
+  if(F.a)r+=row('Artery',`${esc(F.a[0])}<small>${esc(F.a[1])}</small>`);
+  if(F.m)r+=row('Supplies',F.m.map(k=>`<b>${esc(MUSC[k][0])}</b>: ${esc(MUSC[k][1])}`).join('<br>'));
+  return r?`<div class="card"><h3 style="font-size:15px">Nerve anatomy</h3><ul class="fx-list">${r}</ul></div>`:'';}
+function trapReview(topic){
+  const items=topic==='Confusable pairs'?TH.PAIRS.filter((p,i,arr)=>arr.findIndex(x=>x.a===p.a&&x.b===p.b)===i).map(p=>`<li><b>${esc(p.a)}</b> vs <b>${esc(p.b)}</b><small>${esc(p.w)}</small></li>`)
+    :TH.MCQ.filter(m=>m.topic===topic).map(m=>{const c=m.o.find(o=>o.c),t=m.o.find(o=>o.p);return `<li>${m.q}<br><b>Answer: ${c.t}</b>${t?` · <span style="color:var(--trap)">Trap: ${t.t}</span>`:''}<small>${m.w}</small></li>`;});
+  const rec=TH.RECALL.filter(r=>r.topic===topic).map(r=>`<li>${r.q}<small>${r.a}</small></li>`);
+  return `<div class="card"><h3 style="font-size:15px">${esc(topic)}: every question and its trap</h3><ol class="whys">${items.join('')}</ol>
+    ${rec.length?`<h3 style="font-size:15px">Recall cards</h3><ol class="whys">${rec.join('')}</ol>`:''}</div>`;}
+let studySel=null;
+function renderStudy(sel){
+  if(sel!==undefined)studySel=sel;
+  const caught=Object.keys(G.dex).filter(k=>G.dex[k]==='caught'&&SP[k]&&!k.startsWith('st:'));
+  const areas=[['lr1','Cervical Trail · Lesion Rounds I'],['lr2','Branchwood · Lesion Rounds II'],['trap','Trap Cave · Trap Hunter'],['mus','Myo Ridge · Muscles']];
+  let detail='';
+  if(studySel&&SP[studySel]&&caught.includes(studySel)){const s=SP[studySel];
+    const body=s.bank==='mus'?musCard(s.node,false):s.bank==='trap'?trapReview(s.topic):lrCard(s.bank,s.node,false)+factsBlock(s.bank,s.node);
+    detail=`<div class="row" style="justify-content:space-between"><div class="row" style="gap:10px">${spriteSVG(studySel,{cls:'spr'}).replace('class="spr"','class="spr" style="width:56px;height:63px"')}<div><div class="h2">${esc(s.name)}</div>${tchip(s.t)}</div></div><button class="btn ghost" id="closeS">Close</button></div>${body}`;}
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Review</div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <p class="lede">Every Neuromon you've caught, with its full lesion, anatomy or question review. Tap one to study it.</p>
+    <div id="sdetail" style="display:flex;flex-direction:column;gap:12px">${detail}</div>
+    ${caught.length?areas.map(([b,label])=>{const ks=caught.filter(k=>SP[k].bank===b);if(!ks.length)return '';
+      return `<div class="h2">${label} <span class="small">(${ks.length})</span></div><div class="dexgrid">${ks.map(k=>`<button class="dexe caught" data-k="${k}" ${k===studySel?'style="box-shadow:0 0 0 3px var(--gold)"':''}>${spriteSVG(k)}<span>${esc(SP[k].name)}</span></button>`).join('')}</div>`;}).join('')
+      :'<div class="box">Nothing caught yet. Win a wild battle, then throw a Neuro Orb to catch it.</div>'}</div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  const c=document.getElementById('closeS');if(c)c.onclick=()=>renderStudy(null);
+  app.querySelectorAll('.dexe[data-k]').forEach(b=>b.onclick=()=>{renderStudy(b.dataset.k);window.scrollTo({top:0,behavior:'smooth'});});
+}
 function renderReview(){
   const ks=Object.keys(G.missed).sort((a,b)=>G.missed[b]-G.missed[a]);
-  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Review Center</div><button class="btn ghost" id="back">&lt; Map</button></div>
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Weak Spots</div><button class="btn ghost" id="back">&lt; Map</button></div>
     <p class="lede">Every miss lands here. Rematch battles pull up to six of them; each correct answer knocks one off the list.</p>
     ${ks.length?`<div class="row"><button class="btn gold" id="rm">Rematch weak spots &gt;</button><span class="small">${ks.length} item${ks.length===1?'':'s'} queued</span></div>
     <div class="misslist">${ks.map(k=>`<div class="missi"><span>${esc(missLabel(k))}</span><b>×${G.missed[k]}</b></div>`).join('')}</div>`:'<div class="box">No misses queued. Go find some trouble in the tall grass!</div>'}</div>`;
