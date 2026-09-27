@@ -41,6 +41,11 @@ a{color:inherit}
 .deck:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.35)}
 .deck::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--tier)}
 .d1{--tier:#FF4F8B} .d2{--tier:#FF8A5B} .d3{--tier:#FFB341} .d4{--tier:#6BD88E} .d5{--tier:#3DD6C6}
+.dx{--tier:#B06CF0;grid-column:1/-1;background:linear-gradient(135deg,#2A2150 0%,#221D3F 60%);border-color:#4A3E7E}
+.dx::before{width:5px}
+.shead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:6px;margin-top:4px}
+.shead h2{font-family:var(--display);font-weight:700;font-size:21px;text-transform:uppercase;letter-spacing:.03em;margin:0}
+.shead span{font-family:var(--pix);font-size:10px;text-transform:uppercase;color:var(--muted)}
 .dtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .dtop h2{font-family:var(--display);font-weight:700;font-size:25px;text-transform:uppercase;line-height:1;margin:0}
 .qn{font-family:var(--pix);font-size:10.5px;color:var(--tier);border:1px solid var(--tier);border-radius:3px;padding:2px 7px;white-space:nowrap}
@@ -68,17 +73,19 @@ a{color:inherit}
 <div class="wrap">
   <header class="mast">
     <div class="brand">HoyaDocs <b>//</b> Boss Battles</div>
-    <div class="pix">Block 5 &middot; HNSS &middot; Rev 1 &middot; Updated Sep 23, 2026</div>
+    <div class="pix">Block 5 &middot; HNSS &middot; Rev 2 &middot; Updated Sep 27, 2026</div>
   </header>
 
   <section class="lede">
     <div class="pix">Head, Neck &amp; Special Senses &middot; two-player co-op &middot; pick a deck</div>
-    <h1>Five decks. <em>Seven bosses each.</em></h1>
-    <p>Team up against one boss per region, ending with the Cranial Nerve Hydra. Each deck is a full campaign on its own slice of the 320-question pool, sorted by yield: Deck&nbsp;1 is the material most likely to be tested, Deck&nbsp;5 the edge cases. Every question in a deck is asked once per campaign, so nothing is skipped.</p>
-    <div class="bosses">
-      <span>Carotid Warden &middot; neck</span><span>Parotid Gorgon &middot; face</span><span>Glottis Siren &middot; larynx</span><span>Sinus Leviathan &middot; nose &amp; mouth</span><span>Six-Muscle Cyclops &middot; orbit</span><span>Foramen Keeper &middot; skull</span><span class="final">Cranial Nerve Hydra &middot; final</span>
-    </div>
+    <h1>Six campaigns. <em>Seven bosses each.</em></h1>
+    <p>Every campaign works the same way: two players, one boss per region, and every question in the deck asked once before the run ends. Decks&nbsp;1&ndash;5 split the 320-question review pool by yield. The Practice&nbsp;Exam campaign is separate &mdash; it is built from the in-house practice questions, including the anatomy behind every option choice.</p>
   </section>
+
+  <div class="shead"><h2>Review-bank decks</h2><span>320 questions &middot; sorted by yield</span></div>
+  <div class="bosses">
+    <span>Carotid Warden &middot; neck</span><span>Parotid Gorgon &middot; face</span><span>Glottis Siren &middot; larynx</span><span>Sinus Leviathan &middot; nose &amp; mouth</span><span>Six-Muscle Cyclops &middot; orbit</span><span>Foramen Keeper &middot; skull</span><span class="final">Cranial Nerve Hydra &middot; final</span>
+  </div>
 
   <div class="decks">
 
@@ -124,6 +131,21 @@ a{color:inherit}
 
   </div>
 
+  <div class="shead"><h2>Practice-exam campaign</h2><span>122 questions &middot; in-house practice set</span></div>
+  <div class="bosses">
+    <span>Trident of V &middot; trigeminal</span><span>Parotid Wraith &middot; facial n.</span><span>COPS Quartet &middot; autonomics</span><span>H-Test Watcher &middot; orbit</span><span>Vagal Choir &middot; pharynx &amp; larynx</span><span>Subclavian Kraken &middot; neck</span><span class="final">Skull Base Titan &middot; final</span>
+  </div>
+
+  <div class="decks">
+    <a class="deck dx" href="Boss%20Battles%20Practice%20Exam.html">
+      <div class="dtop"><h2>Practice Exam</h2><span class="qn">122 Q</span></div>
+      <div class="kick">Built from the practice questions &middot; answers <em>and</em> distractors</div>
+      <div class="hpbar"><i style="width:100%"></i></div>
+      <p>Seven bosses, one per content area of the practice set: trigeminal and mastication, the facial nerve and parotid, the four ganglia, the orbit, pharynx and larynx, neck vessels and the tongue, and the skull base last. Questions cover the keyed answers <em>and</em> the anatomy behind every option you were offered, so the distractors get learned too.</p>
+      <div class="launch">Fight the Practice Exam <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+    </a>
+  </div>
+
   <section class="rules">
     <div><h3>Strike</h3><p>Correct = 20 damage, +10 answered fast, +5 on a team streak of three.</p></div>
     <div><h3>Take hits</h3><p>A miss lets the boss hit you. Below half health it enrages: harder hits, shorter timer.</p></div>
@@ -134,12 +156,12 @@ a{color:inherit}
   <div class="hy"><b>How a deck plays</b>Seven fights, roughly 6&ndash;12 questions each. Boss health scales to the number of questions it holds, so you can miss several and still win. Lose a fight and you can retry that boss with the same questions reshuffled &mdash; a loss never costs you the questions.</div>
 
   <div class="extras">
-    <a class="extra" href="Bell%20Ringer%20Hub.html">Bell Ringer hub <span>Rounds I&ndash;V</span></a>
+    <a class="extra" href="Bell%20Ringer%20Hub.html">Bell Ringer hub <span>Bell Ringer rounds</span></a>
     <a class="extra" href="Lesion%20Rounds%20Hub.html">Lesion Rounds hub <span>Rounds I &amp; II</span></a>
     <a class="extra" href="index.html">All HNSS games <span>Game hub</span></a>
   </div>
 
-  <footer class="foot"><span>HoyaDocs &middot; Boss Battles hub</span><span>Rev 1 &middot; Updated Sep 23, 2026</span></footer>
+  <footer class="foot"><span>HoyaDocs &middot; Boss Battles hub</span><span>Rev 2 &middot; Updated Sep 27, 2026</span></footer>
 </div>
 </body>
 </html>
