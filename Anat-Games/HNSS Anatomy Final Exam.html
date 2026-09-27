@@ -1,0 +1,991 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HNSS Anatomy Final Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ground:#EEF3F0; --panel:#FFFFFF; --sunk:#E2EAE6; --line:#C9D6D0;
+  --ink:#13201D; --muted:#566963;
+  --accent:#1F5C4A; --accent-soft:#DDEFE7; --accent-ink:#14463789;
+  --gold:#E3AE12; --gold-ink:#7A5B00; --gold-soft:#FBF1CF;
+  --ok:#1F7A52; --ok-soft:#DDF0E5; --ok-line:#4FA37C;
+  --bad:#A8333C; --bad-soft:#F8E8E9; --bad-line:#CF5A63;
+  --flag:#8C5A00; --flag-soft:#FBEFD6;
+  --shadow:0 1px 2px rgba(19,32,29,.05),0 8px 24px -16px rgba(19,32,29,.35);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#111715; --panel:#19211E; --sunk:#222C28; --line:#2E3B36;
+  --ink:#E6EDE9; --muted:#8FA099;
+  --accent:#5FBF9B; --accent-soft:#162B24; --accent-ink:#7FD3B4;
+  --gold:#F2C230; --gold-ink:#F5CD4E; --gold-soft:#2E2A14;
+  --ok:#5CC394; --ok-soft:#162B23; --ok-line:#3D8A68;
+  --bad:#E2727A; --bad-soft:#2E1A1D; --bad-line:#A04A52;
+  --flag:#E0B255; --flag-soft:#2D2413;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px -16px rgba(0,0,0,.9);
+}}
+:root[data-theme="dark"]{
+  --ground:#111715; --panel:#19211E; --sunk:#222C28; --line:#2E3B36;
+  --ink:#E6EDE9; --muted:#8FA099;
+  --accent:#5FBF9B; --accent-soft:#162B24; --accent-ink:#7FD3B4;
+  --gold:#F2C230; --gold-ink:#F5CD4E; --gold-soft:#2E2A14;
+  --ok:#5CC394; --ok-soft:#162B23; --ok-line:#3D8A68;
+  --bad:#E2727A; --bad-soft:#2E1A1D; --bad-line:#A04A52;
+  --flag:#E0B255; --flag-soft:#2D2413;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 28px -16px rgba(0,0,0,.9);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:0 60px}
+.mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+a{color:var(--accent)}
+
+.mast{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;justify-content:space-between;padding-block:20px 12px;border-bottom:2px solid var(--ink);margin-bottom:22px}
+.brand{font-family:"Saira Extra Condensed",sans-serif;font-size:27px;font-weight:800;letter-spacing:.01em;text-transform:uppercase}
+.brand b{color:var(--gold-ink)}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+h1{font-family:"Saira Extra Condensed",sans-serif;font-size:clamp(40px,9vw,66px);line-height:.94;font-weight:800;text-transform:uppercase;margin:0 0 4px}
+h1 span{display:block;color:var(--accent)}
+.lede{font-size:1.02rem;color:var(--muted);max-width:60ch;margin:10px 0 0}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:24px 0}
+.facts div{background:var(--panel);padding:13px 14px}
+.facts .n{font-family:"IBM Plex Mono",monospace;font-size:1.45rem;font-weight:600;color:var(--accent);display:block;line-height:1.1}
+.facts .l{font-size:11.5px;color:var(--muted);display:block;margin-top:4px;line-height:1.35}
+
+.fl{margin:20px 0}
+.lab{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;flex-wrap:wrap}
+.seg button{font:inherit;font-size:13.5px;background:var(--panel);color:var(--ink);border:0;border-right:1px solid var(--line);padding:9px 16px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+:root[data-theme="dark"] .seg button[aria-pressed="true"],
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#0C1512}}
+.hint{font-size:12.8px;color:var(--muted);margin:8px 0 0}
+
+.go{font:inherit;font-size:15px;font-weight:600;background:var(--accent);color:#fff;border:0;padding:13px 28px;border-radius:3px;cursor:pointer;margin-top:8px}
+.go:hover{filter:brightness(1.08)}
+.btn{font:inherit;font-size:13.8px;background:var(--panel);color:var(--ink);border:1px solid var(--line);padding:9px 16px;border-radius:3px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.warn{border-color:var(--bad-line);color:var(--bad)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* exam bar */
+#bar{position:sticky;top:0;z-index:20;background:var(--ground);border-bottom:1px solid var(--line);padding-block:10px 0;margin-bottom:18px}
+.barrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.barrow .spacer{flex:1}
+.stat{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
+.stat b{color:var(--ink);font-size:15px;font-weight:600}
+#clock{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;letter-spacing:.02em}
+#clock.low{color:var(--bad)}
+.prog{height:3px;background:var(--sunk);margin-top:9px}
+.prog i{display:block;height:100%;background:var(--accent);width:0}
+
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px 22px 18px;box-shadow:var(--shadow)}
+.qmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:13px}
+.chip{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.11em;text-transform:uppercase;border:1px solid var(--line);color:var(--muted);padding:3px 8px;border-radius:2px}
+.chip.ord{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.stem{font-size:1.06rem;line-height:1.55;margin:0 0 17px}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:start;background:var(--ground);border:1px solid var(--line);border-radius:3px;padding:11px 13px;cursor:pointer;text-align:left;width:100%;font:inherit;font-size:14.7px;line-height:1.45;color:inherit}
+.opt:hover{border-color:var(--accent)}
+.opt .k{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:2px;width:22px;height:22px;display:grid;place-items:center;margin-top:1px}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-pressed="true"] .k{border-color:var(--accent);color:var(--accent);font-weight:700}
+.nav{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap;align-items:center}
+.nav .spacer{flex:1}
+.flagbtn[aria-pressed="true"]{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
+
+/* navigator */
+.navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px;margin-top:14px}
+.cell{font-family:"IBM Plex Mono",monospace;font-size:12px;padding:7px 0;border:1px solid var(--line);background:var(--panel);border-radius:2px;cursor:pointer;color:var(--muted)}
+.cell.done{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.cell.flag{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
+.cell.cur{outline:2px solid var(--ink);outline-offset:1px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:5px}
+.sw{width:11px;height:11px;border:1px solid var(--line);border-radius:2px;display:inline-block}
+.sw.d{background:var(--accent-soft);border-color:var(--accent)}
+.sw.f{background:var(--flag-soft);border-color:var(--flag)}
+
+details.navwrap{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:13px 16px;margin-top:16px}
+details.navwrap summary{cursor:pointer;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* results */
+.hero{text-align:center;padding:30px 16px 24px;border-bottom:1px solid var(--line)}
+.hero .pct{font-family:"IBM Plex Mono",monospace;font-size:clamp(3.4rem,17vw,5.4rem);font-weight:600;line-height:1;color:var(--accent)}
+.hero .sub{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.hero .verdict{font-family:"Saira Extra Condensed",sans-serif;font-size:1.7rem;text-transform:uppercase;margin-top:14px;line-height:1.1}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:18px 0}
+.rgrid div{background:var(--panel);padding:12px 10px;text-align:center}
+.rgrid .v{font-family:"IBM Plex Mono",monospace;font-size:1.4rem;font-weight:600}
+.rgrid .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+h2.sec{font-family:"Saira Extra Condensed",sans-serif;font-size:1.9rem;text-transform:uppercase;margin:30px 0 10px;border-top:2px solid var(--ink);padding-top:10px}
+.tbar{display:grid;grid-template-columns:1fr 130px 54px;gap:11px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.tbar .track{height:8px;background:var(--sunk);border-radius:1px;overflow:hidden}
+.tbar .track i{display:block;height:100%;background:var(--ok)}
+.tbar .track i.mid{background:var(--gold)} .tbar .track i.low{background:var(--bad)}
+.tbar .pc{font-family:"IBM Plex Mono",monospace;font-size:12.5px;text-align:right;color:var(--muted)}
+@media(max-width:520px){.tbar{grid-template-columns:1fr 70px 46px;gap:8px;font-size:13.2px}}
+
+.rev{border:1px solid var(--line);background:var(--panel);border-radius:4px;margin-bottom:10px;overflow:hidden}
+.rev summary{cursor:pointer;padding:12px 15px;display:grid;grid-template-columns:30px 1fr auto;gap:11px;align-items:start;font-size:14.4px;line-height:1.45}
+.rev summary::-webkit-details-marker{display:none}
+.rev .num{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted)}
+.rev .mark{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:nowrap}
+.rev.right .mark{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok-line)}
+.rev.wrong .mark{background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad-line)}
+.rev.skip .mark{background:var(--sunk);color:var(--muted);border:1px solid var(--line)}
+.revbody{padding:0 15px 15px;border-top:1px solid var(--line);margin-top:2px}
+.revbody ol{list-style:none;padding:0;margin:13px 0 0;counter-reset:o}
+.revbody li{counter-increment:o;position:relative;padding:8px 10px 8px 34px;border:1px solid var(--line);border-radius:3px;margin-bottom:6px;font-size:14px;line-height:1.45;background:var(--ground)}
+.revbody li::before{content:counter(o,upper-alpha);position:absolute;left:11px;top:8px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted)}
+.revbody li.c{border-color:var(--ok-line);background:var(--ok-soft)}
+.revbody li.y{border-color:var(--bad-line);background:var(--bad-soft)}
+.revbody li em{display:block;font-style:normal;color:var(--muted);font-size:13px;margin-top:4px}
+.revbody li.c em{color:var(--ok)}
+.why{margin-top:13px;padding:12px 14px;background:var(--ground);border-left:3px solid var(--accent);border-radius:2px;font-size:14.2px;line-height:1.5}
+.pearl{margin-top:9px;padding:11px 14px;background:var(--gold-soft);border:1px solid var(--gold);border-left-width:3px;border-radius:2px;font-size:13.8px;color:var(--gold-ink);line-height:1.5}
+.pearl b{font-weight:600}
+
+.foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.hide{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style></head><body>
+<div class="wrap">
+  <div id="bar" class="hide">
+    <div class="barrow">
+      <span class="stat">Q <b id="qn">1</b> / <span id="qt">100</span></span>
+      <span class="stat">Answered <b id="an">0</b></span>
+      <span class="spacer"></span>
+      <span id="clock" class="hide">100:00</span>
+      <button class="btn warn" id="btnEnd">Submit</button>
+    </div>
+    <div class="prog"><i id="pbar"></i></div>
+  </div>
+  <main id="app"></main>
+  <footer class="foot">
+    <span>HoyaDocs &middot; HNSS Block 5</span>
+    <span>Anatomy Final &middot; 100 Q &middot; 2nd &amp; 3rd order</span>
+    <span>Rev 1 &middot; Updated Sep 27, 2026</span>
+  </footer>
+</div>
+<script>
+const SETS = {
+  LOC: "Localize, then Predict",
+  SRG: "Surgical & Procedural Consequences",
+  AUT: "Autonomic Pathways in Depth",
+  DSC: "Discriminate the Lesion",
+  INT: "Integrated Vignettes",
+  REL: "Structure & Relationship Reasoning"
+};
+const Q = [
+/* ============ LOCALIZE, THEN PREDICT ============ */
+{id:"E1",set:"LOC",ord:3,
+ stem:"A patient has paralysis of styloglossus. Applying the same logic used to localize that deficit, which ADDITIONAL finding would you expect if the causative lesion sat at the opening through which that nerve leaves the skull?",
+ opts:["Loss of taste from the posterior third of the tongue","Weakness of the trapezius","Atrophy and fasciculation of the ipsilateral tongue with the tip pointing to that side","Loss of the gag reflex","Anaesthesia of the chin"],ans:2,
+ why:"Styloglossus is CN XII, which leaves through the hypoglossal canal. That canal transmits CN XII alone, so a lesion there produces only hypoglossal findings: ipsilateral wasting, fasciculation and deviation of the protruded tongue toward the lesion.",
+ wrong:["Posterior taste is CN IX at the jugular foramen.","Trapezius is CN XI at the jugular foramen.","","The gag reflex needs CN IX and X, both at the jugular foramen.","The chin is V3 at the foramen ovale."],
+ pearl:"The hypoglossal canal is a solo act. If other lower cranial nerves are involved, the lesion has moved to the jugular foramen or beyond."},
+{id:"E2",set:"LOC",ord:3,
+ stem:"A man cannot shrug one shoulder and cannot turn his head to the opposite side. He also has dysphagia and an absent gag. Which single additional finding would move your localization OUT of the jugular foramen?",
+ opts:["Hoarseness on laryngoscopy","Deviation of the protruded tongue","Loss of taste from the posterior third of the tongue","Palatal droop with uvular deviation","Reduced sensation over the posterior pharyngeal wall"],ans:1,
+ why:"CN IX, X and XI all leave through the jugular foramen and explain every finding listed except tongue deviation. CN XII uses the hypoglossal canal, so adding it means the lesion is larger than the foramen — the Villaret pattern.",
+ wrong:["Hoarseness is CN X, still within the jugular foramen.","","Posterior taste is CN IX.","The palate is CN X.","Pharyngeal sensation is CN IX."],
+ pearl:"Adding the tongue, or adding Horner syndrome, converts a jugular foramen lesion into Villaret syndrome."},
+{id:"E3",set:"LOC",ord:3,
+ stem:"A patient has a complete ophthalmoplegia with a fixed dilated pupil, partial ptosis and loss of corneal sensation, but normal sensation over the chin and normal jaw strength. Where is the lesion, and which finding tells you it is NOT at the superior orbital fissure?",
+ opts:["Orbital apex; the preserved chin sensation","Cavernous sinus; the loss of sensation over the cheek indicating V2 involvement","Superior orbital fissure; the fixed pupil","Foramen ovale; the ophthalmoplegia","Optic canal; the ptosis"],ans:1,
+ why:"III, IV, V1 and VI all pass the superior orbital fissure, so that site explains the eye findings and corneal loss. Only V2 separates the two sites: it runs in the cavernous sinus wall but leaves through the foramen rotundum, never entering the fissure.",
+ wrong:["An orbital apex lesion would add optic nerve involvement and still spare V2.","","The fissure carries no V2, so mid-face sensory loss cannot be explained there.","Foramen ovale is V3, which is spared here.","The optic canal carries CN II only."],
+ pearl:"V2 is the discriminator between cavernous sinus and superior orbital fissure. V3 sparing tells you it is not the trigeminal ganglion."},
+{id:"E4",set:"LOC",ord:3,
+ stem:"A patient has facial weakness including the forehead, hyperacusis and loss of taste on the anterior tongue, but tearing is normal. If a second lesion were placed just proximal to the first, which finding would be ADDED?",
+ opts:["Loss of lacrimation on that side","Loss of sensation over the cheek","Deafness on that side","Loss of the corneal reflex afferent limb","Weakness of the masseter"],ans:0,
+ why:"Branch order along CN VII is greater petrosal, then nerve to stapedius, then chorda tympani, then the motor branches. Intact tearing places the lesion below the greater petrosal; moving proximal to it adds loss of lacrimation.",
+ wrong:["","Cheek sensation is V2 and is never CN VII.","Deafness would require CN VIII, which is a different nerve sharing the meatus.","The corneal afferent is V1.","Masseter is V3."],
+ pearl:"Read a facial palsy by what is SPARED. Tears, then hearing comfort, then taste, then the face — in that order from proximal to distal."},
+{id:"E5",set:"LOC",ord:2,
+ stem:"Paralysis of the muscle that retracts the tongue would localize to which opening?",
+ opts:["Foramen ovale","Jugular foramen","Hypoglossal canal","Stylomastoid foramen","Internal acoustic meatus"],ans:2,
+ why:"Styloglossus retracts the tongue and is supplied by CN XII, which exits through the hypoglossal canal.",
+ wrong:["Foramen ovale is V3 and the muscles of mastication.","The jugular foramen is CN IX, X and XI.","","The stylomastoid foramen is CN VII to the face.","The internal acoustic meatus is CN VII and VIII."],
+ pearl:"Protrusion is genioglossus, depression is hyoglossus, retraction is styloglossus, elevation is palatoglossus — and only the last is CN X."},
+{id:"E6",set:"LOC",ord:3,
+ stem:"A patient cannot abduct one eye. Over the next weeks she develops facial weakness on the same side and reduced hearing. Which single site accounts for all three?",
+ opts:["Cavernous sinus","Superior orbital fissure","Internal acoustic meatus","Cerebellopontine angle at the pons","Jugular foramen"],ans:3,
+ why:"CN VI arises at the pons and CN VII and VIII enter the internal acoustic meatus nearby. A lesion at the cerebellopontine angle can catch all three; no bony foramen transmits VI together with VII and VIII.",
+ wrong:["The cavernous sinus carries VI but neither VII nor VIII.","The fissure carries VI but neither VII nor VIII.","That transmits VII and VIII but not VI.","","That transmits IX, X and XI."],
+ pearl:"When the deficits cross foramina, think of the brainstem or the cistern rather than a bony opening."},
+{id:"E7",set:"LOC",ord:3,
+ stem:"A patient's uvula deviates to the left and the gag reflex is absent when either side of the pharynx is touched, but pharyngeal sensation is normal bilaterally. Where is the lesion?",
+ opts:["Left glossopharyngeal nerve","Right glossopharyngeal nerve","Left pharyngeal branch of CN X","Right pharyngeal branch of CN X","Bilateral glossopharyngeal nerves"],ans:3,
+ why:"Normal sensation means the afferent limb (CN IX) is intact bilaterally, so the failure is efferent. The uvula deviates away from the lesion, so pointing left means the right vagus is down.",
+ wrong:["That would abolish sensation on the left.","That would abolish sensation on the right.","A left lesion would deviate the uvula to the right.","","Sensation is normal, so CN IX is intact."],
+ pearl:"Test both limbs separately. Intact sensation with an absent gag isolates the efferent CN X, and the uvula then gives you the side."},
+{id:"E8",set:"LOC",ord:3,
+ stem:"A patient has anaesthesia of the skin over the tip of the nose. Which OTHER territory supplied by the same parent nerve should you test to confirm the level of the lesion?",
+ opts:["The upper lip","The cornea","The angle of the mandible","The lower lip","The anterior two-thirds of the tongue"],ans:1,
+ why:"The nasal tip is supplied by the external nasal branch of the anterior ethmoidal nerve, from nasociliary. Nasociliary also gives the long ciliary nerves to the cornea, so corneal sensation tests the same parent nerve.",
+ wrong:["The upper lip is V2 (infraorbital).","","The angle of the mandible is the great auricular nerve.","The lower lip is V3 (mental).","The anterior tongue is V3 (lingual)."],
+ pearl:"Nasociliary reaches both nose tip and cornea — the anatomical basis of Hutchinson sign in ophthalmic zoster."},
+{id:"E9",set:"LOC",ord:3,
+ stem:"A lesion abolishes the afferent limb of the corneal reflex on the right. Which pattern of blinking would you observe?",
+ opts:["Touch the right cornea, neither eye blinks; touch the left, both blink","Touch the right cornea, only the left blinks; touch the left, only the left blinks","Touch either cornea, neither eye blinks","Touch the right cornea, only the right blinks","Touch either cornea, only the right blinks"],ans:0,
+ why:"The afferent limb is V1. With it gone on the right, stimulating that cornea generates no signal, so neither eye blinks. Stimulating the intact left cornea still drives bilateral CN VII, so both blink.",
+ wrong:["","That pattern indicates a right CN VII (efferent) lesion.","That requires bilateral loss.","Impossible with the afferent gone.","That indicates a left CN VII lesion."],
+ pearl:"Same logic as the pupillary reflex: afferent loss means one eye cannot TRIGGER, efferent loss means one eye cannot RESPOND."},
+{id:"E10",set:"LOC",ord:3,
+ stem:"A patient has decreased vocal range but a clear voice, normal fold mobility and preserved laryngeal sensation. Which vagal branch is injured, and which artery is its surgical companion?",
+ opts:["Recurrent laryngeal nerve; inferior thyroid artery","Internal laryngeal nerve; superior laryngeal artery","External laryngeal nerve; superior thyroid artery","Pharyngeal branch; ascending pharyngeal artery","Auricular branch; posterior auricular artery"],ans:2,
+ why:"Normal mobility excludes the recurrent laryngeal nerve, and preserved sensation excludes the internal laryngeal nerve. Loss of cricothyroid narrows pitch range, and its nerve runs with the superior thyroid artery at the superior pole.",
+ wrong:["That would give hoarseness with an immobile fold.","That would abolish sensation above the folds.","","That would give dysphagia and uvular deviation.","That supplies the external ear."],
+ pearl:"Three nerves pair with three arteries: internal laryngeal with superior laryngeal, external laryngeal with superior thyroid, recurrent laryngeal with inferior thyroid."},
+{id:"E11",set:"LOC",ord:3,
+ stem:"A boy has an absent gag reflex on one side and cannot taste bitter at the back of the tongue on that side, but swallowing, phonation and palatal elevation are all normal. Which nerve alone is affected, and which finding confirms the vagus is spared?",
+ opts:["CN IX; the normal palatal elevation","CN X; the absent gag","CN VII; the taste loss","CN XII; the normal swallowing","CN V3; the normal phonation"],ans:0,
+ why:"Afferent gag and posterior-third taste are both CN IX. A symmetrically elevating palate shows the efferent limb, which is CN X, is working.",
+ wrong:["","The vagus would impair palatal elevation and phonation.","CN VII takes the anterior two-thirds of the tongue.","CN XII moves the tongue, not the palate.","V3 has no role in phonation."],
+ pearl:"An isolated CN IX lesion removes the afferent gag and posterior taste while leaving the palate and voice untouched."},
+{id:"E12",set:"LOC",ord:2,
+ stem:"Weakness of the muscle that presses the cheek against the molars during chewing localizes to which nerve?",
+ opts:["Buccal nerve of V3","Buccal branch of CN VII","Inferior alveolar nerve","Lingual nerve","Mandibular nerve trunk"],ans:1,
+ why:"Buccinator is a muscle of facial expression despite its chewing role, so its motor supply is the buccal branch of CN VII. The similarly named buccal nerve of V3 is purely sensory to the same region.",
+ wrong:["That is sensory only.","","That supplies the mandibular teeth.","That carries tongue sensation and taste fibres.","V3 supplies mastication, not facial expression."],
+ pearl:"Two nerves called 'buccal'. Motor is facial, sensory is trigeminal — this exact pair is used on the released practice set."},
+{id:"E13",set:"LOC",ord:3,
+ stem:"A patient cannot close the eye on one side and has a dry eye, yet corneal sensation is intact and taste is normal. Which two branches are involved and where does that place the lesion?",
+ opts:["Greater petrosal and motor branches, with the chorda tympani spared, placing the lesion in the geniculate region but sparing the more distal chorda","Chorda tympani and motor branches, placing it at the stylomastoid foramen","Nerve to stapedius alone, placing it in the middle ear","V1 and CN VII, placing it in the cavernous sinus","CN VII and CN VIII, placing it at the internal acoustic meatus"],ans:0,
+ why:"Dry eye means the greater petrosal is out, and facial weakness means the motor fibres are out, yet normal taste means the chorda tympani is spared — an unusual pattern that points to selective involvement around the geniculate ganglion.",
+ wrong:["","Normal taste excludes chorda tympani involvement.","That would cause hyperacusis alone.","Corneal sensation is intact, so V1 is fine.","Hearing is not mentioned as affected."],
+ pearl:"Dry eye plus facial weakness with normal taste is the combination that forces you to think about branch order rather than a single exit point."},
+{id:"E14",set:"LOC",ord:3,
+ stem:"After a stab wound to the posterior triangle, a patient cannot elevate the arm above the horizontal. Which additional deficit would suggest the blade went deeper, into the carotid sheath?",
+ opts:["Numbness over the clavicle","Hoarseness with an immobile vocal fold","Weakness of the sternohyoid","Numbness over the angle of the mandible","Winging of the scapula"],ans:1,
+ why:"Superficial injury takes CN XI and the cutaneous cervical plexus branches. Reaching the carotid sheath adds the vagus, whose recurrent laryngeal branch produces hoarseness.",
+ wrong:["That is supraclavicular, a superficial cervical plexus branch.","","The straps are ansa cervicalis, which lies on the front of the sheath.","That is the great auricular nerve, superficial.","That is the long thoracic nerve, on the thoracic wall."],
+ pearl:"CN XI is almost subcutaneous in the posterior triangle. The vagus is deep, inside the sheath — depth is what separates the two injuries."},
+
+/* ============ SURGICAL & PROCEDURAL ============ */
+{id:"E15",set:"SRG",ord:3,
+ stem:"During a submandibular gland excision the surgeon must identify a nerve that loops BENEATH the gland's duct. If that nerve is divided, which three functions are lost?",
+ opts:["Tongue movement, taste, and salivation","General sensation of the anterior tongue, taste of the anterior tongue, and submandibular and sublingual secretion","General sensation of the posterior tongue, taste of the posterior tongue, and parotid secretion","Tongue movement only","Lower lip sensation, chin sensation, and salivation"],ans:1,
+ why:"The lingual nerve crosses beneath the submandibular duct and carries V3 general sensation, hitchhiking chorda tympani taste fibres, and the parasympathetic fibres running to and from the submandibular ganglion.",
+ wrong:["Movement is CN XII, which is not the nerve looping under the duct.","","That is CN IX territory.","That describes CN XII alone.","Those are mental nerve territories."],
+ pearl:"The lingual nerve is the only nerve carrying three different modalities from two different cranial nerves into one small region."},
+{id:"E16",set:"SRG",ord:3,
+ stem:"A surgeon ligates a vessel deep to hyoglossus during a tongue resection. Which structure lies on the OPPOSITE side of that muscle and is therefore protected by staying deep?",
+ opts:["Lingual artery","Hypoglossal nerve","Glossopharyngeal nerve","Inferior alveolar nerve","Facial artery"],ans:1,
+ why:"The lingual artery runs medial (deep) to hyoglossus, while CN XII, the lingual nerve and the submandibular duct run lateral (superficial) to it. Staying deep reaches the artery and keeps the nerve out of the field.",
+ wrong:["That is the vessel being ligated, not the structure protected.","","CN IX is higher, in the tonsillar bed.","That is inside the mandible.","That is outside the floor of the mouth."],
+ pearl:"Nerve outside, artery inside. Hyoglossus is the single landmark that organises the whole floor of the mouth."},
+{id:"E17",set:"SRG",ord:3,
+ stem:"Two weeks after a total thyroidectomy a patient is hoarse AND has lost her upper singing register. How many nerves were injured, and which?",
+ opts:["One: the recurrent laryngeal nerve alone","One: the external laryngeal nerve alone","Two: recurrent laryngeal and external laryngeal, at opposite poles","Two: recurrent laryngeal and internal laryngeal","Three: recurrent, internal and external laryngeal"],ans:2,
+ why:"Hoarseness is recurrent laryngeal, injured with the inferior thyroid artery at the inferior pole. Loss of pitch range is external laryngeal, injured with the superior thyroid artery at the superior pole. Two separate injuries at two separate poles.",
+ wrong:["The recurrent laryngeal nerve does not affect pitch range.","The external laryngeal nerve does not cause hoarseness.","","Internal laryngeal injury would cause aspiration, not these findings.","Nothing here points to a sensory deficit."],
+ pearl:"Two deficits that cannot come from one nerve means two injuries. Map each to its artery and its pole."},
+{id:"E18",set:"SRG",ord:3,
+ stem:"An emergency cricothyroidotomy is performed. Which structure is deliberately NOT cut, and what would happen if the incision were placed a centimetre higher?",
+ opts:["The cricoid cartilage; a higher incision would enter the trachea","The thyroid isthmus; a higher incision would divide the vocal folds","The vocal folds; a higher incision through the thyroid cartilage would damage them","The thyrohyoid membrane; a higher incision would enter the oesophagus","The conus elasticus; a higher incision would reach the epiglottis"],ans:2,
+ why:"The median cricothyroid ligament sits just below the vocal folds. Cutting higher, through the thyroid cartilage, risks the folds themselves and permanent voice change.",
+ wrong:["The cricoid is preserved but a higher incision goes toward the folds, not the trachea.","The isthmus is a tracheostomy concern, lower down.","","The thyrohyoid membrane is higher still and does not lead to the oesophagus.","The conus elasticus IS the structure incised in its median part."],
+ pearl:"Cricothyroidotomy is a narrow window: above the cricoid, below the folds. Tracheostomy avoids the problem by going lower, through rings 2 to 4."},
+{id:"E19",set:"SRG",ord:3,
+ stem:"During tonsillectomy, brisk bleeding is controlled in the tonsillar bed. Deep cautery there risks a nerve whose injury would produce which combination?",
+ opts:["Loss of taste anterior two-thirds and dry mouth","Loss of the afferent gag and loss of taste from the posterior third","Hoarseness and aspiration","Loss of palatal elevation and nasal regurgitation","Tongue deviation and wasting"],ans:1,
+ why:"CN IX lies just deep and lateral to the tonsillar fossa. It carries the gag afferent and posterior-third taste.",
+ wrong:["That is CN VII via the chorda tympani.","","That is CN X laryngeal branches.","That is the pharyngeal branch of CN X.","That is CN XII."],
+ pearl:"The tonsillar bed has two hazards: the tonsillar branch of the facial artery for bleeding, CN IX for function."},
+{id:"E20",set:"SRG",ord:3,
+ stem:"A transnasal pituitary approach passes through a sinus and then the sella. If the dissection strays laterally out of the sella, which structure is at greatest immediate risk, and what would the consequence be?",
+ opts:["Optic chiasm; bitemporal hemianopia","Internal carotid artery in the cavernous sinus; catastrophic haemorrhage","Cribriform plate; anosmia","Maxillary sinus; epistaxis","Foramen ovale; loss of chin sensation"],ans:1,
+ why:"The cavernous sinuses flank the sella and carry the internal carotid arteries. Lateral deviation from the sella enters the sinus and can tear the artery.",
+ wrong:["The chiasm is directly above, so superior deviation is the risk, not lateral.","","The cribriform plate is anterior and superior.","The maxillary sinus is lateral and inferior in the face, not at the sella.","Foramen ovale is well lateral and inferior in the middle fossa."],
+ pearl:"Above the sella is the chiasm, either side is the cavernous sinus with the ICA. Direction of error predicts the complication."},
+{id:"E21",set:"SRG",ord:2,
+ stem:"An inferior alveolar nerve block is placed at the mandibular foramen. Compared with a block at the mental foramen, what ADDITIONAL territory is anaesthetised?",
+ opts:["The anterior two-thirds of the tongue","The mandibular teeth","The lower lip","The chin","The cheek mucosa"],ans:1,
+ why:"The inferior alveolar nerve gives its dental branches inside the mandible before emerging as the mental nerve. Blocking at the foramen catches the teeth as well as the lip and chin; a mental block catches only lip and chin.",
+ wrong:["That would require the lingual nerve, which is a separate branch, although it is often anaesthetised incidentally.","","The lower lip is covered by both blocks.","The chin is covered by both blocks.","That is the buccal nerve."],
+ pearl:"Mandibular foramen = teeth plus lip plus chin. Mental foramen = lip and chin only. The released practice set uses exactly this contrast."},
+{id:"E22",set:"SRG",ord:3,
+ stem:"A carotid endarterectomy is complicated by injury to a nerve crossing superficial to the carotid arteries. Which deficit results, and how does it differ from injury to the nerve inside the sheath?",
+ opts:["Tongue deviation toward the side of injury; the sheath nerve would instead cause hoarseness","Hoarseness; the sheath nerve would instead cause tongue deviation","Shoulder droop; the sheath nerve would cause dysphagia","Loss of the gag reflex; the sheath nerve would cause facial weakness","Ptosis and miosis; the sheath nerve would cause anhidrosis"],ans:0,
+ why:"CN XII loops forward across the carotids superficially and supplies the tongue. CN X lies within the sheath and its recurrent branch produces hoarseness.",
+ wrong:["","This reverses the two.","CN XI is posterolateral, outside the sheath.","CN IX has left the region higher up.","Horner syndrome comes from the sympathetic trunk behind the sheath."],
+ pearl:"Three layers at the carotid: sympathetics behind, vagus inside, hypoglossal crossing in front."},
+{id:"E23",set:"SRG",ord:3,
+ stem:"A patient aspirates thin liquids after neck surgery, yet the voice is normal and both folds abduct fully on laryngoscopy. Which nerve was injured, and why is the voice spared?",
+ opts:["Recurrent laryngeal; it is sensory only","Internal laryngeal; it is sensory, so the motor supply to the folds is untouched","External laryngeal; it affects pitch rather than closure","Pharyngeal branch; it affects the palate only","Hypoglossal; the tongue does not phonate"],ans:1,
+ why:"The internal laryngeal nerve supplies sensation above the vocal folds and forms the afferent limb of the cough reflex. Without it, material enters the airway unnoticed, but every laryngeal muscle still works.",
+ wrong:["The recurrent laryngeal nerve is motor as well and would change the voice.","","The external laryngeal nerve narrows pitch range and does not cause aspiration.","Palatal weakness causes nasal regurgitation, not silent aspiration.","CN XII would cause tongue deviation."],
+ pearl:"Silent aspiration with a normal voice is a sensory problem. That is the internal laryngeal nerve, and it is easy to miss."},
+{id:"E24",set:"SRG",ord:3,
+ stem:"During removal of a parotid tumour the surgeon must preserve a nerve passing through the gland. Which statement about that nerve's relationship to the gland is correct?",
+ opts:["It passes through the gland and supplies its secretomotor fibres","It passes through the gland but does NOT innervate it; secretomotor supply comes from CN IX via the otic ganglion","It innervates the gland but does not pass through it","It neither passes through nor innervates the gland","It supplies the gland with sympathetic fibres only"],ans:1,
+ why:"CN VII divides within the parotid into its five terminal branches, but the gland's parasympathetic supply comes from CN IX through the lesser petrosal nerve, the otic ganglion and then the auriculotemporal nerve of V3.",
+ wrong:["CN VII supplies no secretomotor fibres to the parotid.","","It does pass through it.","It does pass through it.","Sympathetics reach it on the vessels, but this is not CN VII's role."],
+ pearl:"Passing through is not innervating. The annotated key asks this question directly: does CN VII innervate the parotid?"},
+{id:"E25",set:"SRG",ord:3,
+ stem:"A dental abscess of a lower second molar spreads below the mylohyoid line. Which space is entered, and what is the immediate threat?",
+ opts:["Sublingual space; loss of taste","Submandibular space; airway obstruction as the tongue is displaced upward","Parapharyngeal space; carotid blowout","Retropharyngeal space; mediastinitis within hours","Pterygopalatine fossa; loss of lacrimation"],ans:1,
+ why:"Roots projecting below the mylohyoid line discharge into the submandibular space rather than into the mouth. Bilateral involvement lifts the floor of the mouth and the tongue, obstructing the airway.",
+ wrong:["Roots ABOVE the line drain into the sublingual space.","","Carotid involvement is a later and rarer complication.","Retropharyngeal spread is possible but not the immediate threat here.","That fossa is nowhere near the mandible."],
+ pearl:"The mylohyoid line is the watershed. Above it drains into the mouth, below it drains into the neck."},
+{id:"E26",set:"SRG",ord:3,
+ stem:"A laryngoscope blade is seated correctly but the tube passes lateral to the aditus. Which structure has it entered, and which nerve lies just beneath the mucosa there?",
+ opts:["Vallecula; the glossopharyngeal nerve","Piriform recess; the internal laryngeal nerve","Laryngeal ventricle; the recurrent laryngeal nerve","Oesophagus; the external laryngeal nerve","Nasopharynx; the pharyngeal branch of CN X"],ans:1,
+ why:"The piriform recesses flank the laryngeal inlet. The internal laryngeal nerve runs submucosally in the floor of each recess after piercing the thyrohyoid membrane.",
+ wrong:["The vallecula is anterior to the epiglottis, where the blade sits.","","The ventricle is a small internal recess between the folds.","The oesophagus is posterior and midline, not lateral.","The nasopharynx is far above."],
+ pearl:"Piriform recess: where tubes go astray, where fish bones lodge, and where the cough afferent lies exposed."},
+
+/* ============ AUTONOMIC PATHWAYS IN DEPTH ============ */
+{id:"E27",set:"AUT",ord:3,
+ stem:"A lesion destroys the pterygopalatine ganglion. Which trigeminal branches lose their hitchhiking parasympathetic fibres, and which gland and mucosa are affected?",
+ opts:["V1 lacrimal only; lacrimal gland only","V2 zygomatic then V1 lacrimal, plus V2 palatine and nasopalatine; lacrimal gland and nasal and palatine mucosa","V3 lingual; submandibular and sublingual glands","V3 auriculotemporal; parotid","V1 short ciliary; pupil and ciliary muscle"],ans:1,
+ why:"Fibres for the lacrimal gland leave on the zygomatic branch of V2 and cross to the lacrimal nerve of V1. Fibres for the nasal and palatine mucosa leave on the nasopalatine and the greater and lesser palatine nerves, all V2.",
+ wrong:["That is only half the output.","","That is the submandibular ganglion.","That is the otic ganglion.","That is the ciliary ganglion."],
+ pearl:"One ganglion, two outputs. Tears take the V2-to-V1 handoff; nasal mucus stays on V2 throughout."},
+{id:"E28",set:"AUT",ord:3,
+ stem:"Preganglionic fibres to the otic ganglion arise in which nerve, and if that nerve were cut proximal to its ganglionic branch, which OTHER deficits would appear alongside dry mouth?",
+ opts:["CN VII; loss of taste from the anterior tongue","CN IX; loss of the afferent gag and loss of posterior-third taste","CN V3; weakness of mastication","CN X; hoarseness","CN III; a dilated pupil"],ans:1,
+ why:"The lesser petrosal nerve is a CN IX branch. Cutting CN IX proximally removes parotid secretion together with everything else CN IX carries — the gag afferent, posterior-third taste and general sensation of the oropharynx.",
+ wrong:["CN VII serves the lacrimal, submandibular and sublingual glands.","","V3 only carries the postganglionic fibres on the auriculotemporal nerve.","CN X does not supply the parotid.","CN III serves the ciliary ganglion."],
+ pearl:"Cut a nerve proximally and you lose every modality it carries. The otic ganglion question is really a CN IX question."},
+{id:"E29",set:"AUT",ord:3,
+ stem:"Sympathetic fibres destined for the dilator pupillae pass through which ganglion WITHOUT synapsing, and where do they actually synapse?",
+ opts:["Ciliary ganglion; they synapse in the superior cervical ganglion","Otic ganglion; they synapse in the stellate ganglion","Pterygopalatine ganglion; they synapse in the ciliary ganglion","Submandibular ganglion; they synapse in the otic ganglion","Trigeminal ganglion; they synapse there"],ans:0,
+ why:"All head sympathetics synapse in the superior cervical ganglion, then travel on arteries or hitch onto trigeminal branches. They traverse the ciliary ganglion without relaying.",
+ wrong:["","The otic ganglion is not on the pupil's route.","The pterygopalatine ganglion serves the lacrimal gland.","Neither is on the sympathetic route to the eye.","The trigeminal ganglion is sensory."],
+ pearl:"Passing through is not synapsing. This is the single most-used trap in autonomic questions."},
+{id:"E30",set:"AUT",ord:3,
+ stem:"A patient has a dry eye, a dry nose AND a small pupil with mild ptosis on the same side. Which single site could produce all of this?",
+ opts:["The pterygopalatine ganglion alone","The internal carotid artery in the cavernous sinus, taking both the sympathetic plexus and adjacent V2-associated fibres","The ciliary ganglion alone","The otic ganglion alone","The submandibular ganglion alone"],ans:1,
+ why:"Dry eye and dry nose point to the pterygopalatine pathway, while miosis and partial ptosis point to sympathetic loss. The cavernous sinus carries the ICA with its sympathetic plexus alongside V1 and V2, so a lesion there can produce both.",
+ wrong:["That ganglion alone would not cause Horner syndrome.","","The ciliary ganglion has nothing to do with tears or nasal mucus.","The otic ganglion serves the parotid.","The submandibular ganglion serves the floor of the mouth."],
+ pearl:"When a parasympathetic deficit and Horner syndrome coexist, look for a site where both systems travel together."},
+{id:"E31",set:"AUT",ord:3,
+ stem:"Which single nerve, if cut, would abolish BOTH the efferent limb of the corneal blink reflex and reflex tear production?",
+ opts:["CN V1","CN VII proximal to the greater petrosal nerve","CN III","CN V2","The nasociliary nerve"],ans:1,
+ why:"CN VII closes the eye through orbicularis oculi and drives lacrimation through the greater petrosal nerve. Cutting it proximal to that branch removes both efferent functions.",
+ wrong:["V1 is the AFFERENT limb of both reflexes.","","CN III elevates the lid and constricts the pupil.","V2 carries the lacrimal fibres onward but does not originate them.","The nasociliary nerve is the afferent for the corneal reflex."],
+ pearl:"V1 in for both reflexes, VII out for both. One nerve does the sensing, the other does both responses."},
+{id:"E32",set:"AUT",ord:2,
+ stem:"Postganglionic parasympathetic fibres to the submandibular and sublingual glands travel on which nerve, and from which cranial nerve did the preganglionic fibres come?",
+ opts:["Auriculotemporal nerve; CN IX","Lingual nerve; CN VII","Lingual nerve; CN V3","Greater petrosal nerve; CN VII","Chorda tympani; CN IX"],ans:1,
+ why:"Preganglionic fibres come from CN VII in the chorda tympani, which joins the lingual nerve. After synapsing in the submandibular ganglion, the postganglionic fibres continue on the lingual nerve.",
+ wrong:["That is the parotid pathway.","","V3 carries the fibres but does not originate them; the source is CN VII.","That serves the pterygopalatine ganglion.","The chorda tympani is CN VII, not CN IX, and it is the preganglionic limb."],
+ pearl:"The lingual nerve is both the road in and the road out for the submandibular ganglion."},
+{id:"E33",set:"AUT",ord:3,
+ stem:"A patient has anisocoria that is MORE obvious in bright light, with a normal upper lid position and normal sweating. Which limb is affected, and which reflex arc does that implicate?",
+ opts:["Sympathetic; the dilator pathway from the superior cervical ganglion","Parasympathetic; the CN III efferent limb of the pupillary light reflex","Afferent; the optic nerve","Afferent; the nasociliary nerve","Sympathetic; the superior tarsal pathway"],ans:1,
+ why:"Worse in bright light means the affected pupil fails to constrict, so the parasympathetic efferent is at fault. Normal lid and sweating argue against a sympathetic lesion.",
+ wrong:["Sympathetic failure is worse in DIM light and usually adds ptosis.","","An afferent defect does not make the pupils unequal at rest.","The nasociliary nerve is the corneal afferent.","That would give ptosis, which is absent here."],
+ pearl:"Dim light worse means sympathetic. Bright light worse means parasympathetic. The accompanying lid and sweat findings confirm which."},
+{id:"E34",set:"AUT",ord:3,
+ stem:"Which pathway would be INTERRUPTED by a lesion of the nerve of the pterygoid canal, and which would be preserved?",
+ opts:["Interrupted: lacrimation and nasal secretion. Preserved: pupil constriction and salivation","Interrupted: salivation from all glands. Preserved: lacrimation","Interrupted: pupil constriction. Preserved: lacrimation","Interrupted: parotid secretion. Preserved: nasal secretion","Interrupted: all four parasympathetic pathways"],ans:0,
+ why:"The nerve of the pterygoid canal carries the greater petrosal (parasympathetic) and deep petrosal (sympathetic) fibres to the pterygopalatine ganglion, serving the lacrimal gland and the nasal and palatine mucosa. The ciliary, otic and submandibular pathways are elsewhere.",
+ wrong:["","The submandibular and parotid pathways are untouched.","The ciliary pathway is untouched.","The parotid is the otic ganglion, untouched.","Only one of the four is affected."],
+ pearl:"Greater petrosal plus deep petrosal equals the nerve of the pterygoid canal — parasympathetic and sympathetic travelling together to one ganglion."},
+{id:"E35",set:"AUT",ord:3,
+ stem:"Which combination correctly pairs a ganglion with BOTH its preganglionic cranial nerve and the trigeminal branch its postganglionic fibres use?",
+ opts:["Ciliary — CN III — short ciliary nerves from V1","Otic — CN VII — auriculotemporal nerve of V3","Pterygopalatine — CN IX — palatine nerves of V2","Submandibular — CN IX — lingual nerve of V3","Ciliary — CN VII — long ciliary nerves of V1"],ans:0,
+ why:"The ciliary ganglion takes preganglionic fibres from CN III and sends postganglionic fibres out in the short ciliary nerves, which are associated with the nasociliary branch of V1.",
+ wrong:["","The otic ganglion is CN IX, not CN VII.","The pterygopalatine ganglion is CN VII, not CN IX.","The submandibular ganglion is CN VII, not CN IX.","The ciliary ganglion is CN III, and the long ciliary nerves are sympathetic and sensory."],
+ pearl:"CN III feeds one ganglion, CN IX feeds one, CN VII feeds two. Every output rides a branch of CN V."},
+{id:"E36",set:"AUT",ord:3,
+ stem:"A tumour in the infratemporal fossa compresses the auriculotemporal nerve where it encircles the middle meningeal artery. Which two deficits result?",
+ opts:["Dry mouth from loss of parotid secretion, and numbness of the temple and anterior ear","Dry eye and numbness of the forehead","Loss of taste and numbness of the chin","Weak mastication and numbness of the cheek","Hyperacusis and loss of the corneal reflex"],ans:0,
+ why:"The auriculotemporal nerve carries general sensation from the temple, external ear and temporomandibular joint, and delivers the otic ganglion's postganglionic fibres to the parotid.",
+ wrong:["","Those are V1 and the pterygopalatine pathway.","Taste is CN VII and the chin is the mental nerve.","Mastication is the motor root of V3; the cheek is V2 or the buccal nerve.","Those are CN VII and V1."],
+ pearl:"Auriculotemporal is the one V3 branch carrying parasympathetics, and the roots that encircle the middle meningeal artery are its landmark."},
+{id:"E37",set:"AUT",ord:2,
+ stem:"Which gland's secretomotor pathway does NOT involve CN VII at any point?",
+ opts:["Lacrimal gland","Nasal mucous glands","Submandibular gland","Sublingual gland","Parotid gland"],ans:4,
+ why:"The parotid is served by CN IX through the lesser petrosal nerve and the otic ganglion. All the others are CN VII, through either the greater petrosal or the chorda tympani.",
+ wrong:["CN VII via the greater petrosal nerve.","CN VII via the greater petrosal nerve.","CN VII via the chorda tympani.","CN VII via the chorda tympani.",""],
+ pearl:"Four glands on CN VII, one on CN IX. The parotid is always the odd one out."},
+{id:"E38",set:"AUT",ord:3,
+ stem:"If the superior cervical ganglion were destroyed on one side, which of the following would remain NORMAL?",
+ opts:["Pupil diameter in dim light","Sweating of the forehead","Position of the upper eyelid","Reflex tear production","Vasomotor tone of facial vessels"],ans:3,
+ why:"Reflex lacrimation is parasympathetic, driven by CN VII through the pterygopalatine ganglion, and is unaffected by sympathetic loss. Everything else listed is sympathetic.",
+ wrong:["The pupil would be miotic and fail to dilate.","Anhidrosis would occur.","Partial ptosis would occur from superior tarsal paralysis.","","Vasomotor tone is sympathetic."],
+ pearl:"Horner syndrome does not cause a dry eye. Sympathetic loss affects pupil, lid and sweat, not tear production."},
+
+/* ============ DISCRIMINATE THE LESION ============ */
+{id:"E39",set:"DSC",ord:3,
+ stem:"Two patients both have a hoarse voice. Patient A also has loss of sensation in the laryngeal vestibule; patient B has a normal sensory exam but cannot raise pitch. Which nerves are injured in A and B respectively?",
+ opts:["A: recurrent and internal laryngeal. B: recurrent and external laryngeal","A: internal laryngeal alone. B: external laryngeal alone","A: external and internal laryngeal. B: recurrent alone","A: recurrent alone. B: internal laryngeal alone","A: pharyngeal branch. B: recurrent laryngeal"],ans:0,
+ why:"Both are hoarse, so both have recurrent laryngeal injury. A adds sensory loss above the folds, which is internal laryngeal. B adds loss of pitch, which is external laryngeal.",
+ wrong:["","Neither of those alone causes hoarseness.","The external laryngeal nerve does not cause hoarseness.","B has no sensory deficit.","The pharyngeal branch causes dysphagia, not hoarseness."],
+ pearl:"Hoarseness is the constant here. Read the SECOND finding to work out which additional branch went with it."},
+{id:"E40",set:"DSC",ord:3,
+ stem:"A patient has a facial palsy. Which single finding would tell you it is central (upper motor neuron) rather than peripheral?",
+ opts:["The forehead can still be wrinkled on the affected side","Taste is preserved","Tearing is preserved","Hearing is normal","The corneal reflex afferent is intact"],ans:0,
+ why:"The forehead receives bilateral cortical input, so an upper motor neuron lesion spares it. Every peripheral CN VII lesion, at any level, involves the forehead.",
+ wrong:["","Taste is preserved in distal peripheral lesions too.","Tearing is preserved in most peripheral lesions too.","Hearing is normal in most peripheral lesions too.","The afferent is V1 and is unaffected either way."],
+ pearl:"Only the forehead separates central from peripheral. Everything else separates one PERIPHERAL level from another."},
+{id:"E41",set:"DSC",ord:3,
+ stem:"A patient cannot look down when the eye is adducted. A second patient cannot look down when the eye is abducted. Which muscles and nerves are involved?",
+ opts:["First: inferior rectus, CN III. Second: superior oblique, CN IV","First: superior oblique, CN IV. Second: inferior rectus, CN III","First: inferior oblique, CN III. Second: superior rectus, CN III","First: superior oblique, CN IV. Second: lateral rectus, CN VI","First: inferior rectus, CN III. Second: inferior oblique, CN III"],ans:1,
+ why:"With the eye adducted the obliques become pure vertical movers, so depression is superior oblique (CN IV). With the eye abducted the recti take over, so depression is inferior rectus (CN III).",
+ wrong:["This reverses them.","","Both of those elevate.","Lateral rectus abducts and does not depress.","Inferior oblique elevates."],
+ pearl:"Adducted, the obliques do the vertical work. Abducted, the recti do. This is the whole basis of the H-test."},
+{id:"E42",set:"DSC",ord:3,
+ stem:"A patient has numbness of the lower lip and chin plus weakness of chewing. A second has numbness of the cheek and upper lip with normal chewing. Which foramina are involved?",
+ opts:["First: foramen rotundum. Second: foramen ovale","First: foramen ovale. Second: foramen rotundum","First: foramen spinosum. Second: foramen ovale","First: superior orbital fissure. Second: foramen rotundum","Both: foramen ovale"],ans:1,
+ why:"Motor fibres to the muscles of mastication travel only with V3, through the foramen ovale. A purely sensory mid-face deficit with normal chewing is V2, through the foramen rotundum.",
+ wrong:["This reverses them.","","Foramen spinosum carries the middle meningeal artery.","The fissure carries V1.","Only one involves V3."],
+ pearl:"Presence or absence of motor findings is the fastest way to separate V3 from V2."},
+{id:"E43",set:"DSC",ord:3,
+ stem:"Two patients have a deviated tongue. In patient A the tongue deviates left and the left side is wasted. In patient B the tongue deviates left with no wasting and there is also left arm weakness. Which lesions are these?",
+ opts:["A: left CN XII (lower motor neuron). B: right corticobulbar (upper motor neuron)","A: right CN XII. B: left corticobulbar","A: left CN XII. B: left CN XII also","A: upper motor neuron both sides. B: lower motor neuron","A: right corticobulbar. B: left CN XII"],ans:0,
+ why:"Wasting marks a lower motor neuron lesion of the nerve itself, ipsilateral to the deviation. Deviation without wasting, with limb signs, indicates a contralateral upper motor neuron lesion.",
+ wrong:["","A right CN XII lesion would deviate the tongue right.","B has limb findings, which a peripheral CN XII lesion cannot explain.","This reverses both.","This reverses both."],
+ pearl:"In both cases the tongue points away from the strong side. Wasting and fasciculation are what mark the peripheral lesion."},
+{id:"E44",set:"DSC",ord:3,
+ stem:"Two patients have a dilated pupil. In A the pupil is dilated and the eye is down and out with complete ptosis. In B the pupil is dilated with normal eye movements and normal lid position. What distinguishes them?",
+ opts:["A is a CN III lesion affecting all fibres; B is a lesion confined to the ciliary ganglion or short ciliary nerves","A is Horner syndrome; B is a CN III palsy","A is a ciliary ganglion lesion; B is a full CN III palsy","Both are identical CN III palsies","A is an optic nerve lesion; B is a CN III lesion"],ans:0,
+ why:"A full CN III palsy takes the somatic motor fibres as well as the parasympathetics, giving ptosis and an abnormal resting position. An isolated pupil abnormality with normal movements places the lesion distal, at the ganglion or its short ciliary nerves.",
+ wrong:["","Horner syndrome gives a SMALL pupil.","This reverses them.","They differ markedly in motor findings.","An optic nerve lesion causes an afferent defect, not a fixed dilated pupil at rest."],
+ pearl:"Ask whether the motor fibres went with the pupil. That single question separates a nerve trunk lesion from a ganglion lesion."},
+{id:"E45",set:"DSC",ord:3,
+ stem:"Which finding would distinguish injury of the pharyngeal branch of CN X from injury of the recurrent laryngeal nerve?",
+ opts:["Hoarseness","Uvular deviation with nasal regurgitation","An immobile vocal fold","A weak cough","Reduced sensation below the vocal folds"],ans:1,
+ why:"The pharyngeal branch supplies the palate and constrictors, so its loss gives uvular deviation, dysphagia and nasal regurgitation. The recurrent laryngeal nerve produces hoarseness and fold immobility instead.",
+ wrong:["That is recurrent laryngeal.","","That is recurrent laryngeal.","Both could weaken a cough, so this does not discriminate.","That is recurrent laryngeal territory."],
+ pearl:"Palate findings mean the pharyngeal branch. Fold findings mean the recurrent laryngeal. Both are CN X, but at different levels."},
+{id:"E46",set:"DSC",ord:3,
+ stem:"A patient has a dry mouth. Which additional finding would tell you the lesion is in CN VII rather than CN IX?",
+ opts:["Loss of taste from the posterior third of the tongue","Loss of the gag reflex","Loss of taste from the anterior two-thirds of the tongue","Loss of sensation over the tympanic membrane","Weakness of stylopharyngeus"],ans:2,
+ why:"CN VII supplies the submandibular and sublingual glands and carries taste from the anterior two-thirds. CN IX supplies the parotid and carries posterior-third taste, the gag afferent, middle ear sensation and stylopharyngeus.",
+ wrong:["That is CN IX.","That is CN IX.","","That is CN IX.","That is CN IX."],
+ pearl:"Both cause a dry mouth, but they take different glands and different taste territories. Taste distribution is the discriminator."},
+{id:"E47",set:"DSC",ord:3,
+ stem:"Which finding would distinguish a lesion at the internal acoustic meatus from one at the stylomastoid foramen?",
+ opts:["Involvement of the forehead","Hyperacusis and loss of taste","Drooping of the corner of the mouth","Inability to close the eye","Ipsilateral rather than contralateral weakness"],ans:1,
+ why:"Both sites produce a complete peripheral facial palsy including the forehead. Only the proximal lesion, at the meatus, is above the nerve to stapedius and the chorda tympani, so only it adds hyperacusis and taste loss.",
+ wrong:["Present at both sites.","","Present at both sites.","Present at both sites.","Both are ipsilateral."],
+ pearl:"When motor findings are identical, look for the non-motor branches. They are what localise along the facial canal."},
+{id:"E48",set:"DSC",ord:3,
+ stem:"Two patients have shoulder weakness. In A the trapezius is wasted and head turning to the opposite side is weak. In B the scapula wings and trapezius is normal. Which nerves are involved?",
+ opts:["A: CN XI. B: long thoracic nerve","A: long thoracic. B: CN XI","A: dorsal scapular. B: CN XI","A: CN XI. B: suprascapular nerve","A: axillary. B: long thoracic"],ans:0,
+ why:"CN XI supplies trapezius and sternocleidomastoid, so its loss weakens shrugging and contralateral head turning. Winging comes from serratus anterior, supplied by the long thoracic nerve.",
+ wrong:["","This reverses them.","The dorsal scapular nerve supplies the rhomboids.","The suprascapular nerve supplies supraspinatus and infraspinatus.","The axillary nerve supplies deltoid."],
+ pearl:"Sternocleidomastoid involvement is what marks the weakness as CN XI rather than a brachial plexus branch."},
+{id:"E49",set:"DSC",ord:3,
+ stem:"Which finding would tell you a mid-face sensory loss comes from a lesion at the trigeminal ganglion rather than in the cavernous sinus?",
+ opts:["Loss of corneal sensation","Loss of sensation over the chin with weak jaw clenching","Loss of sensation over the upper lip","Ptosis","Diplopia"],ans:1,
+ why:"V3 does not enter the cavernous sinus, so mandibular involvement, especially with motor weakness, places the lesion back at the ganglion where all three divisions lie together.",
+ wrong:["V1 is affected at both sites.","","V2 is affected at both sites.","Ptosis points to the cavernous sinus.","Diplopia points to the cavernous sinus."],
+ pearl:"V3 is the tell. Present means ganglion or more proximal; absent means cavernous sinus or fissure."},
+{id:"E50",set:"DSC",ord:3,
+ stem:"A patient has an absent corneal reflex on the right. Touching the LEFT cornea produces a blink in the left eye only. Where is the lesion?",
+ opts:["Right V1","Right CN VII","Left V1","Left CN VII","Bilateral CN VII"],ans:1,
+ why:"The left cornea is sensed normally and drives a blink, but only on the left. That means the right efferent limb has failed — a right CN VII lesion. The right eye cannot blink regardless of which cornea is touched.",
+ wrong:["A right V1 lesion would abolish sensing on the right, but the right eye would still blink consensually.","","Left sensation is clearly intact.","The left eye blinks normally.","The left eye blinks."],
+ pearl:"Work out which eye fails to RESPOND versus which cornea fails to TRIGGER. Response failure is CN VII; trigger failure is V1."},
+
+/* ============ INTEGRATED VIGNETTES ============ */
+{id:"E51",set:"INT",ord:3,
+ stem:"A 58-year-old smoker has a hoarse voice. Examination shows a left vocal fold immobile in the paramedian position, a normal gag reflex, normal palatal elevation and no tongue deviation. Where along the vagus is the lesion, and what should be imaged?",
+ opts:["At the jugular foramen; image the skull base","Below the origin of the pharyngeal branch, at the recurrent laryngeal nerve; image the neck and chest","At the nucleus ambiguus; image the brainstem","At the superior laryngeal nerve; image the hyoid region","At the pharyngeal plexus; image the nasopharynx"],ans:1,
+ why:"An intact gag and normal palate place the lesion below the pharyngeal branch. An isolated recurrent laryngeal palsy on the left demands imaging along its long course under the aortic arch.",
+ wrong:["That would add palatal and gag findings.","","A nuclear lesion would usually add other brainstem signs.","That would affect pitch and sensation, not fold mobility.","That would affect the palate."],
+ pearl:"Normal palate plus immobile fold equals a lesion below the pharyngeal branch — and on the left that means look in the chest."},
+{id:"E52",set:"INT",ord:3,
+ stem:"A 40-year-old has a mass in the parapharyngeal space. She has a dry mouth on that side, deviation of the tongue toward the lesion, and a hoarse voice, but normal facial movement and normal tearing. Which nerves are involved?",
+ opts:["CN VII, IX and X","CN IX, X and XII","CN VII, X and XII","CN V3, VII and IX","CN IX, XI and XII"],ans:1,
+ why:"Dry mouth from parotid loss is CN IX, hoarseness is CN X, and tongue deviation toward the lesion is CN XII. Normal face and tearing exclude CN VII.",
+ wrong:["Normal facial movement excludes CN VII.","","Normal facial movement excludes CN VII.","Normal facial movement excludes CN VII.","Nothing indicates shoulder weakness."],
+ pearl:"Work each finding back to its nerve, then ask which single space contains all of them. Here it is the parapharyngeal space."},
+{id:"E53",set:"INT",ord:3,
+ stem:"A patient presents with a painless neck mass, referred ear pain and a unilateral middle ear effusion. Which primary site best explains all three, and by which mechanisms?",
+ opts:["Larynx; direct spread to the ear","Nasopharynx at the pharyngeal recess; tube obstruction causes the effusion and shared CN IX and X territory causes referred otalgia","Parotid; CN VII involvement","Thyroid; recurrent laryngeal involvement","Oral cavity floor; lingual nerve involvement"],ans:1,
+ why:"A tumour in the fossa of Rosenmuller blocks the pharyngotympanic tube, producing a unilateral effusion in an adult, while pharyngeal sensory afferents shared with the ear produce referred otalgia. Nodal spread gives the neck mass.",
+ wrong:["A laryngeal primary would not obstruct the tube.","","Parotid disease would give facial weakness, not an effusion.","Thyroid disease would give hoarseness, not an effusion.","Floor of mouth disease would not obstruct the tube."],
+ pearl:"A unilateral middle ear effusion in an adult is nasopharyngeal carcinoma until proven otherwise."},
+{id:"E54",set:"INT",ord:3,
+ stem:"A patient has an epidural haematoma after a blow to the side of the head. Tracing the ruptured vessel backwards, which sequence is correct?",
+ opts:["Internal carotid, then ophthalmic, then supraorbital","External carotid, then maxillary, then middle meningeal, entering at the foramen spinosum","External carotid, then superficial temporal, then middle meningeal","Subclavian, then vertebral, then basilar","Internal carotid, then middle meningeal, entering at the foramen lacerum"],ans:1,
+ why:"The middle meningeal artery arises from the first part of the maxillary artery, which is the terminal branch of the external carotid, and enters the middle cranial fossa through the foramen spinosum.",
+ wrong:["That is the orbital supply.","","The superficial temporal artery is the other terminal branch and does not give the middle meningeal.","That supplies the posterior fossa.","The foramen lacerum transmits nothing of consequence."],
+ pearl:"Pterion, middle meningeal artery, maxillary artery, foramen spinosum. The released practice set tests the first and last links of this chain."},
+{id:"E55",set:"INT",ord:3,
+ stem:"A woman has left ptosis and miosis, wasting of the left sternocleidomastoid and trapezius, dysphagia, absent gag, hoarseness and left tongue deviation. Which structure must the lesion involve IN ADDITION to the jugular foramen contents and CN XII?",
+ opts:["The optic canal","The cervical sympathetic trunk or superior cervical ganglion","The facial canal","The cavernous sinus","The foramen ovale"],ans:1,
+ why:"Ptosis with miosis is Horner syndrome, which requires sympathetic interruption. Added to CN IX, X, XI and XII, this defines Villaret syndrome.",
+ wrong:["Vision is not affected.","","Facial movement is not affected.","Eye movements are not affected.","Chewing and facial sensation are not affected."],
+ pearl:"Villaret = IX, X, XI, XII plus sympathetics. The sympathetic component is what separates it from a pure jugular foramen syndrome."},
+{id:"E56",set:"INT",ord:3,
+ stem:"A patient with a maxillary sinus tumour develops numbness of the cheek and upper teeth, then loss of tearing on the same side. Which route best explains the progression?",
+ opts:["Spread into the orbit affecting V1","Spread posteriorly into the pterygopalatine fossa, taking V2 and the pterygopalatine ganglion","Spread into the infratemporal fossa affecting V3","Spread into the cavernous sinus affecting CN III","Spread through the cribriform plate affecting CN I"],ans:1,
+ why:"Cheek and upper teeth are V2 territory. Tracking back along V2 reaches the pterygopalatine fossa, where the ganglion supplying the lacrimal gland sits.",
+ wrong:["V1 loss would numb the forehead, which is not described.","","V3 loss would affect the chin and chewing.","That would cause diplopia.","That would cause anosmia."],
+ pearl:"Perineural spread follows the nerve backwards. A sensory deficit that later becomes autonomic points at the ganglion on that nerve."},
+{id:"E57",set:"INT",ord:3,
+ stem:"A child has a nasal-sounding voice, mouth breathing and recurrent middle ear effusions. Which structure is enlarged, and which muscle's action is being defeated?",
+ opts:["Palatine tonsil; palatoglossus","Pharyngeal tonsil; tensor veli palatini, which normally opens the pharyngotympanic tube","Lingual tonsil; genioglossus","Tubal tonsil; levator veli palatini","Torus tubarius; salpingopharyngeus"],ans:1,
+ why:"Adenoid hypertrophy obstructs the choanae and the tubal openings. Tensor veli palatini normally opens the tube during swallowing, and its action is overwhelmed by the obstructing tissue.",
+ wrong:["Palatine tonsil enlargement narrows the oropharynx and causes snoring.","","The lingual tonsil is at the tongue base.","Levator elevates the palate; it does not open the tube.","The torus is cartilage, not lymphoid tissue."],
+ pearl:"Tensor veli palatini is V3 and opens the tube. Levator veli palatini is CN X and lifts the palate. The exam separates them constantly."},
+{id:"E58",set:"INT",ord:3,
+ stem:"A patient has anaesthesia over the chin, weakness on biting, and an inability to detect touch on the anterior tongue, but taste on the anterior tongue is preserved. Where is the lesion?",
+ opts:["The chorda tympani","The lingual nerve distal to where the chorda tympani joins it","V3 proximal to its branches, but distal to where the chorda tympani joins the lingual nerve","The mandibular foramen","The mental foramen"],ans:2,
+ why:"Chin numbness and weak biting point to the V3 trunk. Preserved taste with lost tongue touch means the lingual nerve's V3 component is out while the chorda tympani fibres still reach the tongue, placing the lesion proximal on V3 but downstream of the chorda tympani's junction.",
+ wrong:["That would abolish taste, which is preserved.","That would abolish taste too, since the fibres travel together distally.","","A mandibular foramen lesion would not weaken biting.","A mental foramen lesion would affect the chin only."],
+ pearl:"The tongue's touch and taste come from different nerves that travel together. Dissociating them tells you where along the route the lesion sits."},
+{id:"E59",set:"INT",ord:3,
+ stem:"A patient bitten on the ear develops facial weakness, ear pain and vesicles in the conchal bowl. Which two branches of the same nerve explain the motor and the sensory findings?",
+ opts:["Chorda tympani and greater petrosal","Terminal motor branches and the posterior auricular nerve","Nerve to stapedius and the chorda tympani","Greater petrosal and the nerve to stapedius","Posterior auricular and the lesser petrosal"],ans:1,
+ why:"The terminal branches supply the muscles of facial expression, while the posterior auricular nerve carries general sensation from the external ear. Zoster in the geniculate ganglion produces both.",
+ wrong:["Neither of those carries ear sensation.","","Neither supplies the muscles of facial expression.","Neither carries ear sensation or facial movement.","The lesser petrosal is CN IX."],
+ pearl:"Ramsay Hunt works anatomically because CN VII carries both motor fibres to the face and sensory fibres to the auricle."},
+{id:"E60",set:"INT",ord:3,
+ stem:"A patient has anosmia, and CSF rhinorrhoea after a frontal blow. Which bone is fractured, and what explains the two findings together?",
+ opts:["Sphenoid; the sella has been breached","Ethmoid at the cribriform plate; olfactory fibres are sheared and dura is torn","Frontal; the frontal sinus is opened","Maxilla; the maxillary sinus is opened","Temporal; the tegmen tympani is breached"],ans:1,
+ why:"The cribriform plate transmits the olfactory fibres and is covered by dura. A fracture shears the fibres and tears the dura, letting CSF into the nose.",
+ wrong:["A sellar breach gives endocrine and visual findings.","","A frontal sinus fracture alone would not cause anosmia.","The maxillary sinus is nowhere near the olfactory apparatus.","That would give CSF otorrhoea."],
+ pearl:"Anosmia plus a clear nasal discharge after trauma is a cribriform plate fracture until proven otherwise."},
+
+/* ============ STRUCTURE & RELATIONSHIP REASONING ============ */
+{id:"E61",set:"REL",ord:3,
+ stem:"A structure is tagged passing through the foramen transversarium of C6. Tracing it proximally, which vessel does it arise from, and which part of that vessel?",
+ opts:["External carotid artery; first part","Subclavian artery; first part, medial to anterior scalene","Subclavian artery; third part, lateral to anterior scalene","Thyrocervical trunk; second branch","Common carotid artery; terminal branch"],ans:1,
+ why:"The vertebral artery passes through the transverse foramina and arises from the first part of the subclavian artery, medial to anterior scalene, along with the internal thoracic artery and thyrocervical trunk.",
+ wrong:["The external carotid supplies the face and neck superficially.","","The third part gives the dorsal scapular artery.","The thyrocervical trunk gives inferior thyroid, transverse cervical and suprascapular.","The common carotid bifurcates into internal and external."],
+ pearl:"VIT C: Vertebral, Internal thoracic, Thyrocervical from part one; Costocervical from part two. The released practice set uses this exact mnemonic."},
+{id:"E62",set:"REL",ord:3,
+ stem:"Which pair of structures lies in the same fascial compartment, such that a single injury could affect both?",
+ opts:["Vagus nerve and internal jugular vein","Hypoglossal nerve and vertebral artery","Phrenic nerve and recurrent laryngeal nerve","Accessory nerve and common carotid artery","Sympathetic trunk and internal jugular vein"],ans:0,
+ why:"The carotid sheath contains the common or internal carotid artery medially, the internal jugular vein laterally, and the vagus nerve posteriorly between them.",
+ wrong:["","CN XII crosses superficially; the vertebral artery is deep in the transverse foramina.","The phrenic nerve is on anterior scalene; the recurrent laryngeal is in the tracheo-oesophageal groove.","CN XI leaves the sheath to cross the posterior triangle.","The sympathetic trunk lies BEHIND the sheath on prevertebral fascia."],
+ pearl:"Three in the sheath: artery, vein, vagus. The sympathetic trunk is just outside it, which is why Horner syndrome accompanies but is not part of vagal injury."},
+{id:"E63",set:"REL",ord:3,
+ stem:"A tag sits on the muscle forming the floor of the submandibular triangle. Which nerve supplies it, and which other muscle shares that nerve?",
+ opts:["CN VII; stylohyoid","Nerve to mylohyoid from V3; anterior belly of digastric","Ansa cervicalis; sternohyoid","C1 via CN XII; thyrohyoid","CN IX; stylopharyngeus"],ans:1,
+ why:"Mylohyoid forms the floor of the submandibular triangle and the muscular floor of the mouth. Its nerve, a branch of the inferior alveolar nerve from V3, also supplies the anterior belly of digastric.",
+ wrong:["CN VII supplies stylohyoid and the POSTERIOR belly.","","Ansa cervicalis supplies the infrahyoid straps.","That pair is thyrohyoid and geniohyoid.","CN IX supplies only stylopharyngeus."],
+ pearl:"One muscle, two bellies, two arches, two nerves. Digastric is the classic demonstration."},
+{id:"E64",set:"REL",ord:2,
+ stem:"Which structures pass BELOW the inferior pharyngeal constrictor?",
+ opts:["Levator veli palatini and the pharyngotympanic tube","Stylopharyngeus and the glossopharyngeal nerve","Internal laryngeal nerve and the superior laryngeal vessels","Recurrent laryngeal nerve and the inferior laryngeal artery","Ascending pharyngeal artery alone"],ans:3,
+ why:"Four gaps exist between and around the constrictors. The lowest, below the inferior constrictor, transmits the recurrent laryngeal nerve and the inferior laryngeal artery.",
+ wrong:["Those pass above the superior constrictor.","Those pass between superior and middle.","Those pass between middle and inferior.","","That runs on the outer surface of the pharyngeal wall."],
+ pearl:"Top to bottom: tube and levator; CN IX and stylopharyngeus; internal laryngeal; recurrent laryngeal. Nerve and artery travel together at each level."},
+{id:"E65",set:"REL",ord:3,
+ stem:"A tag sits on the fold running from the soft palate to the SIDE OF THE TONGUE. Which nerve supplies the muscle inside it, and why is that surprising?",
+ opts:["CN XII, because it is a tongue muscle","CN X, because it is functionally a palatal muscle despite reaching the tongue","CN IX, because it lies near the tonsil","V3, because it is a mastication-related muscle","CN VII, because it is an expression muscle"],ans:1,
+ why:"The palatoglossal fold contains palatoglossus. Although it inserts into the tongue, it is developmentally and functionally palatal, so its supply is CN X via the pharyngeal plexus.",
+ wrong:["That is the expected but incorrect answer.","","CN IX supplies only stylopharyngeus.","V3 supplies tensor veli palatini among the palatal muscles, not palatoglossus.","CN VII is not involved in the palate."],
+ pearl:"All tongue muscles are CN XII except palatoglossus. All palatal muscles are CN X except tensor veli palatini. Two rules, two exceptions."},
+{id:"E66",set:"REL",ord:3,
+ stem:"Which sinus opens into the space beneath the MIDDLE concha at a curved slit, and which two other sinuses share that same space by different openings?",
+ opts:["Maxillary at the semilunar hiatus; frontal and anterior ethmoid share the middle meatus","Sphenoid at the sphenoethmoidal recess; frontal and maxillary share it","Posterior ethmoid at the superior meatus; sphenoid and frontal share it","Frontal at the inferior meatus; maxillary and ethmoid share it","Maxillary at the ethmoid bulla; sphenoid and frontal share it"],ans:0,
+ why:"The semilunar hiatus in the middle meatus receives the maxillary sinus. The frontal sinus and the anterior ethmoidal cells also drain into the middle meatus, and the middle ethmoidal cells drain onto the ethmoid bulla there.",
+ wrong:["","The sphenoethmoidal recess takes only the sphenoid.","The superior meatus takes only the posterior ethmoid.","The inferior meatus takes only the nasolacrimal duct.","The bulla is the middle ethmoidal opening, not the maxillary."],
+ pearl:"The middle meatus is the busiest: frontal, anterior ethmoid, middle ethmoid and maxillary all arrive there by different routes."},
+{id:"E67",set:"REL",ord:3,
+ stem:"On the lateral nasal wall, which opening leads to a cavity that is NOT a paranasal sinus?",
+ opts:["Semilunar hiatus","Ethmoid bulla","Sphenoethmoidal recess","Opening of the pharyngotympanic tube","Superior meatus"],ans:3,
+ why:"The pharyngotympanic tube opens on the lateral wall of the nasopharynx and leads to the middle ear, which is not a paranasal sinus. Every other option leads to a sinus.",
+ wrong:["That leads to the maxillary, frontal and anterior ethmoid sinuses.","That leads to the middle ethmoidal cells.","That leads to the sphenoid sinus.","","That leads to the posterior ethmoidal cells."],
+ pearl:"The released practice set asks exactly this: which indicated structure opens into the middle ear."},
+{id:"E68",set:"REL",ord:3,
+ stem:"Which structure is crossed by the hypoglossal nerve on its way to the tongue, and which artery does the nerve pass superficial to?",
+ opts:["Hyoglossus laterally; the lingual artery","Mylohyoid medially; the facial artery","Genioglossus laterally; the inferior alveolar artery","Stylohyoid medially; the maxillary artery","Digastric deeply; the superior thyroid artery"],ans:0,
+ why:"CN XII runs on the lateral surface of hyoglossus, superficial to the lingual artery, which lies deep to the same muscle.",
+ wrong:["","Mylohyoid is below and the facial artery is outside this plane.","Genioglossus is deeper and medial.","Stylohyoid is further back.","The superior thyroid artery is in the carotid triangle."],
+ pearl:"Hyoglossus separates nerve from artery. Knowing which side each is on is what makes the floor of the mouth navigable."},
+{id:"E69",set:"REL",ord:3,
+ stem:"Which single muscle, if paralysed, would most impair the ability to keep food between the teeth while chewing, and what makes its nerve supply counter-intuitive?",
+ opts:["Masseter; it is CN VII despite being a chewing muscle","Buccinator; it is CN VII despite its chewing role, because it is a muscle of facial expression","Temporalis; it is CN VII despite being a mastication muscle","Medial pterygoid; it is CN VII","Orbicularis oris; it is V3"],ans:1,
+ why:"Buccinator presses the cheek against the molars to hold the bolus over the teeth. It is a second arch muscle of facial expression, so it is CN VII, unlike the true muscles of mastication which are V3.",
+ wrong:["Masseter is V3.","","Temporalis is V3.","Medial pterygoid is V3.","Orbicularis oris is CN VII."],
+ pearl:"Function does not determine nerve supply; developmental arch does. Buccinator is the proof."},
+{id:"E70",set:"REL",ord:3,
+ stem:"Lymph from the tip of the tongue drains first to which nodes, and where does it go next?",
+ opts:["Submandibular, then superficial cervical","Submental, then deep cervical","Jugulodigastric, then submental","Retropharyngeal, then submandibular","Deep cervical directly, with no intermediate"],ans:1,
+ why:"The tip of the tongue drains to the submental nodes, which then pass to the deep cervical chain along the internal jugular vein — the final common pathway for all head and neck lymph.",
+ wrong:["Submandibular nodes take the rest of the anterior tongue and floor of the mouth.","","The jugulodigastric node is part of the deep chain and receives rather than sends to submental.","Retropharyngeal nodes take the nasopharynx.","There is an intermediate node group."],
+ pearl:"Everything ends at the deep cervical chain. Which node comes FIRST is what changes with the site of the primary."}
+,
+/* ============ EXPANSION TO 100 ============ */
+{id:"E71",set:"REL",ord:3,
+ stem:"Kiesselbach's plexus is formed by five arteries. Which of them arises from the INTERNAL carotid system, making this plexus a site where both carotid systems meet?",
+ opts:["Sphenopalatine artery","Greater palatine artery","Superior labial artery","Anterior ethmoidal artery","Septal branch of the facial artery"],ans:3,
+ why:"The anterior and posterior ethmoidal arteries come from the ophthalmic artery, a branch of the internal carotid. The sphenopalatine and greater palatine come from the maxillary artery, and the superior labial from the facial artery, all external carotid.",
+ wrong:["External carotid, via the maxillary artery.","External carotid, via the maxillary artery.","External carotid, via the facial artery.","","External carotid, via the facial artery."],
+ pearl:"Anterior epistaxis bleeds hard because two arterial systems anastomose there. Posterior epistaxis is sphenopalatine and needs a different approach."},
+{id:"E72",set:"REL",ord:3,
+ stem:"An arteriovenous fistula forms between a meningeal artery and a dural venous sinus. Which property of dural venous sinuses determines how the arterial blood behaves?",
+ opts:["They contain valves that direct flow toward the heart","They have no valves, so flow can travel in either direction","They lie within the subarachnoid space and mix with CSF","Their pressure normally exceeds arterial pressure","They drain into the vertebral venous plexus only"],ans:1,
+ why:"Dural venous sinuses lie between the periosteal and meningeal layers of dura and have no valves. Arterial blood entering a sinus is carried toward the internal jugular vein, but the absence of valves also permits retrograde flow.",
+ wrong:["Sinuses have no valves at all.","","They lie between dural layers, not in the subarachnoid space.","Arterial pressure always exceeds venous, which is what drives the shunt.","Their main outflow is the internal jugular vein."],
+ pearl:"No valves anywhere in the head's venous drainage. That single fact explains the danger triangle, emissary vein spread and dural fistula physiology."},
+{id:"E73",set:"DSC",ord:3,
+ stem:"Two intrinsic laryngeal muscles act on the arytenoid's muscular process in opposite directions. Which pair, and what does each do?",
+ opts:["Posterior cricoarytenoid abducts and opens the glottis; lateral cricoarytenoid adducts and closes it","Posterior cricoarytenoid adducts; lateral cricoarytenoid abducts","Cricothyroid abducts; thyroarytenoid adducts","Transverse arytenoid abducts; oblique arytenoid adducts","Vocalis abducts; thyroarytenoid adducts"],ans:0,
+ why:"Both are supplied by the recurrent laryngeal nerve and both pull on the muscular process, but in opposite directions: the posterior cricoarytenoid swings the vocal process laterally to open the glottis, the lateral cricoarytenoid swings it medially to close it.",
+ wrong:["","This reverses them.","Cricothyroid tenses and is on the external laryngeal nerve; thyroarytenoid relaxes.","Both arytenoid muscles adduct.","Neither abducts."],
+ pearl:"Posterior opens, Lateral closes. Same nerve, same bone, opposite directions — the cleanest antagonistic pair in the larynx."},
+{id:"E74",set:"LOC",ord:3,
+ stem:"A patient is in stridor with both vocal folds sitting near the midline. Which muscle has failed bilaterally, and why is the airway, rather than the voice, the problem?",
+ opts:["Cricothyroid; pitch collapse narrows the airway","Posterior cricoarytenoid; it is the only abductor, so nothing opens the glottis","Lateral cricoarytenoid; unopposed adduction closes the glottis","Thyroarytenoid; relaxed folds flap into the airway","Transverse arytenoid; the posterior glottis seals"],ans:1,
+ why:"Every other intrinsic muscle adducts or tenses. With both posterior cricoarytenoids denervated there is no abductor anywhere, so the folds rest adducted and the airway, not phonation, is threatened.",
+ wrong:["Cricothyroid affects pitch, not calibre.","","Losing the lateral cricoarytenoid would OPEN the glottis, not close it.","Thyroarytenoid loss changes voice quality.","Loss of an adductor cannot narrow the airway."],
+ pearl:"Unilateral recurrent laryngeal palsy is a voice problem. Bilateral is an airway emergency, because the sole abductor is gone on both sides."},
+{id:"E75",set:"REL",ord:3,
+ stem:"A tag sits on the POSTERIOR tonsillar pillar. Name the fold, the muscle within it, and its nerve.",
+ opts:["Palatoglossal fold; palatoglossus; CN X","Palatopharyngeal fold; palatopharyngeus; CN X","Palatopharyngeal fold; palatopharyngeus; CN IX","Salpingopharyngeal fold; salpingopharyngeus; CN IX","Palatoglossal fold; palatoglossus; CN XII"],ans:1,
+ why:"The posterior pillar is the palatopharyngeal fold, raised by palatopharyngeus, which like almost all palatal and pharyngeal muscles is CN X through the pharyngeal plexus.",
+ wrong:["That is the ANTERIOR pillar.","","CN IX supplies only stylopharyngeus.","That fold is in the nasopharynx, not the tonsillar region.","Palatoglossus is CN X, not CN XII, and sits in the anterior pillar."],
+ pearl:"Anterior pillar palatoglossal, posterior pillar palatopharyngeal, palatine tonsil between them, CN IX just deep to the bed."},
+{id:"E76",set:"DSC",ord:3,
+ stem:"A thin sheet of muscle in the superficial fascia of the neck is tagged. Which nerve supplies it, and which nerve supplies the SKIN directly over it?",
+ opts:["Motor: cervical branch of CN VII. Sensory: transverse cervical nerve of the cervical plexus","Motor: ansa cervicalis. Sensory: great auricular nerve","Motor: cervical plexus. Sensory: cervical branch of CN VII","Motor: CN XI. Sensory: supraclavicular nerves","Motor and sensory: both cervical plexus"],ans:0,
+ why:"Platysma is a muscle of facial expression that migrated into the neck, so it is CN VII through the cervical branch. The overlying skin of the anterior triangle is supplied by the transverse cervical nerve from the cervical plexus.",
+ wrong:["","Ansa cervicalis supplies the infrahyoid straps, deep to platysma.","This reverses motor and sensory.","CN XI supplies sternocleidomastoid and trapezius.","The motor supply is cranial, not cervical."],
+ pearl:"Platysma is the one muscle of facial expression below the mandible. Its nerve is the giveaway that it is a second arch derivative."},
+{id:"E77",set:"REL",ord:2,
+ stem:"Three foramina lie in a near-vertical line on the front of the skull. Which trigeminal divisions emerge from them, from top to bottom?",
+ opts:["V1, V2, V3","V1, V3, V2","V2, V1, V3","V3, V2, V1","V2, V3, V1"],ans:0,
+ why:"The supraorbital foramen transmits the supraorbital nerve of V1, the infraorbital foramen the infraorbital nerve of V2, and the mental foramen the mental nerve of V3.",
+ wrong:["","V2 and V3 are swapped.","V1 is uppermost.","This is inverted.","This is scrambled."],
+ pearl:"Supraorbital, infraorbital, mental — V1, V2, V3 stacked in order down the face, a favourite dry-skull tag."},
+{id:"E78",set:"LOC",ord:3,
+ stem:"A lesion spares levator palpebrae superioris and superior rectus but paralyses medial rectus, inferior rectus and inferior oblique, with a dilated pupil. Which part of CN III is involved?",
+ opts:["Superior division only","Inferior division only","The whole nerve trunk","The Edinger-Westphal nucleus only","The ciliary ganglion only"],ans:1,
+ why:"The inferior division supplies medial rectus, inferior rectus and inferior oblique, and carries the parasympathetic root to the ciliary ganglion. The superior division, supplying levator and superior rectus, is spared.",
+ wrong:["That would paralyse the lid and superior rectus.","","A whole-trunk lesion would add ptosis.","That would give a dilated pupil with normal eye movements.","That too would spare the extraocular muscles."],
+ pearl:"Preserved lid elevation with a blown pupil localises to the inferior division, because the parasympathetics travel with it."},
+{id:"E79",set:"DSC",ord:3,
+ stem:"A patient with vertical diplopia habitually tilts the head to the LEFT. Which nerve is affected, on which side, and what is the mechanism?",
+ opts:["Right CN IV; the right eye is extorted and slightly elevated, and tilting away realigns the images","Left CN IV; tilting toward the lesion compensates","Right CN VI; tilting compensates for lost abduction","Left CN III; tilting lifts the ptotic lid","Right CN IV; tilting toward the lesion compensates"],ans:0,
+ why:"Loss of superior oblique leaves the eye extorted and a little elevated. Head tilt to the opposite side drives compensatory intorsion of that eye and brings the two images together.",
+ wrong:["","The tilt is away from the lesion, not toward it.","CN VI palsy causes horizontal, not vertical, diplopia.","CN III palsy gives a down-and-out eye with severe ptosis.","The direction of tilt is wrong."],
+ pearl:"Head tilts AWAY from a CN IV palsy. Normally a leftward tilt extorts the right eye and intorts the left."},
+{id:"E80",set:"INT",ord:3,
+ stem:"During carotid surgery, manipulation near the bifurcation produces sudden bradycardia and hypotension. Which structure was stimulated, what does it sense, and which nerve carries the afferent?",
+ opts:["Carotid body; oxygen tension; CN X","Carotid sinus; arterial stretch; CN IX","Carotid body; arterial stretch; CN IX","Carotid sinus; carbon dioxide; CN X","Superior cervical ganglion; sympathetic tone; CN IX"],ans:1,
+ why:"The carotid sinus is a baroreceptor in the dilated proximal internal carotid. Stretch signals travel in CN IX and reflexly slow the heart and drop the pressure.",
+ wrong:["The carotid body is a chemoreceptor and would not produce this reflex.","","The body senses chemistry, not stretch.","The sinus senses pressure, and its afferent is CN IX.","The ganglion is efferent sympathetic."],
+ pearl:"Sinus senses stretch, body senses chemistry. Both report to CN IX, and the sinus reflex is why surgeons infiltrate it with local anaesthetic."},
+{id:"E81",set:"DSC",ord:3,
+ stem:"A patient has acute unilateral facial weakness involving the forehead, with normal taste, normal tearing and no hyperacusis. Where along CN VII does this place the lesion, and what is the likely diagnosis?",
+ opts:["Proximal to the greater petrosal nerve; Ramsay Hunt syndrome","At or near the stylomastoid foramen; Bell palsy","At the internal acoustic meatus; acoustic neuroma","In the cerebral cortex; a stroke","At the geniculate ganglion; herpes zoster"],ans:1,
+ why:"Forehead involvement makes it peripheral. Sparing of tears, stapedius and taste places it distal to all three of those branches, which is the stylomastoid region — the classic Bell palsy location.",
+ wrong:["That would abolish tearing and taste and add hyperacusis.","","That would usually add hearing loss.","A cortical lesion spares the forehead.","That would abolish tearing and add ear pain and vesicles."],
+ pearl:"Bell palsy follows inflammation within the facial canal or near the stylomastoid exit, and is a diagnosis of exclusion."},
+{id:"E82",set:"DSC",ord:3,
+ stem:"Two muscles lie stacked immediately beneath the orbital roof and share one cranial nerve. How would you tell their deficits apart clinically?",
+ opts:["Levator palpebrae superioris loss drops the lid; superior rectus loss impairs upgaze of the globe","Levator loss impairs upgaze; superior rectus loss drops the lid","Both drop the lid equally","Both impair upgaze equally","Levator loss causes proptosis; superior rectus loss causes ptosis"],ans:0,
+ why:"Both are CN III and lie one on top of the other, but levator palpebrae superioris inserts into the superior tarsus and moves the LID, while superior rectus inserts on the sclera and moves the GLOBE.",
+ wrong:["","This reverses them.","Only levator moves the lid.","Only superior rectus elevates the globe.","Neither causes proptosis."],
+ pearl:"On a specimen they are stacked and easy to confuse. Lid versus globe is the functional test that separates them."},
+{id:"E83",set:"DSC",ord:2,
+ stem:"On laryngoscopy, which set of features identifies the TRUE vocal fold rather than the vestibular fold?",
+ opts:["Superior, pink, thick, with a rounded edge","Inferior, pearly white, with a sharp free edge","Superior, white, with a sharp edge","Inferior, pink, with a rounded edge","Neither can be distinguished without palpation"],ans:1,
+ why:"The avascular vocal ligament under the mucosa makes the true fold white with a crisp edge. The vestibular fold above it is pinker and thicker, and the ventricle lies between them.",
+ wrong:["That is the vestibular fold.","","Colour is right but position is wrong.","Position is right but colour is wrong.","They are readily distinguished on inspection."],
+ pearl:"White and sharp is true, pink and plump is false, ventricle in between."},
+{id:"E84",set:"REL",ord:3,
+ stem:"Two strap muscles both attach to the thyroid cartilage. Which is which, and why do they have different nerves?",
+ opts:["Thyrohyoid runs hyoid to thyroid and is C1 via CN XII; sternothyroid runs sternum to thyroid and is ansa cervicalis","Thyrohyoid is ansa cervicalis; sternothyroid is C1 via CN XII","Both are ansa cervicalis","Both are C1 via CN XII","Thyrohyoid is CN VII; sternothyroid is ansa cervicalis"],ans:0,
+ why:"Thyrohyoid is the exception among the infrahyoid muscles: C1 fibres travelling with CN XII leave the nerve to supply it, and also geniohyoid. The other three straps are ansa cervicalis.",
+ wrong:["","This reverses them.","Thyrohyoid is the exception.","Only thyrohyoid and geniohyoid are C1.","No strap muscle is CN VII."],
+ pearl:"Three of four infrahyoids on the ansa, one quarter (thyrohyoid) on C1 riding CN XII."},
+{id:"E85",set:"REL",ord:3,
+ stem:"Two veins in the face are easily confused on a specimen. Which description correctly matches each?",
+ opts:["Retromandibular lies within the parotid and is formed by superficial temporal plus maxillary; facial runs obliquely across the face with the facial artery","Retromandibular runs with the facial artery; facial lies within the parotid","Both lie within the parotid","Retromandibular drains the orbit; facial drains the scalp","Facial is formed by superficial temporal plus maxillary; retromandibular drains the lip"],ans:0,
+ why:"The retromandibular vein forms inside the parotid from the superficial temporal and maxillary veins. The facial vein is superficial, running with the facial artery from the medial angle of the eye down across the mandible.",
+ wrong:["","This reverses them.","Only the retromandibular is intraparotid.","The facial vein communicates with the orbit, not the retromandibular.","This reverses the tributaries."],
+ pearl:"The facial vein's communication with the ophthalmic veins is what makes the danger triangle dangerous."},
+{id:"E86",set:"LOC",ord:3,
+ stem:"A patient's jaw deviates to the RIGHT on opening. Which muscle is weak, on which side, and why does the jaw move that way?",
+ opts:["Right lateral pterygoid; the intact left muscle protrudes the left condyle and swings the jaw right","Left lateral pterygoid; the intact right muscle swings the jaw right","Right temporalis; unopposed retraction pulls the jaw right","Right masseter; unopposed elevation pulls the jaw right","Left medial pterygoid; unopposed elevation swings the jaw right"],ans:0,
+ why:"Lateral pterygoid protrudes the mandible and swings it to the opposite side. With the right paralysed, the left one pushes the jaw across to the right, toward the weak side.",
+ wrong:["","A left lesion would deviate the jaw left.","Temporalis retracts and elevates; it does not cause deviation on opening.","Masseter elevates and does not open the jaw.","Medial pterygoid elevates and protrudes but is not the main opener."],
+ pearl:"Jaw deviates TOWARD the weak side on opening — the same rule as the tongue in CN XII palsy."},
+{id:"E87",set:"REL",ord:2,
+ stem:"The frontal nerve divides into two terminal branches. Which are they, and which division of CN V do they belong to?",
+ opts:["Supraorbital and supratrochlear; V1","Supraorbital and infraorbital; V1 and V2","Infratrochlear and external nasal; V1","Zygomaticofacial and zygomaticotemporal; V2","Supratrochlear and infratrochlear; V2"],ans:0,
+ why:"The frontal nerve is the largest V1 branch, running forward under the orbital roof and dividing into the supraorbital and supratrochlear nerves to supply the forehead and anterior scalp.",
+ wrong:["","The infraorbital nerve is V2.","Those are nasociliary branches.","Those are zygomatic branches of V2.","Both belong to V1, and infratrochlear is nasociliary."],
+ pearl:"Frontal is the nerve you meet first on lifting the orbital roof, lying directly on levator palpebrae superioris."},
+{id:"E88",set:"SRG",ord:3,
+ stem:"A retropharyngeal abscess is drained. The surgeon must know which fascial plane it occupies, because one plane stops at the mediastinum and another does not. Which pair of boundaries defines the space that reaches the DIAPHRAGM?",
+ opts:["Buccopharyngeal and alar fascia","Alar and prevertebral fascia","Investing and pretracheal fascia","Pretracheal fascia and the carotid sheath","Prevertebral fascia and the vertebral bodies"],ans:1,
+ why:"The danger space lies between the alar and prevertebral fasciae and runs uninterrupted from the skull base to the diaphragm. The retropharyngeal space proper, between buccopharyngeal and alar fascia, ends around T1 to T6.",
+ wrong:["That is the retropharyngeal space, which stops at T1 to T6.","","Those enclose the infrahyoid compartment.","Pretracheal spread goes anterior to the pericardium.","There is no clinically relevant space there."],
+ pearl:"Two spaces, one fascia apart. Alar fascia is the divider, and which side of it the pus sits on decides how far it travels."},
+{id:"E89",set:"SRG",ord:3,
+ stem:"A scalp wound bleeds profusely and its edges gape widely. A week later infection has tracked into the eyelids. Which two layers explain these two behaviours?",
+ opts:["Skin for the bleeding; pericranium for the spread","Dense connective tissue for the bleeding; loose connective tissue for the spread","Aponeurosis for the bleeding; skin for the spread","Loose connective tissue for the bleeding; dense connective tissue for the spread","Pericranium for both"],ans:1,
+ why:"Layer two is dense and richly vascular, with vessels tethered open so they cannot retract — hence profuse bleeding. Layer four is loose areolar tissue, the danger area, through which blood and pus spread freely and forward into the eyelids.",
+ wrong:["Skin alone bleeds no more than elsewhere; pericranium limits spread to one bone.","","The aponeurosis is what makes the wound GAPE when cut transversely.","This reverses the two layers.","Pericranium is adherent at the sutures and limits spread."],
+ pearl:"SCALP: Skin, Connective tissue, Aponeurosis, Loose connective tissue, Pericranium. Layer 2 bleeds, layer 4 spreads, layer 3 makes it gape."},
+{id:"E90",set:"AUT",ord:3,
+ stem:"Taste is lost from the root of the tongue and the epiglottis, but taste over the posterior third and the anterior two-thirds is normal. Which nerve is affected?",
+ opts:["CN VII via the chorda tympani","CN IX","CN X","CN V3 via the lingual nerve","CN XII"],ans:2,
+ why:"Three nerves carry taste, front to back: CN VII for the anterior two-thirds, CN IX for the posterior third, and CN X for the root of the tongue and the epiglottis.",
+ wrong:["That covers the anterior two-thirds.","That covers the posterior third.","","The lingual nerve carries general sensation, not taste, in its own right.","CN XII is purely motor."],
+ pearl:"Most students stop at two taste nerves. The review adds a third: CN X takes the root and epiglottis."},
+{id:"E91",set:"AUT",ord:3,
+ stem:"Which branch of CN VII carries BOTH branchial motor and general sensory fibres, and what does each component supply?",
+ opts:["Chorda tympani; taste and salivation","Greater petrosal nerve; lacrimation and nasal secretion","Posterior auricular nerve; occipital belly and auricular muscles, plus skin of the external ear","Nerve to stapedius; the stapedius muscle only","Marginal mandibular branch; depressor muscles and lower lip skin"],ans:2,
+ why:"The posterior auricular nerve is motor to the occipital belly of occipitofrontalis and the auricular muscles, and sensory to the skin of the external ear.",
+ wrong:["That carries special sensory and parasympathetic fibres.","That carries parasympathetic fibres only.","","That is branchial motor only.","The terminal branches are motor only; lower lip skin is the mental nerve of V3."],
+ pearl:"This branch is why Ramsay Hunt gives ear pain and vesicles alongside facial weakness — CN VII genuinely has a skin territory."},
+{id:"E92",set:"REL",ord:3,
+ stem:"All four cutaneous branches of the cervical plexus emerge at one point. Where is it, and which branch supplies the skin over the CLAVICLE?",
+ opts:["Anterior border of sternocleidomastoid; great auricular nerve","Posterior border of sternocleidomastoid; supraclavicular nerves","Posterior border of trapezius; lesser occipital nerve","Anterior border of trapezius; transverse cervical nerve","Midpoint of the clavicle; supraclavicular nerves"],ans:1,
+ why:"The nerve point of the neck lies at the middle of the posterior border of sternocleidomastoid, where the great auricular, lesser occipital, transverse cervical and supraclavicular nerves all emerge. The supraclavicular nerves cover the clavicle and shoulder.",
+ wrong:["The point is on the posterior border, and the great auricular covers the ear and mastoid.","","The lesser occipital covers scalp behind the ear.","The transverse cervical covers the anterior triangle.","They emerge higher, at the nerve point."],
+ pearl:"One point, four nerves, four territories: ear and mastoid, behind the ear, anterior triangle, clavicle and shoulder."},
+{id:"E93",set:"SRG",ord:3,
+ stem:"A supraclavicular block is placed and the patient becomes breathless. Which nerve was affected, where does it lie, and what is its root value?",
+ opts:["Phrenic nerve, on the anterior surface of anterior scalene, C3 to C5","Phrenic nerve, posterior to anterior scalene, C5 to C7","Long thoracic nerve, on middle scalene, C5 to C7","Vagus nerve, in the carotid sheath, cranial","Recurrent laryngeal nerve, in the tracheo-oesophageal groove, cranial"],ans:0,
+ why:"The phrenic nerve arises from C3, C4 and C5 and descends on the ANTERIOR surface of anterior scalene, where local anaesthetic tracking from a supraclavicular block can reach it and paralyse the hemidiaphragm.",
+ wrong:["","It lies anterior to the muscle, and its roots are C3 to C5.","That would cause scapular winging, not breathlessness.","Vagal block would affect voice and swallowing.","That would cause hoarseness."],
+ pearl:"C3, 4, 5 keeps the diaphragm alive. Anterior to anterior scalene is phrenic; posterior to it are the trunks and the subclavian artery."},
+{id:"E94",set:"INT",ord:3,
+ stem:"A schwannoma is resected from the infratemporal fossa and bleeding is controlled by clamping the main arterial supply of the region. Which artery, and which of its branches would also be devascularised?",
+ opts:["Facial artery; the tonsillar and submental branches","Maxillary artery; the inferior alveolar, middle meningeal, deep temporal and buccal branches","Superficial temporal artery; the frontal and parietal branches","Internal carotid artery; the ophthalmic branch","Ascending pharyngeal artery; its pharyngeal branches"],ans:1,
+ why:"The maxillary artery is the larger terminal branch of the external carotid and the principal supply of the infratemporal fossa. Its branches there include the inferior alveolar, middle meningeal, deep temporal and buccal arteries.",
+ wrong:["The facial artery supplies the face and tonsil, outside this fossa.","","The superficial temporal artery supplies the scalp.","The internal carotid supplies the brain and orbit.","The ascending pharyngeal artery runs on the pharyngeal wall."],
+ pearl:"Clamping the maxillary artery also cuts the middle meningeal — which is why a pterion fracture and an infratemporal fossa operation involve the same arterial tree."},
+{id:"E95",set:"REL",ord:3,
+ stem:"Which structures pass through the gap BETWEEN the superior and middle pharyngeal constrictors?",
+ opts:["Levator veli palatini and the pharyngotympanic tube","Stylopharyngeus and the glossopharyngeal nerve","Internal laryngeal nerve and the superior laryngeal vessels","Recurrent laryngeal nerve and the inferior laryngeal artery","Ascending palatine artery alone"],ans:1,
+ why:"Stylopharyngeus descends from the styloid process into the pharyngeal wall through this interval, carrying CN IX with it to reach the oropharynx and tonsillar bed.",
+ wrong:["Those pass ABOVE the superior constrictor.","","Those pass between middle and inferior.","That passes below the inferior constrictor.","That accompanies levator veli palatini above the superior constrictor."],
+ pearl:"Four gaps, four contents, top to bottom: tube and levator; stylopharyngeus and CN IX; internal laryngeal; recurrent laryngeal."},
+{id:"E96",set:"INT",ord:3,
+ stem:"During thyroidectomy both arterial supplies are ligated. From which parent vessels do the superior and inferior thyroid arteries arise?",
+ opts:["Both from the external carotid artery","Superior from the external carotid; inferior from the thyrocervical trunk of the subclavian","Superior from the thyrocervical trunk; inferior from the external carotid","Both from the subclavian artery","Superior from the common carotid; inferior from the internal thoracic artery"],ans:1,
+ why:"The superior thyroid artery is the first anterior branch of the external carotid. The inferior thyroid artery is a branch of the thyrocervical trunk, which arises from the first part of the subclavian artery.",
+ wrong:["Only the superior is external carotid.","","This reverses them.","Only the inferior derives from the subclavian.","Neither arises from those vessels."],
+ pearl:"Two arteries, two origins, two nerves at risk: superior with the external laryngeal, inferior with the recurrent laryngeal."},
+{id:"E97",set:"INT",ord:3,
+ stem:"Match each extrinsic tongue muscle to its action. Which set is entirely correct?",
+ opts:["Genioglossus protrudes, hyoglossus depresses, styloglossus retracts, palatoglossus elevates","Genioglossus retracts, hyoglossus elevates, styloglossus protrudes, palatoglossus depresses","Genioglossus depresses, hyoglossus protrudes, styloglossus elevates, palatoglossus retracts","Genioglossus elevates, hyoglossus retracts, styloglossus depresses, palatoglossus protrudes","All four protrude the tongue to differing degrees"],ans:0,
+ why:"Genioglossus pulls the tongue forward from the mandible, hyoglossus pulls it down toward the hyoid, styloglossus pulls it back and up toward the styloid process, and palatoglossus lifts its posterior part toward the palate.",
+ wrong:["","Each of these is reversed.","Each of these is reversed.","Each of these is reversed.","They act in different directions."],
+ pearl:"Name the attachment and the action follows: genio- forward, hyo- down, stylo- back, palato- up."},
+{id:"E98",set:"LOC",ord:3,
+ stem:"A patient can elevate the mandible normally and can protrude it, but cannot retract it. Which muscle is affected, and which of its neighbours would you expect to be normal?",
+ opts:["Temporalis affected; masseter and both pterygoids normal","Masseter affected; temporalis normal","Lateral pterygoid affected; temporalis normal","Medial pterygoid affected; masseter normal","Buccinator affected; temporalis normal"],ans:0,
+ why:"Retraction is performed by the posterior fibres of temporalis alone. Masseter and medial pterygoid elevate and protrude, and lateral pterygoid protrudes and depresses — none of them retracts.",
+ wrong:["","Masseter does not retract.","Lateral pterygoid protrudes and depresses.","Medial pterygoid elevates and protrudes.","Buccinator does not move the mandible."],
+ pearl:"Elevation is shared by three muscles, so it never localises. Retraction belongs to temporalis alone and always does."},
+{id:"E99",set:"AUT",ord:3,
+ stem:"A patient reports that swallowing no longer relieves ear fullness on one side, and the palate droops on the same side. Which two muscles are affected, and which nerves supply them?",
+ opts:["Tensor veli palatini (V3) and levator veli palatini (CN X)","Both tensor and levator veli palatini, both CN X","Both tensor and levator veli palatini, both V3","Salpingopharyngeus (CN IX) and palatoglossus (CN XII)","Musculus uvulae (V3) and palatopharyngeus (CN IX)"],ans:0,
+ why:"Tensor veli palatini opens the pharyngotympanic tube during swallowing and is the one palatal muscle on V3. Levator veli palatini elevates the palate and, like the rest, is CN X.",
+ wrong:["","Tensor is V3, not CN X.","Levator is CN X, not V3.","Salpingopharyngeus is CN X and palatoglossus is CN X.","Musculus uvulae is CN X and palatopharyngeus is CN X."],
+ pearl:"Tensor tenses and opens the tube (V3). Levator lifts (CN X). Losing both at once means the lesion is near the skull base where they arise together."},
+{id:"E100",set:"INT",ord:3,
+ stem:"A patient has constant overflow of tears down one cheek after a midfacial fracture. Tracing the drainage pathway, where is the obstruction most likely, and into which space should the fluid normally arrive?",
+ opts:["Lacrimal gland; the conjunctival sac","Nasolacrimal duct; the inferior meatus","Lacrimal canaliculi; the middle meatus","Lacrimal sac; the sphenoethmoidal recess","Punctum; the superior meatus"],ans:1,
+ why:"Tears pass from the puncta through the canaliculi to the lacrimal sac and down the nasolacrimal duct, which opens into the inferior meatus beneath the inferior concha. A midfacial fracture most often disrupts the duct within the bony canal.",
+ wrong:["The gland produces tears; obstruction there would cause a dry eye, not overflow.","","The canaliculi drain to the sac, and the middle meatus takes sinuses.","The sac drains to the inferior meatus, not that recess.","A punctal problem is possible but the duct is what a midfacial fracture disrupts, and it opens into the inferior meatus."],
+ pearl:"The inferior meatus has exactly one customer: the nasolacrimal duct. That is why you sniff when you cry."}
+];
+</script>
+<script>
+"use strict";
+var app=document.getElementById('app'), bar=document.getElementById('bar');
+var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+var S=null, tick=null;
+
+/* shuffle options per question so the key is never positional */
+function prep(){
+  return Q.map(function(q){
+    var idx=q.opts.map(function(_,i){return i;});
+    for(var a=idx.length-1;a>0;a--){var b=Math.floor(Math.random()*(a+1));var t=idx[a];idx[a]=idx[b];idx[b]=t;}
+    return {id:q.id,set:q.set,ord:q.ord,stem:q.stem,why:q.why,pearl:q.pearl,
+            opts:idx.map(function(i){return q.opts[i];}),
+            wrong:idx.map(function(i){return q.wrong[i];}),
+            ans:idx.indexOf(q.ans)};
+  });
+}
+function shuffled(a){var x=a.slice();for(var i=x.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=x[i];x[i]=x[j];x[j]=t;}return x;}
+
+/* ---------- start ---------- */
+function renderStart(){
+  S=null; bar.classList.add('hide'); stopClock();
+  var best=0; try{best=parseInt(localStorage.getItem('hnss-final-best')||'0',10)||0;}catch(e){}
+  app.innerHTML=
+  '<div class="mast"><div class="brand">HoyaDocs <b>&middot;</b> Anatomy Final</div>'+
+  '<div class="tag">Block 5 &middot; HNSS &middot; Rev 1 &middot; Updated Sep 27, 2026</div></div>'+
+  '<h1>One hundred questions.<span>No easy marks.</span></h1>'+
+  '<p class="lede">A full-length written paper built from the exam forecast, the annotated practice set, the GA cranial nerve review, the formative keys and all six lab quizzes &mdash; audited so that every distinct teachable point in those five documents is tested at least once. Almost every item is second or third order: you are given a finding and asked to localize it, then predict a different consequence of the same lesion.</p>'+
+  '<div class="facts">'+
+  '<div><span class="n">100</span><span class="l">Questions, five options each</span></div>'+
+  '<div><span class="n">91</span><span class="l">Third-order items</span></div>'+
+  '<div><span class="n">6</span><span class="l">Reasoning domains</span></div>'+
+  '<div><span class="n">'+(best?best+'%':'&mdash;')+'</span><span class="l">Your best score</span></div>'+
+  '</div>'+
+  '<div class="fl"><span class="lab">Timing</span><div class="seg" id="segT">'+
+  '<button data-v="100" aria-pressed="true">100 min</button><button data-v="130" aria-pressed="false">130 min</button><button data-v="0" aria-pressed="false">Untimed</button></div>'+
+  '<p class="hint">A hundred minutes is one per question. Untimed is the better first pass &mdash; read every explanation as you go.</p></div>'+
+  '<div class="fl"><span class="lab">Order</span><div class="seg" id="segO">'+
+  '<button data-v="shuffle" aria-pressed="true">Shuffle</button><button data-v="domain" aria-pressed="false">By domain</button></div>'+
+  '<p class="hint">Shuffling mixes the domains the way a real paper does. Option order is always randomised.</p></div>'+
+  '<button class="go" id="btnStart">Begin exam</button>';
+  var mins=100, ord='shuffle';
+  document.getElementById('segT').onclick=function(e){var b=e.target.closest('button');if(!b)return;mins=parseInt(b.dataset.v,10);
+    [].forEach.call(this.children,function(c){c.setAttribute('aria-pressed',String(c===b));});};
+  document.getElementById('segO').onclick=function(e){var b=e.target.closest('button');if(!b)return;ord=b.dataset.v;
+    [].forEach.call(this.children,function(c){c.setAttribute('aria-pressed',String(c===b));});};
+  document.getElementById('btnStart').onclick=function(){begin(mins,ord);};
+}
+
+/* ---------- exam ---------- */
+function begin(mins,ord){
+  var deck=prep();
+  deck = ord==='shuffle' ? shuffled(deck)
+       : deck.sort(function(a,b){return Object.keys(SETS).indexOf(a.set)-Object.keys(SETS).indexOf(b.set);});
+  S={deck:deck,i:0,pick:new Array(deck.length).fill(-1),flag:new Array(deck.length).fill(false),
+     mins:mins,deadline:mins?Date.now()+mins*60000:0};
+  bar.classList.remove('hide');
+  document.getElementById('qt').textContent=deck.length;
+  document.getElementById('clock').classList.toggle('hide',!mins);
+  if(mins){startClock();}
+  renderQ();
+}
+function startClock(){stopClock();tick=setInterval(function(){
+  var left=S.deadline-Date.now();
+  if(left<=0){stopClock();finish();return;}
+  var m=Math.floor(left/60000), s=Math.floor(left%60000/1000);
+  var el=document.getElementById('clock');
+  el.textContent=m+':'+(s<10?'0':'')+s;
+  el.classList.toggle('low',left<5*60000);
+},250);}
+function stopClock(){if(tick){clearInterval(tick);tick=null;}}
+
+function updBar(){
+  document.getElementById('qn').textContent=S.i+1;
+  document.getElementById('an').textContent=S.pick.filter(function(p){return p>=0;}).length;
+  document.getElementById('pbar').style.width=((S.i+1)/S.deck.length*100)+'%';
+}
+function renderQ(){
+  var q=S.deck[S.i];
+  updBar();
+  app.innerHTML=
+  '<div class="qcard"><div class="qmeta">'+
+  '<span class="chip">'+esc(SETS[q.set])+'</span>'+
+  '<span class="chip ord">'+(q.ord===3?'Third order':'Second order')+'</span></div>'+
+  '<p class="stem">'+q.stem+'</p><div class="opts" id="opts">'+
+  q.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'" aria-pressed="'+(S.pick[S.i]===i)+'"><span class="k">'+'ABCDE'[i]+'</span><span>'+esc(o)+'</span></button>';}).join('')+
+  '</div><div class="nav">'+
+  '<button class="btn" id="prev"'+(S.i===0?' disabled':'')+'>&larr; Prev</button>'+
+  '<button class="btn flagbtn" id="flag" aria-pressed="'+S.flag[S.i]+'">Flag</button>'+
+  '<span class="spacer"></span>'+
+  '<button class="btn primary" id="next">'+(S.i===S.deck.length-1?'Review all':'Next &rarr;')+'</button>'+
+  '</div></div>'+
+  '<details class="navwrap"><summary>Question navigator</summary>'+
+  '<div class="navgrid" id="grid">'+S.deck.map(function(_,i){
+    var c='cell'+(S.pick[i]>=0?' done':'')+(S.flag[i]?' flag':'')+(i===S.i?' cur':'');
+    return '<button class="'+c+'" data-g="'+i+'">'+(i+1)+'</button>';}).join('')+'</div>'+
+  '<div class="legend"><span><i class="sw d"></i>Answered</span><span><i class="sw f"></i>Flagged</span><span><i class="sw"></i>Untouched</span></div>'+
+  '</details>';
+
+  document.getElementById('opts').onclick=function(e){
+    var b=e.target.closest('.opt'); if(!b)return;
+    S.pick[S.i]=parseInt(b.dataset.i,10);
+    [].forEach.call(this.children,function(c){c.setAttribute('aria-pressed',String(c===b));});
+    updBar();
+    var g=document.querySelector('[data-g="'+S.i+'"]'); if(g)g.classList.add('done');
+  };
+  document.getElementById('prev').onclick=function(){if(S.i>0){S.i--;renderQ();window.scrollTo(0,0);}};
+  document.getElementById('next').onclick=function(){
+    if(S.i===S.deck.length-1){finish();} else {S.i++;renderQ();window.scrollTo(0,0);} };
+  document.getElementById('flag').onclick=function(){
+    S.flag[S.i]=!S.flag[S.i]; this.setAttribute('aria-pressed',String(S.flag[S.i]));
+    var g=document.querySelector('[data-g="'+S.i+'"]'); if(g)g.classList.toggle('flag',S.flag[S.i]);
+  };
+  document.getElementById('grid').onclick=function(e){
+    var b=e.target.closest('[data-g]'); if(!b)return;
+    S.i=parseInt(b.dataset.g,10); renderQ(); window.scrollTo(0,0);
+  };
+}
+
+/* ---------- results ---------- */
+function finish(){
+  stopClock(); bar.classList.add('hide');
+  var right=0, byset={}, byord={2:{r:0,n:0},3:{r:0,n:0}};
+  S.deck.forEach(function(q,i){
+    var ok=S.pick[i]===q.ans; if(ok)right++;
+    if(!byset[q.set])byset[q.set]={r:0,n:0};
+    byset[q.set].n++; if(ok)byset[q.set].r++;
+    byord[q.ord].n++; if(ok)byord[q.ord].r++;
+  });
+  var n=S.deck.length, pct=Math.round(right/n*100);
+  var skipped=S.pick.filter(function(p){return p<0;}).length;
+  var best=0; try{best=parseInt(localStorage.getItem('hnss-final-best')||'0',10)||0;
+    if(pct>best){localStorage.setItem('hnss-final-best',String(pct));}}catch(e){}
+  var verdict = pct>=85?'Exam ready' : pct>=70?'Close &mdash; clean up the weak domains'
+              : pct>=55?'The reasoning is forming, the traps are still landing'
+              : 'Go back to the forecast before the next attempt';
+
+  var bars=Object.keys(byset).sort(function(a,b){
+      return byset[a].r/byset[a].n - byset[b].r/byset[b].n; })
+    .map(function(k){var o=byset[k],p=Math.round(o.r/o.n*100);
+      var cls=p<55?'low':(p<80?'mid':'');
+      return '<div class="tbar"><span>'+esc(SETS[k])+'</span><span class="track"><i class="'+cls+'" style="width:'+p+'%"></i></span><span class="pc">'+p+'%</span></div>';}).join('');
+
+  var rev=S.deck.map(function(q,i){
+    var pick=S.pick[i], ok=pick===q.ans, cls=pick<0?'skip':(ok?'right':'wrong');
+    var mark=pick<0?'Skipped':(ok?'Correct':'Missed');
+    return '<details class="rev '+cls+'"><summary><span class="num">'+(i+1)+'</span>'+
+      '<span>'+q.stem+'</span><span class="mark">'+mark+'</span></summary>'+
+      '<div class="revbody"><ol>'+q.opts.map(function(o,j){
+        var c=j===q.ans?' c':(j===pick?' y':'');
+        var note=q.wrong[j]?'<em>'+esc(q.wrong[j])+'</em>':(j===q.ans?'<em>Correct answer</em>':'');
+        return '<li class="'+c.trim()+'">'+esc(o)+note+'</li>';}).join('')+'</ol>'+
+      '<div class="why">'+q.why+'</div>'+
+      '<div class="pearl"><b>Pearl &middot;</b> '+q.pearl+'</div></div></details>';
+  }).join('');
+
+  app.innerHTML=
+  '<div class="mast"><div class="brand">HoyaDocs <b>&middot;</b> Anatomy Final</div><div class="tag">Result</div></div>'+
+  '<div class="hero"><div class="pct">'+pct+'%</div>'+
+  '<div class="sub">'+right+' of '+n+' correct'+(pct>=best&&pct>0?' &middot; personal best':'')+'</div>'+
+  '<div class="verdict">'+verdict+'</div></div>'+
+  '<div class="rgrid">'+
+  '<div><div class="v" style="color:var(--ok)">'+right+'</div><div class="k">Right</div></div>'+
+  '<div><div class="v" style="color:var(--bad)">'+(n-right-skipped)+'</div><div class="k">Missed</div></div>'+
+  '<div><div class="v" style="color:var(--muted)">'+skipped+'</div><div class="k">Skipped</div></div>'+
+  '<div><div class="v">'+Math.round(byord[3].r/(byord[3].n||1)*100)+'%</div><div class="k">3rd order</div></div>'+
+  '<div><div class="v">'+Math.round(byord[2].r/(byord[2].n||1)*100)+'%</div><div class="k">2nd order</div></div>'+
+  '</div>'+
+  '<h2 class="sec">Accuracy by domain <span class="tag">weakest first</span></h2>'+bars+
+  '<h2 class="sec">Full review</h2>'+
+  '<p class="hint" style="margin-bottom:12px">Every question, with your answer marked and each distractor explained. Open the ones you missed first.</p>'+
+  rev+
+  '<div class="nav" style="margin-top:24px"><button class="btn primary" id="again">Retake</button>'+
+  '<button class="btn" id="home">Start screen</button></div>';
+  document.getElementById('again').onclick=function(){begin(S.mins,'shuffle');window.scrollTo(0,0);};
+  document.getElementById('home').onclick=function(){renderStart();window.scrollTo(0,0);};
+  window.scrollTo(0,0);
+}
+
+document.getElementById('btnEnd').onclick=function(){
+  var un=S?S.pick.filter(function(p){return p<0;}).length:0;
+  if(un===0||confirm(un+' question'+(un===1?'':'s')+' still unanswered. Submit anyway?')) finish();
+};
+document.addEventListener('keydown',function(e){
+  if(!S||!document.getElementById('opts'))return;
+  if(/^[1-5]$/.test(e.key)){var b=document.querySelector('.opt[data-i="'+(+e.key-1)+'"]');if(b){e.preventDefault();b.click();}}
+  if(/^[a-eA-E]$/.test(e.key)){var j='abcde'.indexOf(e.key.toLowerCase());var b2=document.querySelector('.opt[data-i="'+j+'"]');if(b2){e.preventDefault();b2.click();}}
+  if(e.key==='ArrowRight'){var n=document.getElementById('next');if(n){e.preventDefault();n.click();}}
+  if(e.key==='ArrowLeft'){var p=document.getElementById('prev');if(p&&!p.disabled){e.preventDefault();p.click();}}
+  if(e.key==='f'||e.key==='F'){var f=document.getElementById('flag');if(f){e.preventDefault();f.click();}}
+});
+renderStart();
+</script></body></html>
