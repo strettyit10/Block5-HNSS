@@ -17,7 +17,6 @@
   --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
   --arena:#3B2F6E; --arena-soft:#E8E3F7; --arena-ink:#332766;
   --trap:#96313B; --trap-soft:#F8E8E9; --trap-ink:#8A2C35;
-  --gym:#3F8A2E; --gym-soft:#E3F1DC; --gym-ink:#2F6B22;
   --plate:#0E1413;
   --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -33,7 +32,6 @@
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
     --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
     --trap:#E2727A; --trap-soft:#2E1A1D; --trap-ink:#EB8A91;
-    --gym:#8CCB5E; --gym-soft:#1C2A15; --gym-ink:#A6DA80;
     --plate:#080C0B;
   }
 }
@@ -46,7 +44,6 @@
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
     --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
     --trap:#E2727A; --trap-soft:#2E1A1D; --trap-ink:#EB8A91;
-    --gym:#8CCB5E; --gym-soft:#1C2A15; --gym-ink:#A6DA80;
     --plate:#080C0B;
 }
 *{box-sizing:border-box}
@@ -85,14 +82,11 @@ a{color:inherit}
 
 /* ---------- sections ---------- */
 .sec{display:flex;flex-direction:column;gap:12px;--accent:var(--p1);--accent-ink:var(--p1-ink);--accent-soft:var(--p1-soft)}
-.sec#sec-focused{--accent:var(--p2);--accent-ink:var(--p2-ink);--accent-soft:var(--p2-soft)}
-
 .sec#sec-cumulative{--accent:var(--arena);--accent-ink:var(--arena-ink);--accent-soft:var(--arena-soft)}
+.sec#sec-focused{--accent:var(--p2);--accent-ink:var(--p2-ink);--accent-soft:var(--p2-soft)}
 .sechead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border-top:3px solid var(--accent);padding-top:12px}
 .sechead .dot{width:15px;height:15px;border-radius:3px;background:var(--accent);flex:none}
 .sechead .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:3px 10px;line-height:1;margin-left:2px}
-.sechead .hublink{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:5px 12px;text-decoration:none;white-space:nowrap}
-.sechead .hublink:hover{filter:brightness(.96)}
 .sechead h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(31px,3.6vw,42px);line-height:.95;margin:0;letter-spacing:.015em;color:var(--accent-ink)}
 
 /* ---------- cards ---------- */
@@ -103,15 +97,18 @@ a{color:inherit}
 .card.arena{border-left-color:var(--arena)}
 .card.lesion{border-left-color:var(--p2)}
 .card.trap{border-left-color:var(--trap)}
+.card.gym{border-left-color:var(--good)}
+.card.gym .qn{color:var(--good);background:var(--good-soft);border-color:var(--good)}
+.card.gym .go{color:var(--good)}
+/* Neuromon: the one solid card, painted explicitly so it reads the same in both themes */
 .card.neuro{background:linear-gradient(135deg,#2E2557 0%,#5B3A8E 55%,#8E2F58 100%);border-color:#2E2557;border-left-color:#FFB341;color:#F6F3FF}
-.card.neuro:hover{box-shadow:0 8px 24px rgba(46,37,87,.45)}
+.card.neuro:hover{border-color:#FFB341}
 .card.neuro .ctop h3{color:#FFFFFF}
 .card.neuro p{color:#EDE8FF}
 .card.neuro .kick{color:#C9BEF0}
 .card.neuro .qn{color:#FFDCA8;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.45)}
 .card.neuro .t{color:#EDE8FF;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28)}
 .card.neuro .go{color:#FFD08A;border-top-color:rgba(255,255,255,.28)}
-.card.gym{border-left-color:var(--gym)}
 .card.big{grid-column:span 2}
 @media (max-width:760px){.card.big{grid-column:span 1}}
 .ctop{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
@@ -120,7 +117,6 @@ a{color:inherit}
 .qn{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--p1-ink);background:var(--p1-soft);border:1px solid var(--p1);border-radius:3px;padding:2px 7px;white-space:nowrap;flex:none}
 .card.arena .qn{color:var(--arena-ink);background:var(--arena-soft);border-color:var(--arena)}
 .card.lesion .qn{color:var(--p2-ink);background:var(--p2-soft);border-color:var(--p2)}
-.card.gym .qn{color:var(--gym-ink);background:var(--gym-soft);border-color:var(--gym)}
 .card.trap .qn{color:var(--trap-ink);background:var(--trap-soft);border-color:var(--trap)}
 .kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:-4px}
 .card p{margin:0;font-size:13.8px;color:var(--ink)}
@@ -130,7 +126,6 @@ a{color:inherit}
 .card.arena .go{color:var(--arena-ink)}
 .card.lesion .go{color:var(--p2-ink)}
 .card.trap .go{color:var(--trap-ink)}
-.card.gym .go{color:var(--gym-ink)}
 .go svg{width:15px;height:15px;transition:transform .12s}
 .card:hover .go svg{transform:translateX(3px)}
 
@@ -150,7 +145,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <header class="mast">
     <div class="brand">HoyaDocs <b>&middot;</b> Game Hub</div>
-    <div class="tag">Block 5 &middot; HNSS &middot; Rev 15 &middot; Updated Sep 23, 2026</div>
+    <div class="tag">Block 5 &middot; HNSS &middot; Rev 7 &middot; Updated Sep 27, 2026</div>
   </header>
 
   <div class="tag subhead">Head, Neck &amp; Special Senses &middot; anatomy review arcade</div>
@@ -158,10 +153,10 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
   <div class="controls">
     <div class="searchrow">
       <div class="search">
-        <input id="q" type="search" placeholder="Search games, topics, formats&hellip; (e.g. orbit, foramina, images, boss)" autocomplete="off" aria-label="Search games">
+        <input id="q" type="search" placeholder="Search games, topics, formats&hellip; (e.g. orbit, foramina, bell ringer vii, boss)" autocomplete="off" aria-label="Search games">
         <button class="clr" id="clr" title="Clear search" aria-label="Clear search">&times;</button>
       </div>
-      <div class="count" id="count">16 games shown</div>
+      <div class="count" id="count">7 games shown</div>
     </div>
     <div class="chips" id="chips">
       <span class="chiplab">Topic</span>
@@ -187,22 +182,21 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
     </div>
     <div class="grid">
 
-      <a class="card arena" href="Bell%20Ringer%20Hub.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic images step1" data-text="bell ringer hub i ii iii iv v one two three four five lab quiz 1 2 3 4 neck face scalp itf infratemporal fossa cranial cavity orbit foundational rounds formative quizzes practice questions image stations distractors wrong answers foramina skull vessels muscles motor supply ganglia glands reflexes larynx pharynx nose exam forecast blueprint tagged structures step 1 practice vignettes buzzer steal">
-        <div class="ctop"><h3>Bell Ringer &middot; Hub</h3><span class="qn">256 Q</span></div>
-        <div class="kick">Rounds I&ndash;V &middot; 35 image stations &middot; 2P</div>
-        <p>One page into all five rounds: <strong>I</strong> Lab Quizzes 1&ndash;3 with photos &middot; <strong>II</strong> the same concepts reworked &middot; <strong>III</strong> the in-house set with Lab Quiz&nbsp;4 and 30 practical stations &middot; <strong>IV</strong> the concepts behind them &middot; <strong>V</strong> weighted to the exam forecast.</p>
-        <div class="tags"><span class="t">lab quizzes</span><span class="t">formatives</span><span class="t">images</span><span class="t">foramina &amp; ganglia</span><span class="t">exam forecast</span><span class="t">Step 1 style</span></div>
-        <div class="go">Open the hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <a class="card arena" href="Bell%20Ringer%20Hub.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1 images" data-text="bell ringer hub i ii iii iv v vi vii one two three four five six seven rounds lab quiz 1 2 3 4 5 6 image stations neck face scalp itf infratemporal fossa cranial cavity foramina orbit reflexes ganglia ciliary otic pterygopalatine submandibular superior cervical distractors wrong answers foundational rounds formative quiz practical practice questions exam forecast blueprint tagged structures vagus larynx forecast reconciliation blind spots contradicted scalp ear tmj arnold reflex referred otalgia ga cranial nerve review cavernous sinus syndrome horner oculomotor trochlear abducens palsies trigeminal v1 v2 v3 frontal lacrimal nasociliary glossopharyngeal accessory hypoglossal facial nerve greater petrosal stapedius chorda tympani bell palsy cervical plexus ansa phrenic buzzer steal alternate turns step 1 style two player">
+        <div class="ctop"><h3>Bell Ringer Hub</h3><span class="qn">416 Q &middot; 7 rounds</span></div>
+        <div class="kick">Rounds I&ndash;VII &middot; 2P</div>
+        <p>Every Bell Ringer in one place. Stations alternate between players, a miss opens a steal, and each answer comes with the explanation and a pearl. Rounds I and III carry the lab photos; the rest are text only.</p>
+        <div class="tags"><span class="t">lab quizzes</span><span class="t">in-house sets</span><span class="t">exam forecast</span><span class="t">GA CN review</span><span class="t">images</span></div>
+        <div class="go">Open hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
-      <a class="card arena" href="Boss%20Battles%20Hub.html" data-tags="neck face cranial orbit nasaloral larynx cn step1" data-text="boss battles hub decks 1 2 3 4 5 co-op boss battle campaign seven bosses carotid warden parotid gorgon glottis siren sinus leviathan six-muscle cyclops foramen keeper cranial nerve hydra yield tier highest high middle lower edge cases health damage assist hint potion spoils retry 320 questions">
-        <div class="ctop"><h3>Boss Battles &middot; Hub</h3><span class="qn">320 Q &middot; 5 decks</span></div>
-        <div class="kick">Decks 1&ndash;5 &middot; seven bosses each &middot; co-op 2P</div>
-        <p>One page into all five decks, sorted by yield &mdash; Deck&nbsp;1 is the likeliest material, Deck&nbsp;5 the edge cases. Each deck is a full campaign: one boss per region, ending with the Cranial Nerve Hydra, with every question asked once.</p>
-        <div class="tags"><span class="t">all regions</span><span class="t">yield tiers</span><span class="t">co-op</span><span class="t">hints &amp; potions</span><span class="t">full coverage</span></div>
-        <div class="go">Open the hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <a class="card arena" href="Boss%20Battles%20Hub.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1" data-text="boss battles hub cranial nerve hydra decks 1 2 3 4 5 practice exam co-op two player campaign seven bosses carotid warden parotid gorgon glottis siren sinus leviathan six-muscle cyclops foramen keeper trident of v parotid wraith cops quartet h-test watcher vagal choir subclavian kraken skull base titan neck face larynx nose pharynx oral orbit skull foramina cranial nerve lesions trigeminal mastication autonomics ganglia distractors option choices hp damage spoils potion hint step 1 style">
+        <div class="ctop"><h3>Boss Battles Hub</h3><span class="qn">442 Q &middot; 6 campaigns</span></div>
+        <div class="kick">Co-op boss battles &middot; 2P</div>
+        <p>Six campaigns, seven bosses each. Decks&nbsp;1&ndash;5 split the review pool by yield; the Practice Exam campaign is built from the in-house practice questions and their distractors. Every question in a deck gets asked before the run ends.</p>
+        <div class="tags"><span class="t">all regions</span><span class="t">co-op</span><span class="t">yield-sorted</span><span class="t">practice set</span></div>
+        <div class="go">Open hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
-
     </div>
   </section>
 
@@ -214,46 +208,45 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
     </div>
     <div class="grid">
 
-      <a class="card neuro" href="Neuromon%20HNSS.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1" data-text="neuromon muscles extraocular tongue palate face larynx pharynx scalenes innervation paralysis pokemon style game monster battle catch nervedex gym leaders champion lesion rounds i ii trap hunter solo 1p rpg levels badges review weak spots">
-        <div class="ctop"><h3>Neuromon</h3><span class="qn">174 to catch</span></div>
-        <div class="kick">Monster battles &middot; catch &amp; level up &middot; 1P</div>
-        <p>Lesion Rounds I, Lesion Rounds II, Trap Hunter and the HNSS muscle lists rebuilt as a monster-battle RPG. Myo Ridge covers the extraocular, tongue, palate, face, larynx, pharynx and neck muscles: innervation, action, paralysis and arch. Wild lesions hide their name until you localize them from the findings, correct answers are your attacks, trap distractors hit back harder, and catches fill a Nervedex of full lesion cards. Five leaders stand between you and Champion.</p>
-        <div class="tags"><span class="t">lesions + traps + muscles</span><span class="t">gym battles</span><span class="t">Nervedex</span><span class="t">weak-spot rematches</span><span class="t">solo</span></div>
-        <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <a class="card neuro" href="Neuromon%20HNSS.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1" data-text="neuromon hnss catch collect creatures badges gym cranial nerves ganglia vagus branches cranial nerve lesions foramina muscles champion battles types cervical vagal ocular trigem special starters vagulet atlas dex solo rpg adventure map">
+        <div class="ctop"><h3>Neuromon</h3><span class="qn">8 badges</span></div>
+        <div class="kick">Collect &amp; battle &middot; 1P</div>
+        <p>The long game. Work across the map catching cranial nerves, ganglia, vagal branches, lesions, foramina and muscles, earning a badge from each gym leader and finishing at the Champion. Every catch is a question answered.</p>
+        <div class="tags"><span class="t">cranial nerves</span><span class="t">ganglia</span><span class="t">lesions</span><span class="t">foramina</span><span class="t">muscles</span><span class="t">solo</span></div>
+        <div class="go">Play <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
-      <a class="card lesion" href="Lesion%20Rounds%20Hub.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic" data-text="lesion rounds hub i ii one two find the lesion localization 67 lesions every nerve hnss structure list skull base openings cranial nerve branches trigeminal v2 v3 zygomatic superior alveolar palatine masseteric deep temporal pterygoid mylohyoid lingual greater petrosal stapedius chorda tympani geniculate ramsay hunt nervus intermedius jacobson hering arnold vidian oculomotor superior inferior division dorello otic ganglion cochlear vestibular gradenigo cerebellopontine parotid bed side patterns tongue uvula jaw scm atlas buzz clues spared">
-        <div class="ctop"><h3>Lesion Rounds &middot; Hub</h3><span class="qn">118 lesions</span></div>
-        <div class="kick">Rounds I &amp; II &middot; timed clues &middot; 2P</div>
-        <p>One page into both rounds. <strong>I</strong> (67 lesions) covers every nerve on the structure list plus the skull-base openings; <strong>II</strong> (51 lesions) drills cranial nerve branches. Four round types, each with a searchable atlas.</p>
-        <div class="tags"><span class="t">localization</span><span class="t">CN branches</span><span class="t">cervical plexus</span><span class="t">skull base</span><span class="t">side patterns</span><span class="t">atlas</span></div>
-        <div class="go">Open the hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <a class="card lesion" href="Lesion%20Rounds%20Hub.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1" data-text="lesion rounds hub i ii one two find the lesion localization 118 lesions every nerve on the hnss structure list skull base openings branches petrosal nerves jacobson hering arnold vidian ramsay hunt cn iii superior inferior division left versus right side patterns tongue deviation uvula jaw buzz clues atlas spared findings predict lesion atlas pdf">
+        <div class="ctop"><h3>Lesion Rounds Hub</h3><span class="qn">118 lesions</span></div>
+        <div class="kick">Find the lesion &middot; Rounds I &amp; II &middot; 2P</div>
+        <p>Findings appear one at a time and you buzz in to name the lesion, predict what it causes, spot what it spares, or call the side. Round&nbsp;I covers every nerve on the structure list; Round&nbsp;II drills the branches.</p>
+        <div class="tags"><span class="t">localization</span><span class="t">CN lesions</span><span class="t">branches</span><span class="t">side patterns</span><span class="t">atlas</span></div>
+        <div class="go">Open hub <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
-      <a class="card gym" href="Drainage%20Gym%20Leaders.html" data-tags="neck face cranial orbit nasaloral larynx step1" data-text="drainage gym leaders lymphatic lymph nodes deep cervical virchow tear lacrimal nasolacrimal duct paranasal sinus meatus hiatus semilunaris venous dural sinuses cavernous sinus thrombosis emissary veins danger space danger zone scalp danger triangle face retropharyngeal alar prevertebral fascia ludwig lemierre badges elite four solo 1p">
-        <div class="ctop"><h3>Drainage Gym Leaders</h3><span class="qn">65 Q</span></div>
-        <div class="kick">6 lab gyms &middot; Elite Four &middot; 1P</div>
-        <p>Each lab is a gym with a themed leader: lymphatic, venous, tear, and paranasal sinus drainage, plus the danger zone of the scalp, the danger triangle of the face, and the danger space of the neck. Every gym opens with Field Notes and a Step 1 box. Beat all six to unlock an Elite Four of 20 mixed Step 1 vignettes, with hearts carrying over between battles.</p>
-        <div class="tags"><span class="t">drainage</span><span class="t">danger areas</span><span class="t">badges</span><span class="t">solo</span></div>
-        <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <a class="card gym" href="Drainage%20Gym%20Leaders.html" data-tags="neck face cranial orbit nasaloral larynx" data-text="drainage gym leaders venous lymphatic drainage cervical gym galea gym dural gym orbit gym sinus gym larynx gym elite stasis sentinel fascia ostia lymph nodes deep cervical jugular sinuses paranasal sinus drainage meatus nasolacrimal duct danger triangle cavernous sinus emissary veins gym leader badges">
+        <div class="ctop"><h3>Drainage Gym Leaders</h3><span class="qn">10 gyms</span></div>
+        <div class="kick">Venous &amp; lymphatic drainage &middot; 1P</div>
+        <p>Six gyms and four Elite challenges on where things drain: cervical nodes, the scalp layers, the dural sinuses, the orbit, the paranasal sinuses and the larynx.</p>
+        <div class="tags"><span class="t">venous drainage</span><span class="t">lymphatics</span><span class="t">dural sinuses</span><span class="t">sinus ostia</span></div>
+        <div class="go">Challenge <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
-      <a class="card gym" href="Muscle%20Gym%20Leaders.html" data-tags="neck face orbit nasaloral larynx cn step1" data-text="muscle gym leaders larynx cricothyroid posterior cricoarytenoid recurrent laryngeal superior laryngeal infrahyoid strap suprahyoid thyrohyoid ansa cervicalis digastric mylohyoid geniohyoid pharynx constrictors stylopharyngeus salpingopharyngeus zenker trapezius sternocleidomastoid scm scalenes thoracic outlet phrenic torticollis accessory nerve extraocular medial lateral superior inferior rectus oblique levator palpebrae tongue intrinsic genioglossus hyoglossus styloglossus palatoglossus palate levator tensor veli palatini palatopharyngeus musculus uvulae face frontalis orbicularis oculi oris buccinator zygomaticus depressor anguli oris mentalis platysma innervation action paralysis high yield bell palsy uvula tongue deviation elite four badges solo 1p">
-        <div class="ctop"><h3>Muscle Gym Leaders</h3><span class="qn">183 Q</span></div>
-        <div class="kick">7 region gyms &middot; Elite Four &middot; 1P</div>
-        <p>Extraocular, tongue, palate, face, larynx (intrinsic vs extrinsic), pharynx (constrictors vs longitudinal), and neck (SCM, trapezius, platysma, scalenes) gyms. Every muscle is tested at least four ways: innervation, action, paralysis or clinical, and a high-yield fact. Collect all seven badges to face an Elite Four themed by question type, where each master asks every question of that type from all seven gyms (187 in total, no cap).</p>
-        <div class="tags"><span class="t">innervation</span><span class="t">paralysis</span><span class="t">badges</span><span class="t">solo</span></div>
-        <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <a class="card gym" href="Muscle%20Gym%20Leaders.html" data-tags="neck face orbit nasaloral larynx cn" data-text="muscle gym leaders muscles innervation actions extraocular tongue palate face larynx pharynx neck gym elite neuron kinesis palsy apex levator palpebrae superior oblique genioglossus palatoglossus tensor veli palatini cricothyroid stylopharyngeus strap muscles mastication paralysis patterns gym leader badges">
+        <div class="ctop"><h3>Muscle Gym Leaders</h3><span class="qn">12 gyms</span></div>
+        <div class="kick">Muscles, nerves &amp; actions &middot; 1P</div>
+        <p>Eight gyms and four Elite challenges on muscle innervation and action &mdash; extraocular, tongue, palate, face, larynx, pharynx and neck &mdash; ending on the palsy patterns each one produces.</p>
+        <div class="tags"><span class="t">innervation</span><span class="t">actions</span><span class="t">palsy patterns</span><span class="t">the exceptions</span></div>
+        <div class="go">Challenge <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
 
       <a class="card trap" href="Trap%20Hunter.html" data-tags="neck face cranial orbit nasaloral larynx cn autonomic step1" data-text="trap hunter solo distractors traps exam forecast predicted questions confusable pairs tell them apart recall drill gauntlet weak spots spaced repetition streak timed binary discrimination tag pairs 1p single player self test">
         <div class="ctop"><h3>Trap Hunter</h3><span class="qn">64 Q</span></div>
         <div class="kick">Spot the distractor &middot; 4 modes &middot; 1P</div>
-        <p>Built from the Anatomy Exam Forecast. Every question carries the distractor the examiners actually use, so getting it right means <em>seeing the trap coming</em>. Four modes: 32 spot-the-trap MCQs, 20 timed confusable-pair calls, 12 open-recall cards, and a mixed Gauntlet. Misses queue into a Weak Spots drill that clears as you beat them.</p>
+        <p>Built from the Anatomy Exam Forecast. Every question carries the distractor the examiners actually use, so getting it right means <em>seeing the trap coming</em>. Misses queue into a Weak Spots drill that clears as you beat them.</p>
         <div class="tags"><span class="t">distractors</span><span class="t">confusable pairs</span><span class="t">ganglia</span><span class="t">larynx</span><span class="t">foramina</span><span class="t">solo</span></div>
         <div class="go">Launch <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
       </a>
-
     </div>
   </section>
 
@@ -261,7 +254,7 @@ mark{background:var(--p1-soft);color:var(--ink);border-radius:2px;padding:0 1px}
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; HNSS Anatomy Game Hub</div>
-    <div class="tag">Rev 15 &middot; Updated Sep 23, 2026</div>
+    <div class="tag">Rev 7 &middot; Updated Sep 27, 2026</div>
   </footer>
 
 </div>
