@@ -70,6 +70,22 @@ a{color:inherit}
 .cta svg{width:17px;height:17px;transition:transform .12s}
 .cta:hover svg{transform:translateX(4px)}
 
+/* ---------- exam day lab notes ---------- */
+.notes{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,28px);background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--p2);border-radius:10px;padding:clamp(20px,3vw,30px) clamp(18px,3vw,34px);text-decoration:none;color:var(--ink);transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+.notes:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--p2)}
+.notes .ico{width:56px;height:56px;border-radius:8px;background:var(--p2-soft);color:var(--p2-ink);display:grid;place-items:center}
+.notes .ico svg{width:28px;height:28px}
+.notes .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--p2-ink);margin-bottom:4px}
+.notes h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(30px,4.6vw,46px);line-height:.9;margin:0;letter-spacing:.01em}
+.notes p{margin:8px 0 0;color:var(--muted);max-width:60ch}
+.notes .go{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:20px;letter-spacing:.03em;color:var(--p2-ink);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.notes .go svg{width:16px;height:16px;transition:transform .12s}
+.notes:hover .go svg{transform:translateX(4px)}
+@media (max-width:620px){
+  .notes{grid-template-columns:auto 1fr}
+  .notes .go{grid-column:1 / -1}
+}
+
 /* ---------- footer ---------- */
 .foot{border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
@@ -80,7 +96,7 @@ a{color:inherit}
   <header class="mast">
     <div class="brand">HoyaDocs <b>&middot;</b> Block 5</div>
     <div class="mastright">
-      <div class="tag">HNSS &middot; Rev 1 &middot; Updated Sep 22, 2026</div>
+      <div class="tag">HNSS &middot; Rev 2 &middot; Updated Sep 28, 2026</div>
       <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
     </div>
   </header>
@@ -93,9 +109,23 @@ a{color:inherit}
     </a>
   </section>
 
+  <a class="notes" href="Exam-Day-Lab-Notes/">
+    <div class="ico" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="18" rx="2"/><path d="M9 3.5h6v3H9z"/><path d="M8.5 11h7M8.5 14.5h7M8.5 18h4"/></svg>
+    </div>
+    <div>
+      <div class="kicker">Anatomy Lab Practical</div>
+      <h2>Exam Day Lab Notes</h2>
+      <p>Last-look review for the lab practical: high-yield structures, tag predictions and the traps to watch for.</p>
+    </div>
+    <span class="go">Open notes
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+    </span>
+  </a>
+
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; Block 5 &middot; HNSS</div>
-    <div class="tag">Rev 1 &middot; Updated Sep 22, 2026</div>
+    <div class="tag">Rev 2 &middot; Updated Sep 28, 2026</div>
   </footer>
 
 </div>
