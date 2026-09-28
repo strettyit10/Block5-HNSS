@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 1 Exam-Day Review</title>
+<style>
+:root{
+  --navy:#1f3a68; --navy2:#2d5395; --ink:#1d2330; --muted:#5a6478; --line:#d4dbe8; --soft:#eef2f9;
+  --hy-bg:#fff6c7; --hy-bd:#c99a00; --hy-ink:#6b5200;
+  --art:#c0392b; --nerve:#b8860b; --vein:#2e5fb3; --mus:#e7a9a0;
+  --g1:#e8f4ec; --g1b:#2f8a4f; --r1:#fdecea; --r1b:#c0392b; --p1:#f1ebfa; --p1b:#6b46c1;
+}
+*{box-sizing:border-box}
+html{background:#f4f6fa}
+body{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45;color:var(--ink);margin:0 auto;max-width:1040px;padding:24px 20px 60px;background:#fff}
+.brand{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:3px solid var(--navy);padding-bottom:6px}
+.brand b{color:var(--navy)}
+h1{font-size:30px;margin:14px 0 2px;color:var(--navy);line-height:1.15}
+.sub{color:var(--muted);margin-bottom:12px}
+h2{font-size:18px;color:#fff;background:var(--navy);padding:7px 12px;border-radius:6px;margin:30px 0 10px;break-after:avoid}
+h3{font-size:15px;color:var(--navy);margin:18px 0 6px;break-after:avoid;border-left:4px solid var(--navy2);padding-left:8px}
+p{margin:6px 0}
+ul,ol{margin:4px 0;padding-left:20px} li{margin:3px 0}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:12px 0;padding:10px;background:var(--soft);border-radius:8px}
+.toc a{color:var(--navy);text-decoration:none;font-size:13px}
+.toc a:hover{text-decoration:underline}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-bd);border-radius:8px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.hy .t{font-weight:800;color:var(--hy-ink);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.note{background:var(--soft);border-left:5px solid var(--navy);padding:9px 12px;border-radius:0 6px 6px 0;margin:10px 0;break-inside:avoid}
+.mn{font-style:italic;color:#3d4a66}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;break-inside:auto}
+tr{break-inside:avoid}
+th{background:#dfe6f2;text-align:left;padding:6px 8px;border:1px solid #c3cde0;color:#15294b}
+td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafbfd}
+td.rowh{font-weight:700;background:#f2f5fa !important;white-space:nowrap}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.p-t{background:#e3ecfb;color:#1f4fa0}.p-z{background:#e5f5ea;color:#1f7a41}.p-b{background:#fff0d6;color:#9a5b00}.p-m{background:#f6e3f3;color:#8a2a7b}.p-c{background:#e9e6fb;color:#4b3aa8}.p-p{background:#eceff3;color:#44506a}
+.art{color:var(--art);font-weight:700}.nrv{color:var(--nerve);font-weight:700}.vn{color:var(--vein);font-weight:700}
+/* flow chains */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;break-inside:avoid}
+.flow .n{background:#fff;border:1.5px solid var(--navy2);border-radius:7px;padding:5px 9px;font-size:13px;font-weight:600;color:#15294b}
+.flow .n.a{border-color:var(--art);color:#8e2319;background:#fff7f6}
+.flow .n.v{border-color:var(--vein);color:#1c3f82;background:#f5f8ff}
+.flow .n.nv{border-color:var(--nerve);color:#6e5000;background:#fffbef}
+.flow .n.g{border-color:#2f8a4f;color:#1d5e34;background:#f1faf4}
+.flow .n.end{background:var(--navy);color:#fff;border-color:var(--navy)}
+.flow .ar{color:var(--navy2);font-weight:900;font-size:16px}
+.flow .lab{font-size:11.5px;color:var(--muted);font-style:italic}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;break-inside:avoid;background:#fff}
+.card h4{margin:0 0 6px;color:var(--navy);font-size:14px}
+.card.red{border-top:5px solid var(--r1b)}.card.green{border-top:5px solid var(--g1b)}.card.purple{border-top:5px solid var(--p1b)}.card.navy{border-top:5px solid var(--navy)}.card.gold{border-top:5px solid var(--hy-bd)}
+/* scalp layers */
+.scalp{border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:8px 0;break-inside:avoid}
+.scalp div{display:grid;grid-template-columns:44px 210px 1fr;align-items:center;padding:7px 10px;font-size:13px}
+.scalp .L{font-size:22px;font-weight:900;color:var(--navy)}
+.scalp .s1{background:#fbe5d6}.scalp .s2{background:#f6d0c2}.scalp .s3{background:#e9edf5}.scalp .s4{background:#fff6c7;outline:2px solid var(--hy-bd);outline-offset:-2px}.scalp .s5{background:#dcdfe6}
+/* CN VII road */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:10px 0;break-inside:avoid}
+.stop{border:2px solid var(--navy2);padding:10px;position:relative;background:#fff}
+.stop:not(:last-child){border-right:none}
+.stop .hd{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stop .ti{font-weight:800;color:var(--navy);margin:2px 0 6px}
+.stop:not(:last-child)::after{content:"➜";position:absolute;right:-13px;top:40%;background:#fff;color:var(--navy2);font-size:20px;z-index:2;line-height:1}
+/* tree */
+.tree{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;break-inside:avoid}
+.tree .col{border-radius:8px;padding:10px;border:1px solid var(--line)}
+.tree .col h4{margin:0 0 4px}
+.tree .trunk{grid-column:1/-1;text-align:center;background:var(--navy);color:#fff;border-radius:8px;padding:8px;font-weight:700}
+.exc{background:var(--hy-bg);border:1px solid var(--hy-bd);border-radius:4px;padding:0 5px;font-weight:700}
+/* foramina row */
+.fx{display:flex;gap:10px;margin:8px 0;break-inside:avoid}
+.fx .f{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center}
+.fx .f .nm{font-weight:800;color:var(--navy)}
+.fx .f .ct{font-size:12.5px}
+.fig{border:1px solid var(--line);border-radius:10px;padding:8px;margin:10px 0;background:#fcfdff;break-inside:avoid}
+.fig svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;background:#fff;break-inside:avoid}
+details summary{cursor:pointer;font-weight:600;color:#15294b}
+details .ans{margin-top:6px;padding:6px 10px;background:var(--g1);border-left:4px solid var(--g1b);border-radius:0 6px 6px 0}
+.foot{margin-top:30px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;border-radius:5px;padding:0 6px;font-size:12px;font-weight:700}
+.up{background:#e3ecfb;color:#1f4fa0}.dn{background:#fdecea;color:#9b2a1e}.md{background:#eceff3;color:#44506a}
+@media (max-width:760px){
+  .grid2,.grid3,.road,.tree{grid-template-columns:1fr}
+  .stop:not(:last-child){border-right:2px solid var(--navy2);border-bottom:none}
+  .stop:not(:last-child)::after{content:"⬇";right:45%;top:auto;bottom:-13px}
+  .scalp div{grid-template-columns:34px 1fr}.scalp div span:last-child{grid-column:1/-1}
+  .fx{flex-direction:column}
+  body{padding:16px}
+}
+@media print{
+  html,body{background:#fff}
+  body{max-width:none;padding:0;font-size:11.3px}
+  h1{font-size:24px} h2{font-size:14.5px;margin:18px 0 8px} h3{font-size:12.8px}
+  table{font-size:10.6px} td,th{padding:4px 6px}
+  .flow .n{font-size:10.8px;padding:3px 7px}
+  .toc{display:none}
+  .pb{break-before:page}
+  details{border:none;padding:4px 0}
+  .card,.hy,.note,.fig,.flow,.road,.tree,.scalp{break-inside:avoid}
+}
+@page{size:Letter;margin:0.5in 0.5in 0.55in}
+</style>
+</head>
+<body>
+<div class="brand"><span><b>HoyaDocs</b> · HNSS Block 5 · Head &amp; Neck Anatomy</span><span>Updated 28 Sep 2026 · Rev 1.0</span></div>
+<h1>Lab 1 Exam-Day Review — The Neck</h1>
+<div class="sub">Dissection of the Neck — fascia and spaces, triangles, cervical plexus, suprahyoid and infrahyoid muscles, carotid sheath, vagal branches, larynx landmarks, thyroid gland and the root of the neck.</div>
+
+<div class="toc">
+  <a href="#rules">1. Rules &amp; top traps</a>
+  <a href="#fascia">2. Fascia &amp; spaces</a>
+  <a href="#tri">3. Triangles</a>
+  <a href="#sup">4. Superficial neck</a>
+  <a href="#hyoid">5. Hyoid muscles &amp; ansa</a>
+  <a href="#carotid">6. Carotid triangle</a>
+  <a href="#vagus">7. Vagus &amp; laryngeal nerves</a>
+  <a href="#airway">8. Larynx landmarks &amp; airway</a>
+  <a href="#thyroid">9. Thyroid gland</a>
+  <a href="#root">10. Root of the neck</a>
+  <a href="#symp">11. Sympathetic trunk &amp; Horner</a>
+  <a href="#check">12. Self-check</a>
+</div>
+
+<!-- 1 -->
+<h2 id="rules">1 · Exam-Day Rules &amp; Top Traps</h2>
+<div class="note"><b>✍️ Wording</b>
+<ul>
+<li>Full names, anatomical directions. Spelling counts: <b>sternocleidomastoid · omohyoid · sternothyroid · thyrohyoid · ansa cervicalis · thyrocervical · costocervical · cricothyroid · supraclavicular · great auricular</b>.</li>
+</ul></div>
+<div class="hy"><div class="t">★ High-yield traps</div>
+<ol>
+<li><b>Ansa cervicalis (C1–C3)</b> supplies <b>sternohyoid, sternothyroid, omohyoid</b>. <b>Thyrohyoid = C1 via CN XII</b> (not the ansa).</li>
+<li><b>Carotid sheath:</b> common carotid <b>medial</b>, internal jugular vein <b>lateral</b>, vagus <b>posterior</b> between them. Deep cervical nodes follow the <b>internal jugular vein</b>.</li>
+<li><b>Anterior scalene:</b> phrenic nerve + subclavian <b>vein</b> anterior to it; subclavian <b>artery</b> + brachial plexus trunks <b>posterior</b> (interscalene triangle).</li>
+<li><b>Suprahyoid nerves:</b> stylohyoid + posterior digastric = <b>CN VII</b>; mylohyoid + anterior digastric = <b>V3</b>.</li>
+<li><b>Superior thyroid artery ↔ external laryngeal nerve</b>; <b>superior laryngeal artery ↔ internal laryngeal nerve</b>; <b>inferior thyroid artery ↔ recurrent laryngeal nerve</b>.</li>
+<li><b>Cricothyroid</b> is the only intrinsic laryngeal muscle supplied by the <b>external laryngeal nerve</b>; all others = recurrent laryngeal.</li>
+<li><b>Carotid body (chemoreceptor) + carotid sinus (baroreceptor) = CN IX.</b></li>
+<li>Right recurrent laryngeal loops the <b>right subclavian artery</b>; left loops the <b>aortic arch</b>.</li>
+</ol></div>
+
+<!-- 2 -->
+<h2 id="fascia">2 · Surface Anatomy, Fascia &amp; Spaces</h2>
+<div class="grid2">
+<div class="card navy"><h4>Surface landmarks</h4>
+<ul><li><b>Mental protuberance</b> — chin</li>
+<li><b>Laryngeal prominence</b> — Adam’s apple (thyroid cartilage)</li>
+<li><b>Jugular notch</b> — lowest palpable midline landmark (manubrium)</li>
+<li><b>Mastoid process</b> — posteroinferior to the ear; SCM attachment</li>
+<li><b>SCM</b> divides the neck into anterior and posterior triangles</li>
+<li><b>Anterior border of trapezius</b> — posterior boundary of the posterior triangle</li></ul></div>
+<div class="card gold"><h4>Fascial layers</h4>
+<ul><li><b>Superficial fascia:</b> cutaneous nerves, vessels, lymphatics, fat, <b>platysma</b></li>
+<li><b>Investing:</b> 360° collar; splits around <b>SCM</b> and <b>trapezius</b></li>
+<li><b>Pretracheal:</b> thyroid, trachea, esophagus; posteriorly = <b>buccopharyngeal</b> fascia</li>
+<li><b>Carotid sheath:</b> common carotid, internal jugular vein, vagus</li>
+<li><b>Prevertebral:</b> vertebrae + deep neck muscles (encloses the phrenic nerve)</li>
+<li><b>Alar:</b> subdivides the retropharyngeal space</li></ul></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Space</th><th>Between</th><th>Extent</th><th>Infection spreads to</th></tr></thead>
+<tbody>
+<tr><td><b>Pretracheal</b></td><td>Fascia over infrahyoid muscles ↔ pretracheal fascia</td><td>Anterior neck</td><td>Anterior mediastinum (pretracheal fascia blends with the fibrous pericardium)</td></tr>
+<tr><td><b>Retropharyngeal</b></td><td>Buccopharyngeal fascia ↔ alar fascia</td><td>Skull base → T1–T2</td><td>Superior mediastinum; fluid here → difficulty swallowing</td></tr>
+<tr><td><b>Danger space</b></td><td>Alar fascia ↔ prevertebral fascia</td><td>Skull base → <b>diaphragm</b></td><td>Most dangerous route — widest extent</td></tr>
+</tbody></table></div>
+
+<!-- 3 -->
+<h2 id="tri">3 · Triangles of the Neck</h2>
+<div class="fig">
+<svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <text x="20" y="22" font-weight="700" fill="#5a6478">◀ POSTERIOR</text>
+  <text x="740" y="22" font-weight="700" fill="#5a6478" text-anchor="end">ANTERIOR ▶</text>
+  <path d="M330,60 Q500,70 690,118" stroke="#8d8d8d" stroke-width="8" fill="none"/><text x="560" y="72" font-size="11" fill="#555">mandible</text>
+  <circle cx="300" cy="44" r="10" fill="#d9d9d9" stroke="#8d8d8d"/><text x="262" y="30" font-size="11" fill="#555">mastoid</text>
+  <path d="M200,45 L90,360" stroke="#7b5e57" stroke-width="7"/><text x="60" y="120" font-size="11.5" fill="#7b5e57" font-weight="700">Trapezius</text><text x="60" y="134" font-size="11" fill="#7b5e57">(anterior border)</text>
+  <path d="M85,366 L590,378" stroke="#8d8d8d" stroke-width="8"/><text x="300" y="396" font-size="11" fill="#555" text-anchor="middle">clavicle</text>
+  <path d="M700,125 L640,382" stroke="#5a6478" stroke-width="1.5" stroke-dasharray="5,4"/><text x="705" y="300" font-size="11" fill="#5a6478">midline</text>
+  <polygon points="285,40 322,46 585,368 530,374" fill="#e8b4a8" stroke="#a0524a"/>
+  <text x="420" y="250" font-size="11.5" fill="#7b2e26" font-weight="700" transform="rotate(51 420 250)">STERNOCLEIDOMASTOID</text>
+  <rect x="596" y="183" width="26" height="12" rx="3" fill="#d9d9d9" stroke="#8d8d8d"/><text x="628" y="193" font-size="11" fill="#555">hyoid</text>
+  <path d="M318,58 L600,186" stroke="#d35400" stroke-width="4"/><path d="M606,186 L684,126" stroke="#d35400" stroke-width="4"/>
+  <path d="M606,197 L505,288" stroke="#8e44ad" stroke-width="4"/><path d="M478,296 L175,348" stroke="#8e44ad" stroke-width="4"/>
+  <path d="M340,150 Q260,215 165,285" stroke="#d4a017" stroke-width="3" fill="none" stroke-dasharray="7,4"/>
+  <circle cx="405" cy="205" r="5" fill="#d4a017" stroke="#8a6d00"/>
+  <!-- labels -->
+  <text x="470" y="112" font-size="12" font-weight="700" fill="#2e7d32">SUBMANDIBULAR</text>
+  <text x="495" y="210" font-size="12" font-weight="700" fill="#c0392b">CAROTID</text>
+  <text x="560" y="318" font-size="12" font-weight="700" fill="#1f3864">MUSCULAR</text>
+  <line x1="672" y1="150" x2="722" y2="208" stroke="#555"/><text x="748" y="224" font-size="12" font-weight="700" fill="#8e44ad" text-anchor="end">SUBMENTAL</text>
+  <text x="220" y="230" font-size="13" font-weight="700" fill="#5a3e1b">POSTERIOR</text><text x="220" y="245" font-size="13" font-weight="700" fill="#5a3e1b">TRIANGLE</text>
+  <text x="178" y="190" font-size="11" fill="#8a6d00" font-weight="700">CN XI</text>
+  <text x="340" y="215" font-size="11" fill="#8a6d00">Erb’s point</text>
+  <text x="470" y="144" font-size="11" fill="#d35400" transform="rotate(24 470 144)">posterior digastric</text>
+  <text x="622" y="166" font-size="11" fill="#d35400" transform="rotate(-37 622 166)">ant. digastric</text>
+  <text x="560" y="250" font-size="11" fill="#8e44ad">sup. omohyoid</text>
+  <text x="250" y="342" font-size="11" fill="#8e44ad">inf. omohyoid</text>
+</svg>
+<div class="cap">Lateral view. The SCM splits the neck into anterior and posterior triangles; the digastric bellies and superior omohyoid carve the anterior triangle into four. CN XI and the cutaneous nerves (Erb’s point) cross the posterior triangle.</div></div>
+<div class="tbl"><table>
+<thead><tr><th>Triangle</th><th>Boundaries</th><th>Key contents</th></tr></thead>
+<tbody>
+<tr><td><b>Anterior (overall)</b></td><td>Midline · anterior border of SCM · inferior border of mandible</td><td>Four sub-triangles below</td></tr>
+<tr><td><b>Submandibular</b></td><td>Mandible · anterior + posterior bellies of digastric</td><td>Submandibular gland, lymph nodes, facial artery + vein, CN XII, mylohyoid, stylohyoid</td></tr>
+<tr><td><b>Submental</b></td><td>Both anterior bellies of digastric · hyoid (floor = mylohyoid)</td><td>Lymph nodes, tributaries of anterior jugular veins</td></tr>
+<tr><td><b>Carotid</b></td><td>Posterior digastric · superior omohyoid · anterior border of SCM</td><td>Carotid sheath contents, deep cervical nodes, CN XII, ansa cervicalis, superior laryngeal nerve branches, ECA branches</td></tr>
+<tr><td><b>Muscular</b></td><td>Superior omohyoid · anterior border of SCM · midline</td><td>Infrahyoid (strap) muscles, thyroid gland</td></tr>
+<tr><td><b>Posterior</b></td><td>Posterior border of SCM · anterior border of trapezius · clavicle</td><td>CN XI, cervical plexus cutaneous branches, brachial plexus, external jugular vein, subclavian artery; floor = splenius capitis, levator scapulae, scalenes</td></tr>
+</tbody></table></div>
+
+<!-- 4 -->
+<h2 id="sup">4 · Superficial Neck: Muscles, Veins &amp; Cervical Plexus</h2>
+<div class="tbl"><table>
+<thead><tr><th>Muscle</th><th>Attachments</th><th>Action</th><th>Nerve</th></tr></thead>
+<tbody>
+<tr><td><b>Platysma</b></td><td>Pectoral fascia → inferior mandible (in superficial fascia)</td><td>Tenses the skin of the neck</td><td><b>CN VII</b> (cervical branch) — facial expression muscle</td></tr>
+<tr><td><b>Sternocleidomastoid</b></td><td>Sternal + clavicular heads → mastoid process</td><td><b>Unilateral:</b> tilts head to the same side, rotates face to the opposite side. <b>Bilateral:</b> flexion/extension of the head</td><td><b>CN XI</b></td></tr>
+<tr><td><b>Trapezius</b></td><td>Occipital bone → T12; inserts on clavicle + scapula</td><td>Elevates/depresses scapula; helps abduct arm &gt;90°</td><td><b>CN XI</b></td></tr>
+</tbody></table></div>
+<div class="grid2">
+<div class="card red"><h4>CN XI injury (posterior triangle)</h4>
+<ul><li>Ipsilateral <b>shoulder droop</b>, weak <b>shrug</b></li>
+<li>Weak head turn to the <b>opposite</b> side against resistance</li>
+<li>Difficulty abducting the arm above 90°</li></ul>
+<p>Exits the jugular foramen → SCM → crosses the posterior triangle superficially → trapezius.</p></div>
+<div class="card purple"><h4>Torticollis (wry neck)</h4>
+<p>Contracted SCM → head <b>tilts toward</b> the affected side, <b>chin points to the opposite</b> side. Congenital (SCM fibrosis, birth trauma) or spasmodic (cervical dystonia).</p></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Cutaneous branch (C1–C4 ventral rami)</th><th>Course from Erb’s point (mid-posterior border of SCM)</th><th>Skin supplied</th></tr></thead>
+<tbody>
+<tr><td><b>Lesser occipital nerve</b></td><td>Ascends along the posterior border of SCM</td><td>Neck + scalp <b>posterior to the ear</b></td></tr>
+<tr><td><b>Great auricular nerve</b></td><td>Crosses SCM ascending to the ear</td><td><b>Ear</b> + mastoid area (at risk in neck dissection)</td></tr>
+<tr><td><b>Transverse cervical nerve</b></td><td>Runs horizontally across SCM</td><td><b>Anterior triangle</b></td></tr>
+<tr><td><b>Supraclavicular nerves</b></td><td>Descend to the clavicle + shoulder</td><td>Over the <b>clavicle + shoulder</b></td></tr>
+</tbody></table></div>
+<div class="hy"><div class="t">★ Referred shoulder pain</div>Diaphragm irritation → pain felt over the shoulder: <b>phrenic</b> and <b>supraclavicular</b> nerves both arise from <b>C3–C5</b>.</div>
+<div class="grid2">
+<div class="card navy"><h4>Superficial veins</h4>
+<ul><li><b>External jugular vein</b> = posterior auricular + retromandibular (posterior division); descends <b>superficial to SCM</b> → subclavian vein. Superficial cervical nodes follow it. <b>JVD</b> in right heart failure.</li>
+<li><b>Anterior jugular vein</b> — anterior neck → external jugular vein.</li></ul></div>
+<div class="card green"><h4>Deep vein</h4>
+<ul><li><b>Internal jugular vein</b> — lateral in the carotid sheath; + subclavian → <b>brachiocephalic</b> vein.</li>
+<li>Tributaries: <b>common facial vein</b>, superior + middle thyroid veins.</li>
+<li><b>Central line</b> site (with the subclavian vein). Deep cervical nodes run along it.</li></ul></div>
+</div>
+
+<!-- 5 -->
+<h2 id="hyoid">5 · Suprahyoid &amp; Infrahyoid Muscles, Ansa Cervicalis</h2>
+<div class="grid2">
+<div class="card gold"><h4>Suprahyoid (elevate the hyoid in swallowing)</h4>
+<div class="tbl"><table><tbody>
+<tr><td class="rowh">Stylohyoid</td><td>Styloid → hyoid; splits around the digastric tendon · <b>CN VII</b></td></tr>
+<tr><td class="rowh">Posterior digastric</td><td>Mastoid → intermediate tendon · <b>CN VII</b></td></tr>
+<tr><td class="rowh">Anterior digastric</td><td>Superficial to mylohyoid · <b>V3</b> (nerve to mylohyoid)</td></tr>
+<tr><td class="rowh">Mylohyoid</td><td>Floor of the mouth · <b>V3</b> (nerve to mylohyoid)</td></tr>
+</tbody></table></div>
+<p class="mn">Pair them: stylohyoid + posterior digastric = CN VII; mylohyoid + anterior digastric = V3.</p></div>
+<div class="card navy"><h4>Infrahyoid “strap” muscles</h4>
+<div class="tbl"><table><tbody>
+<tr><td class="rowh">Sternohyoid</td><td>Superficial, medial · ansa</td></tr>
+<tr><td class="rowh">Omohyoid</td><td>Superficial, lateral; scapula → hyoid (<i>omo</i> = shoulder); intermediate tendon under SCM · ansa</td></tr>
+<tr><td class="rowh">Sternothyroid</td><td>Deep; sternum → thyroid cartilage · ansa</td></tr>
+<tr><td class="rowh">Thyrohyoid</td><td>Deep; thyroid cartilage → hyoid · <b>C1 via CN XII</b></td></tr>
+</tbody></table></div></div>
+</div>
+<div class="flow"><span class="n">Superior root (C1, rides CN XII)</span><span class="ar">+</span><span class="n">Inferior root (C2–C3)</span><span class="ar">→</span><span class="n">Ansa cervicalis (anterior to the carotid sheath)</span><span class="ar">→</span><span class="n end">Sternohyoid · sternothyroid · omohyoid</span></div>
+<div class="hy"><div class="t">★ C1 hitchhikers on CN XII</div>C1 fibers leave CN XII as (1) the <b>superior root of the ansa</b>, (2) the <b>nerve to thyrohyoid</b>, (3) the nerve to <b>geniohyoid</b>. A tag on thyrohyoid → answer <b>C1 via CN XII</b>, not the ansa.</div>
+
+<!-- 6 -->
+<h2 id="carotid">6 · Carotid Triangle &amp; Carotid Sheath</h2>
+<div class="fig">
+<svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <text x="20" y="22" font-weight="700" fill="#5a6478">◀ MEDIAL (trachea)</text>
+  <text x="740" y="22" font-weight="700" fill="#5a6478" text-anchor="end">LATERAL ▶</text>
+  <text x="380" y="40" font-weight="700" fill="#5a6478" text-anchor="middle">ANTERIOR ▲</text>
+  <rect x="40" y="95" width="90" height="90" rx="40" fill="#e3eef7" stroke="#6b8fb3"/><text x="85" y="145" text-anchor="middle" font-size="11">trachea</text>
+  <ellipse cx="380" cy="145" rx="190" ry="85" fill="#f7f7f7" stroke="#5a6478" stroke-width="2" stroke-dasharray="6,4"/>
+  <circle cx="290" cy="140" r="38" fill="#f1b0a8" stroke="#c0392b" stroke-width="3"/><text x="290" y="137" text-anchor="middle" font-size="11" font-weight="700">Common</text><text x="290" y="151" text-anchor="middle" font-size="11" font-weight="700">carotid a.</text>
+  <ellipse cx="470" cy="140" rx="60" ry="46" fill="#aecbe8" stroke="#2e5c8a" stroke-width="3"/><text x="470" y="137" text-anchor="middle" font-size="11" font-weight="700">Internal</text><text x="470" y="151" text-anchor="middle" font-size="11" font-weight="700">jugular v.</text>
+  <circle cx="382" cy="192" r="14" fill="#f5d98b" stroke="#8a6d00" stroke-width="2"/><text x="382" y="196" text-anchor="middle" font-size="10.5" font-weight="700">X</text>
+  <path d="M300,62 Q380,40 460,62" stroke="#d4a017" stroke-width="4" fill="none"/><text x="380" y="78" text-anchor="middle" font-size="11" fill="#8a6d00">ansa cervicalis (anterior to sheath)</text>
+  <circle cx="545" cy="105" r="6" fill="#7fbf7f" stroke="#2e7d32"/><circle cx="552" cy="170" r="6" fill="#7fbf7f" stroke="#2e7d32"/>
+  <text x="590" y="110" font-size="11" fill="#2e7d32">deep cervical nodes</text><text x="590" y="124" font-size="11" fill="#2e7d32">(along the IJV)</text>
+  <circle cx="382" cy="258" r="9" fill="#f5d98b" stroke="#8a6d00"/><text x="400" y="262" font-size="11" fill="#8a6d00">sympathetic trunk (posterior to the sheath)</text>
+  <text x="364" y="196" font-size="11" fill="#8a6d00" text-anchor="end">vagus (posterior)</text>
+  <text x="380" y="276" font-weight="700" fill="#5a6478" text-anchor="middle" font-size="11">▼ POSTERIOR (prevertebral)</text>
+</svg>
+<div class="cap">Carotid sheath in cross-section: artery medial, vein lateral, vagus posterior between them.</div></div>
+<div class="grid2">
+<div class="card red"><h4>Common carotid bifurcation</h4>
+<ul><li>Right: from the <b>brachiocephalic trunk</b>; left: from the <b>aortic arch</b></li>
+<li>Bifurcates at the <b>superior border of the thyroid cartilage</b></li>
+<li><b>Internal carotid</b> — no neck branches → cranial cavity</li>
+<li><b>External carotid</b> — neck + face branches</li></ul></div>
+<div class="card purple"><h4>Carotid body vs. carotid sinus (both CN IX)</h4>
+<div class="tbl"><table><tbody>
+<tr><td class="rowh">Carotid body</td><td>Tissue mass at the bifurcation · <b>chemoreceptor</b> (O₂)</td></tr>
+<tr><td class="rowh">Carotid sinus</td><td>Dilation of the proximal ICA · <b>baroreceptor</b> (BP)</td></tr>
+</tbody></table></div></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>#</th><th>ECA branch (inferior → superior)</th><th>Direction</th><th>Supplies / travels with</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><b>Superior thyroid</b> → <b>superior laryngeal artery</b></td><td>Anterior</td><td>Superior pole of thyroid (with <b>external laryngeal nerve</b>); superior laryngeal a. pierces the thyrohyoid membrane with the <b>internal laryngeal nerve</b></td></tr>
+<tr><td>2</td><td>Ascending pharyngeal</td><td>Posterior (medial)</td><td>Deep pharynx</td></tr>
+<tr><td>3</td><td><b>Lingual</b></td><td>Anterior</td><td>Tongue/oral cavity (deep to hyoglossus)</td></tr>
+<tr><td>4</td><td><b>Facial</b></td><td>Anterior</td><td>Face (through the submandibular triangle)</td></tr>
+<tr><td>5</td><td>Occipital</td><td>Posterior</td><td>Posterior scalp</td></tr>
+<tr><td>6</td><td>Posterior auricular</td><td>Posterior</td><td>Behind the ear</td></tr>
+<tr><td>7</td><td>Maxillary</td><td>Terminal</td><td>Deep face</td></tr>
+<tr><td>8</td><td>Superficial temporal</td><td>Terminal</td><td>Temporal region + scalp</td></tr>
+</tbody></table></div>
+<p class="mn">“Some Anatomists Like Freaking Out Poor Medical Students.”</p>
+<div class="card gold"><h4>CN XII in the neck</h4>
+<p>Hypoglossal canal → descends between ICA and IJV → hooks forward <b>superficial to the internal + external carotid arteries</b> → carotid + submandibular triangles (deep to posterior digastric) → tongue. Gives off C1 fibers (superior root of the ansa, nerve to thyrohyoid).</p></div>
+
+<!-- 7 -->
+<h2 id="vagus">7 · Vagus Nerve &amp; Laryngeal Branches</h2>
+<div class="flow"><span class="n">CN X (carotid sheath)</span><span class="ar">→</span><span class="n">Superior laryngeal nerve</span><span class="ar">→</span><span class="n">Internal branch (pierces thyrohyoid membrane)</span><span class="lab">+</span><span class="n end">External branch (cricothyroid)</span></div>
+<div class="flow"><span class="n">CN X</span><span class="ar">→</span><span class="n">Recurrent laryngeal nerve (loops: R subclavian a. / L aortic arch)</span><span class="ar">→</span><span class="n end">Ascends in the tracheoesophageal groove with the inferior thyroid artery</span></div>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Internal laryngeal</th><th>External laryngeal</th><th>Recurrent laryngeal</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Type</td><td>Sensory</td><td>Motor</td><td>Motor + sensory</td></tr>
+<tr><td class="rowh">Target</td><td>Laryngeal mucosa <b>above</b> the vocal folds</td><td><b>Cricothyroid</b> only</td><td>All other intrinsic laryngeal muscles; mucosa <b>below</b> the vocal folds</td></tr>
+<tr><td class="rowh">Travels with</td><td>Superior laryngeal artery</td><td>Superior thyroid artery</td><td>Inferior thyroid artery</td></tr>
+<tr><td class="rowh">Injury</td><td>Loss of the <b>cough reflex</b> (afferent limb)</td><td><b>Decreased vocal range</b> (can’t raise pitch) — “opera singer”</td><td><b>Hoarseness</b> (unilateral); thyroidectomy risk</td></tr>
+</tbody></table></div>
+<div class="card navy"><h4>Cricothyroid muscle</h4><p>External to the larynx, between the cricoid and thyroid cartilages. <b>Tilts the thyroid cartilage → lengthens/tenses the vocal folds → raises pitch.</b> Nerve: <b>external laryngeal</b>.</p></div>
+
+<!-- 8 -->
+<h2 id="airway">8 · Larynx Landmarks &amp; Surgical Airway</h2>
+<div class="flow"><span class="n">Hyoid bone</span><span class="ar">↓</span><span class="n">Thyrohyoid membrane (internal laryngeal n. + superior laryngeal a. pierce it)</span><span class="ar">↓</span><span class="n">Thyroid cartilage (laryngeal prominence)</span><span class="ar">↓</span><span class="n end">Cricothyroid ligament (membrane) — cricothyroidotomy</span><span class="ar">↓</span><span class="n">Cricoid cartilage (complete ring)</span><span class="ar">↓</span><span class="n">1st tracheal ring → C-shaped rings</span></div>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Cricothyroidotomy</th><th>Tracheostomy</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Where</td><td>Through the <b>cricothyroid membrane</b> (between thyroid + cricoid cartilages)</td><td>Incision <b>between tracheal rings</b></td></tr>
+<tr><td class="rowh">When</td><td>Emergency when orotracheal intubation fails</td><td>Longer-term airway</td></tr>
+<tr><td class="rowh">Risk</td><td>Left too long → damage to vocal folds/larynx</td><td>—</td></tr>
+</tbody></table></div>
+
+<!-- 9 -->
+<h2 id="thyroid">9 · Thyroid &amp; Parathyroid Glands</h2>
+<div class="grid2">
+<div class="card navy"><h4>Anatomy</h4>
+<ul><li>Anterolateral to larynx/trachea, <b>deep to the strap muscles</b>, in <b>pretracheal fascia</b></li>
+<li><b>Right + left lobes</b> joined by the <b>isthmus</b></li>
+<li><b>Pyramidal lobe</b> (variable) = remnant of the thyroglossal duct</li>
+<li><b>4 parathyroids</b> on the posterior surface</li></ul></div>
+<div class="card red"><h4>Thyroidectomy danger</h4>
+<ul><li><b>Inferior thyroid artery ↔ recurrent laryngeal nerve</b> → hoarseness</li>
+<li><b>Superior thyroid artery ↔ external laryngeal nerve</b> → lost high pitch</li>
+<li>Horner syndrome (sympathetic trunk) is also possible</li></ul></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Vessel</th><th>Source / drains to</th></tr></thead>
+<tbody>
+<tr><td><b>Superior thyroid artery</b></td><td>1st branch of the <b>external carotid</b></td></tr>
+<tr><td><b>Inferior thyroid artery</b></td><td><b>Thyrocervical trunk</b> (subclavian)</td></tr>
+<tr><td>Superior + middle thyroid veins</td><td><b>Internal jugular vein</b></td></tr>
+<tr><td>Inferior thyroid vein</td><td><b>Brachiocephalic vein</b></td></tr>
+</tbody></table></div>
+
+<!-- 10 -->
+<h2 id="root">10 · Root of the Neck</h2>
+<div class="fig">
+<svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <text x="20" y="22" font-weight="700" fill="#5a6478">◀ ANTERIOR</text>
+  <text x="740" y="22" font-weight="700" fill="#5a6478" text-anchor="end">POSTERIOR ▶</text>
+  <path d="M60,250 Q380,215 700,250" stroke="#bdbdbd" stroke-width="16" fill="none"/><text x="380" y="285" text-anchor="middle" font-size="11" fill="#555">1st rib</text>
+  <polygon points="300,40 345,40 360,232 318,236" fill="#e8b4a8" stroke="#a0524a"/>
+  <text x="328" y="110" font-size="11.5" font-weight="700" fill="#7b2e26" text-anchor="middle" transform="rotate(-86 328 110)">ANTERIOR SCALENE</text>
+  <polygon points="470,40 520,40 535,228 488,230" fill="#e8b4a8" stroke="#a0524a"/>
+  <text x="500" y="90" font-size="11.5" font-weight="700" fill="#7b2e26" text-anchor="middle" transform="rotate(-86 500 90)">MIDDLE SCALENE</text>
+  <path d="M290,60 L312,230" stroke="#d4a017" stroke-width="4"/>
+  <path d="M60,230 Q180,205 285,222 Q300,226 330,222" stroke="#2e5c8a" stroke-width="12" fill="none" opacity="0.85"/>
+  <path d="M740,200 Q600,190 470,205 Q420,210 380,200" stroke="#c0392b" stroke-width="8" fill="none"/>
+  <path d="M740,160 Q600,160 470,172 Q430,176 400,168" stroke="#d4a017" stroke-width="4" fill="none"/>
+  <path d="M740,145 Q600,142 470,152 Q430,156 405,150" stroke="#d4a017" stroke-width="4" fill="none"/>
+  <path d="M740,175 Q600,178 470,188 Q430,190 402,184" stroke="#d4a017" stroke-width="4" fill="none"/>
+  <text x="130" y="80" font-size="11.5" fill="#8a6d00" font-weight="700">Phrenic nerve (C3–C5)</text><text x="130" y="94" font-size="11" fill="#8a6d00">on the anterior surface</text>
+  <line x1="262" y1="88" x2="290" y2="92" stroke="#8a6d00"/>
+  <text x="70" y="186" font-size="11.5" fill="#2e5c8a" font-weight="700">Subclavian VEIN</text><text x="70" y="200" font-size="11" fill="#2e5c8a">anterior to the scalene</text>
+  <text x="560" y="222" font-size="11.5" fill="#c0392b" font-weight="700">Subclavian ARTERY</text>
+  <text x="560" y="132" font-size="11.5" fill="#8a6d00" font-weight="700">Brachial plexus trunks</text>
+  <text x="418" y="118" font-size="11" fill="#2e7d32" text-anchor="middle">interscalene</text><text x="418" y="131" font-size="11" fill="#2e7d32" text-anchor="middle">triangle</text>
+</svg>
+<div class="cap">Side view. Anterior to the anterior scalene: phrenic nerve and subclavian vein. Posterior to it (interscalene triangle, above the 1st rib): subclavian artery and brachial plexus trunks.</div></div>
+<div class="grid2">
+<div class="card red"><h4>Anterior scalene syndrome (thoracic outlet)</h4>
+<p>Cervical rib, hypertrophied scalenes or trauma compress the <b>subclavian artery + brachial plexus</b> in the interscalene triangle → vascular + neurologic upper limb symptoms. The subclavian <b>vein</b> is spared (anterior to the muscle).</p></div>
+<div class="card gold"><h4>Phrenic nerve</h4>
+<p><b>C3, 4, 5 keep the diaphragm alive.</b> Descends on the anterior scalene within prevertebral fascia → posterior to the subclavian vein, anterior to the subclavian artery → thorax. Motor to the diaphragm; sensory to fibrous pericardium + parietal pleura.</p></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Subclavian part (by anterior scalene)</th><th>Branches — “VIT C D”</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><b>1st</b> — origin → medial border</td><td><b>V</b>ertebral · <b>I</b>nternal thoracic · <b>T</b>hyrocervical trunk</td><td>Vertebral ascends through transverse foramina → foramen magnum. Internal thoracic descends beside the sternum.</td></tr>
+<tr><td><b>2nd</b> — behind the muscle</td><td><b>C</b>ostocervical trunk</td><td>Deep neck + thoracic wall</td></tr>
+<tr><td><b>3rd</b> — lateral border → 1st rib</td><td><b>D</b>orsal scapular (variable)</td><td>Passes through the brachial plexus trunks; may come from the transverse cervical artery (“sometimes D”)</td></tr>
+</tbody></table></div>
+<div class="flow"><span class="n">Thyrocervical trunk</span><span class="ar">→</span><span class="n">Inferior thyroid a. (medially, with recurrent laryngeal n.)</span><span class="lab">·</span><span class="n">Transverse cervical a. (across anterior scalene → posterior triangle → back)</span><span class="lab">·</span><span class="n end">Suprascapular a. (across anterior scalene → scapula)</span></div>
+<p class="lab">Right subclavian = brachiocephalic trunk; left = aortic arch. Continues past the 1st rib as the axillary artery.</p>
+<div class="grid2">
+<div class="card navy"><h4>Lymph ducts</h4>
+<ul><li><b>Thoracic duct</b> — left side; enters the <b>left venous angle</b> (IJV + subclavian)</li>
+<li><b>Right lymphatic duct</b> — right venous angle</li>
+<li>Jugular trunks carry all head/neck lymph (deep cervical nodes along the IJV) to these ducts</li></ul></div>
+<div class="card green"><h4>Brachial plexus &amp; scalenes</h4>
+<ul><li>Plexus = ventral rami <b>C5–T1</b>; <b>trunks</b> emerge between anterior + middle scalenes</li>
+<li>Anterior + middle scalene → <b>1st rib</b>; posterior scalene → <b>2nd rib</b>; all = cervical ventral rami</li>
+<li>Posterior triangle floor: splenius capitis (dorsal rami), levator scapulae (dorsal scapular n.), scalenes</li></ul></div>
+</div>
+
+<!-- 11 -->
+<h2 id="symp">11 · Cervical Sympathetic Trunk &amp; Horner Syndrome</h2>
+<div class="flow"><span class="n">Upper thoracic cord (preganglionic)</span><span class="ar">→</span><span class="n">Ascend the sympathetic trunk (posterior to carotid sheath)</span><span class="ar">→</span><span class="n">Synapse: superior / middle / inferior cervical ganglia</span><span class="ar">→</span><span class="n end">Postganglionic fibers ride the carotid arteries to the head</span></div>
+<p class="lab">Inferior cervical ganglion often fuses with the 1st thoracic → <b>stellate ganglion</b>.</p>
+<div class="hy"><div class="t">★ Horner syndrome — “PAM Horner”</div>
+<b>P</b>tosis (mild; superior tarsal muscle) · <b>A</b>nhidrosis · <b>M</b>iosis (dilator pupillae lost). Causes: <b>Pancoast tumor</b> at the lung apex, penetrating neck trauma, surgery (thyroidectomy, carotid endarterectomy).</div>
+
+<!-- 12 -->
+<h2 id="check">12 · Self-Check</h2>
+<details><summary>1. What are the boundaries of the carotid triangle?</summary><div class="ans">Posterior belly of digastric, superior belly of omohyoid, anterior border of SCM.</div></details>
+<details><summary>2. Which infrahyoid muscle is NOT supplied by the ansa cervicalis?</summary><div class="ans">Thyrohyoid — C1 fibers traveling with CN XII.</div></details>
+<details><summary>3. Arrange the carotid sheath contents.</summary><div class="ans">Common carotid artery medial, internal jugular vein lateral, vagus posterior between them.</div></details>
+<details><summary>4. Which structures pass anterior vs. posterior to the anterior scalene?</summary><div class="ans">Anterior: phrenic nerve, subclavian vein (and transverse cervical + suprascapular arteries crossing). Posterior: subclavian artery, brachial plexus trunks.</div></details>
+<details><summary>5. A singer can no longer hit high notes after thyroid surgery. Which nerve, and which artery does it travel with?</summary><div class="ans">External laryngeal nerve (cricothyroid); superior thyroid artery.</div></details>
+<details><summary>6. Loss of the cough reflex — which nerve?</summary><div class="ans">Internal laryngeal nerve (sensory above the vocal folds; afferent limb).</div></details>
+<details><summary>7. Where does the left recurrent laryngeal nerve loop?</summary><div class="ans">Around the aortic arch (right loops the right subclavian artery).</div></details>
+<details><summary>8. Which nerve innervates the carotid body and sinus?</summary><div class="ans">CN IX (glossopharyngeal).</div></details>
+<details><summary>9. A patient cannot shrug the right shoulder after a posterior triangle lymph node biopsy. Which nerve?</summary><div class="ans">Right CN XI (accessory).</div></details>
+<details><summary>10. Why does diaphragm irritation cause shoulder pain?</summary><div class="ans">Phrenic and supraclavicular nerves share C3–C5.</div></details>
+<details><summary>11. What are the branches of the thyrocervical trunk?</summary><div class="ans">Inferior thyroid, transverse cervical, suprascapular arteries.</div></details>
+<details><summary>12. Where is a cricothyroidotomy performed?</summary><div class="ans">Through the cricothyroid membrane, between the thyroid and cricoid cartilages.</div></details>
+<details><summary>13. Which fascial space spreads infection all the way to the diaphragm?</summary><div class="ans">The danger space (between alar and prevertebral fascia).</div></details>
+<details><summary>14. Which nerves supply the stylohyoid and the anterior belly of the digastric?</summary><div class="ans">Stylohyoid = CN VII; anterior digastric = nerve to mylohyoid (V3).</div></details>
+<details><summary>15. Where does the common carotid bifurcate?</summary><div class="ans">At the superior border of the thyroid cartilage.</div></details>
+
+<div class="foot"><span><b>HoyaDocs</b> · HNSS Lab 1 Neck Exam-Day Review</span><span>Updated 28 Sep 2026 · Rev 1.0</span></div>
+
+</body>
+</html>
