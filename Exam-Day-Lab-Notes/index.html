@@ -76,6 +76,25 @@ a{color:inherit}
 .every .hy .n{color:var(--hy-ink)}
 .every .hy h3,.every .hy p{color:var(--hy-ink)}
 
+/* one-pager */
+.one{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,26px);background:var(--hy-bg);border:1px solid var(--hy-line);border-left:6px solid var(--hy-line);border-radius:10px;padding:clamp(18px,3vw,26px) clamp(18px,3vw,30px);color:var(--hy-ink)}
+.one .ico{width:56px;height:56px;border-radius:8px;background:var(--hy-line);color:#1A1400;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:30px;line-height:1}
+.one .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px}
+.one h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(28px,4.2vw,40px);line-height:.92;margin:0;letter-spacing:.01em}
+.one h2 a{text-decoration:none}
+.one h2 a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.one p{margin:7px 0 0;font-size:14px;max-width:70ch;opacity:.9}
+.one .acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;padding:8px 16px 7px;border-radius:5px;white-space:nowrap;transition:transform .12s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn svg{width:15px;height:15px}
+.btn.solid{background:var(--hy-line);color:#1A1400}
+.btn.ghost{border:1.5px solid var(--hy-line);color:var(--hy-ink)}
+@media (max-width:700px){
+  .one{grid-template-columns:auto 1fr}
+  .one .acts{grid-column:1 / -1}
+}
+
 /* toolbar */
 .bar{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .bar h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:34px;line-height:1;margin:0;letter-spacing:.01em}
@@ -127,7 +146,7 @@ a{color:inherit}
   <header class="mast">
     <a class="brand" href="../">HoyaDocs <b>&middot;</b> Block 5</a>
     <div class="mastright">
-      <div class="tag">HNSS &middot; Rev 4 &middot; Updated Sep 28, 2026</div>
+      <div class="tag">HNSS &middot; Rev 5 &middot; Updated Sep 28, 2026</div>
       <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
     </div>
   </header>
@@ -144,6 +163,19 @@ a{color:inherit}
     <div><div class="n">02</div><h3>Charts &amp; Pathways</h3><p>Muscles, nerves and vessels laid out in comparison tables.</p></div>
     <div><div class="n">03</div><h3>Clinical Correlations</h3><p>The lesions and injuries each region is tested on.</p></div>
     <div><div class="n">04 &middot; FINISH HERE</div><h3>Self-Check</h3><p>Click-to-reveal questions to confirm it stuck.</p></div>
+  </section>
+
+  <section class="one" aria-label="High-yield one-pager">
+    <div class="ico" aria-hidden="true">HY</div>
+    <div>
+      <div class="kicker">★ All Labs &middot; Highest Yield</div>
+      <h2><a href="HoyaDocs_HNSS_HY_OnePager.html">The HNSS One-Pager</a></h2>
+      <p>Innervation rules and their one exception, lesion directions, reflexes, CN VII branch order and a spelling watchlist, all on a single page.</p>
+    </div>
+    <div class="acts">
+      <a class="btn solid" href="HoyaDocs_HNSS_HY_OnePager.html">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      <a class="btn ghost" href="HoyaDocs_HNSS_HY_OnePager.pdf" download>PDF<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 2v9M4 7l4 4 4-4M3 14h10"/></svg></a>
+    </div>
   </section>
 
   <div class="bar">
@@ -278,7 +310,7 @@ a{color:inherit}
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; Block 5 &middot; HNSS &middot; Exam Day Lab Notes</div>
-    <div class="tag">Rev 4 &middot; Updated Sep 28, 2026</div>
+    <div class="tag">Rev 5 &middot; Updated Sep 28, 2026</div>
   </footer>
 
 </div>
