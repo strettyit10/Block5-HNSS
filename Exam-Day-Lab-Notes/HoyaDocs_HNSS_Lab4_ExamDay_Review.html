@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 4 Exam-Day Review</title>
+<style>
+:root{
+  --navy:#1f3a68; --navy2:#2d5395; --ink:#1d2330; --muted:#5a6478; --line:#d4dbe8; --soft:#eef2f9;
+  --hy-bg:#fff6c7; --hy-bd:#c99a00; --hy-ink:#6b5200;
+  --art:#c0392b; --nerve:#b8860b; --vein:#2e5fb3; --mus:#e7a9a0;
+  --g1:#e8f4ec; --g1b:#2f8a4f; --r1:#fdecea; --r1b:#c0392b; --p1:#f1ebfa; --p1b:#6b46c1;
+}
+*{box-sizing:border-box}
+html{background:#f4f6fa}
+body{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45;color:var(--ink);margin:0 auto;max-width:1040px;padding:24px 20px 60px;background:#fff}
+.brand{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:3px solid var(--navy);padding-bottom:6px}
+.brand b{color:var(--navy)}
+h1{font-size:30px;margin:14px 0 2px;color:var(--navy);line-height:1.15}
+.sub{color:var(--muted);margin-bottom:12px}
+h2{font-size:18px;color:#fff;background:var(--navy);padding:7px 12px;border-radius:6px;margin:30px 0 10px;break-after:avoid}
+h3{font-size:15px;color:var(--navy);margin:18px 0 6px;break-after:avoid;border-left:4px solid var(--navy2);padding-left:8px}
+p{margin:6px 0}
+ul,ol{margin:4px 0;padding-left:20px} li{margin:3px 0}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:12px 0;padding:10px;background:var(--soft);border-radius:8px}
+.toc a{color:var(--navy);text-decoration:none;font-size:13px}
+.toc a:hover{text-decoration:underline}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-bd);border-radius:8px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.hy .t{font-weight:800;color:var(--hy-ink);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.note{background:var(--soft);border-left:5px solid var(--navy);padding:9px 12px;border-radius:0 6px 6px 0;margin:10px 0;break-inside:avoid}
+.mn{font-style:italic;color:#3d4a66}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;break-inside:auto}
+tr{break-inside:avoid}
+th{background:#dfe6f2;text-align:left;padding:6px 8px;border:1px solid #c3cde0;color:#15294b}
+td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafbfd}
+td.rowh{font-weight:700;background:#f2f5fa !important;white-space:nowrap}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.p-t{background:#e3ecfb;color:#1f4fa0}.p-z{background:#e5f5ea;color:#1f7a41}.p-b{background:#fff0d6;color:#9a5b00}.p-m{background:#f6e3f3;color:#8a2a7b}.p-c{background:#e9e6fb;color:#4b3aa8}.p-p{background:#eceff3;color:#44506a}
+.art{color:var(--art);font-weight:700}.nrv{color:var(--nerve);font-weight:700}.vn{color:var(--vein);font-weight:700}
+/* flow chains */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;break-inside:avoid}
+.flow .n{background:#fff;border:1.5px solid var(--navy2);border-radius:7px;padding:5px 9px;font-size:13px;font-weight:600;color:#15294b}
+.flow .n.a{border-color:var(--art);color:#8e2319;background:#fff7f6}
+.flow .n.v{border-color:var(--vein);color:#1c3f82;background:#f5f8ff}
+.flow .n.nv{border-color:var(--nerve);color:#6e5000;background:#fffbef}
+.flow .n.g{border-color:#2f8a4f;color:#1d5e34;background:#f1faf4}
+.flow .n.end{background:var(--navy);color:#fff;border-color:var(--navy)}
+.flow .ar{color:var(--navy2);font-weight:900;font-size:16px}
+.flow .lab{font-size:11.5px;color:var(--muted);font-style:italic}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;break-inside:avoid;background:#fff}
+.card h4{margin:0 0 6px;color:var(--navy);font-size:14px}
+.card.red{border-top:5px solid var(--r1b)}.card.green{border-top:5px solid var(--g1b)}.card.purple{border-top:5px solid var(--p1b)}.card.navy{border-top:5px solid var(--navy)}.card.gold{border-top:5px solid var(--hy-bd)}
+/* scalp layers */
+.scalp{border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:8px 0;break-inside:avoid}
+.scalp div{display:grid;grid-template-columns:44px 210px 1fr;align-items:center;padding:7px 10px;font-size:13px}
+.scalp .L{font-size:22px;font-weight:900;color:var(--navy)}
+.scalp .s1{background:#fbe5d6}.scalp .s2{background:#f6d0c2}.scalp .s3{background:#e9edf5}.scalp .s4{background:#fff6c7;outline:2px solid var(--hy-bd);outline-offset:-2px}.scalp .s5{background:#dcdfe6}
+/* CN VII road */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:10px 0;break-inside:avoid}
+.stop{border:2px solid var(--navy2);padding:10px;position:relative;background:#fff}
+.stop:not(:last-child){border-right:none}
+.stop .hd{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stop .ti{font-weight:800;color:var(--navy);margin:2px 0 6px}
+.stop:not(:last-child)::after{content:"➜";position:absolute;right:-13px;top:40%;background:#fff;color:var(--navy2);font-size:20px;z-index:2;line-height:1}
+/* tree */
+.tree{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;break-inside:avoid}
+.tree .col{border-radius:8px;padding:10px;border:1px solid var(--line)}
+.tree .col h4{margin:0 0 4px}
+.tree .trunk{grid-column:1/-1;text-align:center;background:var(--navy);color:#fff;border-radius:8px;padding:8px;font-weight:700}
+.exc{background:var(--hy-bg);border:1px solid var(--hy-bd);border-radius:4px;padding:0 5px;font-weight:700}
+/* foramina row */
+.fx{display:flex;gap:10px;margin:8px 0;break-inside:avoid}
+.fx .f{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center}
+.fx .f .nm{font-weight:800;color:var(--navy)}
+.fx .f .ct{font-size:12.5px}
+.fig{border:1px solid var(--line);border-radius:10px;padding:8px;margin:10px 0;background:#fcfdff;break-inside:avoid}
+.fig svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;background:#fff;break-inside:avoid}
+details summary{cursor:pointer;font-weight:600;color:#15294b}
+details .ans{margin-top:6px;padding:6px 10px;background:var(--g1);border-left:4px solid var(--g1b);border-radius:0 6px 6px 0}
+.foot{margin-top:30px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;border-radius:5px;padding:0 6px;font-size:12px;font-weight:700}
+.up{background:#e3ecfb;color:#1f4fa0}.dn{background:#fdecea;color:#9b2a1e}.md{background:#eceff3;color:#44506a}
+@media (max-width:760px){
+  .grid2,.grid3,.road,.tree{grid-template-columns:1fr}
+  .stop:not(:last-child){border-right:2px solid var(--navy2);border-bottom:none}
+  .stop:not(:last-child)::after{content:"⬇";right:45%;top:auto;bottom:-13px}
+  .scalp div{grid-template-columns:34px 1fr}.scalp div span:last-child{grid-column:1/-1}
+  .fx{flex-direction:column}
+  body{padding:16px}
+}
+@media print{
+  html,body{background:#fff}
+  body{max-width:none;padding:0;font-size:11.3px}
+  h1{font-size:24px} h2{font-size:14.5px;margin:18px 0 8px} h3{font-size:12.8px}
+  table{font-size:10.6px} td,th{padding:4px 6px}
+  .flow .n{font-size:10.8px;padding:3px 7px}
+  .toc{display:none}
+  .pb{break-before:page}
+  details{border:none;padding:4px 0}
+  .card,.hy,.note,.fig,.flow,.road,.tree,.scalp{break-inside:avoid}
+}
+@page{size:Letter;margin:0.5in 0.5in 0.55in}
+</style>
+</head>
+<body>
+<div class="brand"><span><b>HoyaDocs</b> · HNSS Block 5 · Head &amp; Neck Anatomy</span><span>Updated 27 Sep 2026 · Rev 1.0</span></div>
+<h1>Lab 4 Exam-Day Review</h1>
+<div class="sub">The Orbit — bony walls and openings, lacrimal apparatus, extraocular muscles, orbital nerves, the ciliary ganglion and orbital vessels.</div>
+
+<div class="toc">
+  <a href="#rules">1. Exam-day rules &amp; top traps</a>
+  <a href="#walls">2. Bony orbit, walls &amp; openings</a>
+  <a href="#lacrimal">3. Lacrimal apparatus</a>
+  <a href="#eom">4. Extraocular muscles</a>
+  <a href="#palsy">5. Palsies &amp; eyelid</a>
+  <a href="#v1">6. CN V1 in the orbit</a>
+  <a href="#ciliary">7. Ciliary ganglion &amp; ciliary nerves</a>
+  <a href="#vessels">8. Orbital vessels</a>
+  <a href="#compare">9. Commonly confused</a>
+  <a href="#clinical">10. Clinical correlations</a>
+  <a href="#check">11. Self-check questions</a>
+</div>
+
+<!-- 1 -->
+<h2 id="rules">1 · Exam-Day Rules &amp; Top Traps</h2>
+<div class="note"><b>✍️ Wording</b>
+<ul>
+<li>Write full names (“levator palpebrae superioris,” not “LPS”; “superior orbital fissure,” not “SOF”). Cranial nerves may be written as CN III or oculomotor nerve.</li>
+<li>Spelling counts: <b>trochlea · levator palpebrae superioris · sphincter pupillae · nasociliary · supratrochlear · infratrochlear · periorbita · puncta · canaliculi</b>.</li>
+</ul></div>
+<div class="hy"><div class="t">★ High-yield traps</div>
+<ol>
+<li><b>“LR6, SO4, AO3”</b> — lateral rectus = CN VI, superior oblique = CN IV, all others (including <b>LPS</b>) = CN III.</li>
+<li><b>Lacrimal gland:</b> CN VII → <b>greater</b> petrosal nerve → pterygopalatine ganglion → zygomatic nerve (V2) → lacrimal nerve (V1) → gland. The <b>lesser</b> petrosal nerve is CN IX → otic ganglion → parotid.</li>
+<li><b>Every orbital artery is a branch of the ophthalmic artery</b> (from the <b>internal carotid artery</b>), and each travels with the nerve of the same name.</li>
+<li><b>Only parasympathetic fibers synapse in the ciliary ganglion.</b> Short ciliary nerves come <i>from</i> the ganglion; long ciliary nerves come from the <b>nasociliary nerve</b> and bypass it.</li>
+<li><b>Light reflex:</b> afferent CN II, efferent CN III. <b>Corneal reflex:</b> afferent CN V1 (nasociliary), efferent CN VII (bilateral).</li>
+<li><b>H-test:</b> ABduct → test the Recti · ADduct → test the Obliques.</li>
+<li><b>Infratrochlear</b> (V1, nasociliary) ≠ <b>infraorbital</b> (V2, orbital floor).</li>
+<li>The orbital apex is <b>posteromedial</b> — the optic canal is in the lesser wing of the sphenoid.</li>
+</ol></div>
+
+<!-- 2 -->
+<h2 id="walls">2 · Bony Orbit, Walls &amp; Openings</h2>
+<p>Seven bones form the orbit: <b>frontal, zygomatic, maxilla, lacrimal, ethmoid, sphenoid, palatine</b>. It’s a four-sided <b>pyramid</b>: broad base at the orbital margin, <b>apex at the optic canal (posteromedial)</b>. The eyeball fills only the <b>anterior half</b>; the posterior half is <b>orbital fat</b>, extraocular muscles, nerves and vessels. The <b>periorbita</b> is the periosteum lining the orbit.</p>
+<div class="fig">
+<svg viewBox="0 0 800 330" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12">
+  <rect x="250" y="60" width="300" height="210" rx="18" fill="#fffbef" stroke="#b8b0a0" stroke-width="3"/>
+  <circle cx="400" cy="160" r="62" fill="#fff" stroke="#6e8bb8" stroke-width="3"/>
+  <circle cx="400" cy="160" r="20" fill="#2d5395"/>
+  <text x="400" y="248" text-anchor="middle" font-size="11" fill="#5a6478">Orbital fat behind the globe</text>
+  <!-- roof -->
+  <rect x="250" y="20" width="300" height="34" rx="6" fill="#e9edf5"/>
+  <text x="400" y="42" text-anchor="middle" font-weight="700" fill="#15294b">ROOF → anterior cranial fossa · frontal sinus above</text>
+  <!-- floor -->
+  <rect x="250" y="278" width="300" height="42" rx="6" fill="#fdecea"/>
+  <text x="400" y="296" text-anchor="middle" font-weight="700" fill="#8e2319">FLOOR (thin) → MAXILLARY SINUS</text>
+  <text x="400" y="312" text-anchor="middle" font-size="11" fill="#8e2319">infraorbital nerve runs here → numbness after blowout</text>
+  <circle cx="400" cy="270" r="6" fill="#b8860b"/>
+  <!-- medial -->
+  <rect x="560" y="60" width="230" height="210" rx="8" fill="#fdecea"/>
+  <text x="675" y="140" text-anchor="middle" font-weight="700" fill="#8e2319">MEDIAL WALL</text>
+  <text x="675" y="156" text-anchor="middle" font-weight="700" fill="#8e2319">(thinnest)</text>
+  <text x="675" y="176" text-anchor="middle" font-size="11" fill="#8e2319">orbital plate of ethmoid</text>
+  <text x="675" y="192" text-anchor="middle" font-size="11" fill="#8e2319">→ ETHMOIDAL AIR CELLS</text>
+  <text x="675" y="212" text-anchor="middle" font-size="11" fill="#8e2319">ant./post. ethmoidal foramina</text>
+  <!-- lateral -->
+  <rect x="10" y="60" width="230" height="210" rx="8" fill="#e8f4ec"/>
+  <text x="125" y="150" text-anchor="middle" font-weight="700" fill="#1d5e34">LATERAL WALL</text>
+  <text x="125" y="166" text-anchor="middle" font-weight="700" fill="#1d5e34">(strongest)</text>
+  <text x="125" y="186" text-anchor="middle" font-size="11" fill="#1d5e34">lacrimal gland sits superolaterally</text>
+</svg>
+<div class="cap">Right orbit, coronal schematic (medial side toward the nose on the right of the figure). Red = thin walls prone to blowout.</div>
+</div>
+
+<div class="tbl"><table>
+<thead><tr><th>Opening</th><th>Location</th><th>Contents</th></tr></thead>
+<tbody>
+<tr><td><b>Optic canal</b></td><td>Lesser wing of sphenoid (apex)</td><td><b>CN II + ophthalmic artery</b></td></tr>
+<tr><td><b>Superior orbital fissure</b></td><td>Between lesser &amp; greater wings of sphenoid</td><td>CN III, IV, VI · frontal, lacrimal, nasociliary nerves (V1) · <b>superior ophthalmic vein</b></td></tr>
+<tr><td><b>Inferior orbital fissure</b></td><td>Between sphenoid &amp; maxilla</td><td>Zygomatic + infraorbital nerves (V2) · infraorbital artery · <b>inferior ophthalmic vein</b></td></tr>
+<tr><td><b>Supraorbital notch/foramen</b></td><td>Superior orbital margin, <b>frontal bone</b></td><td>Supraorbital nerve (V1) + artery</td></tr>
+<tr><td><b>Infraorbital foramen</b></td><td>Maxilla, below the orbit</td><td>Infraorbital nerve (V2) + artery</td></tr>
+<tr><td><b>Anterior ethmoidal foramen</b></td><td>Medial wall</td><td>Anterior ethmoidal nerve (V1) + artery</td></tr>
+<tr><td><b>Posterior ethmoidal foramen</b></td><td>Medial wall</td><td>Posterior ethmoidal nerve (V1) + artery</td></tr>
+</tbody></table></div>
+<div class="grid3">
+<div class="card gold"><h4>Optic canal</h4>Vision: <b>CN II + ophthalmic artery</b></div>
+<div class="card gold"><h4>Superior orbital fissure</h4>Eye movers <b>III, IV, VI</b> + V1’s “NFL” + superior ophthalmic vein</div>
+<div class="card gold"><h4>Inferior orbital fissure</h4><b>V2</b> branches + inferior ophthalmic vein</div>
+</div>
+<p class="mn">Fissure = slit · foramen = hole · canal = tube. Superior vein → superior fissure; inferior vein → inferior fissure.</p>
+
+<!-- 3 -->
+<h2 id="lacrimal">3 · Lacrimal Apparatus</h2>
+<p class="mn">“Tears are made superolaterally and drained medially.”</p>
+<h3>Tear flow</h3>
+<div class="flow"><span class="n g">Lacrimal gland</span><span class="ar">→</span><span class="n">Lacrimal ducts</span><span class="ar">→</span><span class="n">Lateral superior conjunctival fornix</span><span class="ar">→</span><span class="n">Conjunctival sac (blinking spreads it)</span><span class="ar">→</span><span class="n">Lacrimal puncta (on lacrimal papillae)</span><span class="ar">→</span><span class="n">Lacrimal canaliculi</span><span class="ar">→</span><span class="n">Lacrimal sac</span><span class="ar">→</span><span class="n">Nasolacrimal duct</span><span class="ar">→</span><span class="n end">Inferior nasal meatus</span></div>
+<div class="grid2">
+<div class="card navy"><h4>Drain analogy</h4>Puncta = drain holes · canaliculi = small pipes · lacrimal sac = collecting trap · nasolacrimal duct = main pipe → inferior meatus (why your nose runs when you cry).</div>
+<div class="card navy"><h4>Nearby surface structures</h4>The <b>lacrimal caruncle</b> sits at the medial corner but is <b>not</b> part of the drainage pathway.</div>
+</div>
+<h3>Secretomotor (parasympathetic) supply</h3>
+<div class="flow"><span class="n nv">CN VII</span><span class="ar">→</span><span class="n nv">Greater petrosal nerve</span><span class="ar">→</span><span class="n g">Pterygopalatine ganglion (synapse)</span><span class="ar">→</span><span class="n nv">Zygomatic nerve (V2)</span><span class="ar">→</span><span class="lab">communicating branch</span><span class="n nv">Lacrimal nerve (V1)</span><span class="ar">→</span><span class="n end">Lacrimal gland</span></div>
+<div class="hy"><div class="t">Greater vs lesser petrosal</div><b>G</b>reater petrosal = <b>G</b>rief (tears), CN VII → pterygopalatine ganglion. <b>L</b>esser petrosal = <b>L</b>unch (parotid saliva), CN IX → otic ganglion.</div>
+
+<!-- 4 -->
+<h2 id="eom">4 · Extraocular Muscles</h2>
+<p>Seven voluntary muscles: <b>4 recti, 2 obliques, and levator palpebrae superioris</b>. All but the inferior oblique arise near the orbital apex; the <b>inferior oblique</b> arises from the <b>anterior orbital floor</b>.</p>
+<div class="tbl"><table>
+<thead><tr><th>Muscle</th><th>Primary</th><th>Secondary</th><th>Nerve</th><th>H-test</th></tr></thead>
+<tbody>
+<tr><td><b>Medial rectus</b></td><td>Adduction</td><td>—</td><td>CN III</td><td>—</td></tr>
+<tr><td><b>Lateral rectus</b></td><td>Abduction</td><td>—</td><td><b>CN VI</b></td><td>—</td></tr>
+<tr><td><b>Superior rectus</b></td><td>Elevation</td><td>Adduction, intorsion</td><td>CN III</td><td>Abduct → look up</td></tr>
+<tr><td><b>Inferior rectus</b></td><td>Depression</td><td>Adduction, extorsion</td><td>CN III</td><td>Abduct → look down</td></tr>
+<tr><td><b>Superior oblique</b> (tendon through the <b>trochlea</b>)</td><td>Depression</td><td>Abduction, intorsion</td><td><b>CN IV</b></td><td>Adduct → look down</td></tr>
+<tr><td><b>Inferior oblique</b></td><td>Elevation</td><td>Abduction, extorsion</td><td>CN III</td><td>Adduct → look up</td></tr>
+<tr><td><b>Levator palpebrae superioris</b></td><td colspan="2">Elevates the upper eyelid (lies <b>above</b> superior rectus — a lab landmark)</td><td>CN III</td><td>—</td></tr>
+</tbody></table></div>
+
+<div class="fig">
+<svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="13">
+  <defs><marker id="h1" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2d5395"/></marker></defs>
+  <path d="M220,50 L220,250 M580,50 L580,250 M220,150 L580,150" stroke="#2d5395" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <circle cx="400" cy="150" r="34" fill="#fff" stroke="#6e8bb8" stroke-width="3"/><circle cx="400" cy="150" r="12" fill="#2d5395"/>
+  <g font-weight="800">
+  <rect x="150" y="18" width="140" height="30" rx="8" fill="#e3ecfb"/><text x="220" y="38" text-anchor="middle" fill="#1f4fa0">Superior rectus</text>
+  <rect x="150" y="252" width="140" height="30" rx="8" fill="#e3ecfb"/><text x="220" y="272" text-anchor="middle" fill="#1f4fa0">Inferior rectus</text>
+  <rect x="510" y="18" width="140" height="30" rx="8" fill="#f1ebfa"/><text x="580" y="38" text-anchor="middle" fill="#6b46c1">Inferior oblique</text>
+  <rect x="510" y="252" width="140" height="30" rx="8" fill="#f1ebfa"/><text x="580" y="272" text-anchor="middle" fill="#6b46c1">Superior oblique</text>
+  <rect x="20" y="135" width="140" height="30" rx="8" fill="#e8f4ec"/><text x="90" y="155" text-anchor="middle" fill="#1d5e34">Lateral rectus</text>
+  <rect x="640" y="135" width="140" height="30" rx="8" fill="#e8f4ec"/><text x="710" y="155" text-anchor="middle" fill="#1d5e34">Medial rectus</text>
+  </g>
+  <text x="220" y="118" text-anchor="middle" font-size="11.5" fill="#5a6478">◀ ABDUCTED</text>
+  <text x="220" y="133" text-anchor="middle" font-size="11.5" fill="#5a6478">test the RECTI</text>
+  <text x="580" y="118" text-anchor="middle" font-size="11.5" fill="#5a6478">ADDUCTED ▶</text>
+  <text x="580" y="133" text-anchor="middle" font-size="11.5" fill="#5a6478">test the OBLIQUES</text>
+</svg>
+<div class="cap">The H-test for one eye. Left bar = eye turned OUT (temporal); right bar = eye turned IN (nasal). Obliques act opposite to their names: inferior oblique elevates, superior oblique depresses.</div>
+</div>
+<div class="grid2">
+<div class="card purple"><h4>Pairing rules</h4>
+<ul><li><b>SR + IR</b> both <b>adduct</b></li><li><b>SO + IO</b> both <b>abduct</b></li><li><b>SR + SO</b> both <b>intort</b> — “Superiors INtort”</li><li><b>IR + IO</b> both <b>extort</b></li></ul></div>
+<div class="card green"><h4>Why secondary actions?</h4>The <b>orbital axis</b> angles posteromedially while the <b>optical axis</b> points straight ahead, so SR, IR and the obliques pull at an angle. Moving the eye into abduction or adduction lines a muscle up with its pull — that’s the H-test.</div>
+</div>
+<div class="note"><b>Conjugate gaze:</b> looking to the <b>right</b> = right lateral rectus (CN VI) + left medial rectus (CN III).</div>
+
+<!-- 5 -->
+<h2 id="palsy">5 · Palsies &amp; the Eyelid</h2>
+<div class="tbl"><table>
+<thead><tr><th></th><th>CN III</th><th>CN IV</th><th>CN VI</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Lost</td><td>SR, IR, MR, IO, LPS + sphincter pupillae + ciliary</td><td>Superior oblique</td><td>Lateral rectus</td></tr>
+<tr><td class="rowh">Eye position</td><td><b>Down and out</b> (SO + LR unopposed)</td><td>Slightly up</td><td><b>Turned in</b></td></tr>
+<tr><td class="rowh">Lid / pupil</td><td><b>Complete ptosis</b>, <b>dilated</b> pupil, no accommodation</td><td>Normal</td><td>Normal</td></tr>
+<tr><td class="rowh">Diplopia</td><td>Multiple directions</td><td><b>Vertical</b>, worst looking down and in (reading, stairs); head tilts <b>away</b></td><td><b>Horizontal</b>, worst looking <b>out</b> toward the lesion</td></tr>
+<tr><td class="rowh">Lab landmark</td><td>Branches to SR/LPS above and MR/IR/IO below</td><td>Tiny nerve ending in <b>superior oblique</b></td><td>On the inner surface of <b>lateral rectus</b></td></tr>
+</tbody></table></div>
+<div class="grid2">
+<div class="card navy"><h4>Eyelid openers vs closer</h4>
+<div class="flow"><span class="n">LPS (skeletal)</span><span class="ar">←</span><span class="n nv">CN III</span></div>
+<div class="flow"><span class="n">Superior tarsal muscle (smooth)</span><span class="ar">←</span><span class="n nv">Sympathetics</span></div>
+<div class="flow"><span class="n">Orbicularis oculi (closes)</span><span class="ar">←</span><span class="n nv">CN VII</span></div>
+<p>Layers front → back: skin → thin subcutaneous tissue → orbicularis oculi → orbital septum/tarsus → conjunctiva.</p></div>
+<div class="card red"><h4>Ptosis: CN III vs Horner</h4>
+<table><tr><th></th><th>CN III</th><th>Horner</th></tr>
+<tr><td>Ptosis</td><td><b>Complete</b> (LPS)</td><td><b>Mild</b> (superior tarsal)</td></tr>
+<tr><td>Pupil</td><td><b>Dilated</b></td><td><b>Small</b> (miosis)</td></tr>
+<tr><td>Other</td><td>Down and out</td><td>Anhidrosis</td></tr></table></div>
+</div>
+
+<!-- 6 -->
+<h2 id="v1">6 · CN V1 in the Orbit — “NFL”</h2>
+<div class="tree">
+  <div class="trunk">CN V1 (ophthalmic division) — enters through the superior orbital fissure</div>
+  <div class="col" style="background:#e8f4ec"><h4>N · Nasociliary nerve</h4>
+  <p class="lab">Crosses over CN II toward the medial wall</p>
+  <ul><li><b>Anterior ethmoidal nerve</b> → anterior ethmoidal foramen → ends as <b>external nasal nerve</b> (tip of nose)</li><li><b>Posterior ethmoidal nerve</b> → posterior ethmoidal foramen</li><li><b>Infratrochlear nerve</b> → medial corner of the eye (below trochlea)</li><li><b>Long ciliary nerves</b> → eyeball (cornea), bypass the ganglion</li><li>Sensory root to the ciliary ganglion</li></ul></div>
+  <div class="col" style="background:#f5f7fb"><h4>F · Frontal nerve</h4>
+  <p class="lab">Largest; on top of LPS along the roof</p>
+  <ul><li><b>Supraorbital nerve</b> (lateral) → supraorbital notch/foramen (frontal bone) → forehead, scalp, upper lid</li><li><b>Supratrochlear nerve</b> (medial) → above the trochlea → medial forehead</li></ul></div>
+  <div class="col" style="background:#f1ebfa"><h4>L · Lacrimal nerve</h4>
+  <p class="lab">Along the upper lateral wall</p>
+  <ul><li>Sensory: lateral upper lid, conjunctiva, gland region</li><li>Receives the <b>communicating branch from the zygomatic nerve (V2)</b> → carries postganglionic secretomotor fibers to the <b>lacrimal gland</b></li><li>Lab landmark: find the lacrimal gland first</li></ul></div>
+</div>
+<div class="hy"><div class="t">Hutchinson sign</div>Herpes zoster vesicles on the <b>tip of the nose</b> = external nasal branch of the <b>nasociliary nerve</b> → high risk of <b>ocular involvement</b>, because the nasociliary nerve also supplies the eye (long ciliary nerves).</div>
+<p><b>CN V2 in the orbit:</b> the <b>zygomatic nerve</b> (→ zygomaticofacial + zygomaticotemporal) and <b>infraorbital nerve</b> enter through the <b>inferior orbital fissure</b>; the infraorbital nerve runs in the floor and exits the infraorbital foramen.</p>
+
+<!-- 7 -->
+<h2 id="ciliary">7 · Ciliary Ganglion &amp; Ciliary Nerves</h2>
+<p>A tiny parasympathetic ganglion in the <b>posterior orbit, lateral to the optic nerve</b>. One of the four head ganglia — <span class="mn">“COPS”: Ciliary, Otic, Pterygopalatine, Submandibular</span>.</p>
+<div class="flow"><span class="lab"><b>Parasympathetic</b> (synapses ✅)</span><span class="n nv">CN III</span><span class="ar">→</span><span class="n g">Ciliary ganglion — SYNAPSE</span><span class="ar">→</span><span class="n nv">Short ciliary nerves</span><span class="ar">→</span><span class="n end">Sphincter pupillae (constrict) + ciliary muscle (accommodate)</span></div>
+<div class="flow"><span class="lab"><b>Sympathetic</b> (passes through ❌)</span><span class="n nv">Superior cervical ganglion (synapse)</span><span class="ar">→</span><span class="n a">Along internal carotid artery</span><span class="ar">→</span><span class="n g">Through ciliary ganglion</span><span class="ar">→</span><span class="n nv">Short ciliary nerves</span><span class="ar">→</span><span class="n end">Dilator pupillae (dilate)</span></div>
+<div class="flow"><span class="lab"><b>Sensory</b> (passes through ❌)</span><span class="n">Eyeball / cornea</span><span class="ar">→</span><span class="n nv">Short ciliary nerves</span><span class="ar">→</span><span class="n g">Through ganglion</span><span class="ar">→</span><span class="n nv">Nasociliary nerve</span><span class="ar">→</span><span class="n end">CN V1</span></div>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Long ciliary nerves</th><th>Short ciliary nerves</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Come from</td><td><b>Nasociliary nerve</b> (V1)</td><td><b>Ciliary ganglion</b></td></tr>
+<tr><td class="rowh">Relation to ganglion</td><td><b>Bypass</b> it</td><td>Leave it</td></tr>
+<tr><td class="rowh">Carry</td><td>Sensory (cornea)</td><td><b>Postganglionic parasympathetic</b> + sympathetic + sensory</td></tr>
+<tr><td class="rowh">Reflex role</td><td>Afferent limb of the corneal reflex</td><td>Efferent limb (parasympathetic) of the light reflex</td></tr>
+</tbody></table></div>
+<div class="tbl"><table>
+<thead><tr><th>Reflex</th><th>Afferent</th><th>Efferent</th><th>Effector</th></tr></thead>
+<tbody>
+<tr><td><b>Pupillary light</b></td><td>CN II</td><td>CN III → ciliary ganglion → short ciliary nerves</td><td>Sphincter pupillae — <b>both</b> pupils (direct + consensual)</td></tr>
+<tr><td><b>Accommodation</b></td><td>CN II</td><td>CN III</td><td>Ciliary muscle (+ sphincter, medial rectus)</td></tr>
+<tr><td><b>Corneal blink</b></td><td>CN V1 (nasociliary; long ciliary nerves)</td><td>CN VII, bilateral</td><td>Orbicularis oculi</td></tr>
+</tbody></table></div>
+
+<!-- 8 -->
+<h2 id="vessels">8 · Orbital Vessels</h2>
+<div class="flow"><span class="n a">Internal carotid artery</span><span class="ar">→</span><span class="n a">Ophthalmic artery</span><span class="ar">→</span><span class="n">Optic canal (with CN II)</span><span class="ar">→</span><span class="n end">Branches follow same-name nerves</span></div>
+<div class="tbl"><table>
+<thead><tr><th>Branch of ophthalmic artery</th><th>Travels with</th><th>Exit / target</th></tr></thead>
+<tbody>
+<tr><td class="art">Supraorbital artery</td><td>Supraorbital nerve</td><td>Supraorbital notch/foramen → forehead</td></tr>
+<tr><td class="art">Lacrimal artery</td><td>Lacrimal nerve</td><td>Upper lateral orbit → lacrimal gland</td></tr>
+<tr><td class="art">Anterior ethmoidal artery</td><td>Anterior ethmoidal nerve</td><td>Anterior ethmoidal foramen</td></tr>
+<tr><td class="art">Posterior ethmoidal artery</td><td>Posterior ethmoidal nerve</td><td>Posterior ethmoidal foramen</td></tr>
+</tbody></table></div>
+<div class="grid2">
+<div class="card navy"><h4>Veins</h4><b>Superior ophthalmic vein → superior orbital fissure.</b><br><b>Inferior ophthalmic vein → inferior orbital fissure.</b><br>Both connect to the cavernous sinus — valveless, so infection can spread backward.</div>
+<div class="card red"><h4>Not in the orbit</h4>The <b>facial artery</b> is an external carotid branch on the face — it does <b>not</b> supply the orbit’s contents. Orbit = <b>ophthalmic artery</b> (internal carotid system).</div>
+</div>
+
+<!-- 9 -->
+<h2 id="compare">9 · Commonly Confused</h2>
+<div class="tbl"><table>
+<thead><tr><th>Pair</th><th>Difference</th></tr></thead>
+<tbody>
+<tr><td><b>Supratrochlear vs infratrochlear</b></td><td>Above the trochlea = frontal nerve branch · below the trochlea = nasociliary branch (both V1)</td></tr>
+<tr><td><b>Supraorbital vs infraorbital</b></td><td>Supraorbital = V1 (frontal nerve), frontal bone notch · infraorbital = <b>V2</b>, orbital floor → maxilla</td></tr>
+<tr><td><b>Long vs short ciliary</b></td><td>Long = nasociliary, bypass ganglion · short = from the ganglion</td></tr>
+<tr><td><b>Greater vs lesser petrosal</b></td><td>Greater = CN VII → pterygopalatine → lacrimal gland · lesser = CN IX → otic → parotid</td></tr>
+<tr><td><b>Superior vs inferior ophthalmic vein</b></td><td>Superior orbital fissure vs inferior orbital fissure</td></tr>
+<tr><td><b>Inferior rectus paralyzed vs trapped</b></td><td>Paralyzed → can’t look <b>down</b> · trapped in floor fracture → tethered, can’t look <b>up</b></td></tr>
+<tr><td><b>Floor vs medial wall blowout</b></td><td>Floor → maxillary sinus (+ infraorbital nerve) · medial → ethmoidal air cells</td></tr>
+<tr><td><b>Tarsal glands vs ciliary glands</b></td><td>Tarsal (in tarsus) → <b>chalazion</b>, deep and painless · ciliary (eyelash follicles) → <b>stye</b>, painful at the margin</td></tr>
+</tbody></table></div>
+
+<!-- 10 -->
+<h2 id="clinical">10 · Clinical Correlations</h2>
+<div class="tbl"><table>
+<thead><tr><th>Scenario</th><th>Structure</th><th>Answer</th></tr></thead>
+<tbody>
+<tr><td>Blunt trauma → diplopia, sunken/low eye, numb cheek</td><td>Orbital floor + infraorbital nerve</td><td><b>Blowout fracture</b> into the maxillary sinus; hypoglobus / enophthalmos</td></tr>
+<tr><td>Can’t look up after orbital floor fracture</td><td>Inferior rectus</td><td>Entrapment (tethered)</td></tr>
+<tr><td>Ethmoid sinusitis → lid swelling, proptosis, weak eye movements</td><td>Orbital veins → cavernous sinus</td><td>Thrombophlebitis</td></tr>
+<tr><td>Eye down and out, complete ptosis, dilated pupil</td><td>CN III</td><td>Oculomotor palsy</td></tr>
+<tr><td>Trouble reading / going downstairs; head tilted away</td><td>CN IV</td><td>Superior oblique palsy</td></tr>
+<tr><td>Eye turned in; double vision looking toward the lesion</td><td>CN VI</td><td>Lateral rectus palsy</td></tr>
+<tr><td>Mild ptosis, small pupil, dry face on one side</td><td>Sympathetic pathway</td><td><b>Horner syndrome</b></td></tr>
+<tr><td>Light in right eye → no constriction of either pupil; light in left → both constrict</td><td>Right CN II</td><td>Afferent pupillary defect</td></tr>
+<tr><td>Shingles on the forehead + tip of the nose</td><td>Nasociliary nerve</td><td><b>Hutchinson sign</b> → ocular risk</td></tr>
+<tr><td>Dry eye after a lesion of the greater petrosal nerve</td><td>Lacrimal secretomotor pathway</td><td>No tears</td></tr>
+<tr><td>Deep, painless eyelid lump</td><td>Tarsal gland</td><td><b>Chalazion</b></td></tr>
+<tr><td>Painful red bump at the lash line</td><td>Ciliary gland</td><td><b>Stye (hordeolum)</b></td></tr>
+</tbody></table></div>
+
+<!-- 11 -->
+<h2 id="check">11 · Self-Check Questions</h2>
+<p class="lab">Answer first, then open each one to check.</p>
+<details><summary>1. Which structures pass through the optic canal?</summary><div class="ans">CN II and the ophthalmic artery.</div></details>
+<details><summary>2. Name the three V1 branches that enter through the superior orbital fissure.</summary><div class="ans">Nasociliary, frontal and lacrimal nerves (“NFL”).</div></details>
+<details><summary>3. Which muscle elevates the eye when it is adducted?</summary><div class="ans">Inferior oblique (CN III).</div></details>
+<details><summary>4. Which muscle depresses the eye when it is abducted?</summary><div class="ans">Inferior rectus (CN III).</div></details>
+<details><summary>5. Trace the secretomotor pathway to the lacrimal gland.</summary><div class="ans">CN VII → greater petrosal nerve → pterygopalatine ganglion → zygomatic nerve (V2) → lacrimal nerve (V1) → lacrimal gland.</div></details>
+<details><summary>6. Which fibers synapse in the ciliary ganglion, and what do they supply?</summary><div class="ans">Parasympathetic fibers from CN III → sphincter pupillae and ciliary muscle.</div></details>
+<details><summary>7. Where do long ciliary nerves come from?</summary><div class="ans">The nasociliary nerve (V1); they bypass the ciliary ganglion.</div></details>
+<details><summary>8. What artery gives rise to the supraorbital and lacrimal arteries?</summary><div class="ans">The ophthalmic artery (from the internal carotid artery).</div></details>
+<details><summary>9. Through which openings do the superior and inferior ophthalmic veins pass?</summary><div class="ans">Superior orbital fissure and inferior orbital fissure, respectively.</div></details>
+<details><summary>10. An orbital floor fracture sends contents into which space, and which nerve is at risk?</summary><div class="ans">Maxillary sinus; infraorbital nerve (V2).</div></details>
+<details><summary>11. Which nerve lies just below the trochlea, and what is its parent?</summary><div class="ans">Infratrochlear nerve — branch of the nasociliary nerve.</div></details>
+<details><summary>12. Which tear-drainage structures does fluid pass through between the puncta and the nasolacrimal duct?</summary><div class="ans">Lacrimal canaliculi → lacrimal sac.</div></details>
+
+<div class="foot"><span><b>HoyaDocs</b> · HNSS Lab 4 Exam-Day Review</span><span>Updated 27 Sep 2026 · Rev 1.0</span></div>
+
+</body>
+</html>

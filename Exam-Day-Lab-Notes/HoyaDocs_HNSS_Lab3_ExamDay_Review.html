@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 3 Exam-Day Review</title>
+<style>
+:root{
+  --navy:#1f3a68; --navy2:#2d5395; --ink:#1d2330; --muted:#5a6478; --line:#d4dbe8; --soft:#eef2f9;
+  --hy-bg:#fff6c7; --hy-bd:#c99a00; --hy-ink:#6b5200;
+  --art:#c0392b; --nerve:#b8860b; --vein:#2e5fb3; --mus:#e7a9a0;
+  --g1:#e8f4ec; --g1b:#2f8a4f; --r1:#fdecea; --r1b:#c0392b; --p1:#f1ebfa; --p1b:#6b46c1;
+}
+*{box-sizing:border-box}
+html{background:#f4f6fa}
+body{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45;color:var(--ink);margin:0 auto;max-width:1040px;padding:24px 20px 60px;background:#fff}
+.brand{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:3px solid var(--navy);padding-bottom:6px}
+.brand b{color:var(--navy)}
+h1{font-size:30px;margin:14px 0 2px;color:var(--navy);line-height:1.15}
+.sub{color:var(--muted);margin-bottom:12px}
+h2{font-size:18px;color:#fff;background:var(--navy);padding:7px 12px;border-radius:6px;margin:30px 0 10px;break-after:avoid}
+h3{font-size:15px;color:var(--navy);margin:18px 0 6px;break-after:avoid;border-left:4px solid var(--navy2);padding-left:8px}
+p{margin:6px 0}
+ul,ol{margin:4px 0;padding-left:20px} li{margin:3px 0}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:12px 0;padding:10px;background:var(--soft);border-radius:8px}
+.toc a{color:var(--navy);text-decoration:none;font-size:13px}
+.toc a:hover{text-decoration:underline}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-bd);border-radius:8px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.hy .t{font-weight:800;color:var(--hy-ink);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.note{background:var(--soft);border-left:5px solid var(--navy);padding:9px 12px;border-radius:0 6px 6px 0;margin:10px 0;break-inside:avoid}
+.mn{font-style:italic;color:#3d4a66}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;break-inside:auto}
+tr{break-inside:avoid}
+th{background:#dfe6f2;text-align:left;padding:6px 8px;border:1px solid #c3cde0;color:#15294b}
+td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafbfd}
+td.rowh{font-weight:700;background:#f2f5fa !important;white-space:nowrap}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.p-t{background:#e3ecfb;color:#1f4fa0}.p-z{background:#e5f5ea;color:#1f7a41}.p-b{background:#fff0d6;color:#9a5b00}.p-m{background:#f6e3f3;color:#8a2a7b}.p-c{background:#e9e6fb;color:#4b3aa8}.p-p{background:#eceff3;color:#44506a}
+.art{color:var(--art);font-weight:700}.nrv{color:var(--nerve);font-weight:700}.vn{color:var(--vein);font-weight:700}
+/* flow chains */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;break-inside:avoid}
+.flow .n{background:#fff;border:1.5px solid var(--navy2);border-radius:7px;padding:5px 9px;font-size:13px;font-weight:600;color:#15294b}
+.flow .n.a{border-color:var(--art);color:#8e2319;background:#fff7f6}
+.flow .n.v{border-color:var(--vein);color:#1c3f82;background:#f5f8ff}
+.flow .n.nv{border-color:var(--nerve);color:#6e5000;background:#fffbef}
+.flow .n.g{border-color:#2f8a4f;color:#1d5e34;background:#f1faf4}
+.flow .n.end{background:var(--navy);color:#fff;border-color:var(--navy)}
+.flow .ar{color:var(--navy2);font-weight:900;font-size:16px}
+.flow .lab{font-size:11.5px;color:var(--muted);font-style:italic}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;break-inside:avoid;background:#fff}
+.card h4{margin:0 0 6px;color:var(--navy);font-size:14px}
+.card.red{border-top:5px solid var(--r1b)}.card.green{border-top:5px solid var(--g1b)}.card.purple{border-top:5px solid var(--p1b)}.card.navy{border-top:5px solid var(--navy)}.card.gold{border-top:5px solid var(--hy-bd)}
+/* scalp layers */
+.scalp{border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:8px 0;break-inside:avoid}
+.scalp div{display:grid;grid-template-columns:44px 210px 1fr;align-items:center;padding:7px 10px;font-size:13px}
+.scalp .L{font-size:22px;font-weight:900;color:var(--navy)}
+.scalp .s1{background:#fbe5d6}.scalp .s2{background:#f6d0c2}.scalp .s3{background:#e9edf5}.scalp .s4{background:#fff6c7;outline:2px solid var(--hy-bd);outline-offset:-2px}.scalp .s5{background:#dcdfe6}
+/* CN VII road */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:10px 0;break-inside:avoid}
+.stop{border:2px solid var(--navy2);padding:10px;position:relative;background:#fff}
+.stop:not(:last-child){border-right:none}
+.stop .hd{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stop .ti{font-weight:800;color:var(--navy);margin:2px 0 6px}
+.stop:not(:last-child)::after{content:"➜";position:absolute;right:-13px;top:40%;background:#fff;color:var(--navy2);font-size:20px;z-index:2;line-height:1}
+/* tree */
+.tree{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;break-inside:avoid}
+.tree .col{border-radius:8px;padding:10px;border:1px solid var(--line)}
+.tree .col h4{margin:0 0 4px}
+.tree .trunk{grid-column:1/-1;text-align:center;background:var(--navy);color:#fff;border-radius:8px;padding:8px;font-weight:700}
+.exc{background:var(--hy-bg);border:1px solid var(--hy-bd);border-radius:4px;padding:0 5px;font-weight:700}
+/* foramina row */
+.fx{display:flex;gap:10px;margin:8px 0;break-inside:avoid}
+.fx .f{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center}
+.fx .f .nm{font-weight:800;color:var(--navy)}
+.fx .f .ct{font-size:12.5px}
+.fig{border:1px solid var(--line);border-radius:10px;padding:8px;margin:10px 0;background:#fcfdff;break-inside:avoid}
+.fig svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;background:#fff;break-inside:avoid}
+details summary{cursor:pointer;font-weight:600;color:#15294b}
+details .ans{margin-top:6px;padding:6px 10px;background:var(--g1);border-left:4px solid var(--g1b);border-radius:0 6px 6px 0}
+.foot{margin-top:30px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;border-radius:5px;padding:0 6px;font-size:12px;font-weight:700}
+.up{background:#e3ecfb;color:#1f4fa0}.dn{background:#fdecea;color:#9b2a1e}.md{background:#eceff3;color:#44506a}
+@media (max-width:760px){
+  .grid2,.grid3,.road,.tree{grid-template-columns:1fr}
+  .stop:not(:last-child){border-right:2px solid var(--navy2);border-bottom:none}
+  .stop:not(:last-child)::after{content:"⬇";right:45%;top:auto;bottom:-13px}
+  .scalp div{grid-template-columns:34px 1fr}.scalp div span:last-child{grid-column:1/-1}
+  .fx{flex-direction:column}
+  body{padding:16px}
+}
+@media print{
+  html,body{background:#fff}
+  body{max-width:none;padding:0;font-size:11.3px}
+  h1{font-size:24px} h2{font-size:14.5px;margin:18px 0 8px} h3{font-size:12.8px}
+  table{font-size:10.6px} td,th{padding:4px 6px}
+  .flow .n{font-size:10.8px;padding:3px 7px}
+  .toc{display:none}
+  .pb{break-before:page}
+  details{border:none;padding:4px 0}
+  .card,.hy,.note,.fig,.flow,.road,.tree,.scalp{break-inside:avoid}
+}
+@page{size:Letter;margin:0.5in 0.5in 0.55in}
+</style>
+</head>
+<body>
+<div class="brand"><span><b>HoyaDocs</b> · HNSS Block 5 · Head &amp; Neck Anatomy</span><span>Updated 27 Sep 2026 · Rev 1.0</span></div>
+<h1>Lab 3 Exam-Day Review</h1>
+<div class="sub">Cranial Fossae — meninges, dural folds, dural venous sinuses, arteries and the 12 cranial nerves at the skull base.</div>
+
+<div class="toc">
+  <a href="#rules">1. Exam-day rules &amp; top traps</a>
+  <a href="#meninges">2. Meninges, folds &amp; sinuses</a>
+  <a href="#cavernous">3. Cavernous sinus</a>
+  <a href="#arteries">4. Arteries</a>
+  <a href="#cn">5. Cranial nerves at a glance</a>
+  <a href="#eye">6. Eye nerves &amp; palsies</a>
+  <a href="#reflex">7. Reflexes</a>
+  <a href="#lower">8. CN IX · X · XI · XII</a>
+  <a href="#compare">9. More comparisons</a>
+  <a href="#clinical">10. Clinical correlations</a>
+  <a href="#check">11. Self-check questions</a>
+</div>
+
+<!-- 1 -->
+<h2 id="rules">1 · Exam-Day Rules &amp; Top Traps</h2>
+<div class="note"><b>✍️ Wording</b>
+<ul>
+<li>Full names for structures (“internal carotid artery,” not “ICA”). Cranial nerves may be written as CN III or oculomotor nerve.</li>
+<li>Use the lecture’s modality terms: <b>special sensory</b> (CN I, II, VIII, taste), <b>general sensory</b>, <b>branchial motor</b>.</li>
+<li>Spelling counts: <b>sagittal · cribriform · sternocleidomastoid · tensor veli palatini · carotid sheath · sphincter pupillae · superior orbital fissure · ptosis · hematoma</b>.</li>
+</ul></div>
+<div class="hy"><div class="t">★ High-yield traps</div>
+<ol>
+<li><b>Middle meningeal artery → EPIDURAL hematoma</b> — it runs between the skull and the dura. Lens-shaped; does not cross sutures. Subdural = bridging veins.</li>
+<li><b>Dural venous sinuses form</b> where the two dural layers (periosteal + meningeal) <b>fail to fuse</b> at the edges of dural folds.</li>
+<li><b>Falx = left/right. Tentorium = up/down.</b> Falx cerebri anchors to the <b>crista galli of the ethmoid</b>.</li>
+<li><b>CN VI runs through the cavernous sinus</b> (next to the internal carotid artery) → first affected. CN III, IV, V1, V2 are in the lateral wall. <b>CN V3 is not in the sinus.</b></li>
+<li><b>Palatoglossus = CN X</b> (the only tongue muscle not supplied by CN XII). Styloglossus = CN XII. Stylopharyngeus = CN IX.</li>
+<li><b>Light reflex:</b> afferent <b>CN II</b>, efferent <b>CN III</b>. <b>Corneal reflex:</b> afferent <b>CN V1</b>, efferent <b>CN VII</b>. <b>Gag:</b> afferent <b>CN IX</b>, efferent <b>CN X</b>.</li>
+<li><b>CN VIII never leaves the skull</b> — it ends in the inner ear within the petrous temporal bone.</li>
+<li>Tongue deviates <b>toward</b> a CN XII lesion; uvula deviates <b>away</b> from a CN X lesion; jaw deviates <b>toward</b> a CN V3 lesion.</li>
+</ol></div>
+
+<!-- 2 -->
+<h2 id="meninges">2 · Meninges, Dural Folds &amp; Dural Venous Sinuses</h2>
+<div class="fig">
+<svg viewBox="0 0 800 330" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12">
+  <defs><marker id="m1" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#44506a"/></marker></defs>
+  <rect x="0" y="20" width="800" height="50" fill="#dcd4c4"/>
+  <text x="14" y="50" font-weight="700" fill="#5b4e36">SKULL (calvaria)</text>
+  <rect x="0" y="70" width="800" height="16" fill="#9db4d6"/>
+  <text x="14" y="82" font-size="10.5" font-weight="700" fill="#15294b">DURA — periosteal layer</text>
+  <rect x="0" y="86" width="800" height="16" fill="#7894c2"/>
+  <text x="14" y="98" font-size="10.5" font-weight="700" fill="#fff">DURA — meningeal layer</text>
+  <rect x="0" y="108" width="800" height="5" fill="#b9a7d6"/>
+  <text x="14" y="126" font-size="10.5" font-weight="700" fill="#5b3f94">ARACHNOID (thin, web-like)</text>
+  <rect x="0" y="151" width="800" height="120" fill="#f6e6e6"/>
+  <rect x="0" y="146" width="800" height="5" fill="#e07a7a"/>
+  <text x="14" y="164" font-size="10.5" font-weight="700" fill="#a33">PIA (stuck to brain)</text>
+  <text x="120" y="226" font-size="13" font-weight="700" fill="#8a5555">LEFT CEREBRAL HEMISPHERE</text>
+  <text x="520" y="226" font-size="13" font-weight="700" fill="#8a5555">RIGHT CEREBRAL HEMISPHERE</text>
+  <!-- sinus + falx -->
+  <polygon points="350,86 450,86 400,140" fill="#2e5fb3" stroke="#1c3f82"/>
+  <polygon points="392,140 408,140 404,310 396,310" fill="#7894c2" stroke="#4d6a9a"/>
+  <text x="400" y="110" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff">SINUS</text>
+  <path d="M470,120 L450,105" stroke="#44506a" stroke-width="1.5" marker-end="url(#m1)"/>
+  <text x="474" y="124" font-size="11" font-weight="700" fill="#1c3f82">Superior sagittal sinus — the two</text>
+  <text x="474" y="137" font-size="11" font-weight="700" fill="#1c3f82">dural layers split to form a channel</text>
+  <path d="M430,290 L408,290" stroke="#44506a" stroke-width="1.5" marker-end="url(#m1)"/>
+  <text x="434" y="294" font-size="11" font-weight="700" fill="#15294b">Falx cerebri (meningeal dura folds down between hemispheres)</text>
+  <!-- MMA -->
+  <circle cx="190" cy="72" r="8" fill="#c0392b"/>
+  <path d="M200,60 C230,40 250,36 270,36" stroke="#c0392b" stroke-width="1.5" fill="none"/>
+  <text x="274" y="40" font-size="11" font-weight="700" fill="#8e2319">Middle meningeal artery — between skull &amp; dura → EPIDURAL (lens)</text>
+  <!-- bridging vein -->
+  <path d="M660,100 L660,150" stroke="#2e5fb3" stroke-width="4"/>
+  <text x="640" y="190" font-size="11" font-weight="700" fill="#1c3f82">Bridging vein</text>
+  <text x="640" y="203" font-size="11" fill="#1c3f82">→ SUBDURAL (crescent)</text>
+</svg>
+<div class="cap">Coronal schematic, not to scale. Superficial → deep: skull · dura (periosteal + meningeal) · arachnoid · pia · brain.</div>
+</div>
+
+<div class="grid3">
+  <div class="card navy"><h4>Dura mater</h4>Tough, “tarp-like”; attaches to the inside of the skull and holds the brain in place. <b>Two layers:</b> periosteal (outer) + meningeal (inner). <span class="mn">Dura = durable.</span></div>
+  <div class="card purple"><h4>Arachnoid mater</h4>Delicate, thin, <b>spider-web-like</b> middle layer. <span class="mn">Arachnoid = arachnid.</span></div>
+  <div class="card red"><h4>Pia mater</h4>Soft, <b>highly vascular</b>; <b>adheres to the brain</b> and follows every contour — can’t be dissected away. <span class="mn">Pia = pious, clings to the brain.</span></div>
+</div>
+<p class="mn" style="text-align:center">Outside → in: “DAP” — Dura, Arachnoid, Pia.</p>
+
+<h3>Dural folds</h3>
+<div class="tbl"><table>
+<thead><tr><th>Fold</th><th>Orientation</th><th>Separates</th><th>Hook</th></tr></thead>
+<tbody>
+<tr><td><b>Falx cerebri</b></td><td>Vertical, midline, sickle-shaped</td><td><b>Left ↔ right cerebral hemispheres</b></td><td>Anchors to the <b>crista galli</b> of the <b>ethmoid bone</b></td></tr>
+<tr><td><b>Tentorium cerebelli</b></td><td>Horizontal “tent”</td><td><b>Cerebrum (above) ↔ cerebellum (below)</b></td><td>Tent roofing the cerebellum</td></tr>
+<tr><td><b>Falx cerebelli</b></td><td>Vertical, midline, small</td><td><b>Left ↔ right cerebellar hemispheres</b></td><td>Small sickle for the small brain</td></tr>
+</tbody></table></div>
+<p class="mn">“Falx = left/right. Tentorium = up/down.” Then ask: cerebrum or cerebellum?</p>
+
+<h3>Dural venous sinuses</h3>
+<div class="hy"><div class="t">What to know</div>
+<ul>
+<li><b>Formation:</b> at the edges of dural folds the periosteal and meningeal layers <b>don’t fuse</b> → open channels for venous blood. <span class="mn">Split the sheet → sinus.</span></li>
+<li>They leave <b>grooves</b> on the inner skull (osteology list: grooves for the superior sagittal, transverse and sigmoid sinuses).</li>
+<li><b>No valves</b> → blood can flow in either direction → infection can travel back into the cranium (danger triangle, scalp emissary veins).</li>
+<li>Sit <b>between the dural layers</b> (not in the subarachnoid space) and drain toward the <b>internal jugular vein</b>.</li>
+</ul></div>
+<div class="tbl"><table>
+<thead><tr><th>Sinus</th><th>Where to find it</th></tr></thead>
+<tbody>
+<tr><td><b>Superior sagittal</b></td><td>Upper attached edge of the <b>falx cerebri</b>; groove on the inner skull (incl. occipital bone)</td></tr>
+<tr><td><b>Inferior sagittal</b></td><td><b>Lower free edge</b> of the falx cerebri</td></tr>
+<tr><td><b>Straight</b></td><td>Where the <b>falx cerebri meets the tentorium cerebelli</b></td></tr>
+<tr><td><b>Confluence of sinuses</b></td><td><b>Occipital bone</b> (internal occipital protuberance) — meeting point at the back of the head</td></tr>
+<tr><td><b>Transverse (R + L)</b></td><td>Run laterally from the confluence; groove on the <b>occipital bone</b></td></tr>
+<tr><td><b>Sigmoid</b></td><td>S-shaped continuation → <b>jugular foramen</b> → <b>internal jugular vein</b></td></tr>
+<tr><td><b>Cavernous</b></td><td>Either side of the <b>sella turcica</b> (see Section 3)</td></tr>
+</tbody></table></div>
+<p class="lab">Orientation map (positions as labeled in lecture):</p>
+<div class="flow"><span class="n v">Superior sagittal sinus</span><span class="ar">→</span><span class="n v">Confluence of sinuses</span><span class="ar">→</span><span class="n v">Transverse sinuses</span><span class="ar">→</span><span class="n v">Sigmoid sinus</span><span class="ar">→</span><span class="n end">Internal jugular vein (jugular foramen)</span></div>
+<p class="mn">“Super Cool Trains Stop at Junctions.”</p>
+
+<!-- 3 -->
+<h2 id="cavernous">3 · Cavernous Sinus</h2>
+<div class="fig">
+<svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12">
+  <rect x="300" y="170" width="200" height="150" rx="8" fill="#e6e2da" stroke="#b8b0a0"/>
+  <text x="400" y="310" text-anchor="middle" font-size="11" fill="#5b4e36" font-weight="700">Body of sphenoid</text>
+  <rect x="330" y="205" width="140" height="80" rx="10" fill="#fff" stroke="#b8b0a0"/>
+  <text x="400" y="250" text-anchor="middle" font-size="11" fill="#5b4e36">Sphenoid sinus</text>
+  <ellipse cx="400" cy="130" rx="62" ry="40" fill="#f3d9b1" stroke="#c9a86a"/>
+  <text x="400" y="127" text-anchor="middle" font-size="12" font-weight="700" fill="#6e4f16">Pituitary gland</text>
+  <text x="400" y="142" text-anchor="middle" font-size="10.5" fill="#6e4f16">(sella turcica)</text>
+  <!-- right sinus -->
+  <rect x="505" y="70" width="150" height="200" rx="14" fill="#dce6f7" stroke="#2e5fb3" stroke-width="2"/>
+  <text x="580" y="290" text-anchor="middle" font-size="11" font-weight="700" fill="#1c3f82">Cavernous sinus (venous space)</text>
+  <circle cx="560" cy="160" r="26" fill="#c0392b"/>
+  <text x="560" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">ICA</text>
+  <circle cx="604" cy="196" r="10" fill="#b8860b"/>
+  <text x="604" y="200" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">VI</text>
+  <g font-weight="700" font-size="10" fill="#fff">
+  <circle cx="655" cy="95" r="12" fill="#b8860b"/><text x="655" y="99" text-anchor="middle">III</text>
+  <circle cx="655" cy="130" r="12" fill="#b8860b"/><text x="655" y="134" text-anchor="middle">IV</text>
+  <circle cx="655" cy="180" r="12" fill="#b8860b"/><text x="655" y="184" text-anchor="middle">V1</text>
+  <circle cx="655" cy="225" r="12" fill="#b8860b"/><text x="655" y="229" text-anchor="middle">V2</text>
+  </g>
+  <text x="676" y="99" font-size="11" fill="#6e5000" font-weight="700">CN III</text>
+  <text x="676" y="134" font-size="11" fill="#6e5000" font-weight="700">CN IV</text>
+  <text x="676" y="184" font-size="11" fill="#6e5000" font-weight="700">CN V1</text>
+  <text x="676" y="229" font-size="11" fill="#6e5000" font-weight="700">CN V2</text>
+  <text x="676" y="256" font-size="10.5" fill="#6e5000">← LATERAL WALL</text>
+  <text x="560" y="58" text-anchor="middle" font-size="10.5" fill="#8e2319" font-weight="700">Internal carotid artery + sympathetic plexus</text>
+  <text x="520" y="215" font-size="10" fill="#6e5000" font-weight="700">CN VI free,</text>
+  <text x="520" y="227" font-size="10" fill="#6e5000">beside ICA</text>
+  <!-- left sinus mirror -->
+  <rect x="145" y="70" width="150" height="200" rx="14" fill="#eef3fb" stroke="#9db4d6" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="220" y="175" text-anchor="middle" font-size="11" fill="#5a6478">Left cavernous sinus</text>
+  <text x="220" y="189" text-anchor="middle" font-size="11" fill="#5a6478">(mirror image)</text>
+  <text x="18" y="24" font-size="12" font-weight="700" fill="#5a6478">Coronal view · schematic</text>
+</svg>
+<div class="cap">CN V3 does <b>not</b> pass through the cavernous sinus — it leaves via the foramen ovale.</div>
+</div>
+<div class="grid2">
+<div class="card navy"><h4>Contents</h4>
+<p><b>Through the sinus:</b> internal carotid artery + sympathetic carotid plexus + <b>CN VI</b></p>
+<p><b>In the lateral wall (top → bottom):</b> <b>CN III → IV → V1 → V2</b></p>
+<p><b>Receives:</b> cerebral veins · <b>ophthalmic veins</b> · <b>pterygoid plexus</b> (emissary veins via foramen ovale / lacerum)</p>
+</div>
+<div class="card red"><h4>Cavernous sinus syndrome</h4>
+<ul>
+<li>Ophthalmoplegia — CN III, IV, VI</li>
+<li>Ptosis — CN III + sympathetics</li>
+<li>Absent pupillary response — CN III</li>
+<li>Loss of corneal + maxillary sensation — CN V1, V2</li>
+<li>Horner syndrome — sympathetic plexus</li>
+<li><b>CN VI usually first</b> (free in the sinus)</li>
+</ul></div>
+</div>
+<div class="grid2">
+<div class="card gold"><h4>Routes of infection → thrombophlebitis</h4>
+<div class="flow"><span class="n v">Facial vein</span><span class="ar">→</span><span class="n v">Ophthalmic veins</span><span class="ar">→</span><span class="n end">Cavernous sinus</span></div>
+<div class="flow"><span class="n v">Deep facial vein</span><span class="ar">→</span><span class="n v">Pterygoid plexus</span><span class="ar">→</span><span class="n v">Emissary veins</span><span class="ar">→</span><span class="n end">Cavernous sinus</span></div>
+<div class="flow"><span class="n">Ethmoid / sphenoid sinusitis</span><span class="ar">→</span><span class="n v">Orbital veins</span><span class="ar">→</span><span class="n end">Cavernous sinus</span></div>
+<p>Signs: lid swelling, proptosis, extraocular muscle impairment.</p></div>
+<div class="card purple"><h4>Pituitary tumor</h4>
+<p>Lateral extension into the cavernous sinus compresses <b>CN VI, V1 and V2</b>.</p>
+<p>Surgical access: trans-nasal, trans-sphenoidal route through the sphenoid sinus.</p></div>
+</div>
+
+<!-- 4 -->
+<h2 id="arteries">4 · Arteries</h2>
+<h3>Internal carotid artery</h3>
+<div class="flow"><span class="n a">Common carotid artery</span><span class="ar">→</span><span class="n a">Internal carotid artery</span><span class="lab">no branches in the neck</span><span class="ar">→</span><span class="n">Carotid canal</span><span class="ar">→</span><span class="n">Through cavernous sinus (with CN VI)</span><span class="ar">→</span><span class="n a">Ophthalmic artery</span><span class="ar">→</span><span class="n end">Optic canal (with CN II)</span></div>
+<p>Carries the <b>sympathetic carotid plexus</b> (from the <b>superior cervical ganglion</b>) → damage = <b>Horner syndrome</b>: <b>P</b>tosis (mild), <b>A</b>nhidrosis (no sweating), <b>M</b>iosis (small pupil) — same side.</p>
+
+<h3>Vertebral artery</h3>
+<div class="flow"><span class="n a">Subclavian artery (1st part)</span><span class="ar">→</span><span class="lab">medial to anterior scalene</span><span class="n">Transverse foramina C6 → C1</span><span class="ar">→</span><span class="n">Foramen magnum</span><span class="ar">→</span><span class="n end">Joins partner → basilar artery</span></div>
+<div class="tbl"><table>
+<thead><tr><th colspan="3">Subclavian artery branches — “VITamin C, D”</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Part 1 (medial to anterior scalene)</td><td><b>V</b>ertebral · <b>I</b>nternal thoracic · <b>T</b>hyrocervical trunk</td><td>Thyrocervical → inferior thyroid, suprascapular, transverse cervical</td></tr>
+<tr><td class="rowh">Part 2 (behind)</td><td><b>C</b>ostocervical trunk</td><td></td></tr>
+<tr><td class="rowh">Part 3 (lateral)</td><td><b>D</b>orsal scapular</td><td>Often from transverse cervical instead</td></tr>
+</tbody></table></div>
+
+<h3>Middle meningeal artery</h3>
+<div class="flow"><span class="n a">Maxillary artery (part 1)</span><span class="ar">→</span><span class="lab">encircled by auriculotemporal nerve</span><span class="n">Foramen spinosum</span><span class="ar">→</span><span class="n">Between skull &amp; dura, deep to pterion</span><span class="ar">→</span><span class="n end">Supplies dura + calvaria</span></div>
+
+<div class="tbl"><table>
+<thead><tr><th></th><th>Epidural hematoma</th><th>Subdural hematoma</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Vessel</td><td><span class="art">Middle meningeal artery</span> (pterion fracture)</td><td><span class="vn">Bridging veins</span></td></tr>
+<tr><td class="rowh">Space</td><td>Skull ↔ dura</td><td>Under the dura</td></tr>
+<tr><td class="rowh">CT</td><td><b>Biconvex / lens</b></td><td><b>Crescent</b></td></tr>
+<tr><td class="rowh">Sutures</td><td>Does <b>not</b> cross — dura is “stapled” to the skull at sutures</td><td>Crosses</td></tr>
+</tbody></table></div>
+<p class="mn">Epi- = “on top of” the dura → where the middle meningeal artery lives.</p>
+
+<div class="tbl"><table>
+<thead><tr><th>Opening</th><th>Artery</th></tr></thead>
+<tbody>
+<tr><td><b>Carotid canal</b></td><td>Internal carotid artery (+ sympathetic plexus)</td></tr>
+<tr><td><b>Foramen magnum</b></td><td>Vertebral arteries</td></tr>
+<tr><td><b>Foramen spinosum</b></td><td>Middle meningeal artery</td></tr>
+<tr><td><b>Optic canal</b></td><td>Ophthalmic artery (+ CN II)</td></tr>
+</tbody></table></div>
+
+<!-- 5 -->
+<h2 id="cn">5 · Cranial Nerves at a Glance</h2>
+<div class="tbl"><table>
+<thead><tr><th>CN</th><th>Fossa</th><th>Opening</th><th>Modality</th><th>Key function / high-yield</th></tr></thead>
+<tbody>
+<tr><td><b>I</b> Olfactory</td><td>Anterior</td><td><b>Cribriform foramina</b> (cribriform plate, ethmoid)</td><td>Special sensory</td><td>Smell; olfactory epithelium in roof of nasal cavity; fracture → <b>anosmia</b></td></tr>
+<tr><td><b>II</b> Optic</td><td>Middle</td><td><b>Optic canal</b> (lesser wing, sphenoid)</td><td>Special sensory</td><td>Vision; with ophthalmic artery; afferent of light reflex</td></tr>
+<tr><td><b>III</b> Oculomotor</td><td>Middle</td><td><b>Superior orbital fissure</b></td><td>Motor + parasympathetic</td><td>LPS, SR, IR, MR, IO + ciliary ganglion → sphincter pupillae, ciliary muscle</td></tr>
+<tr><td><b>IV</b> Trochlear</td><td>Middle</td><td>Superior orbital fissure</td><td>Motor</td><td>Superior oblique</td></tr>
+<tr><td><b>V1</b> Ophthalmic</td><td>Middle</td><td>Superior orbital fissure</td><td>General sensory</td><td>Frontal, lacrimal, nasociliary (“NFL”); forehead, upper lid, cornea, tip of nose</td></tr>
+<tr><td><b>V2</b> Maxillary</td><td>Middle</td><td><b>Foramen rotundum</b> → pterygopalatine fossa</td><td>General sensory</td><td>Midface, upper lip, upper teeth, palate, maxillary sinus</td></tr>
+<tr><td><b>V3</b> Mandibular</td><td>Middle</td><td><b>Foramen ovale</b> → infratemporal fossa</td><td>General sensory + branchial motor</td><td>8 muscles; lower face, anterior 2/3 tongue (general sensation)</td></tr>
+<tr><td><b>VI</b> Abducens</td><td>Middle</td><td>Superior orbital fissure</td><td>Motor</td><td>Lateral rectus</td></tr>
+<tr><td><b>VII</b> Facial</td><td>Posterior</td><td><b>Internal acoustic meatus</b> → stylomastoid foramen</td><td>All four</td><td>Face, taste ant. 2/3, tears, saliva, stapedius</td></tr>
+<tr><td><b>VIII</b> Vestibulocochlear</td><td>Posterior</td><td>Internal acoustic meatus (stays in temporal bone)</td><td>Special sensory</td><td>Hearing + balance</td></tr>
+<tr><td><b>IX</b> Glossopharyngeal</td><td>Posterior</td><td><b>Jugular foramen</b></td><td>All four</td><td>Stylopharyngeus, parotid, post. 1/3 tongue, carotid sinus/body</td></tr>
+<tr><td><b>X</b> Vagus</td><td>Posterior</td><td>Jugular foramen</td><td>All four</td><td>Palate, pharynx, larynx, palatoglossus; thorax/abdomen</td></tr>
+<tr><td><b>XI</b> Accessory</td><td>Posterior</td><td>Jugular foramen (spinal root enters via foramen magnum)</td><td>Motor</td><td>Sternocleidomastoid, trapezius</td></tr>
+<tr><td><b>XII</b> Hypoglossal</td><td>Posterior</td><td><b>Hypoglossal canal</b> (occipital)</td><td>Motor</td><td>Tongue muscles except palatoglossus</td></tr>
+</tbody></table></div>
+<div class="grid3">
+<div class="card gold"><h4>Superior orbital fissure</h4>CN III, IV, V1, VI<br><span class="mn">“Standing Room Only” — V1 SOF, V2 Rotundum, V3 Ovale</span></div>
+<div class="card gold"><h4>Internal acoustic meatus</h4>CN VII + CN VIII<br>Tumor here → CN VII deficits + hearing loss, tinnitus, vertigo</div>
+<div class="card gold"><h4>Jugular foramen</h4>CN IX, X, XI + <b>internal jugular vein</b> (from sigmoid sinus)</div>
+</div>
+<p><b>Trigeminal ganglion</b> (sensory ganglion of CN V) sits in the <b>middle cranial fossa</b>; V1, V2 and V3 leave it.</p>
+
+<!-- 6 -->
+<h2 id="eye">6 · Eye Nerves &amp; Palsies</h2>
+<div class="tbl"><table>
+<thead><tr><th></th><th>CN III palsy</th><th>CN IV palsy</th><th>CN VI palsy</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Muscle(s) lost</td><td>LPS, SR, IR, MR, IO + sphincter pupillae, ciliary</td><td>Superior oblique</td><td>Lateral rectus</td></tr>
+<tr><td class="rowh">Eye position</td><td><b>Down and out</b> (SO + LR unopposed)</td><td>Affected eye slightly up</td><td><b>Turned in</b> (MR unopposed)</td></tr>
+<tr><td class="rowh">Eyelid / pupil</td><td><b>Complete ptosis</b>, <b>dilated pupil</b></td><td>Normal</td><td>Normal</td></tr>
+<tr><td class="rowh">Diplopia</td><td>Multiple directions</td><td><b>Vertical</b>, worse looking <b>down and in</b> (reading, stairs); head tilts <b>away</b></td><td><b>Horizontal</b>, worse looking <b>toward</b> the lesion</td></tr>
+<tr><td class="rowh">Test</td><td>—</td><td>Look in, then down</td><td>Look out</td></tr>
+</tbody></table></div>
+
+<div class="tbl"><table>
+<thead><tr><th></th><th>Constrict (miosis)</th><th>Dilate (mydriasis)</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Muscle</td><td><b>Sphincter pupillae</b> (circular)</td><td><b>Dilator pupillae</b> (radial)</td></tr>
+<tr><td class="rowh">System</td><td>Parasympathetic — CN III → ciliary ganglion → short ciliary nerves</td><td>Sympathetic — superior cervical ganglion → carotid plexus → long ciliary nerves</td></tr>
+<tr><td class="rowh">Lesion</td><td>CN III palsy → <b>dilated</b> pupil + <b>complete</b> ptosis</td><td>Horner → <b>small</b> pupil + <b>mild</b> ptosis + anhidrosis</td></tr>
+</tbody></table></div>
+<p class="mn">Sphincter = Squeeze = Small pupil. Parasympathetic side pairs with LPS; sympathetic side pairs with the superior tarsal (Müller’s) muscle.</p>
+
+<!-- 7 -->
+<h2 id="reflex">7 · Reflexes</h2>
+<div class="flow"><span class="lab"><b>Light:</b></span><span class="n">Light</span><span class="ar">→</span><span class="n nv">CN II</span><span class="ar">→</span><span class="n">Brainstem (both sides)</span><span class="ar">→</span><span class="n nv">CN III</span><span class="ar">→</span><span class="n g">Ciliary ganglion</span><span class="ar">→</span><span class="n end">Sphincter pupillae (both pupils)</span></div>
+<div class="flow"><span class="lab"><b>Near:</b></span><span class="n">Near object</span><span class="ar">→</span><span class="n nv">CN II</span><span class="ar">→</span><span class="n nv">CN III</span><span class="ar">→</span><span class="n end">Converge (MR) · Accommodate (ciliary) · Constrict (sphincter)</span></div>
+<div class="flow"><span class="lab"><b>Corneal:</b></span><span class="n">Touch cornea</span><span class="ar">→</span><span class="n nv">Long ciliary → nasociliary → CN V1</span><span class="ar">→</span><span class="n nv">CN VII (temporal + zygomatic)</span><span class="ar">→</span><span class="n end">Orbicularis oculi · both eyes blink</span></div>
+<div class="flow"><span class="lab"><b>Gag:</b></span><span class="n">Touch oropharynx</span><span class="ar">→</span><span class="n nv">CN IX</span><span class="ar">→</span><span class="n nv">CN X</span><span class="ar">→</span><span class="n end">Pharyngeal constrictors</span></div>
+<div class="tbl"><table>
+<thead><tr><th>Reflex</th><th>Afferent</th><th>Efferent</th><th>Ganglion</th><th>Afferent lesion test</th></tr></thead>
+<tbody>
+<tr><td><b>Light</b></td><td>CN II</td><td>CN III</td><td>Ciliary</td><td>Light in bad eye → neither pupil constricts; light in good eye → both constrict</td></tr>
+<tr><td><b>Near</b></td><td>CN II</td><td>CN III</td><td>Ciliary</td><td>“Converge, Accommodate, Constrict”</td></tr>
+<tr><td><b>Corneal</b></td><td>CN V1</td><td>CN VII</td><td><b>None</b> (somatic motor)</td><td>Touch affected cornea → no blink in either eye</td></tr>
+<tr><td><b>Gag</b></td><td>CN IX</td><td>CN X</td><td>—</td><td>Touch affected side → no gag; normal side → normal gag</td></tr>
+</tbody></table></div>
+<p class="mn">“2 in, 3 out” (pupil) · “5 in, 7 out” (blink) · “9 in, 10 out” (gag).</p>
+
+<!-- 8 -->
+<h2 id="lower">8 · CN IX · X · XI · XII</h2>
+<div class="grid2">
+<div class="card navy"><h4>CN IX — glossopharyngeal</h4>
+<ul>
+<li><b>1 muscle:</b> stylopharyngeus — elevates pharynx + larynx</li>
+<li><b>1 gland:</b> parotid</li>
+<li><b>Tongue:</b> taste + general sensation, posterior 1/3; oropharynx sensation</li>
+<li><b>Carotid sinus</b> (blood pressure) + <b>carotid body</b> (O<sub>2</sub>/CO<sub>2</sub>/pH)</li>
+<li><b>Afferent</b> limb of gag</li>
+</ul>
+<div class="flow"><span class="n nv">CN IX</span><span class="ar">→</span><span class="n nv">Lesser petrosal</span><span class="ar">→</span><span class="n g">Otic ganglion</span><span class="ar">→</span><span class="n nv">Auriculotemporal (V3)</span><span class="ar">→</span><span class="n end">Parotid</span></div></div>
+<div class="card navy"><h4>CN X — vagus</h4>
+<ul>
+<li>In the <b>carotid sheath</b>, posterior, between the carotid artery and internal jugular vein</li>
+<li><b>Palate</b> muscles except tensor veli palatini (CN V3)</li>
+<li><b>Pharynx</b> muscles except stylopharyngeus (CN IX)</li>
+<li><b>Larynx</b> muscles; <b>palatoglossus</b></li>
+<li>Lesion: <b>uvula deviates away</b>; recurrent laryngeal → <b>hoarseness</b></li>
+<li><b>Efferent</b> limb of gag; taste from the epiglottis region</li>
+</ul></div>
+<div class="card navy"><h4>CN XI — accessory</h4>
+<ul>
+<li>Spinal root up through <b>foramen magnum</b>, out through <b>jugular foramen</b></li>
+<li><b>Sternocleidomastoid</b> (turn head to opposite side) + <b>trapezius</b> (shrug)</li>
+<li>Most exposed in the <b>posterior triangle</b> (lymph node biopsy) → usually <b>trapezius only</b>: shoulder droop, weak shrug</li>
+</ul></div>
+<div class="card navy"><h4>CN XII — hypoglossal</h4>
+<ul>
+<li><b>Hypoglossal canal</b> (occipital bone)</li>
+<li>All intrinsic + extrinsic tongue muscles <b>except palatoglossus</b></li>
+<li>Lesion: tongue deviates <b>toward</b> the lesion (opposite genioglossus unopposed)</li>
+<li><b>Lateral</b> to hyoglossus; <b>lingual artery deep</b> (medial) to it</li>
+<li>Carries <b>C1</b> fibers → thyrohyoid, geniohyoid, superior root of ansa cervicalis</li>
+</ul></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Muscle</th><th>Nerve</th><th>Hook</th></tr></thead>
+<tbody>
+<tr><td>Styloglossus · hyoglossus · genioglossus · intrinsic tongue</td><td><b>CN XII</b></td><td>All -glossus = XII…</td></tr>
+<tr><td><b>Palatoglossus</b></td><td><b>CN X</b></td><td>…except PALatoglossus, CN X’s PAL</td></tr>
+<tr><td><b>Stylopharyngeus</b></td><td><b>CN IX</b></td><td>CN IX’s only muscle</td></tr>
+<tr><td>Stylohyoid</td><td>CN VII</td><td>Stylo- muscles: glossus XII, pharyngeus IX, hyoid VII</td></tr>
+<tr><td>Tensor veli palatini</td><td>CN V3</td><td>Tensor = Trigeminal</td></tr>
+</tbody></table></div>
+
+<!-- 9 -->
+<h2 id="compare">9 · More Comparisons</h2>
+<div class="tbl"><table>
+<thead><tr><th>Lesion site</th><th>Nerves hit</th><th>Findings</th></tr></thead>
+<tbody>
+<tr><td><b>Internal acoustic meatus</b></td><td>CN VII + VIII</td><td>Whole-face paralysis, dry eye, ↓ saliva, loss of taste ant. 2/3, hyperacusis, loss of blink (efferent) + hearing loss, tinnitus, vertigo</td></tr>
+<tr><td><b>Jugular foramen</b></td><td>CN IX + X + XI</td><td>Loss of gag (afferent), uvula away, hoarseness, weak SCM + trapezius</td></tr>
+<tr><td><b>Cavernous sinus</b></td><td>CN III, IV, V1, V2, VI + sympathetics</td><td>Ophthalmoplegia, ptosis, fixed pupil, ↓ corneal/maxillary sensation, Horner; CN VI first</td></tr>
+<tr><td><b>Cribriform plate fracture</b></td><td>CN I</td><td>Anosmia</td></tr>
+</tbody></table></div>
+<div class="tbl"><table>
+<thead><tr><th>Which way does it deviate?</th><th>Direction</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Tongue (CN XII lesion)</td><td><b>Toward</b> lesion</td><td>Healthy genioglossus pushes across</td></tr>
+<tr><td>Jaw (CN V3 lesion)</td><td><b>Toward</b> lesion</td><td>Healthy lateral pterygoid pushes across</td></tr>
+<tr><td>Uvula (CN X lesion)</td><td><b>Away</b> from lesion</td><td>Healthy side pulls it over</td></tr>
+</tbody></table></div>
+<p class="mn">Tongue and jaw are “pushed” → toward. Uvula is “pulled” → away.</p>
+
+<!-- 10 -->
+<h2 id="clinical">10 · Clinical Correlations</h2>
+<div class="tbl"><table>
+<thead><tr><th>Scenario</th><th>Structure</th><th>Answer</th></tr></thead>
+<tbody>
+<tr><td>Temple blow, lens-shaped bleed on CT</td><td>Middle meningeal artery (pterion)</td><td><b>Epidural hematoma</b>; artery entered via foramen spinosum</td></tr>
+<tr><td>Nose pimple → fever, proptosis, lateral gaze palsy</td><td>Cavernous sinus</td><td>Thrombophlebitis; CN VI first</td></tr>
+<tr><td>Ethmoid sinusitis → lid swelling, proptosis, eye muscle weakness</td><td>Orbital veins → cavernous sinus</td><td>Retrograde spread through valveless veins</td></tr>
+<tr><td>Pituitary mass + lateral gaze palsy + numb forehead/cheek</td><td>Cavernous sinus</td><td>Compression of CN VI, V1, V2</td></tr>
+<tr><td>Ptosis, miosis, anhidrosis</td><td>Sympathetic carotid plexus</td><td><b>Horner syndrome</b></td></tr>
+<tr><td>Eye down and out, complete ptosis, dilated pupil</td><td>CN III</td><td>Oculomotor palsy</td></tr>
+<tr><td>Trouble reading / going downstairs, head tilt</td><td>CN IV</td><td>Superior oblique palsy</td></tr>
+<tr><td>Shingles on forehead + tip of nose</td><td>Nasociliary nerve (V1)</td><td><b>Hutchinson sign</b> → risk of eye involvement</td></tr>
+<tr><td>Loss of smell after head trauma</td><td>CN I at cribriform plate</td><td><b>Anosmia</b></td></tr>
+<tr><td>Shoulder droop after posterior triangle lymph node biopsy</td><td>CN XI</td><td>Trapezius weakness</td></tr>
+<tr><td>Hoarseness, uvula deviates to the right</td><td>Left CN X</td><td>Vagus lesion (recurrent laryngeal)</td></tr>
+<tr><td>Scalp infection spreading inward → black eyes</td><td>Emissary veins / loose areolar layer</td><td>Connects to dural venous sinuses</td></tr>
+</tbody></table></div>
+
+<!-- 11 -->
+<h2 id="check">11 · Self-Check Questions</h2>
+<p class="lab">Answer first, then open each one to check.</p>
+<details><summary>1. List the meninges from superficial to deep, and the two layers of the dura.</summary><div class="ans">Dura (periosteal + meningeal layers) → arachnoid → pia.</div></details>
+<details><summary>2. How does a dural venous sinus form?</summary><div class="ans">At the edges of dural folds the periosteal and meningeal layers don’t fuse, leaving an open venous channel.</div></details>
+<details><summary>3. What does the falx cerebri separate, and where does it anchor anteriorly?</summary><div class="ans">Left and right cerebral hemispheres; the crista galli of the ethmoid bone.</div></details>
+<details><summary>4. What does the tentorium cerebelli separate?</summary><div class="ans">Cerebrum (above) from cerebellum (below).</div></details>
+<details><summary>5. Which nerve runs through the cavernous sinus rather than in its wall, and why does that matter?</summary><div class="ans">CN VI — it lies free next to the internal carotid artery and is usually affected first.</div></details>
+<details><summary>6. A pterion fracture tears which artery, causing which hematoma, with what CT shape?</summary><div class="ans">Middle meningeal artery → epidural hematoma → biconvex/lens-shaped, doesn’t cross sutures.</div></details>
+<details><summary>7. Through which opening does the internal carotid artery enter the skull, and which branch goes to the orbit?</summary><div class="ans">Carotid canal; the ophthalmic artery, through the optic canal with CN II.</div></details>
+<details><summary>8. Which three nerves and which vein pass through the jugular foramen?</summary><div class="ans">CN IX, X, XI and the internal jugular vein (continuation of the sigmoid sinus).</div></details>
+<details><summary>9. Which tongue muscle is not supplied by CN XII?</summary><div class="ans">Palatoglossus — CN X.</div></details>
+<details><summary>10. Name the afferent and efferent limbs of the light, corneal and gag reflexes.</summary><div class="ans">Light: II → III. Corneal: V1 → VII. Gag: IX → X.</div></details>
+<details><summary>11. Where is the sensory ganglion of CN V?</summary><div class="ans">Trigeminal ganglion, middle cranial fossa.</div></details>
+<details><summary>12. A pituitary tumor extends laterally. Which nerves are compressed?</summary><div class="ans">CN VI, V1 and V2 (in the cavernous sinus).</div></details>
+
+<div class="foot"><span><b>HoyaDocs</b> · HNSS Lab 3 Exam-Day Review</span><span>Updated 27 Sep 2026 · Rev 1.0</span></div>
+
+</body>
+</html>

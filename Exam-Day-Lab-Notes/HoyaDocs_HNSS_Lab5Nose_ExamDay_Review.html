@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 5 Nose Exam-Day Review</title>
+<style>
+:root{
+  --navy:#1f3a68; --navy2:#2d5395; --ink:#1d2330; --muted:#5a6478; --line:#d4dbe8; --soft:#eef2f9;
+  --hy-bg:#fff6c7; --hy-bd:#c99a00; --hy-ink:#6b5200;
+  --art:#c0392b; --nerve:#b8860b; --vein:#2e5fb3; --mus:#e7a9a0;
+  --g1:#e8f4ec; --g1b:#2f8a4f; --r1:#fdecea; --r1b:#c0392b; --p1:#f1ebfa; --p1b:#6b46c1;
+}
+*{box-sizing:border-box}
+html{background:#f4f6fa}
+body{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45;color:var(--ink);margin:0 auto;max-width:1040px;padding:24px 20px 60px;background:#fff}
+.brand{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:3px solid var(--navy);padding-bottom:6px}
+.brand b{color:var(--navy)}
+h1{font-size:30px;margin:14px 0 2px;color:var(--navy);line-height:1.15}
+.sub{color:var(--muted);margin-bottom:12px}
+h2{font-size:18px;color:#fff;background:var(--navy);padding:7px 12px;border-radius:6px;margin:30px 0 10px;break-after:avoid}
+h3{font-size:15px;color:var(--navy);margin:18px 0 6px;break-after:avoid;border-left:4px solid var(--navy2);padding-left:8px}
+p{margin:6px 0}
+ul,ol{margin:4px 0;padding-left:20px} li{margin:3px 0}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:12px 0;padding:10px;background:var(--soft);border-radius:8px}
+.toc a{color:var(--navy);text-decoration:none;font-size:13px}
+.toc a:hover{text-decoration:underline}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-bd);border-radius:8px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.hy .t{font-weight:800;color:var(--hy-ink);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.note{background:var(--soft);border-left:5px solid var(--navy);padding:9px 12px;border-radius:0 6px 6px 0;margin:10px 0;break-inside:avoid}
+.mn{font-style:italic;color:#3d4a66}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;break-inside:auto}
+tr{break-inside:avoid}
+th{background:#dfe6f2;text-align:left;padding:6px 8px;border:1px solid #c3cde0;color:#15294b}
+td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafbfd}
+td.rowh{font-weight:700;background:#f2f5fa !important;white-space:nowrap}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.p-t{background:#e3ecfb;color:#1f4fa0}.p-z{background:#e5f5ea;color:#1f7a41}.p-b{background:#fff0d6;color:#9a5b00}.p-m{background:#f6e3f3;color:#8a2a7b}.p-c{background:#e9e6fb;color:#4b3aa8}.p-p{background:#eceff3;color:#44506a}
+.art{color:var(--art);font-weight:700}.nrv{color:var(--nerve);font-weight:700}.vn{color:var(--vein);font-weight:700}
+/* flow chains */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;break-inside:avoid}
+.flow .n{background:#fff;border:1.5px solid var(--navy2);border-radius:7px;padding:5px 9px;font-size:13px;font-weight:600;color:#15294b}
+.flow .n.a{border-color:var(--art);color:#8e2319;background:#fff7f6}
+.flow .n.v{border-color:var(--vein);color:#1c3f82;background:#f5f8ff}
+.flow .n.nv{border-color:var(--nerve);color:#6e5000;background:#fffbef}
+.flow .n.g{border-color:#2f8a4f;color:#1d5e34;background:#f1faf4}
+.flow .n.end{background:var(--navy);color:#fff;border-color:var(--navy)}
+.flow .ar{color:var(--navy2);font-weight:900;font-size:16px}
+.flow .lab{font-size:11.5px;color:var(--muted);font-style:italic}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;break-inside:avoid;background:#fff}
+.card h4{margin:0 0 6px;color:var(--navy);font-size:14px}
+.card.red{border-top:5px solid var(--r1b)}.card.green{border-top:5px solid var(--g1b)}.card.purple{border-top:5px solid var(--p1b)}.card.navy{border-top:5px solid var(--navy)}.card.gold{border-top:5px solid var(--hy-bd)}
+/* scalp layers */
+.scalp{border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:8px 0;break-inside:avoid}
+.scalp div{display:grid;grid-template-columns:44px 210px 1fr;align-items:center;padding:7px 10px;font-size:13px}
+.scalp .L{font-size:22px;font-weight:900;color:var(--navy)}
+.scalp .s1{background:#fbe5d6}.scalp .s2{background:#f6d0c2}.scalp .s3{background:#e9edf5}.scalp .s4{background:#fff6c7;outline:2px solid var(--hy-bd);outline-offset:-2px}.scalp .s5{background:#dcdfe6}
+/* CN VII road */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:10px 0;break-inside:avoid}
+.stop{border:2px solid var(--navy2);padding:10px;position:relative;background:#fff}
+.stop:not(:last-child){border-right:none}
+.stop .hd{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stop .ti{font-weight:800;color:var(--navy);margin:2px 0 6px}
+.stop:not(:last-child)::after{content:"➜";position:absolute;right:-13px;top:40%;background:#fff;color:var(--navy2);font-size:20px;z-index:2;line-height:1}
+/* tree */
+.tree{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;break-inside:avoid}
+.tree .col{border-radius:8px;padding:10px;border:1px solid var(--line)}
+.tree .col h4{margin:0 0 4px}
+.tree .trunk{grid-column:1/-1;text-align:center;background:var(--navy);color:#fff;border-radius:8px;padding:8px;font-weight:700}
+.exc{background:var(--hy-bg);border:1px solid var(--hy-bd);border-radius:4px;padding:0 5px;font-weight:700}
+/* foramina row */
+.fx{display:flex;gap:10px;margin:8px 0;break-inside:avoid}
+.fx .f{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center}
+.fx .f .nm{font-weight:800;color:var(--navy)}
+.fx .f .ct{font-size:12.5px}
+.fig{border:1px solid var(--line);border-radius:10px;padding:8px;margin:10px 0;background:#fcfdff;break-inside:avoid}
+.fig svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;background:#fff;break-inside:avoid}
+details summary{cursor:pointer;font-weight:600;color:#15294b}
+details .ans{margin-top:6px;padding:6px 10px;background:var(--g1);border-left:4px solid var(--g1b);border-radius:0 6px 6px 0}
+.foot{margin-top:30px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;border-radius:5px;padding:0 6px;font-size:12px;font-weight:700}
+.up{background:#e3ecfb;color:#1f4fa0}.dn{background:#fdecea;color:#9b2a1e}.md{background:#eceff3;color:#44506a}
+@media (max-width:760px){
+  .grid2,.grid3,.road,.tree{grid-template-columns:1fr}
+  .stop:not(:last-child){border-right:2px solid var(--navy2);border-bottom:none}
+  .stop:not(:last-child)::after{content:"⬇";right:45%;top:auto;bottom:-13px}
+  .scalp div{grid-template-columns:34px 1fr}.scalp div span:last-child{grid-column:1/-1}
+  .fx{flex-direction:column}
+  body{padding:16px}
+}
+@media print{
+  html,body{background:#fff}
+  body{max-width:none;padding:0;font-size:11.3px}
+  h1{font-size:24px} h2{font-size:14.5px;margin:18px 0 8px} h3{font-size:12.8px}
+  table{font-size:10.6px} td,th{padding:4px 6px}
+  .flow .n{font-size:10.8px;padding:3px 7px}
+  .toc{display:none}
+  .pb{break-before:page}
+  details{border:none;padding:4px 0}
+  .card,.hy,.note,.fig,.flow,.road,.tree,.scalp{break-inside:avoid}
+}
+@page{size:Letter;margin:0.5in 0.5in 0.55in}
+</style>
+</head>
+<body>
+<div class="brand"><span><b>HoyaDocs</b> · HNSS Block 5 · Head &amp; Neck Anatomy</span><span>Updated 28 Sep 2026 · Rev 1.0</span></div>
+<h1>Lab 5 Exam-Day Review — The Nose</h1>
+<div class="sub">Dissection of the Nasal Cavity — external nose, septum, lateral wall, paranasal sinus drainage, blood supply, innervation and blowout fractures.</div>
+
+<div class="toc">
+  <a href="#rules">1. Exam-day rules &amp; top traps</a>
+  <a href="#external">2. External nose &amp; apertures</a>
+  <a href="#septum">3. Nasal septum</a>
+  <a href="#lateral">4. Lateral wall &amp; drainage</a>
+  <a href="#sinuses">5. Paranasal sinuses</a>
+  <a href="#blood">6. Blood supply &amp; nosebleeds</a>
+  <a href="#nerves">7. Innervation</a>
+  <a href="#blowout">8. Blowout fractures</a>
+  <a href="#clinical">9. Clinical correlations</a>
+  <a href="#check">10. Self-check questions</a>
+</div>
+
+<!-- 1 -->
+<h2 id="rules">1 · Exam-Day Rules &amp; Top Traps</h2>
+<div class="note"><b>✍️ Wording</b>
+<ul>
+<li>Use anatomical directions (anterior/posterior, superior/inferior). “Conchae” and “turbinates” are the same thing.</li>
+<li>Spelling counts: <b>sphenoethmoidal recess · semilunar hiatus · ethmoidal bulla · frontonasal duct · nasolacrimal duct · perpendicular plate · vomer · alar · cribriform · Kiesselbach’s plexus · piriform aperture</b>.</li>
+</ul></div>
+<div class="hy"><div class="t">★ High-yield traps</div>
+<ol>
+<li><b>Superior + middle conchae = ethmoid bone</b>; the <b>inferior concha is its own bone</b>.</li>
+<li><b>Middle meatus drains three sinuses</b> (frontal, maxillary, ethmoidal) → blockage here is the most important cause of <b>sinusitis</b>.</li>
+<li><b>Inferior meatus = nasolacrimal duct only.</b> No sinus drains there.</li>
+<li><b>Sphenoid sinus → sphenoethmoidal recess</b>; <b>posterior ethmoidal cells → superior meatus</b>.</li>
+<li><b>Anterior (piriform) aperture</b> is in front; the <b>choana</b> (posterior nasal aperture) is at the back.</li>
+<li><b>Kiesselbach’s plexus</b> (anterior septum) = most nosebleeds; <b>sphenopalatine artery</b> (from the <b>maxillary</b> artery) = life-threatening <b>posterior</b> nosebleeds.</li>
+<li><b>Anterosuperior = V1 (anterior ethmoidal nerve); posteroinferior = V2</b> (nasopalatine on the septum, posterior nasal nerves laterally).</li>
+<li>Orbital floor blowout → contents drop into the <b>maxillary sinus</b>.</li>
+</ol></div>
+
+<!-- 2 -->
+<h2 id="external">2 · External Nose &amp; Apertures</h2>
+<div class="tbl"><table>
+<thead><tr><th>Structure</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><b>Nasal bones</b></td><td>Paired; the <b>bridge</b>. Meet the <b>frontal bone</b> at the <b>nasion</b>; flanked by the frontal processes of the maxilla</td></tr>
+<tr><td><b>Lateral cartilages</b></td><td>Paired <b>upper</b> cartilages</td></tr>
+<tr><td><b>Alar cartilages</b></td><td>Paired <b>lower</b> cartilages; lateral crura (sides of the nostrils) + medial crura (between the nostrils)</td></tr>
+<tr><td><b>Septal cartilage</b></td><td>Single; connects the cartilaginous external nose to the maxilla; most of the septum</td></tr>
+<tr><td><b>Vestibule</b></td><td>Skin-lined entrance just inside the nostril (hairs)</td></tr>
+<tr><td><b>Anterior nasal aperture</b> (<b>piriform aperture</b>)</td><td>Pear-shaped bony opening once cartilage is removed; bordered by the nasal bones and the <b>maxilla</b> (lateral + inferior)</td></tr>
+<tr><td><b>Choana</b> (posterior nasal aperture)</td><td>Opening from each nasal cavity into the <b>nasopharynx</b>; <b>choanal atresia</b> = congenital blockage</td></tr>
+</tbody></table></div>
+<div class="grid2">
+<div class="card navy"><h4>Sensory to external nose skin</h4>
+<ul>
+<li><b>Root:</b> infratrochlear nerve (V1)</li>
+<li><b>Dorsum + tip:</b> <b>external nasal nerve (V1)</b> — end of the anterior ethmoidal nerve</li>
+<li><b>Sides + ala + vestibule:</b> infraorbital nerve (V2)</li>
+</ul>
+<p class="mn">“V1 runs down the middle, V2 wraps the sides.” Tip = V1 → Hutchinson sign.</p></div>
+<div class="card gold"><h4>Piriform in front, choana in back</h4>
+<div class="flow"><span class="n">Nostril</span><span class="ar">→</span><span class="n">Vestibule</span><span class="ar">→</span><span class="n">Anterior (piriform) aperture</span><span class="ar">→</span><span class="n">Nasal cavity</span><span class="ar">→</span><span class="n end">Choana → nasopharynx</span></div></div>
+</div>
+
+<!-- 3 -->
+<h2 id="septum">3 · Nasal Septum</h2>
+<div class="fig">
+<svg viewBox="0 0 800 310" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <defs><marker id="s1" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#b8860b"/></marker></defs>
+  <text x="20" y="22" font-weight="700" fill="#5a6478">◀ ANTERIOR</text>
+  <text x="780" y="22" font-weight="700" fill="#5a6478" text-anchor="end">POSTERIOR ▶</text>
+  <line x1="320" y1="42" x2="540" y2="42" stroke="#44506a" stroke-width="4"/>
+  <text x="430" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#44506a">Cribriform plate (CN I · olfactory epithelium on the roof)</text>
+  <polygon points="150,70 320,46 390,160 370,262 160,252" fill="#e3ecfb" stroke="#2d5395" stroke-width="2"/>
+  <text x="255" y="140" text-anchor="middle" font-weight="800" fill="#1f4fa0">Septal cartilage</text>
+  <polygon points="322,46 540,46 580,132 392,160" fill="#e8f4ec" stroke="#2f8a4f" stroke-width="2"/>
+  <text x="460" y="100" text-anchor="middle" font-weight="800" fill="#1d5e34">Perpendicular plate</text>
+  <text x="460" y="116" text-anchor="middle" font-size="11" fill="#1d5e34">of the ethmoid</text>
+  <polygon points="392,162 580,134 630,255 372,264" fill="#f1ebfa" stroke="#6b46c1" stroke-width="2"/>
+  <text x="505" y="215" text-anchor="middle" font-weight="800" fill="#6b46c1">Vomer</text>
+  <circle cx="205" cy="215" r="26" fill="#c0392b" fill-opacity="0.25" stroke="#c0392b" stroke-width="2"/>
+  <text x="120" y="290" font-size="11.5" font-weight="700" fill="#8e2319">Kiesselbach’s plexus (anterior nosebleeds)</text>
+  <line x1="170" y1="280" x2="195" y2="240" stroke="#8e2319" stroke-width="1.2"/>
+  <circle cx="650" cy="85" r="8" fill="#fff" stroke="#44506a" stroke-width="2"/>
+  <text x="662" y="72" font-size="11" font-weight="700" fill="#44506a">Sphenopalatine foramen</text>
+  <path d="M645,90 C560,110 470,140 360,215 C320,242 290,262 275,285" stroke="#b8860b" stroke-width="3" fill="none" stroke-dasharray="7 4" marker-end="url(#s1)"/>
+  <text x="600" y="160" font-size="11.5" font-weight="700" fill="#6e5000">Nasopalatine nerve (V2)</text>
+  <text x="600" y="175" font-size="11" fill="#6e5000">+ sphenopalatine artery branches</text>
+  <text x="600" y="190" font-size="11" fill="#6e5000">→ incisive canal → anterior hard palate</text>
+  <text x="560" y="290" font-size="11" fill="#44506a">Floor: palatine process of maxilla + palatine bone</text>
+</svg>
+<div class="cap">Medial wall (septum), schematic. Anterosuperior septum = anterior ethmoidal nerve (V1); posteroinferior = nasopalatine nerve (V2).</div>
+</div>
+<div class="grid3">
+<div class="card red"><h4>Deviated septum</h4>Shifted off center; treated only if obstruction is significant.</div>
+<div class="card red"><h4>Septal perforation</h4>Hole in the septum — drug use, surgery, autoimmune destruction.</div>
+<div class="card red"><h4>Septal hematoma</h4>Blood within the mucous membrane → pressure compromises blood supply + infection risk.</div>
+</div>
+<p class="mn">Septal pathology “DPH”: Deviated · Perforated · Hematoma.</p>
+
+<!-- 4 -->
+<h2 id="lateral">4 · Lateral Wall &amp; Sinus Drainage</h2>
+<div class="fig">
+<svg viewBox="0 0 820 380" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12">
+  <defs><marker id="d1" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#2d5395"/></marker></defs>
+  <text x="200" y="22" font-weight="700" fill="#5a6478">◀ ANTERIOR</text>
+  <text x="700" y="22" font-weight="700" fill="#5a6478" text-anchor="end">POSTERIOR ▶</text>
+  <rect x="190" y="40" width="520" height="300" rx="10" fill="#fbfcfe" stroke="#c3cde0"/>
+  <!-- superior concha -->
+  <ellipse cx="570" cy="100" rx="95" ry="17" fill="#d7e3f5" stroke="#2d5395"/>
+  <text x="570" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#1f4fa0">Superior concha (ethmoid)</text>
+  <text x="600" y="66" font-size="10.5" font-weight="700" fill="#1f4fa0">Sphenoethmoidal recess</text>
+  <text x="520" y="133" font-size="10.5" font-weight="700" fill="#1f4fa0">Superior meatus ← posterior ethmoidal cells</text>
+  <!-- middle concha reflected -->
+  <ellipse cx="470" cy="165" rx="200" ry="20" fill="none" stroke="#2f8a4f" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="470" y="169" text-anchor="middle" font-size="11" font-weight="700" fill="#1d5e34">Middle concha (ethmoid) — lifted to show the middle meatus</text>
+  <text x="206" y="205" font-size="11" font-weight="800" fill="#1d5e34">MIDDLE MEATUS</text>
+  <ellipse cx="480" cy="205" rx="34" ry="16" fill="#f1ebfa" stroke="#6b46c1" stroke-width="2"/>
+  <text x="520" y="200" font-size="10.5" font-weight="700" fill="#6b46c1">Ethmoidal bulla</text>
+  <text x="520" y="213" font-size="10.5" fill="#6b46c1">← middle ethmoidal cells</text>
+  <path d="M380,218 C420,242 520,244 572,224" stroke="#c0392b" stroke-width="4" fill="none"/>
+  <text x="470" y="256" text-anchor="middle" font-size="10.5" font-weight="700" fill="#8e2319">Semilunar hiatus</text>
+  <!-- inferior concha -->
+  <ellipse cx="450" cy="288" rx="235" ry="22" fill="#e8f4ec" stroke="#2f8a4f"/>
+  <text x="450" y="292" text-anchor="middle" font-size="11" font-weight="700" fill="#1d5e34">Inferior concha (its own bone)</text>
+  <text x="440" y="327" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d5e34">Inferior meatus</text>
+  <text x="450" y="352" text-anchor="middle" font-size="10.5" fill="#44506a">Floor of nasal cavity</text>
+  <!-- sinus boxes -->
+  <rect x="10" y="44" width="165" height="44" rx="8" fill="#fff6c7" stroke="#c99a00"/>
+  <text x="92" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#6b5200">Frontal sinus +</text>
+  <text x="92" y="77" text-anchor="middle" font-size="11" font-weight="700" fill="#6b5200">anterior ethmoidal cells</text>
+  <path d="M175,70 C260,110 330,170 382,214" stroke="#2d5395" stroke-width="2.2" fill="none" marker-end="url(#d1)"/>
+  <text x="250" y="118" font-size="10.5" fill="#1f4fa0" font-weight="700">frontonasal duct</text>
+  <rect x="10" y="150" width="165" height="40" rx="8" fill="#fff6c7" stroke="#c99a00"/>
+  <text x="92" y="175" text-anchor="middle" font-size="11" font-weight="700" fill="#6b5200">Maxillary sinus</text>
+  <path d="M175,178 C300,230 420,250 505,238" stroke="#2d5395" stroke-width="2.2" fill="none" marker-end="url(#d1)"/>
+  <text x="240" y="240" font-size="10.5" fill="#1f4fa0" font-weight="700">opening in hiatus floor</text>
+  <rect x="10" y="300" width="165" height="40" rx="8" fill="#fff6c7" stroke="#c99a00"/>
+  <text x="92" y="325" text-anchor="middle" font-size="11" font-weight="700" fill="#6b5200">Nasolacrimal duct (tears)</text>
+  <path d="M175,320 L262,322" stroke="#2d5395" stroke-width="2.2" marker-end="url(#d1)"/>
+  <rect x="725" y="60" width="90" height="40" rx="8" fill="#fff6c7" stroke="#c99a00"/>
+  <text x="770" y="85" text-anchor="middle" font-size="11" font-weight="700" fill="#6b5200">Sphenoid sinus</text>
+  <path d="M725,78 L690,70" stroke="#2d5395" stroke-width="2.2" marker-end="url(#d1)"/>
+  <text x="770" y="200" text-anchor="middle" font-size="11" font-weight="700" fill="#44506a">Choana →</text>
+  <text x="770" y="215" text-anchor="middle" font-size="11" font-weight="700" fill="#44506a">nasopharynx</text>
+</svg>
+<div class="cap">Lateral nasal wall, schematic. Sinuses (yellow) drain into the recess and meatuses beneath the conchae.</div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Space (superior → inferior)</th><th>Location</th><th>Drains</th><th>Via</th></tr></thead>
+<tbody>
+<tr><td><b>Sphenoethmoidal recess</b></td><td>Between superior concha and roof</td><td><b>Sphenoid sinus</b></td><td>—</td></tr>
+<tr><td><b>Superior meatus</b></td><td>Between superior and middle conchae</td><td><b>Posterior ethmoidal cells</b></td><td>Small openings</td></tr>
+<tr><td rowspan="3"><b>Middle meatus</b> ★</td><td rowspan="3">Between middle and inferior conchae</td><td><b>Frontal sinus + anterior ethmoidal cells</b></td><td><b>Frontonasal duct</b> → anterosuperior end of semilunar hiatus</td></tr>
+<tr><td><b>Maxillary sinus</b></td><td>Opening in the <b>floor of the semilunar hiatus</b></td></tr>
+<tr><td><b>Middle ethmoidal cells</b></td><td>On/above the <b>ethmoidal bulla</b></td></tr>
+<tr><td><b>Inferior meatus</b></td><td>Between inferior concha and floor</td><td><b>Nasolacrimal duct</b></td><td>—</td></tr>
+</tbody></table></div>
+<div class="grid2">
+<div class="card purple"><h4>Middle meatus landmarks</h4>
+<ul><li><b>Ethmoidal bulla</b> — rounded bulge formed by the middle ethmoidal cells</li>
+<li><b>Semilunar hiatus</b> — curved groove; superior border = bulla, inferior border = ethmoid bone</li>
+<li>Maxillary opening in its <b>floor</b>; frontonasal duct at its <b>anterosuperior end</b></li></ul>
+<p class="mn">“FAME drains in the middle”: Frontal · Anterior ethmoidal · Maxillary · middle Ethmoidal.</p></div>
+<div class="card navy"><h4>Lab tips</h4>
+<ul><li>Lift or remove the <b>middle concha</b> to see the bulla and hiatus.</li>
+<li>Follow the hiatus <b>anterosuperiorly</b> toward the frontal sinus → frontonasal duct.</li>
+<li>Probes from the <b>maxillary</b> sinus exit <b>lower and further back</b> in the hiatus floor.</li>
+<li>Conchae increase surface area and warm/humidify air.</li></ul></div>
+</div>
+
+<!-- 5 -->
+<h2 id="sinuses">5 · Paranasal Sinuses</h2>
+<div class="tbl"><table>
+<thead><tr><th>Sinus</th><th>Bone / location</th><th>Drains to</th><th>Sensory</th><th>High-yield</th></tr></thead>
+<tbody>
+<tr><td><b>Frontal</b></td><td>Frontal bone, above the orbits</td><td>Middle meatus (frontonasal duct)</td><td>Supraorbital nerve (V1)</td><td>Above the orbital roof</td></tr>
+<tr><td><b>Ethmoidal cells</b> (anterior, middle, posterior)</td><td>Ethmoid, between the orbits</td><td>Anterior → middle meatus (frontonasal duct) · middle → bulla · posterior → superior meatus</td><td>Anterior + posterior ethmoidal nerves (V1)</td><td>Paper-thin medial orbital wall; sinusitis → orbit/cavernous sinus</td></tr>
+<tr><td><b>Sphenoid</b></td><td>Body of the sphenoid, under the sella turcica</td><td>Sphenoethmoidal recess</td><td>Posterior ethmoidal nerve (V1)</td><td>Trans-sphenoidal route to the pituitary</td></tr>
+<tr><td><b>Maxillary</b> (largest)</td><td>Maxilla, below the orbit</td><td>Middle meatus (floor of semilunar hiatus)</td><td><b>Infraorbital + superior alveolar nerves (V2)</b></td><td>Roof = orbital floor (infraorbital nerve); sinusitis can mimic upper toothache</td></tr>
+</tbody></table></div>
+<p class="mn">Sinus sensation: three up top are V1; the maxillary below the orbit is V2.</p>
+
+<!-- 6 -->
+<h2 id="blood">6 · Blood Supply &amp; Nosebleeds</h2>
+<div class="grid2">
+<div class="card red"><h4>Arteries (dual ICA + ECA supply)</h4>
+<ul><li><b>Ophthalmic</b> (ICA) → anterior + posterior ethmoidal arteries</li>
+<li><b>Maxillary</b> (ECA) → <b>sphenopalatine artery</b> (largest to the lateral wall), greater palatine artery</li>
+<li><b>Facial</b> (ECA) → superior labial artery (septal branch)</li></ul></div>
+<div class="card navy"><h4>Veins &amp; lymph</h4>
+<ul><li>Ophthalmic veins → <b>cavernous sinus</b> (valveless “danger zone”)</li>
+<li>Facial vein → internal jugular vein</li>
+<li>Sphenopalatine vein → pterygoid plexus</li>
+<li>Lymph: anterior → submandibular nodes · posterior + sinuses → retropharyngeal → upper deep cervical nodes</li></ul></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Anterior nosebleed</th><th>Posterior nosebleed</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Source</td><td><b>Kiesselbach’s plexus</b> (anterior septum)</td><td><b>Sphenopalatine artery</b> (lateral wall)</td></tr>
+<tr><td class="rowh">Frequency</td><td><b>Most</b> nosebleeds</td><td>Less common</td></tr>
+<tr><td class="rowh">Severity</td><td>Usually minor</td><td><b>Life-threatening</b></td></tr>
+</tbody></table></div>
+
+<!-- 7 -->
+<h2 id="nerves">7 · Innervation</h2>
+<div class="grid2">
+<div class="card gold"><h4>Medial wall (septum)</h4>
+<table><tr><th>Anterosuperior</th><th>Posteroinferior</th></tr>
+<tr><td><b>Anterior ethmoidal nerve (V1)</b></td><td><b>Nasopalatine nerve (V2)</b> — sphenopalatine foramen → septum → incisive canal</td></tr></table></div>
+<div class="card gold"><h4>Lateral wall</h4>
+<table><tr><th>Anterosuperior</th><th>Posteroinferior</th></tr>
+<tr><td><b>Anterior ethmoidal nerve (V1)</b></td><td><b>Posterior nasal nerves (V2)</b></td></tr></table></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Function</th><th>Nerve / pathway</th></tr></thead>
+<tbody>
+<tr><td><b>Smell</b> (special sensory)</td><td><b>CN I</b> — olfactory epithelium in the roof → cribriform foramina; fracture → <b>anosmia</b></td></tr>
+<tr><td><b>General sensation</b></td><td><b>CN V</b>: V1 anterosuperior, V2 posteroinferior</td></tr>
+<tr><td><b>Secretomotor</b> (↑ mucus)</td><td>CN VII → greater petrosal nerve → <b>pterygopalatine ganglion</b> → V2 branches</td></tr>
+</tbody></table></div>
+<p class="mn">“Front-top = V1, back-bottom = V2.” “Smell = I, feel = V, secrete = VII.” V1 enters from the orbit (ethmoidal foramina); V2 enters from behind (sphenopalatine foramen).</p>
+
+<!-- 8 -->
+<h2 id="blowout">8 · Orbital Blowout Fractures &amp; the Sinuses</h2>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Floor fracture</th><th>Medial wall fracture</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Blows into</td><td><b>Maxillary sinus</b></td><td><b>Ethmoidal air cells</b></td></tr>
+<tr><td class="rowh">Nerve</td><td><b>Infraorbital (V2)</b> → numb lower lid, cheek, upper lip, side of nose</td><td>—</td></tr>
+<tr><td class="rowh">Globe</td><td><b>Hypoglobus</b> (sits low) / <b>enophthalmos</b> (sunken back)</td><td>Enophthalmos</td></tr>
+<tr><td class="rowh">Movement</td><td>Trapped inferior rectus → <b>can’t look up</b></td><td>Trapped medial rectus → can’t look <b>out</b> toward the injured side</td></tr>
+</tbody></table></div>
+<div class="grid3">
+<div class="card navy"><h4>Enophthalmos</h4>Eye <b>sunken back</b> — orbital contents escape into a sinus.</div>
+<div class="card red"><h4>Proptosis / exophthalmos</h4>Eye <b>bulges forward</b> — something occupies space behind it (e.g., cavernous sinus thrombosis).</div>
+<div class="card gold"><h4>Hypoglobus</h4>Eye sits <b>lower</b> — tissue drops into the maxillary sinus.</div>
+</div>
+<p class="mn">Paralyzed muscle loses its own action; trapped muscle blocks the opposite action. Don’t confuse proptosis (globe forward) with ptosis (drooping lid).</p>
+
+<!-- 9 -->
+<h2 id="clinical">9 · Clinical Correlations</h2>
+<div class="tbl"><table>
+<thead><tr><th>Scenario</th><th>Answer</th></tr></thead>
+<tbody>
+<tr><td>Facial pain + congestion from frontal, maxillary and ethmoidal sinuses at once</td><td>Blockage of the <b>middle meatus</b></td></tr>
+<tr><td>Brisk bleeding from the front of the septum</td><td><b>Kiesselbach’s plexus</b></td></tr>
+<tr><td>Heavy posterior bleeding not controlled by anterior packing</td><td><b>Sphenopalatine artery</b></td></tr>
+<tr><td>Loss of smell after head trauma</td><td>CN I at the <b>cribriform plate</b> → anosmia</td></tr>
+<tr><td>Newborn with nasal obstruction</td><td><b>Choanal atresia</b></td></tr>
+<tr><td>Nasal obstruction after trauma with a boggy septal swelling</td><td><b>Septal hematoma</b> — drain (ischemia + infection risk)</td></tr>
+<tr><td>Hole in the septum in a cocaine user</td><td><b>Septal perforation</b></td></tr>
+<tr><td>Ethmoid sinusitis → lid swelling, proptosis, weak eye movements</td><td>Spread via orbital veins → <b>cavernous sinus</b></td></tr>
+<tr><td>Pituitary tumor removal through the nose</td><td><b>Trans-sphenoidal</b> approach via the sphenoid sinus</td></tr>
+<tr><td>Runny nose when crying</td><td>Tears → nasolacrimal duct → <b>inferior meatus</b></td></tr>
+<tr><td>Numb cheek + can’t look up after a punch to the eye</td><td><b>Orbital floor blowout</b> into the maxillary sinus</td></tr>
+</tbody></table></div>
+
+<!-- 10 -->
+<h2 id="check">10 · Self-Check Questions</h2>
+<p class="lab">Answer first, then open each one to check.</p>
+<details><summary>1. Which conchae belong to the ethmoid bone?</summary><div class="ans">Superior and middle conchae. The inferior concha is its own bone.</div></details>
+<details><summary>2. What drains into the sphenoethmoidal recess?</summary><div class="ans">The sphenoid sinus.</div></details>
+<details><summary>3. What drains into the superior meatus?</summary><div class="ans">Posterior ethmoidal cells.</div></details>
+<details><summary>4. List everything that drains into the middle meatus and how.</summary><div class="ans">Frontal sinus + anterior ethmoidal cells (frontonasal duct); maxillary sinus (floor of the semilunar hiatus); middle ethmoidal cells (ethmoidal bulla).</div></details>
+<details><summary>5. What is the only structure that opens into the inferior meatus?</summary><div class="ans">The nasolacrimal duct.</div></details>
+<details><summary>6. Name the three components of the nasal septum.</summary><div class="ans">Septal cartilage (anterior), perpendicular plate of the ethmoid (posterosuperior), vomer (posteroinferior).</div></details>
+<details><summary>7. What is the other name for the anterior nasal aperture, and which bone borders it laterally and inferiorly?</summary><div class="ans">Piriform aperture; the maxilla.</div></details>
+<details><summary>8. Which nerve supplies the posteroinferior septum?</summary><div class="ans">Nasopalatine nerve (V2).</div></details>
+<details><summary>9. Which nerve supplies the anterosuperior nasal cavity (both walls)?</summary><div class="ans">Anterior ethmoidal nerve (V1).</div></details>
+<details><summary>10. Where do most nosebleeds come from?</summary><div class="ans">Kiesselbach’s plexus on the anterior septum.</div></details>
+<details><summary>11. Which sinus is the largest, and what forms its roof?</summary><div class="ans">Maxillary sinus; the orbital floor (with the infraorbital nerve).</div></details>
+<details><summary>12. What is enophthalmos?</summary><div class="ans">Posterior displacement (sinking) of the eyeball into the orbit.</div></details>
+
+<div class="foot"><span><b>HoyaDocs</b> · HNSS Lab 5 Nose Exam-Day Review</span><span>Updated 28 Sep 2026 · Rev 1.0</span></div>
+
+</body>
+</html>

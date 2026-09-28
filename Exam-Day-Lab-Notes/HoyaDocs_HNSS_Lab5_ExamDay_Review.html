@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 5 Exam-Day Review</title>
+<style>
+:root{
+  --navy:#1f3a68; --navy2:#2d5395; --ink:#1d2330; --muted:#5a6478; --line:#d4dbe8; --soft:#eef2f9;
+  --hy-bg:#fff6c7; --hy-bd:#c99a00; --hy-ink:#6b5200;
+  --art:#c0392b; --nerve:#b8860b; --vein:#2e5fb3; --mus:#e7a9a0;
+  --g1:#e8f4ec; --g1b:#2f8a4f; --r1:#fdecea; --r1b:#c0392b; --p1:#f1ebfa; --p1b:#6b46c1;
+}
+*{box-sizing:border-box}
+html{background:#f4f6fa}
+body{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45;color:var(--ink);margin:0 auto;max-width:1040px;padding:24px 20px 60px;background:#fff}
+.brand{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:3px solid var(--navy);padding-bottom:6px}
+.brand b{color:var(--navy)}
+h1{font-size:30px;margin:14px 0 2px;color:var(--navy);line-height:1.15}
+.sub{color:var(--muted);margin-bottom:12px}
+h2{font-size:18px;color:#fff;background:var(--navy);padding:7px 12px;border-radius:6px;margin:30px 0 10px;break-after:avoid}
+h3{font-size:15px;color:var(--navy);margin:18px 0 6px;break-after:avoid;border-left:4px solid var(--navy2);padding-left:8px}
+p{margin:6px 0}
+ul,ol{margin:4px 0;padding-left:20px} li{margin:3px 0}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:12px 0;padding:10px;background:var(--soft);border-radius:8px}
+.toc a{color:var(--navy);text-decoration:none;font-size:13px}
+.toc a:hover{text-decoration:underline}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-bd);border-radius:8px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.hy .t{font-weight:800;color:var(--hy-ink);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.note{background:var(--soft);border-left:5px solid var(--navy);padding:9px 12px;border-radius:0 6px 6px 0;margin:10px 0;break-inside:avoid}
+.mn{font-style:italic;color:#3d4a66}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;break-inside:auto}
+tr{break-inside:avoid}
+th{background:#dfe6f2;text-align:left;padding:6px 8px;border:1px solid #c3cde0;color:#15294b}
+td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafbfd}
+td.rowh{font-weight:700;background:#f2f5fa !important;white-space:nowrap}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.p-t{background:#e3ecfb;color:#1f4fa0}.p-z{background:#e5f5ea;color:#1f7a41}.p-b{background:#fff0d6;color:#9a5b00}.p-m{background:#f6e3f3;color:#8a2a7b}.p-c{background:#e9e6fb;color:#4b3aa8}.p-p{background:#eceff3;color:#44506a}
+.art{color:var(--art);font-weight:700}.nrv{color:var(--nerve);font-weight:700}.vn{color:var(--vein);font-weight:700}
+/* flow chains */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;break-inside:avoid}
+.flow .n{background:#fff;border:1.5px solid var(--navy2);border-radius:7px;padding:5px 9px;font-size:13px;font-weight:600;color:#15294b}
+.flow .n.a{border-color:var(--art);color:#8e2319;background:#fff7f6}
+.flow .n.v{border-color:var(--vein);color:#1c3f82;background:#f5f8ff}
+.flow .n.nv{border-color:var(--nerve);color:#6e5000;background:#fffbef}
+.flow .n.g{border-color:#2f8a4f;color:#1d5e34;background:#f1faf4}
+.flow .n.end{background:var(--navy);color:#fff;border-color:var(--navy)}
+.flow .ar{color:var(--navy2);font-weight:900;font-size:16px}
+.flow .lab{font-size:11.5px;color:var(--muted);font-style:italic}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;break-inside:avoid;background:#fff}
+.card h4{margin:0 0 6px;color:var(--navy);font-size:14px}
+.card.red{border-top:5px solid var(--r1b)}.card.green{border-top:5px solid var(--g1b)}.card.purple{border-top:5px solid var(--p1b)}.card.navy{border-top:5px solid var(--navy)}.card.gold{border-top:5px solid var(--hy-bd)}
+/* scalp layers */
+.scalp{border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:8px 0;break-inside:avoid}
+.scalp div{display:grid;grid-template-columns:44px 210px 1fr;align-items:center;padding:7px 10px;font-size:13px}
+.scalp .L{font-size:22px;font-weight:900;color:var(--navy)}
+.scalp .s1{background:#fbe5d6}.scalp .s2{background:#f6d0c2}.scalp .s3{background:#e9edf5}.scalp .s4{background:#fff6c7;outline:2px solid var(--hy-bd);outline-offset:-2px}.scalp .s5{background:#dcdfe6}
+/* CN VII road */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:10px 0;break-inside:avoid}
+.stop{border:2px solid var(--navy2);padding:10px;position:relative;background:#fff}
+.stop:not(:last-child){border-right:none}
+.stop .hd{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stop .ti{font-weight:800;color:var(--navy);margin:2px 0 6px}
+.stop:not(:last-child)::after{content:"➜";position:absolute;right:-13px;top:40%;background:#fff;color:var(--navy2);font-size:20px;z-index:2;line-height:1}
+/* tree */
+.tree{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;break-inside:avoid}
+.tree .col{border-radius:8px;padding:10px;border:1px solid var(--line)}
+.tree .col h4{margin:0 0 4px}
+.tree .trunk{grid-column:1/-1;text-align:center;background:var(--navy);color:#fff;border-radius:8px;padding:8px;font-weight:700}
+.exc{background:var(--hy-bg);border:1px solid var(--hy-bd);border-radius:4px;padding:0 5px;font-weight:700}
+/* foramina row */
+.fx{display:flex;gap:10px;margin:8px 0;break-inside:avoid}
+.fx .f{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center}
+.fx .f .nm{font-weight:800;color:var(--navy)}
+.fx .f .ct{font-size:12.5px}
+.fig{border:1px solid var(--line);border-radius:10px;padding:8px;margin:10px 0;background:#fcfdff;break-inside:avoid}
+.fig svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;background:#fff;break-inside:avoid}
+details summary{cursor:pointer;font-weight:600;color:#15294b}
+details .ans{margin-top:6px;padding:6px 10px;background:var(--g1);border-left:4px solid var(--g1b);border-radius:0 6px 6px 0}
+.foot{margin-top:30px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;border-radius:5px;padding:0 6px;font-size:12px;font-weight:700}
+.up{background:#e3ecfb;color:#1f4fa0}.dn{background:#fdecea;color:#9b2a1e}.md{background:#eceff3;color:#44506a}
+@media (max-width:760px){
+  .grid2,.grid3,.road,.tree{grid-template-columns:1fr}
+  .stop:not(:last-child){border-right:2px solid var(--navy2);border-bottom:none}
+  .stop:not(:last-child)::after{content:"⬇";right:45%;top:auto;bottom:-13px}
+  .scalp div{grid-template-columns:34px 1fr}.scalp div span:last-child{grid-column:1/-1}
+  .fx{flex-direction:column}
+  body{padding:16px}
+}
+@media print{
+  html,body{background:#fff}
+  body{max-width:none;padding:0;font-size:11.3px}
+  h1{font-size:24px} h2{font-size:14.5px;margin:18px 0 8px} h3{font-size:12.8px}
+  table{font-size:10.6px} td,th{padding:4px 6px}
+  .flow .n{font-size:10.8px;padding:3px 7px}
+  .toc{display:none}
+  .pb{break-before:page}
+  details{border:none;padding:4px 0}
+  .card,.hy,.note,.fig,.flow,.road,.tree,.scalp{break-inside:avoid}
+}
+@page{size:Letter;margin:0.5in 0.5in 0.55in}
+</style>
+</head>
+<body>
+<div class="brand"><span><b>HoyaDocs</b> · HNSS Block 5 · Head &amp; Neck Anatomy</span><span>Updated 28 Sep 2026 · Rev 1.0</span></div>
+<h1>Lab 5 Exam-Day Review</h1>
+<div class="sub">Bisection of the Head — pharynx (nasopharynx, oropharynx, laryngopharynx), pharyngeal muscles, swallowing and the retropharyngeal space.</div>
+
+<div class="toc">
+  <a href="#rules">1. Exam-day rules &amp; top traps</a>
+  <a href="#map">2. Map of the pharynx</a>
+  <a href="#naso">3. Nasopharynx</a>
+  <a href="#oro">4. Oropharynx</a>
+  <a href="#laryngo">5. Laryngopharynx</a>
+  <a href="#muscles">6. Pharyngeal muscles</a>
+  <a href="#swallow">7. Swallowing</a>
+  <a href="#retro">8. Retropharyngeal space</a>
+  <a href="#clinical">9. Clinical correlations</a>
+  <a href="#check">10. Self-check questions</a>
+</div>
+
+<!-- 1 -->
+<h2 id="rules">1 · Exam-Day Rules &amp; Top Traps</h2>
+<div class="note"><b>✍️ Wording</b>
+<ul>
+<li>Use anatomical directions: <b>anterior/posterior, superior/inferior, medial/lateral</b>.</li>
+<li>Spelling counts: <b>torus tubarius · salpingopharyngeal fold · salpingopharyngeus · piriform recess · palatoglossal / palatopharyngeal · cricopharyngeus · thyropharyngeus · epiglottic vallecula · choana(e)</b>.</li>
+</ul></div>
+<div class="hy"><div class="t">★ High-yield traps</div>
+<ol>
+<li><b>All pharyngeal muscles = CN X</b> (pharyngeal plexus) <b>except stylopharyngeus = CN IX</b>.</li>
+<li><b>Palatoglossus = CN X</b> — the only tongue muscle not supplied by CN XII.</li>
+<li>The <b>pharyngotympanic tube</b> connects the <b>middle ear</b> to the nasopharynx; it is opened by <b>tensor veli palatini (CN V3)</b> and <b>levator veli palatini (CN X)</b>.</li>
+<li><b>Pharyngeal recess</b> (posterior to the torus tubarius) = classic site of <b>nasopharyngeal carcinoma</b> → serous otitis media + neck mass.</li>
+<li><b>CN IX lies deep to the tonsillar bed</b> → tonsillectomy can cause loss of taste/sensation on the posterior 1/3 of the tongue.</li>
+<li><b>Epiglottis</b> flips down over the laryngeal inlet; the <b>vallecula</b> is where the laryngoscope blade goes.</li>
+<li><b>Killian’s triangle</b> (thyropharyngeus ↔ cricopharyngeus) → <b>Zenker’s diverticulum</b>.</li>
+<li>Laryngeal inlet = the <b>opening</b>; laryngopharynx = the <b>region</b>.</li>
+</ol></div>
+
+<!-- 2 -->
+<h2 id="map">2 · Map of the Pharynx</h2>
+<div class="fig">
+<svg viewBox="0 0 820 400" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <defs><marker id="p1" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#2d5395"/></marker></defs>
+  <text x="20" y="22" font-weight="700" fill="#5a6478">◀ ANTERIOR</text>
+  <text x="800" y="22" font-weight="700" fill="#5a6478" text-anchor="end">POSTERIOR ▶</text>
+  <!-- bands -->
+  <rect x="330" y="40" width="150" height="100" fill="#e3ecfb" stroke="#2d5395"/>
+  <rect x="330" y="140" width="150" height="100" fill="#e8f4ec" stroke="#2f8a4f"/>
+  <rect x="330" y="240" width="150" height="100" fill="#fdecea" stroke="#c0392b"/>
+  <text x="405" y="86" text-anchor="middle" font-weight="800" fill="#1f4fa0">NASOPHARYNX</text>
+  <text x="405" y="186" text-anchor="middle" font-weight="800" fill="#1d5e34">OROPHARYNX</text>
+  <text x="405" y="280" text-anchor="middle" font-weight="800" fill="#8e2319">LARYNGOPHARYNX</text>
+  <text x="405" y="297" text-anchor="middle" font-size="11" fill="#8e2319">(hypopharynx)</text>
+  <!-- boundaries -->
+  <line x1="300" y1="140" x2="510" y2="140" stroke="#44506a" stroke-width="2" stroke-dasharray="6 4"/>
+  <line x1="300" y1="240" x2="510" y2="240" stroke="#44506a" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="516" y="144" font-size="11" fill="#44506a" font-weight="700">Soft palate</text>
+  <text x="516" y="244" font-size="11" fill="#44506a" font-weight="700">Superior border of epiglottis</text>
+  <!-- bottom split -->
+  <rect x="330" y="340" width="70" height="40" fill="#f2f5fa" stroke="#6e8bb8"/>
+  <text x="365" y="365" text-anchor="middle" font-size="11" font-weight="700" fill="#15294b">Trachea</text>
+  <rect x="410" y="340" width="70" height="40" fill="#f6e3f3" stroke="#8a2a7b"/>
+  <text x="445" y="365" text-anchor="middle" font-size="11" font-weight="700" fill="#8a2a7b">Esophagus</text>
+  <!-- anterior openings -->
+  <rect x="30" y="68" width="200" height="40" rx="8" fill="#fff" stroke="#2d5395"/>
+  <text x="130" y="86" text-anchor="middle" font-weight="700" fill="#15294b">Nasal cavity</text>
+  <text x="130" y="101" text-anchor="middle" font-size="11" fill="#5a6478">via the choanae</text>
+  <path d="M230,88 L326,88" stroke="#2d5395" stroke-width="2.5" marker-end="url(#p1)"/>
+  <rect x="30" y="168" width="200" height="40" rx="8" fill="#fff" stroke="#2f8a4f"/>
+  <text x="130" y="186" text-anchor="middle" font-weight="700" fill="#15294b">Oral cavity</text>
+  <text x="130" y="201" text-anchor="middle" font-size="11" fill="#5a6478">past the palatoglossal fold</text>
+  <path d="M230,188 L326,188" stroke="#2d5395" stroke-width="2.5" marker-end="url(#p1)"/>
+  <rect x="30" y="268" width="200" height="40" rx="8" fill="#fff" stroke="#c0392b"/>
+  <text x="130" y="286" text-anchor="middle" font-weight="700" fill="#15294b">Larynx</text>
+  <text x="130" y="301" text-anchor="middle" font-size="11" fill="#5a6478">via the laryngeal inlet (aditus)</text>
+  <path d="M326,288 L230,288" stroke="#2d5395" stroke-width="2.5" marker-end="url(#p1)"/>
+  <!-- posterior contents -->
+  <text x="516" y="70" font-size="11.5" fill="#1f4fa0">Pharyngotympanic tube opening · torus tubarius ·</text>
+  <text x="516" y="85" font-size="11.5" fill="#1f4fa0">salpingopharyngeal fold · pharyngeal recess ·</text>
+  <text x="516" y="100" font-size="11.5" fill="#1f4fa0">pharyngeal tonsil (adenoids)</text>
+  <text x="516" y="175" font-size="11.5" fill="#1d5e34">Palatoglossal + palatopharyngeal folds ·</text>
+  <text x="516" y="190" font-size="11.5" fill="#1d5e34">palatine tonsil · epiglottic vallecula</text>
+  <text x="516" y="275" font-size="11.5" fill="#8e2319">Epiglottis · laryngeal inlet ·</text>
+  <text x="516" y="290" font-size="11.5" fill="#8e2319">piriform recesses</text>
+  <text x="516" y="350" font-size="11.5" fill="#44506a">Trachea anterior · esophagus posterior</text>
+</svg>
+<div class="cap">Midsagittal schematic. “NOL” superior → inferior: Nasopharynx · Oropharynx · Laryngopharynx.</div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Region</th><th>Boundaries</th><th>Opens anteriorly into</th></tr></thead>
+<tbody>
+<tr><td><b>Nasopharynx</b></td><td>Posterior to the nasal cavities; superior to the soft palate</td><td>Nasal cavities (<b>choanae</b> = posterior nasal apertures)</td></tr>
+<tr><td><b>Oropharynx</b></td><td><b>Soft palate → superior border of the epiglottis</b></td><td>Oral cavity (boundary = palatoglossal fold / oropharyngeal isthmus)</td></tr>
+<tr><td><b>Laryngopharynx (hypopharynx)</b></td><td>Epiglottis → continues as the <b>esophagus</b></td><td>Larynx (<b>laryngeal inlet / aditus</b>)</td></tr>
+</tbody></table></div>
+<p>Clinical routes through the nasopharynx: <b>laryngoscope</b> (nose → nasopharynx → larynx), <b>NG tube</b> (nose → nasopharynx → esophagus → stomach), <b>nasotracheal intubation</b> (nose → nasopharynx → larynx → trachea).</p>
+
+<!-- 3 -->
+<h2 id="naso">3 · Nasopharynx</h2>
+<h3>Lateral wall, anterior → posterior</h3>
+<div class="flow"><span class="n">Choana (posterior nasal aperture)</span><span class="ar">→</span><span class="n">Opening of pharyngotympanic tube</span><span class="ar">→</span><span class="n">Torus tubarius</span><span class="lab">↓ salpingopharyngeal fold</span><span class="ar">→</span><span class="n end">Pharyngeal recess</span></div>
+<div class="tbl"><table>
+<thead><tr><th>Structure</th><th>What it is</th><th>High-yield</th></tr></thead>
+<tbody>
+<tr><td><b>Choana</b></td><td>Posterior nasal aperture; nasal cavity → nasopharynx</td><td><b>Choanal atresia</b> — failed recanalization → blockage</td></tr>
+<tr><td><b>Pharyngotympanic tube opening</b></td><td>Tube connecting the <b>middle ear</b> to the nasopharynx</td><td>Equalizes pressure; opened during swallowing by <b>tensor veli palatini (V3)</b> + <b>levator veli palatini (X)</b></td></tr>
+<tr><td><b>Torus tubarius</b></td><td>Raised bulge of tissue over the tube’s cartilage</td><td>Landmark curving around the tube opening</td></tr>
+<tr><td><b>Salpingopharyngeal fold</b></td><td>Mucosa over <b>salpingopharyngeus</b>, running inferiorly from the torus</td><td>Salpingopharyngeus = longitudinal muscle (CN X)</td></tr>
+<tr><td><b>Pharyngeal recess</b></td><td>Pocket <b>posterior</b> to the torus tubarius</td><td><b>Nasopharyngeal carcinoma</b> → <b>serous otitis media</b> + <b>neck mass</b></td></tr>
+<tr><td><b>Pharyngeal tonsil</b></td><td>Lymphoid tissue on the roof / posterior wall (“<b>adenoids</b>”)</td><td><b>Adenoid hypertrophy</b> → blocks airflow</td></tr>
+</tbody></table></div>
+<p class="mn">“Salpinx” = tube → salpingopharyngeus runs from the tube to the pharynx.</p>
+
+<!-- 4 -->
+<h2 id="oro">4 · Oropharynx</h2>
+<div class="fig">
+<svg viewBox="0 0 800 170" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <text x="20" y="20" font-weight="700" fill="#5a6478">◀ ANTERIOR (oral cavity)</text>
+  <text x="780" y="20" font-weight="700" fill="#5a6478" text-anchor="end">POSTERIOR (pharynx) ▶</text>
+  <rect x="60" y="40" width="200" height="90" rx="40" fill="#e3ecfb" stroke="#2d5395" stroke-width="2"/>
+  <text x="165" y="80" text-anchor="middle" font-weight="800" fill="#1f4fa0">Palatoglossal fold</text>
+  <text x="165" y="97" text-anchor="middle" font-size="11" fill="#1f4fa0">anterior pillar · palatoglossus (X)</text>
+  <ellipse cx="400" cy="85" rx="95" ry="45" fill="#fdecea" stroke="#c0392b" stroke-width="2"/>
+  <text x="400" y="80" text-anchor="middle" font-weight="800" fill="#8e2319">Palatine tonsil</text>
+  <text x="400" y="97" text-anchor="middle" font-size="11" fill="#8e2319">in the tonsillar fossa</text>
+  <rect x="540" y="40" width="200" height="90" rx="40" fill="#e8f4ec" stroke="#2f8a4f" stroke-width="2"/>
+  <text x="640" y="80" text-anchor="middle" font-weight="800" fill="#1d5e34">Palatopharyngeal fold</text>
+  <text x="640" y="97" text-anchor="middle" font-size="11" fill="#1d5e34">posterior pillar · palatopharyngeus</text>
+  <rect x="300" y="140" width="200" height="24" rx="6" fill="#fff6c7" stroke="#c99a00"/>
+  <text x="400" y="157" text-anchor="middle" font-size="11.5" font-weight="700" fill="#6b5200">CN IX runs deep to the tonsillar bed</text>
+</svg>
+<div class="cap">The “tonsil sandwich,” anterior → posterior.</div>
+</div>
+<ul>
+<li><b>Palatoglossal fold</b> marks the transition from the oral cavity to the oropharynx.</li>
+<li><b>Epiglottic vallecula</b> = space between the epiglottis and the posterior 1/3 of the tongue — the laryngoscope blade goes here during intubation.</li>
+<li>All palate muscles are CN X (pharyngeal plexus) <b>except tensor veli palatini (CN V3)</b>.</li>
+</ul>
+<div class="hy"><div class="t">Tonsillectomy</div>Removing the palatine tonsil risks <b>CN IX</b>, which lies deep to the tonsillar bed → temporary loss of <b>taste and sensation on the posterior 1/3 of the tongue</b>.</div>
+
+<!-- 5 -->
+<h2 id="laryngo">5 · Laryngopharynx (Hypopharynx)</h2>
+<div class="grid2">
+<div class="card red"><h4>Structures</h4>
+<ul>
+<li><b>Epiglottis</b> — leaf-shaped; <b>flips down</b> over the laryngeal inlet in the pharyngeal phase</li>
+<li><b>Laryngeal inlet (aditus)</b> — opening into the larynx; epiglottis forms its anterior boundary</li>
+<li><b>Piriform recesses</b> — “<b>gutters</b>” on each side of the inlet that funnel food into the esophagus</li>
+<li>Continues inferiorly as the <b>esophagus</b></li>
+</ul></div>
+<div class="card gold"><h4>Wall</h4>
+<p>Mainly the <b>inferior and middle constrictors</b>, plus <b>stylopharyngeus</b> and <b>palatopharyngeus</b>.</p>
+<p><b>Under the piriform mucosa:</b> the <b>internal branch of the superior laryngeal nerve</b> (sensory above the vocal folds). A lodged foreign body (e.g., fish bone) can injure it → lost cough reflex, aspiration risk.</p></div>
+</div>
+<div class="grid2">
+<div class="card navy"><h4>Trachea</h4>C-shaped cartilage rings, <b>open posteriorly</b> so the esophagus behind it can expand when a bolus passes.</div>
+<div class="card purple"><h4>Esophagus</h4>Posterior to the trachea. Its <b>upper esophageal sphincter</b> = <b>cricopharyngeus</b> (lowest part of the inferior constrictor).</div>
+</div>
+
+<!-- 6 -->
+<h2 id="muscles">6 · Pharyngeal Muscles</h2>
+<div class="fig">
+<svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <defs><marker id="c1" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#44506a"/></marker></defs>
+  <polygon points="260,30 460,30 440,120 280,120" fill="#e3ecfb" stroke="#2d5395" stroke-width="2"/>
+  <text x="360" y="80" text-anchor="middle" font-weight="800" fill="#1f4fa0">SUPERIOR constrictor</text>
+  <polygon points="270,110 450,110 430,200 290,200" fill="#e8f4ec" stroke="#2f8a4f" stroke-width="2"/>
+  <text x="360" y="160" text-anchor="middle" font-weight="800" fill="#1d5e34">MIDDLE constrictor</text>
+  <polygon points="280,190 440,190 425,265 295,265" fill="#fdecea" stroke="#c0392b" stroke-width="2"/>
+  <text x="360" y="232" text-anchor="middle" font-weight="800" fill="#8e2319">Thyropharyngeus</text>
+  <polygon points="330,268 390,268 360,292" fill="#fff6c7" stroke="#c99a00" stroke-width="2"/>
+  <polygon points="295,292 425,292 420,325 300,325" fill="#f6e3f3" stroke="#8a2a7b" stroke-width="2"/>
+  <text x="360" y="313" text-anchor="middle" font-weight="800" fill="#8a2a7b">Cricopharyngeus (UES)</text>
+  <text x="360" y="350" text-anchor="middle" font-size="11" fill="#44506a">↓ Esophagus</text>
+  <text x="600" y="232" font-size="11.5" font-weight="700" fill="#8e2319">INFERIOR constrictor =</text>
+  <text x="600" y="247" font-size="11.5" fill="#8e2319">thyropharyngeus + cricopharyngeus</text>
+  <path d="M560,280 L395,280" stroke="#c99a00" stroke-width="1.5" marker-end="url(#c1)"/>
+  <text x="566" y="276" font-size="11.5" font-weight="700" fill="#6b5200">Killian’s triangle → Zenker’s diverticulum</text>
+  <!-- gaps -->
+  <path d="M40,196 L285,196" stroke="#44506a" stroke-width="1.5" marker-end="url(#c1)"/>
+  <text x="20" y="160" font-size="11" font-weight="700" fill="#15294b">Gap middle / inferior:</text>
+  <text x="20" y="174" font-size="11" fill="#15294b">internal br. superior laryngeal n. +</text>
+  <text x="20" y="187" font-size="11" fill="#15294b">superior laryngeal a. (thyrohyoid memb.)</text>
+  <path d="M40,338 L298,322" stroke="#44506a" stroke-width="1.5" marker-end="url(#c1)"/>
+  <text x="20" y="355" font-size="11" font-weight="700" fill="#15294b">Below inferior: recurrent laryngeal n. +</text>
+  <text x="20" y="369" font-size="11" fill="#15294b">inferior laryngeal a.</text>
+  <path d="M40,115 L275,115" stroke="#44506a" stroke-width="1.5" marker-end="url(#c1)"/>
+  <text x="20" y="96" font-size="11" font-weight="700" fill="#15294b">Gap superior / middle:</text>
+  <text x="20" y="109" font-size="11" fill="#15294b">CN IX + stylopharyngeus</text>
+  <text x="600" y="80" font-size="11.5" font-weight="700" fill="#15294b">All constrictors: CN X</text>
+  <text x="600" y="95" font-size="11.5" fill="#15294b">(pharyngeal plexus)</text>
+  <text x="600" y="160" font-size="11.5" fill="#15294b">Overlap like stacked cups;</text>
+  <text x="600" y="175" font-size="11.5" fill="#15294b">insert into a posterior midline raphe</text>
+</svg>
+<div class="cap">Posterior-view schematic of the constrictors and the structures passing through their gaps.</div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Group</th><th>Muscles</th><th>Nerve</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td><b>Circular (constrictors)</b></td><td>Superior · middle · inferior (thyropharyngeus + cricopharyngeus)</td><td><b>CN X</b></td><td><b>Squeeze</b> superior → inferior (peristalsis)</td></tr>
+<tr><td><b>Longitudinal</b></td><td><b>Stylopharyngeus</b> · palatopharyngeus · salpingopharyngeus</td><td>CN X, <b>except stylopharyngeus = CN IX</b></td><td><b>Elevate and widen</b> the pharynx and larynx</td></tr>
+</tbody></table></div>
+<p class="mn">“Lift, then squeeze”: longitudinal muscles lift; constrictors squeeze.</p>
+
+<!-- 7 -->
+<h2 id="swallow">7 · Swallowing (Deglutition)</h2>
+<div class="flow"><span class="n">1 · Oral</span><span class="ar">→</span><span class="n">2 · Oropharyngeal</span><span class="ar">→</span><span class="n">3 · Pharyngeal</span><span class="ar">→</span><span class="n end">4 · Esophageal</span></div>
+<div class="tbl"><table>
+<thead><tr><th>Phase</th><th>What happens</th><th>Key muscles</th></tr></thead>
+<tbody>
+<tr><td><b>Oral</b></td><td>Tongue pushes the bolus to the back of the mouth</td><td>Tongue muscles</td></tr>
+<tr><td><b>Oropharyngeal</b></td><td><b>Nasopharynx sealed off</b>; <b>larynx elevated</b>; <b>pharynx widened</b></td><td>Soft palate (levator + tensor veli palatini); <b>longitudinal muscles</b></td></tr>
+<tr><td><b>Pharyngeal</b></td><td>Peristalsis by the constrictors; <b>epiglottis flips down</b>; piriform recesses guide food; cricopharyngeus relaxes</td><td><b>Superior → middle → inferior constrictors</b></td></tr>
+<tr><td><b>Esophageal</b></td><td>Peristalsis moves food to the stomach</td><td>Esophageal muscle</td></tr>
+</tbody></table></div>
+<div class="note">If the <b>cricopharyngeus fails to relax</b>, pressure builds on Killian’s triangle above it → <b>Zenker’s diverticulum</b> (food trapped in a sac, dysphagia, bad breath).</div>
+
+<!-- 8 -->
+<h2 id="retro">8 · Retropharyngeal Space</h2>
+<p>The space <b>posterior to the pharynx</b>. In the bisected head, look here for:</p>
+<div class="fig">
+<svg viewBox="0 0 800 330" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <defs><marker id="r1" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#b8860b"/></marker></defs>
+  <text x="20" y="22" font-weight="700" fill="#5a6478">◀ ANTERIOR (pharynx, tongue)</text>
+  <text x="780" y="22" font-weight="700" fill="#5a6478" text-anchor="end">POSTERIOR (neck muscles) ▶</text>
+  <rect x="300" y="36" width="200" height="22" rx="4" fill="#cfd3dc"/>
+  <text x="400" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#44506a">SKULL BASE (jugular foramen · hypoglossal canal)</text>
+  <!-- CN X -->
+  <path d="M420,58 L420,310" stroke="#b8860b" stroke-width="5" marker-end="url(#r1)"/>
+  <text x="430" y="300" font-weight="800" fill="#6e5000">CN X — stays in carotid sheath</text>
+  <!-- IX -->
+  <path d="M400,60 C390,80 330,95 230,100" stroke="#b8860b" stroke-width="3.5" fill="none" marker-end="url(#r1)"/>
+  <text x="40" y="96" font-weight="800" fill="#6e5000">CN IX — leaves first (highest)</text>
+  <text x="40" y="112" font-size="11" fill="#6e5000">forward with stylopharyngeus → tonsillar bed</text>
+  <!-- XI -->
+  <path d="M440,60 C460,100 540,125 640,135" stroke="#b8860b" stroke-width="3.5" fill="none" marker-end="url(#r1)"/>
+  <text x="560" y="115" font-weight="800" fill="#6e5000">CN XI — ~C1</text>
+  <text x="560" y="160" font-size="11" fill="#6e5000">back → sternocleidomastoid, trapezius</text>
+  <!-- XII -->
+  <path d="M410,60 C405,140 360,190 230,200" stroke="#b8860b" stroke-width="3.5" fill="none" marker-end="url(#r1)"/>
+  <text x="40" y="226" font-weight="800" fill="#6e5000">CN XII — ~C2 / angle of mandible</text>
+  <text x="40" y="242" font-size="11" fill="#6e5000">forward, superficial to carotids → hyoglossus → tongue</text>
+  <!-- SCG -->
+  <ellipse cx="500" cy="210" rx="16" ry="38" fill="#e9e6fb" stroke="#4b3aa8" stroke-width="2"/>
+  <text x="525" y="205" font-weight="800" fill="#4b3aa8">Superior cervical ganglion</text>
+  <text x="525" y="221" font-size="11" fill="#4b3aa8">sympathetic (~C1–C2) → Horner if damaged</text>
+</svg>
+<div class="cap">Schematic of where each nerve leaves the retropharyngeal region. “IX dives in, XI turns back, XII loops forward, X keeps going.”</div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Structure</th><th>Key function</th><th>Lesion / high-yield</th></tr></thead>
+<tbody>
+<tr><td><b>Superior cervical ganglion</b></td><td>Sympathetic → dilator pupillae, superior tarsal muscle, facial sweat glands</td><td><b>Horner</b>: ptosis (mild), miosis, anhidrosis</td></tr>
+<tr><td><b>CN IX</b></td><td>Stylopharyngeus; posterior 1/3 tongue taste + sensation; gag afferent; parotid</td><td>Deep to the tonsillar bed → tonsillectomy risk</td></tr>
+<tr><td><b>CN X</b></td><td>Pharyngeal constrictors, palate (except tensor veli palatini), larynx, palatoglossus</td><td>Uvula deviates <b>away</b>; hoarseness (recurrent laryngeal); gag efferent</td></tr>
+<tr><td><b>CN XI</b></td><td>Sternocleidomastoid + trapezius</td><td>Weak shrug / head turn</td></tr>
+<tr><td><b>CN XII</b></td><td>Tongue muscles except palatoglossus</td><td>Tongue deviates <b>toward</b> the lesion</td></tr>
+</tbody></table></div>
+
+<!-- 9 -->
+<h2 id="clinical">9 · Clinical Correlations</h2>
+<div class="tbl"><table>
+<thead><tr><th>Scenario</th><th>Structure</th><th>Answer</th></tr></thead>
+<tbody>
+<tr><td>Adult with unilateral ear fullness / fluid + neck lump</td><td>Pharyngeal recess</td><td><b>Nasopharyngeal carcinoma</b> blocking the pharyngotympanic tube → serous otitis media</td></tr>
+<tr><td>Child mouth-breathing, snoring, nasal obstruction</td><td>Pharyngeal tonsil</td><td><b>Adenoid hypertrophy</b></td></tr>
+<tr><td>Newborn with nasal obstruction</td><td>Choanae</td><td><b>Choanal atresia</b></td></tr>
+<tr><td>Loss of taste on the posterior tongue after tonsillectomy</td><td>CN IX</td><td>Injured deep to the tonsillar bed</td></tr>
+<tr><td>Food regurgitation, halitosis, neck pouch in an older adult</td><td>Killian’s triangle</td><td><b>Zenker’s diverticulum</b></td></tr>
+<tr><td>Fish bone in the throat → lost cough reflex / aspiration</td><td>Piriform recess</td><td>Internal branch of the superior laryngeal nerve</td></tr>
+<tr><td>Intubation: where does the laryngoscope blade go?</td><td>Epiglottic vallecula</td><td>Lifts the tongue base and epiglottis</td></tr>
+<tr><td>Ptosis, miosis, anhidrosis after a high neck lesion</td><td>Superior cervical ganglion</td><td><b>Horner syndrome</b></td></tr>
+</tbody></table></div>
+<div class="note"><b>Beyond lecture (enrichment):</b> tumors at each level threaten a different nerve — <b>nasopharynx</b> → skull-base group (superior cervical ganglion, CN XII); <b>oropharynx / tonsil</b> → <b>CN IX</b> (referred ear pain); <b>laryngopharynx / piriform recess</b> → <b>CN X</b> (hoarseness, aspiration). <span class="mn">Going down the pharynx, the CN numbers go up.</span></div>
+
+<!-- 10 -->
+<h2 id="check">10 · Self-Check Questions</h2>
+<p class="lab">Answer first, then open each one to check.</p>
+<details><summary>1. Name the lateral-wall structures of the nasopharynx, anterior → posterior.</summary><div class="ans">Choana → opening of the pharyngotympanic tube → torus tubarius (salpingopharyngeal fold inferiorly) → pharyngeal recess.</div></details>
+<details><summary>2. What does the pharyngotympanic tube connect, and which muscles open it?</summary><div class="ans">Middle ear ↔ nasopharynx; tensor veli palatini (CN V3) and levator veli palatini (CN X).</div></details>
+<details><summary>3. What are the boundaries of the oropharynx?</summary><div class="ans">Soft palate to the superior border of the epiglottis.</div></details>
+<details><summary>4. What lies between the palatoglossal and palatopharyngeal folds?</summary><div class="ans">The tonsillar fossa containing the palatine tonsil (CN IX deep to its bed).</div></details>
+<details><summary>5. What is the function of the piriform recesses?</summary><div class="ans">Gutters that direct food/drink into the esophagus, away from the larynx.</div></details>
+<details><summary>6. Which pharyngeal muscle is not supplied by CN X?</summary><div class="ans">Stylopharyngeus — CN IX.</div></details>
+<details><summary>7. Name the two parts of the inferior constrictor and the weak area between them.</summary><div class="ans">Thyropharyngeus and cricopharyngeus; Killian’s triangle (→ Zenker’s diverticulum).</div></details>
+<details><summary>8. What passes through the gap between the middle and inferior constrictors?</summary><div class="ans">Internal branch of the superior laryngeal nerve + superior laryngeal artery (through the thyrohyoid membrane).</div></details>
+<details><summary>9. What happens in the oropharyngeal phase of swallowing?</summary><div class="ans">Nasopharynx sealed off, larynx elevated, pharynx widened.</div></details>
+<details><summary>10. Where is nasopharyngeal carcinoma classically found, and what are its signs?</summary><div class="ans">Pharyngeal recess; serous otitis media + neck mass.</div></details>
+<details><summary>11. Why are tracheal rings open posteriorly?</summary><div class="ans">So the esophagus posterior to the trachea can expand during swallowing.</div></details>
+<details><summary>12. Which retropharyngeal nerve stays in the carotid sheath the whole length of the neck?</summary><div class="ans">CN X (vagus).</div></details>
+
+<div class="foot"><span><b>HoyaDocs</b> · HNSS Lab 5 Exam-Day Review</span><span>Updated 28 Sep 2026 · Rev 1.0</span></div>
+
+</body>
+</html>

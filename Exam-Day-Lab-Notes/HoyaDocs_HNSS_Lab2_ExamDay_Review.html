@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 2 Exam-Day Review</title>
+<style>
+:root{
+  --navy:#1f3a68; --navy2:#2d5395; --ink:#1d2330; --muted:#5a6478; --line:#d4dbe8; --soft:#eef2f9;
+  --hy-bg:#fff6c7; --hy-bd:#c99a00; --hy-ink:#6b5200;
+  --art:#c0392b; --nerve:#b8860b; --vein:#2e5fb3; --mus:#e7a9a0;
+  --g1:#e8f4ec; --g1b:#2f8a4f; --r1:#fdecea; --r1b:#c0392b; --p1:#f1ebfa; --p1b:#6b46c1;
+}
+*{box-sizing:border-box}
+html{background:#f4f6fa}
+body{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45;color:var(--ink);margin:0 auto;max-width:1040px;padding:24px 20px 60px;background:#fff}
+.brand{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:3px solid var(--navy);padding-bottom:6px}
+.brand b{color:var(--navy)}
+h1{font-size:30px;margin:14px 0 2px;color:var(--navy);line-height:1.15}
+.sub{color:var(--muted);margin-bottom:12px}
+h2{font-size:18px;color:#fff;background:var(--navy);padding:7px 12px;border-radius:6px;margin:30px 0 10px;break-after:avoid}
+h3{font-size:15px;color:var(--navy);margin:18px 0 6px;break-after:avoid;border-left:4px solid var(--navy2);padding-left:8px}
+p{margin:6px 0}
+ul,ol{margin:4px 0;padding-left:20px} li{margin:3px 0}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:12px 0;padding:10px;background:var(--soft);border-radius:8px}
+.toc a{color:var(--navy);text-decoration:none;font-size:13px}
+.toc a:hover{text-decoration:underline}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-bd);border-radius:8px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.hy .t{font-weight:800;color:var(--hy-ink);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.note{background:var(--soft);border-left:5px solid var(--navy);padding:9px 12px;border-radius:0 6px 6px 0;margin:10px 0;break-inside:avoid}
+.mn{font-style:italic;color:#3d4a66}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;break-inside:auto}
+tr{break-inside:avoid}
+th{background:#dfe6f2;text-align:left;padding:6px 8px;border:1px solid #c3cde0;color:#15294b}
+td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafbfd}
+td.rowh{font-weight:700;background:#f2f5fa !important;white-space:nowrap}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.p-t{background:#e3ecfb;color:#1f4fa0}.p-z{background:#e5f5ea;color:#1f7a41}.p-b{background:#fff0d6;color:#9a5b00}.p-m{background:#f6e3f3;color:#8a2a7b}.p-c{background:#e9e6fb;color:#4b3aa8}.p-p{background:#eceff3;color:#44506a}
+.art{color:var(--art);font-weight:700}.nrv{color:var(--nerve);font-weight:700}.vn{color:var(--vein);font-weight:700}
+/* flow chains */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;break-inside:avoid}
+.flow .n{background:#fff;border:1.5px solid var(--navy2);border-radius:7px;padding:5px 9px;font-size:13px;font-weight:600;color:#15294b}
+.flow .n.a{border-color:var(--art);color:#8e2319;background:#fff7f6}
+.flow .n.v{border-color:var(--vein);color:#1c3f82;background:#f5f8ff}
+.flow .n.nv{border-color:var(--nerve);color:#6e5000;background:#fffbef}
+.flow .n.g{border-color:#2f8a4f;color:#1d5e34;background:#f1faf4}
+.flow .n.end{background:var(--navy);color:#fff;border-color:var(--navy)}
+.flow .ar{color:var(--navy2);font-weight:900;font-size:16px}
+.flow .lab{font-size:11.5px;color:var(--muted);font-style:italic}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;break-inside:avoid;background:#fff}
+.card h4{margin:0 0 6px;color:var(--navy);font-size:14px}
+.card.red{border-top:5px solid var(--r1b)}.card.green{border-top:5px solid var(--g1b)}.card.purple{border-top:5px solid var(--p1b)}.card.navy{border-top:5px solid var(--navy)}.card.gold{border-top:5px solid var(--hy-bd)}
+/* scalp layers */
+.scalp{border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:8px 0;break-inside:avoid}
+.scalp div{display:grid;grid-template-columns:44px 210px 1fr;align-items:center;padding:7px 10px;font-size:13px}
+.scalp .L{font-size:22px;font-weight:900;color:var(--navy)}
+.scalp .s1{background:#fbe5d6}.scalp .s2{background:#f6d0c2}.scalp .s3{background:#e9edf5}.scalp .s4{background:#fff6c7;outline:2px solid var(--hy-bd);outline-offset:-2px}.scalp .s5{background:#dcdfe6}
+/* CN VII road */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:10px 0;break-inside:avoid}
+.stop{border:2px solid var(--navy2);padding:10px;position:relative;background:#fff}
+.stop:not(:last-child){border-right:none}
+.stop .hd{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stop .ti{font-weight:800;color:var(--navy);margin:2px 0 6px}
+.stop:not(:last-child)::after{content:"➜";position:absolute;right:-13px;top:40%;background:#fff;color:var(--navy2);font-size:20px;z-index:2;line-height:1}
+/* tree */
+.tree{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;break-inside:avoid}
+.tree .col{border-radius:8px;padding:10px;border:1px solid var(--line)}
+.tree .col h4{margin:0 0 4px}
+.tree .trunk{grid-column:1/-1;text-align:center;background:var(--navy);color:#fff;border-radius:8px;padding:8px;font-weight:700}
+.exc{background:var(--hy-bg);border:1px solid var(--hy-bd);border-radius:4px;padding:0 5px;font-weight:700}
+/* foramina row */
+.fx{display:flex;gap:10px;margin:8px 0;break-inside:avoid}
+.fx .f{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center}
+.fx .f .nm{font-weight:800;color:var(--navy)}
+.fx .f .ct{font-size:12.5px}
+.fig{border:1px solid var(--line);border-radius:10px;padding:8px;margin:10px 0;background:#fcfdff;break-inside:avoid}
+.fig svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;background:#fff;break-inside:avoid}
+details summary{cursor:pointer;font-weight:600;color:#15294b}
+details .ans{margin-top:6px;padding:6px 10px;background:var(--g1);border-left:4px solid var(--g1b);border-radius:0 6px 6px 0}
+.foot{margin-top:30px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;border-radius:5px;padding:0 6px;font-size:12px;font-weight:700}
+.up{background:#e3ecfb;color:#1f4fa0}.dn{background:#fdecea;color:#9b2a1e}.md{background:#eceff3;color:#44506a}
+@media (max-width:760px){
+  .grid2,.grid3,.road,.tree{grid-template-columns:1fr}
+  .stop:not(:last-child){border-right:2px solid var(--navy2);border-bottom:none}
+  .stop:not(:last-child)::after{content:"⬇";right:45%;top:auto;bottom:-13px}
+  .scalp div{grid-template-columns:34px 1fr}.scalp div span:last-child{grid-column:1/-1}
+  .fx{flex-direction:column}
+  body{padding:16px}
+}
+@media print{
+  html,body{background:#fff}
+  body{max-width:none;padding:0;font-size:11.3px}
+  h1{font-size:24px} h2{font-size:14.5px;margin:18px 0 8px} h3{font-size:12.8px}
+  table{font-size:10.6px} td,th{padding:4px 6px}
+  .flow .n{font-size:10.8px;padding:3px 7px}
+  .toc{display:none}
+  .pb{break-before:page}
+  details{border:none;padding:4px 0}
+  .card,.hy,.note,.fig,.flow,.road,.tree,.scalp{break-inside:avoid}
+}
+@page{size:Letter;margin:0.5in 0.5in 0.55in}
+</style>
+</head>
+<body>
+
+<div class="brand"><span><b>HoyaDocs</b> · HNSS Block 5 · Head &amp; Neck Anatomy</span><span>Updated 27 Sep 2026 · Rev 1.0</span></div>
+<h1>Lab 2 Exam-Day Review</h1>
+<div class="sub">Face · Parotid Region · Temporal &amp; Infratemporal Fossa — charts, pathways and comparisons for the practical and written exam.</div>
+
+<div class="toc">
+  <a href="#rules">1. Exam-day rules &amp; top traps</a>
+  <a href="#compare">2. Commonly compared items</a>
+  <a href="#facial">3. Muscles of facial expression</a>
+  <a href="#mastication">4. Muscles of mastication</a>
+  <a href="#together">5. Structures that travel together</a>
+  <a href="#latpt">6. Lateral pterygoid relationships</a>
+  <a href="#nerves">7. Nerve maps &amp; pathways</a>
+  <a href="#vessels">8. Arteries &amp; veins</a>
+  <a href="#glands">9. Glands &amp; parasympathetics</a>
+  <a href="#scalp">10. Scalp</a>
+  <a href="#clinical">11. Clinical correlations</a>
+  <a href="#check">12. Self-check questions</a>
+</div>
+
+<!-- ============ 1 ============ -->
+<h2 id="rules">1 · Exam-Day Rules &amp; Top Traps</h2>
+<div class="note"><b>✍️ Write it the way the key is written</b>
+<ul>
+<li>Use <b>full names</b>: “inferior alveolar nerve,” not “IAN” or “inf. alv. n.” Cranial nerves are the exception (CN V3 or mandibular nerve).</li>
+<li>CN V3 splits into <b>divisions</b> (anterior / posterior). Those divisions give off <b>branches</b>.</li>
+<li>CN VII branches are named <b>“[name] branch of CN VII”</b>. “Buccal nerve” on its own means the <b>CN V3</b> sensory nerve.</li>
+<li>Spelling on the practical counts: <b>alveolar · orbicularis oculi / oris · pterion · infratemporal · lingual · zygomaticus · epicranial aponeurosis</b>.</li>
+</ul></div>
+
+<div class="hy"><div class="t">★ High-yield traps</div>
+<ol>
+<li><b>Chorda tympani → submandibular ganglion</b> → submandibular + sublingual glands. It never supplies the lacrimal gland (that is the greater petrosal nerve).</li>
+<li><b>Danger triangle:</b> facial vein → angular vein → superior ophthalmic vein → cavernous sinus. <b>CN VI</b> is affected first.</li>
+<li><b>Mental foramen</b> sits below the <b>lower 2nd premolar</b>. The parotid duct opens opposite the <b>upper 2nd molar</b>.</li>
+<li><b>Epicranial aponeurosis</b> (galea aponeurotica) is SCALP layer 3. The <b>dangerous layer</b> is layer 4, loose areolar tissue.</li>
+<li><b>Zygomaticus major and minor</b> = zygomatic <b>+ buccal</b> branches of CN VII.</li>
+<li><b>Platysma</b> sits in the neck but is a <b>muscle of facial expression</b> (arch 2) → cervical branch of CN VII.</li>
+<li>CN VII <b>passes through</b> the parotid gland but does <b>not</b> supply it. Secretomotor = CN IX → otic ganglion → auriculotemporal nerve.</li>
+<li><b>Buccinator</b>: motor = buccal branch of CN VII; sensation over it = buccal nerve (CN V3).</li>
+<li><b>Anterior belly of digastric</b> = CN V3 (nerve to mylohyoid). <b>Posterior belly</b> = CN VII.</li>
+<li><b>Inferior alveolar nerve</b> comes from the <b>posterior</b> division of CN V3.</li>
+</ol></div>
+
+<!-- ============ 2 ============ -->
+<h2 id="compare">2 · Commonly Compared Items</h2>
+
+<h3>Danger zone of the scalp vs danger triangle of the face</h3>
+<div class="grid2">
+  <div class="card red"><h4>🧢 Danger zone (scalp)</h4>
+    <p><b>Where:</b> SCALP layer 4, the <b>loose areolar tissue</b></p>
+    <div class="flow"><span class="n">Scalp infection / blood</span><span class="ar">→</span><span class="n v">Emissary veins</span><span class="ar">→</span><span class="n v">Diploic veins</span><span class="ar">→</span><span class="n end">Dural venous sinuses</span></div>
+    <p><b>Risk:</b> meningitis, sinus thrombosis, skull osteomyelitis.</p>
+    <p><b>Also:</b> blood spreads freely in this layer. The frontal belly has no bony attachment, so blood tracks into the eyelids → <b>bilateral black eyes</b>.</p>
+  </div>
+  <div class="card red"><h4>👃 Danger triangle (face)</h4>
+    <p><b>Where:</b> corners of the mouth → bridge of the nose</p>
+    <div class="flow"><span class="n v">Facial vein</span><span class="ar">→</span><span class="n v">Angular vein</span><span class="ar">→</span><span class="n v">Superior ophthalmic vein</span><span class="ar">→</span><span class="n end">Cavernous sinus</span></div>
+    <div class="flow"><span class="lab">Deep route:</span><span class="n v">Deep facial vein</span><span class="ar">→</span><span class="n v">Pterygoid venous plexus</span><span class="ar">→</span><span class="n v">Emissary veins</span><span class="ar">→</span><span class="n end">Cavernous sinus</span></div>
+    <p><b>Risk:</b> cavernous sinus thrombosis. <b>CN VI first</b> (lateral gaze palsy), then CN III, IV, V1, V2. Proptosis, chemosis.</p>
+    <p class="mn">“Angry Superheroes Crash.”</p>
+  </div>
+</div>
+<div class="hy"><div class="t">Shared principle</div>Both routes use <b>valveless veins</b>, so blood and infection can flow <b>backward</b> into the skull.</div>
+
+<h3>Epidural vs subdural hematoma</h3>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Epidural</th><th>Subdural</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Vessel</td><td><span class="art">Middle meningeal artery</span> (pterion fracture)</td><td><span class="vn">Bridging veins</span></td></tr>
+<tr><td class="rowh">Space</td><td>Skull ↔ dura</td><td>Dura ↔ arachnoid</td></tr>
+<tr><td class="rowh">CT shape</td><td><b>Biconvex / lens</b></td><td><b>Crescent</b></td></tr>
+<tr><td class="rowh">Sutures</td><td>Does <b>not</b> cross</td><td><b>Crosses</b></td></tr>
+<tr><td class="rowh">Classic clue</td><td>Lucid interval → rapid decline</td><td>Elderly, alcohol use, slower onset</td></tr>
+</tbody></table></div>
+<p class="mn">Epidural = Egg (lens) + Artery. Subdural = Sickle (crescent) + veins.</p>
+
+<h3>Same name, different nerve</h3>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Buccal branch of CN VII</th><th>Buccal nerve (CN V3)</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Type</td><td><b>Motor</b></td><td><b>Sensory</b></td></tr>
+<tr><td class="rowh">Origin</td><td>Anterior border of parotid gland</td><td>Anterior division of CN V3; exits <b>between the heads of lateral pterygoid</b></td></tr>
+<tr><td class="rowh">Course</td><td>Across masseter with the parotid duct</td><td>On buccinator, then pierces it</td></tr>
+<tr><td class="rowh">Supplies</td><td>Buccinator, orbicularis oris, zygomaticus major / minor</td><td>Skin of cheek, buccal mucosa, buccal gingiva of lower molars</td></tr>
+<tr><td class="rowh">Lesion</td><td>Food collects in the vestibule, drooling</td><td>Numb cheek</td></tr>
+</tbody></table></div>
+
+<h3>Superficial temporal artery vs deep temporal arteries</h3>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Superficial temporal artery</th><th>Deep temporal arteries (anterior + posterior)</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Origin</td><td><b>Terminal branch</b> of external carotid artery (in parotid)</td><td>Maxillary artery, <b>part 2</b> (pterygoid part)</td></tr>
+<tr><td class="rowh">Position</td><td><b>Superficial</b> to temporalis fascia, anterior to tragus</td><td><b>Deep</b> to temporalis, on the bone</td></tr>
+<tr><td class="rowh">Travels with</td><td>Auriculotemporal nerve (behind it)</td><td>Deep temporal nerves (anterior division of CN V3)</td></tr>
+<tr><td class="rowh">Clinical</td><td>Pulse anterior to tragus; biopsy for giant cell arteritis</td><td>Supply temporalis</td></tr>
+</tbody></table></div>
+
+<h3>Carotid sinus vs carotid body</h3>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Carotid sinus</th><th>Carotid body</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Location</td><td>Dilation at origin of internal carotid artery</td><td>Small mass at the bifurcation (C4)</td></tr>
+<tr><td class="rowh">Senses</td><td><b>Blood pressure</b> (baroreceptor)</td><td><b>O<sub>2</sub> / CO<sub>2</sub> / pH</b> (chemoreceptor)</td></tr>
+<tr><td class="rowh">Nerve</td><td colspan="2"><b>CN IX</b> for both (carotid sinus nerve). Aortic arch receptors use <b>CN X</b>. <span class="mn">“IX at the neck, X at the arch.”</span></td></tr>
+</tbody></table></div>
+
+<h3>Eye and eyelid: what the deficit tells you</h3>
+<div class="tbl"><table>
+<thead><tr><th>Finding</th><th>Structure</th><th>Nerve</th><th>Key point</th></tr></thead>
+<tbody>
+<tr><td>Can’t <b>close</b> the eye</td><td>Orbicularis oculi</td><td>CN VII (temporal + zygomatic branches)</td><td>Risk of <b>exposure keratitis</b>; no ptosis</td></tr>
+<tr><td><b>Complete</b> ptosis</td><td>Levator palpebrae superioris (skeletal)</td><td>CN III</td><td>Plus “down and out” eye</td></tr>
+<tr><td><b>Mild</b> ptosis (~2 mm)</td><td>Superior tarsal (Müller’s) muscle (smooth)</td><td>Sympathetics</td><td>Horner: ptosis, miosis, anhidrosis</td></tr>
+<tr><td>Can’t look <b>down</b></td><td>Inferior rectus <b>paralyzed</b></td><td>CN III</td><td>Muscle loses its own action</td></tr>
+<tr><td>Can’t look <b>up</b> after orbital floor fracture</td><td>Inferior rectus <b>entrapped</b></td><td>—</td><td>Tethered muscle blocks the <b>opposite</b> action; vertical diplopia</td></tr>
+</tbody></table></div>
+
+<h3>Sensory foramina of the face: one per CN V division</h3>
+<div class="fx">
+  <div class="f"><div class="nm">Supraorbital notch / foramen</div><div class="ct">Supraorbital nerve + artery<br><b>CN V1</b> (from frontal nerve)<br>Forehead, upper eyelid, scalp to vertex</div></div>
+  <div class="f"><div class="nm">Infraorbital foramen</div><div class="ct">Infraorbital nerve + artery<br><b>CN V2</b><br>Lower eyelid, side of nose, cheek, <b>upper lip</b></div></div>
+  <div class="f"><div class="nm">Mental foramen</div><div class="ct">Mental nerve + artery<br><b>CN V3</b> (from inferior alveolar nerve)<br>Chin, <b>lower lip</b> · below <b>lower 2nd premolar</b></div></div>
+</div>
+<p class="cap">All three foramina line up roughly on a vertical line through the pupil.</p>
+
+<!-- ============ 3 ============ -->
+<h2 id="facial">3 · Muscles of Facial Expression</h2>
+<div class="note">All muscles of facial expression come from <b>pharyngeal arch 2</b>, sit in the <b>superficial fascia</b>, insert into <b>skin</b>, and are supplied by <b>CN VII</b>. Sensation over them comes from <b>CN V</b>.</div>
+
+<div class="flow" style="justify-content:center">
+<span class="pill p-t">T · Temporal</span><span class="pill p-z">Z · Zygomatic</span><span class="pill p-b">B · Buccal</span><span class="pill p-m">M · Mandibular</span><span class="pill p-c">C · Cervical</span><span class="pill p-p">PA · Posterior auricular</span>
+<span class="lab">“To Zanzibar By Motor Car” — top to bottom</span>
+</div>
+
+<div class="tbl"><table>
+<thead><tr><th>Muscle</th><th>Where</th><th>Action → expression</th><th>CN VII branch</th><th>High-yield / clinical</th></tr></thead>
+<tbody>
+<tr><td><b>Frontal belly</b> of occipitofrontalis</td><td>Forehead; no bony attachment; joins epicranial aponeurosis</td><td>Raises eyebrows, wrinkles forehead → <b>surprise</b></td><td><span class="pill p-t">T</span></td><td>No bony attachment → scalp blood tracks into eyelids</td></tr>
+<tr><td><b>Occipital belly</b> of occipitofrontalis</td><td>Superior nuchal line → aponeurosis</td><td><b>Retracts scalp</b></td><td><span class="pill p-p">PA</span></td><td>Branch given off <b>before</b> the parotid</td></tr>
+<tr><td><b>Orbicularis oculi</b> — orbital part</td><td>On the bony orbital rim</td><td>Tight closure → <b>squint</b></td><td><span class="pill p-t">T</span> <span class="pill p-z">Z</span></td><td rowspan="2">Efferent limb of corneal reflex. Paralysis → can’t close eye → <b>exposure keratitis</b></td></tr>
+<tr><td><b>Orbicularis oculi</b> — palpebral part</td><td>Within the eyelids</td><td>Gentle closure → <b>blink</b></td><td><span class="pill p-t">T</span> <span class="pill p-z">Z</span></td></tr>
+<tr><td><b>Zygomaticus major</b></td><td>Zygomatic bone → <b>angle of mouth</b></td><td>Corner of mouth up and out → <b>smile</b></td><td><span class="pill p-z">Z</span> <span class="pill p-b">B</span></td><td>Lateral to minor</td></tr>
+<tr><td><b>Zygomaticus minor</b></td><td>Zygomatic bone → <b>upper lip</b></td><td>Elevates upper lip → <b>sneer / sadness</b></td><td><span class="pill p-z">Z</span> <span class="pill p-b">B</span></td><td>Deepens nasolabial fold</td></tr>
+<tr><td><b>Buccinator</b></td><td>Pterygomandibular raphe + maxilla/mandible → angle of mouth</td><td>Presses cheek to teeth, blowing → <b>trumpeter</b></td><td><span class="pill p-b">B</span></td><td>Pierced by <b>parotid duct</b>. Raphe shared with superior constrictor. Paralysis → food in <b>oral vestibule</b>. Sensation = buccal nerve (V3)</td></tr>
+<tr><td><b>Orbicularis oris</b></td><td>Sphincter within lips</td><td>Closes / purses lips → <b>kiss, whistle</b></td><td><span class="pill p-b">B</span> upper · <span class="pill p-m">M</span> lower</td><td>Paralysis → drooling, liquid leaks from that side</td></tr>
+<tr><td><b>Depressor anguli oris</b></td><td>Oblique line of mandible → angle of mouth (triangular)</td><td>Pulls <b>corner</b> of mouth down → <b>frown</b></td><td><span class="pill p-m">M</span></td><td>“Anguli” = angle. Antagonist of zygomaticus major</td></tr>
+<tr><td><b>Mentalis</b></td><td>Mandible below incisors → chin skin</td><td>Elevates / protrudes lower lip, wrinkles chin → <b>pout, doubt</b></td><td><span class="pill p-m">M</span></td><td>Over the mental protuberance</td></tr>
+<tr><td><b>Platysma</b></td><td>Superficial fascia of upper chest → mandible, mouth</td><td>Tenses neck skin, depresses mouth → <b>grimace</b></td><td><span class="pill p-c">C</span></td><td>External jugular vein and cervical plexus nerves lie deep to it</td></tr>
+</tbody></table></div>
+
+<div class="grid2">
+<div class="card navy"><h4>Opposite pairs at the mouth</h4>
+<div class="flow"><span class="n">Zygomaticus major</span><span class="ar">⇅</span><span class="n">Depressor anguli oris</span><span class="lab">corner of mouth</span></div>
+<div class="flow"><span class="n">Zygomaticus minor</span><span class="ar">⇅</span><span class="n">Depressor labii inferioris</span><span class="lab">upper vs lower lip</span></div>
+<div class="flow"><span class="n">Frontal belly</span><span class="ar">⇄</span><span class="n">Occipital belly</span><span class="lab">scalp forward / back</span></div>
+</div>
+<div class="card gold"><h4>Branch lesions at a glance</h4>
+<ul>
+<li><span class="pill p-t">T</span> Can’t raise eyebrow on that side</li>
+<li><span class="pill p-z">Z</span> Can’t close eye tightly</li>
+<li><span class="pill p-b">B</span> Food in vestibule, can’t puff cheek or whistle</li>
+<li><span class="pill p-m">M</span> Lower lip can’t depress → asymmetric smile (at risk in submandibular surgery)</li>
+<li><span class="pill p-c">C</span> Weak platysma (minor)</li>
+</ul></div>
+</div>
+<p class="mn">Hand trick: palm over the ear, fingers spread across the face. Thumb = temporal, index = zygomatic, middle = buccal, ring = mandibular, pinky = cervical.</p>
+
+<!-- ============ 4 ============ -->
+<h2 id="mastication">4 · Muscles of Mastication (Arch 1 · CN V3)</h2>
+<div class="tbl"><table>
+<thead><tr><th>Muscle</th><th>Attachments</th><th>Action</th><th>Nerve</th><th>Key point</th></tr></thead>
+<tbody>
+<tr><td><b>Masseter</b></td><td>Zygomatic arch → lateral ramus and angle</td><td><b>Elevates</b> (closes); superficial part helps protrude</td><td>Masseteric nerve (anterior division) via mandibular notch</td><td>Parotid duct crosses its surface</td></tr>
+<tr><td><b>Temporalis</b></td><td>Temporal fossa → <b>coronoid process</b> (deep to zygomatic arch)</td><td>Vertical fibers <b>elevate</b>; posterior horizontal fibers <b>retract</b></td><td>Deep temporal nerves (anterior division)</td><td>Temporal fossa communicates with the infratemporal fossa deep to the arch</td></tr>
+<tr><td><b>Medial pterygoid</b></td><td>Medial surface of lateral pterygoid plate → medial angle</td><td><b>Elevates</b>, helps protrude and grind</td><td>Nerve to medial pterygoid (<b>main trunk</b>)</td><td>“Sling” with masseter. Pterygomandibular space lies between it and the ramus</td></tr>
+<tr><td><b>Lateral pterygoid</b></td><td>Upper head: greater wing · Lower head: lateral surface of lateral pterygoid plate → neck of condyle + TMJ disc</td><td><b>Depresses + protrudes</b>; one side → chin to <b>opposite</b> side</td><td>Nerve to lateral pterygoid (anterior division)</td><td><b>Only opener.</b> Anterior TMJ dislocation</td></tr>
+</tbody></table></div>
+<div class="grid2">
+<div class="card green"><h4>“M’s Munch, Lateral Lowers”</h4>
+<p><b>M</b>asseter, <b>M</b>edial pterygoid, te<b>M</b>poralis = close. <b>L</b>ateral pterygoid = open.</p>
+<div class="flow"><span class="n">Protrude</span><span class="ar">→</span><span class="n g">Lateral pterygoid (+ medial)</span></div>
+<div class="flow"><span class="n">Retract</span><span class="ar">→</span><span class="n g">Posterior fibers of temporalis</span></div>
+<div class="flow"><span class="n">Side to side</span><span class="ar">→</span><span class="n g">Pterygoids of one side → chin to opposite side</span></div>
+</div>
+<div class="card red"><h4>Right CN V3 lesion</h4>
+<div class="flow"><span class="n">Right pterygoids weak</span><span class="ar">→</span><span class="n">Left lateral pterygoid unopposed</span><span class="ar">→</span><span class="n end">Jaw deviates RIGHT (toward lesion)</span></div>
+<p>Also weak bite on the right, ipsilateral facial sensory loss (V3 territory), and general sensation lost on the anterior 2/3 of the tongue. <b>No loss of tears or nasal secretion</b> (that is CN VII).</p>
+</div>
+</div>
+<div class="note"><b>CN V3 supplies 8 muscles:</b> “4 chewers, 2 tensors, 2 under the chin” — masseter, temporalis, medial pterygoid, lateral pterygoid · tensor tympani, tensor veli palatini · mylohyoid, anterior belly of digastric.</div>
+
+<!-- ============ 5 ============ -->
+<h2 id="together">5 · Structures That Travel Together</h2>
+<div class="hy"><div class="t">Rule</div>Branches of the maxillary artery usually travel with the <b>nerve of the same name</b>. Part 2 follows the <b>anterior division of CN V3</b>; part 3 follows <b>CN V2</b>. Know the nerve → you know the artery.</div>
+
+<h3>Maxillary artery part 3 ↔ CN V2 (pterygopalatine fossa)</h3>
+<div class="tbl"><table>
+<thead><tr><th>Artery</th><th></th><th>CN V2 nerve</th><th>Route / opening</th><th>Territory</th></tr></thead>
+<tbody>
+<tr><td class="art">Posterior superior alveolar artery</td><td>⟷</td><td class="nrv">Posterior superior alveolar nerve</td><td>Down onto the back of the maxilla (branches <b>before</b> the orbit)</td><td>Upper molars, maxillary sinus</td></tr>
+<tr><td class="art">Infraorbital artery</td><td>⟷</td><td class="nrv">Infraorbital nerve</td><td>Inferior orbital fissure → infraorbital groove → canal → <b>infraorbital foramen</b></td><td>Lower eyelid, side of nose, cheek, upper lip</td></tr>
+<tr><td class="art">↳ Middle + anterior superior alveolar arteries</td><td>⟷</td><td class="nrv">Middle + anterior superior alveolar nerves</td><td>Branch <b>inside</b> the infraorbital canal</td><td>Premolars, canine, incisors</td></tr>
+<tr><td class="art">Descending palatine → greater + lesser palatine arteries</td><td>⟷</td><td class="nrv">Greater + lesser palatine nerves</td><td>Palatine canal → greater / lesser palatine foramina</td><td>Hard and soft palate</td></tr>
+<tr><td class="art">Sphenopalatine artery (terminal)</td><td>⟷</td><td class="nrv">Nasopalatine + posterior nasal nerves</td><td><b>Sphenopalatine foramen</b> → nasal cavity</td><td>Lateral wall and septum · <b>posterior epistaxis</b></td></tr>
+<tr><td class="art">Artery of the pterygoid canal</td><td>⟷</td><td class="nrv">Nerve of the pterygoid canal</td><td>Pterygoid canal (backward)</td><td>Carries greater + deep petrosal fibers (not V2 itself)</td></tr>
+<tr><td class="art">Pharyngeal artery</td><td>⟷</td><td class="nrv">Pharyngeal nerve</td><td>Backward to nasopharynx</td><td>Roof of nasopharynx</td></tr>
+</tbody></table></div>
+<p class="mn">Order through the fossa: “Teeth, Eye, Palate, (back), Nose” — posterior superior alveolar first, sphenopalatine last.</p>
+
+<h3>Maxillary artery parts 1–2 ↔ CN V3</h3>
+<div class="tbl"><table>
+<thead><tr><th>Part</th><th>Artery</th><th></th><th>CN V3 nerve</th><th>Opening / route</th></tr></thead>
+<tbody>
+<tr><td>1</td><td class="art">Middle meningeal artery</td><td>⟷</td><td class="nrv">Meningeal branch of CN V3 (main trunk)</td><td><b>Foramen spinosum</b> (nerve re-enters skull)</td></tr>
+<tr><td>1</td><td class="art">Accessory meningeal artery</td><td>⟷</td><td class="nrv">CN V3 trunk</td><td>Foramen ovale</td></tr>
+<tr><td>1</td><td class="art">Inferior alveolar artery</td><td>⟷</td><td class="nrv">Inferior alveolar nerve (posterior division)</td><td><b>Mandibular foramen</b> (under the lingula) → mandibular canal</td></tr>
+<tr><td>1</td><td class="art">↳ Mylohyoid artery</td><td>⟷</td><td class="nrv">Nerve to mylohyoid</td><td>Mylohyoid groove → mylohyoid, anterior belly of digastric</td></tr>
+<tr><td>1</td><td class="art">↳ Mental artery</td><td>⟷</td><td class="nrv">Mental nerve</td><td><b>Mental foramen</b> (below lower 2nd premolar) → chin, lower lip</td></tr>
+<tr><td>2</td><td class="art">Deep temporal arteries</td><td>⟷</td><td class="nrv">Deep temporal nerves (anterior division)</td><td>Up, <b>deep to temporalis</b></td></tr>
+<tr><td>2</td><td class="art">Masseteric artery</td><td>⟷</td><td class="nrv">Masseteric nerve</td><td>Laterally through <b>mandibular notch</b></td></tr>
+<tr><td>2</td><td class="art">Pterygoid branches</td><td>⟷</td><td class="nrv">Nerves to pterygoids</td><td>Into lateral / medial pterygoid</td></tr>
+<tr><td>2</td><td class="art">Buccal artery</td><td>⟷</td><td class="nrv">Buccal nerve (sensory)</td><td>Forward onto buccinator</td></tr>
+</tbody></table></div>
+
+<h3>Other paired relationships</h3>
+<div class="tbl"><table>
+<thead><tr><th>Pair</th><th>Relationship</th><th>Why it’s tested</th></tr></thead>
+<tbody>
+<tr><td><span class="art">Superficial temporal artery</span> + <span class="nrv">auriculotemporal nerve</span></td><td>Ascend together <b>anterior to the tragus</b>; nerve runs <b>behind</b> the artery (superficial temporal vein alongside)</td><td>Identify the artery by its companion nerve; pulse point</td></tr>
+<tr><td><span class="nrv">Auriculotemporal nerve</span> around <span class="art">middle meningeal artery</span></td><td>Two roots <b>encircle</b> the artery, then unite and run back deep to the neck of the mandible</td><td>Classic identification landmark in the infratemporal fossa</td></tr>
+<tr><td><span class="art">Deep temporal arteries</span> + <span class="nrv">deep temporal nerves</span></td><td>Run up together between temporalis and the skull</td><td>Deep vs superficial temporal comparisons</td></tr>
+<tr><td><span class="nrv">Lingual nerve</span> + submandibular duct</td><td><b>Double-crosses</b> the duct: lateral → under → medial</td><td>Surgery on the duct or stones risks the nerve</td></tr>
+<tr><td><span class="nrv">Chorda tympani</span> → <span class="nrv">lingual nerve</span></td><td>Joins it <b>from behind</b>, deep to lateral pterygoid</td><td>Lingual nerve distal to this carries taste + parasympathetics</td></tr>
+<tr><td><span class="nrv">Lingual</span> + <span class="nrv">inferior alveolar nerves</span></td><td>Lie together in the <b>pterygomandibular space</b> (medial pterygoid ↔ ramus); lingual is anterior</td><td>Inferior alveolar nerve block often numbs the tongue too</td></tr>
+<tr><td><span class="art">Inferior alveolar artery</span> + <span class="nrv">inferior alveolar nerve</span></td><td>Enter the <b>mandibular foramen</b> together under the lingula</td><td>Nerve gives off nerve to mylohyoid just before entering</td></tr>
+<tr><td>Parotid duct + <span class="nrv">buccal branch of CN VII</span></td><td>Cross masseter together; <span class="art">transverse facial artery</span> runs just above</td><td>Duct turns medially at the anterior border of masseter</td></tr>
+<tr><td><span class="nrv">Mandibular branch of CN VII</span> over <span class="art">facial artery</span> + <span class="vn">facial vein</span></td><td>Crosses <b>superficial</b> to both at the lower border of the mandible</td><td>At risk in submandibular gland surgery</td></tr>
+<tr><td><span class="art">Facial artery</span> + <span class="vn">facial vein</span></td><td>Artery tortuous and <b>anterior</b>; vein straighter and <b>posterior</b></td><td>Tell them apart on the specimen</td></tr>
+<tr><td>Inside the parotid gland</td><td>Superficial → deep: <span class="nrv">CN VII</span> → <span class="vn">retromandibular vein</span> → <span class="art">external carotid artery</span></td><td class="mn">“Never Very Arterial”</td></tr>
+<tr><td><span class="art">Middle meningeal artery</span> + <span class="nrv">meningeal branch of CN V3</span></td><td>Share the <b>foramen spinosum</b></td><td>Foramen contents</td></tr>
+</tbody></table></div>
+
+<!-- ============ 6 ============ -->
+<h2 id="latpt">6 · Lateral Pterygoid: The Key Landmark of the Infratemporal Fossa</h2>
+<div class="fig">
+<svg viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="ah" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="8" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#44506a"/></marker>
+  </defs>
+  <text x="14" y="22" font-size="12" font-weight="700" fill="#5a6478">◀ ANTERIOR (face)</text>
+  <text x="886" y="22" font-size="12" font-weight="700" fill="#5a6478" text-anchor="end">POSTERIOR (ear) ▶</text>
+  <rect x="140" y="86" width="16" height="210" rx="4" fill="#cfd3dc"/>
+  <text x="132" y="104" text-anchor="end" font-size="11" fill="#44506a">Greater wing</text>
+  <text x="132" y="117" text-anchor="end" font-size="11" fill="#44506a">(upper head)</text>
+  <text x="132" y="272" text-anchor="end" font-size="11" fill="#44506a">Lateral pterygoid</text>
+  <text x="132" y="285" text-anchor="end" font-size="11" fill="#44506a">plate (lower head)</text>
+  <circle cx="622" cy="120" r="26" fill="#dfe2e8" stroke="#aeb4c0"/>
+  <rect x="604" y="130" width="36" height="220" rx="8" fill="#dfe2e8" stroke="#aeb4c0"/>
+  <text x="626" y="300" text-anchor="middle" font-size="11" fill="#44506a" transform="rotate(-90 626 300)">Neck of mandible</text>
+  <text x="622" y="86" text-anchor="middle" font-size="11" fill="#44506a">Condyle + TMJ disc</text>
+  <polygon points="156,92 156,160 604,150 604,124" fill="#e7a9a0" stroke="#b86b60"/>
+  <polygon points="156,186 604,160 604,196 156,286" fill="#e7a9a0" stroke="#b86b60"/>
+  <text x="330" y="134" font-size="12.5" font-weight="700" fill="#6d2a22">UPPER HEAD</text>
+  <text x="260" y="258" font-size="12.5" font-weight="700" fill="#6d2a22">LOWER HEAD</text>
+  <!-- maxillary artery -->
+  <path d="M860,330 C780,320 720,300 646,268" stroke="#c0392b" stroke-width="5" fill="none"/>
+  <path d="M646,268 C630,256 614,240 604,222" stroke="#c0392b" stroke-width="5" fill="none" stroke-dasharray="6 5"/>
+  <path d="M604,212 C520,214 400,214 260,205 C200,202 160,200 150,200" stroke="#c0392b" stroke-width="5" fill="none"/>
+  <path d="M150,200 C110,204 80,212 50,224" stroke="#c0392b" stroke-width="5" fill="none" marker-end="url(#ah)"/>
+  <text x="740" y="344" font-size="11.5" font-weight="700" fill="#8e2319">Maxillary artery · Part 1</text>
+  <text x="740" y="357" font-size="11" fill="#8e2319">(mandibular) behind neck</text>
+  <text x="740" y="370" font-size="11" fill="#8e2319">of mandible</text>
+  <text x="350" y="204" font-size="11" fill="#8e2319" font-weight="700">Part 2 (pterygoid) · on the muscle</text>
+  <text x="14" y="160" font-size="11" fill="#8e2319" font-weight="700">Part 3 →</text>
+  <text x="14" y="173" font-size="11" fill="#8e2319" font-weight="700">pterygomaxillary</text>
+  <text x="14" y="186" font-size="11" fill="#8e2319" font-weight="700">fissure</text>
+  <!-- MMA -->
+  <path d="M700,306 L700,60" stroke="#c0392b" stroke-width="3" fill="none" marker-end="url(#ah)"/>
+  <text x="710" y="58" font-size="11" fill="#8e2319" font-weight="700">Middle meningeal artery</text>
+  <text x="710" y="71" font-size="11" fill="#8e2319">→ foramen spinosum</text>
+  <!-- auriculotemporal -->
+  <path d="M662,206 C678,188 690,184 700,184 C710,184 722,190 736,200" stroke="#b8860b" stroke-width="3" fill="none"/>
+  <path d="M662,206 C678,222 690,226 700,226 C710,226 722,214 736,200" stroke="#b8860b" stroke-width="3" fill="none"/>
+  <path d="M736,200 L800,176" stroke="#b8860b" stroke-width="3" fill="none" marker-end="url(#ah)"/>
+  <text x="746" y="226" font-size="11" fill="#6e5000" font-weight="700">Auriculotemporal nerve</text>
+  <text x="746" y="239" font-size="11" fill="#6e5000">splits around the MMA</text>
+  <text x="746" y="252" font-size="11" fill="#6e5000">→ TMJ, ear, temple</text>
+  <!-- deep temporal -->
+  <path d="M260,101 L246,50" stroke="#b8860b" stroke-width="3" marker-end="url(#ah)"/>
+  <path d="M330,104 L324,50" stroke="#b8860b" stroke-width="3" marker-end="url(#ah)"/>
+  <text x="200" y="42" font-size="11" fill="#6e5000" font-weight="700">Deep temporal nerves + arteries → temporalis</text>
+  <!-- masseteric -->
+  <path d="M540,118 C548,96 556,80 562,58" stroke="#b8860b" stroke-width="3" fill="none" marker-end="url(#ah)"/>
+  <text x="530" y="62" font-size="11" fill="#6e5000" font-weight="700" text-anchor="end">Masseteric nerve</text>
+  <text x="530" y="75" font-size="11" fill="#6e5000" text-anchor="end">→ mandibular notch → masseter</text>
+  <!-- buccal -->
+  <path d="M340,170 C290,200 230,250 160,328" stroke="#b8860b" stroke-width="3" fill="none" marker-end="url(#ah)"/>
+  <text x="14" y="352" font-size="11" fill="#6e5000" font-weight="700">Buccal nerve</text>
+  <text x="14" y="365" font-size="11" fill="#6e5000">emerges BETWEEN the heads</text>
+  <text x="14" y="378" font-size="11" fill="#6e5000">→ cheek skin + mucosa</text>
+  <!-- lingual & IAN -->
+  <path d="M420,230 C400,300 360,360 324,424" stroke="#b8860b" stroke-width="3" fill="none" marker-end="url(#ah)"/>
+  <path d="M492,216 C490,300 486,360 484,424" stroke="#b8860b" stroke-width="3" fill="none" marker-end="url(#ah)"/>
+  <text x="312" y="428" font-size="11" fill="#6e5000" font-weight="700" text-anchor="end">Lingual nerve</text>
+  <text x="312" y="441" font-size="11" fill="#6e5000" text-anchor="end">(anterior) → tongue</text>
+  <text x="496" y="428" font-size="11" fill="#6e5000" font-weight="700">Inferior alveolar nerve</text>
+  <text x="496" y="441" font-size="11" fill="#6e5000">(posterior) → mandibular foramen</text>
+  <!-- chorda -->
+  <path d="M720,410 C630,370 520,330 412,300" stroke="#b8860b" stroke-width="2.2" fill="none" stroke-dasharray="6 4" marker-end="url(#ah)"/>
+  <text x="726" y="404" font-size="11" fill="#6e5000" font-weight="700">Chorda tympani (CN VII)</text>
+  <text x="726" y="417" font-size="11" fill="#6e5000">joins lingual from behind</text>
+  <!-- legend -->
+  <rect x="14" y="420" width="16" height="5" fill="#c0392b"/><text x="36" y="426" font-size="10.5" fill="#44506a">artery</text>
+  <rect x="80" y="420" width="16" height="5" fill="#b8860b"/><text x="102" y="426" font-size="10.5" fill="#44506a">nerve</text>
+  <rect x="144" y="416" width="14" height="11" fill="#e7a9a0" stroke="#b86b60"/><text x="164" y="426" font-size="10.5" fill="#44506a">muscle</text>
+</svg>
+<div class="cap">Lateral view · schematic, not to scale. Dashed artery segment = passes medial to the neck of the mandible. Dashed nerve = runs deep to the muscle.</div>
+</div>
+
+<div class="tbl"><table>
+<thead><tr><th>Position relative to lateral pterygoid</th><th>Structures</th></tr></thead>
+<tbody>
+<tr><td class="rowh">⬆ Upper border</td><td class="nrv">Deep temporal nerves (+ arteries) · masseteric nerve (+ artery)</td></tr>
+<tr><td class="rowh">↔ Between the two heads</td><td class="nrv">Buccal nerve (+ buccal artery). The maxillary artery sometimes passes here.</td></tr>
+<tr><td class="rowh">⬇ Lower border</td><td class="nrv">Lingual nerve (anterior) · inferior alveolar nerve (posterior) — chorda tympani joins the lingual nerve here</td></tr>
+<tr><td class="rowh">Lateral (superficial)</td><td>Ramus of the mandible, temporalis tendon, masseter · <span class="art">maxillary artery part 2</span> (usually) · <span class="vn">pterygoid venous plexus</span></td></tr>
+<tr><td class="rowh">Medial (deep)</td><td>Medial pterygoid · <span class="nrv">CN V3 trunk</span> (from foramen ovale) · <b>otic ganglion</b> · origin of <span class="art">middle meningeal artery</span> · <span class="nrv">chorda tympani</span></td></tr>
+<tr><td class="rowh">Posterior</td><td><span class="art">Maxillary artery part 1</span> behind the neck of the mandible · <span class="nrv">auriculotemporal nerve</span> around the middle meningeal artery · TMJ</td></tr>
+<tr><td class="rowh">Anterior</td><td><span class="art">Maxillary artery part 3</span> → <b>pterygomaxillary fissure</b> → pterygopalatine fossa</td></tr>
+</tbody></table></div>
+<div class="hy"><div class="t">High-yield</div>The lateral pterygoid defines the <b>3 parts of the maxillary artery</b>: behind it (mandibular), on it (pterygoid), beyond it (pterygopalatine). It is the <b>only</b> muscle of mastication that <b>opens</b> the jaw. In <b>anterior TMJ dislocation</b>, it pulls the condyle and disc forward over the articular eminence; the closing muscles then spasm. Reduce by pressing <b>down, then back</b>.</div>
+
+<!-- ============ 7 ============ -->
+<h2 id="nerves">7 · Nerve Maps &amp; Pathways</h2>
+
+<h3>CN V3 map</h3>
+<div class="tree">
+  <div class="trunk">CN V3 (mandibular nerve) — exits foramen ovale → infratemporal fossa</div>
+  <div class="col" style="background:#f5f7fb"><h4>Main trunk · “2 M’s”</h4>
+    <ul><li><b>M</b>eningeal branch → back up through foramen spinosum</li>
+    <li>Nerve to <b>M</b>edial pterygoid → also <b>tensor tympani + tensor veli palatini</b> <span class="mn">(Trunk → Tensors)</span></li></ul></div>
+  <div class="col" style="background:var(--g1)"><h4>Anterior division · mostly <u>moves</u></h4>
+    <p class="mn">“My Dog Likes Bones”</p>
+    <ul><li>Masseteric nerve</li><li>Deep temporal nerves</li><li>Nerve to lateral pterygoid</li><li><span class="exc">Buccal nerve = sensory exception</span></li></ul></div>
+  <div class="col" style="background:var(--p1)"><h4>Posterior division · mostly <u>feels</u></h4>
+    <p class="mn">“ALI”</p>
+    <ul><li><b>A</b>uriculotemporal nerve</li><li><b>L</b>ingual nerve</li><li><b>I</b>nferior alveolar nerve → mental + incisive nerves<br><span class="exc">Nerve to mylohyoid = motor exception</span></li></ul></div>
+</div>
+
+<h3>CN VII: three stops</h3>
+<div class="road">
+  <div class="stop"><div class="hd">Stop 1 · facial canal</div><div class="ti">“Good Sounds Come”</div>
+    <ul><li><b>G</b>reater petrosal nerve → tears</li><li>Nerve to <b>S</b>tapedius → dampens sound</li><li><b>C</b>horda tympani → taste anterior 2/3 + submandibular ganglion</li></ul></div>
+  <div class="stop"><div class="hd">Stop 2 · after stylomastoid foramen</div><div class="ti">“Please Don’t Stop”</div>
+    <ul><li><b>P</b>osterior auricular → occipital belly, ear muscles</li><li>Posterior belly of <b>D</b>igastric</li><li><b>S</b>tylohyoid</li></ul></div>
+  <div class="stop"><div class="hd">Stop 3 · within parotid gland</div><div class="ti">“To Zanzibar By Motor Car”</div>
+    <ul><li>Temporal · Zygomatic · Buccal · Mandibular · Cervical</li><li>Passes <b>through</b> the gland; does <b>not</b> supply it</li></ul></div>
+</div>
+<div class="note"><b>Localizing a CN VII lesion:</b> the farther back the lesion, the more is lost. At the stylomastoid foramen → facial muscles only. Above the chorda tympani → + taste and saliva. Above the nerve to stapedius → + hyperacusis. Above the greater petrosal nerve → + dry eye.</div>
+
+<h3>CN V2 path to the face (infraorbital nerve)</h3>
+<div class="flow"><span class="n nv">CN V2</span><span class="ar">→</span><span class="n">Foramen rotundum</span><span class="ar">→</span><span class="n">Pterygopalatine fossa</span><span class="lab">(posterior superior alveolar nerve leaves here)</span><span class="ar">→</span><span class="n">Inferior orbital fissure</span><span class="ar">→</span><span class="n">Infraorbital groove</span><span class="ar">→</span><span class="n">Infraorbital canal</span><span class="lab">(middle + anterior superior alveolar nerves)</span><span class="ar">→</span><span class="n end">Infraorbital foramen</span></div>
+<p class="mn">Superior alveolar nerves back → front: “P-M-A” (posterior before the orbit; middle and anterior in the canal).</p>
+
+<h3>Inferior alveolar nerve and its endings</h3>
+<div class="flow"><span class="n nv">Inferior alveolar nerve</span><span class="ar">→</span><span class="lab">gives</span><span class="n nv">Nerve to mylohyoid</span><span class="ar">→</span><span class="n">Mandibular foramen (lingula)</span><span class="ar">→</span><span class="n">Mandibular canal · lower teeth</span><span class="ar">→</span><span class="n end">Mental foramen</span></div>
+<div class="grid2"><div class="card gold"><h4>Mental nerve</h4>Leaves the bone → skin of <b>chin and lower lip</b> (inferior labial branches).</div><div class="card gold"><h4>Incisive nerve</h4>Stays <b>inside</b> the bone → lower canine, incisors and their gums.</div></div>
+
+<h3>Corneal reflex</h3>
+<div class="flow"><span class="n">Touch cornea</span><span class="ar">→</span><span class="n nv">Long ciliary nerves</span><span class="ar">→</span><span class="n nv">Nasociliary nerve</span><span class="ar">→</span><span class="n nv">CN V1 (afferent)</span><span class="ar">→</span><span class="n">Brainstem</span><span class="ar">→</span><span class="n nv">CN VII temporal + zygomatic branches (efferent)</span><span class="ar">→</span><span class="n end">Orbicularis oculi · both eyes blink</span></div>
+
+<h3>Taste and general sensation of the tongue</h3>
+<div class="tbl"><table>
+<thead><tr><th>Region</th><th>Taste</th><th>General sensation</th></tr></thead>
+<tbody>
+<tr><td>Anterior 2/3</td><td><b>CN VII</b> (chorda tympani via lingual nerve)</td><td><b>CN V3</b> (lingual nerve)</td></tr>
+<tr><td>Posterior 1/3</td><td><b>CN IX</b></td><td><b>CN IX</b></td></tr>
+<tr><td>Epiglottis region</td><td><b>CN X</b> (internal branch of superior laryngeal nerve)</td><td><b>CN X</b></td></tr>
+</tbody></table></div>
+<p class="mn">Taste front to back: “7 – 9 – 10.”</p>
+
+<h3>Foramina of the greater wing of the sphenoid (medial → lateral)</h3>
+<div class="fx">
+  <div class="f"><div class="nm">Foramen rotundum</div><div class="ct"><b>CN V2</b></div></div>
+  <div class="f"><div class="nm">Foramen ovale</div><div class="ct"><b>CN V3</b> · accessory meningeal artery · lesser petrosal nerve · emissary veins</div></div>
+  <div class="f"><div class="nm">Foramen spinosum</div><div class="ct"><b>Middle meningeal artery</b> · meningeal branch of CN V3</div></div>
+</div>
+<p class="mn">Trigeminal exits “Standing Room Only”: V1 superior orbital fissure · V2 rotundum · V3 ovale.</p>
+
+<!-- ============ 8 ============ -->
+<h2 id="vessels">8 · Arteries &amp; Veins</h2>
+
+<h3>External carotid artery: “3-1-2-2”</h3>
+<div class="flow"><span class="n a">Common carotid artery</span><span class="ar">→</span><span class="lab">bifurcates at C4 (upper border of thyroid cartilage)</span><span class="ar">→</span><span class="n a">External carotid artery</span><span class="lab">anteromedial · <b>has branches in the neck</b></span></div>
+<div class="tbl"><table>
+<thead><tr><th>Direction</th><th>Branch</th><th>Course</th></tr></thead>
+<tbody>
+<tr><td rowspan="3" class="rowh">➡ Anterior (3)</td><td class="art">Superior thyroid artery</td><td>First branch → down to thyroid; gives superior laryngeal artery (with internal branch of superior laryngeal nerve through thyrohyoid membrane)</td></tr>
+<tr><td class="art">Lingual artery</td><td>At greater horn of hyoid → deep to hyoglossus</td></tr>
+<tr><td class="art">Facial artery</td><td>Grooves submandibular gland → hooks over mandible anterior to masseter</td></tr>
+<tr><td class="rowh">⬆ Medial (1)</td><td class="art">Ascending pharyngeal artery</td><td>Straight up along the pharynx</td></tr>
+<tr><td rowspan="2" class="rowh">⬅ Posterior (2)</td><td class="art">Occipital artery</td><td>Along lower border of posterior belly of digastric</td></tr>
+<tr><td class="art">Posterior auricular artery</td><td>Along upper border of posterior belly of digastric, behind the ear</td></tr>
+<tr><td rowspan="2" class="rowh">⬆ Terminal (2)<br>in parotid</td><td class="art">Maxillary artery</td><td>Behind neck of mandible → infratemporal fossa</td></tr>
+<tr><td class="art">Superficial temporal artery</td><td>Straight up anterior to tragus (pulse point)</td></tr>
+</tbody></table></div>
+<p class="mn">“Some Anatomists Like Freaking Out Poor Medical Students.” Practical tip: the internal carotid artery has <b>no branches in the neck</b>.</p>
+
+<h3>Maxillary artery: “Holes, Muscles, V2”</h3>
+<div class="grid3">
+  <div class="card red"><h4>Part 1 · Mandibular</h4><p class="lab">Behind lateral pterygoid · branches go through <b>holes</b></p>
+    <ul><li><span class="chip up">UP</span> Deep auricular</li><li><span class="chip up">UP</span> Anterior tympanic</li><li><span class="chip up">UP</span> <b>Middle meningeal</b> (spinosum)</li><li><span class="chip up">UP</span> Accessory meningeal (ovale)</li><li><span class="chip dn">DOWN</span> <b>Inferior alveolar</b> (mandibular foramen)</li></ul><p class="mn">“DAM I Am”</p></div>
+  <div class="card red"><h4>Part 2 · Pterygoid</h4><p class="lab">On lateral pterygoid · branches go to <b>muscles</b></p>
+    <ul><li><span class="chip up">UP</span> <b>Deep temporal</b> (anterior + posterior)</li><li><span class="chip md">OUT</span> Masseteric (mandibular notch)</li><li><span class="chip md">IN</span> Pterygoid branches</li><li><span class="chip dn">DOWN/FWD</span> Buccal</li></ul><p class="mn">Named for the muscle they feed</p></div>
+  <div class="card red"><h4>Part 3 · Pterygopalatine</h4><p class="lab">Beyond the muscle · branches follow <b>CN V2</b></p>
+    <ul><li><span class="chip dn">DOWN</span> Posterior superior alveolar</li><li><span class="chip up">UP/FWD</span> Infraorbital</li><li><span class="chip dn">DOWN</span> Descending palatine</li><li><span class="chip md">BACK</span> Artery of pterygoid canal, pharyngeal</li><li><span class="chip md">MEDIAL</span> <b>Sphenopalatine</b> (terminal)</li></ul><p class="mn">“Teeth, Eye, Palate, (back), Nose”</p></div>
+</div>
+<div class="hy"><div class="t">Direction rule</div>UP = meninges, ear, temple. DOWN = teeth and palate. Trap: the posterior <b>superior</b> alveolar artery goes <b>down</b> — “superior” refers to the upper teeth.</div>
+
+<h3>Veins of the face and parotid region</h3>
+<div class="fig">
+<svg viewBox="0 0 820 250" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <defs><marker id="av" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2e5fb3"/></marker></defs>
+  <g font-weight="700">
+  <rect x="20" y="20" width="180" height="34" rx="7" fill="#f5f8ff" stroke="#2e5fb3"/><text x="110" y="42" text-anchor="middle" fill="#1c3f82">Superficial temporal vein</text>
+  <rect x="20" y="80" width="180" height="34" rx="7" fill="#f5f8ff" stroke="#2e5fb3"/><text x="110" y="102" text-anchor="middle" fill="#1c3f82">Maxillary vein</text>
+  <rect x="270" y="50" width="200" height="34" rx="7" fill="#1f3a68"/><text x="370" y="72" text-anchor="middle" fill="#fff">Retromandibular vein</text>
+  <rect x="520" y="10" width="140" height="34" rx="7" fill="#f5f8ff" stroke="#2e5fb3"/><text x="590" y="32" text-anchor="middle" fill="#1c3f82">Anterior division</text>
+  <rect x="520" y="100" width="140" height="34" rx="7" fill="#f5f8ff" stroke="#2e5fb3"/><text x="590" y="122" text-anchor="middle" fill="#1c3f82">Posterior division</text>
+  <rect x="270" y="150" width="200" height="34" rx="7" fill="#f5f8ff" stroke="#2e5fb3"/><text x="370" y="172" text-anchor="middle" fill="#1c3f82">Facial vein (from angular vein)</text>
+  <rect x="600" y="160" width="200" height="34" rx="7" fill="#f5f8ff" stroke="#2e5fb3"/><text x="700" y="182" text-anchor="middle" fill="#1c3f82">Posterior auricular vein</text>
+  <rect x="520" y="206" width="140" height="34" rx="7" fill="#1f3a68"/><text x="590" y="228" text-anchor="middle" fill="#fff">Common facial vein</text>
+  <rect x="690" y="10" width="120" height="34" rx="7" fill="#1f3a68"/><text x="750" y="32" text-anchor="middle" fill="#fff">External jugular v.</text>
+  </g>
+  <path d="M200,37 L268,62" stroke="#2e5fb3" stroke-width="2.5" marker-end="url(#av)"/>
+  <path d="M200,97 L268,75" stroke="#2e5fb3" stroke-width="2.5" marker-end="url(#av)"/>
+  <path d="M470,62 L518,32" stroke="#2e5fb3" stroke-width="2.5" marker-end="url(#av)"/>
+  <path d="M470,75 L518,112" stroke="#2e5fb3" stroke-width="2.5" marker-end="url(#av)"/>
+  <path d="M590,44 C560,120 560,160 580,204" stroke="#2e5fb3" stroke-width="2.5" fill="none" marker-end="url(#av)"/>
+  <path d="M470,172 L540,206" stroke="#2e5fb3" stroke-width="2.5" marker-end="url(#av)"/>
+  <path d="M660,117 C720,90 740,60 748,46" stroke="#2e5fb3" stroke-width="2.5" fill="none" marker-end="url(#av)"/>
+  <path d="M700,160 L740,46" stroke="#2e5fb3" stroke-width="2.5" marker-end="url(#av)"/>
+  <path d="M660,223 L760,223" stroke="#2e5fb3" stroke-width="2.5" marker-end="url(#av)"/>
+  <text x="768" y="219" font-size="12" font-weight="700" fill="#1c3f82">IJV →</text>
+  <text x="768" y="233" font-size="11" fill="#1c3f82">SVC</text>
+</svg>
+<div class="cap">Anterior division goes toward the <b>face</b> (→ internal jugular vein). Posterior division goes toward the <b>ear</b> (→ external jugular vein).</div>
+</div>
+
+<!-- ============ 9 ============ -->
+<h2 id="glands">9 · Glands &amp; Parasympathetic Pathways</h2>
+<div class="tbl"><table>
+<thead><tr><th>Ganglion</th><th>Preganglionic</th><th>Postganglionic route</th><th>Target</th><th>Hook</th></tr></thead>
+<tbody>
+<tr><td><b>Ciliary</b></td><td>CN III</td><td>Short ciliary nerves</td><td>Sphincter pupillae, ciliary muscle</td><td>—</td></tr>
+<tr><td><b>Pterygopalatine</b></td><td>CN VII → <b>greater petrosal nerve</b></td><td>Zygomatic (V2) → lacrimal nerve (V1)</td><td><b>Lacrimal gland</b>, nasal + palatal glands</td><td class="mn">Grief (tears)</td></tr>
+<tr><td><b>Submandibular</b></td><td>CN VII → <b>chorda tympani</b> (via lingual nerve)</td><td>Direct / back along lingual nerve</td><td><b>Submandibular + sublingual glands</b></td><td class="mn">Chomp (chin glands)</td></tr>
+<tr><td><b>Otic</b></td><td>CN IX → <b>lesser petrosal nerve</b></td><td><b>Auriculotemporal nerve</b></td><td><b>Parotid gland</b></td><td class="mn">“Oh, Parotid”</td></tr>
+</tbody></table></div>
+<div class="flow"><span class="n nv">CN IX</span><span class="ar">→</span><span class="n nv">Lesser petrosal nerve</span><span class="ar">→</span><span class="n g">Otic ganglion</span><span class="ar">→</span><span class="n nv">Auriculotemporal nerve (V3)</span><span class="ar">→</span><span class="n end">Parotid gland</span></div>
+<div class="flow"><span class="n nv">CN VII</span><span class="ar">→</span><span class="n nv">Chorda tympani</span><span class="ar">→</span><span class="n nv">Lingual nerve (V3)</span><span class="ar">→</span><span class="n g">Submandibular ganglion</span><span class="ar">→</span><span class="n end">Submandibular + sublingual glands</span></div>
+<div class="flow"><span class="n nv">CN VII</span><span class="ar">→</span><span class="n nv">Greater petrosal nerve</span><span class="ar">→</span><span class="n g">Pterygopalatine ganglion</span><span class="ar">→</span><span class="n nv">Zygomatic (V2) → lacrimal (V1)</span><span class="ar">→</span><span class="n end">Lacrimal gland</span></div>
+
+<div class="grid2">
+<div class="tbl"><table>
+<thead><tr><th>Gland</th><th>Secretion</th><th>Duct opens</th></tr></thead>
+<tbody>
+<tr><td><b>Parotid</b></td><td><b>Serous</b></td><td>Parotid papilla, opposite <b>upper 2nd molar</b></td></tr>
+<tr><td><b>Submandibular</b></td><td>Mixed</td><td>Sublingual papilla (floor of mouth)</td></tr>
+<tr><td><b>Sublingual</b></td><td>Mostly mucous</td><td>Many small ducts on sublingual fold</td></tr>
+</tbody></table></div>
+<div class="card navy"><h4>Parotid duct</h4>
+<div class="flow"><span class="n">Parotid gland</span><span class="ar">→</span><span class="n">Across masseter</span><span class="ar">→</span><span class="n">Turns medially at anterior border</span><span class="ar">→</span><span class="n">Pierces buccinator</span><span class="ar">→</span><span class="n end">Parotid papilla</span></div>
+<p><b>Surface line:</b> tragus → midpoint between ala of nose and upper lip (middle third).</p></div>
+</div>
+<div class="hy"><div class="t">Parotid high-yield</div>
+<ul>
+<li>Contents superficial → deep: <b>CN VII → retromandibular vein → external carotid artery</b>.</li>
+<li><b>Mumps</b>: severe pain because the capsule is tough and can’t expand; chewing compresses the gland. Capsule sensation = <b>great auricular nerve</b>.</li>
+<li><b>Frey syndrome</b>: after parotid surgery, auriculotemporal parasympathetic fibers regrow into <b>sweat glands</b> → gustatory sweating and flushing.</li>
+<li>Parotid tumors or surgery can injure <b>CN VII</b> branches.</li>
+<li><b>Stones</b> favor the <b>submandibular</b> gland: thick, alkaline, calcium-rich saliva + long uphill duct.</li>
+</ul></div>
+
+<!-- ============ 10 ============ -->
+<h2 id="scalp">10 · Scalp: SCALP</h2>
+<div class="scalp">
+  <div class="s1"><span class="L">S</span><b>Skin</b><span>Hair, sweat and sebaceous glands</span></div>
+  <div class="s2"><span class="L">C</span><b>Connective tissue (dense)</b><span>Vessels and nerves. Dense tissue holds vessel walls open → <b>heavy bleeding</b></span></div>
+  <div class="s3"><span class="L">A</span><b>Aponeurosis (epicranial)</b><span>Links frontal + occipital bellies. Cut through it → bellies pull opposite ways → <b>wound gapes</b></span></div>
+  <div class="s4"><span class="L">L</span><b>Loose areolar tissue ⚠</b><span><b>Dangerous layer:</b> emissary veins → dural venous sinuses. Blood and pus spread freely → black eyes</span></div>
+  <div class="s5"><span class="L">P</span><b>Pericranium</b><span>Periosteum of the skull</span></div>
+</div>
+<p>Scalp sensation: <b>supraorbital + supratrochlear nerves (V1)</b> in front · <b>auriculotemporal nerve (V3)</b> at the temple · <b>lesser and greater occipital nerves</b> behind. Motor to the scalp muscles: <b>temporal</b> (frontal belly) and <b>posterior auricular</b> (occipital belly) branches of CN VII.</p>
+
+<!-- ============ 11 ============ -->
+<h2 id="clinical">11 · Clinical Correlations</h2>
+<div class="tbl"><table>
+<thead><tr><th>Scenario</th><th>Structure</th><th>Key finding / answer</th></tr></thead>
+<tbody>
+<tr><td>Blow to the temple, lucid interval, then decline</td><td><span class="art">Middle meningeal artery</span> at the <b>pterion</b></td><td><b>Epidural</b> hematoma, biconvex</td></tr>
+<tr><td>Older adult: temporal headache, jaw claudication, tender temple, vision loss</td><td><span class="art">Superficial temporal artery</span></td><td><b>Giant cell arteritis</b> → high ESR; <b>temporal artery biopsy</b>; start steroids immediately</td></tr>
+<tr><td>Squeezed a pimple near the nose; now proptosis and lateral gaze palsy</td><td><span class="vn">Facial → angular → superior ophthalmic veins</span></td><td><b>Cavernous sinus thrombosis</b>; CN VI first</td></tr>
+<tr><td>Posterior nosebleed that won’t stop</td><td><span class="art">Sphenopalatine artery</span></td><td>Terminal branch of maxillary artery through sphenopalatine foramen</td></tr>
+<tr><td>Lower 3rd molar extraction → numb tongue, altered taste</td><td><span class="nrv">Lingual nerve</span></td><td>Ipsilateral anterior 2/3: general sensation + taste; ↓ submandibular/sublingual saliva if cut before the ganglion</td></tr>
+<tr><td>Inferior alveolar nerve block also numbs the tongue</td><td>Pterygomandibular space</td><td>Lingual nerve lies next to the inferior alveolar nerve</td></tr>
+<tr><td>Orbital floor (blowout) fracture</td><td><span class="nrv">Infraorbital nerve</span> + inferior rectus</td><td>Numb cheek / upper lip; can’t look <b>up</b> (entrapment)</td></tr>
+<tr><td>Wide yawn, can’t close mouth</td><td>Lateral pterygoid / TMJ</td><td><b>Anterior</b> dislocation; reduce down then back</td></tr>
+<tr><td>Sweating and flushing on the cheek while eating after parotidectomy</td><td><span class="nrv">Auriculotemporal nerve</span></td><td><b>Frey syndrome</b></td></tr>
+<tr><td>Painful parotid swelling, worse with chewing</td><td>Parotid capsule</td><td><b>Mumps</b>; great auricular nerve</td></tr>
+<tr><td>Submandibular gland excision → asymmetric lower lip</td><td><span class="nrv">Mandibular branch of CN VII</span></td><td>Can’t depress corner of mouth / lower lip</td></tr>
+<tr><td>Can’t close one eye after facial injury</td><td>Orbicularis oculi (CN VII)</td><td><b>Exposure keratitis</b>; lubricate and tape the eye</td></tr>
+<tr><td>Shingles on the forehead + vesicles on the tip of the nose</td><td><span class="nrv">Nasociliary nerve (V1)</span></td><td><b>Hutchinson sign</b> → high risk of eye involvement</td></tr>
+<tr><td>Scalp laceration gapes and bleeds heavily</td><td>Aponeurosis + dense connective tissue</td><td>Belly traction + vessels held open</td></tr>
+<tr><td>Scalp injury → bilateral black eyes</td><td>Loose areolar tissue</td><td>Blood tracks forward (frontal belly has no bony attachment)</td></tr>
+</tbody></table></div>
+
+<h3>Mnemonic bank</h3>
+<div class="tbl"><table>
+<tbody>
+<tr><td class="rowh">CN VII terminal branches</td><td>To Zanzibar By Motor Car</td></tr>
+<tr><td class="rowh">CN VII in the facial canal</td><td>Good Sounds Come</td></tr>
+<tr><td class="rowh">CN VII before the parotid</td><td>Please Don’t Stop</td></tr>
+<tr><td class="rowh">CN V3 anterior division</td><td>My Dog Likes Bones</td></tr>
+<tr><td class="rowh">CN V3 posterior division</td><td>ALI</td></tr>
+<tr><td class="rowh">Mastication</td><td>M’s Munch, Lateral Lowers</td></tr>
+<tr><td class="rowh">External carotid branches</td><td>Some Anatomists Like Freaking Out Poor Medical Students</td></tr>
+<tr><td class="rowh">Maxillary artery parts</td><td>Holes, Muscles, V2 · part 1 “DAM I Am”</td></tr>
+<tr><td class="rowh">Parotid contents</td><td>Never Very Arterial (nerve → vein → artery, superficial → deep)</td></tr>
+<tr><td class="rowh">Danger triangle</td><td>Angry Superheroes Crash</td></tr>
+<tr><td class="rowh">Parasympathetics</td><td>Grief (pterygopalatine) · Chomp (submandibular) · Oh, Parotid (otic)</td></tr>
+<tr><td class="rowh">Taste</td><td>7 – 9 – 10, front to back</td></tr>
+<tr><td class="rowh">Pharyngeal arches</td><td>Arch 1 chews · Arch 2 smiles · Arch 3 swallows · Arches 4/6 talk</td></tr>
+<tr><td class="rowh">Hematomas</td><td>Epidural = Egg + Artery · Subdural = Sickle + veins</td></tr>
+</tbody></table></div>
+
+<!-- ============ 12 ============ -->
+<h2 id="check">12 · Self-Check Questions</h2>
+<p class="lab">Answer first, then open each one to check.</p>
+<details><summary>1. A pin is on the nerve emerging between the two heads of lateral pterygoid. Name it and its function.</summary><div class="ans">Buccal nerve (anterior division of CN V3): <b>sensory</b> to cheek skin and mucosa. It does not move buccinator.</div></details>
+<details><summary>2. Which nerve carries parasympathetic fibers to the parotid gland, and from which ganglion?</summary><div class="ans">Auriculotemporal nerve (CN V3), carrying postganglionic fibers from the <b>otic ganglion</b> (preganglionic: CN IX → lesser petrosal nerve).</div></details>
+<details><summary>3. The chorda tympani synapses in which ganglion?</summary><div class="ans"><b>Submandibular ganglion</b> → submandibular and sublingual glands.</div></details>
+<details><summary>4. Name the three parts of the maxillary artery and the structure that defines them.</summary><div class="ans">Mandibular, pterygoid, pterygopalatine — defined by the <b>lateral pterygoid</b>.</div></details>
+<details><summary>5. A pin is on a vein inside the parotid, behind the ramus. What two veins form it, and where does each division drain?</summary><div class="ans">Retromandibular vein = superficial temporal + maxillary veins. Anterior division + facial vein → common facial → internal jugular vein. Posterior division + posterior auricular vein → external jugular vein.</div></details>
+<details><summary>6. Which muscle of facial expression is pierced by the parotid duct, and what supplies it?</summary><div class="ans">Buccinator — buccal branch of CN VII.</div></details>
+<details><summary>7. Where is the mental foramen, and what passes through it?</summary><div class="ans">Below the <b>lower 2nd premolar</b>; mental nerve and mental artery.</div></details>
+<details><summary>8. A pin is on the thin sheet of muscle over the neck. Group, arch and nerve?</summary><div class="ans">Platysma — muscle of facial expression, arch 2, <b>cervical branch of CN VII</b>.</div></details>
+<details><summary>9. What layer of the scalp is the “dangerous layer,” and why?</summary><div class="ans">Layer 4, loose areolar tissue — emissary veins connect it to the dural venous sinuses, so infection can spread intracranially.</div></details>
+<details><summary>10. The nerve to medial pterygoid also supplies which two muscles?</summary><div class="ans">Tensor tympani and tensor veli palatini.</div></details>
+<details><summary>11. Which cranial nerve is usually affected first in cavernous sinus thrombosis, and why?</summary><div class="ans">CN VI — it runs free through the sinus next to the internal carotid artery; the others are in the lateral wall.</div></details>
+<details><summary>12. Which branch of CN VII crosses superficial to the facial artery and vein at the lower border of the mandible?</summary><div class="ans">Mandibular branch of CN VII.</div></details>
+
+<div class="foot"><span><b>HoyaDocs</b> · HNSS Lab 2 Exam-Day Review</span><span>Updated 27 Sep 2026 · Rev 1.0</span></div>
+</body>
+</html>
