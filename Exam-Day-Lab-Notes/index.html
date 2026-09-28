@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Day Lab Notes</title>
+<meta name="description" content="HoyaDocs Block 5 HNSS — exam-day review notes for each anatomy lab: rules and traps, comparisons, clinical correlations and self-check questions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ground:#EEF3F0; --panel:#FFFFFF; --sunk:#E2EAE6; --line:#C9D6D0;
+  --ink:#13201D; --muted:#566963;
+  --p1:#E3AE12; --p1-ink:#7A5B00; --p1-soft:#FBF1CF;
+  --p2:#2E86C8; --p2-ink:#155987; --p2-soft:#DDEDF8;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --plate:#0E1413; --plate-ink:#EEF3F0;
+  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --plate:#080C0B; --plate-ink:#DDE7E3;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+  --ink:#DDE7E3; --muted:#8FA39D;
+  --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+  --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+  --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+  --plate:#080C0B; --plate-ink:#DDE7E3;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:15px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:18px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p2);outline-offset:3px}
+
+/* masthead */
+.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+.brand{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:.02em;text-transform:uppercase;line-height:1;text-decoration:none}
+.brand b{color:var(--p1-ink)}
+.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mastright{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.themebtn{background:var(--sunk);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px}
+.themebtn:hover{color:var(--ink);border-color:var(--muted)}
+
+/* hero */
+.hero{background:var(--plate);color:var(--plate-ink);border-radius:10px;padding:clamp(26px,4.5vw,52px) clamp(22px,4vw,52px);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -80px -160px auto;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(46,134,200,.28), transparent 62%);pointer-events:none}
+.back{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8FA39D;text-decoration:none;margin-bottom:18px;position:relative;z-index:1}
+.back:hover{color:var(--plate-ink)}
+.back svg{width:13px;height:13px}
+.hero .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#7DC2EE;margin-bottom:12px}
+.hero h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(46px,8.4vw,108px);line-height:.86;margin:0;letter-spacing:.005em;text-wrap:balance;position:relative;z-index:1}
+.hero p{max-width:60ch;color:#B6C4BF;margin:18px 0 0;font-size:16px;position:relative;z-index:1}
+
+/* anatomy of a guide */
+.every{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.every > div{background:var(--panel);padding:16px 18px}
+.every .n{font-family:var(--mono);font-size:11px;color:var(--p2-ink);letter-spacing:.08em}
+.every h3{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:22px;line-height:1;margin:4px 0 6px;letter-spacing:.02em}
+.every p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.45}
+.every .hy{background:var(--hy-bg);box-shadow:inset 0 0 0 1px var(--hy-line)}
+.every .hy .n{color:var(--hy-ink)}
+.every .hy h3,.every .hy p{color:var(--hy-ink)}
+
+/* toolbar */
+.bar{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.bar h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:34px;line-height:1;margin:0;letter-spacing:.01em}
+.search{position:relative;flex:0 1 340px;min-width:220px}
+.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:9px 12px 9px 34px;font-size:14px}
+.search input:focus{outline:none;border-color:var(--p2)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted)}
+
+/* lab cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.lab{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);overflow:hidden;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+.lab:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--p2)}
+.lab .top{display:flex;gap:16px;align-items:flex-start;padding:20px 20px 14px}
+.num{flex:none;width:62px;height:62px;border-radius:8px;background:var(--p2-soft);color:var(--p2-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.num small{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase}
+.num b{font-family:var(--display);font-weight:800;font-size:34px}
+.lab .sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--p2-ink)}
+.lab h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;line-height:.92;margin:3px 0 6px;letter-spacing:.01em}
+.lab p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.45}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 20px 18px}
+.chips span{font-size:12px;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--ink)}
+.lab .foot2{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding:11px 20px;background:var(--sunk)}
+.lab .foot2 .tag{font-size:10.5px}
+.go{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--p2-ink);display:inline-flex;align-items:center;gap:7px}
+.go svg{width:15px;height:15px;transition:transform .12s}
+.lab:hover .go svg{transform:translateX(4px)}
+.empty{display:none;color:var(--muted);padding:26px;text-align:center;border:1px dashed var(--line);border-radius:10px}
+
+.foot{border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:820px){ .every{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:480px){
+  .every{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .lab h3{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <a class="brand" href="../">HoyaDocs <b>&middot;</b> Block 5</a>
+    <div class="mastright">
+      <div class="tag">HNSS &middot; Rev 1 &middot; Updated Sep 28, 2026</div>
+      <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <a class="back" href="../"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 8H3M7 4 3 8l4 4"/></svg>HNSS Home</a>
+    <div class="kicker">Anatomy Lab Practical &middot; Last Look</div>
+    <h1>Exam Day Lab Notes</h1>
+    <p>One review sheet per lab. Charts, pathways and side-by-side comparisons for the practical and the written exam. Start with the rules and traps, finish with the self-check.</p>
+  </section>
+
+  <section class="every" aria-label="What every guide contains">
+    <div class="hy"><div class="n">01 &middot; START HERE</div><h3>Rules &amp; Traps</h3><p>How to word answers on the key, plus the most-missed tags.</p></div>
+    <div><div class="n">02</div><h3>Charts &amp; Pathways</h3><p>Muscles, nerves and vessels laid out in comparison tables.</p></div>
+    <div><div class="n">03</div><h3>Clinical Correlations</h3><p>The lesions and injuries each region is tested on.</p></div>
+    <div><div class="n">04 &middot; FINISH HERE</div><h3>Self-Check</h3><p>Click-to-reveal questions to confirm it stuck.</p></div>
+  </section>
+
+  <div class="bar">
+    <h2>Pick a Lab</h2>
+    <label class="search">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="4.8"/><path d="m10.6 10.6 3.6 3.6"/></svg>
+      <input id="q" type="search" placeholder="Find a topic: cavernous sinus, epistaxis…" aria-label="Filter labs by topic">
+    </label>
+  </div>
+
+  <section class="grid" id="grid">
+
+    <a class="lab" href="HoyaDocs_HNSS_Lab2_ExamDay_Review.html">
+      <div class="top">
+        <div class="num"><small>Lab</small><b>2</b></div>
+        <div>
+          <div class="sub">Face &middot; Parotid &middot; ITF</div>
+          <h3>Face &amp; Infratemporal Fossa</h3>
+          <p>Face, parotid region, temporal and infratemporal fossa.</p>
+        </div>
+      </div>
+      <div class="chips"><span>Muscles of facial expression</span><span>Mastication (CN V3)</span><span>Lateral pterygoid</span><span>Nerve maps</span><span>Arteries &amp; veins</span><span>Glands &amp; parasympathetics</span><span>Scalp</span></div>
+      <div class="foot2"><span class="tag">12 sections</span><span class="go">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+    </a>
+
+    <a class="lab" href="HoyaDocs_HNSS_Lab3_ExamDay_Review.html">
+      <div class="top">
+        <div class="num"><small>Lab</small><b>3</b></div>
+        <div>
+          <div class="sub">Skull Base</div>
+          <h3>Cranial Fossae</h3>
+          <p>Meninges, dural folds, dural venous sinuses, arteries and the 12 cranial nerves.</p>
+        </div>
+      </div>
+      <div class="chips"><span>Meninges &amp; dural sinuses</span><span>Cavernous sinus</span><span>Arteries</span><span>Cranial nerves at a glance</span><span>Eye nerves &amp; palsies</span><span>Reflexes</span><span>CN IX · X · XI · XII</span></div>
+      <div class="foot2"><span class="tag">11 sections</span><span class="go">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+    </a>
+
+    <a class="lab" href="HoyaDocs_HNSS_Lab4_ExamDay_Review.html">
+      <div class="top">
+        <div class="num"><small>Lab</small><b>4</b></div>
+        <div>
+          <div class="sub">Eye</div>
+          <h3>The Orbit</h3>
+          <p>Bony walls and openings, lacrimal apparatus, extraocular muscles, orbital nerves and vessels.</p>
+        </div>
+      </div>
+      <div class="chips"><span>Bony orbit &amp; openings</span><span>Lacrimal apparatus</span><span>Extraocular muscles</span><span>Palsies &amp; eyelid</span><span>CN V1 “NFL”</span><span>Ciliary ganglion</span><span>Orbital vessels</span></div>
+      <div class="foot2"><span class="tag">11 sections</span><span class="go">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+    </a>
+
+    <a class="lab" href="HoyaDocs_HNSS_Lab5_ExamDay_Review.html">
+      <div class="top">
+        <div class="num"><small>Lab</small><b>5A</b></div>
+        <div>
+          <div class="sub">Bisection of the Head</div>
+          <h3>The Pharynx</h3>
+          <p>Nasopharynx, oropharynx, laryngopharynx, pharyngeal muscles and swallowing.</p>
+        </div>
+      </div>
+      <div class="chips"><span>Map of the pharynx</span><span>Nasopharynx</span><span>Oropharynx</span><span>Laryngopharynx</span><span>Pharyngeal muscles</span><span>Swallowing</span><span>Retropharyngeal space</span></div>
+      <div class="foot2"><span class="tag">10 sections</span><span class="go">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+    </a>
+
+    <a class="lab" href="HoyaDocs_HNSS_Lab5Nose_ExamDay_Review.html">
+      <div class="top">
+        <div class="num"><small>Lab</small><b>5B</b></div>
+        <div>
+          <div class="sub">Dissection of the Nasal Cavity</div>
+          <h3>The Nose</h3>
+          <p>External nose, septum, lateral wall, sinus drainage, blood supply and innervation.</p>
+        </div>
+      </div>
+      <div class="chips"><span>External nose &amp; apertures</span><span>Nasal septum</span><span>Lateral wall &amp; drainage</span><span>Paranasal sinuses</span><span>Blood supply &amp; epistaxis</span><span>Innervation</span><span>Blowout fractures</span></div>
+      <div class="foot2"><span class="tag">10 sections</span><span class="go">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+    </a>
+
+  </section>
+  <div class="empty" id="empty">No lab matches that topic. Try a broader word, such as “nerve” or “sinus”.</div>
+
+  <footer class="foot">
+    <div class="tag">HoyaDocs &middot; Block 5 &middot; HNSS &middot; Exam Day Lab Notes</div>
+    <div class="tag">Rev 1 &middot; Updated Sep 28, 2026</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('theme');
+  var root = document.documentElement;
+  try{
+    var saved = localStorage.getItem('hoyadocs-theme');
+    if(saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  }catch(e){}
+  btn.addEventListener('click', function(){
+    var isDark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = isDark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('hoyadocs-theme', next); }catch(e){}
+  });
+
+  var q = document.getElementById('q');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.lab'));
+  var empty = document.getElementById('empty');
+  q.addEventListener('input', function(){
+    var term = q.value.trim().toLowerCase();
+    var shown = 0;
+    cards.forEach(function(c){
+      var hit = !term || c.textContent.toLowerCase().indexOf(term) !== -1;
+      c.style.display = hit ? '' : 'none';
+      if(hit) shown++;
+    });
+    empty.style.display = shown ? 'none' : 'block';
+  });
+})();
+</script>
+</body>
+</html>
