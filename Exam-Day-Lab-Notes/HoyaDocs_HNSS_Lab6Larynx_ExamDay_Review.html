@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 6 Larynx Exam-Day Review</title>
+<style>
+:root{
+  --navy:#1f3a68; --navy2:#2d5395; --ink:#1d2330; --muted:#5a6478; --line:#d4dbe8; --soft:#eef2f9;
+  --hy-bg:#fff6c7; --hy-bd:#c99a00; --hy-ink:#6b5200;
+  --art:#c0392b; --nerve:#b8860b; --vein:#2e5fb3; --mus:#e7a9a0;
+  --g1:#e8f4ec; --g1b:#2f8a4f; --r1:#fdecea; --r1b:#c0392b; --p1:#f1ebfa; --p1b:#6b46c1;
+}
+*{box-sizing:border-box}
+html{background:#f4f6fa}
+body{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45;color:var(--ink);margin:0 auto;max-width:1040px;padding:24px 20px 60px;background:#fff}
+.brand{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:3px solid var(--navy);padding-bottom:6px}
+.brand b{color:var(--navy)}
+h1{font-size:30px;margin:14px 0 2px;color:var(--navy);line-height:1.15}
+.sub{color:var(--muted);margin-bottom:12px}
+h2{font-size:18px;color:#fff;background:var(--navy);padding:7px 12px;border-radius:6px;margin:30px 0 10px;break-after:avoid}
+h3{font-size:15px;color:var(--navy);margin:18px 0 6px;break-after:avoid;border-left:4px solid var(--navy2);padding-left:8px}
+p{margin:6px 0}
+ul,ol{margin:4px 0;padding-left:20px} li{margin:3px 0}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px;margin:12px 0;padding:10px;background:var(--soft);border-radius:8px}
+.toc a{color:var(--navy);text-decoration:none;font-size:13px}
+.toc a:hover{text-decoration:underline}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-bd);border-radius:8px;padding:10px 14px;margin:10px 0;break-inside:avoid}
+.hy .t{font-weight:800;color:var(--hy-ink);font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.note{background:var(--soft);border-left:5px solid var(--navy);padding:9px 12px;border-radius:0 6px 6px 0;margin:10px 0;break-inside:avoid}
+.mn{font-style:italic;color:#3d4a66}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px;break-inside:auto}
+tr{break-inside:avoid}
+th{background:#dfe6f2;text-align:left;padding:6px 8px;border:1px solid #c3cde0;color:#15294b}
+td{padding:6px 8px;border:1px solid var(--line);vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafbfd}
+td.rowh{font-weight:700;background:#f2f5fa !important;white-space:nowrap}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.p-t{background:#e3ecfb;color:#1f4fa0}.p-z{background:#e5f5ea;color:#1f7a41}.p-b{background:#fff0d6;color:#9a5b00}.p-m{background:#f6e3f3;color:#8a2a7b}.p-c{background:#e9e6fb;color:#4b3aa8}.p-p{background:#eceff3;color:#44506a}
+.art{color:var(--art);font-weight:700}.nrv{color:var(--nerve);font-weight:700}.vn{color:var(--vein);font-weight:700}
+/* flow chains */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;break-inside:avoid}
+.flow .n{background:#fff;border:1.5px solid var(--navy2);border-radius:7px;padding:5px 9px;font-size:13px;font-weight:600;color:#15294b}
+.flow .n.a{border-color:var(--art);color:#8e2319;background:#fff7f6}
+.flow .n.v{border-color:var(--vein);color:#1c3f82;background:#f5f8ff}
+.flow .n.nv{border-color:var(--nerve);color:#6e5000;background:#fffbef}
+.flow .n.g{border-color:#2f8a4f;color:#1d5e34;background:#f1faf4}
+.flow .n.end{background:var(--navy);color:#fff;border-color:var(--navy)}
+.flow .ar{color:var(--navy2);font-weight:900;font-size:16px}
+.flow .lab{font-size:11.5px;color:var(--muted);font-style:italic}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;break-inside:avoid;background:#fff}
+.card h4{margin:0 0 6px;color:var(--navy);font-size:14px}
+.card.red{border-top:5px solid var(--r1b)}.card.green{border-top:5px solid var(--g1b)}.card.purple{border-top:5px solid var(--p1b)}.card.navy{border-top:5px solid var(--navy)}.card.gold{border-top:5px solid var(--hy-bd)}
+/* scalp layers */
+.scalp{border-radius:8px;overflow:hidden;border:1px solid var(--line);margin:8px 0;break-inside:avoid}
+.scalp div{display:grid;grid-template-columns:44px 210px 1fr;align-items:center;padding:7px 10px;font-size:13px}
+.scalp .L{font-size:22px;font-weight:900;color:var(--navy)}
+.scalp .s1{background:#fbe5d6}.scalp .s2{background:#f6d0c2}.scalp .s3{background:#e9edf5}.scalp .s4{background:#fff6c7;outline:2px solid var(--hy-bd);outline-offset:-2px}.scalp .s5{background:#dcdfe6}
+/* CN VII road */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:10px 0;break-inside:avoid}
+.stop{border:2px solid var(--navy2);padding:10px;position:relative;background:#fff}
+.stop:not(:last-child){border-right:none}
+.stop .hd{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stop .ti{font-weight:800;color:var(--navy);margin:2px 0 6px}
+.stop:not(:last-child)::after{content:"➜";position:absolute;right:-13px;top:40%;background:#fff;color:var(--navy2);font-size:20px;z-index:2;line-height:1}
+/* tree */
+.tree{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;break-inside:avoid}
+.tree .col{border-radius:8px;padding:10px;border:1px solid var(--line)}
+.tree .col h4{margin:0 0 4px}
+.tree .trunk{grid-column:1/-1;text-align:center;background:var(--navy);color:#fff;border-radius:8px;padding:8px;font-weight:700}
+.exc{background:var(--hy-bg);border:1px solid var(--hy-bd);border-radius:4px;padding:0 5px;font-weight:700}
+/* foramina row */
+.fx{display:flex;gap:10px;margin:8px 0;break-inside:avoid}
+.fx .f{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center}
+.fx .f .nm{font-weight:800;color:var(--navy)}
+.fx .f .ct{font-size:12.5px}
+.fig{border:1px solid var(--line);border-radius:10px;padding:8px;margin:10px 0;background:#fcfdff;break-inside:avoid}
+.fig svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+details{border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;background:#fff;break-inside:avoid}
+details summary{cursor:pointer;font-weight:600;color:#15294b}
+details .ans{margin-top:6px;padding:6px 10px;background:var(--g1);border-left:4px solid var(--g1b);border-radius:0 6px 6px 0}
+.foot{margin-top:30px;font-size:11px;color:var(--muted);border-top:1px solid var(--line);padding-top:6px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;border-radius:5px;padding:0 6px;font-size:12px;font-weight:700}
+.up{background:#e3ecfb;color:#1f4fa0}.dn{background:#fdecea;color:#9b2a1e}.md{background:#eceff3;color:#44506a}
+@media (max-width:760px){
+  .grid2,.grid3,.road,.tree{grid-template-columns:1fr}
+  .stop:not(:last-child){border-right:2px solid var(--navy2);border-bottom:none}
+  .stop:not(:last-child)::after{content:"⬇";right:45%;top:auto;bottom:-13px}
+  .scalp div{grid-template-columns:34px 1fr}.scalp div span:last-child{grid-column:1/-1}
+  .fx{flex-direction:column}
+  body{padding:16px}
+}
+@media print{
+  html,body{background:#fff}
+  body{max-width:none;padding:0;font-size:11.3px}
+  h1{font-size:24px} h2{font-size:14.5px;margin:18px 0 8px} h3{font-size:12.8px}
+  table{font-size:10.6px} td,th{padding:4px 6px}
+  .flow .n{font-size:10.8px;padding:3px 7px}
+  .toc{display:none}
+  .pb{break-before:page}
+  details{border:none;padding:4px 0}
+  .card,.hy,.note,.fig,.flow,.road,.tree,.scalp{break-inside:avoid}
+}
+@page{size:Letter;margin:0.5in 0.5in 0.55in}
+</style>
+</head>
+<body>
+<div class="brand"><span><b>HoyaDocs</b> · HNSS Block 5 · Head &amp; Neck Anatomy</span><span>Updated 28 Sep 2026 · Rev 1.0</span></div>
+<h1>Lab 6 Exam-Day Review — The Larynx</h1>
+<div class="sub">Dissection of the Larynx — laryngeal skeleton, membranes, interior spaces and folds, intrinsic muscles, nerves, blood supply, lymph and the laryngopharynx.</div>
+
+<div class="toc">
+  <a href="#rules">1. Rules &amp; top traps</a>
+  <a href="#skel">2. Laryngeal skeleton</a>
+  <a href="#mem">3. Membranes &amp; interior</a>
+  <a href="#view">4. Laryngoscopic view</a>
+  <a href="#mus">5. Muscles</a>
+  <a href="#nerve">6. Nerves &amp; lesions</a>
+  <a href="#vasc">7. Vessels &amp; lymph</a>
+  <a href="#hypo">8. Laryngopharynx &amp; swallowing</a>
+  <a href="#airway">9. Airway procedures</a>
+  <a href="#check">10. Self-check</a>
+</div>
+
+<!-- 1 -->
+<h2 id="rules">1 · Exam-Day Rules &amp; Top Traps</h2>
+<div class="note"><b>✍️ Wording</b>
+<ul><li>Full names. Spelling counts: <b>arytenoid · corniculate · cuneiform · cricoid · cricothyroid · thyrohyoid · quadrangular membrane · conus elasticus · rima glottidis · infraglottic · piriform recess · vallecula · posterior cricoarytenoid</b>.</li>
+<li>“Vocal fold” = <b>true</b> cord; “vestibular fold” = <b>false</b> cord.</li></ul></div>
+<div class="hy"><div class="t">★ High-yield traps</div>
+<ol>
+<li><b>Posterior cricoarytenoid = the ONLY abductor</b> of the vocal folds (“PCA = Pulls Cords Apart”) — recurrent laryngeal nerve.</li>
+<li><b>Cricothyroid = the only intrinsic muscle NOT supplied by the recurrent laryngeal nerve</b> → external laryngeal nerve; tilts the thyroid cartilage → tenses the folds → <b>raises pitch</b>.</li>
+<li><b>The vocal fold is the dividing line:</b> above = internal laryngeal nerve (sensory, cough reflex) + superior laryngeal artery + superior deep cervical nodes; below = recurrent laryngeal nerve + inferior laryngeal artery + inferior deep cervical / pretracheal / paratracheal nodes.</li>
+<li><b>Internal laryngeal nerve + superior laryngeal artery pierce the thyrohyoid membrane.</b></li>
+<li><b>Ventricle</b> = space between the vestibular (false) and vocal (true) folds.</li>
+<li><b>Vocal fold = vocal ligament</b> (upper edge of the conus elasticus) <b>+ vocalis + mucosa</b>. Vestibular fold covers the vestibular ligament (lower edge of the quadrangular membrane).</li>
+<li><b>Epiglottis = elastic cartilage.</b> Vallecula = oropharynx (anterior to epiglottis); piriform recess = laryngopharynx (lateral to the inlet).</li>
+<li><b>Cricothyroidotomy</b> = through the cricothyroid ligament; <b>tracheostomy</b> = between tracheal rings.</li>
+</ol></div>
+
+<!-- 2 -->
+<h2 id="skel">2 · Laryngeal Skeleton</h2>
+<div class="flow"><span class="n">Hyoid bone</span><span class="ar">↓</span><span class="n">Thyrohyoid membrane</span><span class="ar">↓</span><span class="n">Thyroid cartilage</span><span class="ar">↓</span><span class="n end">Cricothyroid ligament</span><span class="ar">↓</span><span class="n">Cricoid cartilage</span><span class="ar">↓</span><span class="n">1st tracheal ring → trachea</span></div>
+<p class="lab">Superior → inferior in the anterior midline — palpable from the chin down.</p>
+<div class="tbl"><table>
+<thead><tr><th>Cartilage / structure</th><th>Key features</th><th>High-yield</th></tr></thead>
+<tbody>
+<tr><td><b>Thyroid cartilage</b></td><td>Two <b>laminae</b> meet anteriorly → <b>laryngeal prominence</b> (Adam’s apple); V-shaped <b>thyroid notch</b> above (palpable)</td><td>Common carotid bifurcates at its <b>superior border</b></td></tr>
+<tr><td><b>Thyrohyoid membrane</b></td><td>Hyoid → thyroid cartilage</td><td><b>Pierced by the internal laryngeal nerve + superior laryngeal artery</b></td></tr>
+<tr><td><b>Cricothyroid ligament</b></td><td>Thyroid cartilage → cricoid cartilage (anterior part of the conus elasticus)</td><td><b>Cricothyroidotomy</b> site</td></tr>
+<tr><td><b>Cricoid cartilage</b></td><td><b>Signet-ring</b> shaped: narrow arch anteriorly, tall lamina posteriorly; only complete ring</td><td>Arytenoids sit on its posterior lamina</td></tr>
+<tr><td><b>Epiglottis</b></td><td><b>Elastic cartilage</b>; attached to the hyoid (hyo-epiglottic ligament) and thyroid cartilage (thyro-epiglottic ligament)</td><td>Folds down over the <b>laryngeal inlet</b> in swallowing → prevents aspiration</td></tr>
+<tr><td><b>Arytenoid cartilages</b></td><td>Paired <b>pyramids</b> on top of the cricoid; vocal process (anterior) + muscular process (lateral)</td><td>Rotate/slide to open and close the rima glottidis</td></tr>
+<tr><td><b>Corniculate cartilages</b></td><td>Little “hats” on the arytenoid apices</td><td>—</td></tr>
+<tr><td><b>Cuneiform cartilages</b></td><td>In the <b>aryepiglottic (AE) fold</b></td><td>AE fold: arytenoid → epiglottis</td></tr>
+<tr><td><b>Trachea</b></td><td>C-shaped rings</td><td><b>Tracheostomy</b> between rings</td></tr>
+</tbody></table></div>
+<div class="grid2">
+<div class="card navy"><h4>Functions of the larynx</h4><p><b>Breathing · phonation · swallowing</b> (airway protection).</p></div>
+<div class="card gold"><h4>Extrinsic muscles move the whole larynx</h4><p>Act via the hyoid: <b>suprahyoid elevate</b>, <b>infrahyoid depress</b> the hyoid + larynx (swallowing).</p></div>
+</div>
+
+<!-- 3 -->
+<h2 id="mem">3 · Membranes, Folds &amp; Interior Spaces</h2>
+<div class="fig">
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <text x="380" y="18" text-anchor="middle" font-weight="700" fill="#5a6478">CORONAL SECTION (viewed from posterior)</text>
+  <rect x="222" y="60" width="16" height="160" rx="4" fill="#cfd8dc" stroke="#78909c"/><rect x="522" y="60" width="16" height="160" rx="4" fill="#cfd8dc" stroke="#78909c"/>
+  <rect x="228" y="228" width="16" height="70" rx="4" fill="#b0bec5" stroke="#607d8b"/><rect x="516" y="228" width="16" height="70" rx="4" fill="#b0bec5" stroke="#607d8b"/>
+  <path d="M240,40 L300,40 L306,110 Q350,128 345,140 Q330,148 312,150 L290,158 L292,172 Q360,178 362,188 Q340,200 318,215 L322,340 L240,340 Z" fill="#f4c7c0" stroke="#b56b62"/>
+  <path d="M520,40 L460,40 L454,110 Q410,128 415,140 Q430,148 448,150 L470,158 L468,172 Q400,178 398,188 Q420,200 442,215 L438,340 L520,340 Z" fill="#f4c7c0" stroke="#b56b62"/>
+  <path d="M306,110 Q350,128 345,140" stroke="#8e44ad" stroke-width="3" fill="none"/><path d="M454,110 Q410,128 415,140" stroke="#8e44ad" stroke-width="3" fill="none"/>
+  <path d="M292,172 Q360,178 362,188" stroke="#1f3864" stroke-width="4" fill="none"/><path d="M468,172 Q400,178 398,188" stroke="#1f3864" stroke-width="4" fill="none"/>
+  <line x1="200" y1="188" x2="560" y2="188" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <!-- region labels in lumen -->
+  <text x="380" y="85" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">VESTIBULE</text>
+  <text x="380" y="99" text-anchor="middle" font-size="10.5" fill="#2e7d32">(supraglottis)</text>
+  <text x="380" y="165" text-anchor="middle" font-size="11" font-weight="700" fill="#555">rima glottidis ↓</text>
+  <text x="380" y="262" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">INFRAGLOTTIC</text><text x="380" y="276" text-anchor="middle" font-size="12" font-weight="700" fill="#2e7d32">SPACE</text>
+  <text x="380" y="330" text-anchor="middle" font-size="11" fill="#555">trachea ↓</text>
+  <!-- right labels -->
+  <line x1="418" y1="136" x2="570" y2="112" stroke="#8e44ad"/><text x="574" y="108" font-size="11.5" fill="#8e44ad" font-weight="700">Vestibular fold (false)</text><text x="574" y="122" font-size="11">covers vestibular ligament</text>
+  <line x1="468" y1="160" x2="570" y2="152" stroke="#555"/><text x="574" y="156" font-size="11.5" font-weight="700">Ventricle</text><text x="574" y="170" font-size="11">(saccule → mucus)</text>
+  <line x1="402" y1="186" x2="570" y2="200" stroke="#1f3864"/><text x="574" y="200" font-size="11.5" fill="#1f3864" font-weight="700">Vocal fold (true)</text><text x="574" y="214" font-size="11">vocal ligament + vocalis</text>
+  <line x1="536" y1="130" x2="570" y2="62" stroke="#78909c"/><text x="574" y="58" font-size="11" fill="#546e7a">thyroid cartilage</text>
+  <line x1="532" y1="260" x2="570" y2="262" stroke="#607d8b"/><text x="574" y="266" font-size="11" fill="#546e7a">cricoid cartilage</text>
+  <!-- left labels -->
+  <text x="10" y="100" font-size="11.5" font-weight="700" fill="#8e44ad">Upper tier:</text><text x="10" y="114" font-size="11">quadrangular membrane</text><text x="10" y="128" font-size="11">→ lower edge = vestibular lig.</text>
+  <text x="10" y="236" font-size="11.5" font-weight="700" fill="#1f3864">Lower tier:</text><text x="10" y="250" font-size="11">conus elasticus</text><text x="10" y="264" font-size="11">→ upper edge = vocal ligament</text>
+  <text x="10" y="176" font-size="11" fill="#c0392b" font-weight="700">▲ internal laryngeal n.</text><text x="10" y="204" font-size="11" fill="#c0392b" font-weight="700">▼ recurrent laryngeal n.</text>
+</svg>
+<div class="cap">Two tiers: quadrangular membrane (vestibular fold) above, conus elasticus (vocal fold) below, ventricle between them. The dashed line at the vocal folds divides sensory supply, blood supply and lymph drainage.</div></div>
+<div class="tbl"><table>
+<thead><tr><th>Space / fold</th><th>Definition</th></tr></thead>
+<tbody>
+<tr><td><b>Laryngeal inlet (aditus)</b></td><td>Opening from the <b>laryngopharynx</b> into the larynx. Anterior = superior epiglottis; lateral = <b>AE folds</b>; posterior = interarytenoid notch</td></tr>
+<tr><td><b>Vestibule</b> (supraglottis)</td><td>Upper chamber: inlet → vestibular folds</td></tr>
+<tr><td><b>Vestibular fold</b> (false cord)</td><td>Mucosa over the <b>vestibular ligament</b> (lower thickened edge of the quadrangular membrane)</td></tr>
+<tr><td><b>Ventricle</b></td><td>Gap between vestibular and vocal folds; <b>saccule</b> = glandular pouch → mucus lubricates the vocal folds</td></tr>
+<tr><td><b>Vocal fold</b> (true cord)</td><td><b>Vocal ligament</b> (upper edge of conus elasticus) + vocalis muscle + mucosa</td></tr>
+<tr><td><b>Rima glottidis</b></td><td>Triangular opening between the vocal folds; <b>glottis</b> = rima + vocal folds</td></tr>
+<tr><td><b>Infraglottic space</b></td><td>Below the vocal folds → trachea</td></tr>
+</tbody></table></div>
+
+<!-- 4 -->
+<h2 id="view">4 · Laryngoscopic (Superior) View</h2>
+<div class="fig">
+<svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Arial, sans-serif" font-size="12.5">
+  <defs><marker id="pa" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#2e7d32"/></marker></defs>
+  <text x="380" y="18" text-anchor="middle" font-weight="700" fill="#5a6478">ANTERIOR ▲ (tongue)</text>
+  <text x="380" y="314" text-anchor="middle" font-weight="700" fill="#5a6478">▼ POSTERIOR (esophagus)</text>
+  <ellipse cx="380" cy="160" rx="210" ry="130" fill="#f8dcd7" stroke="#b56b62"/>
+  <path d="M290,70 Q380,30 470,70 Q380,55 290,70 Z" fill="#fff4d6" stroke="#b8860b" stroke-width="2"/>
+  <text x="380" y="46" text-anchor="middle" font-size="11.5" font-weight="700" fill="#8a6d00">Epiglottis</text>
+  <path d="M290,72 Q270,170 320,262" stroke="#b56b62" stroke-width="7" fill="none"/><path d="M470,72 Q490,170 440,262" stroke="#b56b62" stroke-width="7" fill="none"/>
+  <path d="M378,100 L320,240 L440,240 L382,100" fill="#3b2a2a"/>
+  <path d="M378,100 Q350,170 332,238" stroke="#e57373" stroke-width="10" fill="none"/><path d="M382,100 Q410,170 428,238" stroke="#e57373" stroke-width="10" fill="none"/>
+  <path d="M376,100 L330,242" stroke="#ffffff" stroke-width="6"/><path d="M384,100 L430,242" stroke="#ffffff" stroke-width="6"/>
+  <circle cx="330" cy="255" r="13" fill="#d7ccc8" stroke="#6d4c41"/><circle cx="430" cy="255" r="13" fill="#d7ccc8" stroke="#6d4c41"/>
+  <circle cx="330" cy="253" r="4" fill="#6d4c41"/><circle cx="430" cy="253" r="4" fill="#6d4c41"/>
+  <ellipse cx="228" cy="180" rx="22" ry="55" fill="#8d5a55" opacity="0.75"/><ellipse cx="532" cy="180" rx="22" ry="55" fill="#8d5a55" opacity="0.75"/>
+  <path d="M318,262 Q290,285 262,272" stroke="#2e7d32" stroke-width="2.5" fill="none" marker-end="url(#pa)"/>
+  <path d="M442,262 Q470,285 498,272" stroke="#2e7d32" stroke-width="2.5" fill="none" marker-end="url(#pa)"/>
+  <!-- labels -->
+  <line x1="378" y1="170" x2="600" y2="100" stroke="#555"/><text x="604" y="96" font-size="11.5" font-weight="700">Rima glottidis</text>
+  <line x1="410" y1="150" x2="600" y2="134" stroke="#1f3864"/><text x="604" y="130" font-size="11.5" fill="#1f3864" font-weight="700">Vocal fold (white)</text>
+  <line x1="418" y1="130" x2="600" y2="162" stroke="#c0392b"/><text x="604" y="166" font-size="11.5" fill="#c0392b" font-weight="700">Vestibular fold (pink)</text>
+  <line x1="485" y1="120" x2="600" y2="198" stroke="#b56b62"/><text x="604" y="202" font-size="11.5" fill="#8b3a33" font-weight="700">Aryepiglottic fold</text>
+  <line x1="545" y1="200" x2="600" y2="234" stroke="#555"/><text x="604" y="238" font-size="11.5" font-weight="700">Piriform recess</text><text x="604" y="252" font-size="11">(laryngopharynx)</text>
+  <line x1="318" y1="255" x2="150" y2="262" stroke="#6d4c41"/><text x="20" y="258" font-size="11.5" fill="#6d4c41" font-weight="700">Arytenoid</text><text x="20" y="272" font-size="11">+ corniculate on top</text>
+  <text x="20" y="100" font-size="11.5" fill="#2e7d32" font-weight="700">PCA pulls the arytenoids</text><text x="20" y="114" font-size="11.5" fill="#2e7d32" font-weight="700">apart → vocal folds abduct</text><text x="20" y="128" font-size="11">(green arrows)</text>
+</svg>
+<div class="cap">View from above, as in laryngoscopy. The piriform recesses flank the aryepiglottic folds and funnel food around the inlet toward the esophagus.</div></div>
+<div class="grid2">
+<div class="card navy"><h4>Vallecula vs. piriform recess</h4>
+<div class="tbl"><table><tbody>
+<tr><td class="rowh">Epiglottic vallecula</td><td>Between tongue base + epiglottis · <b>oropharynx</b> · laryngoscope blade sits here</td></tr>
+<tr><td class="rowh">Piriform recess</td><td>Lateral to the inlet/AE folds · <b>laryngopharynx</b> · food “gutters”; fish bones lodge here → <b>internal laryngeal nerve</b> at risk (under the mucosa)</td></tr>
+</tbody></table></div></div>
+<div class="card gold"><h4>Vocal fold position</h4>
+<ul><li><b>Phonation:</b> folds <b>closed</b> (adducted)</li>
+<li><b>Respiration:</b> folds <b>open</b> (abducted); wider in forced breathing</li></ul></div>
+</div>
+
+<!-- 5 -->
+<h2 id="mus">5 · Intrinsic Laryngeal Muscles</h2>
+<div class="tbl"><table>
+<thead><tr><th>Muscle</th><th>Attachments</th><th>Action</th><th>Nerve</th></tr></thead>
+<tbody>
+<tr><td><b>Cricothyroid</b></td><td>Cricoid arch → inferior border + inferior horn of thyroid lamina (outside the larynx)</td><td>Tilts thyroid cartilage forward/down → <b>tenses/lengthens</b> vocal folds → <b>raises pitch</b></td><td><b>External laryngeal</b> (SLN)</td></tr>
+<tr><td><b>Posterior cricoarytenoid</b></td><td>Posterior cricoid lamina → muscular process of arytenoid</td><td><b>ABDUCTS</b> — widens the rima glottidis (<b>sole abductor</b>)</td><td>Recurrent laryngeal</td></tr>
+<tr><td>Lateral cricoarytenoid</td><td>Cricoid arch → muscular process of arytenoid</td><td>Adducts (rotates arytenoids medially) → narrows rima</td><td>Recurrent laryngeal</td></tr>
+<tr><td>Transverse arytenoid</td><td>Between the two arytenoids (posterior)</td><td>Adducts — closes posterior glottis</td><td>Recurrent laryngeal</td></tr>
+<tr><td>Oblique arytenoid</td><td>Muscular process → opposite arytenoid apex; continues into AE fold</td><td>Adducts; narrows the laryngeal inlet</td><td>Recurrent laryngeal</td></tr>
+<tr><td>Thyroarytenoid</td><td>Inner thyroid angle → arytenoid</td><td><b>Relaxes/shortens</b> vocal folds → <b>lowers pitch</b></td><td>Recurrent laryngeal</td></tr>
+<tr><td>Vocalis</td><td>Medial part of thyroarytenoid, along the vocal ligament</td><td>Fine-tunes fold tension/thickness</td><td>Recurrent laryngeal</td></tr>
+</tbody></table></div>
+<div class="grid3">
+<div class="card green"><h4>Open</h4><p><b>Posterior cricoarytenoid</b> only.</p><p class="mn">“PCA = Pulls Cords Apart.”</p></div>
+<div class="card purple"><h4>Close</h4><p>Lateral cricoarytenoid, transverse + oblique arytenoids.</p></div>
+<div class="card gold"><h4>Pitch</h4><p><b>Up:</b> cricothyroid (tenses).<br><b>Down:</b> thyroarytenoid (relaxes).</p></div>
+</div>
+
+<!-- 6 -->
+<h2 id="nerve">6 · Nerves of the Larynx &amp; Lesions</h2>
+<div class="flow"><span class="n">CN X</span><span class="ar">→</span><span class="n">Superior laryngeal nerve</span><span class="ar">→</span><span class="n">Internal branch: pierces thyrohyoid membrane (sensory above folds)</span><span class="lab">+</span><span class="n end">External branch: cricothyroid</span></div>
+<div class="flow"><span class="n">CN X</span><span class="ar">→</span><span class="n">Recurrent laryngeal nerve (R: around subclavian a.; L: around aortic arch)</span><span class="ar">→</span><span class="n end">All other intrinsic muscles + sensory below folds</span></div>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Internal laryngeal</th><th>External laryngeal</th><th>Recurrent laryngeal</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Supplies</td><td>Mucosa <b>above</b> vocal folds</td><td><b>Cricothyroid</b></td><td>All other intrinsic muscles; mucosa <b>below</b> vocal folds</td></tr>
+<tr><td class="rowh">Travels with</td><td>Superior laryngeal artery</td><td>Superior thyroid artery</td><td>Inferior thyroid / inferior laryngeal artery</td></tr>
+<tr><td class="rowh">Lesion</td><td>Loss of <b>cough reflex</b> (afferent limb) → aspiration risk</td><td><b>↓ vocal range</b> — can’t raise pitch, no hoarseness (“opera singer”)</td><td>Unilateral: <b>hoarseness</b>. PCA lost → folds can’t open → <b>stridor/airway obstruction</b> (esp. bilateral)</td></tr>
+<tr><td class="rowh">At risk from</td><td>Piriform recess foreign body (fish bone)</td><td>Thyroidectomy (superior pole)</td><td>Thyroidectomy (inferior thyroid a.); left side also by thoracic lesions near the aortic arch</td></tr>
+</tbody></table></div>
+
+<!-- 7 -->
+<h2 id="vasc">7 · Blood Supply, Veins &amp; Lymph</h2>
+<div class="tbl"><table>
+<thead><tr><th></th><th>Above the vocal folds</th><th>Below the vocal folds</th></tr></thead>
+<tbody>
+<tr><td class="rowh">Artery</td><td><b>Superior laryngeal a.</b> ← superior thyroid a. ← ECA (1st branch); enters via the thyrohyoid membrane</td><td><b>Inferior laryngeal a.</b> ← inferior thyroid a. ← thyrocervical trunk ← subclavian</td></tr>
+<tr><td class="rowh">Vein</td><td>Superior laryngeal v. → superior thyroid v. → <b>internal jugular v.</b></td><td>Inferior laryngeal v. → inferior thyroid v. → <b>brachiocephalic v.</b></td></tr>
+<tr><td class="rowh">Sensory nerve</td><td>Internal laryngeal</td><td>Recurrent laryngeal</td></tr>
+<tr><td class="rowh">Lymph</td><td><b>Superior deep cervical</b> nodes (along IJV)</td><td><b>Inferior deep cervical, pretracheal, paratracheal</b> nodes</td></tr>
+</tbody></table></div>
+<div class="hy"><div class="t">★ Vocal fold cancer</div>Lymphatics in the vocal folds are <b>sparse</b> → vocal fold cancers <b>rarely metastasize</b> to lymph nodes.</div>
+
+<!-- 8 -->
+<h2 id="hypo">8 · Laryngopharynx (Hypopharynx) &amp; Swallowing</h2>
+<div class="grid2">
+<div class="card navy"><h4>Laryngopharynx</h4>
+<ul><li>Most inferior part of the pharynx; opens into the larynx via the <b>laryngeal inlet</b>; continues into the <b>esophagus</b></li>
+<li>Wall: <b>middle + inferior constrictors</b>, stylopharyngeus, palatopharyngeus</li>
+<li><b>Piriform recesses</b> = gutters guiding food around the inlet into the esophagus</li>
+<li>All pharyngeal muscles = <b>CN X</b> except stylopharyngeus (<b>CN IX</b>)</li></ul></div>
+<div class="card red"><h4>Zenker’s diverticulum</h4>
+<p>Inferior constrictor = <b>thyropharyngeus</b> + <b>cricopharyngeus</b>. Weak area between them = <b>Killian’s triangle</b> → herniation. Food enters the sac → <b>dysphagia, halitosis, regurgitation, aspiration</b>.</p></div>
+</div>
+<div class="tbl"><table>
+<thead><tr><th>Swallowing phase</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td><b>Oral</b></td><td>Tongue pushes the bolus posteriorly</td></tr>
+<tr><td><b>Oropharyngeal</b></td><td>Soft palate seals the nasopharynx; larynx elevated; pharynx widened</td></tr>
+<tr><td><b>Pharyngeal</b></td><td>Constrictor peristalsis; <b>epiglottis flips down</b> over the inlet; piriform recesses channel food</td></tr>
+<tr><td><b>Esophageal</b></td><td>Peristalsis to the stomach</td></tr>
+</tbody></table></div>
+
+<!-- 9 -->
+<h2 id="airway">9 · Airway Procedures</h2>
+<div class="tbl"><table>
+<thead><tr><th>Procedure</th><th>Where</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><b>Orotracheal intubation</b></td><td>Mouth → between the vocal folds → trachea</td><td>Laryngoscope blade in the <b>vallecula</b> lifts the epiglottis; high <b>Mallampati</b> → plan video laryngoscopy</td></tr>
+<tr><td><b>Cricothyroidotomy</b></td><td>Through the <b>cricothyroid ligament</b> (thyroid ↔ cricoid)</td><td>Emergency if intubation fails; prolonged use can damage the vocal folds/larynx</td></tr>
+<tr><td><b>Tracheostomy</b></td><td><b>Between tracheal rings</b></td><td>Longer-term airway</td></tr>
+</tbody></table></div>
+
+<!-- 10 -->
+<h2 id="check">10 · Self-Check</h2>
+<details><summary>1. Which muscle is the only abductor of the vocal folds, and what nerve supplies it?</summary><div class="ans">Posterior cricoarytenoid — recurrent laryngeal nerve.</div></details>
+<details><summary>2. Which intrinsic laryngeal muscle is not supplied by the recurrent laryngeal nerve?</summary><div class="ans">Cricothyroid — external branch of the superior laryngeal nerve.</div></details>
+<details><summary>3. What pierces the thyrohyoid membrane?</summary><div class="ans">Internal laryngeal nerve and superior laryngeal artery.</div></details>
+<details><summary>4. A fish bone lodged lateral to the laryngeal inlet damages which nerve? What is lost?</summary><div class="ans">Internal laryngeal nerve (under the piriform recess mucosa) → loss of sensation above the vocal folds and the cough reflex.</div></details>
+<details><summary>5. What is the space between the vestibular and vocal folds?</summary><div class="ans">The laryngeal ventricle (with the saccule producing mucus).</div></details>
+<details><summary>6. The vocal ligament is the upper border of which membrane?</summary><div class="ans">Conus elasticus. (Vestibular ligament = lower border of the quadrangular membrane.)</div></details>
+<details><summary>7. After thyroid surgery a patient is hoarse. Which nerve, and which artery does it accompany?</summary><div class="ans">Recurrent laryngeal nerve; inferior thyroid artery.</div></details>
+<details><summary>8. Bilateral recurrent laryngeal nerve injury is dangerous because…?</summary><div class="ans">Both posterior cricoarytenoids are lost → folds can’t abduct → stridor/airway obstruction.</div></details>
+<details><summary>9. Where do lymphatics drain from below the vocal folds?</summary><div class="ans">Inferior deep cervical, pretracheal and paratracheal nodes.</div></details>
+<details><summary>10. Why do vocal fold cancers rarely spread to nodes?</summary><div class="ans">The vocal folds have sparse lymphatics.</div></details>
+<details><summary>11. What is the shape of the cricoid cartilage, and what sits on it?</summary><div class="ans">Signet ring (tall posterior lamina); the arytenoid cartilages sit on its posterior lamina.</div></details>
+<details><summary>12. Name the borders of the laryngeal inlet.</summary><div class="ans">Anterior: epiglottis; lateral: aryepiglottic folds; posterior: interarytenoid notch.</div></details>
+<details><summary>13. Which muscle lowers pitch?</summary><div class="ans">Thyroarytenoid (relaxes/shortens the vocal folds).</div></details>
+<details><summary>14. Where is Killian’s triangle, and what forms there?</summary><div class="ans">Between thyropharyngeus and cricopharyngeus (inferior constrictor); Zenker’s diverticulum.</div></details>
+
+<div class="foot"><span><b>HoyaDocs</b> · HNSS Lab 6 Larynx Exam-Day Review</span><span>Updated 28 Sep 2026 · Rev 1.0</span></div>
+
+</body>
+</html>
