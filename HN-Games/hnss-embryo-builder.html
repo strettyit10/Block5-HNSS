@@ -158,7 +158,7 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);paddi
   </aside>
 </div>
 
-<footer>HoyaDocs · HNSS Embryo Builder · Updated September 28, 2026 · Revision 1.0. Yellow "HY" tags mark points flagged as on the exam or Step 1 high yield.</footer>
+<footer>HoyaDocs · HNSS Embryo Builder · Updated September 28, 2026 · Revision 1.0. Yellow "HY" tags mark high-yield points, including Step 1.</footer>
 </div>
 
 <script>
@@ -194,14 +194,14 @@ var LECS = [
 ];
 
 /* Box types: single (default) {q,a,o,w} · multi {t:"m",q,a:[],o:[],w} · order {t:"o",q,a:[in order],w}
-   hy:true marks "ON EXAM" / Step 1 emphasis. */
+   hy:true marks "HIGH YIELD" / Step 1 emphasis. */
 var E = [
 /* ======================= HNSS03 ======================= */
 {id:"a1", lec:"03", name:"Arch 1", sub:"Mandibular arch · chewing + ossicles", b:[
  {lo:"03.1", q:"By when are arches 1 and 2 present?", a:"Weeks 3–3.5", o:["Week 2","Week 5","Week 6–7"], w:"Arches 1 and 2 are present by weeks 3–3.5, alongside the three germ layers, pericardial bulge and neuropores."},
  {lo:"03.3", q:"Arch 1 has two processes by week 4. Which bones does maxillary-process neural crest form, and how?", a:"Premaxilla, maxilla, zygomatic, part of temporal — membrane ossification", o:["Malleus and incus — endochondral ossification","Mandible — endochondral ossification from Meckel's","Stapes and styloid — membrane ossification"], w:"Maxillary-process neural crest ossifies directly from mesenchyme (membrane/intramembranous): premaxilla, maxilla, zygomatic and portions of the temporal bone."},
  {lo:"03.3", q:"What is the cartilage of arch 1?", a:"Meckel's cartilage", o:["Reichert's cartilage","Thyroid cartilage","Cricoid cartilage"], w:"Meckel's = Mandibular (arch 1). It populates the mandibular process by week 4.5."},
- {lo:"03.3", hy:true, q:"Meckel's cartilage disappears around week 8, except two dorsal remnants. What do they form, and by which process?", a:"Malleus and incus — endochondral ossification", o:["Stapes — endochondral ossification","Mandible — membrane ossification","Malleus and incus — membrane ossification"], w:"The dorsal remnants form the malleus and incus using cartilage as a precursor (endochondral). Flagged as on the exam."},
+ {lo:"03.3", hy:true, q:"Meckel's cartilage disappears around week 8, except two dorsal remnants. What do they form, and by which process?", a:"Malleus and incus — endochondral ossification", o:["Stapes — endochondral ossification","Mandible — membrane ossification","Malleus and incus — membrane ossification"], w:"The dorsal remnants form the malleus and incus using cartilage as a precursor (endochondral). High yield."},
  {lo:"03.3", hy:true, q:"Where does the mandible itself come from?", a:"Mesenchyme and neural crest surrounding Meckel's cartilage", o:["Meckel's cartilage ossifying directly","Reichert's cartilage","Lateral plate mesoderm of arch 4"], w:"Classic trap: Meckel's is only a template. The mandible forms from the tissue around it."},
  {t:"m", lo:"03.3", q:"Select ALL muscles of arch 1.", a:["Temporalis","Masseter","Pterygoids","Anterior belly of digastric","Mylohyoid","Tensor tympani","Tensor veli palatini"], o:["Stapedius","Posterior belly of digastric","Levator veli palatini","Stylopharyngeus"], w:"Arch 1 = 4 chewers + mylohyoid + anterior digastric + 2 tensors. Their partners (stapedius, posterior digastric, levator palatini) belong to other arches."},
  {lo:"03.3", q:"What nerve supplies all arch 1 muscles?", a:"CN V3 (mandibular branch of trigeminal)", o:["CN VII","CN IX","CN V2"], w:"Arch 1 → V3."},
@@ -227,7 +227,7 @@ var E = [
 ]},
 {id:"a46", lec:"03", name:"Arches 4 & 6", sub:"Larynx + pharynx", b:[
  {t:"m", lo:"03.3", q:"Select ALL cartilages from arches 4 and 6.", a:["Thyroid","Cricoid","Arytenoid","Corniculate","Cuneiform"], o:["Hyoid","Epiglottis","Stapes"], w:"All laryngeal cartilages: thyroid, cricoid, arytenoid, corniculate, cuneiform."},
- {lo:"03.3", hy:true, q:"Arches 1–3 cartilage comes from neural crest. Where do the arch 4/6 laryngeal cartilages come from?", a:"Lateral plate mesoderm", o:["Neural crest","Paraxial mesoderm","Endoderm"], w:"Flagged on exam: arch 4/6 structures come from lateral plate mesoderm; neural crest is not involved."},
+ {lo:"03.3", hy:true, q:"Arches 1–3 cartilage comes from neural crest. Where do the arch 4/6 laryngeal cartilages come from?", a:"Lateral plate mesoderm", o:["Neural crest","Paraxial mesoderm","Endoderm"], w:"High yield: arch 4/6 structures come from lateral plate mesoderm; neural crest is not involved."},
  {t:"m", lo:"03.3", q:"Select ALL muscles of arches 4 and 6.", a:["Cricothyroid","Levator veli palatini","Pharyngeal constrictors"], o:["Tensor veli palatini","Stylopharyngeus","Stapedius"], w:"Arch 4/6: cricothyroid, levator palatini, constrictors (plus intrinsic laryngeal muscles via the recurrent laryngeal)."},
  {lo:"03.3", q:"Which vagal branch goes with arch 4, and which with arch 6?", a:"Arch 4 superior laryngeal · arch 6 recurrent laryngeal", o:["Arch 4 recurrent laryngeal · arch 6 superior laryngeal","Both recurrent laryngeal","Arch 4 pharyngeal branch · arch 6 superior laryngeal"], w:"Arch 4 → superior laryngeal (cricothyroid). Arch 6 → recurrent laryngeal."},
  {lo:"03.6", q:"Which rhombomere supplies arches 4 and 6?", a:"R8", o:["R6–R7","R4","R1–R2"], w:"Arches 4 and 6 = R8."},
@@ -255,7 +255,7 @@ var E = [
  {lo:"03.4", q:"Pouch 3 ventral wing forms…", a:"Thymus", o:["Inferior parathyroid","Palatine tonsil","C cells"], w:"Thymus migrates caudally and medially and fuses in the midline; grows until puberty."},
  {lo:"03.4", q:"Why does the pouch 3 parathyroid end up BELOW the pouch 4 parathyroid?", a:"The thymus drags it caudally", o:["Pouch 3 forms lower in the neck","The thyroid pushes it down","It is pulled by the aortic arch"], w:"Bottom (inferior) parathyroid = pouch 3; Top (superior) = pouch 4."},
  {lo:"03.4", q:"Pouch 4 dorsal wing forms…", a:"Superior parathyroid", o:["Inferior parathyroid","Thymus","Palatine tonsil"], w:"It attaches to the cranial thyroid and reaches the dorsal thyroid by week 10."},
- {lo:"03.4", q:"The ultimobranchial body (pouch 5 / ventral wing of pouch 4) forms…", a:"Thyroid C cells → calcitonin", o:["Thyroid follicular cells → T4","Chief cells → PTH","Thymic epithelium"], w:"Flagged as an important structure: it incorporates into the thyroid as calcitonin-secreting C cells."},
+ {lo:"03.4", q:"The ultimobranchial body (pouch 5 / ventral wing of pouch 4) forms…", a:"Thyroid C cells → calcitonin", o:["Thyroid follicular cells → T4","Chief cells → PTH","Thymic epithelium"], w:"High-yield structure: it incorporates into the thyroid as calcitonin-secreting C cells."},
  {lo:"03.1", q:"By what week do the thymus and parathyroids finish migrating?", a:"Week 10", o:["Week 5","Week 7","Month 4"], w:"Through week 10 the pouch 3 glands lose their pharyngeal connection and migrate."},
  {t:"o", lo:"03.4", q:"Order the pouches 1 → 4 by derivative.", a:["Tympanic cavity + eustachian tube","Palatine tonsil","Inferior parathyroid + thymus","Superior parathyroid"], w:"Ear, Tonsils, Bottom, Top."}
 ]},
@@ -277,7 +277,7 @@ var E = [
 ]},
 {id:"tera", lec:"03", name:"Alcohol vs retinoic acid", sub:"Teratogen mechanisms", b:[
  {lo:"03.7", hy:true, q:"Why are neural crest cells so vulnerable to alcohol and retinoic acid?", a:"They lack superoxide dismutase and catalase", o:["They lack DNA repair enzymes","They have no blood supply","They divide slowly"], w:"They can't scavenge free radicals."},
- {lo:"03.7", hy:true, q:"How does alcohol damage neural crest?", a:"Reactive oxygen species only", o:["Hox hyperactivation only","ROS and Hox hyperactivation","Folate antagonism"], w:"Alcohol = ROS only. Flagged on exam."},
+ {lo:"03.7", hy:true, q:"How does alcohol damage neural crest?", a:"Reactive oxygen species only", o:["Hox hyperactivation only","ROS and Hox hyperactivation","Folate antagonism"], w:"Alcohol = ROS only. High yield."},
  {t:"m", lo:"03.7", q:"Select ALL mechanisms of high-dose retinoic acid.", a:["Generates reactive oxygen species","Hyperactivates Hox genes via RAREs"], o:["Blocks SHH receptors","Inhibits folate","Deletes 22q11"], w:"RA = ROS + Hox hyperactivation (too much Hox protein)."},
  {lo:"03.7", q:"Very high retinoic acid in mouse embryos produced a phenotype resembling…", a:"Treacher Collins", o:["DiGeorge","Cyclopia","Waardenburg"], w:"High RA → Treacher Collins–like pups."},
  {lo:"03.7", q:"Step 1: smooth philtrum, thin upper lip, short palpebral fissures, microcephaly. Exposure?", a:"Alcohol (fetal alcohol syndrome)", o:["Isotretinoin","Phenytoin","Lithium"], w:"FAS is the leading preventable cause of intellectual disability."},
@@ -296,13 +296,13 @@ var E = [
  {t:"m", lo:"04.1", q:"At weeks 4–5, which swellings does arch 1 form for the tongue? Select ALL.", a:["Two lateral lingual swellings","Tuberculum impar"], o:["Copula","Hypobranchial eminence","Foramen cecum"], w:"Arch 1: two lateral swellings + midline tuberculum impar."},
  {lo:"04.1", q:"The copula (weeks 5–10) comes from mesoderm under which arches?", a:"Arches 2, 3 and 4", o:["Arch 1 only","Arches 1 and 2","Arch 6"], w:"Copula = anterior hypobranchial eminence."},
  {lo:"04.1", q:"Which swellings build the anterior 2/3 of the tongue?", a:"Lateral lingual swellings overgrowing the tuberculum impar", o:["The copula","The hypobranchial eminence","Occipital somites"], w:"Posterior 1/3 comes from the hypobranchial eminence/copula."},
- {lo:"04.1", hy:true, q:"Where do the tongue muscles come from?", a:"Occipital somite (paraxial mesoderm) myoblasts", o:["Arch 1 neural crest","Endoderm","Lateral plate mesoderm of arch 4"], w:"Flagged on exam. Tongue = mesoderm surrounded by endoderm."},
- {lo:"04.1", hy:true, q:"The tongue is best described as…", a:"Mesoderm surrounded by endoderm", o:["Endoderm surrounded by ectoderm","Neural crest surrounded by mesoderm","Ectoderm only"], w:"Flagged on exam."},
+ {lo:"04.1", hy:true, q:"Where do the tongue muscles come from?", a:"Occipital somite (paraxial mesoderm) myoblasts", o:["Arch 1 neural crest","Endoderm","Lateral plate mesoderm of arch 4"], w:"High yield. Tongue = mesoderm surrounded by endoderm."},
+ {lo:"04.1", hy:true, q:"The tongue is best described as…", a:"Mesoderm surrounded by endoderm", o:["Endoderm surrounded by ectoderm","Neural crest surrounded by mesoderm","Ectoderm only"], w:"High yield."},
  {lo:"04.1", q:"Step 1: tongue muscles are innervated by…", a:"CN XII (except palatoglossus, CN X)", o:["CN V3","CN IX","CN VII"], w:"Somite-derived muscle → hypoglossal."}
 ]},
 {id:"tl", lec:"04", name:"Tongue & lung", sub:"Shared mechanism", b:[
  {lo:"04.2", q:"What shared mechanism drives tongue and lung development?", a:"Underlying mesoderm/neural crest signals endoderm to proliferate", o:["Endoderm signals ectoderm to invaginate","Neural tube secretes SHH","Apoptosis of the copula"], w:"Epithelial–mesenchymal interaction."},
- {t:"o", lo:"04.2", q:"Put the tongue signaling cascade in order. (Low yield — marked not on exam in lecture.)", a:["Endoderm BMP-7 blocks its own proliferation","BMP-7 stimulates mesoderm to secrete Noggin","Noggin inhibits BMP-7","Patched is released from inhibition","Endoderm proliferates"], w:"BMP-7 vs Patched battle; Noggin tips it."},
+ {t:"o", lo:"04.2", q:"Put the tongue signaling cascade in order. (Low yield.)", a:["Endoderm BMP-7 blocks its own proliferation","BMP-7 stimulates mesoderm to secrete Noggin","Noggin inhibits BMP-7","Patched is released from inhibition","Endoderm proliferates"], w:"BMP-7 vs Patched battle; Noggin tips it."},
  {lo:"04.2", q:"How does thyroid budding differ from lung budding?", a:"Thyroid buds only once (bilobed); lungs keep bifurcating", o:["Thyroid never buds","Thyroid buds from ectoderm","Lungs bud only once"], w:"Both are endodermal diverticula; the thyroid stops at two lobes."}
 ]},
 {id:"inn", lec:"04", name:"Tongue & throat nerves", sub:"Innervation", b:[
@@ -318,7 +318,7 @@ var E = [
  {lo:"04.4", q:"Where does the thyroid originate?", a:"Foramen cecum", o:["Pouch 4","Hypobranchial eminence","Tuberculum impar"], w:"Between the tuberculum impar and hypobranchial eminence."},
  {lo:"04.4", q:"What connects the descending thyroid to the tongue?", a:"Thyroglossal duct (normally disappears)", o:["Ultimobranchial body","Cervical sinus","Tubotympanic recess"], w:"Remnants → thyroglossal duct cyst or pyramidal lobe."},
  {t:"o", lo:"04.4", q:"Put thyroid development in order.", a:["Endoderm proliferates at the foramen cecum","Descends as a bilobed diverticulum on the thyroglossal duct","Week 6: in front of hyoid and laryngeal cartilages","Week 7: final position anterior to the trachea","Weeks 14–15: begins functioning"], w:"Foramen cecum → descent → wk 6 hyoid → wk 7 trachea → wk 14–15 function."},
- {lo:"04.4", hy:true, q:"PAX genes drive thyroid development. What does that imply?", a:"Neural crest cells are involved", o:["The thyroid is ectodermal","The thyroid comes from pouch 2","No mesoderm is involved"], w:"Flagged on exam: PAX involvement = neural crest involvement."},
+ {lo:"04.4", hy:true, q:"PAX genes drive thyroid development. What does that imply?", a:"Neural crest cells are involved", o:["The thyroid is ectodermal","The thyroid comes from pouch 2","No mesoderm is involved"], w:"High yield: PAX involvement = neural crest involvement."},
  {t:"m", lo:"04.4", q:"Select ALL genes named for thyroid development.", a:["TTF-1","PAX","BMPs","Noggin"], o:["Tcof-1","OTX2","Hoxa-1"], w:"TTF-1 = thyroid transcription factor 1."},
  {lo:"04.5", q:"When does the fetal thyroid start functioning?", a:"Weeks 14–15", o:["Week 4","Week 7","Week 30"], w:"Lecture timing (Step 1 sources often say ~10–12)."},
  {lo:"04.5", q:"Follicular cells produce colloid, the source of…", a:"T4 and T3 → cellular metabolism", o:["Calcitonin → bone","PTH → calcium","TSH → growth"], w:"Levothyroxine = synthetic T4."},
@@ -353,11 +353,11 @@ var E = [
 ]},
 {id:"mal", lec:"04", name:"Craniofacial malformations", sub:"Clefts and cysts", b:[
  {lo:"04.9", q:"Lateral cleft lip = failure of which fusion?", a:"Maxillary + medial nasal prominences", o:["Maxillary + lateral nasal prominences","Palatine shelves","Two medial nasal prominences"], w:"Anterior cleft; ~1/1000, 80% male."},
- {lo:"04.9", hy:true, q:"Cleft secondary palate and cleft uvula = failure of…", a:"Palatine shelves to fuse", o:["Maxillary + medial nasal","Medial nasal prominences","Mandibular prominences"], w:"Flagged on exam."},
- {lo:"04.9", hy:true, q:"Oblique facial cleft = failure of…", a:"Maxillary + lateral nasal prominences", o:["Maxillary + medial nasal","Palatine shelves","Frontonasal + maxillary"], w:"Flagged on exam. The cleft lip here is secondary to the cleft palate."},
+ {lo:"04.9", hy:true, q:"Cleft secondary palate and cleft uvula = failure of…", a:"Palatine shelves to fuse", o:["Maxillary + medial nasal","Medial nasal prominences","Mandibular prominences"], w:"High yield."},
+ {lo:"04.9", hy:true, q:"Oblique facial cleft = failure of…", a:"Maxillary + lateral nasal prominences", o:["Maxillary + medial nasal","Palatine shelves","Frontonasal + maxillary"], w:"High yield. The cleft lip here is secondary to the cleft palate."},
  {lo:"04.9", q:"Median cleft of the upper lip = failure of…", a:"The two medial nasal prominences to merge", o:["Mandibular prominences","Palatine shelves","Lateral nasal prominences"], w:"Median lower lip = mandibular prominences."},
  {t:"m", lo:"04.9", q:"Which drugs raise the risk of oral clefts? Select ALL.", a:["Phenobarbital","Lamotrigine","Valproic acid","Lithium"], o:["Folic acid","Levothyroxine"], w:"Lamotrigine: 2.5/1000 vs 0.37/1000."},
- {lo:"04.9", hy:true, q:"All facial clefts can ultimately be caused by problems with…", a:"Neural crest migration or function", o:["Endoderm proliferation","Somite segmentation","Notochord signaling"], w:"Flagged on exam."},
+ {lo:"04.9", hy:true, q:"All facial clefts can ultimately be caused by problems with…", a:"Neural crest migration or function", o:["Endoderm proliferation","Somite segmentation","Notochord signaling"], w:"High yield."},
  {lo:"04.9", q:"Most common congenital malformation of the head and neck (BRS)?", a:"Unilateral cleft lip", o:["Thyroglossal duct cyst","Branchial cleft cyst","Cleft palate alone"], w:"From BRS formative questions."},
  {lo:"04.9", q:"Painless MIDLINE neck mass below the hyoid that rises with tongue protrusion?", a:"Thyroglossal duct cyst", o:["Branchial cleft cyst","Cystic hygroma","Lingual thyroid"], w:"Anywhere on the descent path; often near the hyoid."},
  {lo:"04.9", q:"Treacher Collins: Tcof-1 mutation disrupts NC migration from which rhombomeres?", a:"R2 and R4 (arches 1 and 2)", o:["R6 and R7","R8","R1 only"], w:"Autosomal dominant; arches 1 and 2 fuse."},
@@ -371,7 +371,7 @@ var E = [
 
 /* ======================= HNSS18 ======================= */
 {id:"eo", lec:"18", name:"Eye origins", sub:"Which tissue builds it?", b:[
- {lo:"18.1", q:"Neural retina comes from…", a:"Inner layer of the optic cup (neuroectoderm)", o:["Outer layer of the optic cup","Surface ectoderm","Neural crest"], w:"Only the neural retina contains sensory cells (on exam)."},
+ {lo:"18.1", q:"Neural retina comes from…", a:"Inner layer of the optic cup (neuroectoderm)", o:["Outer layer of the optic cup","Surface ectoderm","Neural crest"], w:"Only the neural retina contains sensory cells (high yield)."},
  {lo:"18.1", q:"Retinal pigment epithelium comes from…", a:"Outer layer of the optic cup", o:["Inner layer of the optic cup","Neural crest","Surface ectoderm"], w:"Inner → neural retina; outer → RPE."},
  {lo:"18.1", q:"The lens comes from…", a:"Surface ectoderm (lens placode)", o:["Neuroectoderm","Neural crest","Mesoderm"], w:"Placode → pit → vesicle → lens."},
  {lo:"18.1", q:"Corneal epithelium comes from…", a:"Surface ectoderm", o:["Neural crest","Neuroectoderm","Mesoderm"], w:"Stroma and endothelium are neural crest."},
@@ -383,10 +383,10 @@ var E = [
  {lo:"18.1", q:"Sclera, choroid and conjunctiva (week 10) come from…", a:"Mesenchyme around the optic cup", o:["Optic cup","Lens vesicle","Endoderm"], w:"From the student HY notes."}
 ]},
 {id:"es", lec:"18", name:"Eye development", sub:"Steps and timing", b:[
- {lo:"18.2", hy:true, q:"Where are the eye fields?", a:"Anterior neural plate (prosencephalon), in line with the diencephalon", o:["Rhombencephalon","Surface ectoderm of the face","Mesencephalon"], w:"Flagged on exam. Day ~17."},
+ {lo:"18.2", hy:true, q:"Where are the eye fields?", a:"Anterior neural plate (prosencephalon), in line with the diencephalon", o:["Rhombencephalon","Surface ectoderm of the face","Mesencephalon"], w:"High yield. Day ~17."},
  {lo:"18.2", q:"Which transcription factor marks the eye fields?", a:"PAX6", o:["PAX3","OTX2","TTF-1"], w:"PAX6 + SOX2 let surface ectoderm respond to the optic vesicle."},
  {lo:"18.2", q:"What induces the lens placode?", a:"Optic vesicle contacting surface ectoderm", o:["Lens vesicle contacting cornea","Neural crest","Hyaloid artery"], w:"~Day 28."},
- {lo:"18.2", hy:true, q:"What does the lens (vesicle) then induce?", a:"The cornea", o:["The retina","The optic nerve","The iris"], w:"Flagged on exam."},
+ {lo:"18.2", hy:true, q:"What does the lens (vesicle) then induce?", a:"The cornea", o:["The retina","The optic nerve","The iris"], w:"High yield."},
  {t:"o", lo:"18.2", q:"Put eye development in order.", a:["Eye fields in anterior neural plate","Optic grooves","Optic vesicles","Lens placode induced","Optic cup + lens vesicle","Choroid fissure closes over hyaloid artery"], w:"~Day 17 → 21 → 25 → 28 → 36 → wk 6–7."},
  {lo:"18.2", q:"What runs through the choroid fissure?", a:"Hyaloid artery", o:["Optic nerve","Ophthalmic vein","Ciliary nerves"], w:"Leaves the hyaloid canal in the vitreous."},
  {lo:"18.2", q:"How does the lens grow to its final size?", a:"Proliferation at the equator", o:["Proliferation at the anterior pole","Fusion with the cornea","Apoptosis of lens fibers"], w:"PAX6, SOX2, MAF."},
@@ -407,7 +407,7 @@ var E = [
  {lo:"18.1", q:"Malleus/incus vs stapes origins?", a:"Malleus + incus arch 1 · stapes arch 2", o:["All three arch 1","All three arch 2","Malleus arch 1 · incus + stapes arch 2"], w:"Meckel's vs Reichert's."},
  {lo:"18.1", q:"The auricle forms from…", a:"6 auricular hillocks (1–3 arch 1, 4–6 arch 2)", o:["Cleft 1 only","Pouch 1","Otic placode"], w:"Hillock 1 → tragus, hillock 6 → antitragus; lobule isn't from hillocks."},
  {lo:"18.2", q:"The meatal plug breaks down around…", a:"Month 7", o:["Week 5","Birth","Month 3"], w:"Opens the canal to the eardrum."},
- {lo:"18.2", hy:true, q:"External ears start caudal to the jaw and move up. What do external ear deformities suggest?", a:"Deformities in the pharyngeal region", o:["Isolated cosmetic issue","Inner ear agenesis","Eye defects"], w:"Flagged on exam."}
+ {lo:"18.2", hy:true, q:"External ears start caudal to the jaw and move up. What do external ear deformities suggest?", a:"Deformities in the pharyngeal region", o:["Isolated cosmetic issue","Inner ear agenesis","Eye defects"], w:"High yield."}
 ]},
 {id:"ab", lec:"18", name:"Eye & ear abnormalities", sub:"Embryologic basis", b:[
  {lo:"18.3", q:"Cyclopia results from loss of which signal?", a:"SHH from the ventral midline", o:["PAX6","FGF from the lens","BMP from the optic cup"], w:"No SHH → PAX6 not repressed in the midline → eye fields merge."},
@@ -426,8 +426,8 @@ var E = [
  {lo:"18.X", q:"High-frequency sound is detected where in the cochlea?", a:"Base", o:["Apex","Middle turn","Round window"], w:"Low frequencies at the apex."},
  {lo:"18.X", q:"Inner vs outer hair cells?", a:"Inner transmit · outer amplify", o:["Inner amplify · outer transmit","Both transmit","Both amplify"], w:"Inner hair cells → spiral ganglion."},
  {lo:"18.X", q:"Maculae (utricle, saccule) vs cristae (semicircular canals)?", a:"Maculae linear acceleration · cristae rotation", o:["Maculae rotation · cristae linear","Both sense sound","Both sense rotation"], w:"Otoliths vs cupula."},
- {lo:"18.X", hy:true, q:"Pregnant woman with sudden hearing loss from ossicle fixation?", a:"Otosclerosis", o:["Ménière disease","Cholesteatoma","BPPV"], w:"Flagged on exam: stapes fixation → conductive loss."},
- {lo:"18.X", hy:true, q:"A cochlear implant only works if what is intact?", a:"The auditory nerve", o:["Hair cells","The stapes","The tympanic membrane"], w:"Flagged on exam."},
+ {lo:"18.X", hy:true, q:"Pregnant woman with sudden hearing loss from ossicle fixation?", a:"Otosclerosis", o:["Ménière disease","Cholesteatoma","BPPV"], w:"High yield: stapes fixation → conductive loss."},
+ {lo:"18.X", hy:true, q:"A cochlear implant only works if what is intact?", a:"The auditory nerve", o:["Hair cells","The stapes","The tympanic membrane"], w:"High yield."},
  {lo:"18.X", q:"Episodic vertigo, tinnitus, hearing loss from endolymphatic hydrops?", a:"Ménière disease", o:["BPPV","Otosclerosis","Otitis media"], w:"Treatment: low salt, diuretics, labyrinthectomy."},
  {lo:"18.X", q:"Brief vertigo after head movement from dislodged otoliths?", a:"BPPV", o:["Ménière disease","Cholesteatoma","Otitis externa"], w:"Canalith repositioning."},
  {lo:"18.X", q:"Cone of light positions?", a:"Right ear 5 o'clock · left ear 7 o'clock", o:["Right 7 · left 5","Both 12 o'clock","Both 6 o'clock"], w:"From the umbo of the malleus."},

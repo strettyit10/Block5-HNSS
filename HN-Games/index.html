@@ -20,6 +20,7 @@
   --emb:#C4631B; --emb-ink:#8A3F0A; --emb-soft:#FBE7D6;
   --his:#C2407A; --his-ink:#8C1F55; --his-soft:#F8DDEA;
   --neu:#6A55C9; --neu-ink:#3F2E91; --neu-soft:#E8E3F7;
+  --pat:#1F7A6B; --pat-ink:#0F5247; --pat-soft:#D8EFEA;
   --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
@@ -36,6 +37,7 @@
     --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
+    --pat:#4FC2AE; --pat-ink:#7AD6C5; --pat-soft:#14302B;
   }
 }
 :root[data-theme="dark"]{
@@ -49,6 +51,7 @@
     --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
+    --pat:#4FC2AE; --pat-ink:#7AD6C5; --pat-soft:#14302B;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ground);color:var(--ink)}
@@ -116,6 +119,7 @@ a{color:inherit}
 .disc{--a:var(--emb);--a-ink:var(--emb-ink);--a-soft:var(--emb-soft);display:flex;flex-direction:column;gap:16px}
 .disc.his{--a:var(--his);--a-ink:var(--his-ink);--a-soft:var(--his-soft)}
 .disc.neu{--a:var(--neu);--a-ink:var(--neu-ink);--a-soft:var(--neu-soft)}
+.disc.pat{--a:var(--pat);--a-ink:var(--pat-ink);--a-soft:var(--pat-soft)}
 .dhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:3px solid var(--a);padding-bottom:10px}
 .dhead .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--a-ink)}
 .dhead h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(34px,5vw,48px);line-height:.9;margin:2px 0 0;letter-spacing:.01em}
@@ -182,31 +186,31 @@ a.card:hover .go svg{transform:translateX(4px)}
 <div class="wrap">
 
   <header class="mast">
-    <a class="brand" href="../">HoyaDocs <b>&middot;</b> Block 5</a>
+    <a class="brand" href="../../index.html">HoyaDocs <b>&middot;</b> Block 5</a>
     <div class="mastright">
-      <div class="tag">HNSS &middot; Rev 1 &middot; Updated Sep 29, 2026</div>
+      <div class="tag">HNSS &middot; Rev 3 &middot; Updated Sep 29, 2026</div>
       <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
     </div>
   </header>
 
   <nav class="tabs" aria-label="HNSS sections">
-    <a href="../">HNSS Home</a>
-    <a href="../Anat-Games/">Anatomy Game Hub</a>
-    <a href="../Exam-Day-Lab-Notes/">Exam Day Lab Notes</a>
-    <a href="../HN-Games/" aria-current="page">Head &amp; Neck Games</a>
-    <a href="../HN-Study-Guides/">Head &amp; Neck Study Guides</a>
+    <a href="../../index.html">HNSS Home</a>
+    <a href="../../Anat-Games/">Anatomy HNSS Games</a>
+    <a href="../Exam-Day-Lab-Notes/index.html">Exam Day Lab Notes</a>
+    <a href="../HN-Games/index.html" aria-current="page">Head &amp; Neck Games</a>
+    <a href="../HN-Study-Guides/index.html">Head &amp; Neck Study Guides</a>
   </nav>
 
   <section class="hero">
-    <a class="back" href="../"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 8H3M7 4 3 8l4 4"/></svg>HNSS Home</a>
-    <div class="kicker">Embryology &middot; Histology &middot; Neuro</div>
+    <a class="back" href="../../index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 8H3M7 4 3 8l4 4"/></svg>HNSS Home</a>
+    <div class="kicker">Embryology &middot; Histology &middot; Neuro &middot; Pathology</div>
     <h1>Head &amp; Neck Games</h1>
     <p>Three ways to play every learning objective. Build the structures, fight through a boss gauntlet for each lecture, then run the full campaign as mixed review.</p>
     <div class="stats">
-      <div><b>13</b><small>Games</small></div>
-      <div><b>242</b><small>Boss questions</small></div>
-      <div><b>53</b><small>Bosses</small></div>
-      <div><b>8</b><small>Lectures</small></div>
+      <div><b>17</b><small>Games</small></div>
+      <div><b>345</b><small>Boss questions</small></div>
+      <div><b>76</b><small>Bosses</small></div>
+      <div><b>11</b><small>Lectures</small></div>
     </div>
   </section>
 
@@ -222,6 +226,7 @@ a.card:hover .go svg{transform:translateX(4px)}
       <button type="button" data-f="emb" aria-pressed="false" style="--dot:var(--emb)"><i></i>Embryology</button>
       <button type="button" data-f="his" aria-pressed="false" style="--dot:var(--his)"><i></i>Histology</button>
       <button type="button" data-f="neu" aria-pressed="false" style="--dot:var(--neu)"><i></i>Neuro</button>
+      <button type="button" data-f="pat" aria-pressed="false" style="--dot:var(--pat)"><i></i>Pathology</button>
     </div>
     <label class="search">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="4.8"/><path d="m10.6 10.6 3.6 3.6"/></svg>
@@ -238,7 +243,7 @@ a.card:hover .go svg{transform:translateX(4px)}
       <div class="lecs"><span><b>HNSS03</b>Pharyngeal Arches</span><span><b>HNSS04</b>Craniofacial Development</span><span><b>HNSS18</b>Eye &amp; Ear Embryology</span></div>
     </div>
     <div class="grid">
-      <a class="card" href="Embryology/hnss-embryo-builder.html">
+      <a class="card" href="Embryo%20Games/hnss-embryo-builder.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke-dasharray="2.5 2"/></svg></div>
           <div>
@@ -250,7 +255,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>21</b><small>LOs tracked</small></div><div><b>3</b><small>Scopes</small></div><div><b>2</b><small>Modes</small></div></div><div class="chips"><span>Arches</span><span>Craniofacial</span><span>Eye &amp; ear</span></div>
         <div class="foot2"><span class="tag">Build &middot; Drill &middot; LO mastery map</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Embryology/pharyngeal-gauntlet.html">
+      <a class="card" href="Embryo%20Games/pharyngeal-gauntlet_1.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
           <div>
@@ -262,7 +267,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>43</b><small>Questions</small></div><div><b>9</b><small>Bosses</small></div><div><b>8</b><small>LOs</small></div></div>
         <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Embryology/fusion-wars.html">
+      <a class="card" href="Embryo%20Games/fusion-wars_1.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
           <div>
@@ -274,7 +279,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>46</b><small>Questions</small></div><div><b>11</b><small>Bosses</small></div><div><b>10</b><small>LOs</small></div></div>
         <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Embryology/sensory-citadel.html">
+      <a class="card" href="Embryo%20Games/sensory-citadel_1.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
           <div>
@@ -286,7 +291,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>33</b><small>Questions</small></div><div><b>7</b><small>Bosses</small></div><div><b>3</b><small>LOs</small></div></div>
         <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Embryology/embryomon.html">
+      <a class="card" href="Embryo%20Games/embryomon.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></svg></div>
           <div>
@@ -310,7 +315,7 @@ a.card:hover .go svg{transform:translateX(4px)}
       <div class="lecs"><span><b>HNSS09</b>Eye &amp; Ear Histology</span><span><b>HNSS12</b>Oral Structures</span></div>
     </div>
     <div class="grid">
-      <a class="card" href="Histology/hnss-histo-builder.html">
+      <a class="card" href="Histo%20Games/hnss-histo-builder.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke-dasharray="2.5 2"/></svg></div>
           <div>
@@ -322,7 +327,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>10</b><small>LOs tracked</small></div><div><b>2</b><small>Scopes</small></div><div><b>2</b><small>Modes</small></div></div><div class="chips"><span>Eye &amp; ear</span><span>Oral</span></div>
         <div class="foot2"><span class="tag">Build &middot; Drill &middot; LO mastery map</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Histology/tunic-siege.html">
+      <a class="card" href="Histo%20Games/tunic-siege.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
           <div>
@@ -334,7 +339,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>35</b><small>Questions</small></div><div><b>7</b><small>Bosses</small></div><div><b>4</b><small>LOs</small></div></div>
         <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Histology/enamel-gauntlet.html">
+      <a class="card" href="Histo%20Games/enamel-gauntlet.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
           <div>
@@ -346,7 +351,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>32</b><small>Questions</small></div><div><b>7</b><small>Bosses</small></div><div><b>6</b><small>LOs</small></div></div>
         <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Histology/histomon.html">
+      <a class="card" href="Histo%20Games/histomon.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></svg></div>
           <div>
@@ -370,7 +375,7 @@ a.card:hover .go svg{transform:translateX(4px)}
       <div class="lecs"><span><b>HNSS07</b>The Brain</span><span><b>HNSS08</b>Brain Development</span><span><b>HNSS17</b>Vascular &amp; Ventricular Systems</span></div>
     </div>
     <div class="grid">
-      <a class="card" href="Neuro/hnss-neuro-builder.html">
+      <a class="card" href="Neuro%20Games/hnss-neuro-builder.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke-dasharray="2.5 2"/></svg></div>
           <div>
@@ -382,7 +387,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>14</b><small>LOs tracked</small></div><div><b>3</b><small>Scopes</small></div><div><b>2</b><small>Modes</small></div></div><div class="chips"><span>Brain</span><span>Development</span><span>Vascular</span></div>
         <div class="foot2"><span class="tag">Build &middot; Drill &middot; LO mastery map</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Neuro/cerebral-siege.html">
+      <a class="card" href="Neuro%20Games/cerebral-siege.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
           <div>
@@ -394,7 +399,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>26</b><small>Questions</small></div><div><b>6</b><small>Bosses</small></div><div><b>4</b><small>LOs</small></div></div>
         <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Neuro/neural-tube-trials.html">
+      <a class="card" href="Neuro%20Games/neural-tube-trials.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
           <div>
@@ -406,7 +411,7 @@ a.card:hover .go svg{transform:translateX(4px)}
         <div class="nums"><div><b>27</b><small>Questions</small></div><div><b>6</b><small>Bosses</small></div><div><b>3</b><small>LOs</small></div></div>
         <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
       </a>
-      <a class="card" href="Neuro/cerebromon.html">
+      <a class="card" href="Neuro%20Games/cerebromon.html">
         <div class="top">
           <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></svg></div>
           <div>
@@ -421,11 +426,71 @@ a.card:hover .go svg{transform:translateX(4px)}
     </div>
   </section>
 
+  <section class="disc pat" data-d="pat" id="pathology">
+    <div class="dhead">
+      <div>
+        <div class="k">DDx and vignette recognition: eye, orbit, head &amp; neck</div>
+        <h2>Pathology Games</h2>
+      </div>
+      <div class="lecs"><span><b>HNSS11</b>Eye Pathology</span><span><b>HNSS15</b>Head &amp; Neck Pathology</span><span><b>HNSS16</b>H&amp;N Path Lab</span></div>
+    </div>
+    <div class="grid">
+      <a class="card" href="Path%20Games/hnss-path-builder.html">
+        <div class="top">
+          <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke-dasharray="2.5 2"/></svg></div>
+          <div>
+            <div class="sub">Structure Builder &middot; HNSS11 &middot; 15 &middot; 16</div>
+            <h3>Pathology Builder</h3>
+            <p>Build each disease box by box, or switch to Drill to hit only what you've missed. Heavy on DDx and vignette clues.</p>
+          </div>
+        </div>
+        <div class="nums"><div><b>24</b><small>LOs tracked</small></div><div><b>3</b><small>Scopes</small></div><div><b>2</b><small>Modes</small></div></div><div class="chips"><span>Eye</span><span>Head &amp; neck</span><span>Lab slides</span></div>
+        <div class="foot2"><span class="tag">Build &middot; Drill &middot; LO mastery map</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+      <a class="card" href="Path%20Games/eye-fundus-fortress.html">
+        <div class="top">
+          <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
+          <div>
+            <div class="sub">Boss Gauntlet &middot; HNSS11</div>
+            <h3>The Fundus Fortress</h3>
+            <p>Seven bosses guard the ten LOs of eye pathology, from diabetic retinopathy to proptosis.</p>
+          </div>
+        </div>
+        <div class="nums"><div><b>37</b><small>Questions</small></div><div><b>8</b><small>Bosses</small></div><div><b>10</b><small>LOs</small></div></div>
+        <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+      <a class="card" href="Path%20Games/aerodigestive-gauntlet.html">
+        <div class="top">
+          <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
+          <div>
+            <div class="sub">Boss Gauntlet &middot; HNSS15</div>
+            <h3>The Aerodigestive Gauntlet</h3>
+            <p>Six bosses: white or red, bleed or block, hoarse or swollen. Name the lesion from the vignette.</p>
+          </div>
+        </div>
+        <div class="nums"><div><b>32</b><small>Questions</small></div><div><b>7</b><small>Bosses</small></div><div><b>6</b><small>LOs</small></div></div>
+        <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+      <a class="card" href="Path%20Games/slide-sanctum.html">
+        <div class="top">
+          <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
+          <div>
+            <div class="sub">Boss Gauntlet &middot; HNSS16</div>
+            <h3>The Slide Sanctum</h3>
+            <p>Seven bosses built on slide descriptions: read what the slide shows and name the lesion and its behavior.</p>
+          </div>
+        </div>
+        <div class="nums"><div><b>34</b><small>Questions</small></div><div><b>8</b><small>Bosses</small></div><div><b>8</b><small>LOs</small></div></div>
+        <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+    </div>
+  </section>
+
   <div class="empty" id="empty">No game matches that. Try a broader word, such as "eye" or "HNSS04".</div>
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; Block 5 &middot; HNSS &middot; Head &amp; Neck Games</div>
-    <div class="tag">Rev 1 &middot; Updated Sep 29, 2026</div>
+    <div class="tag">Rev 3 &middot; Updated Sep 29, 2026</div>
   </footer>
 
 </div>

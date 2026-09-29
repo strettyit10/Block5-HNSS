@@ -1,0 +1,483 @@
+<title>HNSS Pathology Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: toolbar + stats on top; structure list | question card | LO mastery map. Stacks to one column on phones. */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --ink:#18212b; --muted:#5a6570; --line:#dbe0e5; --chip:#eceff2;
+  --arch:#0f6b6b; --face:#7a3b69; --eye:#2c55a0; --accent:#0f6b6b;
+  --ok:#1d7a3e; --ok-bg:#e3f4e8; --bad:#b3261e; --bad-bg:#fbe7e5; --once:#b7791f; --once-bg:#fdf1dc;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --f-display:"Source Serif 4", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.2}
+.meta{font:500 .74rem var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px}
+header h1{font-size:1.9rem}
+header p.lede{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.btn{font:600 .85rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn:focus-visible,.opt:focus-visible,.seg button:focus-visible,.ent:focus-visible,.lo-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hdr-actions{display:flex;gap:8px}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.seg{display:inline-flex;background:var(--chip);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{font:600 .82rem var(--f-body);border:0;background:transparent;color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.seg .lab{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:center;padding:0 6px}
+.stats{display:flex;gap:18px;flex-wrap:wrap}
+.stat b{display:block;font:700 1.15rem var(--f-body);font-variant-numeric:tabular-nums}
+.stat span{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+.main{display:grid;grid-template-columns:250px minmax(0,1fr) 270px;gap:16px;align-items:start}
+@media (max-width:1000px){ .main{grid-template-columns:minmax(0,1fr)} .side{order:2} .map{order:3} }
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px;min-width:0}
+.panel h2{font-size:1rem}
+.lec-h{font:700 .72rem var(--f-body);letter-spacing:.07em;text-transform:uppercase;margin-top:6px}
+.ent{display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;background:transparent;border:1px solid transparent;border-radius:8px;padding:7px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.ent:hover{background:var(--chip)}
+.ent[aria-current="true"]{border-color:var(--lc);background:var(--chip)}
+.ent .n{font-weight:600;font-size:.9rem}
+.ent .s{grid-column:1;font-size:.75rem;color:var(--muted)}
+.ent .pct{grid-row:1/3;grid-column:2;align-self:center;font:500 .75rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.ent .mini{grid-column:1/3;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ent .mini i{display:block;height:100%;background:var(--lc)}
+.l03{--lc:var(--arch)} .l04{--lc:var(--face)} .l18{--lc:var(--eye)}
+.l09{--lc:var(--eye)} .l12{--lc:var(--face)} .l07{--lc:var(--arch)} .l08{--lc:var(--face)} .l17{--lc:var(--eye)} .l11{--lc:var(--eye)} .l15{--lc:var(--face)} .l16{--lc:var(--arch)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--lc);border-radius:12px;padding:18px;display:grid;gap:14px;min-width:0}
+.card-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline}
+.card-top h2{font-size:1.35rem}
+.tag{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.lo{color:var(--lc)}
+.tag.hy{background:var(--hy-bg);color:var(--hy-ink);border:1px solid var(--hy-line)}
+.boxes{display:flex;gap:4px;flex-wrap:wrap}
+.boxes i{width:18px;height:6px;border-radius:3px;background:var(--line)}
+.boxes i.done-ok{background:var(--ok)} .boxes i.done-bad{background:var(--bad)} .boxes i.cur{background:var(--lc)}
+.q{font:600 1.08rem/1.45 var(--f-body);margin:0}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--lc)}
+.opt .k{font:500 .75rem var(--f-mono);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-top:1px}
+.opt.sel{border-color:var(--lc);background:var(--chip)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.missed{border-color:var(--ok);border-style:dashed}
+.opt[disabled]{cursor:default}
+.ordered{display:grid;gap:6px;counter-reset:ord;padding:0;margin:0;list-style:none;min-height:44px;border:1.5px dashed var(--line);border-radius:10px;padding:8px}
+.ordered li{counter-increment:ord;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--chip);border-radius:8px;padding:7px 10px;cursor:pointer}
+.ordered li::before{content:counter(ord);font:500 .78rem var(--f-mono);color:var(--lc)}
+.ordered li.right{background:var(--ok-bg)} .ordered li.wrong{background:var(--bad-bg)}
+.ordered .empty{color:var(--muted);font-size:.85rem;padding:4px}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg)} .fb.bad{background:var(--bad-bg)}
+.fb .v{font-weight:700}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.fb ol{margin:0;padding-left:1.2em}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.timer{font:500 .8rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.done{display:grid;gap:10px;text-align:left}
+
+.lo-grid{display:grid;gap:6px}
+.lo-tile{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;width:100%;background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.lo-tile:hover{border-color:var(--lc)}
+.lo-tile .id{font:500 .72rem var(--f-mono);color:var(--lc);white-space:nowrap}
+.lo-tile .t{font-size:.78rem;line-height:1.3}
+.lo-tile .dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.s-o{background:var(--once)} .dot.s-m{background:var(--bad)} .dot.s-M{background:var(--ok)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.72rem;color:var(--muted)}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--line)}
+.legend i.o{background:var(--once)} .legend i.m{background:var(--bad)} .legend i.M{background:var(--ok)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion: no-preference){ .opt,.ent,.lo-tile{transition:border-color .12s, background .12s} }
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <p class="meta">HoyaDocs · Block 5 · HNSS11 · HNSS15 · HNSS16</p>
+    <h1>HNSS Pathology Builder</h1>
+    <p class="lede">Build each disease box by box, or drill everything you have missed. Every box is tied to a learning objective, and the map on the right tracks all 24. DDx and vignette recognition are the focus.</p>
+  </div>
+  <div class="hdr-actions">
+    <button class="btn" id="themeBtn" type="button">Theme: auto</button>
+    <button class="btn" id="resetBtn" type="button">Reset progress</button>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="seg" role="group" aria-label="Mode">
+    <span class="lab">Mode</span>
+    <button type="button" data-mode="build" aria-pressed="true">Build</button>
+    <button type="button" data-mode="drill" aria-pressed="false">Drill</button>
+  </div>
+  <div class="seg" role="group" aria-label="Lecture scope" id="scopeSeg">
+    <span class="lab">Scope</span>
+    <button type="button" data-scope="all" aria-pressed="true">All</button>
+    <button type="button" data-scope="11" aria-pressed="false">Eye</button><button type="button" data-scope="15" aria-pressed="false">Head &amp; Neck</button><button type="button" data-scope="16" aria-pressed="false">Lab</button>
+  </div>
+  <div class="stats" aria-live="polite">
+    <div class="stat"><b id="sScore">0</b><span>Score</span></div>
+    <div class="stat"><b id="sStreak">0</b><span>Streak</span></div>
+    <div class="stat"><b id="sAcc">—</b><span>Accuracy</span></div>
+    <div class="stat"><b id="sBoxes">0</b><span>Boxes mastered</span></div>
+    <div class="stat"><b id="sLos">—</b><span>LOs mastered</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <aside class="panel side" aria-label="Structures">
+    <h2>Structures</h2>
+    <div id="entList"></div>
+  </aside>
+  <section class="card" id="card" aria-live="polite"></section>
+  <aside class="panel map" aria-label="Learning objective mastery map">
+    <h2>LO mastery map</h2>
+    <div class="legend"><span><i></i>untested</span><span><i class="m"></i>missed</span><span><i class="o"></i>got it once</span><span><i class="M"></i>mastered</span></div>
+    <p class="hint">Tap an LO to drill just that objective. Mastered = right twice in a row.</p>
+    <div class="lo-grid" id="loGrid"></div>
+  </aside>
+</div>
+
+<footer>HoyaDocs · HNSS Pathology Builder · Updated September 29, 2026 · Revision 1.0. Yellow "HY" tags mark high-yield points, including Step 1.</footer>
+</div>
+
+<script>
+var LOS = {
+ "11.1":"Normal anatomy and histology of the eye",
+ "11.2":"DDx: retinal hemorrhage, optic neuropathy, intraocular mass, proptosis",
+ "11.3":"Diabetic eye disease",
+ "11.4":"Retinal neovascularization",
+ "11.5":"Retinal detachment",
+ "11.6":"Papilledema vs optic nerve swelling",
+ "11.7":"Causes of optic nerve atrophy",
+ "11.8":"Primary melanoma of the eye",
+ "11.9":"Retinoblastoma",
+ "11.10":"DDx of orbital disease",
+ "15.1":"Leukoplakia and erythroplakia",
+ "15.2":"Causes and pathology of head and neck SCC",
+ "15.3":"Clinical features and outcome of SCC",
+ "15.4":"Nosebleeds and nasal obstruction",
+ "15.5":"Hoarseness: laryngeal papilloma and SCC",
+ "15.6":"Parotid tumors",
+ "16.1":"Histology of the oral cavity",
+ "16.2":"Leukoplakia vs erythroplakia on the slide",
+ "16.3":"SCC pathophysiology and prognosis",
+ "16.4":"The two main types of SCC",
+ "16.5":"Angiofibroma, papillomas, NPC, laryngeal SCC",
+ "16.6":"Epistaxis vs obstruction vs hoarseness",
+ "16.7":"Salivary gland tumors on the slide",
+ "16.8":"Branchial cleft vs thyroglossal duct cyst"
+};
+var LECS = [ {k:"11", n:"Eye Pathology"}, {k:"15", n:"Head & Neck Pathology"}, {k:"16", n:"H&N Path Lab"} ];
+var E = [
+{id:"eyeanat", lec:"11", name:"Eye anatomy for pathology", sub:"Coats, layers, planes", b:[
+ {t:"o", lo:"11.1", q:"Order the coats of the globe from outside to inside.", a:["Fibrous coat (cornea + sclera)","Uvea (iris, ciliary body, choroid)","Retina on the RPE"], w:"Melanoma arises in the uvea; detachment happens at the retina–RPE plane."},
+ {lo:"11.1", q:"A flame-shaped hemorrhage sits in which retinal layer?", a:"Nerve fiber layer", o:["Outer plexiform layer","Photoreceptor layer","Choroid"], w:"Flame = Fiber (superficial, horizontal); dot-blot = deep."},
+ {lo:"11.1", q:"Retinal detachment separates the neurosensory retina from…", a:"The retinal pigment epithelium", o:["The choroid","Bruch's membrane","The vitreous base"], w:"The old optic vesicle cavity is a potential space."},
+ {t:"m", lo:"11.1", q:"Select ALL parts of the uvea.", a:["Iris","Ciliary body","Choroid"], o:["Sclera","Retina","Cornea"], w:"All three can host uveal melanoma."}
+]},
+{id:"hem", lec:"11", name:"Retinal hemorrhage DDx", sub:"Same pattern, many causes", b:[
+ {lo:"11.2", q:"A 58-year-old with no known history has retinal hemorrhages and exudates. Best next step?", a:"All of these: glucose, BP, vasculitis workup, radiation history", o:["Check serum glucose only","Check blood pressure only","Order a temporal artery biopsy"], w:"Hemorrhage/edema/exudate is a pattern shared by many microvascular diseases."},
+ {lo:"11.2", hy:true, q:"LVH, heart failure, arteriolar narrowing, AV nicking and flame hemorrhages. Retinopathy?", a:"Hypertensive retinopathy", o:["Diabetic retinopathy","Sickle cell retinopathy","Radiation retinopathy"], w:"Copper/silver wiring and AV nicking = HTN; papilledema if malignant."},
+ {lo:"11.4", q:"A 30-year-old with severe abdominal pain has peripheral retinal neovascularization and normal glucose. Diagnosis?", a:"Sickle cell anemia", o:["Diabetic retinopathy","Hypertensive retinopathy","Vasculitis"], w:"Pain crisis + peripheral 'sea fan' + normal glucose."},
+ {t:"m", lo:"11.4", q:"Select ALL causes of cotton wool spots.", a:["Diabetes","Hypertension","Vasculitis","Radiation retinopathy","Leukemia"], o:["Glaucoma"], w:"Cotton wool spot = nonspecific microvascular ischemia (nerve fiber layer infarct)."},
+ {lo:"11.4", q:"Retinal neovascularization grows where?", a:"Into the vitreous cavity, not within the retina", o:["Into the choroid","Within the outer plexiform layer","Under the RPE"], w:"Ischemia → VEGF → fragile vessels into vitreous → bleed + scar."}
+]},
+{id:"dm", lec:"11", name:"Diabetic retinopathy", sub:"#1 cause of blindness age 24–63", b:[
+ {t:"o", lo:"11.3", q:"Order the diabetic pattern of injury.", a:["Endothelial/pericyte damage","Microaneurysms, hemorrhage, leaking vessels","Edema (macula prone)","Lipid precipitates (hard exudates)"], w:"Then ischemia → VEGF → neovascularization."},
+ {lo:"11.3", hy:true, q:"Main cause of ACUTE vision loss in diabetic retinopathy?", a:"Vitreous hemorrhage", o:["Macular edema","Cataract","Cotton wool spots"], w:"Fragile new vessels bleed into the vitreous."},
+ {t:"m", lo:"11.3", q:"Select the TWO main causes of PERMANENT vision loss in DR.", a:["Macular edema","Traction retinal detachment"], o:["Vitreous hemorrhage","Microaneurysms","Cotton wool spots"], w:"Acute = blood; permanent = macula + traction."},
+ {lo:"11.3", q:"Dialysis for 10 years, prior MI, new disc vessels growing into the vitreous. Most likely lab?", a:"HbA1c 9.6%", o:["ANA 1:1024","Ferritin 555 ng/mL","Renin 9 ng/mL/h"], w:"Proliferative DR; CKD and CAD are diabetic complications."},
+ {lo:"11.3", q:"Yellow, sharp-edged deposits ringing the macula are…", a:"Hard exudates (lipid precipitates)", o:["Cotton wool spots","Drusen","Microaneurysms"], w:"Leaked fluid resorbs and leaves lipid behind."}
+]},
+{id:"rd", lec:"11", name:"Retinal detachment", sub:"The curtain falls", b:[
+ {lo:"11.5", q:"How does retinal detachment present?", a:"Sudden painless 'curtain' field loss ± flashes and floaters", o:["Painful red eye with halos","Gradual central blur","Bilateral tunnel vision"], w:"Ophthalmic emergency."},
+ {lo:"11.5", hy:true, q:"Obese 74-year-old, glucose 165, years of declining vision, suddenly loses the upper half of his field. Mechanism?", a:"Traction retinal detachment", o:["Uveal melanoma","Macular degeneration","Dendritic corneal ulcer"], w:"End stage of proliferative DR; upper field lost = inferior retina off."},
+ {lo:"11.5", q:"A pigmented uveal mass with a 'shade pulled across' the field. Mechanism of the field loss?", a:"Tumor lifts the retina (exudative detachment)", o:["Vitreous hemorrhage","Optic nerve compression","Central retinal artery occlusion"], w:"Choroidal melanoma lifting the overlying retina."},
+ {t:"m", lo:"11.5", q:"Select ALL mechanisms of retinal detachment.", a:["Tear (rhegmatogenous)","Traction","Exudation under intact retina (tumor)"], o:["Pupillary block","Axoplasmic stasis"], w:"Three T's: Tear, Traction, Tumor."}
+]},
+{id:"disc", lec:"11", name:"The optic disc", sub:"Cupped, pale or swollen", b:[
+ {lo:"11.6", q:"Papilledema is defined as…", a:"Optic disc swelling from raised intracranial pressure", o:["Any optic nerve swelling","Disc pallor after ischemia","Disc cupping from high IOP"], w:"Papilledema is only one cause of optic nerve swelling."},
+ {t:"m", lo:"11.6", q:"Select ALL causes of optic nerve swelling OTHER than raised ICP.", a:["Severe hypertension","Leukemic infiltration","Metastatic infiltration","Sarcoidosis"], o:["Glaucoma","Myopia"], w:"Infiltration by tumor or granuloma swells the nerve."},
+ {lo:"11.7", q:"An enlarged, excavated optic cup indicates…", a:"Glaucoma", o:["Ischemic optic neuropathy","Papilledema","Compressive atrophy"], w:"Cup = chronic pressure."},
+ {lo:"11.7", hy:true, q:"Optic disc pallor indicates…", a:"Non-glaucomatous atrophy (ischemic, compressive, etc.)", o:["Raised intracranial pressure","Early glaucoma","Normal aging"], w:"Pale = everything else."},
+ {lo:"11.6", q:"Obese young woman, morning headaches, bilateral swollen discs, normal MRI. Diagnosis?", a:"Idiopathic intracranial hypertension with papilledema", o:["Optic neuritis","Ischemic optic neuropathy","Leber hereditary optic neuropathy"], w:"Treat with acetazolamide."}
+]},
+{id:"mel", lec:"11", name:"Uveal melanoma & masses", sub:"Most common adult primary", b:[
+ {lo:"11.8", q:"Most common primary intraocular malignancy in adults?", a:"Choroidal (uveal) melanoma", o:["Retinoblastoma","Lymphoma","Metastatic breast carcinoma"], w:"Metastasis is the most common intraocular tumor overall."},
+ {t:"m", lo:"11.8", q:"Select ALL prognostic factors for uveal melanoma.", a:["Basal diameter","Scleral invasion","Cell type (cytology)","Chromosome 3 status"], o:["Degree of pigmentation","Tumor height"], w:"Color is NOT important."},
+ {lo:"11.8", hy:true, q:"Which uveal melanoma cell type has the worst prognosis?", a:"Epithelioid", o:["Spindle","Mixed","Balloon"], w:"Epithelioid = Evil; spindle = safer (Callender)."},
+ {lo:"11.8", q:"Multiple iris nodules + café-au-lait spots = ?", a:"Lisch nodules of neurofibromatosis type 1", o:["Iris melanoma","Metastatic carcinoma","Leukemic infiltrate"], w:"Lisch nodule = iris nevus variant (hamartoma)."},
+ {lo:"11.2", q:"Most common primary sites of uveal metastases?", a:"Lung and breast", o:["Colon and prostate","Kidney and thyroid","Skin and liver"], w:"Often amelanotic — pigment does not reliably separate them."},
+ {lo:"11.8", q:"Uveal melanoma metastasizes mainly to…", a:"Liver", o:["Cervical lymph nodes","Brain","Bone"], w:"No lymphatics in the uvea → hematogenous spread."}
+]},
+{id:"rb", lec:"11", name:"Retinoblastoma", sub:"Most common pediatric primary", b:[
+ {t:"m", lo:"11.9", q:"Select the TWO most common presentations of retinoblastoma.", a:["Leukocoria","Strabismus"], o:["Proptosis","Painful red eye","Nystagmus"], w:"White pupil in photos + eye turning."},
+ {t:"m", lo:"11.9", q:"Select ALL prognostic factors for retinoblastoma.", a:["Size and vitreous seeding","Optic nerve invasion","Extrascleral invasion","Histology"], o:["Tumor color"], w:"Optic nerve invasion is the route to the brain."},
+ {lo:"11.9", hy:true, q:"Rosettes with a central empty lumen are…", a:"Flexner-Wintersteiner — characteristic of retinoblastoma", o:["Homer-Wright — neuroblastoma only","Perivascular pseudorosettes — ependymoma","Fleurettes — poor prognosis"], w:"F-W has a Window."},
+ {lo:"11.9", q:"Rosettes around fibrillary neuropil (no lumen) are…", a:"Homer-Wright", o:["Flexner-Wintersteiner","Fleurettes","Call-Exner bodies"], w:"Also in neuroblastoma, medulloblastoma, PNET."},
+ {lo:"11.9", q:"A 'bouquet of flowers' pattern recapitulating photoreceptors means…", a:"Fleurettes — good prognosis", o:["Fleurettes — poor prognosis","Homer-Wright rosettes","Anaplasia"], w:"Most differentiated pattern."},
+ {lo:"11.9", q:"Germline RB1 mutation carriers who survive retinoblastoma are at risk for…", a:"Osteosarcoma", o:["Medulloblastoma","Ewing sarcoma","Wilms tumor"], w:"Knudson two-hit; 13q14."}
+]},
+{id:"orbit", lec:"11", name:"Proptosis & orbit", sub:"Graves to rhabdo", b:[
+ {lo:"11.10", hy:true, q:"35-year-old with bilateral diplopia and swelling plus palpitations, sweating and weight loss. Diagnosis?", a:"Graves disease", o:["Idiopathic orbital inflammation","Orbital lymphoma","Orbital cellulitis"], w:"Most common cause of proptosis."},
+ {lo:"11.10", q:"Graves orbitopathy histology?", a:"Enlarged muscle bellies with lymphocytes and GAGs; tendons spared", o:["Neutrophils and pus","Monotonous lymphocyte sheets","Cross-striated tumor cells"], w:"Inferior + medial rectus most affected."},
+ {lo:"11.10", q:"Painful unilateral proptosis, no thyroid disease, rapid response to steroids. Diagnosis?", a:"Idiopathic orbital inflammation (pseudotumor)", o:["Graves disease","Rhabdomyosarcoma","Orbital lymphoma"], w:"Diagnosis of exclusion."},
+ {lo:"11.10", q:"Orbital cellulitis histology?", a:"Acute inflammation with neutrophils and pus", o:["Non-caseating granulomas","GAG deposition","Lymphoid follicles"], w:"Can spread to the cavernous sinus."},
+ {lo:"11.10", q:"Most common primary orbital malignancy in adults?", a:"Lymphoma", o:["Rhabdomyosarcoma","Melanoma","Adenoid cystic carcinoma"], w:"Older adult, painless, slow."},
+ {lo:"11.10", hy:true, q:"Rhabdomyosarcoma of the orbit arises from…", a:"Orbital soft tissue, not the extraocular muscles", o:["Extraocular muscle","Lacrimal gland","Optic nerve sheath"], w:"Most common malignant primary orbital tumor in children; desmin/myogenin."}
+]},
+{id:"patch", lec:"15", name:"White & red patches", sub:"Oral premalignancy", b:[
+ {lo:"15.1", q:"Leukoplakia is defined as…", a:"A white patch that won't scrape off and isn't any other disease", o:["Any white oral lesion","A white patch caused by EBV","A red velvety patch"], w:"Diagnosis of exclusion; 5–25% premalignant."},
+ {lo:"15.1", hy:true, q:"Which oral patch is almost always dysplastic or worse?", a:"Erythroplakia", o:["Leukoplakia","Hairy leukoplakia","Frictional keratosis"], w:"Red is more dangerous than white."},
+ {lo:"15.1", q:"HIV patient, fluffy white corrugated patches on the lateral tongue that won't scrape off. Cause?", a:"EBV (hairy leukoplakia)", o:["Candida","HPV-16","Tobacco"], w:"Not premalignant."},
+ {t:"o", lo:"15.1", q:"Order the white-patch workup.", a:["Try to scrape it off (candida?)","Bilateral? think systemic disease","Remove chronic irritant (cheek chewing)","Biopsy if it persists"], w:"Biopsy shows hyperkeratosis, dysplasia, CIS or SCC."},
+ {lo:"15.1", q:"About what fraction of premalignant oral lesions become carcinoma within 5 years?", a:"About 15%", o:["About 1%","About 50%","About 90%"], w:"Dysplasia grade doesn't reliably predict invasion."}
+]},
+{id:"scc", lec:"15", name:"Head & neck SCC", sub:"Two roads to cancer", b:[
+ {t:"m", lo:"15.2", q:"Select ALL risk factors for classic head and neck SCC.", a:["Tobacco","Alcohol","Betel quid / paan","Actinic radiation (lower lip)"], o:["HPV 6/11","EBV"], w:"Tobacco + alcohol are synergistic."},
+ {lo:"15.2", q:"About 90% of HPV-related oropharyngeal SCC carries which HPV type?", a:"HPV-16", o:["HPV-6","HPV-11","HPV-31"], w:"Tonsils and base of tongue."},
+ {lo:"15.2", hy:true, q:"HPV E7 inactivates which protein, causing which stain to light up?", a:"Rb → p16 overexpression", o:["p53 → p16 loss","Rb → EBER","p53 → cytokeratin"], w:"E6 degrades p53."},
+ {lo:"15.2", q:"Keratin pearls and whorls with irregular invasion suggest…", a:"Keratinizing (tobacco-related) SCC", o:["HPV-associated SCC","Nasopharyngeal carcinoma","Adenoid cystic carcinoma"], w:"HPV SCC is non-keratinizing and basaloid."},
+ {lo:"15.3", q:"What best predicts outcome in head and neck SCC?", a:"Stage", o:["Degree of differentiation","Tumor color","Patient sex"], w:"Early ~80% vs late ~20% 5-year survival."},
+ {lo:"15.3", q:"Why do tobacco-related SCC patients get second primaries?", a:"Field cancerization", o:["HPV reinfection","Lymphatic seeding","Radiation therapy"], w:"The whole mucosa is mutated."},
+ {lo:"15.3", hy:true, q:"42-year-old non-smoker: small tonsil lesion, big neck node, basaloid nests. Prognosis vs classic SCC?", a:"Better", o:["Worse","Same","Uniformly fatal"], w:"HPV+ oropharyngeal SCC is radiosensitive."}
+]},
+{id:"nose", lec:"15", name:"Nosebleeds & obstruction", sub:"Bleed or block", b:[
+ {lo:"15.4", hy:true, q:"11-year-old boy, recurrent epistaxis, unilateral mass deviating the septum; collagen with thin-walled vessels. Diagnosis?", a:"Juvenile nasopharyngeal angiofibroma", o:["Nasopharyngeal carcinoma","Nasal polyp","Sinonasal papilloma"], w:"β-catenin; locally aggressive."},
+ {lo:"15.4", q:"Pyogenic granuloma is actually a…", a:"Lobular capillary hemangioma", o:["Granulomatous infection","Pyogenic abscess","Squamous papilloma"], w:"Neither infectious nor granulomatous; linked to pregnancy."},
+ {lo:"15.4", q:"Which sinonasal papilloma has the highest malignant potential?", a:"Oncocytic (14–19%)", o:["Exophytic (~0%)","Inverted (5–10%)","All equal"], w:"Inverted is most common; exophytic is on the septum."},
+ {lo:"15.4", q:"Nasopharyngeal carcinoma is most strongly linked to…", a:"EBV", o:["HPV-16","HPV 6/11","CMV"], w:"Southern China, SE Asia, Africa; neck nodes at presentation."},
+ {lo:"15.4", q:"Which NPC subtype has smaller cells in ribbons with benign lymphocytes and a better prognosis?", a:"Non-keratinizing", o:["Keratinizing","Basaloid","Sarcomatoid"], w:"Radiosensitive."},
+ {lo:"15.4", q:"Angiofibroma mutation?", a:"CTNNB1 (β-catenin)", o:["EGFR","KRAS","MAML2"], w:"Can occur with FAP."}
+]},
+{id:"larynx", lec:"15", name:"Hoarseness", sub:"Nodules to cancer", b:[
+ {lo:"15.5", q:"Laryngeal papilloma histology?", a:"Orderly squamous fronds over fibrovascular cores", o:["Cribriform basaloid nests","Keratin pearls invading stroma","Edematous myxoid stroma only"], w:"True vocal cords; <1 cm."},
+ {lo:"15.5", hy:true, q:"Child with multiple recurrent laryngeal papillomas. Virus and course?", a:"HPV 6/11; recur often, regress at puberty", o:["HPV-16; progress to SCC","EBV; resolve with antivirals","HPV 6/11; never recur"], w:"Acquired at birth; HPV vaccine prevents it."},
+ {lo:"15.5", q:"Bilateral cord nodules in a voice professional?", a:"Singer's nodules", o:["Laryngeal SCC","Juvenile papillomatosis","Laryngeal polyp"], w:"Minimal cancer risk."},
+ {lo:"15.5", q:"Typical laryngeal SCC patient?", a:"Man in his 7th decade who smokes", o:["Young woman, HPV 6/11","Teen boy with epistaxis","Child with stridor"], w:"Arises from dysplasia; stage drives prognosis."}
+]},
+{id:"sal", lec:"15", name:"Parotid tumors", sub:"Four to know", b:[
+ {lo:"15.6", q:"Smaller salivary gland → tumor more likely…", a:"Malignant", o:["Benign","Bilateral","Cystic"], w:"70–90% of sublingual tumors are malignant."},
+ {lo:"15.6", hy:true, q:"Most common salivary gland tumor?", a:"Pleomorphic adenoma", o:["Warthin tumor","Mucoepidermoid carcinoma","Adenoid cystic carcinoma"], w:"Benign mixed tumor; PLAG1."},
+ {lo:"15.6", q:"Why does pleomorphic adenoma recur after enucleation?", a:"Incomplete capsule with finger-like projections", o:["It is multifocal","It metastasizes early","It is HPV-driven"], w:"~25% recurrence if shelled out."},
+ {lo:"15.6", q:"Older male smoker, parotid mass, 10% bilateral. Oncocytes are packed with…", a:"Mitochondria", o:["Mucin","Keratin","Lysosomes"], w:"Warthin tumor."},
+ {lo:"15.6", hy:true, q:"Most common primary malignant salivary tumor (also in children)?", a:"Mucoepidermoid carcinoma", o:["Adenoid cystic carcinoma","Acinic cell carcinoma","Carcinoma ex pleomorphic adenoma"], w:"t(11;19) CRTC1::MAML2."},
+ {lo:"15.6", q:"Palate mass with pain and cribriform small dark cells. Key behavior?", a:"Perineural invasion; relentless recurrence", o:["Early lymph node spread","Spontaneous regression","Bilateral parotid involvement"], w:"Adenoid cystic carcinoma; MYB::NFIB."}
+]},
+{id:"oralslide", lec:"16", name:"Oral cavity slides", sub:"Normal to cancer", b:[
+ {lo:"16.1", q:"Normal tongue histology?", a:"Squamous papillae over skeletal muscle in three planes", o:["Pseudostratified epithelium over cartilage","Squamous epithelium over smooth muscle","Simple columnar over lymphoid tissue"], w:"Minor salivary glands scattered in."},
+ {lo:"16.1", q:"In a mixed salivary gland, pale foamy acini are…", a:"Mucous", o:["Serous","Myoepithelial","Oncocytic"], w:"Parotid = pure serous; sublingual = mostly mucous."},
+ {lo:"16.2", q:"Thick surface keratin with atypical cells rising through the epithelium, basement membrane intact:", a:"Leukoplakia with dysplasia", o:["Invasive SCC","Candidiasis","Erythroplakia"], w:"Keratin makes it white."},
+ {lo:"16.2", q:"Thin epithelium with severe dysplasia over congested vessels corresponds to…", a:"Erythroplakia", o:["Leukoplakia","Hairy leukoplakia","Frictional keratosis"], w:"Thin epithelium → vessels show through → red."},
+ {lo:"16.3", q:"Invasive pink nests with keratin pearls:", a:"Keratinizing SCC", o:["Non-keratinizing SCC","Inverted papilloma","Pleomorphic adenoma"], w:"Tobacco/alcohol."},
+ {lo:"16.4", hy:true, q:"Basaloid nests without keratin in the tonsil, strong p16:", a:"HPV-associated non-keratinizing SCC", o:["Nasopharyngeal carcinoma","Adenoid cystic carcinoma","Keratinizing SCC"], w:"Small primary + bulky cystic node."}
+]},
+{id:"airslide", lec:"16", name:"Nose & larynx slides", sub:"One clue each", b:[
+ {lo:"16.5", q:"Dense collagen with thin-walled staghorn vessels:", a:"Juvenile nasopharyngeal angiofibroma", o:["Pyogenic granuloma","Nasal polyp","Inverted papilloma"], w:"Vessels lack muscle → bleed."},
+ {lo:"16.5", q:"Epithelial nests growing downward into the stroma with intraepithelial neutrophils:", a:"Inverted sinonasal papilloma", o:["Exophytic papilloma","Nasopharyngeal carcinoma","Keratinizing SCC"], w:"Recurs; can become SCC."},
+ {lo:"16.5", q:"Syncytial large cells with vesicular nuclei mixed with lymphocytes:", a:"Non-keratinizing nasopharyngeal carcinoma", o:["Lymphoma","Warthin tumor","Angiofibroma"], w:"EBV (EBER+)."},
+ {lo:"16.5", q:"Smooth cord nodule with myxoid, edematous stroma:", a:"Singer's nodule", o:["Laryngeal papilloma","Laryngeal SCC","Angiofibroma"], w:"Voice overuse."},
+ {lo:"16.5", q:"Finger-like squamous fronds over fibrovascular cores on the cord:", a:"Laryngeal papilloma", o:["Singer's nodule","Laryngeal SCC","Inverted papilloma"], w:"HPV 6/11."}
+]},
+{id:"complaint", lec:"16", name:"Bleed, block or hoarse", sub:"Sort by complaint", b:[
+ {t:"m", lo:"16.6", q:"Select ALL lesions that present mainly with EPISTAXIS.", a:["Juvenile angiofibroma","Pyogenic granuloma","Nasopharyngeal carcinoma"], o:["Singer's nodule","Laryngeal papilloma"], w:"Angiofibroma and NPC also obstruct."},
+ {t:"m", lo:"16.6", q:"Select ALL lesions that present mainly with OBSTRUCTION.", a:["Inverted papilloma","Nasal polyp","Angiofibroma"], o:["Laryngeal SCC","Singer's nodule"], w:"Unilateral in papilloma; bilateral in polyps."},
+ {t:"m", lo:"16.6", q:"Select ALL lesions that present with HOARSENESS.", a:["Singer's nodule","Laryngeal papilloma","Laryngeal SCC"], o:["Pyogenic granuloma","Inverted papilloma"], w:"Age sorts them: child papilloma, older smoker SCC."},
+ {lo:"16.6", q:"A child with bilateral nasal polyps needs which test?", a:"Sweat chloride (cystic fibrosis)", o:["EBV serology","p16 stain","Thyroid scan"], w:"Adults: allergy, asthma, aspirin sensitivity."},
+ {lo:"16.6", q:"Neck mass + bloody discharge + ear fullness in a patient from southern China:", a:"Nasopharyngeal carcinoma", o:["Juvenile angiofibroma","Inverted papilloma","Branchial cleft cyst"], w:"Ear fullness = eustachian tube block."}
+]},
+{id:"salslide", lec:"16", name:"Salivary slides", sub:"Read the gland", b:[
+ {lo:"16.7", q:"Ducts and myoepithelial cells in blue chondromyxoid stroma:", a:"Pleomorphic adenoma", o:["Adenoid cystic carcinoma","Mucoepidermoid carcinoma","Warthin tumor"], w:"Incomplete capsule."},
+ {lo:"16.7", q:"Oncocytic double layer over lymphoid stroma with germinal centers:", a:"Warthin tumor", o:["Sjögren syndrome","Chronic sialadenitis","Lymphoma"], w:"Older smoker, parotid only."},
+ {lo:"16.7", q:"Squamoid, mucous and intermediate cells with cysts:", a:"Mucoepidermoid carcinoma", o:["Pleomorphic adenoma","Warthin tumor","Acinic cell carcinoma"], w:"Mucicarmine highlights mucous cells."},
+ {lo:"16.7", hy:true, q:"Cribriform 'Swiss cheese' nests of small dark cells wrapping nerves:", a:"Adenoid cystic carcinoma", o:["Basal cell adenoma","Pleomorphic adenoma","Mucoepidermoid carcinoma"], w:"Pain, facial palsy."},
+ {lo:"16.7", q:"Dense lymphocytes with lymphoepithelial islands, bilateral parotid swelling, dry eyes:", a:"Sjögren syndrome", o:["Warthin tumor","Acute sialadenitis","Mumps"], w:"↑ MALT lymphoma risk."},
+ {lo:"16.7", q:"Neutrophils filling ducts and acini of a painful gland:", a:"Acute sialadenitis", o:["Chronic sialadenitis","Sjögren syndrome","Warthin tumor"], w:"Stone, dehydration, S. aureus."}
+]},
+{id:"cyst", lec:"16", name:"Neck cysts", sub:"Midline or lateral", b:[
+ {lo:"16.8", hy:true, q:"Midline cyst that rises with tongue protrusion. Wall contains…", a:"Thyroid follicles", o:["Lymphoid tissue","Hair follicles","Salivary acini"], w:"Thyroglossal duct cyst."},
+ {lo:"16.8", q:"Lateral cyst anterior to the SCM with a lymphoid wall:", a:"Branchial cleft cyst", o:["Thyroglossal duct cyst","Dermoid cyst","Cystic hygroma"], w:"Usually 2nd cleft."},
+ {lo:"16.8", q:"Surgery for a thyroglossal duct cyst must remove…", a:"The middle of the hyoid bone (Sistrunk)", o:["The whole thyroid","The submandibular gland","The SCM"], w:"Prevents recurrence."},
+ {lo:"16.8", hy:true, q:"A 50-year-old non-smoker has a 'branchial cyst' at the angle of the jaw. First concern?", a:"Cystic metastatic HPV-positive SCC", o:["Infected branchial cyst","Thyroglossal duct cyst","Lymphangioma"], w:"Find the tonsil/base-of-tongue primary."}
+]}
+];
+
+(function(){
+"use strict";
+var KEY="hd-path-builder";
+var S={box:{},score:0,streak:0,best:0,tot:0,right:0,theme:"auto"};
+function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.box)S=Object.assign(S,j);}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+load();
+
+var ALL=[]; E.forEach(function(e){e.b.forEach(function(b,i){b.id=e.id+"."+i;b.ent=e;ALL.push(b);});});
+function st(b){var r=S.box[b.id];return r?r.s:"u";}
+var mode="build", scope="all", loFilter=null, curEnt=null, idx=0, cur=null, answered=false, results={}, lastId=null, t0=0, tick=null;
+
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function inScope(b){return (scope==="all"||b.ent.lec===scope)&&(!loFilter||b.lo===loFilter);}
+
+/* ---------- theme ---------- */
+var themeBtn=document.getElementById("themeBtn");
+function applyTheme(){var r=document.documentElement;if(S.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",S.theme);themeBtn.textContent="Theme: "+S.theme;}
+themeBtn.onclick=function(){S.theme={auto:"light",light:"dark",dark:"auto"}[S.theme];applyTheme();save();};
+applyTheme();
+document.getElementById("resetBtn").onclick=function(){
+  var b=this; if(b.dataset.confirm){S.box={};S.score=S.streak=S.tot=S.right=0;save();b.textContent="Reset progress";delete b.dataset.confirm;renderAll();next();return;}
+  b.dataset.confirm="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.confirm){delete b.dataset.confirm;b.textContent="Reset progress";}},3000);
+};
+
+/* ---------- stats / side / map ---------- */
+function loStatus(lo){var bs=ALL.filter(function(b){return b.lo===lo;});var ss=bs.map(st);
+  var m=ss.filter(function(x){return x==="M";}).length;
+  if(m===bs.length)return{s:"M",m:m,n:bs.length};
+  if(ss.indexOf("m")>=0)return{s:"m",m:m,n:bs.length};
+  if(ss.some(function(x){return x!=="u";}))return{s:"o",m:m,n:bs.length};
+  return{s:"u",m:m,n:bs.length};}
+function renderStats(){
+  document.getElementById("sScore").textContent=S.score;
+  document.getElementById("sStreak").textContent=S.streak;
+  document.getElementById("sAcc").textContent=S.tot?Math.round(100*S.right/S.tot)+"%":"—";
+  document.getElementById("sBoxes").textContent=ALL.filter(function(b){return st(b)==="M";}).length+"/"+ALL.length;
+  var los=Object.keys(LOS);document.getElementById("sLos").textContent=los.filter(function(l){return loStatus(l).s==="M";}).length+"/"+los.length;
+}
+function renderSide(){
+  var h="";LECS.forEach(function(L){if(scope!=="all"&&scope!==L.k)return;
+    h+='<p class="lec-h l'+L.k+'" style="color:var(--lc)">HNSS'+L.k+' · '+esc(L.n)+'</p>';
+    E.filter(function(e){return e.lec===L.k;}).forEach(function(e){
+      var m=e.b.filter(function(b){return st(b)==="M";}).length,p=Math.round(100*m/e.b.length);
+      h+='<button type="button" class="ent l'+e.lec+'" data-ent="'+e.id+'"'+(curEnt===e&&mode==="build"?' aria-current="true"':'')+'><span class="n">'+esc(e.name)+'</span><span class="pct">'+m+'/'+e.b.length+'</span><span class="s">'+esc(e.sub)+'</span><span class="mini"><i style="width:'+p+'%"></i></span></button>';
+    });});
+  var el=document.getElementById("entList");el.innerHTML=h;
+  el.querySelectorAll(".ent").forEach(function(b){b.onclick=function(){setMode("build");startEnt(E.filter(function(e){return e.id===b.dataset.ent;})[0]);};});
+}
+function renderMap(){
+  var h="";Object.keys(LOS).forEach(function(lo){var lec=lo.split(".")[0];if(scope!=="all"&&scope!==lec)return;var s=loStatus(lo);
+    h+='<button type="button" class="lo-tile l'+lec+'" data-lo="'+lo+'"'+(loFilter===lo?' style="border-color:var(--lc)"':'')+'><span class="id">'+(lo.slice(-1)==="X"?"Extra":"LO "+lo)+'</span><span class="t">'+esc(LOS[lo])+'</span><span class="dot s-'+s.s+'" title="'+s.m+'/'+s.n+' mastered"></span></button>';});
+  var g=document.getElementById("loGrid");g.innerHTML=h;
+  g.querySelectorAll(".lo-tile").forEach(function(b){b.onclick=function(){loFilter=(loFilter===b.dataset.lo?null:b.dataset.lo);setMode("drill");};});
+}
+function renderAll(){renderStats();renderSide();renderMap();}
+
+/* ---------- flow ---------- */
+function setMode(m){mode=m;document.querySelectorAll("[data-mode]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.mode===m));});
+  if(m==="build"){loFilter=null;renderAll();if(!curEnt||!inScope(curEnt.b[0]))startEnt(firstEnt());else show();}
+  else{renderAll();next();}}
+function firstEnt(){var es=E.filter(function(e){return scope==="all"||e.lec===scope;});
+  for(var i=0;i<es.length;i++){if(es[i].b.some(function(b){return st(b)!=="M";}))return es[i];}return es[0];}
+document.querySelectorAll("[data-mode]").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode);};});
+document.querySelectorAll("[data-scope]").forEach(function(b){b.onclick=function(){scope=b.dataset.scope;loFilter=null;
+  document.querySelectorAll("[data-scope]").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+  if(mode==="build"){curEnt=null;setMode("build");}else setMode("drill");};});
+
+function startEnt(e){curEnt=e;idx=0;results={};renderSide();cur=e.b[0];show();}
+function next(){
+  if(mode==="build"){idx++;if(idx>=curEnt.b.length){finishEnt();return;}cur=curEnt.b[idx];show();return;}
+  var pool=ALL.filter(inScope);if(!pool.length){cur=null;show();return;}
+  var rank={m:0,u:1,o:2,M:3};
+  pool=shuffle(pool).sort(function(a,b){return rank[st(a)]-rank[st(b)];});
+  var best=rank[st(pool[0])];var top=pool.filter(function(b){return rank[st(b)]===best&&b.id!==lastId;});
+  if(best===3)top=pool.filter(function(b){return b.id!==lastId;});
+  cur=(top.length?top:pool)[0];show();
+}
+function finishEnt(){
+  var ok=Object.keys(results).filter(function(k){return results[k];}).length,n=curEnt.b.length;
+  var i=E.indexOf(curEnt),nxt=null;for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){nxt=c;break;}}
+  var card=document.getElementById("card");card.className="card l"+curEnt.lec;
+  card.innerHTML='<div class="done"><p class="meta">Structure complete</p><h2>'+esc(curEnt.name)+': '+ok+' / '+n+' first try</h2>'+
+   '<p class="hint">'+(ok===n?"Clean build. It will count as mastered after one more clean pass.":"Missed boxes are queued first in Drill mode.")+'</p>'+
+   '<div class="actions"><button class="btn" type="button" id="again">Rebuild '+esc(curEnt.name)+'</button>'+(nxt?'<button class="btn primary" type="button" id="nextEnt">Next: '+esc(nxt.name)+' →</button>':'')+'</div></div>';
+  document.getElementById("again").onclick=function(){startEnt(curEnt);};
+  if(nxt)document.getElementById("nextEnt").onclick=function(){startEnt(nxt);};
+  var ne=document.getElementById("nextEnt");if(ne)ne.focus();
+}
+
+var picks=[];
+function show(){
+  answered=false;picks=[];clearInterval(tick);
+  var card=document.getElementById("card");
+  if(!cur){card.className="card";card.innerHTML='<p class="q">Nothing in this scope yet.</p>';return;}
+  var b=cur,e=b.ent;card.className="card l"+e.lec;
+  var head='<div class="card-top"><div><p class="meta">'+(mode==="build"?"Build · box "+(idx+1)+" of "+e.b.length:"Drill"+(loFilter?" · LO "+loFilter:""))+'</p><h2>'+esc(e.name)+'</h2></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag lo">'+(b.lo.slice(-1)==="X"?"Extra":"LO "+b.lo)+'</span>'+(b.hy?'<span class="tag hy">HY</span>':'')+'<span class="timer" id="timer">0.0s</span></div></div>';
+  if(mode==="build"){head+='<div class="boxes" aria-hidden="true">'+e.b.map(function(x,i){var c=i===idx?"cur":(x.id in results?(results[x.id]?"done-ok":"done-bad"):"");return '<i class="'+c+'"></i>';}).join("")+'</div>';}
+  var body='<p class="q">'+esc(b.q)+'</p>';
+  if(!b.t){b._opts=shuffle([b.a].concat(b.o));
+    body+='<div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else if(b.t==="m"){b._opts=shuffle(b.a.concat(b.o));
+    body+='<p class="hint">Select all that apply, then check.</p><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" aria-pressed="false" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else{b._opts=shuffle(b.a);
+    body+='<p class="hint">Tap items in order. Tap a placed item to remove it.</p><ol class="ordered" id="ordList"><li class="empty" style="cursor:default">Your order appears here</li></ol><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">+</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  var act='<div id="fb"></div><div class="actions"><span class="hint">'+(b.t?"Enter to check":"Keys 1–"+b._opts.length+" to answer")+'</span><div style="display:flex;gap:8px">'+
+    (mode==="build"?'<button class="btn" type="button" id="skipBtn">Skip structure</button>':'')+
+    (b.t?'<button class="btn primary" type="button" id="checkBtn"'+(b.t==="o"?" disabled":"")+'>Check</button>':'')+
+    '<button class="btn primary" type="button" id="nextBtn" hidden>Next box →</button></div></div>';
+  card.innerHTML=head+body+act;
+  t0=Date.now();tick=setInterval(function(){var t=document.getElementById("timer");if(t)t.textContent=((Date.now()-t0)/1000).toFixed(1)+"s";},100);
+  var opts=card.querySelectorAll(".opt");
+  if(!b.t)opts.forEach(function(o){o.onclick=function(){if(!answered)grade([+o.dataset.i]);};});
+  else if(b.t==="m")opts.forEach(function(o){o.onclick=function(){if(answered)return;var on=o.getAttribute("aria-pressed")!=="true";o.setAttribute("aria-pressed",String(on));o.classList.toggle("sel",on);};});
+  else opts.forEach(function(o){o.onclick=function(){if(answered||o.disabled)return;picks.push(+o.dataset.i);o.disabled=true;o.style.opacity=".4";drawOrd();};});
+  var cb=document.getElementById("checkBtn");if(cb)cb.onclick=function(){if(answered)return;
+    if(b.t==="m"){var sel=[];opts.forEach(function(o){if(o.getAttribute("aria-pressed")==="true")sel.push(+o.dataset.i);});grade(sel);}else grade(picks);};
+  var sk=document.getElementById("skipBtn");if(sk)sk.onclick=function(){var i=E.indexOf(curEnt);for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){startEnt(c);return;}}};
+  document.getElementById("nextBtn").onclick=function(){lastId=cur.id;next();};
+}
+function drawOrd(){var b=cur,ol=document.getElementById("ordList");
+  ol.innerHTML=picks.length?picks.map(function(i,k){return '<li data-k="'+k+'">'+esc(b._opts[i])+'</li>';}).join(""):'<li class="empty" style="cursor:default">Your order appears here</li>';
+  ol.querySelectorAll("li[data-k]").forEach(function(li){li.onclick=function(){if(answered)return;var k=+li.dataset.k,i=picks[k];picks.splice(k,1);
+    var o=document.querySelector('.opt[data-i="'+i+'"]');o.disabled=false;o.style.opacity="";drawOrd();};});
+  document.getElementById("checkBtn").disabled=picks.length!==b.a.length;}
+
+function grade(sel){
+  answered=true;clearInterval(tick);var b=cur,ok,card=document.getElementById("card"),opts=card.querySelectorAll(".opt");
+  if(!b.t){ok=b._opts[sel[0]]===b.a;opts.forEach(function(o){var t=b._opts[+o.dataset.i];o.disabled=true;if(t===b.a)o.classList.add("right");else if(+o.dataset.i===sel[0])o.classList.add("wrong");});}
+  else if(b.t==="m"){var chosen=sel.map(function(i){return b._opts[i];});ok=chosen.length===b.a.length&&chosen.every(function(c){return b.a.indexOf(c)>=0;});
+    opts.forEach(function(o){var t=b._opts[+o.dataset.i],isA=b.a.indexOf(t)>=0,isS=chosen.indexOf(t)>=0;o.disabled=true;o.classList.remove("sel");
+      if(isA&&isS)o.classList.add("right");else if(isA)o.classList.add("missed");else if(isS)o.classList.add("wrong");});}
+  else{var got=sel.map(function(i){return b._opts[i];});ok=got.every(function(g,k){return g===b.a[k];});
+    document.querySelectorAll("#ordList li[data-k]").forEach(function(li,k){li.classList.add(got[k]===b.a[k]?"right":"wrong");});
+    opts.forEach(function(o){o.disabled=true;});}
+  var r=S.box[b.id]||{n:0,c:0,s:"u"};r.n++;
+  if(ok){r.c++;r.s=r.c>=2?"M":"o";S.streak++;S.best=Math.max(S.best,S.streak);S.right++;S.score+=10+Math.min(S.streak,10);}
+  else{r.c=0;r.s="m";S.streak=0;}
+  S.tot++;S.box[b.id]=r;if(!(b.id in results))results[b.id]=ok;save();
+  var fb='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Correct":"Not quite")+'</span>';
+  if(!ok){if(!b.t)fb+='<span>Answer: <b>'+esc(b.a)+'</b></span>';else if(b.t==="m")fb+='<span>Answer: <b>'+b.a.map(esc).join(" · ")+'</b></span>';else fb+='<span>Correct order:</span><ol>'+b.a.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';}
+  fb+='<span>'+esc(b.w)+'</span></div>';
+  document.getElementById("fb").innerHTML=fb;
+  var cb=document.getElementById("checkBtn");if(cb)cb.hidden=true;
+  var nb=document.getElementById("nextBtn");nb.hidden=false;nb.textContent=(mode==="build"&&idx===curEnt.b.length-1)?"Finish structure →":"Next box →";nb.focus();
+  renderAll();
+}
+document.addEventListener("keydown",function(ev){
+  if(ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){var nb=document.getElementById("nextBtn"),cb=document.getElementById("checkBtn");
+    if(nb&&!nb.hidden){ev.preventDefault();nb.click();}else if(cb&&!cb.hidden&&!cb.disabled){ev.preventDefault();cb.click();}return;}
+  var n=parseInt(ev.key,10);if(!cur||answered||isNaN(n))return;var o=document.querySelector('.opt[data-i="'+(n-1)+'"]');if(o&&!o.disabled)o.click();
+});
+
+renderAll();startEnt(firstEnt());
+})();
+</script>
