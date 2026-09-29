@@ -1,0 +1,300 @@
+<title>The Fusion Wars</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one dark arena. Title → boss map grid → battle (boss bar, player bar, question) → result.
+   Deliberately single dark theme, every color set explicitly. */
+:root{
+  --bg:#0d1016; --bg2:#151a23; --surface:#1b212c; --line:#2d3644; --ink:#e9edf2; --muted:#9aa5b3;
+  --acc:#d98ac4; --acc2:#7a3b69; --gold:#e3b95c; --hp:#e2574c; --you:#5cc98a; --ok:#5cc98a; --ok-bg:#15301f; --bad:#f07b72; --bad-bg:#3a1a18;
+  --f-disp:"Cinzel", "Trajan Pro", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:radial-gradient(1200px 600px at 50% -10%, color-mix(in srgb, var(--acc2) 35%, transparent), transparent 70%), var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-disp);margin:0;letter-spacing:.04em;text-wrap:balance;line-height:1.15}
+.meta{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.btn{font:700 .9rem var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 16px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.btn.primary{background:var(--acc);color:#0d1016;border-color:var(--acc)}
+.btn.gold{background:var(--gold);color:#1a1405;border-color:var(--gold)}
+.btn:focus-visible,.opt:focus-visible,.boss:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* title */
+.hero{display:grid;gap:14px;text-align:center;justify-items:center;padding-block:28px 8px}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;color:var(--acc);text-shadow:0 0 24px color-mix(in srgb, var(--acc) 40%, transparent)}
+.hero p{max-width:60ch;color:var(--muted);margin:0}
+.counts{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.counts b{display:block;font:800 1.8rem var(--f-disp);color:var(--ink)}
+.counts span{font:500 .7rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;width:100%;max-width:640px}
+.mode{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;text-align:left;cursor:pointer;color:var(--ink);font:inherit}
+.mode:hover{border-color:var(--acc)}
+.mode h3{font-size:1.1rem;color:var(--acc)}
+.mode p{margin:0;color:var(--muted);font-size:.88rem}
+.coop{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;max-width:420px;width:100%;text-align:left}
+.coop label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
+.coop input{font:inherit;background:var(--bg2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.legend-types{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:.82rem;color:var(--muted)}
+
+/* map */
+.maphead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px}
+.maphead h2{font-size:1.6rem;color:var(--acc)}
+.prog{height:8px;background:var(--bg2);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc))}
+.bossgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.boss{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:10px 12px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;position:relative}
+.boss:hover:not([disabled]){border-color:var(--acc)}
+.boss[disabled]{opacity:.5;cursor:not-allowed}
+.boss .sig{grid-row:1/3;width:56px;height:56px}
+.boss h3{font-size:.98rem}
+.boss .ep{font-size:.78rem;color:var(--muted);line-height:1.3}
+.boss .lo{grid-column:1/3;font:500 .7rem var(--f-mono);color:var(--acc);letter-spacing:.04em}
+.boss .hpmini{grid-column:1/3;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.boss .hpmini i{display:block;height:100%;background:var(--hp)}
+.boss.dead{border-color:var(--gold)}
+.boss.dead .hpmini i{background:var(--gold)}
+.boss .slain{position:absolute;top:-10px;right:12px;background:var(--bg);padding:1px 8px;border:1px solid var(--gold);border-radius:999px;font:700 .68rem var(--f-mono);letter-spacing:.08em;color:var(--gold)}
+.boss.final{grid-column:1/-1;border-color:color-mix(in srgb, var(--gold) 60%, var(--line))}
+.maptools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* battle */
+.arena{display:grid;gap:12px}
+.bars{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+@media (max-width:640px){ .bars{grid-template-columns:1fr} .vs{display:none} }
+.fighter{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;min-width:0}
+.fighter .sig{width:64px;height:64px}
+.fighter h3{font-size:1.05rem}
+.fighter .ep{font-size:.78rem;color:var(--muted)}
+.hpbar{height:12px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.hpbar i{display:block;height:100%;transition:width .35s ease}
+.hpbar.bh i{background:linear-gradient(90deg,#9b2d25,var(--hp))}
+.hpbar.you i{background:linear-gradient(90deg,#2a7a4d,var(--you))}
+.hptxt{font:500 .72rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.vs{font:800 1.2rem var(--f-disp);color:var(--gold)}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px;position:relative;overflow:hidden}
+.qtop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.tag.t2{color:var(--gold);border-color:color-mix(in srgb, var(--gold) 50%, var(--line))}
+.tag.s1{color:var(--acc);border-color:color-mix(in srgb, var(--acc) 50%, var(--line))}
+.combo{font:800 .95rem var(--f-disp);color:var(--gold)}
+.turn{font:600 .85rem var(--f-body);color:var(--acc)}
+.stem{font:600 1.05rem/1.55 var(--f-body);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg2);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt .k{font:700 .8rem var(--f-mono);color:var(--acc);min-width:1.2em}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt[disabled]{cursor:default}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg);border:1px solid color-mix(in srgb, var(--ok) 40%, transparent)}
+.fb.bad{background:var(--bad-bg);border:1px solid color-mix(in srgb, var(--bad) 40%, transparent)}
+.fb .v{font:800 1rem var(--f-disp);letter-spacing:.05em}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.flash{position:absolute;inset:0;pointer-events:none;display:grid;place-items:center;font:800 3rem var(--f-disp);letter-spacing:.1em;opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  .shake{animation:shake .35s}
+  @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+  .flash.go{animation:fl .7s ease-out}
+  @keyframes fl{0%{opacity:0;transform:scale(.8)}25%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.15)}}
+}
+
+/* result */
+.result{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px}
+.result h2{font-size:2rem}
+.result.win h2{color:var(--gold)} .result.lose h2{color:var(--bad)}
+.review{display:grid;gap:10px}
+.review article{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:6px}
+.review .ans{color:var(--ok);font-weight:600}
+.scores{display:flex;gap:20px;flex-wrap:wrap}
+.scores b{display:block;font:800 1.4rem var(--f-disp)}
+.scores span{font:500 .7rem var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+</style>
+
+<div class="wrap">
+  <section id="scrTitle" class="hero">
+    <p class="meta">HoyaDocs · Block 5 · <span id="lecName"></span></p>
+    <h1 id="gTitle"></h1>
+    <p id="gTag"></p>
+    <div class="counts">
+      <div><b id="cQ">0</b><span>Questions</span></div>
+      <div><b id="cB">0</b><span>Bosses</span></div>
+      <div><b id="cL">0</b><span>Learning objectives</span></div>
+    </div>
+    <div class="legend-types"><span class="tag t2">2nd order</span> multi-step reasoning <span class="tag s1">Step 1</span> clinical vignette</div>
+    <div class="modes">
+      <button class="mode" type="button" id="soloBtn"><h3>Solo campaign</h3><p>Your HP, your record. Wrong answers return later in the fight.</p></button>
+      <button class="mode" type="button" id="coopBtn"><h3>Two-player co-op</h3><p>Alternate questions on one boss with a shared HP pool.</p></button>
+    </div>
+    <form class="coop" id="coopForm" hidden>
+      <p class="meta">Name your party</p>
+      <label for="p1">Player 1<input id="p1" value="Player 1" maxlength="20"></label>
+      <label for="p2">Player 2<input id="p2" value="Player 2" maxlength="20"></label>
+      <div class="row"><button class="btn" type="button" id="coopBack">Back</button><button class="btn primary" type="submit">Enter the fight</button></div>
+    </form>
+  </section>
+
+  <section id="scrMap" hidden>
+    <div class="maphead">
+      <div><p class="meta" id="mapMode">Solo campaign</p><h2>Boss map</h2><p class="hint" id="mapProg"></p></div>
+      <div class="maptools"><button class="btn" type="button" id="modeBtn">Change mode</button><button class="btn" type="button" id="resetBtn">Reset progress</button></div>
+    </div>
+    <div class="prog" style="margin:10px 0 16px"><i id="progBar" style="width:0%"></i></div>
+    <div class="bossgrid" id="bossGrid"></div>
+    <p class="hint" style="margin-top:12px">Progress is saved in this browser only. A boss is defeated only when every one of its questions has been answered correctly. The final boss unlocks when all others fall.</p>
+  </section>
+
+  <section id="scrBattle" class="arena" hidden>
+    <div class="row"><button class="btn" type="button" id="retreatBtn">← Retreat to map</button><span class="combo" id="combo"></span></div>
+    <div class="bars">
+      <div class="fighter"><div id="bSig"></div><div style="min-width:0"><h3 id="bName"></h3><div class="ep" id="bEp"></div><div class="hpbar bh"><i id="bHp"></i></div><div class="hptxt" id="bHpT"></div></div></div>
+      <div class="vs">VS</div>
+      <div class="fighter"><div id="ySig"></div><div style="min-width:0"><h3 id="yName">You</h3><div class="ep" id="yEp"></div><div class="hpbar you"><i id="yHp"></i></div><div class="hptxt" id="yHpT"></div></div></div>
+    </div>
+    <div class="qcard" id="qcard">
+      <div class="flash" id="flash"></div>
+      <div class="qtop"><div class="tags" id="qTags"></div><span class="turn" id="turn"></span></div>
+      <p class="stem" id="stem"></p>
+      <div class="opts" id="opts"></div>
+      <div id="fb"></div>
+      <div class="row"><span class="hint">Keys A–E or 1–5 · Enter for next</span><button class="btn primary" type="button" id="nextBtn" hidden>Next strike →</button></div>
+    </div>
+  </section>
+
+  <section id="scrResult" hidden></section>
+
+  <footer>HoyaDocs · <span id="fTitle"></span> · Updated September 28, 2026 · Revision 1.0. Questions are written from the in-house learning objectives; Step 1 vignettes may reach slightly past the lecture.</footer>
+</div>
+
+<script>
+var G = {"key": "04", "title": "The Fusion Wars", "lecture": "HNSS04 · Craniofacial Development", "accent": "#d98ac4", "accent2": "#7a3b69", "tagline": "Ten bosses, one for each craniofacial learning objective. Every prominence must fuse and every question must fall.", "final": {"name": "The Stomodeum", "epithet": "The mouth that all prominences surround", "n": 12}, "bosses": [{"lo": "04.1", "name": "Tuberculum Impar", "epithet": "The swelling that gets overgrown", "los": "Anatomical structures of the tongue", "q": [["2", "The swellings that form the anterior two-thirds of the tongue arise from the same arch as which muscle?", ["Stylopharyngeus", "Masseter", "Stapedius", "Cricothyroid", "Genioglossus"], 1, "Lateral lingual swellings + tuberculum impar come from arch 1, the arch of the muscles of mastication."], ["S1", "After a stroke, a patient's tongue deviates to the left on protrusion. The weakened muscles developed from which source?", ["First arch mesoderm", "Occipital somites", "Second arch neural crest", "Pharyngeal endoderm", "Lateral plate mesoderm of arch 4"], 1, "Flagged on exam: tongue muscles come from occipital somite (paraxial mesoderm) myoblasts — hence hypoglossal innervation."], ["2", "The lecture describes the tongue as which arrangement of tissues?", ["Endoderm surrounded by ectoderm", "Mesoderm surrounded by endoderm", "Neural crest surrounded by mesoderm", "Ectoderm surrounded by mesoderm", "Endoderm only"], 1, "Flagged on exam: somite mesoderm core, endodermal covering."], ["2", "The copula forms from mesoderm under arches 2–4. Which part of the tongue does this hypobranchial tissue build?", ["Anterior two-thirds", "Posterior one-third (root)", "Tip only", "Intrinsic muscles", "Lingual frenulum"], 1, "Anterior 2/3 = lateral swellings overgrowing the tuberculum impar; posterior 1/3 = copula/hypobranchial eminence."], ["2", "Which landmark lies between the tuberculum impar and the hypobranchial eminence?", ["Terminal sulcus only", "Foramen cecum", "Vallecula", "Incisive foramen", "Median glossoepiglottic fold"], 1, "The foramen cecum — the starting point of the thyroid."]]}, {"lo": "04.2", "name": "Noggin the Bud-Breaker", "epithet": "Silencer of BMP", "los": "Tongue development vs lung development", "q": [["2", "In both tongue and lung development, which tissue gives the signal that starts epithelial proliferation?", ["The overlying ectoderm", "The underlying mesoderm (± neural crest)", "The notochord", "The neural tube", "The endoderm itself, autonomously"], 1, "The shared theme: underlying mesenchyme signals the overlying endoderm to proliferate and bud."], ["2", "(Low yield — not on the exam.) If mesodermal Noggin were knocked out under the tongue primordium, what would be predicted?", ["Endoderm overgrowth", "BMP-7 unopposed → Patched stays inhibited → reduced endodermal proliferation", "Premature thyroid descent", "Increased Patched activity", "No change"], 1, "Noggin normally inhibits BMP-7, releasing Patched to drive proliferation."], ["2", "Which organ forms by the same endodermal budding mechanism as the lung but buds only once, into two lobes?", ["Tongue", "Thyroid", "Thymus", "Parathyroid", "Pituitary"], 1, "The thyroid descends as a bilobed diverticulum; lungs keep bifurcating."], ["2", "The lining epithelium of both the tongue and the lung bud comes from which germ layer?", ["Ectoderm", "Endoderm", "Mesoderm", "Neural crest", "Neuroectoderm"], 1, "Both are endoderm driven by the underlying mesenchyme."]]}, {"lo": "04.3", "name": "The Lingual Hydra", "epithet": "Four heads, four nerves", "los": "Cranial innervation of throat and tongue", "q": [["S1", "During a difficult third-molar extraction, the lingual nerve is cut just after the chorda tympani joins it. Which deficit results on that side?", ["Loss of taste only", "Loss of general sensation only", "Loss of both taste and general sensation, anterior two-thirds", "Tongue deviation", "Loss of gag reflex"], 2, "Distal to the junction, the lingual nerve carries both V3 general sensation and VII (chorda tympani) taste fibers."], ["S1", "A patient with Bell's palsy loses taste on the anterior two-thirds of the tongue, but touch is intact. The lost fibers travel in which nerve?", ["Lingual nerve proper (V3)", "Chorda tympani (VII)", "Glossopharyngeal nerve", "Superior laryngeal nerve", "Hypoglossal nerve"], 1, "Taste anterior 2/3 = chorda tympani; general sensation = V3, which is spared."], ["S1", "After tonsillectomy, a patient has lost taste and sensation on the posterior third of the tongue and has a diminished gag reflex. Which nerve, from which arch?", ["CN V3, arch 1", "CN VII, arch 2", "CN IX, arch 3", "CN X, arch 4", "CN XII, occipital somites"], 2, "Posterior 1/3 tongue and gag afferent = CN IX, arch 3. It runs near the tonsillar bed."], ["2", "Sensation from the extreme posterior tongue (near the epiglottis) travels with a nerve that also supplies which muscle?", ["Stylopharyngeus", "Cricothyroid", "Posterior cricoarytenoid", "Genioglossus", "Tensor veli palatini"], 1, "Extreme posterior tongue = superior laryngeal branch of X (arch 4), whose motor branch supplies cricothyroid."], ["S1", "When a patient says 'ah', the uvula deviates to the right. The gag reflex is absent when the left posterior pharynx is touched but present on the right. Which nerve is damaged?", ["Left CN IX", "Left CN X", "Right CN X", "Right CN IX", "Left CN XII"], 1, "The uvula deviates away from the weak side, so the left X (efferent) is damaged. IX is afferent; a lone IX lesion wouldn't deviate the uvula."]]}, {"lo": "04.4", "name": "The Thyroglossal Wraith", "epithet": "Haunter of the descent path", "los": "Steps of thyroid development", "q": [["S1", "A 12-year-old girl has a mass at the base of the tongue. Scintigraphy shows it is her only functioning thyroid tissue. What happened?", ["The thyroglossal duct failed to obliterate", "The thyroid primordium failed to descend from the foramen cecum", "The ultimobranchial body failed to fuse", "Pouch 4 failed to form", "Cleft 2 persisted"], 1, "Lingual thyroid = failure of descent. Don't excise without confirming other thyroid tissue."], ["2", "Where is the descending thyroid located at week 6?", ["At the foramen cecum", "In front of the hyoid and laryngeal cartilages", "Anterior to the trachea", "In the anterior mediastinum", "Inside the tongue muscle"], 1, "Week 6: in front of the hyoid and laryngeal cartilages. Week 7: final position anterior to the trachea."], ["2", "PAX genes are among the major genes involved in thyroid development. What does this imply?", ["The thyroid is purely ectodermal", "Neural crest cells are involved", "The thyroid comes from pouch 2", "Mesoderm isn't involved", "The thyroid develops after birth"], 1, "Flagged on exam: PAX involvement = neural crest involvement."], ["S1", "During thyroidectomy, a surgeon notices a thin extension rising from the isthmus toward the hyoid. This represents:", ["An accessory parathyroid", "A remnant of the thyroglossal duct (pyramidal lobe)", "Ectopic thymus", "Ultimobranchial body remnant", "Branchial cleft remnant"], 1, "The pyramidal lobe is a persistent part of the thyroglossal duct."], ["2", "Which is the correct order of thyroid development?", ["Trachea → hyoid → foramen cecum", "Foramen cecum → descends on thyroglossal duct → in front of hyoid (wk 6) → anterior to trachea (wk 7)", "Pouch 4 → foramen cecum → trachea", "Hyoid → foramen cecum → trachea", "Ultimobranchial body → trachea → hyoid"], 1, "Foramen cecum → bilobed descent on the duct → wk 6 hyoid/larynx → wk 7 trachea."]]}, {"lo": "04.5", "name": "The Calcitonin Sentinel", "epithet": "Guardian of fetal bone", "los": "Function of the fetal thyroid", "q": [["2", "Fetal cells derived from the ultimobranchial body secrete a hormone at 2–3× maternal levels. What does it do?", ["Raises blood calcium by activating osteoclasts", "Prevents bone resorption, supporting bone development", "Stimulates thyroid follicle growth", "Increases renal calcium loss", "Stimulates PTH release"], 1, "C cells → calcitonin → increased calcium uptake into bone, preventing resorption."], ["S1", "A newborn's screen shows high TSH and low T4. If untreated, which picture develops?", ["Tall stature and tachycardia", "Pot belly, puffy face, protruding tongue, umbilical hernia, intellectual disability", "Hypocalcemic tetany", "Exophthalmos", "Precocious puberty"], 1, "Congenital hypothyroidism (cretinism). Thyroid hormone controls metabolism and brain development; treat early with levothyroxine."], ["2", "According to lecture, at about which week does the fetal thyroid begin functioning?", ["Week 4", "Week 7", "Weeks 14–15", "Week 28", "At birth"], 2, "Weeks 14–15 per lecture (Step 1 sources often say ~10–12)."], ["2", "Follicular cells begin producing colloid. Colloid is the source of which hormones, with what function?", ["Calcitonin — calcium", "T4 and T3 — cellular metabolism", "PTH — calcium", "TSH — thyroid growth", "Cortisol — stress"], 1, "Colloid stores thyroglobulin → T4/T3, which control cellular metabolism."]]}, {"lo": "04.6", "name": "The Five-Faced Prominence", "epithet": "Frontonasal, maxillary ×2, mandibular ×2", "los": "Formation of the face (lips, nose, cheeks)", "q": [["S1", "An infant has a cleft exactly in the midline of the upper lip, through the philtrum. Which prominences failed to merge?", ["Maxillary and medial nasal", "The two medial nasal prominences", "Maxillary and lateral nasal", "The two mandibular prominences", "Palatine shelves"], 1, "Median cleft of the upper lip = incomplete merging of the two medial nasal prominences."], ["2", "The prominence that forms the cheeks also forms which part of the upper lip?", ["The philtrum", "The lateral parts", "None of it", "The whole lip", "The vermilion only"], 1, "Maxillary prominences → cheeks (wk 8–9) and the lateral upper lip; medial nasal → philtrum."], ["2", "Which structure does NOT come from the medial nasal prominences?", ["Philtrum", "Crest and tip of the nose", "Primary palate", "Alae (sides) of the nose", "Four upper incisors"], 3, "The alae come from the lateral nasal prominences, which don't form the lip."], ["2", "A Pax3-GFP reporter lights up neural crest. Which facial structures would NOT fluoresce?", ["Maxilla and zygomatic bone", "Mandible", "Thyroid and cricoid cartilages", "Nasal bones", "Frontal bone"], 2, "Neural crest forms virtually all facial bones; thyroid and cricoid cartilages are lateral plate mesoderm."], ["2", "The nasal placodes invaginate into nasal pits. The ridges around each pit become:", ["Maxillary prominences", "Medial and lateral nasal prominences", "Palatine shelves", "Mandibular prominences", "The frontonasal prominence"], 1, "Weeks 5–8: placodes → pits → medial and lateral nasal prominences; the maxillary prominences push them medially."]]}, {"lo": "04.7", "name": "The Shelf-Splitter", "epithet": "Keeper of the palate", "los": "Formation of the palates", "q": [["S1", "A newborn has a cleft of the hard and soft palate behind the incisive foramen; the lip and alveolar ridge are intact. Which process failed?", ["Fusion of maxillary and medial nasal prominences", "Fusion of the palatine shelves", "Formation of the intermaxillary segment", "Rupture of the oronasal membrane", "Descent of the thyroid"], 1, "Isolated secondary-palate cleft = palatine shelves failed to fuse."], ["2", "The palatine shelves are outgrowths of the prominence that also forms which structure?", ["Philtrum", "Cheeks", "Nasal alae", "Chin", "Nasal bridge"], 1, "Shelves come from the maxillary prominences, which also form the cheeks."], ["S1", "A newborn has a very small mandible, a tongue that falls back into the airway, and a U-shaped cleft of the secondary palate. How does the jaw problem explain the cleft?", ["The mandible forms the palate", "The tongue couldn't drop, blocking the shelves from meeting above it", "Neural crest never reached the palate", "The oronasal membrane never ruptured", "The thyroid failed to descend"], 1, "The shelves must grow toward each other dorsal to the tongue. A small jaw keeps the tongue high (Pierre Robin sequence, Step 1)."], ["2", "At mid-week 7 the nasal and oral cavities connect behind the primary palate. What forms this connection?", ["Incisive foramen", "Primitive choana, after the oronasal membrane ruptures", "Nasolacrimal duct", "Foramen cecum", "Eustachian tube"], 1, "Nasal pits deepen (wk 6), separated by the oronasal membrane (wk 7), which ruptures → primitive choana."], ["2", "Which component of the intermaxillary segment carries the four upper incisors?", ["Labial component", "Upper jaw component", "Palatal component", "Palatine shelves", "Lateral nasal component"], 1, "Labial → philtrum · upper jaw → four incisors · palatal → primary palate."]]}, {"lo": "04.8", "name": "Ossifex", "epithet": "Forger of the skull", "los": "Neurocranium and viscerocranium", "q": [["2", "The cartilaginous neurocranium (skull base) forms by which process, from which tissue?", ["Membrane ossification of neural crest", "Endochondral ossification of paraxial and prechordal mesoderm (+ some neural crest)", "Endochondral ossification of lateral plate mesoderm", "Membrane ossification of endoderm", "Direct ossification of surface ectoderm"], 1, "Skull base = cartilage model replaced by bone (endochondral)."], ["2", "Which pairing of bone and ossification type is correct?", ["Maxilla — endochondral", "Malleus — membranous", "Maxilla — membranous (neural crest)", "Skull base — membranous", "Incus — membranous"], 2, "Viscerocranium bones like the maxilla ossify directly from neural crest; the malleus and incus are endochondral."], ["S1", "A child with achondroplasia (defective endochondral ossification) has a disproportionately large calvaria with frontal bossing. Why is the calvaria spared?", ["It forms by membranous ossification", "It forms from endoderm", "It forms after birth only", "It has no bone", "It is cartilage in adults"], 0, "The skull vault (membranous neurocranium) doesn't depend on a cartilage model; the endochondral skull base is small."], ["2", "The malleus belongs to which division of the skull, and how does it ossify?", ["Membranous neurocranium — membrane", "Cartilaginous viscerocranium — endochondral", "Cartilaginous neurocranium — endochondral", "Membranous viscerocranium — membrane", "It is not part of the skull"], 1, "Arch cartilages (Meckel's) form the cartilaginous viscerocranium; the malleus is endochondral."], ["2", "More than 100 ossification centers form 45 bones. How many bones does the mature skull have?", ["8", "14", "22", "28", "45"], 2, "They fuse into the 22 bones of the mature skull."]]}, {"lo": "04.9", "name": "Cleftmaw", "epithet": "The failure to fuse", "los": "Clinical malformations (cleft lip and others)", "q": [["S1", "A newborn has a unilateral cleft through the upper lip and alveolar ridge. This is the most common congenital malformation of the head and neck. Which fusion failed?", ["Palatine shelves", "Maxillary and medial nasal prominences", "The two medial nasal prominences", "Maxillary and lateral nasal prominences", "The two mandibular prominences"], 1, "Cleft lip ± primary palate = maxillary + medial nasal (intermaxillary segment) failure."], ["S1", "A woman with epilepsy took an antiepileptic throughout pregnancy that was specifically linked in lecture to oral clefts (2.5 vs 0.37 per 1000). Which drug?", ["Levetiracetam", "Lamotrigine", "Ethosuximide", "Gabapentin", "Folic acid"], 1, "Lamotrigine; phenobarbital, valproic acid and lithium were also named."], ["S1", "A newborn has a cleft that runs from the upper lip along the side of the nose toward the medial canthus, exposing the nasolacrimal groove. Which prominences failed to merge?", ["Maxillary and medial nasal", "Maxillary and lateral nasal", "Two medial nasal", "Frontonasal and mandibular", "Palatine shelves"], 1, "Flagged on exam: oblique facial cleft = maxillary + lateral nasal prominence."], ["S1", "A 4-year-old has a painless midline neck mass just below the hyoid that rises when she sticks out her tongue. What is it?", ["Branchial cleft cyst", "Thyroglossal duct cyst", "Cystic hygroma", "Lingual thyroid", "Dermoid cyst"], 1, "Midline + moves with tongue protrusion = remnant of the thyroglossal duct."], ["2", "Lecture says all facial clefts can ultimately be caused by problems with which cell population?", ["Pharyngeal endoderm", "Neural crest (migration or function)", "Occipital somites", "Otic placode", "Notochord"], 1, "Flagged on exam."]]}, {"lo": "04.10", "name": "The Sonographer's Shade", "epithet": "Seen only on ultrasound", "los": "Craniofacial ultrasound", "q": [["S1", "A first-trimester ultrasound shows an absent nasal bone and increased nuchal translucency. Which other finding is this fetus at increased risk for?", ["Renal agenesis", "Duodenal atresia", "Spina bifida", "Gastroschisis", "Clubfoot only"], 1, "These are trisomy 21 markers; Down syndrome is associated with duodenal atresia and AV septal defects."], ["2", "Lecture said to check ear position on the fetal face. Low-set ears suggest an abnormality of which region?", ["The otic placode only", "The pharyngeal (arch 1–2) region", "The eye fields", "The neural tube", "The thyroid"], 1, "External ears form from arches 1–2 and move up with jaw growth; deformities point to the pharyngeal region."], ["2", "On a normal fetal face ultrasound from lecture, which structure should be identifiable?", ["The thymus", "The fused maxillary process", "The palatine tonsil", "The ultimobranchial body", "The foramen cecum"], 1, "Normal views: neurocranium, viscerocranium, frontal prominence, nose, fused maxillary process."]]}]};
+(function(){
+"use strict";
+var KEY="hd-boss-"+G.key+"-v1", L="ABCDE";
+var P={dead:{},best:{},mode:"solo",names:["Player 1","Player 2"]};
+try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.dead)P=Object.assign(P,j);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(P));}catch(e){}}
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){["scrTitle","scrMap","scrBattle","scrResult"].forEach(function(s){$(s).hidden=(s!==id);});window.scrollTo(0,0);}
+
+/* ids */
+var QS=[];G.bosses.forEach(function(b,bi){b.id="b"+bi;b.q.forEach(function(q,qi){QS.push({id:b.id+"."+qi,boss:b,lo:b.lo,k:q[0],stem:q[1],o:q[2],a:q[3],e:q[4]});});b.qs=QS.filter(function(x){return x.boss===b;});});
+var FINAL={id:"final",name:G.final.name,epithet:G.final.epithet,lo:"all",los:"Every learning objective in this lecture",final:true};
+var losSet={};G.bosses.forEach(function(b){losSet[b.lo]=1;});
+
+/* sigil: deterministic SVG emblem per boss */
+function sigil(seed,size,col){var s=0;for(var i=0;i<seed.length;i++)s=(s*31+seed.charCodeAt(i))>>>0;
+  function r(){s=(s*1103515245+12345)>>>0;return s/4294967296;}
+  var n=3+Math.floor(r()*5),rot=r()*360,parts='';
+  for(var k=0;k<3;k++){var rad=44-k*12,pts=[];for(var i=0;i<n;i++){var a=(rot+k*17+i*360/n)*Math.PI/180;pts.push((50+rad*Math.cos(a)).toFixed(1)+","+(50+rad*Math.sin(a)).toFixed(1));}
+    parts+='<polygon points="'+pts.join(" ")+'" fill="'+(k===2?col:"none")+'" fill-opacity="'+(k===2?".35":"0")+'" stroke="'+col+'" stroke-width="'+(3-k*.6)+'" stroke-opacity="'+(1-k*.25)+'"/>';}
+  parts+='<circle cx="50" cy="50" r="'+(6+r()*6).toFixed(1)+'" fill="'+col+'"/>';
+  return '<svg class="sig" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#0d1016" stroke="#2d3644"/>'+parts+'</svg>';}
+
+/* title */
+$("lecName").textContent=G.lecture;$("gTitle").textContent=G.title;$("gTag").textContent=G.tagline;$("fTitle").textContent=G.title;
+$("cQ").textContent=QS.length;$("cB").textContent=G.bosses.length+1;$("cL").textContent=Object.keys(losSet).filter(function(k){return k.slice(-1)!=="X";}).length;
+$("soloBtn").onclick=function(){P.mode="solo";save();openMap();};
+$("coopBtn").onclick=function(){$("coopForm").hidden=false;$("p1").value=P.names[0];$("p2").value=P.names[1];$("p1").focus();};
+$("coopBack").onclick=function(){$("coopForm").hidden=true;};
+$("coopForm").onsubmit=function(e){e.preventDefault();P.mode="coop";P.names=[$("p1").value.trim()||"Player 1",$("p2").value.trim()||"Player 2"];save();openMap();};
+$("modeBtn").onclick=function(){show("scrTitle");};
+$("resetBtn").onclick=function(){var b=this;if(b.dataset.c){P.dead={};P.best={};save();delete b.dataset.c;b.textContent="Reset progress";openMap();return;}
+  b.dataset.c="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.c){delete b.dataset.c;b.textContent="Reset progress";}},3000);};
+
+/* map */
+function openMap(){
+  $("mapMode").textContent=P.mode==="coop"?"Co-op · "+P.names.join(" & "):"Solo campaign";
+  var dead=G.bosses.filter(function(b){return P.dead[b.id];}).length,conq=G.bosses.filter(function(b){return P.dead[b.id];}).reduce(function(s,b){return s+b.qs.length;},0);
+  $("mapProg").textContent=dead+" of "+G.bosses.length+" bosses defeated · "+conq+" of "+QS.length+" questions conquered"+(P.dead.final?" · Final boss slain":"");
+  $("progBar").style.width=Math.round(100*(dead+(P.dead.final?1:0))/(G.bosses.length+1))+"%";
+  var h="";G.bosses.forEach(function(b){var d=P.dead[b.id];
+    h+='<button type="button" class="boss'+(d?" dead":"")+'" data-b="'+b.id+'">'+sigil(b.name,56,d?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim())+
+      '<h3>'+esc(b.name)+'</h3><span class="ep">'+esc(b.epithet)+'</span>'+(d?'<span class="slain">SLAIN</span>':'')+
+      '<span class="lo">'+(b.lo.slice(-1)==="X"?"EXTRA":"LO "+b.lo)+' · '+esc(b.los)+' · '+b.qs.length+' Q</span><span class="hpmini"><i style="width:'+(d?100:100)+'%"></i></span></button>';});
+  var allDead=G.bosses.every(function(b){return P.dead[b.id];});
+  h+='<button type="button" class="boss final'+(P.dead.final?" dead":"")+'" data-b="final"'+(allDead?'':' disabled')+'>'+sigil(FINAL.name,56,"#e3b95c")+
+    '<h3>Final boss · '+esc(FINAL.name)+'</h3><span class="ep">'+esc(FINAL.epithet)+(allDead?'':' — unlocks when every other boss falls')+'</span>'+(P.dead.final?'<span class="slain">SLAIN</span>':'')+
+    '<span class="lo">ALL LOs · '+G.final.n+' random questions from every boss</span><span class="hpmini"><i style="width:100%"></i></span></button>';
+  $("bossGrid").innerHTML=h;
+  $("bossGrid").querySelectorAll(".boss").forEach(function(el){el.onclick=function(){if(el.disabled)return;start(el.dataset.b==="final"?FINAL:G.bosses.filter(function(b){return b.id===el.dataset.b;})[0]);};});
+  show("scrMap");
+}
+
+/* battle */
+var B=null;
+function start(boss){
+  var pool=boss.final?shuffle(QS).slice(0,G.final.n):shuffle(boss.qs);
+  B={boss:boss,queue:pool.slice(),total:pool.length,left:pool.length,hp:100,combo:0,score:0,pscore:[0,0],turn:0,missed:[],cur:null,done:false,right:0,tries:0};
+  $("bSig").innerHTML=sigil(boss.name,64,boss.final?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim());
+  $("ySig").innerHTML=sigil(P.mode==="coop"?P.names.join("&"):"you",64,"#5cc98a");
+  $("bName").textContent=boss.name;$("bEp").textContent=(boss.final?"Final boss · ":"")+boss.epithet;
+  $("yName").textContent=P.mode==="coop"?P.names.join(" & "):"You";$("yEp").textContent=P.mode==="coop"?"Shared HP":"Solo";
+  show("scrBattle");nextQ();
+}
+function bars(){
+  $("bHp").style.width=(100*B.left/B.total)+"%";$("bHpT").textContent=B.left+" / "+B.total+" questions standing";
+  $("yHp").style.width=B.hp+"%";$("yHpT").textContent=B.hp+" / 100 HP";
+  $("combo").textContent=B.combo>=3?"×2 combo · streak "+B.combo:(B.combo?"Streak "+B.combo:"");
+}
+function nextQ(){
+  bars();B.cur=B.queue.shift();var q=B.cur;
+  q._ord=shuffle([0,1,2,3,4]);
+  $("qTags").innerHTML='<span class="tag '+(q.k==="S1"?"s1":"t2")+'">'+(q.k==="S1"?"Step 1":"2nd order")+'</span><span class="tag">'+(q.lo.slice(-1)==="X"?"Extra":"LO "+q.lo)+'</span>'+(B.boss.final?'<span class="tag">'+esc(q.boss.name)+'</span>':'');
+  $("turn").textContent=P.mode==="coop"?P.names[B.turn]+"'s turn":"";
+  $("stem").textContent=q.stem;
+  $("opts").innerHTML=q._ord.map(function(oi,i){return '<button type="button" class="opt" data-oi="'+oi+'"><span class="k">'+L[i]+'</span><span>'+esc(q.o[oi])+'</span></button>';}).join("");
+  $("fb").innerHTML="";$("nextBtn").hidden=true;B.answered=false;
+  $("opts").querySelectorAll(".opt").forEach(function(b){b.onclick=function(){answer(+b.dataset.oi);};});
+  var first=$("opts").querySelector(".opt");if(first)first.focus({preventScroll:true});
+}
+function flash(txt,col){var f=$("flash");f.textContent=txt;f.style.color=col;f.classList.remove("go");void f.offsetWidth;f.classList.add("go");}
+function answer(oi){
+  if(B.answered)return;B.answered=true;var q=B.cur,ok=oi===q.a;B.tries++;
+  $("opts").querySelectorAll(".opt").forEach(function(b){var x=+b.dataset.oi;b.disabled=true;if(x===q.a)b.classList.add("right");else if(x===oi)b.classList.add("wrong");});
+  if(ok){B.left--;B.right++;B.combo++;var pts=(B.combo>=3?20:10);B.score+=pts;B.pscore[B.turn]+=pts;flash(B.combo>=3?"CRITICAL":"HIT","#e3b95c");$("bSig").classList.remove("shake");void $("bSig").offsetWidth;$("bSig").classList.add("shake");}
+  else{B.combo=0;B.hp=Math.max(0,B.hp-25);B.queue.push(q);if(B.missed.indexOf(q)<0)B.missed.push(q);flash("OUCH","#f07b72");$("qcard").classList.remove("shake");void $("qcard").offsetWidth;$("qcard").classList.add("shake");}
+  var right=q.o[q.a],letter=L[q._ord.indexOf(q.a)];
+  $("fb").innerHTML='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Direct hit":"The boss strikes back · −25 HP")+'</span>'+(ok?'':'<span>Answer: <b>'+letter+'. '+esc(right)+'</b>. This question will return.</span>')+'<span>'+esc(q.e)+'</span></div>';
+  bars();
+  var nb=$("nextBtn");nb.hidden=false;
+  if(B.left===0){nb.textContent="Claim victory →";}else if(B.hp===0){nb.textContent="You have fallen →";}else nb.textContent="Next strike →";
+  nb.focus({preventScroll:true});
+}
+$("nextBtn").onclick=function(){
+  if(B.left===0)return end(true);if(B.hp===0)return end(false);
+  if(P.mode==="coop")B.turn=1-B.turn;nextQ();};
+$("retreatBtn").onclick=openMap;
+
+function end(win){
+  var bo=B.boss;if(win){P.dead[bo.id]=true;P.best[bo.id]=Math.max(P.best[bo.id]||0,B.score);save();}
+  var acc=Math.round(100*B.right/Math.max(1,B.tries));
+  var h='<div class="result '+(win?"win":"lose")+'"><p class="meta">'+esc(bo.final?"Final boss":"LO "+bo.lo)+'</p><h2>'+(win?"Victory — "+esc(bo.name)+" is slain":"You have fallen to "+esc(bo.name))+'</h2>'+
+    '<div class="scores"><div><b>'+B.score+'</b><span>Score</span></div><div><b>'+acc+'%</b><span>First-strike accuracy</span></div><div><b>'+B.hp+'</b><span>HP left</span></div>'+
+    (P.mode==="coop"?'<div><b>'+B.pscore[0]+' · '+B.pscore[1]+'</b><span>'+esc(P.names[0])+' · '+esc(P.names[1])+'</span></div>':'')+'</div>';
+  if(!win)h+='<p class="hint">Four wrong answers end the fight. The boss heals fully; review the questions below and try again.</p>';
+  if(B.missed.length){h+='<h3 style="font-size:1.1rem;color:var(--gold)">Worth a second look</h3><div class="review">'+B.missed.map(function(q){return '<article><p class="meta">'+(q.k==="S1"?"Step 1":"2nd order")+' · LO '+esc(q.lo)+'</p><p style="margin:0;font-weight:600">'+esc(q.stem)+'</p><p class="ans" style="margin:0">'+esc(q.o[q.a])+'</p><p style="margin:0;color:var(--muted)">'+esc(q.e)+'</p></article>';}).join("")+'</div>';}
+  else if(win)h+='<p>Flawless — no misses.</p>';
+  h+='<div class="row"><button class="btn" type="button" id="againBtn">'+(win?"Fight again":"Retry")+'</button><button class="btn '+(win?"gold":"primary")+'" type="button" id="mapBtn">Return to map</button></div></div>';
+  $("scrResult").innerHTML=h;show("scrResult");
+  $("againBtn").onclick=function(){start(bo);};$("mapBtn").onclick=openMap;$("mapBtn").focus();
+}
+
+document.addEventListener("keydown",function(ev){
+  if($("scrBattle").hidden||ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){if(!$("nextBtn").hidden){ev.preventDefault();$("nextBtn").click();}return;}
+  var k=ev.key.toUpperCase(),i=L.indexOf(k);if(i<0){var n=parseInt(ev.key,10);if(n>=1&&n<=5)i=n-1;}
+  if(i>=0&&!B.answered){var b=$("opts").querySelectorAll(".opt")[i];if(b)b.click();}
+});
+})();
+</script>

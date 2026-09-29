@@ -1,0 +1,597 @@
+<title>HNSS Embryo Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: toolbar + stats on top; structure list | question card | LO mastery map. Stacks to one column on phones. */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --ink:#18212b; --muted:#5a6570; --line:#dbe0e5; --chip:#eceff2;
+  --arch:#0f6b6b; --face:#7a3b69; --eye:#2c55a0; --accent:#0f6b6b;
+  --ok:#1d7a3e; --ok-bg:#e3f4e8; --bad:#b3261e; --bad-bg:#fbe7e5; --once:#b7791f; --once-bg:#fdf1dc;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --f-display:"Source Serif 4", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.2}
+.meta{font:500 .74rem var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px}
+header h1{font-size:1.9rem}
+header p.lede{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.btn{font:600 .85rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn:focus-visible,.opt:focus-visible,.seg button:focus-visible,.ent:focus-visible,.lo-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hdr-actions{display:flex;gap:8px}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.seg{display:inline-flex;background:var(--chip);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{font:600 .82rem var(--f-body);border:0;background:transparent;color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.seg .lab{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:center;padding:0 6px}
+.stats{display:flex;gap:18px;flex-wrap:wrap}
+.stat b{display:block;font:700 1.15rem var(--f-body);font-variant-numeric:tabular-nums}
+.stat span{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+.main{display:grid;grid-template-columns:250px minmax(0,1fr) 270px;gap:16px;align-items:start}
+@media (max-width:1000px){ .main{grid-template-columns:minmax(0,1fr)} .side{order:2} .map{order:3} }
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px;min-width:0}
+.panel h2{font-size:1rem}
+.lec-h{font:700 .72rem var(--f-body);letter-spacing:.07em;text-transform:uppercase;margin-top:6px}
+.ent{display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;background:transparent;border:1px solid transparent;border-radius:8px;padding:7px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.ent:hover{background:var(--chip)}
+.ent[aria-current="true"]{border-color:var(--lc);background:var(--chip)}
+.ent .n{font-weight:600;font-size:.9rem}
+.ent .s{grid-column:1;font-size:.75rem;color:var(--muted)}
+.ent .pct{grid-row:1/3;grid-column:2;align-self:center;font:500 .75rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.ent .mini{grid-column:1/3;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ent .mini i{display:block;height:100%;background:var(--lc)}
+.l03{--lc:var(--arch)} .l04{--lc:var(--face)} .l18{--lc:var(--eye)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--lc);border-radius:12px;padding:18px;display:grid;gap:14px;min-width:0}
+.card-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline}
+.card-top h2{font-size:1.35rem}
+.tag{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.lo{color:var(--lc)}
+.tag.hy{background:var(--hy-bg);color:var(--hy-ink);border:1px solid var(--hy-line)}
+.boxes{display:flex;gap:4px;flex-wrap:wrap}
+.boxes i{width:18px;height:6px;border-radius:3px;background:var(--line)}
+.boxes i.done-ok{background:var(--ok)} .boxes i.done-bad{background:var(--bad)} .boxes i.cur{background:var(--lc)}
+.q{font:600 1.08rem/1.45 var(--f-body);margin:0}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--lc)}
+.opt .k{font:500 .75rem var(--f-mono);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-top:1px}
+.opt.sel{border-color:var(--lc);background:var(--chip)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.missed{border-color:var(--ok);border-style:dashed}
+.opt[disabled]{cursor:default}
+.ordered{display:grid;gap:6px;counter-reset:ord;padding:0;margin:0;list-style:none;min-height:44px;border:1.5px dashed var(--line);border-radius:10px;padding:8px}
+.ordered li{counter-increment:ord;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--chip);border-radius:8px;padding:7px 10px;cursor:pointer}
+.ordered li::before{content:counter(ord);font:500 .78rem var(--f-mono);color:var(--lc)}
+.ordered li.right{background:var(--ok-bg)} .ordered li.wrong{background:var(--bad-bg)}
+.ordered .empty{color:var(--muted);font-size:.85rem;padding:4px}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg)} .fb.bad{background:var(--bad-bg)}
+.fb .v{font-weight:700}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.fb ol{margin:0;padding-left:1.2em}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.timer{font:500 .8rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.done{display:grid;gap:10px;text-align:left}
+
+.lo-grid{display:grid;gap:6px}
+.lo-tile{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;width:100%;background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.lo-tile:hover{border-color:var(--lc)}
+.lo-tile .id{font:500 .72rem var(--f-mono);color:var(--lc);white-space:nowrap}
+.lo-tile .t{font-size:.78rem;line-height:1.3}
+.lo-tile .dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.s-o{background:var(--once)} .dot.s-m{background:var(--bad)} .dot.s-M{background:var(--ok)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.72rem;color:var(--muted)}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--line)}
+.legend i.o{background:var(--once)} .legend i.m{background:var(--bad)} .legend i.M{background:var(--ok)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion: no-preference){ .opt,.ent,.lo-tile{transition:border-color .12s, background .12s} }
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <p class="meta">HoyaDocs · Block 5 · HNSS03 · HNSS04 · HNSS18</p>
+    <h1>HNSS Embryo Builder</h1>
+    <p class="lede">Build each structure box by box, or drill everything you've missed. Every box is tied to a learning objective, and the map on the right tracks all 21.</p>
+  </div>
+  <div class="hdr-actions">
+    <button class="btn" id="themeBtn" type="button">Theme: auto</button>
+    <button class="btn" id="resetBtn" type="button">Reset progress</button>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="seg" role="group" aria-label="Mode">
+    <span class="lab">Mode</span>
+    <button type="button" data-mode="build" aria-pressed="true">Build</button>
+    <button type="button" data-mode="drill" aria-pressed="false">Drill</button>
+  </div>
+  <div class="seg" role="group" aria-label="Lecture scope" id="scopeSeg">
+    <span class="lab">Scope</span>
+    <button type="button" data-scope="all" aria-pressed="true">All</button>
+    <button type="button" data-scope="03" aria-pressed="false">Arches</button>
+    <button type="button" data-scope="04" aria-pressed="false">Craniofacial</button>
+    <button type="button" data-scope="18" aria-pressed="false">Eye &amp; Ear</button>
+  </div>
+  <div class="stats" aria-live="polite">
+    <div class="stat"><b id="sScore">0</b><span>Score</span></div>
+    <div class="stat"><b id="sStreak">0</b><span>Streak</span></div>
+    <div class="stat"><b id="sAcc">—</b><span>Accuracy</span></div>
+    <div class="stat"><b id="sBoxes">0</b><span>Boxes mastered</span></div>
+    <div class="stat"><b id="sLos">0/22</b><span>LOs mastered</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <aside class="panel side" aria-label="Structures">
+    <h2>Structures</h2>
+    <div id="entList"></div>
+  </aside>
+  <section class="card" id="card" aria-live="polite"></section>
+  <aside class="panel map" aria-label="Learning objective mastery map">
+    <h2>LO mastery map</h2>
+    <div class="legend"><span><i></i>untested</span><span><i class="m"></i>missed</span><span><i class="o"></i>got it once</span><span><i class="M"></i>mastered</span></div>
+    <p class="hint">Tap an LO to drill just that objective. Mastered = right twice in a row.</p>
+    <div class="lo-grid" id="loGrid"></div>
+  </aside>
+</div>
+
+<footer>HoyaDocs · HNSS Embryo Builder · Updated September 28, 2026 · Revision 1.0. Yellow "HY" tags mark points flagged as on the exam or Step 1 high yield.</footer>
+</div>
+
+<script>
+/* ================= LEARNING OBJECTIVES ================= */
+var LOS = {
+ "03.1":"Locate within a week the formation of the pharyngeal arches",
+ "03.2":"Cellular and anatomical components of the arches",
+ "03.3":"Muscular, skeletal and neural derivatives of each arch",
+ "03.4":"Derivatives of each pharyngeal pouch",
+ "03.5":"Derivatives of each pharyngeal cleft",
+ "03.6":"Hox proteins in arch development",
+ "03.7":"Alcohol vs retinoic acid: mechanisms",
+ "03.8":"Birth defects of arch formation",
+ "04.1":"Anatomical structures of the tongue",
+ "04.2":"Tongue development vs lung development",
+ "04.3":"Cranial innervation of throat and tongue",
+ "04.4":"Steps of thyroid development",
+ "04.5":"Function of the fetal thyroid",
+ "04.6":"Formation of the face (lips, nose, cheeks)",
+ "04.7":"Formation of the palates",
+ "04.8":"Neurocranium and viscerocranium",
+ "04.9":"Clinical malformations (cleft lip and others)",
+ "04.10":"Craniofacial ultrasound",
+ "18.1":"Embryologic origins of eye and ear structures",
+ "18.2":"Developmental steps: eye, inner, middle, external ear",
+ "18.3":"Developmental abnormalities of eye and ear",
+ "18.X":"Extra: ear structure, histology and pathology"
+};
+var LECS = [
+ {k:"03", n:"Pharyngeal Arches", c:"arch"},
+ {k:"04", n:"Craniofacial", c:"face"},
+ {k:"18", n:"Eye & Ear", c:"eye"}
+];
+
+/* Box types: single (default) {q,a,o,w} · multi {t:"m",q,a:[],o:[],w} · order {t:"o",q,a:[in order],w}
+   hy:true marks "ON EXAM" / Step 1 emphasis. */
+var E = [
+/* ======================= HNSS03 ======================= */
+{id:"a1", lec:"03", name:"Arch 1", sub:"Mandibular arch · chewing + ossicles", b:[
+ {lo:"03.1", q:"By when are arches 1 and 2 present?", a:"Weeks 3–3.5", o:["Week 2","Week 5","Week 6–7"], w:"Arches 1 and 2 are present by weeks 3–3.5, alongside the three germ layers, pericardial bulge and neuropores."},
+ {lo:"03.3", q:"Arch 1 has two processes by week 4. Which bones does maxillary-process neural crest form, and how?", a:"Premaxilla, maxilla, zygomatic, part of temporal — membrane ossification", o:["Malleus and incus — endochondral ossification","Mandible — endochondral ossification from Meckel's","Stapes and styloid — membrane ossification"], w:"Maxillary-process neural crest ossifies directly from mesenchyme (membrane/intramembranous): premaxilla, maxilla, zygomatic and portions of the temporal bone."},
+ {lo:"03.3", q:"What is the cartilage of arch 1?", a:"Meckel's cartilage", o:["Reichert's cartilage","Thyroid cartilage","Cricoid cartilage"], w:"Meckel's = Mandibular (arch 1). It populates the mandibular process by week 4.5."},
+ {lo:"03.3", hy:true, q:"Meckel's cartilage disappears around week 8, except two dorsal remnants. What do they form, and by which process?", a:"Malleus and incus — endochondral ossification", o:["Stapes — endochondral ossification","Mandible — membrane ossification","Malleus and incus — membrane ossification"], w:"The dorsal remnants form the malleus and incus using cartilage as a precursor (endochondral). Flagged as on the exam."},
+ {lo:"03.3", hy:true, q:"Where does the mandible itself come from?", a:"Mesenchyme and neural crest surrounding Meckel's cartilage", o:["Meckel's cartilage ossifying directly","Reichert's cartilage","Lateral plate mesoderm of arch 4"], w:"Classic trap: Meckel's is only a template. The mandible forms from the tissue around it."},
+ {t:"m", lo:"03.3", q:"Select ALL muscles of arch 1.", a:["Temporalis","Masseter","Pterygoids","Anterior belly of digastric","Mylohyoid","Tensor tympani","Tensor veli palatini"], o:["Stapedius","Posterior belly of digastric","Levator veli palatini","Stylopharyngeus"], w:"Arch 1 = 4 chewers + mylohyoid + anterior digastric + 2 tensors. Their partners (stapedius, posterior digastric, levator palatini) belong to other arches."},
+ {lo:"03.3", q:"What nerve supplies all arch 1 muscles?", a:"CN V3 (mandibular branch of trigeminal)", o:["CN VII","CN IX","CN V2"], w:"Arch 1 → V3."},
+ {lo:"03.6", q:"Which rhombomeres supply neural crest to arch 1?", a:"R1, R2 + midbrain", o:["R4","R6, R7","R8"], w:"Arch 1: R1–R2 + midbrain · Arch 2: R4 · Arch 3: R6–R7 · Arch 4/6: R8."},
+ {lo:"03.6", q:"Which transcription factor is the key regulator of arch 1?", a:"OTX2", o:["Hoxa-3","PAX3","TTF-1"], w:"OTX2 is expressed in forebrain- and midbrain-derived neural crest and regulates arch 1."},
+ {lo:"03.8", q:"A defect of arch 1 neural crest (Tcof-1) gives which syndrome?", a:"Treacher Collins", o:["DiGeorge","Waardenburg","Branchial cleft cyst"], w:"Treacher Collins: zygomatic malformation, mandibular hypoplasia, lower-eyelid colobomas, malformed ears."}
+]},
+{id:"a2", lec:"03", name:"Arch 2", sub:"Hyoid arch · facial expression", b:[
+ {lo:"03.1", q:"When does arch 2 arise?", a:"Week 4–4.25, just after arch 1", o:["Week 5, with arch 3","Week 6","Week 8"], w:"Arch 2 (the hyoid arch) arises very soon after arch 1, by week 4–4.25."},
+ {lo:"03.3", q:"What is the cartilage of arch 2?", a:"Reichert's cartilage", o:["Meckel's cartilage","Arytenoid cartilage","Thyroid cartilage"], w:"Reichert = aRch 2."},
+ {t:"m", lo:"03.3", q:"Select ALL skeletal derivatives of arch 2.", a:["Stapes","Styloid process","Stylohyoid ligament","Lesser horn of hyoid","Upper body of hyoid"], o:["Greater horn of hyoid","Malleus","Incus","Lower body of hyoid"], w:"Arch 2 is the S arch: Stapes, Styloid, Stylohyoid ligament, plus lesser horn and upper body of the hyoid."},
+ {t:"m", lo:"03.3", q:"Select ALL muscles of arch 2.", a:["Muscles of facial expression","Stapedius","Stylohyoid","Posterior belly of digastric","Auricular muscles"], o:["Anterior belly of digastric","Tensor tympani","Stylopharyngeus","Cricothyroid"], w:"Arch 2 muscles are all CN VII: facial expression, stapedius, stylohyoid, posterior digastric, auricular."},
+ {lo:"03.3", q:"What nerve supplies arch 2?", a:"CN VII (facial)", o:["CN V3","CN IX","CN X"], w:"Arch 2 → VII."},
+ {lo:"03.6", q:"Which rhombomere supplies neural crest to arch 2?", a:"R4", o:["R1–R2","R6–R7","R8"], w:"Arch 2 = R4."},
+ {lo:"03.3", q:"A patient can't wrinkle their forehead and has hyperacusis. Which arch's derivatives are affected?", a:"Arch 2", o:["Arch 1","Arch 3","Arch 4"], w:"Facial expression + stapedius = arch 2 (CN VII)."}
+]},
+{id:"a3", lec:"03", name:"Arch 3", sub:"Swallowing", b:[
+ {lo:"03.1", q:"When do arches 3, 4 and 6 become visible?", a:"Week 5", o:["Week 3","Week 4","Week 8"], w:"Arches 3, 4 and 6 are visible by week 5."},
+ {lo:"03.3", q:"Which hyoid parts come from arch 3?", a:"Greater horn + lower body", o:["Lesser horn + upper body","Entire hyoid","None — arch 3 forms laryngeal cartilage"], w:"Arch 2 → lesser horn + upper body; arch 3 → greater horn + lower body."},
+ {lo:"03.3", q:"What is the only muscle of arch 3?", a:"Stylopharyngeus", o:["Stylohyoid","Styloglossus","Cricothyroid"], w:"Arch 3 musculature is limited to stylopharyngeus."},
+ {lo:"03.3", q:"What nerve supplies arch 3?", a:"CN IX (glossopharyngeal)", o:["CN X","CN VII","CN XII"], w:"Arch 3 → IX."},
+ {lo:"03.6", q:"Which rhombomeres supply arch 3?", a:"R6, R7", o:["R4","R8","R1, R2"], w:"Arch 3 = R6–R7."}
+]},
+{id:"a46", lec:"03", name:"Arches 4 & 6", sub:"Larynx + pharynx", b:[
+ {t:"m", lo:"03.3", q:"Select ALL cartilages from arches 4 and 6.", a:["Thyroid","Cricoid","Arytenoid","Corniculate","Cuneiform"], o:["Hyoid","Epiglottis","Stapes"], w:"All laryngeal cartilages: thyroid, cricoid, arytenoid, corniculate, cuneiform."},
+ {lo:"03.3", hy:true, q:"Arches 1–3 cartilage comes from neural crest. Where do the arch 4/6 laryngeal cartilages come from?", a:"Lateral plate mesoderm", o:["Neural crest","Paraxial mesoderm","Endoderm"], w:"Flagged on exam: arch 4/6 structures come from lateral plate mesoderm; neural crest is not involved."},
+ {t:"m", lo:"03.3", q:"Select ALL muscles of arches 4 and 6.", a:["Cricothyroid","Levator veli palatini","Pharyngeal constrictors"], o:["Tensor veli palatini","Stylopharyngeus","Stapedius"], w:"Arch 4/6: cricothyroid, levator palatini, constrictors (plus intrinsic laryngeal muscles via the recurrent laryngeal)."},
+ {lo:"03.3", q:"Which vagal branch goes with arch 4, and which with arch 6?", a:"Arch 4 superior laryngeal · arch 6 recurrent laryngeal", o:["Arch 4 recurrent laryngeal · arch 6 superior laryngeal","Both recurrent laryngeal","Arch 4 pharyngeal branch · arch 6 superior laryngeal"], w:"Arch 4 → superior laryngeal (cricothyroid). Arch 6 → recurrent laryngeal."},
+ {lo:"03.6", q:"Which rhombomere supplies arches 4 and 6?", a:"R8", o:["R6–R7","R4","R1–R2"], w:"Arches 4 and 6 = R8."},
+ {lo:"03.3", q:"Why should you never pick 'arch 5' as an answer?", a:"It never forms or regresses completely", o:["It forms the thymus","It forms the cricoid cartilage","It forms the stapes"], w:"Arch 5 has no derivatives."}
+]},
+{id:"comp", lec:"03", name:"Arch anatomy", sub:"Components and timeline", b:[
+ {t:"m", lo:"03.2", q:"Select ALL cell types that populate a pharyngeal arch.", a:["Mesenchyme","Ectoderm","Endoderm","Neural crest"], o:["Notochord","Trophoblast"], w:"Four cell types from three tissue types (neural crest is ectoderm-derived)."},
+ {lo:"03.2", q:"Which mesoderm fills the arch core and builds face and neck muscle?", a:"Paraxial + lateral plate mesoderm", o:["Intermediate mesoderm","Splanchnic mesoderm only","Neural crest"], w:"Core mesenchyme = paraxial + lateral plate mesoderm. Each arch has its own population, so its own muscles."},
+ {lo:"03.2", q:"What is neural crest predetermined to form in the arches?", a:"The skeletal component of the face", o:["The muscles of the face","The pouch glands","The arch arteries"], w:"Neural crest builds the facial skeleton."},
+ {lo:"03.2", q:"A pouch is an indentation overlying which germ layer?", a:"Endoderm (inside)", o:["Ectoderm (outside)","Mesoderm","Neural crest"], w:"CAP: Clefts = ectoderm, Arches = mesoderm, Pouches = endoderm."},
+ {lo:"03.2", q:"A cleft is an indentation overlying which germ layer?", a:"Ectoderm (outside)", o:["Endoderm (inside)","Mesoderm","Neural crest"], w:"Clefts face outward."},
+ {lo:"03.1", q:"When does neural crest migrate into the arches, and from where?", a:"Weeks 4.5–5, from hindbrain, midbrain (less forebrain)", o:["Week 2, from the spinal cord","Week 8, from the forebrain","Week 3, from the notochord"], w:"Neural crest migration ensues by weeks 4.5–5."},
+ {lo:"03.1", q:"By weeks 5.5–6, what does each arch acquire?", a:"Its own nerve and its own artery", o:["Its own pouch gland","Its own rhombomere","Its own ossification center"], w:"By 5.5–6 weeks arches, pouches and clefts are formed; each arch is separately innervated and gets its own artery."},
+ {t:"o", lo:"03.1", q:"Put these events in order, earliest first.", a:["Arches 1 and 2 present (wk 3–3.5)","Neural crest migrates in (wk 4.5–5)","Arches 3, 4, 6 visible (wk 5)","Each arch gets own nerve + artery (wk 5.5–6)","Meckel's cartilage regresses (wk 8)","Thymus and parathyroids finish migrating (wk 10)"], w:"Four beats: wk 3–4 arches appear · wk 5 more arches + pouches · wk 8 Meckel's regresses · wk 10 glands finish."}
+]},
+{id:"p1", lec:"03", name:"Pouches 1 & 2", sub:"Ear and tonsils", b:[
+ {lo:"03.4", q:"Pouch 1 endoderm forms a diverticulum at weeks 5–6. What is it called?", a:"Tubotympanic recess", o:["Cervical sinus","Ultimobranchial body","Foramen cecum"], w:"Pouch 1 → tubotympanic recess."},
+ {lo:"03.4", q:"The distal and proximal parts of the tubotympanic recess form what?", a:"Distal: tympanic cavity · proximal: eustachian tube", o:["Distal: eustachian tube · proximal: tympanic cavity","Distal: external auditory meatus · proximal: tympanic cavity","Both: mastoid air cells"], w:"Distal → primitive tympanic cavity; proximal → eustachian (auditory) tube."},
+ {lo:"03.4", q:"What makes pouch 1 unique?", a:"It's the only pouch that contacts ectoderm (cleft 1)", o:["It's the only pouch lined by mesoderm","It forms two glands","It regresses completely"], w:"Pouch 1 meets cleft 1; together they form the tympanic membrane."},
+ {lo:"03.4", q:"What does pouch 2 form?", a:"Palatine tonsils", o:["Thymus","Inferior parathyroid","Eustachian tube"], w:"Pouch 2 buds invade mesenchyme and become the palatine tonsil epithelium."},
+ {lo:"03.4", q:"By month 4, the center of the pouch 2 bud apoptoses. What is left?", a:"The tonsillar crypt", o:["The cervical sinus","The foramen cecum","The tympanic cavity"], w:"The crypt fills with lymphoid tissue; it's fully populated only in the last months of pregnancy."}
+]},
+{id:"p34", lec:"03", name:"Pouches 3, 4 & 5", sub:"Parathyroids, thymus, C cells", b:[
+ {lo:"03.4", q:"Pouch 3 dorsal wing forms…", a:"Inferior parathyroid", o:["Superior parathyroid","Thymus","Ultimobranchial body"], w:"Pouch 3: dorsal → inferior parathyroid, ventral → thymus."},
+ {lo:"03.4", q:"Pouch 3 ventral wing forms…", a:"Thymus", o:["Inferior parathyroid","Palatine tonsil","C cells"], w:"Thymus migrates caudally and medially and fuses in the midline; grows until puberty."},
+ {lo:"03.4", q:"Why does the pouch 3 parathyroid end up BELOW the pouch 4 parathyroid?", a:"The thymus drags it caudally", o:["Pouch 3 forms lower in the neck","The thyroid pushes it down","It is pulled by the aortic arch"], w:"Bottom (inferior) parathyroid = pouch 3; Top (superior) = pouch 4."},
+ {lo:"03.4", q:"Pouch 4 dorsal wing forms…", a:"Superior parathyroid", o:["Inferior parathyroid","Thymus","Palatine tonsil"], w:"It attaches to the cranial thyroid and reaches the dorsal thyroid by week 10."},
+ {lo:"03.4", q:"The ultimobranchial body (pouch 5 / ventral wing of pouch 4) forms…", a:"Thyroid C cells → calcitonin", o:["Thyroid follicular cells → T4","Chief cells → PTH","Thymic epithelium"], w:"Flagged as an important structure: it incorporates into the thyroid as calcitonin-secreting C cells."},
+ {lo:"03.1", q:"By what week do the thymus and parathyroids finish migrating?", a:"Week 10", o:["Week 5","Week 7","Month 4"], w:"Through week 10 the pouch 3 glands lose their pharyngeal connection and migrate."},
+ {t:"o", lo:"03.4", q:"Order the pouches 1 → 4 by derivative.", a:["Tympanic cavity + eustachian tube","Palatine tonsil","Inferior parathyroid + thymus","Superior parathyroid"], w:"Ear, Tonsils, Bottom, Top."}
+]},
+{id:"cl", lec:"03", name:"Clefts", sub:"External ear and cervical sinus", b:[
+ {lo:"03.5", q:"What is the only definitive structure formed by a cleft?", a:"External auditory meatus (cleft 1)", o:["Tympanic cavity (cleft 1)","Palatine tonsil (cleft 2)","Cervical sinus (cleft 2)"], w:"Cleft 1 → external auditory meatus."},
+ {lo:"03.5", hy:true, q:"Cleft 2 grows over clefts 3–5 and fuses with what, enclosing the cervical sinus?", a:"Epicardial ridge", o:["Hypobranchial eminence","Foramen cecum","Tuberculum impar"], w:"This overgrowth picture was called a favorite in lecture — review it as an image."},
+ {lo:"03.5", q:"If the cervical sinus persists, what forms?", a:"Lateral cervical (branchial cleft) cyst ± fistula", o:["Thyroglossal duct cyst","Cystic hygroma","Dermoid cyst"], w:"Failure of cleft 2 to grow caudally over 3–5."},
+ {lo:"03.5", q:"Where is a branchial cleft cyst found?", a:"Lateral neck, anterior border of SCM", o:["Midline, below the hyoid","Base of the tongue","Posterior triangle behind SCM"], w:"Lateral + doesn't move with swallowing (vs midline thyroglossal cyst)."},
+ {lo:"03.8", q:"What is a branchial fistula?", a:"Abnormal connection between the inside of the neck and the skin", o:["A duct from the thyroid to the tongue","A connection between trachea and esophagus","A blocked eustachian tube"], w:"A persistent sinus with a canal to the outside."}
+]},
+{id:"hox", lec:"03", name:"Hox code", sub:"Molecular patterning", b:[
+ {lo:"03.6", q:"How do Hox proteins get into each arch?", a:"Carried in by neural crest cells", o:["Diffuse from the notochord","Made by pouch endoderm","Delivered by arch arteries"], w:"NC cells carry Hox proteins to their arch."},
+ {lo:"03.6", q:"In what pattern are Hox genes expressed?", a:"Rostrocaudal sequence → a pharyngeal Hox code", o:["Dorsoventral gradient","Random, then pruned","Left–right asymmetric"], w:"The rostrocaudal sequence gives each arch its identity."},
+ {lo:"03.6", q:"Hoxa-1/Hoxb-1 knockout mice lack…", a:"Ears", o:["A thymus","A head","Teeth"], w:"Hoxa-1/Hoxb-1 deficient mice lack ears."},
+ {lo:"03.6", q:"Hoxa-3 knockout mice resemble which human syndrome?", a:"DiGeorge", o:["Treacher Collins","Waardenburg","Fetal alcohol syndrome"], w:"Pouch 3/4 defects."},
+ {lo:"03.6", q:"SHH knockout mice are…", a:"Headless", o:["Earless","Cyclopic only","Normal"], w:"SHH regulates Hox genes; its loss gives headless mice."},
+ {lo:"03.6", q:"How do retinoids act on Hox genes?", a:"Bind RAREs in Hox gene promoters", o:["Degrade Hox mRNA","Block neural crest migration only","Bind SHH receptors"], w:"Retinoic acid response elements sit in Hox promoters."},
+ {lo:"03.6", q:"Why is TOO MUCH Hox expression harmful?", a:"Hox must stay in a 'Goldilocks zone' — excess scrambles the code", o:["Hox proteins are directly toxic to endoderm","Excess Hox blocks SHH production","It isn't harmful; only too little is"], w:"Too much and too little both disrupt the Hox code."}
+]},
+{id:"tera", lec:"03", name:"Alcohol vs retinoic acid", sub:"Teratogen mechanisms", b:[
+ {lo:"03.7", hy:true, q:"Why are neural crest cells so vulnerable to alcohol and retinoic acid?", a:"They lack superoxide dismutase and catalase", o:["They lack DNA repair enzymes","They have no blood supply","They divide slowly"], w:"They can't scavenge free radicals."},
+ {lo:"03.7", hy:true, q:"How does alcohol damage neural crest?", a:"Reactive oxygen species only", o:["Hox hyperactivation only","ROS and Hox hyperactivation","Folate antagonism"], w:"Alcohol = ROS only. Flagged on exam."},
+ {t:"m", lo:"03.7", q:"Select ALL mechanisms of high-dose retinoic acid.", a:["Generates reactive oxygen species","Hyperactivates Hox genes via RAREs"], o:["Blocks SHH receptors","Inhibits folate","Deletes 22q11"], w:"RA = ROS + Hox hyperactivation (too much Hox protein)."},
+ {lo:"03.7", q:"Very high retinoic acid in mouse embryos produced a phenotype resembling…", a:"Treacher Collins", o:["DiGeorge","Cyclopia","Waardenburg"], w:"High RA → Treacher Collins–like pups."},
+ {lo:"03.7", q:"Step 1: smooth philtrum, thin upper lip, short palpebral fissures, microcephaly. Exposure?", a:"Alcohol (fetal alcohol syndrome)", o:["Isotretinoin","Phenytoin","Lithium"], w:"FAS is the leading preventable cause of intellectual disability."},
+ {lo:"03.7", q:"Step 1: microtia/anotia, cleft palate and conotruncal heart defects after acne treatment in pregnancy. Drug?", a:"Isotretinoin (vitamin A analog)", o:["Tetracycline","Alcohol","Valproate"], w:"Retinoids are strongly teratogenic; requires contraception."}
+]},
+{id:"def", lec:"03", name:"Arch birth defects", sub:"Clinical vignettes", b:[
+ {lo:"03.8", hy:true, q:"Newborn: seizures from hypocalcemia, recurrent candidiasis, conotruncal heart defect. Which pouches failed?", a:"Pouches 3 and 4", o:["Pouches 1 and 2","Cleft 2","Arch 1 neural crest"], w:"DiGeorge: no parathyroids (↓ Ca) and no thymus (↓ T cells)."},
+ {t:"m", lo:"03.8", q:"CATCH-22 — select ALL features.", a:["Cardiac defects","Abnormal face","Thymic hypoplasia","Cleft palate","Hypocalcemia"], o:["Cataracts","Hyperthyroidism","Hearing loss"], w:"CATCH-22 = 22q11.2 deletion."},
+ {t:"m", lo:"03.8", q:"Treacher Collins — select ALL features.", a:["Malformed zygomatic bones","Mandibular hypoplasia","Lower-eyelid colobomas","Malformed external ears"], o:["Hypocalcemia","White forelock","Absent thymus"], w:"Arch 1 (and 2) neural crest defect; Tcof-1."},
+ {lo:"03.8", q:"Cleft palate, deafness, hypertelorism and a white forelock. Gene?", a:"PAX3 (Waardenburg)", o:["Tcof-1","PAX6","22q11"], w:"Waardenburg: PAX3, neural crest."},
+ {lo:"03.8", q:"Neurofibromatosis tumors are of what origin?", a:"Neural crest", o:["Endoderm","Paraxial mesoderm","Surface ectoderm"], w:"Neural crest tumors."}
+]},
+
+/* ======================= HNSS04 ======================= */
+{id:"tg", lec:"04", name:"Tongue", sub:"Swellings and tissues", b:[
+ {t:"m", lo:"04.1", q:"At weeks 4–5, which swellings does arch 1 form for the tongue? Select ALL.", a:["Two lateral lingual swellings","Tuberculum impar"], o:["Copula","Hypobranchial eminence","Foramen cecum"], w:"Arch 1: two lateral swellings + midline tuberculum impar."},
+ {lo:"04.1", q:"The copula (weeks 5–10) comes from mesoderm under which arches?", a:"Arches 2, 3 and 4", o:["Arch 1 only","Arches 1 and 2","Arch 6"], w:"Copula = anterior hypobranchial eminence."},
+ {lo:"04.1", q:"Which swellings build the anterior 2/3 of the tongue?", a:"Lateral lingual swellings overgrowing the tuberculum impar", o:["The copula","The hypobranchial eminence","Occipital somites"], w:"Posterior 1/3 comes from the hypobranchial eminence/copula."},
+ {lo:"04.1", hy:true, q:"Where do the tongue muscles come from?", a:"Occipital somite (paraxial mesoderm) myoblasts", o:["Arch 1 neural crest","Endoderm","Lateral plate mesoderm of arch 4"], w:"Flagged on exam. Tongue = mesoderm surrounded by endoderm."},
+ {lo:"04.1", hy:true, q:"The tongue is best described as…", a:"Mesoderm surrounded by endoderm", o:["Endoderm surrounded by ectoderm","Neural crest surrounded by mesoderm","Ectoderm only"], w:"Flagged on exam."},
+ {lo:"04.1", q:"Step 1: tongue muscles are innervated by…", a:"CN XII (except palatoglossus, CN X)", o:["CN V3","CN IX","CN VII"], w:"Somite-derived muscle → hypoglossal."}
+]},
+{id:"tl", lec:"04", name:"Tongue & lung", sub:"Shared mechanism", b:[
+ {lo:"04.2", q:"What shared mechanism drives tongue and lung development?", a:"Underlying mesoderm/neural crest signals endoderm to proliferate", o:["Endoderm signals ectoderm to invaginate","Neural tube secretes SHH","Apoptosis of the copula"], w:"Epithelial–mesenchymal interaction."},
+ {t:"o", lo:"04.2", q:"Put the tongue signaling cascade in order. (Low yield — marked not on exam in lecture.)", a:["Endoderm BMP-7 blocks its own proliferation","BMP-7 stimulates mesoderm to secrete Noggin","Noggin inhibits BMP-7","Patched is released from inhibition","Endoderm proliferates"], w:"BMP-7 vs Patched battle; Noggin tips it."},
+ {lo:"04.2", q:"How does thyroid budding differ from lung budding?", a:"Thyroid buds only once (bilobed); lungs keep bifurcating", o:["Thyroid never buds","Thyroid buds from ectoderm","Lungs bud only once"], w:"Both are endodermal diverticula; the thyroid stops at two lobes."}
+]},
+{id:"inn", lec:"04", name:"Tongue & throat nerves", sub:"Innervation", b:[
+ {lo:"04.3", q:"General sensation, anterior 2/3 of tongue?", a:"CN V3 (lingual nerve)", o:["CN VII","CN IX","CN X"], w:"Anterior tongue comes from arch 1 → V3."},
+ {lo:"04.3", q:"Taste, anterior 2/3 of tongue?", a:"Chorda tympani of CN VII", o:["CN V3","CN IX","CN X"], w:"Chorda tympani joins the lingual nerve."},
+ {lo:"04.3", q:"Sensation and taste, posterior 1/3?", a:"CN IX", o:["CN X","CN XII","CN V3"], w:"Posterior tongue from arch 3."},
+ {lo:"04.3", q:"Extreme posterior tongue (near epiglottis)?", a:"Superior laryngeal branch of CN X", o:["Recurrent laryngeal nerve","CN IX","CN XII"], w:"Arch 4 territory."},
+ {lo:"04.3", q:"Gag reflex: afferent and efferent limbs?", a:"Afferent IX · efferent X", o:["Afferent X · efferent IX","Afferent V · efferent VII","Afferent IX · efferent XII"], w:"IX in, X out."},
+ {lo:"04.3", q:"Bell's palsy patient: lost taste on anterior 2/3, touch intact. Why is touch spared?", a:"Touch is V3, not VII", o:["Touch is IX","Touch is XII","Touch is never lost"], w:"Taste (VII) and touch (V3) travel separately."},
+ {lo:"04.3", q:"Which pharyngeal muscle is supplied by CN IX?", a:"Stylopharyngeus", o:["Superior constrictor","Levator veli palatini","Tensor veli palatini"], w:"All other pharyngeal muscles are X except tensor palatini (V3)."}
+]},
+{id:"thy", lec:"04", name:"Thyroid", sub:"Development and function", b:[
+ {lo:"04.4", q:"Where does the thyroid originate?", a:"Foramen cecum", o:["Pouch 4","Hypobranchial eminence","Tuberculum impar"], w:"Between the tuberculum impar and hypobranchial eminence."},
+ {lo:"04.4", q:"What connects the descending thyroid to the tongue?", a:"Thyroglossal duct (normally disappears)", o:["Ultimobranchial body","Cervical sinus","Tubotympanic recess"], w:"Remnants → thyroglossal duct cyst or pyramidal lobe."},
+ {t:"o", lo:"04.4", q:"Put thyroid development in order.", a:["Endoderm proliferates at the foramen cecum","Descends as a bilobed diverticulum on the thyroglossal duct","Week 6: in front of hyoid and laryngeal cartilages","Week 7: final position anterior to the trachea","Weeks 14–15: begins functioning"], w:"Foramen cecum → descent → wk 6 hyoid → wk 7 trachea → wk 14–15 function."},
+ {lo:"04.4", hy:true, q:"PAX genes drive thyroid development. What does that imply?", a:"Neural crest cells are involved", o:["The thyroid is ectodermal","The thyroid comes from pouch 2","No mesoderm is involved"], w:"Flagged on exam: PAX involvement = neural crest involvement."},
+ {t:"m", lo:"04.4", q:"Select ALL genes named for thyroid development.", a:["TTF-1","PAX","BMPs","Noggin"], o:["Tcof-1","OTX2","Hoxa-1"], w:"TTF-1 = thyroid transcription factor 1."},
+ {lo:"04.5", q:"When does the fetal thyroid start functioning?", a:"Weeks 14–15", o:["Week 4","Week 7","Week 30"], w:"Lecture timing (Step 1 sources often say ~10–12)."},
+ {lo:"04.5", q:"Follicular cells produce colloid, the source of…", a:"T4 and T3 → cellular metabolism", o:["Calcitonin → bone","PTH → calcium","TSH → growth"], w:"Levothyroxine = synthetic T4."},
+ {lo:"04.5", q:"What does fetal calcitonin do?", a:"Prevents bone resorption → normal bone development", o:["Raises blood calcium","Drives cartilage breakdown","Stimulates osteoclasts"], w:"C cells from the ultimobranchial body."},
+ {lo:"04.5", q:"Fetal calcitonin compared with maternal levels?", a:"2–3× higher", o:["Equal","Half","10× lower"], w:"Fetal calcitonin is 2–3× maternal."}
+]},
+{id:"face", lec:"04", name:"Face", sub:"Prominences → lips, nose, cheeks", b:[
+ {t:"m", lo:"04.6", q:"Which prominences surround the stomodeum at weeks 4–5? Select ALL.", a:["Frontonasal","Maxillary (×2)","Mandibular (×2)"], o:["Hypobranchial","Lateral lingual","Copula"], w:"Five swellings: 1 frontonasal, 2 maxillary, 2 mandibular."},
+ {lo:"04.6", q:"Nasal placodes invaginate into nasal pits. What surrounds each pit?", a:"Medial and lateral nasal prominences", o:["Maxillary and mandibular prominences","Tuberculum impar","Palatine shelves"], w:"Weeks 5–8."},
+ {t:"m", lo:"04.6", hy:true, q:"Which prominences build the upper lip? Select ALL.", a:["Two medial nasal prominences","Two maxillary prominences"], o:["Two lateral nasal prominences","Frontonasal prominence","Mandibular prominences"], w:"Lateral nasal prominences do NOT form the lip."},
+ {lo:"04.6", q:"The bridge of the nose comes from…", a:"Frontonasal prominence", o:["Medial nasal prominences","Lateral nasal prominences","Maxillary prominences"], w:"Nose = 5 prominences."},
+ {lo:"04.6", q:"The crest and tip of the nose come from…", a:"Merged medial nasal prominences", o:["Frontonasal prominence","Lateral nasal prominences","Maxillary prominences"], w:"Medial nasal → crest, tip, philtrum."},
+ {lo:"04.6", q:"The sides (alae) of the nose come from…", a:"Lateral nasal prominences", o:["Medial nasal prominences","Maxillary prominences","Frontonasal prominence"], w:"Lateral nasal → sides only."},
+ {lo:"04.6", q:"When are the cheeks identifiable, and from which prominence?", a:"Weeks 8–9, maxillary", o:["Week 4, mandibular","Week 6, frontonasal","Week 12, lateral nasal"], w:"Maxillary prominences → cheeks."},
+ {lo:"04.6", q:"Neural crest forms virtually all facial bones. Which are the exceptions?", a:"Thyroid and cricoid cartilages (± malleus, incus)", o:["Maxilla and zygomatic","Mandible","Nasal bones"], w:"Laryngeal cartilages come from lateral plate mesoderm."},
+ {t:"m", lo:"04.6", q:"The intermaxillary segment has three parts. Select ALL it forms.", a:["Philtrum","Four incisors","Primary palate"], o:["Secondary palate","Uvula","Nasal alae"], w:"Labial → philtrum · upper jaw → 4 incisors · palatal → primary palate."}
+]},
+{id:"pal", lec:"04", name:"Palate & nasal cavity", sub:"Internal face", b:[
+ {lo:"04.7", q:"The primary palate forms from…", a:"The intermaxillary segment", o:["Palatine shelves","Mandibular prominences","Lateral nasal prominences"], w:"Its palatal component (triangular, in front of the incisive foramen)."},
+ {lo:"04.7", q:"Standard texts (and BRS) say the intermaxillary segment forms from fusion of…", a:"The two medial nasal prominences", o:["The two lateral nasal prominences","The two mandibular prominences","The palatine shelves"], w:"In-house wording is deep maxillary fusion; use that if an in-house question asks."},
+ {lo:"04.7", q:"The secondary palate forms from…", a:"Palatine shelves of the maxillary prominences", o:["Medial nasal prominences","The nasal septum","The copula"], w:"Shelves appear weeks 6.5–7."},
+ {lo:"04.7", q:"The palatine shelves grow toward each other on which side of the tongue?", a:"Dorsal to (above) the tongue", o:["Ventral to the tongue","Lateral to the mandible","Inside the tongue"], w:"The tongue must drop for them to fuse; the uvula hangs from the caudal end."},
+ {lo:"04.7", q:"What connects the primitive nasal and oral cavities at mid-week 7?", a:"Primitive choana (oronasal membrane ruptures)", o:["Incisive foramen","Nasolacrimal duct","Foramen cecum"], w:"Behind the primary palate."},
+ {t:"m", lo:"04.7", q:"Paranasal sinuses grow from the lateral nasal wall into which bones? Select ALL.", a:["Maxilla","Ethmoid","Frontal","Sphenoid"], o:["Temporal","Occipital"], w:"They condition air and grow through puberty."}
+]},
+{id:"cran", lec:"04", name:"Cranium", sub:"Neuro vs viscerocranium", b:[
+ {lo:"04.8", q:"Neurocranium vs viscerocranium?", a:"Neuro surrounds the brain · viscero = face and jaws", o:["Neuro = face · viscero = skull vault","Both surround the brain","Viscero = skull base only"], w:"Each has a cartilaginous and a membranous part."},
+ {lo:"04.8", q:"The cartilaginous neurocranium (skull base) ossifies by…", a:"Endochondral ossification (paraxial + prechordal mesoderm, some NC)", o:["Membrane ossification of neural crest","Endochondral ossification of lateral plate mesoderm","Direct ectodermal ossification"], w:"Cartilage model replaced by bone."},
+ {lo:"04.8", q:"The viscerocranium forms mainly by…", a:"Membrane ossification of neural crest", o:["Endochondral ossification of paraxial mesoderm","Endoderm","Somites"], w:"Plus the arch cartilages."},
+ {lo:"04.8", q:"Endochondral vs membranous ossification?", a:"Endochondral replaces a cartilage model · membranous forms directly from mesenchyme", o:["Endochondral forms directly · membranous uses cartilage","Both need cartilage","Neither needs mesenchyme"], w:"Know this distinction."},
+ {lo:"04.8", q:">100 ossification centers form how many bones, fusing into how many?", a:"45 bones → 22 skull bones", o:["22 → 8","60 → 30","100 → 45"], w:"Numbers named in lecture."}
+]},
+{id:"mal", lec:"04", name:"Craniofacial malformations", sub:"Clefts and cysts", b:[
+ {lo:"04.9", q:"Lateral cleft lip = failure of which fusion?", a:"Maxillary + medial nasal prominences", o:["Maxillary + lateral nasal prominences","Palatine shelves","Two medial nasal prominences"], w:"Anterior cleft; ~1/1000, 80% male."},
+ {lo:"04.9", hy:true, q:"Cleft secondary palate and cleft uvula = failure of…", a:"Palatine shelves to fuse", o:["Maxillary + medial nasal","Medial nasal prominences","Mandibular prominences"], w:"Flagged on exam."},
+ {lo:"04.9", hy:true, q:"Oblique facial cleft = failure of…", a:"Maxillary + lateral nasal prominences", o:["Maxillary + medial nasal","Palatine shelves","Frontonasal + maxillary"], w:"Flagged on exam. The cleft lip here is secondary to the cleft palate."},
+ {lo:"04.9", q:"Median cleft of the upper lip = failure of…", a:"The two medial nasal prominences to merge", o:["Mandibular prominences","Palatine shelves","Lateral nasal prominences"], w:"Median lower lip = mandibular prominences."},
+ {t:"m", lo:"04.9", q:"Which drugs raise the risk of oral clefts? Select ALL.", a:["Phenobarbital","Lamotrigine","Valproic acid","Lithium"], o:["Folic acid","Levothyroxine"], w:"Lamotrigine: 2.5/1000 vs 0.37/1000."},
+ {lo:"04.9", hy:true, q:"All facial clefts can ultimately be caused by problems with…", a:"Neural crest migration or function", o:["Endoderm proliferation","Somite segmentation","Notochord signaling"], w:"Flagged on exam."},
+ {lo:"04.9", q:"Most common congenital malformation of the head and neck (BRS)?", a:"Unilateral cleft lip", o:["Thyroglossal duct cyst","Branchial cleft cyst","Cleft palate alone"], w:"From BRS formative questions."},
+ {lo:"04.9", q:"Painless MIDLINE neck mass below the hyoid that rises with tongue protrusion?", a:"Thyroglossal duct cyst", o:["Branchial cleft cyst","Cystic hygroma","Lingual thyroid"], w:"Anywhere on the descent path; often near the hyoid."},
+ {lo:"04.9", q:"Treacher Collins: Tcof-1 mutation disrupts NC migration from which rhombomeres?", a:"R2 and R4 (arches 1 and 2)", o:["R6 and R7","R8","R1 only"], w:"Autosomal dominant; arches 1 and 2 fuse."},
+ {lo:"04.9", q:"Current treatment of cleft lip and palate?", a:"Surgery", o:["Retinoids","Watchful waiting","Folate"], w:"Surgery is the only treatment."}
+]},
+{id:"us", lec:"04", name:"Ultrasound", sub:"Fetal face", b:[
+ {lo:"04.10", q:"Which fetal face finding suggests trisomy 21?", a:"Absent nasal bone", o:["Cleft uvula","Enlarged mandible","Wide philtrum"], w:"Step 1 adds: ↑ nuchal translucency."},
+ {t:"m", lo:"04.10", q:"Which two features did lecture say to check? Select ALL.", a:["Ear position relative to eye and nose","Presence of the nasal bone"], o:["Tooth bud count","Tongue length"], w:"Low-set ears or absent nasal bone are red flags."},
+ {t:"m", lo:"04.10", q:"Normal structures to identify on a fetal face ultrasound. Select ALL.", a:["Neurocranium","Viscerocranium","Frontal prominence","Nose","Fused maxillary process"], o:["Thymus","Palatine tonsil"], w:"Don't confuse the hand or ribs in the image."}
+]},
+
+/* ======================= HNSS18 ======================= */
+{id:"eo", lec:"18", name:"Eye origins", sub:"Which tissue builds it?", b:[
+ {lo:"18.1", q:"Neural retina comes from…", a:"Inner layer of the optic cup (neuroectoderm)", o:["Outer layer of the optic cup","Surface ectoderm","Neural crest"], w:"Only the neural retina contains sensory cells (on exam)."},
+ {lo:"18.1", q:"Retinal pigment epithelium comes from…", a:"Outer layer of the optic cup", o:["Inner layer of the optic cup","Neural crest","Surface ectoderm"], w:"Inner → neural retina; outer → RPE."},
+ {lo:"18.1", q:"The lens comes from…", a:"Surface ectoderm (lens placode)", o:["Neuroectoderm","Neural crest","Mesoderm"], w:"Placode → pit → vesicle → lens."},
+ {lo:"18.1", q:"Corneal epithelium comes from…", a:"Surface ectoderm", o:["Neural crest","Neuroectoderm","Mesoderm"], w:"Stroma and endothelium are neural crest."},
+ {lo:"18.1", q:"Corneal stroma and endothelium come from…", a:"Neural crest", o:["Surface ectoderm","Optic cup","Endoderm"], w:"Outer epithelium = surface ectoderm; inner layers = neural crest."},
+ {lo:"18.1", hy:true, q:"Sphincter and dilator pupillae muscles come from…", a:"Anterior optic cup (neuroectoderm)", o:["Paraxial mesoderm","Neural crest","Surface ectoderm"], w:"Classic exception: muscles not from mesoderm."},
+ {lo:"18.1", q:"Iris stroma, ciliary muscle and ciliary stroma come from…", a:"Neural crest mesenchyme", o:["Optic cup","Surface ectoderm","Endoderm"], w:"Ciliary epithelium is optic cup."},
+ {lo:"18.1", q:"Ciliary epithelium (secretes aqueous humor) comes from…", a:"Optic cup (neuroectoderm)", o:["Neural crest","Surface ectoderm","Mesoderm"], w:"BRS: ciliary body = neuroectoderm + mesoderm."},
+ {lo:"18.1", q:"The optic nerve forms from…", a:"Optic stalk + retinal ganglion cell axons (diencephalon)", o:["Surface ectoderm","Neural crest","Otic placode"], w:"BRS: optic nerve forms from the diencephalon."},
+ {lo:"18.1", q:"Sclera, choroid and conjunctiva (week 10) come from…", a:"Mesenchyme around the optic cup", o:["Optic cup","Lens vesicle","Endoderm"], w:"From the student HY notes."}
+]},
+{id:"es", lec:"18", name:"Eye development", sub:"Steps and timing", b:[
+ {lo:"18.2", hy:true, q:"Where are the eye fields?", a:"Anterior neural plate (prosencephalon), in line with the diencephalon", o:["Rhombencephalon","Surface ectoderm of the face","Mesencephalon"], w:"Flagged on exam. Day ~17."},
+ {lo:"18.2", q:"Which transcription factor marks the eye fields?", a:"PAX6", o:["PAX3","OTX2","TTF-1"], w:"PAX6 + SOX2 let surface ectoderm respond to the optic vesicle."},
+ {lo:"18.2", q:"What induces the lens placode?", a:"Optic vesicle contacting surface ectoderm", o:["Lens vesicle contacting cornea","Neural crest","Hyaloid artery"], w:"~Day 28."},
+ {lo:"18.2", hy:true, q:"What does the lens (vesicle) then induce?", a:"The cornea", o:["The retina","The optic nerve","The iris"], w:"Flagged on exam."},
+ {t:"o", lo:"18.2", q:"Put eye development in order.", a:["Eye fields in anterior neural plate","Optic grooves","Optic vesicles","Lens placode induced","Optic cup + lens vesicle","Choroid fissure closes over hyaloid artery"], w:"~Day 17 → 21 → 25 → 28 → 36 → wk 6–7."},
+ {lo:"18.2", q:"What runs through the choroid fissure?", a:"Hyaloid artery", o:["Optic nerve","Ophthalmic vein","Ciliary nerves"], w:"Leaves the hyaloid canal in the vitreous."},
+ {lo:"18.2", q:"How does the lens grow to its final size?", a:"Proliferation at the equator", o:["Proliferation at the anterior pole","Fusion with the cornea","Apoptosis of lens fibers"], w:"PAX6, SOX2, MAF."},
+ {lo:"18.2", q:"When do the eyelids fuse and reopen?", a:"Fuse at start of 2nd trimester · reopen at start of 3rd", o:["Fuse at birth","Fuse week 4 · reopen week 8","Never fuse"], w:"They begin forming at the end of the embryonic period."},
+ {lo:"18.2", q:"When do the ciliary processes form?", a:"~Week 15", o:["Week 4","Week 7","Week 30"], w:"Folding of the two optic-cup layers."},
+ {lo:"18.2", q:"BRS: retinal detachment occurs between which layers?", a:"Neural retina and pigmented epithelium", o:["Choroid and sclera","Lens and cornea","Ganglion cell layer and vitreous"], w:"The old intraretinal space of the optic cup."}
+]},
+{id:"ear", lec:"18", name:"Ear origins & steps", sub:"Inner, middle, external", b:[
+ {lo:"18.1", q:"The inner ear (membranous labyrinth) comes from…", a:"Otic placode (surface ectoderm near the hindbrain)", o:["Pharyngeal arch ectoderm","Pouch 1 endoderm","Neural crest"], w:"BRS: the cochlear duct is ectoderm."},
+ {lo:"18.1", q:"The bony labyrinth comes from…", a:"Mesenchyme around the otic vesicle (cartilaginous capsule)", o:["Otic vesicle","Pouch 1","Arch 2 cartilage"], w:"The capsule ossifies."},
+ {t:"o", lo:"18.2", q:"Put inner ear development in order.", a:["Otic placode","Otic pit","Otic vesicle","Statoacoustic ganglion forms","Utricular and saccular portions divide","Cochlear duct → Organ of Corti"], w:"~Day 22 → 28 → 29 → 30 → 36 → wk 9."},
+ {lo:"18.2", q:"The otic pit sits next to which structure?", a:"Second pharyngeal cleft", o:["First pharyngeal pouch","Foramen cecum","Optic stalk"], w:"Dorsal to cleft 2."},
+ {lo:"18.2", q:"Where do the CN VIII ganglia come from?", a:"Neuroblasts delaminating from the otic epithelium", o:["Neural crest of arch 2","Pouch 1","Surface ectoderm of the auricle"], w:"Statoacoustic ganglion → vestibular + spiral ganglia."},
+ {lo:"18.2", q:"The utricular portion of the otic vesicle forms…", a:"Utricle + semicircular ducts", o:["Saccule + cochlear duct","Endolymphatic sac only","Tympanic cavity"], w:"Utricle → rotation/balance ducts."},
+ {lo:"18.2", q:"The saccular portion forms…", a:"Saccule + cochlear duct", o:["Utricle + semicircular ducts","Endolymphatic duct","Stapes"], w:"Saccule → Sound."},
+ {lo:"18.1", q:"The tympanic cavity and auditory tube come from…", a:"Pouch 1 (tubotympanic recess)", o:["Cleft 1","Arch 2","Otic vesicle"], w:"Endoderm."},
+ {lo:"18.1", q:"Which structure contains all three germ layers?", a:"Tympanic membrane", o:["Cochlea","Auricle","Stapes"], w:"Ectoderm (cleft 1), mesoderm, endoderm (pouch 1)."},
+ {lo:"18.1", q:"Malleus/incus vs stapes origins?", a:"Malleus + incus arch 1 · stapes arch 2", o:["All three arch 1","All three arch 2","Malleus arch 1 · incus + stapes arch 2"], w:"Meckel's vs Reichert's."},
+ {lo:"18.1", q:"The auricle forms from…", a:"6 auricular hillocks (1–3 arch 1, 4–6 arch 2)", o:["Cleft 1 only","Pouch 1","Otic placode"], w:"Hillock 1 → tragus, hillock 6 → antitragus; lobule isn't from hillocks."},
+ {lo:"18.2", q:"The meatal plug breaks down around…", a:"Month 7", o:["Week 5","Birth","Month 3"], w:"Opens the canal to the eardrum."},
+ {lo:"18.2", hy:true, q:"External ears start caudal to the jaw and move up. What do external ear deformities suggest?", a:"Deformities in the pharyngeal region", o:["Isolated cosmetic issue","Inner ear agenesis","Eye defects"], w:"Flagged on exam."}
+]},
+{id:"ab", lec:"18", name:"Eye & ear abnormalities", sub:"Embryologic basis", b:[
+ {lo:"18.3", q:"Cyclopia results from loss of which signal?", a:"SHH from the ventral midline", o:["PAX6","FGF from the lens","BMP from the optic cup"], w:"No SHH → PAX6 not repressed in the midline → eye fields merge."},
+ {lo:"18.3", q:"Keyhole defect at the bottom of the iris?", a:"Coloboma — choroid fissure failed to close", o:["Persistent pupillary membrane","Aniridia","Cyclopia"], w:"Can extend to retina, choroid, optic nerve."},
+ {lo:"18.3", q:"A persistent pupillary membrane blocking the visual axis causes…", a:"Deprivation amblyopia (lazy eye)", o:["Glaucoma","Cataract","Retinal detachment"], w:"It normally regresses before birth."},
+ {lo:"18.3", q:"Lower-eyelid coloboma is a sign of…", a:"Treacher Collins (arch 1 neural crest)", o:["Choroid fissure failure","Waardenburg","DiGeorge"], w:"Different from an iris/retinal coloboma."},
+ {t:"m", lo:"18.3", q:"First-trimester drugs linked to external ear anomalies. Select ALL.", a:["Streptomycin","Salicylates","Thalidomide"], o:["Folic acid","Penicillin"], w:"The external ear is very sensitive to drug toxicity."},
+ {lo:"18.3", q:"Autosomal dominant congenital deafness with pigment abnormalities?", a:"Waardenburg syndrome", o:["Treacher Collins","Alport","Usher"], w:"PAX3 neural crest defect."},
+ {lo:"18.3", q:"Connexin 26 mutation causes hearing loss by affecting…", a:"Supporting-cell gap junctions", o:["Hair cell transcription","Stria vascularis","Ossicles"], w:"POU4F3 → hair cells; c-Kit → stria vascularis."},
+ {lo:"18.3", q:"Step 1: aniridia is caused by a mutation in…", a:"PAX6 (WAGR)", o:["PAX3","SHH","Tcof-1"], w:"Wilms, Aniridia, GU, intellectual disability."},
+ {lo:"18.3", q:"Step 1: congenital cataracts + sensorineural deafness + PDA?", a:"Congenital rubella", o:["Congenital CMV","Toxoplasmosis","Syphilis"], w:"CMV is the most common infectious cause of hearing loss."}
+]},
+{id:"xe", lec:"18", name:"Ear histology & pathology", sub:"Extra — last year's lecture", b:[
+ {lo:"18.X", q:"Which fluid fills the membranous labyrinth, and what makes it?", a:"Endolymph (high K⁺), made by the stria vascularis", o:["Perilymph (high Na⁺), made by the choroid plexus","CSF","Endolymph (high Na⁺), made by hair cells"], w:"Perilymph sits between the membranous and bony labyrinths."},
+ {lo:"18.X", q:"Which scala holds the Organ of Corti?", a:"Scala media", o:["Scala vestibuli","Scala tympani","Vestibule"], w:"Filled with endolymph."},
+ {lo:"18.X", q:"High-frequency sound is detected where in the cochlea?", a:"Base", o:["Apex","Middle turn","Round window"], w:"Low frequencies at the apex."},
+ {lo:"18.X", q:"Inner vs outer hair cells?", a:"Inner transmit · outer amplify", o:["Inner amplify · outer transmit","Both transmit","Both amplify"], w:"Inner hair cells → spiral ganglion."},
+ {lo:"18.X", q:"Maculae (utricle, saccule) vs cristae (semicircular canals)?", a:"Maculae linear acceleration · cristae rotation", o:["Maculae rotation · cristae linear","Both sense sound","Both sense rotation"], w:"Otoliths vs cupula."},
+ {lo:"18.X", hy:true, q:"Pregnant woman with sudden hearing loss from ossicle fixation?", a:"Otosclerosis", o:["Ménière disease","Cholesteatoma","BPPV"], w:"Flagged on exam: stapes fixation → conductive loss."},
+ {lo:"18.X", hy:true, q:"A cochlear implant only works if what is intact?", a:"The auditory nerve", o:["Hair cells","The stapes","The tympanic membrane"], w:"Flagged on exam."},
+ {lo:"18.X", q:"Episodic vertigo, tinnitus, hearing loss from endolymphatic hydrops?", a:"Ménière disease", o:["BPPV","Otosclerosis","Otitis media"], w:"Treatment: low salt, diuretics, labyrinthectomy."},
+ {lo:"18.X", q:"Brief vertigo after head movement from dislodged otoliths?", a:"BPPV", o:["Ménière disease","Cholesteatoma","Otitis externa"], w:"Canalith repositioning."},
+ {lo:"18.X", q:"Cone of light positions?", a:"Right ear 5 o'clock · left ear 7 o'clock", o:["Right 7 · left 5","Both 12 o'clock","Both 6 o'clock"], w:"From the umbo of the malleus."},
+ {lo:"18.X", q:"Ceruminous glands are…", a:"Modified tubular sweat (apocrine) glands", o:["Sebaceous glands","Mucous glands","Serous acini"], w:"Larger, deeper and paler than sebaceous glands."},
+ {lo:"18.X", q:"Wrestler with a swollen ear after trauma. Drain within?", a:"~7 days", o:["24 hours only","A month","Never drain"], w:"Auricular hematoma → cauliflower ear if untreated."}
+]}
+];
+
+(function(){
+"use strict";
+var KEY="hd-hnss-embryo-builder-v1";
+var S={box:{},score:0,streak:0,best:0,tot:0,right:0,theme:"auto"};
+function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.box)S=Object.assign(S,j);}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+load();
+
+var ALL=[]; E.forEach(function(e){e.b.forEach(function(b,i){b.id=e.id+"."+i;b.ent=e;ALL.push(b);});});
+function st(b){var r=S.box[b.id];return r?r.s:"u";}
+var mode="build", scope="all", loFilter=null, curEnt=null, idx=0, cur=null, answered=false, results={}, lastId=null, t0=0, tick=null;
+
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function inScope(b){return (scope==="all"||b.ent.lec===scope)&&(!loFilter||b.lo===loFilter);}
+
+/* ---------- theme ---------- */
+var themeBtn=document.getElementById("themeBtn");
+function applyTheme(){var r=document.documentElement;if(S.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",S.theme);themeBtn.textContent="Theme: "+S.theme;}
+themeBtn.onclick=function(){S.theme={auto:"light",light:"dark",dark:"auto"}[S.theme];applyTheme();save();};
+applyTheme();
+document.getElementById("resetBtn").onclick=function(){
+  var b=this; if(b.dataset.confirm){S.box={};S.score=S.streak=S.tot=S.right=0;save();b.textContent="Reset progress";delete b.dataset.confirm;renderAll();next();return;}
+  b.dataset.confirm="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.confirm){delete b.dataset.confirm;b.textContent="Reset progress";}},3000);
+};
+
+/* ---------- stats / side / map ---------- */
+function loStatus(lo){var bs=ALL.filter(function(b){return b.lo===lo;});var ss=bs.map(st);
+  var m=ss.filter(function(x){return x==="M";}).length;
+  if(m===bs.length)return{s:"M",m:m,n:bs.length};
+  if(ss.indexOf("m")>=0)return{s:"m",m:m,n:bs.length};
+  if(ss.some(function(x){return x!=="u";}))return{s:"o",m:m,n:bs.length};
+  return{s:"u",m:m,n:bs.length};}
+function renderStats(){
+  document.getElementById("sScore").textContent=S.score;
+  document.getElementById("sStreak").textContent=S.streak;
+  document.getElementById("sAcc").textContent=S.tot?Math.round(100*S.right/S.tot)+"%":"—";
+  document.getElementById("sBoxes").textContent=ALL.filter(function(b){return st(b)==="M";}).length+"/"+ALL.length;
+  var los=Object.keys(LOS);document.getElementById("sLos").textContent=los.filter(function(l){return loStatus(l).s==="M";}).length+"/"+los.length;
+}
+function renderSide(){
+  var h="";LECS.forEach(function(L){if(scope!=="all"&&scope!==L.k)return;
+    h+='<p class="lec-h l'+L.k+'" style="color:var(--lc)">HNSS'+L.k+' · '+esc(L.n)+'</p>';
+    E.filter(function(e){return e.lec===L.k;}).forEach(function(e){
+      var m=e.b.filter(function(b){return st(b)==="M";}).length,p=Math.round(100*m/e.b.length);
+      h+='<button type="button" class="ent l'+e.lec+'" data-ent="'+e.id+'"'+(curEnt===e&&mode==="build"?' aria-current="true"':'')+'><span class="n">'+esc(e.name)+'</span><span class="pct">'+m+'/'+e.b.length+'</span><span class="s">'+esc(e.sub)+'</span><span class="mini"><i style="width:'+p+'%"></i></span></button>';
+    });});
+  var el=document.getElementById("entList");el.innerHTML=h;
+  el.querySelectorAll(".ent").forEach(function(b){b.onclick=function(){setMode("build");startEnt(E.filter(function(e){return e.id===b.dataset.ent;})[0]);};});
+}
+function renderMap(){
+  var h="";Object.keys(LOS).forEach(function(lo){var lec=lo.split(".")[0];if(scope!=="all"&&scope!==lec)return;var s=loStatus(lo);
+    h+='<button type="button" class="lo-tile l'+lec+'" data-lo="'+lo+'"'+(loFilter===lo?' style="border-color:var(--lc)"':'')+'><span class="id">'+(lo.slice(-1)==="X"?"Extra":"LO "+lo)+'</span><span class="t">'+esc(LOS[lo])+'</span><span class="dot s-'+s.s+'" title="'+s.m+'/'+s.n+' mastered"></span></button>';});
+  var g=document.getElementById("loGrid");g.innerHTML=h;
+  g.querySelectorAll(".lo-tile").forEach(function(b){b.onclick=function(){loFilter=(loFilter===b.dataset.lo?null:b.dataset.lo);setMode("drill");};});
+}
+function renderAll(){renderStats();renderSide();renderMap();}
+
+/* ---------- flow ---------- */
+function setMode(m){mode=m;document.querySelectorAll("[data-mode]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.mode===m));});
+  if(m==="build"){loFilter=null;renderAll();if(!curEnt||!inScope(curEnt.b[0]))startEnt(firstEnt());else show();}
+  else{renderAll();next();}}
+function firstEnt(){var es=E.filter(function(e){return scope==="all"||e.lec===scope;});
+  for(var i=0;i<es.length;i++){if(es[i].b.some(function(b){return st(b)!=="M";}))return es[i];}return es[0];}
+document.querySelectorAll("[data-mode]").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode);};});
+document.querySelectorAll("[data-scope]").forEach(function(b){b.onclick=function(){scope=b.dataset.scope;loFilter=null;
+  document.querySelectorAll("[data-scope]").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+  if(mode==="build"){curEnt=null;setMode("build");}else setMode("drill");};});
+
+function startEnt(e){curEnt=e;idx=0;results={};renderSide();cur=e.b[0];show();}
+function next(){
+  if(mode==="build"){idx++;if(idx>=curEnt.b.length){finishEnt();return;}cur=curEnt.b[idx];show();return;}
+  var pool=ALL.filter(inScope);if(!pool.length){cur=null;show();return;}
+  var rank={m:0,u:1,o:2,M:3};
+  pool=shuffle(pool).sort(function(a,b){return rank[st(a)]-rank[st(b)];});
+  var best=rank[st(pool[0])];var top=pool.filter(function(b){return rank[st(b)]===best&&b.id!==lastId;});
+  if(best===3)top=pool.filter(function(b){return b.id!==lastId;});
+  cur=(top.length?top:pool)[0];show();
+}
+function finishEnt(){
+  var ok=Object.keys(results).filter(function(k){return results[k];}).length,n=curEnt.b.length;
+  var i=E.indexOf(curEnt),nxt=null;for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){nxt=c;break;}}
+  var card=document.getElementById("card");card.className="card l"+curEnt.lec;
+  card.innerHTML='<div class="done"><p class="meta">Structure complete</p><h2>'+esc(curEnt.name)+': '+ok+' / '+n+' first try</h2>'+
+   '<p class="hint">'+(ok===n?"Clean build. It will count as mastered after one more clean pass.":"Missed boxes are queued first in Drill mode.")+'</p>'+
+   '<div class="actions"><button class="btn" type="button" id="again">Rebuild '+esc(curEnt.name)+'</button>'+(nxt?'<button class="btn primary" type="button" id="nextEnt">Next: '+esc(nxt.name)+' →</button>':'')+'</div></div>';
+  document.getElementById("again").onclick=function(){startEnt(curEnt);};
+  if(nxt)document.getElementById("nextEnt").onclick=function(){startEnt(nxt);};
+  var ne=document.getElementById("nextEnt");if(ne)ne.focus();
+}
+
+var picks=[];
+function show(){
+  answered=false;picks=[];clearInterval(tick);
+  var card=document.getElementById("card");
+  if(!cur){card.className="card";card.innerHTML='<p class="q">Nothing in this scope yet.</p>';return;}
+  var b=cur,e=b.ent;card.className="card l"+e.lec;
+  var head='<div class="card-top"><div><p class="meta">'+(mode==="build"?"Build · box "+(idx+1)+" of "+e.b.length:"Drill"+(loFilter?" · LO "+loFilter:""))+'</p><h2>'+esc(e.name)+'</h2></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag lo">'+(b.lo.slice(-1)==="X"?"Extra":"LO "+b.lo)+'</span>'+(b.hy?'<span class="tag hy">HY</span>':'')+'<span class="timer" id="timer">0.0s</span></div></div>';
+  if(mode==="build"){head+='<div class="boxes" aria-hidden="true">'+e.b.map(function(x,i){var c=i===idx?"cur":(x.id in results?(results[x.id]?"done-ok":"done-bad"):"");return '<i class="'+c+'"></i>';}).join("")+'</div>';}
+  var body='<p class="q">'+esc(b.q)+'</p>';
+  if(!b.t){b._opts=shuffle([b.a].concat(b.o));
+    body+='<div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else if(b.t==="m"){b._opts=shuffle(b.a.concat(b.o));
+    body+='<p class="hint">Select all that apply, then check.</p><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" aria-pressed="false" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else{b._opts=shuffle(b.a);
+    body+='<p class="hint">Tap items in order. Tap a placed item to remove it.</p><ol class="ordered" id="ordList"><li class="empty" style="cursor:default">Your order appears here</li></ol><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">+</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  var act='<div id="fb"></div><div class="actions"><span class="hint">'+(b.t?"Enter to check":"Keys 1–"+b._opts.length+" to answer")+'</span><div style="display:flex;gap:8px">'+
+    (mode==="build"?'<button class="btn" type="button" id="skipBtn">Skip structure</button>':'')+
+    (b.t?'<button class="btn primary" type="button" id="checkBtn"'+(b.t==="o"?" disabled":"")+'>Check</button>':'')+
+    '<button class="btn primary" type="button" id="nextBtn" hidden>Next box →</button></div></div>';
+  card.innerHTML=head+body+act;
+  t0=Date.now();tick=setInterval(function(){var t=document.getElementById("timer");if(t)t.textContent=((Date.now()-t0)/1000).toFixed(1)+"s";},100);
+  var opts=card.querySelectorAll(".opt");
+  if(!b.t)opts.forEach(function(o){o.onclick=function(){if(!answered)grade([+o.dataset.i]);};});
+  else if(b.t==="m")opts.forEach(function(o){o.onclick=function(){if(answered)return;var on=o.getAttribute("aria-pressed")!=="true";o.setAttribute("aria-pressed",String(on));o.classList.toggle("sel",on);};});
+  else opts.forEach(function(o){o.onclick=function(){if(answered||o.disabled)return;picks.push(+o.dataset.i);o.disabled=true;o.style.opacity=".4";drawOrd();};});
+  var cb=document.getElementById("checkBtn");if(cb)cb.onclick=function(){if(answered)return;
+    if(b.t==="m"){var sel=[];opts.forEach(function(o){if(o.getAttribute("aria-pressed")==="true")sel.push(+o.dataset.i);});grade(sel);}else grade(picks);};
+  var sk=document.getElementById("skipBtn");if(sk)sk.onclick=function(){var i=E.indexOf(curEnt);for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){startEnt(c);return;}}};
+  document.getElementById("nextBtn").onclick=function(){lastId=cur.id;next();};
+}
+function drawOrd(){var b=cur,ol=document.getElementById("ordList");
+  ol.innerHTML=picks.length?picks.map(function(i,k){return '<li data-k="'+k+'">'+esc(b._opts[i])+'</li>';}).join(""):'<li class="empty" style="cursor:default">Your order appears here</li>';
+  ol.querySelectorAll("li[data-k]").forEach(function(li){li.onclick=function(){if(answered)return;var k=+li.dataset.k,i=picks[k];picks.splice(k,1);
+    var o=document.querySelector('.opt[data-i="'+i+'"]');o.disabled=false;o.style.opacity="";drawOrd();};});
+  document.getElementById("checkBtn").disabled=picks.length!==b.a.length;}
+
+function grade(sel){
+  answered=true;clearInterval(tick);var b=cur,ok,card=document.getElementById("card"),opts=card.querySelectorAll(".opt");
+  if(!b.t){ok=b._opts[sel[0]]===b.a;opts.forEach(function(o){var t=b._opts[+o.dataset.i];o.disabled=true;if(t===b.a)o.classList.add("right");else if(+o.dataset.i===sel[0])o.classList.add("wrong");});}
+  else if(b.t==="m"){var chosen=sel.map(function(i){return b._opts[i];});ok=chosen.length===b.a.length&&chosen.every(function(c){return b.a.indexOf(c)>=0;});
+    opts.forEach(function(o){var t=b._opts[+o.dataset.i],isA=b.a.indexOf(t)>=0,isS=chosen.indexOf(t)>=0;o.disabled=true;o.classList.remove("sel");
+      if(isA&&isS)o.classList.add("right");else if(isA)o.classList.add("missed");else if(isS)o.classList.add("wrong");});}
+  else{var got=sel.map(function(i){return b._opts[i];});ok=got.every(function(g,k){return g===b.a[k];});
+    document.querySelectorAll("#ordList li[data-k]").forEach(function(li,k){li.classList.add(got[k]===b.a[k]?"right":"wrong");});
+    opts.forEach(function(o){o.disabled=true;});}
+  var r=S.box[b.id]||{n:0,c:0,s:"u"};r.n++;
+  if(ok){r.c++;r.s=r.c>=2?"M":"o";S.streak++;S.best=Math.max(S.best,S.streak);S.right++;S.score+=10+Math.min(S.streak,10);}
+  else{r.c=0;r.s="m";S.streak=0;}
+  S.tot++;S.box[b.id]=r;if(!(b.id in results))results[b.id]=ok;save();
+  var fb='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Correct":"Not quite")+'</span>';
+  if(!ok){if(!b.t)fb+='<span>Answer: <b>'+esc(b.a)+'</b></span>';else if(b.t==="m")fb+='<span>Answer: <b>'+b.a.map(esc).join(" · ")+'</b></span>';else fb+='<span>Correct order:</span><ol>'+b.a.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';}
+  fb+='<span>'+esc(b.w)+'</span></div>';
+  document.getElementById("fb").innerHTML=fb;
+  var cb=document.getElementById("checkBtn");if(cb)cb.hidden=true;
+  var nb=document.getElementById("nextBtn");nb.hidden=false;nb.textContent=(mode==="build"&&idx===curEnt.b.length-1)?"Finish structure →":"Next box →";nb.focus();
+  renderAll();
+}
+document.addEventListener("keydown",function(ev){
+  if(ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){var nb=document.getElementById("nextBtn"),cb=document.getElementById("checkBtn");
+    if(nb&&!nb.hidden){ev.preventDefault();nb.click();}else if(cb&&!cb.hidden&&!cb.disabled){ev.preventDefault();cb.click();}return;}
+  var n=parseInt(ev.key,10);if(!cur||answered||isNaN(n))return;var o=document.querySelector('.opt[data-i="'+(n-1)+'"]');if(o&&!o.disabled)o.click();
+});
+
+renderAll();startEnt(firstEnt());
+})();
+</script>

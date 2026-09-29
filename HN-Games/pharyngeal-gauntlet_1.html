@@ -1,0 +1,300 @@
+<title>Pharyngeal Gauntlet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one dark arena. Title → boss map grid → battle (boss bar, player bar, question) → result.
+   Deliberately single dark theme, every color set explicitly. */
+:root{
+  --bg:#0d1016; --bg2:#151a23; --surface:#1b212c; --line:#2d3644; --ink:#e9edf2; --muted:#9aa5b3;
+  --acc:#3fc1b5; --acc2:#1d6f6a; --gold:#e3b95c; --hp:#e2574c; --you:#5cc98a; --ok:#5cc98a; --ok-bg:#15301f; --bad:#f07b72; --bad-bg:#3a1a18;
+  --f-disp:"Cinzel", "Trajan Pro", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:radial-gradient(1200px 600px at 50% -10%, color-mix(in srgb, var(--acc2) 35%, transparent), transparent 70%), var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-disp);margin:0;letter-spacing:.04em;text-wrap:balance;line-height:1.15}
+.meta{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.btn{font:700 .9rem var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 16px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.btn.primary{background:var(--acc);color:#0d1016;border-color:var(--acc)}
+.btn.gold{background:var(--gold);color:#1a1405;border-color:var(--gold)}
+.btn:focus-visible,.opt:focus-visible,.boss:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* title */
+.hero{display:grid;gap:14px;text-align:center;justify-items:center;padding-block:28px 8px}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;color:var(--acc);text-shadow:0 0 24px color-mix(in srgb, var(--acc) 40%, transparent)}
+.hero p{max-width:60ch;color:var(--muted);margin:0}
+.counts{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.counts b{display:block;font:800 1.8rem var(--f-disp);color:var(--ink)}
+.counts span{font:500 .7rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;width:100%;max-width:640px}
+.mode{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;text-align:left;cursor:pointer;color:var(--ink);font:inherit}
+.mode:hover{border-color:var(--acc)}
+.mode h3{font-size:1.1rem;color:var(--acc)}
+.mode p{margin:0;color:var(--muted);font-size:.88rem}
+.coop{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;max-width:420px;width:100%;text-align:left}
+.coop label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
+.coop input{font:inherit;background:var(--bg2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.legend-types{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:.82rem;color:var(--muted)}
+
+/* map */
+.maphead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px}
+.maphead h2{font-size:1.6rem;color:var(--acc)}
+.prog{height:8px;background:var(--bg2);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc))}
+.bossgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.boss{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:10px 12px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;position:relative}
+.boss:hover:not([disabled]){border-color:var(--acc)}
+.boss[disabled]{opacity:.5;cursor:not-allowed}
+.boss .sig{grid-row:1/3;width:56px;height:56px}
+.boss h3{font-size:.98rem}
+.boss .ep{font-size:.78rem;color:var(--muted);line-height:1.3}
+.boss .lo{grid-column:1/3;font:500 .7rem var(--f-mono);color:var(--acc);letter-spacing:.04em}
+.boss .hpmini{grid-column:1/3;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.boss .hpmini i{display:block;height:100%;background:var(--hp)}
+.boss.dead{border-color:var(--gold)}
+.boss.dead .hpmini i{background:var(--gold)}
+.boss .slain{position:absolute;top:-10px;right:12px;background:var(--bg);padding:1px 8px;border:1px solid var(--gold);border-radius:999px;font:700 .68rem var(--f-mono);letter-spacing:.08em;color:var(--gold)}
+.boss.final{grid-column:1/-1;border-color:color-mix(in srgb, var(--gold) 60%, var(--line))}
+.maptools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* battle */
+.arena{display:grid;gap:12px}
+.bars{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+@media (max-width:640px){ .bars{grid-template-columns:1fr} .vs{display:none} }
+.fighter{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;min-width:0}
+.fighter .sig{width:64px;height:64px}
+.fighter h3{font-size:1.05rem}
+.fighter .ep{font-size:.78rem;color:var(--muted)}
+.hpbar{height:12px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.hpbar i{display:block;height:100%;transition:width .35s ease}
+.hpbar.bh i{background:linear-gradient(90deg,#9b2d25,var(--hp))}
+.hpbar.you i{background:linear-gradient(90deg,#2a7a4d,var(--you))}
+.hptxt{font:500 .72rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.vs{font:800 1.2rem var(--f-disp);color:var(--gold)}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px;position:relative;overflow:hidden}
+.qtop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.tag.t2{color:var(--gold);border-color:color-mix(in srgb, var(--gold) 50%, var(--line))}
+.tag.s1{color:var(--acc);border-color:color-mix(in srgb, var(--acc) 50%, var(--line))}
+.combo{font:800 .95rem var(--f-disp);color:var(--gold)}
+.turn{font:600 .85rem var(--f-body);color:var(--acc)}
+.stem{font:600 1.05rem/1.55 var(--f-body);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg2);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt .k{font:700 .8rem var(--f-mono);color:var(--acc);min-width:1.2em}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt[disabled]{cursor:default}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg);border:1px solid color-mix(in srgb, var(--ok) 40%, transparent)}
+.fb.bad{background:var(--bad-bg);border:1px solid color-mix(in srgb, var(--bad) 40%, transparent)}
+.fb .v{font:800 1rem var(--f-disp);letter-spacing:.05em}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.flash{position:absolute;inset:0;pointer-events:none;display:grid;place-items:center;font:800 3rem var(--f-disp);letter-spacing:.1em;opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  .shake{animation:shake .35s}
+  @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+  .flash.go{animation:fl .7s ease-out}
+  @keyframes fl{0%{opacity:0;transform:scale(.8)}25%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.15)}}
+}
+
+/* result */
+.result{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px}
+.result h2{font-size:2rem}
+.result.win h2{color:var(--gold)} .result.lose h2{color:var(--bad)}
+.review{display:grid;gap:10px}
+.review article{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:6px}
+.review .ans{color:var(--ok);font-weight:600}
+.scores{display:flex;gap:20px;flex-wrap:wrap}
+.scores b{display:block;font:800 1.4rem var(--f-disp)}
+.scores span{font:500 .7rem var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+</style>
+
+<div class="wrap">
+  <section id="scrTitle" class="hero">
+    <p class="meta">HoyaDocs · Block 5 · <span id="lecName"></span></p>
+    <h1 id="gTitle"></h1>
+    <p id="gTag"></p>
+    <div class="counts">
+      <div><b id="cQ">0</b><span>Questions</span></div>
+      <div><b id="cB">0</b><span>Bosses</span></div>
+      <div><b id="cL">0</b><span>Learning objectives</span></div>
+    </div>
+    <div class="legend-types"><span class="tag t2">2nd order</span> multi-step reasoning <span class="tag s1">Step 1</span> clinical vignette</div>
+    <div class="modes">
+      <button class="mode" type="button" id="soloBtn"><h3>Solo campaign</h3><p>Your HP, your record. Wrong answers return later in the fight.</p></button>
+      <button class="mode" type="button" id="coopBtn"><h3>Two-player co-op</h3><p>Alternate questions on one boss with a shared HP pool.</p></button>
+    </div>
+    <form class="coop" id="coopForm" hidden>
+      <p class="meta">Name your party</p>
+      <label for="p1">Player 1<input id="p1" value="Player 1" maxlength="20"></label>
+      <label for="p2">Player 2<input id="p2" value="Player 2" maxlength="20"></label>
+      <div class="row"><button class="btn" type="button" id="coopBack">Back</button><button class="btn primary" type="submit">Enter the fight</button></div>
+    </form>
+  </section>
+
+  <section id="scrMap" hidden>
+    <div class="maphead">
+      <div><p class="meta" id="mapMode">Solo campaign</p><h2>Boss map</h2><p class="hint" id="mapProg"></p></div>
+      <div class="maptools"><button class="btn" type="button" id="modeBtn">Change mode</button><button class="btn" type="button" id="resetBtn">Reset progress</button></div>
+    </div>
+    <div class="prog" style="margin:10px 0 16px"><i id="progBar" style="width:0%"></i></div>
+    <div class="bossgrid" id="bossGrid"></div>
+    <p class="hint" style="margin-top:12px">Progress is saved in this browser only. A boss is defeated only when every one of its questions has been answered correctly. The final boss unlocks when all others fall.</p>
+  </section>
+
+  <section id="scrBattle" class="arena" hidden>
+    <div class="row"><button class="btn" type="button" id="retreatBtn">← Retreat to map</button><span class="combo" id="combo"></span></div>
+    <div class="bars">
+      <div class="fighter"><div id="bSig"></div><div style="min-width:0"><h3 id="bName"></h3><div class="ep" id="bEp"></div><div class="hpbar bh"><i id="bHp"></i></div><div class="hptxt" id="bHpT"></div></div></div>
+      <div class="vs">VS</div>
+      <div class="fighter"><div id="ySig"></div><div style="min-width:0"><h3 id="yName">You</h3><div class="ep" id="yEp"></div><div class="hpbar you"><i id="yHp"></i></div><div class="hptxt" id="yHpT"></div></div></div>
+    </div>
+    <div class="qcard" id="qcard">
+      <div class="flash" id="flash"></div>
+      <div class="qtop"><div class="tags" id="qTags"></div><span class="turn" id="turn"></span></div>
+      <p class="stem" id="stem"></p>
+      <div class="opts" id="opts"></div>
+      <div id="fb"></div>
+      <div class="row"><span class="hint">Keys A–E or 1–5 · Enter for next</span><button class="btn primary" type="button" id="nextBtn" hidden>Next strike →</button></div>
+    </div>
+  </section>
+
+  <section id="scrResult" hidden></section>
+
+  <footer>HoyaDocs · <span id="fTitle"></span> · Updated September 28, 2026 · Revision 1.0. Questions are written from the in-house learning objectives; Step 1 vignettes may reach slightly past the lecture.</footer>
+</div>
+
+<script>
+var G = {"key": "03", "title": "Pharyngeal Gauntlet", "lecture": "HNSS03 · Introduction / Pharyngeal Arches", "accent": "#3fc1b5", "accent2": "#1d6f6a", "tagline": "Eight bosses guard the eight learning objectives of the pharyngeal apparatus. Each falls only when every question it holds is answered correctly.", "final": {"name": "The Branchial Leviathan", "epithet": "Coiled around all six arches", "n": 12}, "bosses": [{"lo": "03.1", "name": "The Week-Keeper", "epithet": "Warden of Weeks 3 to 10", "los": "Locate within a week the formation of the pharyngeal arches", "q": [["S1", "An embryo has three germ layers, a pericardial bulge, open cranial and caudal neuropores, and exactly two pharyngeal arches. No third arch is visible. What is the most likely embryonic age?", ["Week 2", "Weeks 3–3.5", "Week 5", "Weeks 5.5–6", "Week 8"], 1, "Arches 1 and 2 are present by weeks 3–3.5, together with the germ layers, pericardial bulge and neuropores. Arches 3, 4 and 6 appear at week 5."], ["2", "The cartilage that later gives rise to the malleus first populates the mandibular process. Which process is underway at about the same time?", ["Arches 1 and 2 are first appearing", "Neural crest cells are migrating into the arches", "The thymus is reaching the midline", "The tonsillar crypt is hollowing out", "The superior parathyroid is reaching the dorsal thyroid"], 1, "Meckel's cartilage populates the mandibular process by week 4.5; neural crest migration ensues at weeks 4.5–5. Thymus/parathyroid migration finishes at week 10; the tonsillar crypt forms at month 4."], ["2", "The arch whose nerve carries the afferent limb of the gag reflex first becomes visible at approximately which week?", ["Week 3", "Week 4", "Week 5", "Week 8", "Week 10"], 2, "Gag afferent = CN IX = arch 3. Arches 3, 4 and 6 become visible at week 5."], ["2", "A newborn has hypocalcemic seizures and no thymic shadow. The pouch whose derivatives are missing normally completes the caudal migration of its glands by which week?", ["Week 5", "Week 6", "Week 8", "Week 10", "Week 16"], 3, "Pouch 3 glands (thymus, inferior parathyroid) lose their pharyngeal connection and finish migrating by week 10."], ["2", "By which week does each pharyngeal arch first have its own nerve and its own arterial supply?", ["Weeks 3–3.5", "Week 4", "Weeks 4.5–5", "Weeks 5.5–6", "Week 8"], 3, "By weeks 5.5–6 all four cell types have formed arches, pouches and clefts; each arch becomes separately innervated and acquires its own artery."]]}, {"lo": "03.2", "name": "The Triblast Golem", "epithet": "Built of three germ layers", "los": "Cellular and anatomical components of the arches", "q": [["2", "Cells migrate into the arches from the hindbrain and midbrain at weeks 4.5–5. Which germ layer do they come from, and what do they build?", ["Mesoderm — muscles of the face", "Ectoderm — the skeleton of the face", "Endoderm — the pouch glands", "Ectoderm — the muscles of mastication", "Mesoderm — the laryngeal cartilages"], 1, "These are neural crest cells (derived from ectoderm), predetermined to form the skeletal component of the face."], ["S1", "A researcher labels the epithelium lining the indentations on the pharyngeal (inner) surface between the arches. Labeled cells will later be found in which structure?", ["External auditory meatus", "Thymic epithelium", "Masseter muscle", "Malleus", "Stapedius muscle"], 1, "Inner indentations are pouches, lined by endoderm → glands and linings such as the thymus (pouch 3). The meatus is cleft (ectoderm); muscles are mesoderm; ossicles are neural crest."], ["2", "The muscle that tenses the tympanic membrane arises from which component of its arch?", ["Neural crest", "Surface ectoderm", "Pharyngeal endoderm", "Core mesoderm (paraxial + lateral plate)", "Notochord"], 3, "Tensor tympani is an arch 1 muscle. Arch muscles come from the core mesenchyme of paraxial and lateral plate mesoderm; each arch has its own population."], ["2", "Which statement about the pharyngeal apparatus is correct?", ["Pouches are lined by ectoderm", "Clefts are lined by ectoderm and pouches by endoderm", "Arches contain no mesoderm", "Clefts give rise to most of the neck glands", "Adjacent arches share one cranial nerve"], 1, "CAP from outside in: Cleft (ectoderm) → Arch (mesoderm + neural crest) → Pouch (endoderm)."], ["2", "The cartilages of the larynx differ from the skeletal derivatives of arches 1–3 in what way?", ["They form by membrane ossification", "They come from lateral plate mesoderm, not neural crest", "They come from pouch endoderm", "They are innervated by CN IX", "They form after birth"], 1, "Flagged on exam: arch 4/6 cartilages derive from lateral plate mesoderm; neural crest is not involved."]]}, {"lo": "03.3", "name": "Meckel the Jawbreaker", "epithet": "Lord of cartilage, muscle and nerve", "los": "Muscular, skeletal and neural derivatives of each arch", "q": [["S1", "A 45-year-old man has weakness of chewing on the right, and his jaw deviates to the right on opening. Which other muscle is most likely affected by the same lesion?", ["Stapedius", "Tensor tympani", "Stylopharyngeus", "Posterior belly of digastric", "Levator veli palatini"], 1, "Right V3 lesion → pterygoids weak → jaw deviates toward the lesion. Tensor tympani is also arch 1 (V3). The other options are arches 2, 3, 2 and 4."], ["2", "One ossicle does not come from the same cartilage as the malleus. The muscle attached to that ossicle is supplied by which nerve?", ["CN V3", "CN VII", "CN IX", "CN X", "CN XII"], 1, "Malleus/incus come from Meckel's (arch 1). The stapes comes from Reichert's (arch 2); its muscle, stapedius, is CN VII."], ["S1", "After a thyroidectomy, a patient is hoarse and cannot abduct the left vocal fold. The injured nerve belongs to which arch, and which laryngeal muscle is spared?", ["Arch 4 — cricothyroid spared", "Arch 6 — cricothyroid spared", "Arch 6 — posterior cricoarytenoid spared", "Arch 3 — stylopharyngeus spared", "Arch 4 — thyroarytenoid spared"], 1, "Recurrent laryngeal = arch 6 and supplies all intrinsic laryngeal muscles except cricothyroid (arch 4, superior laryngeal)."], ["2", "A mutation disrupts Reichert's cartilage. Which structure would most likely be abnormal?", ["Greater horn of the hyoid", "Lesser horn of the hyoid", "Malleus", "Incus", "Thyroid cartilage"], 1, "Reichert's (arch 2) → stapes, styloid, stylohyoid ligament, lesser horn and upper body of hyoid."], ["2", "Which bone forms from arch 1 neural crest by membrane (intramembranous) ossification?", ["Malleus", "Incus", "Zygomatic", "Stapes", "Greater horn of hyoid"], 2, "Maxillary-process neural crest ossifies directly: premaxilla, maxilla, zygomatic, parts of temporal. Malleus and incus are endochondral from Meckel's."], ["S1", "A patient loses taste and sensation over the posterior third of the tongue and has an absent gag reflex on that side. The only muscle derived from the same arch as this nerve is:", ["Stylohyoid", "Stylopharyngeus", "Styloglossus", "Palatoglossus", "Cricothyroid"], 1, "CN IX = arch 3, whose only muscle is stylopharyngeus."]]}, {"lo": "03.4", "name": "The Pouchmother", "epithet": "Breeder of glands", "los": "Derivatives of each pharyngeal pouch", "q": [["S1", "A 3-year-old has recurrent otitis media. The epithelial lining of the canal connecting the middle ear to the nasopharynx develops from which structure?", ["First cleft ectoderm", "First pouch endoderm", "Second pouch endoderm", "First arch mesoderm", "Otic placode"], 1, "Pouch 1 → tubotympanic recess: distal = tympanic cavity, proximal = eustachian tube."], ["S1", "During a parathyroidectomy, the surgeon finds one parathyroid gland low in the neck, embedded in thymic tissue near the thoracic inlet. This gland most likely arose from which structure?", ["Pouch 2", "Dorsal wing of pouch 3", "Ventral wing of pouch 3", "Dorsal wing of pouch 4", "Ultimobranchial body"], 1, "The inferior parathyroid comes from the dorsal wing of pouch 3 and is dragged down by the thymus (ventral wing of pouch 3), so ectopic inferior glands often sit with thymic tissue."], ["2", "Cells derived from the ventral wing of pouch 4 (ultimobranchial body) secrete a hormone. What is its main action on bone?", ["Stimulates osteoblasts to make osteoid", "Inhibits osteoclast resorption", "Increases renal phosphate wasting", "Stimulates chief cells", "Stimulates follicular cells"], 1, "Ultimobranchial body → thyroid C cells → calcitonin, which prevents bone resorption."], ["S1", "A 40-year-old has a thyroid nodule and markedly elevated serum calcitonin. The tumor's cells arose embryologically from which structure?", ["Foramen cecum endoderm", "Ultimobranchial body", "Dorsal wing of pouch 3", "Pouch 2", "Thyroglossal duct"], 1, "Medullary thyroid carcinoma comes from parafollicular C cells, which enter the thyroid via the ultimobranchial body (pouch 5 / ventral pouch 4)."], ["2", "The palatine tonsil epithelium comes from the pouch lying between which two arches?", ["Arches 1 and 2", "Arches 2 and 3", "Arches 3 and 4", "Arches 4 and 6", "It is not a pouch derivative"], 1, "Pouch 2 sits between arches 2 and 3. Its buds become the palatine tonsil; the crypt forms at month 4."], ["2", "The inferior parathyroid comes from a more cranial pouch than the superior parathyroid. Why does it end up lower?", ["It forms after the superior gland", "The thymus drags it caudally", "The thyroid pushes it down", "It is attached to the aortic arch", "It never migrates"], 1, "Pouch 3 dorsal wing (inferior parathyroid) travels with the thymus (pouch 3 ventral wing) past the pouch 4 gland."]]}, {"lo": "03.5", "name": "The Cervical Sinus", "epithet": "The hollow that should have closed", "los": "Derivatives of each pharyngeal cleft", "q": [["S1", "An 8-year-old has a painless, fluctuant mass along the anterior border of the upper third of the sternocleidomastoid. It enlarged after a cold and does not move with swallowing. Failure of which process?", ["Obliteration of the thyroglossal duct", "Obliteration of the cervical sinus (cleft 2 overgrowth)", "Migration of pouch 3", "Formation of lymphatic sacs", "Closure of the foramen cecum"], 1, "Branchial cleft cyst: lateral, anterior to SCM, doesn't move with swallowing. Cleft 2 normally grows over clefts 3–5 and the enclosed cervical sinus disappears."], ["2", "Which pharyngeal cleft derivative is lined by the same germ layer as the lens of the eye?", ["Tympanic cavity", "External auditory meatus", "Eustachian tube", "Palatine tonsil", "Thymus"], 1, "Cleft 1 → external auditory meatus (ectoderm). The lens is surface ectoderm. The other options are endoderm (pouches)."], ["2", "A membrane formed by cleft 1 and pouch 1 transmits vibration to an ossicle attached at its center. That ossicle comes from which cartilage?", ["Reichert's cartilage", "Meckel's cartilage", "Thyroid cartilage", "Otic capsule", "Cricoid cartilage"], 1, "The tympanic membrane attaches to the handle of the malleus, a Meckel's (arch 1) derivative."], ["2", "Cleft 2 grows caudally over clefts 3–5 and fuses with which structure?", ["Hypobranchial eminence", "Epicardial ridge", "Foramen cecum", "Tuberculum impar", "Laryngotracheal groove"], 1, "Fusion with the epicardial ridge encloses the cervical sinus. This overgrowth figure was called a lecture favorite."], ["S1", "A newborn has a pinpoint opening on the lower neck anterior to the SCM that drains mucoid fluid. A probe tracks upward toward the tonsillar fossa. What is this?", ["Thyroglossal fistula", "Branchial fistula from a persistent cervical sinus", "Cystic hygroma", "Dermoid cyst", "Lingual thyroid"], 1, "A branchial fistula is an abnormal connection between the neck skin and the inside of the neck (here the pouch 2 region), from failure of cleft 2 to cover clefts 3–5."]]}, {"lo": "03.6", "name": "The Hoxlord", "epithet": "Writer of the Hox code", "los": "Hox proteins in arch development", "q": [["2", "Neural crest from rhombomere 4 fails to migrate. Which structure is most likely malformed?", ["Malleus", "Stapes", "Greater horn of hyoid", "Thyroid cartilage", "Zygomatic bone"], 1, "R4 → arch 2 → Reichert's cartilage → stapes (plus styloid, lesser horn)."], ["2", "The arch that forms the incus is patterned mainly by which transcription factor, expressed in neural crest from which region?", ["Hoxa-2 — hindbrain", "OTX2 — forebrain and midbrain", "PAX3 — spinal cord", "Hoxa-3 — rhombomere 6", "TTF-1 — pharyngeal floor"], 1, "Incus = arch 1. OTX2 is the key regulator of arch 1 and is expressed in forebrain- and midbrain-derived neural crest."], ["S1", "Hoxa-3 knockout mice lack a thymus and parathyroid glands. A human infant with the analogous defect would most likely show:", ["Hypercalcemia and B-cell deficiency", "Hypocalcemic tetany and T-cell deficiency", "Microtia with normal immunity", "Cleft lip and normal calcium", "Deafness and a white forelock"], 1, "Hoxa-3 knockout mimics DiGeorge (pouches 3/4): no parathyroids → hypocalcemia; no thymus → T-cell deficiency."], ["2", "How does excess retinoic acid change arch identity?", ["It degrades Hox mRNA", "It binds RAREs in Hox promoters and increases Hox transcription", "It blocks neural crest migration only", "It deletes the Hox cluster", "It inhibits SHH receptors"], 1, "Retinoids bind retinoic acid response elements in Hox promoters; excess hyperactivates them → too much Hox protein."], ["2", "How do the arches acquire distinct identities?", ["Each arch makes its own Hox genes independently of neural crest", "Neural crest carries Hox proteins expressed in a rostrocaudal sequence, setting up a pharyngeal Hox code", "Pouch endoderm secretes identical Hox proteins into every arch", "Hox genes are expressed only in arch 1", "Arteries deliver Hox proteins"], 1, "NC cells carry Hox proteins to each arch; rostrocaudal expression sets up the Hox code."], ["2", "SHH knockout mice are headless. Which statement best explains how SHH relates to arch patterning?", ["SHH is a Hox protein", "SHH regulates Hox genes", "SHH is only needed for limb buds", "SHH inhibits neural crest formation", "SHH binds RAREs"], 1, "SHH has been shown to regulate Hox genes — a master regulator upstream of the Hox code."]]}, {"lo": "03.7", "name": "The Oxidizer", "epithet": "Twin blades of alcohol and retinoid", "los": "Alcohol vs retinoic acid: mechanisms", "q": [["2", "Why are neural crest cells especially vulnerable to alcohol and retinoic acid?", ["They lack DNA mismatch repair", "They are deficient in superoxide dismutase and catalase", "They have no blood supply", "They divide too slowly to repair damage", "They express no Hox genes"], 1, "Low SOD/catalase means they can't scavenge free radicals."], ["S1", "A newborn has a smooth philtrum, thin upper lip, short palpebral fissures and microcephaly. By the mechanism taught in lecture, the causal agent damaged neural crest by:", ["Hyperactivating Hox genes", "Generating reactive oxygen species", "Antagonizing folate", "Deleting 22q11.2", "Mutating Tcof-1"], 1, "Fetal alcohol syndrome. Alcohol acts through ROS only."], ["S1", "A 19-year-old taking isotretinoin for acne becomes pregnant. Her infant has microtia, cleft palate and a conotruncal heart defect. Which mechanism(s) explain the craniofacial defects?", ["ROS only", "Hox hyperactivation only", "ROS and Hox hyperactivation", "Folate antagonism", "Androgen excess"], 2, "Retinoic acid does both: ROS damage to neural crest and hyperactivation of Hox genes via RAREs."], ["2", "Which feature distinguishes retinoic acid teratogenicity from alcohol teratogenicity?", ["Only retinoic acid produces reactive oxygen species", "Only retinoic acid hyperactivates Hox genes", "Only alcohol affects neural crest", "Only alcohol causes facial defects", "Neither affects neural crest"], 1, "Both make ROS; only RA also hyperactivates Hox (flagged on exam)."], ["2", "A hypothetical antioxidant fully blocks free-radical damage in neural crest. What would it prevent?", ["Neither teratogen's effects", "All of alcohol's mechanism but only part of retinoic acid's", "All of retinoic acid's mechanism but none of alcohol's", "Both teratogens completely", "Only Hox hyperactivation"], 1, "Alcohol = ROS only (fully blocked). RA = ROS + Hox (Hox arm remains)."]]}, {"lo": "03.8", "name": "CATCH-22", "epithet": "The syndrome of missing pouches", "los": "Birth defects of arch formation", "q": [["S1", "A 3-day-old has tetany, truncus arteriosus and no thymic shadow on chest X-ray. Which structures failed to develop?", ["Pharyngeal clefts 2–4", "Pharyngeal pouches 3 and 4", "First arch neural crest", "Second arch mesoderm", "The thyroglossal duct"], 1, "DiGeorge (22q11.2): pouches 3 and 4 fail → no parathyroids or thymus; conotruncal defects from neural crest."], ["S1", "For the infant above, which laboratory pattern is expected?", ["↑ Calcium, ↑ PTH", "↓ Calcium, ↓ PTH", "↓ Calcium, ↑ PTH", "↑ Calcium, ↓ PTH", "Normal calcium, ↓ T cells only"], 1, "No parathyroid tissue → low PTH → hypocalcemia."], ["S1", "A child has zygomatic hypoplasia, a small mandible, notched lower eyelids, malformed external ears and conductive hearing loss. Intelligence is normal. The underlying problem is:", ["Failure of pouches 3 and 4", "Defective neural crest migration into arches 1 and 2", "Persistent cervical sinus", "Maternal folate deficiency", "PAX6 mutation"], 1, "Treacher Collins (Tcof-1): neural crest into arches 1–2. Conductive loss comes from malformed ossicles."], ["S1", "A child has a white forelock, hypertelorism and congenital deafness. Which gene is most likely mutated?", ["PAX6", "PAX3", "TCOF1", "TBX1", "SHH"], 1, "Waardenburg syndrome: PAX3, a neural crest defect (cleft palate, deafness, hypertelorism, white forelock)."], ["2", "A branchial fistula results from failure of which arch to grow caudally over the more caudal clefts?", ["Arch 1", "Arch 2", "Arch 3", "Arch 4", "Arch 6"], 1, "The second arch (cleft 2) normally overgrows clefts 3–5; failure leaves a sinus/fistula."]]}]};
+(function(){
+"use strict";
+var KEY="hd-boss-"+G.key+"-v1", L="ABCDE";
+var P={dead:{},best:{},mode:"solo",names:["Player 1","Player 2"]};
+try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.dead)P=Object.assign(P,j);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(P));}catch(e){}}
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){["scrTitle","scrMap","scrBattle","scrResult"].forEach(function(s){$(s).hidden=(s!==id);});window.scrollTo(0,0);}
+
+/* ids */
+var QS=[];G.bosses.forEach(function(b,bi){b.id="b"+bi;b.q.forEach(function(q,qi){QS.push({id:b.id+"."+qi,boss:b,lo:b.lo,k:q[0],stem:q[1],o:q[2],a:q[3],e:q[4]});});b.qs=QS.filter(function(x){return x.boss===b;});});
+var FINAL={id:"final",name:G.final.name,epithet:G.final.epithet,lo:"all",los:"Every learning objective in this lecture",final:true};
+var losSet={};G.bosses.forEach(function(b){losSet[b.lo]=1;});
+
+/* sigil: deterministic SVG emblem per boss */
+function sigil(seed,size,col){var s=0;for(var i=0;i<seed.length;i++)s=(s*31+seed.charCodeAt(i))>>>0;
+  function r(){s=(s*1103515245+12345)>>>0;return s/4294967296;}
+  var n=3+Math.floor(r()*5),rot=r()*360,parts='';
+  for(var k=0;k<3;k++){var rad=44-k*12,pts=[];for(var i=0;i<n;i++){var a=(rot+k*17+i*360/n)*Math.PI/180;pts.push((50+rad*Math.cos(a)).toFixed(1)+","+(50+rad*Math.sin(a)).toFixed(1));}
+    parts+='<polygon points="'+pts.join(" ")+'" fill="'+(k===2?col:"none")+'" fill-opacity="'+(k===2?".35":"0")+'" stroke="'+col+'" stroke-width="'+(3-k*.6)+'" stroke-opacity="'+(1-k*.25)+'"/>';}
+  parts+='<circle cx="50" cy="50" r="'+(6+r()*6).toFixed(1)+'" fill="'+col+'"/>';
+  return '<svg class="sig" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#0d1016" stroke="#2d3644"/>'+parts+'</svg>';}
+
+/* title */
+$("lecName").textContent=G.lecture;$("gTitle").textContent=G.title;$("gTag").textContent=G.tagline;$("fTitle").textContent=G.title;
+$("cQ").textContent=QS.length;$("cB").textContent=G.bosses.length+1;$("cL").textContent=Object.keys(losSet).filter(function(k){return k.slice(-1)!=="X";}).length;
+$("soloBtn").onclick=function(){P.mode="solo";save();openMap();};
+$("coopBtn").onclick=function(){$("coopForm").hidden=false;$("p1").value=P.names[0];$("p2").value=P.names[1];$("p1").focus();};
+$("coopBack").onclick=function(){$("coopForm").hidden=true;};
+$("coopForm").onsubmit=function(e){e.preventDefault();P.mode="coop";P.names=[$("p1").value.trim()||"Player 1",$("p2").value.trim()||"Player 2"];save();openMap();};
+$("modeBtn").onclick=function(){show("scrTitle");};
+$("resetBtn").onclick=function(){var b=this;if(b.dataset.c){P.dead={};P.best={};save();delete b.dataset.c;b.textContent="Reset progress";openMap();return;}
+  b.dataset.c="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.c){delete b.dataset.c;b.textContent="Reset progress";}},3000);};
+
+/* map */
+function openMap(){
+  $("mapMode").textContent=P.mode==="coop"?"Co-op · "+P.names.join(" & "):"Solo campaign";
+  var dead=G.bosses.filter(function(b){return P.dead[b.id];}).length,conq=G.bosses.filter(function(b){return P.dead[b.id];}).reduce(function(s,b){return s+b.qs.length;},0);
+  $("mapProg").textContent=dead+" of "+G.bosses.length+" bosses defeated · "+conq+" of "+QS.length+" questions conquered"+(P.dead.final?" · Final boss slain":"");
+  $("progBar").style.width=Math.round(100*(dead+(P.dead.final?1:0))/(G.bosses.length+1))+"%";
+  var h="";G.bosses.forEach(function(b){var d=P.dead[b.id];
+    h+='<button type="button" class="boss'+(d?" dead":"")+'" data-b="'+b.id+'">'+sigil(b.name,56,d?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim())+
+      '<h3>'+esc(b.name)+'</h3><span class="ep">'+esc(b.epithet)+'</span>'+(d?'<span class="slain">SLAIN</span>':'')+
+      '<span class="lo">'+(b.lo.slice(-1)==="X"?"EXTRA":"LO "+b.lo)+' · '+esc(b.los)+' · '+b.qs.length+' Q</span><span class="hpmini"><i style="width:'+(d?100:100)+'%"></i></span></button>';});
+  var allDead=G.bosses.every(function(b){return P.dead[b.id];});
+  h+='<button type="button" class="boss final'+(P.dead.final?" dead":"")+'" data-b="final"'+(allDead?'':' disabled')+'>'+sigil(FINAL.name,56,"#e3b95c")+
+    '<h3>Final boss · '+esc(FINAL.name)+'</h3><span class="ep">'+esc(FINAL.epithet)+(allDead?'':' — unlocks when every other boss falls')+'</span>'+(P.dead.final?'<span class="slain">SLAIN</span>':'')+
+    '<span class="lo">ALL LOs · '+G.final.n+' random questions from every boss</span><span class="hpmini"><i style="width:100%"></i></span></button>';
+  $("bossGrid").innerHTML=h;
+  $("bossGrid").querySelectorAll(".boss").forEach(function(el){el.onclick=function(){if(el.disabled)return;start(el.dataset.b==="final"?FINAL:G.bosses.filter(function(b){return b.id===el.dataset.b;})[0]);};});
+  show("scrMap");
+}
+
+/* battle */
+var B=null;
+function start(boss){
+  var pool=boss.final?shuffle(QS).slice(0,G.final.n):shuffle(boss.qs);
+  B={boss:boss,queue:pool.slice(),total:pool.length,left:pool.length,hp:100,combo:0,score:0,pscore:[0,0],turn:0,missed:[],cur:null,done:false,right:0,tries:0};
+  $("bSig").innerHTML=sigil(boss.name,64,boss.final?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim());
+  $("ySig").innerHTML=sigil(P.mode==="coop"?P.names.join("&"):"you",64,"#5cc98a");
+  $("bName").textContent=boss.name;$("bEp").textContent=(boss.final?"Final boss · ":"")+boss.epithet;
+  $("yName").textContent=P.mode==="coop"?P.names.join(" & "):"You";$("yEp").textContent=P.mode==="coop"?"Shared HP":"Solo";
+  show("scrBattle");nextQ();
+}
+function bars(){
+  $("bHp").style.width=(100*B.left/B.total)+"%";$("bHpT").textContent=B.left+" / "+B.total+" questions standing";
+  $("yHp").style.width=B.hp+"%";$("yHpT").textContent=B.hp+" / 100 HP";
+  $("combo").textContent=B.combo>=3?"×2 combo · streak "+B.combo:(B.combo?"Streak "+B.combo:"");
+}
+function nextQ(){
+  bars();B.cur=B.queue.shift();var q=B.cur;
+  q._ord=shuffle([0,1,2,3,4]);
+  $("qTags").innerHTML='<span class="tag '+(q.k==="S1"?"s1":"t2")+'">'+(q.k==="S1"?"Step 1":"2nd order")+'</span><span class="tag">'+(q.lo.slice(-1)==="X"?"Extra":"LO "+q.lo)+'</span>'+(B.boss.final?'<span class="tag">'+esc(q.boss.name)+'</span>':'');
+  $("turn").textContent=P.mode==="coop"?P.names[B.turn]+"'s turn":"";
+  $("stem").textContent=q.stem;
+  $("opts").innerHTML=q._ord.map(function(oi,i){return '<button type="button" class="opt" data-oi="'+oi+'"><span class="k">'+L[i]+'</span><span>'+esc(q.o[oi])+'</span></button>';}).join("");
+  $("fb").innerHTML="";$("nextBtn").hidden=true;B.answered=false;
+  $("opts").querySelectorAll(".opt").forEach(function(b){b.onclick=function(){answer(+b.dataset.oi);};});
+  var first=$("opts").querySelector(".opt");if(first)first.focus({preventScroll:true});
+}
+function flash(txt,col){var f=$("flash");f.textContent=txt;f.style.color=col;f.classList.remove("go");void f.offsetWidth;f.classList.add("go");}
+function answer(oi){
+  if(B.answered)return;B.answered=true;var q=B.cur,ok=oi===q.a;B.tries++;
+  $("opts").querySelectorAll(".opt").forEach(function(b){var x=+b.dataset.oi;b.disabled=true;if(x===q.a)b.classList.add("right");else if(x===oi)b.classList.add("wrong");});
+  if(ok){B.left--;B.right++;B.combo++;var pts=(B.combo>=3?20:10);B.score+=pts;B.pscore[B.turn]+=pts;flash(B.combo>=3?"CRITICAL":"HIT","#e3b95c");$("bSig").classList.remove("shake");void $("bSig").offsetWidth;$("bSig").classList.add("shake");}
+  else{B.combo=0;B.hp=Math.max(0,B.hp-25);B.queue.push(q);if(B.missed.indexOf(q)<0)B.missed.push(q);flash("OUCH","#f07b72");$("qcard").classList.remove("shake");void $("qcard").offsetWidth;$("qcard").classList.add("shake");}
+  var right=q.o[q.a],letter=L[q._ord.indexOf(q.a)];
+  $("fb").innerHTML='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Direct hit":"The boss strikes back · −25 HP")+'</span>'+(ok?'':'<span>Answer: <b>'+letter+'. '+esc(right)+'</b>. This question will return.</span>')+'<span>'+esc(q.e)+'</span></div>';
+  bars();
+  var nb=$("nextBtn");nb.hidden=false;
+  if(B.left===0){nb.textContent="Claim victory →";}else if(B.hp===0){nb.textContent="You have fallen →";}else nb.textContent="Next strike →";
+  nb.focus({preventScroll:true});
+}
+$("nextBtn").onclick=function(){
+  if(B.left===0)return end(true);if(B.hp===0)return end(false);
+  if(P.mode==="coop")B.turn=1-B.turn;nextQ();};
+$("retreatBtn").onclick=openMap;
+
+function end(win){
+  var bo=B.boss;if(win){P.dead[bo.id]=true;P.best[bo.id]=Math.max(P.best[bo.id]||0,B.score);save();}
+  var acc=Math.round(100*B.right/Math.max(1,B.tries));
+  var h='<div class="result '+(win?"win":"lose")+'"><p class="meta">'+esc(bo.final?"Final boss":"LO "+bo.lo)+'</p><h2>'+(win?"Victory — "+esc(bo.name)+" is slain":"You have fallen to "+esc(bo.name))+'</h2>'+
+    '<div class="scores"><div><b>'+B.score+'</b><span>Score</span></div><div><b>'+acc+'%</b><span>First-strike accuracy</span></div><div><b>'+B.hp+'</b><span>HP left</span></div>'+
+    (P.mode==="coop"?'<div><b>'+B.pscore[0]+' · '+B.pscore[1]+'</b><span>'+esc(P.names[0])+' · '+esc(P.names[1])+'</span></div>':'')+'</div>';
+  if(!win)h+='<p class="hint">Four wrong answers end the fight. The boss heals fully; review the questions below and try again.</p>';
+  if(B.missed.length){h+='<h3 style="font-size:1.1rem;color:var(--gold)">Worth a second look</h3><div class="review">'+B.missed.map(function(q){return '<article><p class="meta">'+(q.k==="S1"?"Step 1":"2nd order")+' · LO '+esc(q.lo)+'</p><p style="margin:0;font-weight:600">'+esc(q.stem)+'</p><p class="ans" style="margin:0">'+esc(q.o[q.a])+'</p><p style="margin:0;color:var(--muted)">'+esc(q.e)+'</p></article>';}).join("")+'</div>';}
+  else if(win)h+='<p>Flawless — no misses.</p>';
+  h+='<div class="row"><button class="btn" type="button" id="againBtn">'+(win?"Fight again":"Retry")+'</button><button class="btn '+(win?"gold":"primary")+'" type="button" id="mapBtn">Return to map</button></div></div>';
+  $("scrResult").innerHTML=h;show("scrResult");
+  $("againBtn").onclick=function(){start(bo);};$("mapBtn").onclick=openMap;$("mapBtn").focus();
+}
+
+document.addEventListener("keydown",function(ev){
+  if($("scrBattle").hidden||ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){if(!$("nextBtn").hidden){ev.preventDefault();$("nextBtn").click();}return;}
+  var k=ev.key.toUpperCase(),i=L.indexOf(k);if(i<0){var n=parseInt(ev.key,10);if(n>=1&&n<=5)i=n-1;}
+  if(i>=0&&!B.answered){var b=$("opts").querySelectorAll(".opt")[i];if(b)b.click();}
+});
+})();
+</script>

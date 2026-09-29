@@ -1,0 +1,450 @@
+<title>HNSS Neuro Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: toolbar + stats on top; structure list | question card | LO mastery map. Stacks to one column on phones. */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --ink:#18212b; --muted:#5a6570; --line:#dbe0e5; --chip:#eceff2;
+  --arch:#0f6b6b; --face:#7a3b69; --eye:#2c55a0; --accent:#0f6b6b;
+  --ok:#1d7a3e; --ok-bg:#e3f4e8; --bad:#b3261e; --bad-bg:#fbe7e5; --once:#b7791f; --once-bg:#fdf1dc;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --f-display:"Source Serif 4", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.2}
+.meta{font:500 .74rem var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px}
+header h1{font-size:1.9rem}
+header p.lede{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.btn{font:600 .85rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn:focus-visible,.opt:focus-visible,.seg button:focus-visible,.ent:focus-visible,.lo-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hdr-actions{display:flex;gap:8px}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.seg{display:inline-flex;background:var(--chip);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{font:600 .82rem var(--f-body);border:0;background:transparent;color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.seg .lab{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:center;padding:0 6px}
+.stats{display:flex;gap:18px;flex-wrap:wrap}
+.stat b{display:block;font:700 1.15rem var(--f-body);font-variant-numeric:tabular-nums}
+.stat span{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+.main{display:grid;grid-template-columns:250px minmax(0,1fr) 270px;gap:16px;align-items:start}
+@media (max-width:1000px){ .main{grid-template-columns:minmax(0,1fr)} .side{order:2} .map{order:3} }
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px;min-width:0}
+.panel h2{font-size:1rem}
+.lec-h{font:700 .72rem var(--f-body);letter-spacing:.07em;text-transform:uppercase;margin-top:6px}
+.ent{display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;background:transparent;border:1px solid transparent;border-radius:8px;padding:7px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.ent:hover{background:var(--chip)}
+.ent[aria-current="true"]{border-color:var(--lc);background:var(--chip)}
+.ent .n{font-weight:600;font-size:.9rem}
+.ent .s{grid-column:1;font-size:.75rem;color:var(--muted)}
+.ent .pct{grid-row:1/3;grid-column:2;align-self:center;font:500 .75rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.ent .mini{grid-column:1/3;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ent .mini i{display:block;height:100%;background:var(--lc)}
+.l03{--lc:var(--arch)} .l04{--lc:var(--face)} .l18{--lc:var(--eye)}
+.l09{--lc:var(--eye)} .l12{--lc:var(--face)} .l07{--lc:var(--arch)} .l08{--lc:var(--face)} .l17{--lc:var(--eye)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--lc);border-radius:12px;padding:18px;display:grid;gap:14px;min-width:0}
+.card-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline}
+.card-top h2{font-size:1.35rem}
+.tag{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.lo{color:var(--lc)}
+.tag.hy{background:var(--hy-bg);color:var(--hy-ink);border:1px solid var(--hy-line)}
+.boxes{display:flex;gap:4px;flex-wrap:wrap}
+.boxes i{width:18px;height:6px;border-radius:3px;background:var(--line)}
+.boxes i.done-ok{background:var(--ok)} .boxes i.done-bad{background:var(--bad)} .boxes i.cur{background:var(--lc)}
+.q{font:600 1.08rem/1.45 var(--f-body);margin:0}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--lc)}
+.opt .k{font:500 .75rem var(--f-mono);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-top:1px}
+.opt.sel{border-color:var(--lc);background:var(--chip)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.missed{border-color:var(--ok);border-style:dashed}
+.opt[disabled]{cursor:default}
+.ordered{display:grid;gap:6px;counter-reset:ord;padding:0;margin:0;list-style:none;min-height:44px;border:1.5px dashed var(--line);border-radius:10px;padding:8px}
+.ordered li{counter-increment:ord;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--chip);border-radius:8px;padding:7px 10px;cursor:pointer}
+.ordered li::before{content:counter(ord);font:500 .78rem var(--f-mono);color:var(--lc)}
+.ordered li.right{background:var(--ok-bg)} .ordered li.wrong{background:var(--bad-bg)}
+.ordered .empty{color:var(--muted);font-size:.85rem;padding:4px}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg)} .fb.bad{background:var(--bad-bg)}
+.fb .v{font-weight:700}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.fb ol{margin:0;padding-left:1.2em}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.timer{font:500 .8rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.done{display:grid;gap:10px;text-align:left}
+
+.lo-grid{display:grid;gap:6px}
+.lo-tile{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;width:100%;background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.lo-tile:hover{border-color:var(--lc)}
+.lo-tile .id{font:500 .72rem var(--f-mono);color:var(--lc);white-space:nowrap}
+.lo-tile .t{font-size:.78rem;line-height:1.3}
+.lo-tile .dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.s-o{background:var(--once)} .dot.s-m{background:var(--bad)} .dot.s-M{background:var(--ok)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.72rem;color:var(--muted)}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--line)}
+.legend i.o{background:var(--once)} .legend i.m{background:var(--bad)} .legend i.M{background:var(--ok)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion: no-preference){ .opt,.ent,.lo-tile{transition:border-color .12s, background .12s} }
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <p class="meta">HoyaDocs · Block 5 · HNSS07 · HNSS08 · HNSS17</p>
+    <h1>HNSS Neuro Builder</h1>
+    <p class="lede">Build each structure box by box, or drill everything you have missed. Every box is tied to a learning objective, and the map on the right tracks all 14.</p>
+  </div>
+  <div class="hdr-actions">
+    <button class="btn" id="themeBtn" type="button">Theme: auto</button>
+    <button class="btn" id="resetBtn" type="button">Reset progress</button>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="seg" role="group" aria-label="Mode">
+    <span class="lab">Mode</span>
+    <button type="button" data-mode="build" aria-pressed="true">Build</button>
+    <button type="button" data-mode="drill" aria-pressed="false">Drill</button>
+  </div>
+  <div class="seg" role="group" aria-label="Lecture scope" id="scopeSeg">
+    <span class="lab">Scope</span>
+    <button type="button" data-scope="all" aria-pressed="true">All</button>
+    <button type="button" data-scope="07" aria-pressed="false">Brain</button><button type="button" data-scope="08" aria-pressed="false">Development</button><button type="button" data-scope="17" aria-pressed="false">Vascular</button>
+  </div>
+  <div class="stats" aria-live="polite">
+    <div class="stat"><b id="sScore">0</b><span>Score</span></div>
+    <div class="stat"><b id="sStreak">0</b><span>Streak</span></div>
+    <div class="stat"><b id="sAcc">—</b><span>Accuracy</span></div>
+    <div class="stat"><b id="sBoxes">0</b><span>Boxes mastered</span></div>
+    <div class="stat"><b id="sLos">—</b><span>LOs mastered</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <aside class="panel side" aria-label="Structures">
+    <h2>Structures</h2>
+    <div id="entList"></div>
+  </aside>
+  <section class="card" id="card" aria-live="polite"></section>
+  <aside class="panel map" aria-label="Learning objective mastery map">
+    <h2>LO mastery map</h2>
+    <div class="legend"><span><i></i>untested</span><span><i class="m"></i>missed</span><span><i class="o"></i>got it once</span><span><i class="M"></i>mastered</span></div>
+    <p class="hint">Tap an LO to drill just that objective. Mastered = right twice in a row.</p>
+    <div class="lo-grid" id="loGrid"></div>
+  </aside>
+</div>
+
+<footer>HoyaDocs · HNSS Neuro Builder · Updated September 28, 2026 · Revision 1.0. Yellow "HY" tags mark points flagged as on the exam or Step 1 high yield.</footer>
+</div>
+
+<script>
+var LOS = {
+ "07.1":"Organization and basic anatomy of the brain",
+ "07.2":"Anatomy and functions of each brain region",
+ "07.3":"Brain disorders presented in lecture",
+ "07.4":"Principles of brain dysfunction (networks)",
+ "08.1":"Stages of brain development and their failures",
+ "08.2":"Environmental cues: teratogens and genetic malfunctions",
+ "08.3":"Outcomes of deficits at different stages",
+ "17.1":"Blood–brain barrier and CNS entry",
+ "17.2":"Delivery of nutrients and oxygen to the CNS",
+ "17.3":"Major CNS arteries and what they perfuse",
+ "17.4":"Types of CNS vascular compromise",
+ "17.5":"Major veins and sinuses of the CNS",
+ "17.6":"CSF production, composition, flow and clearance",
+ "17.7":"Hydrocephalus: types, symptoms and treatment"
+};
+var LECS = [ {k:"07", n:"The Brain"}, {k:"08", n:"Brain Development"}, {k:"17", n:"Vascular & Ventricular"} ];
+var E = [
+{id:"org", lec:"07", name:"Brain organization", sub:"Meninges, divisions, sections", b:[
+ {t:"o", lo:"07.1", q:"Order the meninges from outside in.", a:["Dura mater","Arachnoid mater","Pia mater"], w:"CSF sits in the subarachnoid space between arachnoid and pia."},
+ {lo:"07.1", q:"Which meninx forms infoldings like the falx cerebri and holds the sinuses?", a:"Dura mater", o:["Arachnoid","Pia","Ependyma"], w:"Two thick layers, four infoldings."},
+ {t:"m", lo:"07.1", q:"Select ALL parts of the rhombencephalon.", a:["Pons","Cerebellum","Medulla"], o:["Thalamus","Midbrain","Cerebral cortex"], w:"Metencephalon (pons, cerebellum) + myelencephalon (medulla)."},
+ {lo:"07.1", q:"Prosencephalon becomes…", a:"Telencephalon + diencephalon", o:["Midbrain","Pons + cerebellum","Medulla"], w:"Mesencephalon = midbrain."},
+ {lo:"07.1", q:"Landmark for brain sections?", a:"Corpus callosum", o:["Pineal gland","Internal capsule","Fourth ventricle"], w:"Coronal, sagittal, horizontal (axial)."},
+ {lo:"07.1", q:"Internal capsule and corpus callosum are…", a:"White matter (tract and commissure)", o:["Gray matter nuclei","Meninges","Ventricles"], w:"White matter connects gray matter structures."}
+]},
+{id:"tel", lec:"07", name:"Telencephalon & diencephalon", sub:"Cortex, nuclei, thalamus", b:[
+ {t:"m", lo:"07.2", q:"Select ALL parts of the telencephalon.", a:["Cerebral cortex","Hippocampus","Amygdala","Caudate (basal ganglia)","Internal capsule"], o:["Thalamus","Substantia nigra"], w:"Two hemispheres: cortex, subcortical nuclei, white matter."},
+ {lo:"07.2", hy:true, q:"Basal ganglia are…", a:"NOT just motor — also memory, executive and language", o:["Purely motor","Purely sensory","Part of the brainstem"], w:"Flagged on exam."},
+ {t:"m", lo:"07.2", q:"Select ALL four diencephalon divisions.", a:["Thalamus","Hypothalamus","Subthalamus","Epithalamus"], o:["Tectum","Tegmentum"], w:"Epithalamus = habenula + pineal."},
+ {lo:"07.2", q:"Thalamus function?", a:"Relay and gatekeeper to cortex", o:["Circadian rhythm","Feeding and fever","Reward learning"], w:"Sensory, motor, cognitive, limbic."},
+ {lo:"07.2", q:"Hypothalamus functions?", a:"Feeding, feelings, fever, mating, sleep", o:["Vision and audition","Gait","Breathing rate"], w:"4 Fs + S; includes the pituitary."},
+ {lo:"07.2", q:"Pineal gland?", a:"Epithalamus — circadian rhythms (melatonin)", o:["Hypothalamus — feeding","Thalamus — relay","Midbrain — vision"], w:"Habenula: diverse behaviors."}
+]},
+{id:"stem", lec:"07", name:"Brainstem & cerebellum", sub:"Midbrain, pons, medulla, cerebellum", b:[
+ {t:"m", lo:"07.2", q:"Select ALL structures of the midbrain tegmentum.", a:["Red nucleus","Substantia nigra","Periaqueductal gray","Ventral tegmental area","Raphe nuclei","Edinger-Westphal nucleus"], o:["Superior colliculus","Locus coeruleus"], w:"Colliculi are the tectum; locus coeruleus is pontine."},
+ {lo:"07.2", q:"Superior vs inferior colliculus?", a:"Superior = vision · inferior = audition", o:["Superior = audition","Both motor","Both pain"], w:"The tectum (roof)."},
+ {lo:"07.2", q:"Which pairing is correct?", a:"VTA — reward learning", o:["Red nucleus — thermoregulation","Raphe — gait","PAG — vision"], w:"Red nucleus: coordination/gait; PAG: autonomic + pain; raphe: thermoregulation."},
+ {lo:"07.2", q:"Main brain source of norepinephrine?", a:"Locus coeruleus (pons)", o:["Raphe (midbrain)","Substantia nigra","Arcuate nucleus"], w:"Arousal."},
+ {lo:"07.2", hy:true, q:"Which structure can you NOT survive without?", a:"Medulla", o:["Cerebellum","Pons","Thalamus"], w:"Flagged on exam: autonomic control of breathing, heart rate, BP."},
+ {lo:"07.2", q:"Cranial nerve nuclei: pons vs medulla?", a:"Pons V–VIII · medulla IX–XI", o:["Pons IX–XI · medulla V–VIII","Both III–IV","Pons I–II"], w:"Arcuate nucleus in medulla controls breathing rate."},
+ {t:"o", lo:"07.2", q:"Order the deep cerebellar nuclei medial → lateral.", a:["Fastigial","Globose","Emboliform","Dentate"], w:"Fat Guys Eat Donuts."},
+ {t:"m", lo:"07.2", q:"Select ALL three cerebellar lobes.", a:["Anterior","Posterior","Flocculonodular"], o:["Vermis","Tonsillar"], w:"The vermis separates the hemispheres."}
+]},
+{id:"dis", lec:"07", name:"Brain disorders & principles", sub:"Six disorders, four rules", b:[
+ {lo:"07.3", q:"Parkinson disease begins with loss of…", a:"Dopaminergic neurons of the substantia nigra pars compacta", o:["Caudate GABA neurons","Cerebellar Purkinje cells","Locus coeruleus"], w:"Motor, cognitive, mood, smell and sleep symptoms."},
+ {lo:"07.3", q:"Huntington disease degenerates…", a:"Basal ganglia (caudate) and other structures", o:["Substantia nigra only","Cerebellum","Medulla"], w:"Chorea + memory, executive, language problems."},
+ {lo:"07.3", q:"Pituitary adenoma causes…", a:"Bitemporal hemianopia ± Cushing syndrome", o:["Homonymous hemianopia","Hearing loss","Ataxia"], w:"Compresses the optic chiasm; 17% prevalence."},
+ {lo:"07.3", q:"Pontine stroke causes…", a:"Weakness on BOTH sides, diplopia, numbness, imbalance", o:["Pure aphasia","Chorea","Bitemporal hemianopia"], w:"Basilar branch territory."},
+ {lo:"07.3", q:"Medulloblastoma?", a:"Cerebellar tumor of children; can block the 4th ventricle", o:["Adult pituitary tumor","Benign meningioma","Spinal tumor"], w:"~70% 5-year survival; surgery + chemo."},
+ {t:"m", lo:"07.4", hy:true, q:"Select ALL four principles of brain dysfunction.", a:["Damage to different structures often impacts different functions","Which structure is damaged matters more than what caused it","Damage to one structure often affects more than one function","Damage to distinct structures can impact the same function (networks)"], o:["The cause matters more than the location","Each function lives in exactly one structure"], w:"Flagged on exam."}
+]},
+{id:"early", lec:"08", name:"Early development", sub:"Induction, neurulation, vesicles", b:[
+ {t:"o", lo:"08.1", q:"Order the stages of brain development.", a:["Neural induction","Neurulation","Brain divisions (vesicles)","Proliferation and migration","Axon guidance","Neuronal competition","Synaptogenesis","Myelination","Synaptic pruning"], w:"Myelination and synaptogenesis continue into childhood."},
+ {lo:"08.1", q:"Neural induction requires…", a:"BMP inhibitors (Noggin) from the organizer", o:["More BMP","SHH from the roof plate","Retinoic acid only"], w:"BMP-exposed ectoderm becomes epidermis."},
+ {lo:"08.3", q:"Failure of neural induction leads to…", a:"Spontaneous abortion", o:["Spina bifida","Lissencephaly","Hydrocephalus"], w:"An extra organizer → conjoined twins."},
+ {lo:"08.1", q:"Neurulation timing?", a:"Weeks 3–4", o:["Week 1","Weeks 7–18","Postnatal"], w:"Rostral → brain; caudal → spinal cord."},
+ {lo:"08.2", q:"Match signaling center to molecule.", a:"Floor plate — SHH · roof plate — BMPs + retinoic acid · somites — BMPs", o:["Floor plate — BMP · roof plate — SHH","Somites — SHH · floor plate — RA","All secrete Noggin"], w:"SHH is the most important inducer."},
+ {t:"m", lo:"08.1", q:"Select ALL five secondary vesicles.", a:["Telencephalon","Diencephalon","Mesencephalon","Metencephalon","Myelencephalon"], o:["Prosencephalon","Rhombencephalon"], w:"Prosencephalon and rhombencephalon are primary vesicles."}
+]},
+{id:"late", lec:"08", name:"Migration to pruning", sub:"Building the cortex", b:[
+ {lo:"08.1", q:"Where do cortical progenitors divide?", a:"Ventricular zone", o:["Marginal zone","Pia","Subarachnoid space"], w:"Symmetric then asymmetric division; weeks 7–18."},
+ {lo:"08.1", q:"Asymmetric division produces…", a:"One progenitor + one non-dividing neuron", o:["Two neurons","Two progenitors","One glial cell only"], w:"The neuron migrates outward."},
+ {lo:"08.1", q:"Cortical layers form…", a:"Inside-out: deepest first", o:["Outside-in","All at once","Randomly"], w:"Excitatory neurons climb radial glia; inhibitory migrate tangentially."},
+ {lo:"08.2", q:"DCX vs Reelin?", a:"DCX moves neurons along glia · Reelin detaches them at the right place", o:["DCX detaches · Reelin moves","Both make myelin","Both are BMP inhibitors"], w:"Defects → lissencephaly."},
+ {lo:"08.1", q:"What decides which neurons survive?", a:"Limited neurotrophic factors from targets", o:["Myelination","CSF flow","Radial glia"], w:"NGF, BDNF, NT-3, NT-4/5, BMPs, hedgehogs, TGF-β, interleukins."},
+ {lo:"08.1", q:"Postnatal cortical growth is mostly…", a:"Dendritic growth, spines and synapses", o:["New neurons","New ventricles","Glial scarring"], w:"Not neurogenesis."},
+ {lo:"08.1", q:"Which region is still maturing at 21?", a:"Prefrontal cortex (and superior temporal lobe)", o:["Primary visual cortex","Primary motor cortex","Brainstem"], w:"Primary sensory and motor areas mature by ~4."}
+]},
+{id:"terat", lec:"08", name:"Teratogens & genes", sub:"Environmental and genetic disruption", b:[
+ {lo:"08.2", q:"Most common infectious cause of birth defects in the US?", a:"CMV", o:["Rubella","Zika","Toxoplasma"], w:"Hearing loss, developmental delay, microcephaly."},
+ {t:"m", lo:"08.2", q:"Select ALL named risk factors for neural tube defects.", a:["Low folate","Maternal insulin-dependent diabetes","Certain anticonvulsants"], o:["High folate","Maternal hypothyroidism"], w:"~3,000 US pregnancies/year affected."},
+ {lo:"08.2", q:"Isotretinoin disrupts which signal?", a:"Roof-plate retinoic acid", o:["Floor-plate SHH","Organizer Noggin","Reelin"], w:"Don't use in pregnancy."},
+ {lo:"08.2", q:"Why do effects of alcohol differ with timing?", a:"The time of interference determines which function is affected", o:["Alcohol changes chemically","The placenta blocks it later","It doesn't vary"], w:"General principle."},
+ {lo:"08.2", q:"Ephrins decide…", a:"Which optic fibers cross at the chiasm", o:["Cortical layer order","Myelin thickness","CSF production"], w:"Eph receptors and ephrins as gradient cues."},
+ {lo:"08.2", q:"DCC mutation causes…", a:"Agenesis of the corpus callosum", o:["Lissencephaly","Anencephaly","Rett syndrome"], w:"Axon guidance failure."}
+]},
+{id:"outcome", lec:"08", name:"Developmental outcomes", sub:"Which stage failed?", b:[
+ {lo:"08.3", q:"Spina bifida and anencephaly come from failure of…", a:"Neurulation", o:["Migration","Pruning","Induction"], w:"Weeks 3–4."},
+ {lo:"08.3", q:"Smooth brain with seizures comes from failure of…", a:"Neuronal migration", o:["Neurulation","Myelination","Induction"], w:"Lissencephaly."},
+ {lo:"08.3", q:"Fragile X vs Rett spines?", a:"Fragile X ↑ spine density · Rett ↓", o:["Both ↑","Both ↓","Fragile X ↓ · Rett ↑"], w:"Spine number must be just right."},
+ {lo:"08.3", q:"Agenesis of the corpus callosum often first presents as…", a:"A seizure in the first two years", o:["Hydrocephalus at birth","Blindness","Deafness"], w:"May be asymptomatic."}
+]},
+{id:"bbb", lec:"17", name:"Barrier & fuel", sub:"BBB, circumventricular organs, oxygen", b:[
+ {lo:"17.1", q:"BBB endothelium has…", a:"Tight junctions and no fenestrations", o:["Large fenestrations","No basement membrane","Sinusoids"], w:"Blocks large, charged, hydrophilic molecules."},
+ {t:"m", lo:"17.1", q:"Select ALL that cross the BBB easily.", a:["L-dopa","Estrogen","Small lipophilic molecules"], o:["Large charged proteins","Fexofenadine (designed not to)"], w:"Glucose needs facilitated transport."},
+ {lo:"17.1", q:"Area postrema?", a:"Circumventricular organ that triggers vomiting to blood toxins", o:["Makes CSF","Makes melatonin","Blocks drugs"], w:"Incomplete barrier."},
+ {lo:"17.1", q:"Subfornical organ and OVLT?", a:"Water and ion balance; fever and sickness behavior", o:["Vomiting","Melatonin","Vision"], w:"Hypothalamic circumventricular organs."},
+ {lo:"17.2", q:"Brain share of O₂ and calories?", a:"~20% (at 2% of body weight)", o:["2%","50%","5%"], w:"Unconscious in ~10 s; damage after ~6 min."},
+ {lo:"17.2", q:"Main brain fuel?", a:"Glucose (supplemented by lactate and ketones)", o:["Fatty acids","Amino acids","Glycogen stores"], w:"Facilitated transport across the BBB."}
+]},
+{id:"art", lec:"17", name:"Arteries", sub:"Circle of Willis and territories", b:[
+ {lo:"17.3", hy:true, q:"Anterior vs posterior circulation?", a:"Anterior from internal carotids · posterior from vertebrals", o:["Anterior from vertebrals","Both from external carotids","Posterior from ICA"], w:"Circle of Willis — flagged as guaranteed on the exam."},
+ {t:"m", lo:"17.3", q:"Select ALL vessels that form the Circle of Willis.", a:["Anterior cerebral arteries","Anterior communicating artery","Internal carotid arteries","Posterior communicating arteries","Posterior cerebral arteries"], o:["Middle meningeal artery","Vertebral arteries"], w:"MCAs branch off the circle; vertebrals join to form the basilar."},
+ {lo:"17.3", q:"ACA vs MCA vs PCA territories?", a:"ACA medial (leg) · MCA lateral (face, arm, language) · PCA occipital", o:["ACA occipital · PCA medial","MCA leg · ACA face","All supply the cerebellum"], w:"Localize by deficit."},
+ {lo:"17.3", q:"Vertebral artery course?", a:"Subclavian → transverse foramina → foramen magnum → basilar", o:["Carotid canal → Circle","Jugular foramen → sinus","Foramen ovale → pons"], w:"Dissection with neck trauma."},
+ {lo:"17.3", q:"Pontine infarction comes from which artery's branches?", a:"Basilar (short circumferential)", o:["ACA","MCA","PICA"], w:"From lecture."},
+ {lo:"17.3", q:"Anterior spinal artery supplies…", a:"Anterior 2/3 of the spinal cord", o:["Dorsal columns","Cerebellum","Occipital lobe"], w:"Posterior spinal arteries supply the back."},
+ {lo:"17.3", q:"Watershed areas are…", a:"Border zones between major cerebral artery territories", o:["The Circle of Willis","Venous sinuses","The choroid plexus"], w:"Vulnerable in hypotension."}
+]},
+{id:"comp", lec:"17", name:"Vascular compromise", sub:"Clot, rupture, malformation", b:[
+ {lo:"17.4", q:"Embolism vs thrombosis?", a:"Embolus travels and lodges · thrombus forms in place", o:["Both are ruptures","Thrombosis travels","Embolism only in veins"], w:"Both → ischemic stroke."},
+ {lo:"17.4", q:"Aneurysms are usually found…", a:"At branch points; clipped at the stalk", o:["Mid-vessel; stented","In veins","In capillaries"], w:"Asymptomatic until rupture."},
+ {lo:"17.4", q:"AVM?", a:"Artery-to-vein tangle; seizures, headache; surgical removal", o:["Clot in a sinus","A benign tumor","A ruptured aneurysm"], w:"Raises pressure on veins and sinuses."},
+ {lo:"17.4", q:"Dural fistula?", a:"Meningeal arteries connect straight into a dural sinus", o:["Aneurysm of the MCA","Blocked aqueduct","Choroid plexus tumor"], w:"The lecture case: a whooshing bruit in one ear."},
+ {t:"m", lo:"17.4", q:"Select ALL intracranial hemorrhage types.", a:["Intraparenchymal","Intraventricular","Subarachnoid","Subdural","Epidural"], o:["Intracochlear"], w:"Treat: control BP, lower ICP, evacuate hematoma."}
+]},
+{id:"veins", lec:"17", name:"Veins & sinuses", sub:"Drainage to the jugular", b:[
+ {lo:"17.5", q:"Dural sinuses are…", a:"Spaces between dural layers with no valves", o:["Muscular veins with valves","Arteries","Lymphatics"], w:"Flow is not unidirectional."},
+ {t:"o", lo:"17.5", q:"Order deep venous drainage.", a:["Internal cerebral veins","Great cerebral vein","Straight sinus","Confluence of sinuses","Transverse sinus","Sigmoid sinus","Internal jugular vein"], w:"The inferior sagittal sinus also joins the straight sinus."},
+ {lo:"17.5", q:"Which sinus receives CSF via arachnoid granulations?", a:"Superior sagittal sinus", o:["Straight sinus","Sigmoid sinus","Cavernous sinus"], w:"Granulations only project there."},
+ {lo:"17.5", q:"Petrosal sinuses drain…", a:"Separately into the internal jugular vein", o:["Into the straight sinus","Into the confluence","Into the SSS"], w:"Superior and inferior petrosal."}
+]},
+{id:"csf", lec:"17", name:"CSF", sub:"Made, moved, absorbed", b:[
+ {lo:"17.6", q:"CSF is made by…", a:"Specialized ependymal cells of the choroid plexus", o:["Arachnoid granulations","Astrocytes","Dural sinuses"], w:"Lateral, 3rd and 4th ventricles."},
+ {lo:"17.6", q:"CSF volume, production and pressure?", a:"~150 mL · 400–500 mL/day · 70–180 mm H₂O", o:["~1 L · 100 mL/day · 5 mm H₂O","~50 mL · 50 mL/day · 300 mm H₂O","~500 mL · 5 L/day · 20 mm Hg"], w:"Turns over several times a day."},
+ {t:"o", lo:"17.6", q:"Order CSF flow.", a:["Lateral ventricles","Interventricular foramina","Third ventricle","Cerebral aqueduct","Fourth ventricle","Subarachnoid space","Arachnoid granulations","Superior sagittal sinus"], w:"CSF pressure > venous → one-way."},
+ {lo:"17.6", q:"Compared with plasma, CSF has…", a:"Less K⁺, Ca²⁺, protein and cells", o:["More protein","More cells","Identical composition"], w:"~34 mg/dL protein vs ~6500."},
+ {lo:"17.6", q:"LP: cloudy with neutrophils?", a:"Bacterial meningitis", o:["Active MS","SAH","Metastasis"], w:"Lymphocytes/IgG = MS; RBCs = SAH."}
+]},
+{id:"hydro", lec:"17", name:"Hydrocephalus", sub:"Obstructive, communicating, NPH", b:[
+ {lo:"17.7", q:"Obstructive vs communicating hydrocephalus?", a:"Obstructive: blocked within ventricles · communicating: blocked absorption into veins", o:["Reversed","Both at the choroid plexus","Both normal pressure"], w:"From lecture."},
+ {t:"m", lo:"17.7", q:"Select ALL causes of communicating hydrocephalus.", a:["Congenital absence of arachnoid villi","RBCs after hemorrhage blocking villi","Protein after infection blocking villi"], o:["Aqueduct stenosis","Foramen of Monro tumor"], w:"The other two are obstructive."},
+ {lo:"17.7", q:"NPH triad?", a:"Urinary incontinence, dementia, gait problems", o:["Headache, vomiting, papilledema","Vertigo, tinnitus, hearing loss","Fever, stiff neck, rash"], w:"Wet, wacky, wobbly; usually elderly."},
+ {lo:"17.7", q:"CSF shunt?", a:"Drains ventricle to peritoneum through an adjustable valve", o:["Removes the choroid plexus","Connects ventricle to sinus by laser","Blocks the aqueduct"], w:"50–80% success."}
+]}
+];
+
+(function(){
+"use strict";
+var KEY="hd-hnss-neuro-builder-v1";
+var S={box:{},score:0,streak:0,best:0,tot:0,right:0,theme:"auto"};
+function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.box)S=Object.assign(S,j);}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+load();
+
+var ALL=[]; E.forEach(function(e){e.b.forEach(function(b,i){b.id=e.id+"."+i;b.ent=e;ALL.push(b);});});
+function st(b){var r=S.box[b.id];return r?r.s:"u";}
+var mode="build", scope="all", loFilter=null, curEnt=null, idx=0, cur=null, answered=false, results={}, lastId=null, t0=0, tick=null;
+
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function inScope(b){return (scope==="all"||b.ent.lec===scope)&&(!loFilter||b.lo===loFilter);}
+
+/* ---------- theme ---------- */
+var themeBtn=document.getElementById("themeBtn");
+function applyTheme(){var r=document.documentElement;if(S.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",S.theme);themeBtn.textContent="Theme: "+S.theme;}
+themeBtn.onclick=function(){S.theme={auto:"light",light:"dark",dark:"auto"}[S.theme];applyTheme();save();};
+applyTheme();
+document.getElementById("resetBtn").onclick=function(){
+  var b=this; if(b.dataset.confirm){S.box={};S.score=S.streak=S.tot=S.right=0;save();b.textContent="Reset progress";delete b.dataset.confirm;renderAll();next();return;}
+  b.dataset.confirm="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.confirm){delete b.dataset.confirm;b.textContent="Reset progress";}},3000);
+};
+
+/* ---------- stats / side / map ---------- */
+function loStatus(lo){var bs=ALL.filter(function(b){return b.lo===lo;});var ss=bs.map(st);
+  var m=ss.filter(function(x){return x==="M";}).length;
+  if(m===bs.length)return{s:"M",m:m,n:bs.length};
+  if(ss.indexOf("m")>=0)return{s:"m",m:m,n:bs.length};
+  if(ss.some(function(x){return x!=="u";}))return{s:"o",m:m,n:bs.length};
+  return{s:"u",m:m,n:bs.length};}
+function renderStats(){
+  document.getElementById("sScore").textContent=S.score;
+  document.getElementById("sStreak").textContent=S.streak;
+  document.getElementById("sAcc").textContent=S.tot?Math.round(100*S.right/S.tot)+"%":"—";
+  document.getElementById("sBoxes").textContent=ALL.filter(function(b){return st(b)==="M";}).length+"/"+ALL.length;
+  var los=Object.keys(LOS);document.getElementById("sLos").textContent=los.filter(function(l){return loStatus(l).s==="M";}).length+"/"+los.length;
+}
+function renderSide(){
+  var h="";LECS.forEach(function(L){if(scope!=="all"&&scope!==L.k)return;
+    h+='<p class="lec-h l'+L.k+'" style="color:var(--lc)">HNSS'+L.k+' · '+esc(L.n)+'</p>';
+    E.filter(function(e){return e.lec===L.k;}).forEach(function(e){
+      var m=e.b.filter(function(b){return st(b)==="M";}).length,p=Math.round(100*m/e.b.length);
+      h+='<button type="button" class="ent l'+e.lec+'" data-ent="'+e.id+'"'+(curEnt===e&&mode==="build"?' aria-current="true"':'')+'><span class="n">'+esc(e.name)+'</span><span class="pct">'+m+'/'+e.b.length+'</span><span class="s">'+esc(e.sub)+'</span><span class="mini"><i style="width:'+p+'%"></i></span></button>';
+    });});
+  var el=document.getElementById("entList");el.innerHTML=h;
+  el.querySelectorAll(".ent").forEach(function(b){b.onclick=function(){setMode("build");startEnt(E.filter(function(e){return e.id===b.dataset.ent;})[0]);};});
+}
+function renderMap(){
+  var h="";Object.keys(LOS).forEach(function(lo){var lec=lo.split(".")[0];if(scope!=="all"&&scope!==lec)return;var s=loStatus(lo);
+    h+='<button type="button" class="lo-tile l'+lec+'" data-lo="'+lo+'"'+(loFilter===lo?' style="border-color:var(--lc)"':'')+'><span class="id">'+(lo.slice(-1)==="X"?"Extra":"LO "+lo)+'</span><span class="t">'+esc(LOS[lo])+'</span><span class="dot s-'+s.s+'" title="'+s.m+'/'+s.n+' mastered"></span></button>';});
+  var g=document.getElementById("loGrid");g.innerHTML=h;
+  g.querySelectorAll(".lo-tile").forEach(function(b){b.onclick=function(){loFilter=(loFilter===b.dataset.lo?null:b.dataset.lo);setMode("drill");};});
+}
+function renderAll(){renderStats();renderSide();renderMap();}
+
+/* ---------- flow ---------- */
+function setMode(m){mode=m;document.querySelectorAll("[data-mode]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.mode===m));});
+  if(m==="build"){loFilter=null;renderAll();if(!curEnt||!inScope(curEnt.b[0]))startEnt(firstEnt());else show();}
+  else{renderAll();next();}}
+function firstEnt(){var es=E.filter(function(e){return scope==="all"||e.lec===scope;});
+  for(var i=0;i<es.length;i++){if(es[i].b.some(function(b){return st(b)!=="M";}))return es[i];}return es[0];}
+document.querySelectorAll("[data-mode]").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode);};});
+document.querySelectorAll("[data-scope]").forEach(function(b){b.onclick=function(){scope=b.dataset.scope;loFilter=null;
+  document.querySelectorAll("[data-scope]").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+  if(mode==="build"){curEnt=null;setMode("build");}else setMode("drill");};});
+
+function startEnt(e){curEnt=e;idx=0;results={};renderSide();cur=e.b[0];show();}
+function next(){
+  if(mode==="build"){idx++;if(idx>=curEnt.b.length){finishEnt();return;}cur=curEnt.b[idx];show();return;}
+  var pool=ALL.filter(inScope);if(!pool.length){cur=null;show();return;}
+  var rank={m:0,u:1,o:2,M:3};
+  pool=shuffle(pool).sort(function(a,b){return rank[st(a)]-rank[st(b)];});
+  var best=rank[st(pool[0])];var top=pool.filter(function(b){return rank[st(b)]===best&&b.id!==lastId;});
+  if(best===3)top=pool.filter(function(b){return b.id!==lastId;});
+  cur=(top.length?top:pool)[0];show();
+}
+function finishEnt(){
+  var ok=Object.keys(results).filter(function(k){return results[k];}).length,n=curEnt.b.length;
+  var i=E.indexOf(curEnt),nxt=null;for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){nxt=c;break;}}
+  var card=document.getElementById("card");card.className="card l"+curEnt.lec;
+  card.innerHTML='<div class="done"><p class="meta">Structure complete</p><h2>'+esc(curEnt.name)+': '+ok+' / '+n+' first try</h2>'+
+   '<p class="hint">'+(ok===n?"Clean build. It will count as mastered after one more clean pass.":"Missed boxes are queued first in Drill mode.")+'</p>'+
+   '<div class="actions"><button class="btn" type="button" id="again">Rebuild '+esc(curEnt.name)+'</button>'+(nxt?'<button class="btn primary" type="button" id="nextEnt">Next: '+esc(nxt.name)+' →</button>':'')+'</div></div>';
+  document.getElementById("again").onclick=function(){startEnt(curEnt);};
+  if(nxt)document.getElementById("nextEnt").onclick=function(){startEnt(nxt);};
+  var ne=document.getElementById("nextEnt");if(ne)ne.focus();
+}
+
+var picks=[];
+function show(){
+  answered=false;picks=[];clearInterval(tick);
+  var card=document.getElementById("card");
+  if(!cur){card.className="card";card.innerHTML='<p class="q">Nothing in this scope yet.</p>';return;}
+  var b=cur,e=b.ent;card.className="card l"+e.lec;
+  var head='<div class="card-top"><div><p class="meta">'+(mode==="build"?"Build · box "+(idx+1)+" of "+e.b.length:"Drill"+(loFilter?" · LO "+loFilter:""))+'</p><h2>'+esc(e.name)+'</h2></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag lo">'+(b.lo.slice(-1)==="X"?"Extra":"LO "+b.lo)+'</span>'+(b.hy?'<span class="tag hy">HY</span>':'')+'<span class="timer" id="timer">0.0s</span></div></div>';
+  if(mode==="build"){head+='<div class="boxes" aria-hidden="true">'+e.b.map(function(x,i){var c=i===idx?"cur":(x.id in results?(results[x.id]?"done-ok":"done-bad"):"");return '<i class="'+c+'"></i>';}).join("")+'</div>';}
+  var body='<p class="q">'+esc(b.q)+'</p>';
+  if(!b.t){b._opts=shuffle([b.a].concat(b.o));
+    body+='<div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else if(b.t==="m"){b._opts=shuffle(b.a.concat(b.o));
+    body+='<p class="hint">Select all that apply, then check.</p><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" aria-pressed="false" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else{b._opts=shuffle(b.a);
+    body+='<p class="hint">Tap items in order. Tap a placed item to remove it.</p><ol class="ordered" id="ordList"><li class="empty" style="cursor:default">Your order appears here</li></ol><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">+</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  var act='<div id="fb"></div><div class="actions"><span class="hint">'+(b.t?"Enter to check":"Keys 1–"+b._opts.length+" to answer")+'</span><div style="display:flex;gap:8px">'+
+    (mode==="build"?'<button class="btn" type="button" id="skipBtn">Skip structure</button>':'')+
+    (b.t?'<button class="btn primary" type="button" id="checkBtn"'+(b.t==="o"?" disabled":"")+'>Check</button>':'')+
+    '<button class="btn primary" type="button" id="nextBtn" hidden>Next box →</button></div></div>';
+  card.innerHTML=head+body+act;
+  t0=Date.now();tick=setInterval(function(){var t=document.getElementById("timer");if(t)t.textContent=((Date.now()-t0)/1000).toFixed(1)+"s";},100);
+  var opts=card.querySelectorAll(".opt");
+  if(!b.t)opts.forEach(function(o){o.onclick=function(){if(!answered)grade([+o.dataset.i]);};});
+  else if(b.t==="m")opts.forEach(function(o){o.onclick=function(){if(answered)return;var on=o.getAttribute("aria-pressed")!=="true";o.setAttribute("aria-pressed",String(on));o.classList.toggle("sel",on);};});
+  else opts.forEach(function(o){o.onclick=function(){if(answered||o.disabled)return;picks.push(+o.dataset.i);o.disabled=true;o.style.opacity=".4";drawOrd();};});
+  var cb=document.getElementById("checkBtn");if(cb)cb.onclick=function(){if(answered)return;
+    if(b.t==="m"){var sel=[];opts.forEach(function(o){if(o.getAttribute("aria-pressed")==="true")sel.push(+o.dataset.i);});grade(sel);}else grade(picks);};
+  var sk=document.getElementById("skipBtn");if(sk)sk.onclick=function(){var i=E.indexOf(curEnt);for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){startEnt(c);return;}}};
+  document.getElementById("nextBtn").onclick=function(){lastId=cur.id;next();};
+}
+function drawOrd(){var b=cur,ol=document.getElementById("ordList");
+  ol.innerHTML=picks.length?picks.map(function(i,k){return '<li data-k="'+k+'">'+esc(b._opts[i])+'</li>';}).join(""):'<li class="empty" style="cursor:default">Your order appears here</li>';
+  ol.querySelectorAll("li[data-k]").forEach(function(li){li.onclick=function(){if(answered)return;var k=+li.dataset.k,i=picks[k];picks.splice(k,1);
+    var o=document.querySelector('.opt[data-i="'+i+'"]');o.disabled=false;o.style.opacity="";drawOrd();};});
+  document.getElementById("checkBtn").disabled=picks.length!==b.a.length;}
+
+function grade(sel){
+  answered=true;clearInterval(tick);var b=cur,ok,card=document.getElementById("card"),opts=card.querySelectorAll(".opt");
+  if(!b.t){ok=b._opts[sel[0]]===b.a;opts.forEach(function(o){var t=b._opts[+o.dataset.i];o.disabled=true;if(t===b.a)o.classList.add("right");else if(+o.dataset.i===sel[0])o.classList.add("wrong");});}
+  else if(b.t==="m"){var chosen=sel.map(function(i){return b._opts[i];});ok=chosen.length===b.a.length&&chosen.every(function(c){return b.a.indexOf(c)>=0;});
+    opts.forEach(function(o){var t=b._opts[+o.dataset.i],isA=b.a.indexOf(t)>=0,isS=chosen.indexOf(t)>=0;o.disabled=true;o.classList.remove("sel");
+      if(isA&&isS)o.classList.add("right");else if(isA)o.classList.add("missed");else if(isS)o.classList.add("wrong");});}
+  else{var got=sel.map(function(i){return b._opts[i];});ok=got.every(function(g,k){return g===b.a[k];});
+    document.querySelectorAll("#ordList li[data-k]").forEach(function(li,k){li.classList.add(got[k]===b.a[k]?"right":"wrong");});
+    opts.forEach(function(o){o.disabled=true;});}
+  var r=S.box[b.id]||{n:0,c:0,s:"u"};r.n++;
+  if(ok){r.c++;r.s=r.c>=2?"M":"o";S.streak++;S.best=Math.max(S.best,S.streak);S.right++;S.score+=10+Math.min(S.streak,10);}
+  else{r.c=0;r.s="m";S.streak=0;}
+  S.tot++;S.box[b.id]=r;if(!(b.id in results))results[b.id]=ok;save();
+  var fb='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Correct":"Not quite")+'</span>';
+  if(!ok){if(!b.t)fb+='<span>Answer: <b>'+esc(b.a)+'</b></span>';else if(b.t==="m")fb+='<span>Answer: <b>'+b.a.map(esc).join(" · ")+'</b></span>';else fb+='<span>Correct order:</span><ol>'+b.a.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';}
+  fb+='<span>'+esc(b.w)+'</span></div>';
+  document.getElementById("fb").innerHTML=fb;
+  var cb=document.getElementById("checkBtn");if(cb)cb.hidden=true;
+  var nb=document.getElementById("nextBtn");nb.hidden=false;nb.textContent=(mode==="build"&&idx===curEnt.b.length-1)?"Finish structure →":"Next box →";nb.focus();
+  renderAll();
+}
+document.addEventListener("keydown",function(ev){
+  if(ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){var nb=document.getElementById("nextBtn"),cb=document.getElementById("checkBtn");
+    if(nb&&!nb.hidden){ev.preventDefault();nb.click();}else if(cb&&!cb.hidden&&!cb.disabled){ev.preventDefault();cb.click();}return;}
+  var n=parseInt(ev.key,10);if(!cur||answered||isNaN(n))return;var o=document.querySelector('.opt[data-i="'+(n-1)+'"]');if(o&&!o.disabled)o.click();
+});
+
+renderAll();startEnt(firstEnt());
+})();
+</script>

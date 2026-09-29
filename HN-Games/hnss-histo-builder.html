@@ -1,0 +1,437 @@
+<title>HNSS Histo Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: toolbar + stats on top; structure list | question card | LO mastery map. Stacks to one column on phones. */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --ink:#18212b; --muted:#5a6570; --line:#dbe0e5; --chip:#eceff2;
+  --arch:#0f6b6b; --face:#7a3b69; --eye:#2c55a0; --accent:#0f6b6b;
+  --ok:#1d7a3e; --ok-bg:#e3f4e8; --bad:#b3261e; --bad-bg:#fbe7e5; --once:#b7791f; --once-bg:#fdf1dc;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --f-display:"Source Serif 4", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.2}
+.meta{font:500 .74rem var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px}
+header h1{font-size:1.9rem}
+header p.lede{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.btn{font:600 .85rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn:focus-visible,.opt:focus-visible,.seg button:focus-visible,.ent:focus-visible,.lo-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hdr-actions{display:flex;gap:8px}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.seg{display:inline-flex;background:var(--chip);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{font:600 .82rem var(--f-body);border:0;background:transparent;color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.seg .lab{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:center;padding:0 6px}
+.stats{display:flex;gap:18px;flex-wrap:wrap}
+.stat b{display:block;font:700 1.15rem var(--f-body);font-variant-numeric:tabular-nums}
+.stat span{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+.main{display:grid;grid-template-columns:250px minmax(0,1fr) 270px;gap:16px;align-items:start}
+@media (max-width:1000px){ .main{grid-template-columns:minmax(0,1fr)} .side{order:2} .map{order:3} }
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px;min-width:0}
+.panel h2{font-size:1rem}
+.lec-h{font:700 .72rem var(--f-body);letter-spacing:.07em;text-transform:uppercase;margin-top:6px}
+.ent{display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;background:transparent;border:1px solid transparent;border-radius:8px;padding:7px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.ent:hover{background:var(--chip)}
+.ent[aria-current="true"]{border-color:var(--lc);background:var(--chip)}
+.ent .n{font-weight:600;font-size:.9rem}
+.ent .s{grid-column:1;font-size:.75rem;color:var(--muted)}
+.ent .pct{grid-row:1/3;grid-column:2;align-self:center;font:500 .75rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.ent .mini{grid-column:1/3;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ent .mini i{display:block;height:100%;background:var(--lc)}
+.l03{--lc:var(--arch)} .l04{--lc:var(--face)} .l18{--lc:var(--eye)}
+.l09{--lc:var(--eye)} .l12{--lc:var(--face)} .l07{--lc:var(--arch)} .l08{--lc:var(--face)} .l17{--lc:var(--eye)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--lc);border-radius:12px;padding:18px;display:grid;gap:14px;min-width:0}
+.card-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline}
+.card-top h2{font-size:1.35rem}
+.tag{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.lo{color:var(--lc)}
+.tag.hy{background:var(--hy-bg);color:var(--hy-ink);border:1px solid var(--hy-line)}
+.boxes{display:flex;gap:4px;flex-wrap:wrap}
+.boxes i{width:18px;height:6px;border-radius:3px;background:var(--line)}
+.boxes i.done-ok{background:var(--ok)} .boxes i.done-bad{background:var(--bad)} .boxes i.cur{background:var(--lc)}
+.q{font:600 1.08rem/1.45 var(--f-body);margin:0}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--lc)}
+.opt .k{font:500 .75rem var(--f-mono);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-top:1px}
+.opt.sel{border-color:var(--lc);background:var(--chip)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.missed{border-color:var(--ok);border-style:dashed}
+.opt[disabled]{cursor:default}
+.ordered{display:grid;gap:6px;counter-reset:ord;padding:0;margin:0;list-style:none;min-height:44px;border:1.5px dashed var(--line);border-radius:10px;padding:8px}
+.ordered li{counter-increment:ord;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--chip);border-radius:8px;padding:7px 10px;cursor:pointer}
+.ordered li::before{content:counter(ord);font:500 .78rem var(--f-mono);color:var(--lc)}
+.ordered li.right{background:var(--ok-bg)} .ordered li.wrong{background:var(--bad-bg)}
+.ordered .empty{color:var(--muted);font-size:.85rem;padding:4px}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg)} .fb.bad{background:var(--bad-bg)}
+.fb .v{font-weight:700}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.fb ol{margin:0;padding-left:1.2em}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.timer{font:500 .8rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.done{display:grid;gap:10px;text-align:left}
+
+.lo-grid{display:grid;gap:6px}
+.lo-tile{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;width:100%;background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.lo-tile:hover{border-color:var(--lc)}
+.lo-tile .id{font:500 .72rem var(--f-mono);color:var(--lc);white-space:nowrap}
+.lo-tile .t{font-size:.78rem;line-height:1.3}
+.lo-tile .dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.s-o{background:var(--once)} .dot.s-m{background:var(--bad)} .dot.s-M{background:var(--ok)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.72rem;color:var(--muted)}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--line)}
+.legend i.o{background:var(--once)} .legend i.m{background:var(--bad)} .legend i.M{background:var(--ok)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion: no-preference){ .opt,.ent,.lo-tile{transition:border-color .12s, background .12s} }
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <p class="meta">HoyaDocs · Block 5 · HNSS09 · HNSS12</p>
+    <h1>HNSS Histo Builder</h1>
+    <p class="lede">Build each structure box by box, or drill everything you have missed. Every box is tied to a learning objective, and the map on the right tracks all 10.</p>
+  </div>
+  <div class="hdr-actions">
+    <button class="btn" id="themeBtn" type="button">Theme: auto</button>
+    <button class="btn" id="resetBtn" type="button">Reset progress</button>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="seg" role="group" aria-label="Mode">
+    <span class="lab">Mode</span>
+    <button type="button" data-mode="build" aria-pressed="true">Build</button>
+    <button type="button" data-mode="drill" aria-pressed="false">Drill</button>
+  </div>
+  <div class="seg" role="group" aria-label="Lecture scope" id="scopeSeg">
+    <span class="lab">Scope</span>
+    <button type="button" data-scope="all" aria-pressed="true">All</button>
+    <button type="button" data-scope="09" aria-pressed="false">Eye &amp; Ear</button><button type="button" data-scope="12" aria-pressed="false">Oral</button>
+  </div>
+  <div class="stats" aria-live="polite">
+    <div class="stat"><b id="sScore">0</b><span>Score</span></div>
+    <div class="stat"><b id="sStreak">0</b><span>Streak</span></div>
+    <div class="stat"><b id="sAcc">—</b><span>Accuracy</span></div>
+    <div class="stat"><b id="sBoxes">0</b><span>Boxes mastered</span></div>
+    <div class="stat"><b id="sLos">—</b><span>LOs mastered</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <aside class="panel side" aria-label="Structures">
+    <h2>Structures</h2>
+    <div id="entList"></div>
+  </aside>
+  <section class="card" id="card" aria-live="polite"></section>
+  <aside class="panel map" aria-label="Learning objective mastery map">
+    <h2>LO mastery map</h2>
+    <div class="legend"><span><i></i>untested</span><span><i class="m"></i>missed</span><span><i class="o"></i>got it once</span><span><i class="M"></i>mastered</span></div>
+    <p class="hint">Tap an LO to drill just that objective. Mastered = right twice in a row.</p>
+    <div class="lo-grid" id="loGrid"></div>
+  </aside>
+</div>
+
+<footer>HoyaDocs · HNSS Histo Builder · Updated September 28, 2026 · Revision 1.0. Yellow "HY" tags mark points flagged as on the exam or Step 1 high yield.</footer>
+</div>
+
+<script>
+var LOS = {
+ "09.1":"Three layers of the eye: histology and function",
+ "09.2":"Other structures of the eye (lens, lids, conjunctiva, lacrimal)",
+ "09.3":"The three parts of the ear",
+ "09.4":"Sensory components of the inner ear",
+ "12.1":"Structures of the oral cavity",
+ "12.2":"Features and functions of oral structures",
+ "12.3":"Development and organization of the teeth",
+ "12.4":"Tongue, lingual papillae and taste buds",
+ "12.5":"Types of salivary glands",
+ "12.6":"Structure and function of the pharynx"
+};
+var LECS = [ {k:"09", n:"Eye & Ear Histology"}, {k:"12", n:"Oral Structures"} ];
+var E = [
+{id:"cornea", lec:"09", name:"Cornea", sub:"Fibrous tunic, front 1/6", b:[
+ {t:"o", lo:"09.1", q:"Order the corneal layers from outside to inside.", a:["Epithelium","Bowman's membrane","Stroma (substantia propria)","Descemet's membrane","Endothelium"], w:"Epithelium → Bowman's → stroma → Descemet's → endothelium."},
+ {lo:"09.1", q:"Corneal epithelium is which type?", a:"Non-keratinized stratified squamous", o:["Simple squamous","Keratinized stratified squamous","Pseudostratified columnar"], w:"Transparent, avascular, densely innervated."},
+ {lo:"09.1", hy:true, q:"Why can corneas be transplanted so successfully?", a:"The cornea is avascular", o:["It has no nerves","It lacks collagen","It is keratinized"], w:"Flagged on exam."},
+ {lo:"09.1", q:"Which layer is ~90% of corneal thickness?", a:"Stroma — collagen lamellae at right angles", o:["Epithelium","Descemet's membrane","Bowman's membrane"], w:"Orthogonal lamellae give transparency."},
+ {lo:"09.1", q:"Thickest basement membrane in the body, made by the endothelium?", a:"Descemet's membrane", o:["Bowman's membrane","Bruch's membrane","Basilar membrane"], w:"Maintains the cornea."},
+ {lo:"09.1", q:"What does the simple squamous corneal endothelium do?", a:"Keeps aqueous out of the stroma so the cornea stays clear", o:["Secretes aqueous humor","Produces tears","Anchors zonules"], w:"Failure → corneal edema (Fuchs)."},
+ {lo:"09.1", q:"The sclera is made of what?", a:"Dense connective tissue with flat type I collagen bundles", o:["Elastic cartilage","Loose vascular connective tissue","Smooth muscle"], w:"Posterior 5/6 of the fibrous tunic, few vessels."}
+]},
+{id:"uvea", lec:"09", name:"Uvea", sub:"Vascular tunic", b:[
+ {t:"m", lo:"09.1", q:"Select ALL parts of the uvea.", a:["Choroid","Ciliary body","Iris"], o:["Sclera","Cornea","Retina"], w:"Fibrous tunic = sclera + cornea; neural = retina."},
+ {lo:"09.1", q:"The choroid is best described as…", a:"Loose, highly vascular connective tissue with melanocytes", o:["Dense collagen","Stratified epithelium","Smooth muscle sheet"], w:"Choriocapillaris + stroma; nourishes outer retina; source of uveal melanoma."},
+ {lo:"09.1", q:"The ciliary muscle is which muscle type, controlled how?", a:"Smooth muscle — parasympathetic via ciliary ganglion", o:["Skeletal — CN III directly","Smooth — sympathetic","Skeletal — CN VII"], w:"Contracts for accommodation."},
+ {lo:"09.1", q:"The ciliary processes are covered by…", a:"A double epithelium: pigmented outer, non-pigmented inner", o:["Simple squamous endothelium","Stratified squamous","Goblet-cell epithelium"], w:"They secrete aqueous and anchor zonules."},
+ {lo:"09.1", q:"Sphincter vs dilator pupillae on cross-section?", a:"Sphincter = small rings (parasympathetic) · dilator = longitudinal band (sympathetic)", o:["Sphincter = band (sympathetic) · dilator = rings","Both rings, both parasympathetic","Both skeletal"], w:"Pupil constriction tests CN III."},
+ {lo:"09.1", q:"What sets eye color?", a:"Amount of melanin in the iris pigment epithelium", o:["Thickness of the cornea","Blood in the choroid","Lens crystallins"], w:"Less → blue, more → brown, none → pink (albino)."},
+ {t:"o", lo:"09.1", q:"Order the aqueous humor pathway.", a:["Ciliary processes secrete aqueous","Posterior chamber","Through the pupil","Anterior chamber","Trabecular meshwork / canal of Schlemm","Venous blood"], w:"Blocked drainage → glaucoma."}
+]},
+{id:"retina", lec:"09", name:"Retina", sub:"Neural tunic", b:[
+ {t:"o", lo:"09.1", q:"Order the retinal layers from outside (choroid side) to inside.", a:["Pigment epithelium","Photoreceptor segments","Outer nuclear layer","Outer plexiform layer","Inner nuclear layer","Inner plexiform layer","Ganglion cell layer"], w:"Light passes through the inner layers first."},
+ {lo:"09.1", q:"What does the RPE do?", a:"Absorbs stray light, phagocytoses photoreceptor discs, recycles pigment", o:["Secretes aqueous","Forms the optic nerve","Detects color"], w:"With Bruch's membrane = blood–retina barrier."},
+ {lo:"09.1", q:"Which nuclei are in the inner nuclear layer?", a:"Bipolar, horizontal, amacrine and Müller cells", o:["Rods and cones","Ganglion cells","RPE cells"], w:"Outer nuclear layer holds photoreceptor nuclei."},
+ {lo:"09.1", q:"Rods vs cones?", a:"Rods: dim/peripheral, rhodopsin, ~120 million · cones: color/acuity, ~5 million", o:["Rods: color · cones: night vision","Both mainly in the fovea","Cones outnumber rods"], w:"Fovea is cones only."},
+ {lo:"09.1", q:"Why is the fovea the sharpest point?", a:"Cones only, avascular, inner layers displaced", o:["Rods only","Thickest retina","Contains the optic disc"], w:"The macula lutea surrounds it."},
+ {lo:"09.1", q:"Why is the optic disc a blind spot?", a:"It has no photoreceptors — the optic nerve exits there", o:["It is covered by the lens","It has only rods","It lacks blood supply"], w:"Central retinal artery enters here."},
+ {lo:"09.1", q:"Retinal detachment separates which layers?", a:"Neural retina from the RPE", o:["Choroid from sclera","Cornea from sclera","Lens from vitreous"], w:"The old optic-cup layers."},
+ {lo:"09.1", q:"The ora serrata marks…", a:"Where the neural retina ends at the ciliary body", o:["The fovea's edge","The corneoscleral junction","The optic disc"], w:"Retina continues forward as a non-neural double epithelium."}
+]},
+{id:"adnexa", lec:"09", name:"Lens & adnexa", sub:"Lens, lids, conjunctiva, lacrimal", b:[
+ {lo:"09.2", q:"The lens is made of…", a:"A capsule (type IV collagen), simple cuboidal epithelium and crystallin-filled fibers", o:["Stratified squamous epithelium","Dense collagen","Smooth muscle"], w:"The lens is NOT lined by pigmented epithelium."},
+ {lo:"09.2", q:"Zonule fibers are made of…", a:"Oxytalin microfibrils", o:["Type I collagen","Elastic cartilage","Keratin"], w:"They suspend the lens from the ciliary processes."},
+ {lo:"09.2", q:"Conjunctiva epithelium?", a:"Stratified columnar with goblet cells", o:["Keratinized squamous","Simple cuboidal","Transitional"], w:"Mucin keeps the eye moist."},
+ {t:"m", lo:"09.2", q:"Select ALL sebaceous glands of the eyelid.", a:["Meibomian gland","Gland of Zeis"], o:["Gland of Moll","Lacrimal gland","Von Ebner gland"], w:"Moll = apocrine sweat gland."},
+ {lo:"09.2", q:"Meibomian glands secrete…", a:"An oily layer that slows tear evaporation", o:["Watery tears","Mucin","Aqueous humor"], w:"In the tarsal plate; blockage = chalazion."},
+ {lo:"09.2", q:"Lacrimal gland location and type?", a:"Upper lateral orbit — serous compound tubuloalveolar", o:["Lower medial — mucous","Upper medial — sebaceous","Inside the tarsal plate — apocrine"], w:"Canaliculi drain from the lower medial corner."},
+ {lo:"09.2", q:"Cataract is…", a:"Clouding of the lens from oxidized lens proteins", o:["Blocked canal of Schlemm","Choroidal neovascularization","Corneal edema"], w:"Treated with an intraocular lens implant."}
+]},
+{id:"outmid", lec:"09", name:"Outer & middle ear", sub:"Pinna to ossicles", b:[
+ {t:"m", lo:"09.3", q:"Select ALL features of the external auditory meatus.", a:["Stratified squamous epithelium","Hair follicles","Sebaceous glands","Ceruminous glands","Cartilage"], o:["Goblet cells","Otoliths"], w:"Ceruminous glands are modified apocrine sweat glands."},
+ {lo:"09.3", q:"The pinna is…", a:"Elastic cartilage covered by skin", o:["Hyaline cartilage","Fibrocartilage","Bone"], w:"Auricular hematoma = wrestler's ear."},
+ {lo:"09.3", q:"Ceruminous vs sebaceous glands on a slide?", a:"Ceruminous glands are larger, deeper and paler", o:["Ceruminous are smaller and darker","They look identical","Sebaceous are tubular"], w:"From the student HY notes."},
+ {t:"o", lo:"09.3", q:"Order the tympanic membrane layers from outside in.", a:["Epidermis","Collagenous connective tissue","Cuboidal/squamous epithelium"], w:"Ectoderm, mesoderm, endoderm."},
+ {lo:"09.3", q:"Stapedius vs tensor tympani?", a:"Stapedius (VII) dampens loud sound · tensor tympani (V3) dampens chewing", o:["Both VII","Stapedius V3 · tensor VII","Both amplify sound"], w:"Stapedius is the smallest muscle in the body."},
+ {lo:"09.3", q:"The eustachian tube…", a:"Connects the middle ear to the nasopharynx and equalizes pressure", o:["Drains endolymph","Carries CN VIII","Opens into the oral cavity"], w:"Opens during swallowing; route for otitis media."},
+ {t:"o", lo:"09.3", q:"Order the ossicles along the sound path.", a:["Malleus","Incus","Stapes"], w:"Stapes footplate vibrates the oval window."}
+]},
+{id:"inner", lec:"09", name:"Inner ear", sub:"Cochlea and vestibule", b:[
+ {t:"m", lo:"09.4", q:"Select ALL perilymph-filled compartments.", a:["Scala vestibuli","Scala tympani"], o:["Scala media","Cochlear duct"], w:"Scala media holds endolymph."},
+ {lo:"09.4", q:"What secretes endolymph?", a:"Stria vascularis", o:["Choroid plexus","Organ of Corti","Spiral ganglion"], w:"Lateral wall of the scala media."},
+ {lo:"09.4", q:"The Organ of Corti sits in which compartment, on what?", a:"Scala media, on the basilar membrane", o:["Scala tympani, on the tectorial membrane","Vestibule, on the macula","Scala vestibuli, on the helicotrema"], w:"Stereocilia embed in the tectorial membrane."},
+ {lo:"09.4", q:"Inner vs outer hair cells?", a:"Inner transmit to the spiral ganglion · outer amplify", o:["Inner amplify · outer transmit","Both transmit","Both amplify"], w:"From the student HY notes."},
+ {lo:"09.4", q:"Macula vs crista ampullaris?", a:"Macula: otoliths, linear acceleration · crista: cupula, rotation", o:["Macula: cupula · crista: otoliths","Both use otoliths","Both sense sound"], w:"Maculae in utricle/saccule; cristae in canal ampullae."},
+ {lo:"09.4", q:"What happens when stereocilia bend toward the kinocilium?", a:"Channels open → depolarization", o:["Hyperpolarization","No change","The cupula detaches"], w:"Away from it → hyperpolarization."},
+ {t:"o", lo:"09.4", q:"Order the cochlear sound path.", a:["Oval window","Scala vestibuli","Helicotrema (apex)","Scala tympani","Round window"], w:"Hair cells in the scala media respond at the frequency's location."}
+]},
+{id:"mucosa", lec:"12", name:"Oral mucosa & lips", sub:"Spaces, mucosa, lips, palate", b:[
+ {t:"m", lo:"12.1", q:"Select ALL spaces of the oral region.", a:["Vestibule","Oral cavity proper","Pharynx"], o:["Larynx","Nasal vestibule"], w:"Three spaces in lecture."},
+ {lo:"12.1", q:"The parotid (Stensen's) duct opens into which space?", a:"Oral vestibule, opposite the upper 2nd molar", o:["Floor of the mouth","Oropharynx","Oral cavity proper, under the tongue"], w:"The vestibule lies between cheeks/lips and teeth."},
+ {lo:"12.1", q:"Which ducts open into the floor of the mouth?", a:"Submandibular (Wharton's) and sublingual (Bartholin's)", o:["Parotid (Stensen's)","Nasolacrimal","Von Ebner"], w:"Sublingual ducts open behind the submandibular ducts."},
+ {lo:"12.2", q:"Typical oral mucosa is…", a:"Non-keratinized stratified squamous with no strata", o:["Keratinized with four strata","Simple columnar","Pseudostratified"], w:"A wet mucosa."},
+ {t:"m", lo:"12.2", q:"Select ALL oral surfaces that may be keratinized.", a:["Gingiva","Hard palate","Dorsal tongue"], o:["Ventral tongue","Floor of mouth","Soft palate"], w:"Masticatory (friction) surfaces."},
+ {lo:"12.2", q:"Why is sublingual drug delivery fast?", a:"Floor of mouth and ventral tongue mucosa are highly permeable", o:["Taste buds absorb drugs","The area is keratinized","Salivary ducts absorb drugs"], w:"Permeable, thin, non-keratinized."},
+ {lo:"12.2", q:"The vermilion zone…", a:"Is red from capillaries and has no hair or sweat glands", o:["Is keratinized skin with hair","Has many mucous glands","Is lined by respiratory epithelium"], w:"Transition keratinized → non-keratinized."},
+ {lo:"12.2", q:"Hard vs soft palate?", a:"Hard: keratinized, bound to periosteum, mucous glands · soft: many taste buds, uvula", o:["Hard has taste buds; soft keratinized","Both identical","Soft is bony"], w:"Hard = anterior 2/3; soft = posterior 1/3."}
+]},
+{id:"tooth", lec:"12", name:"Tooth", sub:"Enamel to periodontal ligament", b:[
+ {t:"o", lo:"12.3", q:"Order a developing tooth from surface to center.", a:["Ameloblasts","Enamel","Dentin","Predentin","Odontoblasts","Pulp"], w:"From the student HY notes."},
+ {lo:"12.3", q:"Enamel is…", a:"95% hydroxyapatite in enamel rods, made by ameloblasts", o:["70% hydroxyapatite, made by odontoblasts","Bone-like, made by cementocytes","Collagen, made by fibroblasts"], w:"Hardest, most calcified tissue."},
+ {lo:"12.3", q:"Why can't enamel repair itself?", a:"Ameloblasts degenerate at tooth eruption", o:["It has no blood supply","Odontoblasts die","Fluoride blocks repair"], w:"Classic question."},
+ {lo:"12.3", q:"Dentin is…", a:"70% hydroxyapatite + type I collagen, made by odontoblasts", o:["95% hydroxyapatite","Made by ameloblasts","Woven bone"], w:"Dentinal tubules hold odontoblast processes."},
+ {lo:"12.3", q:"Cementum…", a:"Covers root dentin and anchors Sharpey's fibers", o:["Covers the crown","Fills the pulp","Is made by ameloblasts"], w:"Made by cementocytes."},
+ {lo:"12.3", q:"The periodontal ligament is actually…", a:"The periosteum of the alveolar bone", o:["Part of the gingiva","A tendon","Pulp tissue"], w:"A shock absorber allowing slight movement."},
+ {t:"m", lo:"12.3", q:"Match development: select ALL correct pairs.", a:["Enamel organ (ectoderm) → enamel","Dental papilla (mesoderm) → dentin and pulp","Dental sac → cementoblasts and PDL"], o:["Dental papilla → enamel","Enamel organ → pulp"], w:"Stages: bud → cap → bell; begins weeks 6–7."},
+ {lo:"12.3", q:"32 permanent teeth: how many molars, and do they have deciduous precursors?", a:"12 — no deciduous precursors", o:["8 — yes","12 — yes","20 — no"], w:"20 deciduous teeth."},
+ {lo:"12.3", q:"Dentigerous cyst: where and what can it become?", a:"Around an impacted crown — ameloblastoma, SCC or mucoepidermoid carcinoma", o:["Root apex — osteosarcoma","Gingiva — melanoma","Pulp — lymphoma"], w:"Most common non-inflammatory odontogenic cyst."}
+]},
+{id:"tongue", lec:"12", name:"Tongue & taste", sub:"Papillae, taste buds, lingual tonsil", b:[
+ {lo:"12.4", hy:true, q:"Tongue muscle histology?", a:"Skeletal muscle bundles in three planes", o:["Smooth muscle","Cardiac muscle","One-plane skeletal"], w:"Flagged on exam."},
+ {lo:"12.4", q:"Filiform papillae…", a:"Are most numerous, keratinized and have NO taste buds", o:["Have most taste buds","Are mushroom-shaped","Line the sulcus terminalis"], w:"Friction papillae."},
+ {lo:"12.4", q:"Fungiform papillae…", a:"Are mushroom-shaped, near the tip, with a few taste buds", o:["Have no taste buds","Are 10–12 in a V","Contain lingual tonsils"], w:"Interspersed among filiform."},
+ {lo:"12.4", q:"Circumvallate papillae…", a:"10–12 in a V before the sulcus terminalis, with >50% of taste buds and von Ebner glands", o:["Most numerous, no taste buds","On the posterior tongue","Keratinized cones"], w:"Serous von Ebner glands flush the moat."},
+ {t:"m", lo:"12.4", q:"Select ALL cell types in a taste bud.", a:["Gustatory (light) cells","Supporting (dark) cells","Basal stem cells"], o:["Goblet cells","Myoepithelial cells"], w:"~50 spindle cells per bud."},
+ {lo:"12.4", q:"Gustatory cell lifespan?", a:"About 10 days", o:["A lifetime","1 year","1 day"], w:"Taste bud number decreases with age."},
+ {lo:"12.4", q:"What is unique about lingual tonsils?", a:"Minor salivary glands secrete into their crypts", o:["They have no crypts","They are keratinized","They sit on the anterior tongue"], w:"One crypt per tonsil; posterior 1/3."}
+]},
+{id:"glands", lec:"12", name:"Salivary glands", sub:"Parotid, submandibular, sublingual", b:[
+ {lo:"12.5", q:"Parotid gland: type, share of saliva, duct?", a:"All serous · ~25% · Stensen's (opposite upper 2nd molar)", o:["Mixed · 70% · Wharton's","Mucous · 5% · Bartholin's","Serous · 70% · Stensen's"], w:"Heavy capsule, fat, plasma cells."},
+ {lo:"12.5", q:"Submandibular gland?", a:"Mixed, mostly serous · ~70% · Wharton's duct · frequent serous demilunes", o:["All serous · 25%","Mostly mucous · 5%","All mucous · 70%"], w:"Demilunes are diagnostic."},
+ {lo:"12.5", q:"Sublingual gland?", a:"Mixed, mostly mucous · ~5% · Bartholin's ducts · no capsule", o:["All serous · 25%","Mostly serous · 70%","All serous · 5%"], w:"Rare striated ducts, no fat."},
+ {t:"m", lo:"12.5", q:"Select ALL products of serous cells.", a:["Water and electrolytes","Amylase","IgA (secreted with plasma cells' help)","Lactoferrin"], o:["Mucin","Sebum"], w:"Zymogen granules."},
+ {lo:"12.5", q:"Striated ducts…", a:"Modify saliva by active ion transport (basal folds + mitochondria)", o:["Secrete mucin","Contract acini","Store zymogen"], w:"Two-stage secretion: acini, then striated ducts."},
+ {lo:"12.5", q:"Autonomic control of saliva?", a:"Parasympathetic: copious watery · sympathetic: thick viscous", o:["Sympathetic: watery","Parasympathetic: none","Only hormonal"], w:"Drugs blocking secretion → xerostomia."},
+ {lo:"12.5", q:"Major vs minor salivary glands?", a:"Major: encapsulated, secrete on demand · minor: unencapsulated, continuous", o:["Minor are encapsulated","Major secrete continuously","Minor are all serous"], w:"Minor glands are mucous except von Ebner."}
+]},
+{id:"pharynx", lec:"12", name:"Pharynx", sub:"Oropharynx and nasopharynx", b:[
+ {lo:"12.6", q:"Oropharynx epithelium and job?", a:"Non-keratinized stratified squamous — conducts food", o:["Pseudostratified ciliated — air","Simple columnar — absorption","Keratinized — chewing"], w:"Resists abrasion."},
+ {lo:"12.6", q:"Nasopharynx epithelium and job?", a:"Pseudostratified ciliated columnar — conducts air", o:["Stratified squamous — food","Transitional — stretch","Simple squamous — exchange"], w:"Respiratory epithelium."},
+ {t:"m", lo:"12.6", q:"Select ALL tonsils named in lecture.", a:["Pharyngeal (adenoids)","Palatine","Lingual"], o:["Tubal-only","Laryngeal"], w:"Lingual tonsils are unique in draining minor glands into crypts."}
+]}
+];
+
+(function(){
+"use strict";
+var KEY="hd-hnss-histo-builder-v1";
+var S={box:{},score:0,streak:0,best:0,tot:0,right:0,theme:"auto"};
+function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.box)S=Object.assign(S,j);}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+load();
+
+var ALL=[]; E.forEach(function(e){e.b.forEach(function(b,i){b.id=e.id+"."+i;b.ent=e;ALL.push(b);});});
+function st(b){var r=S.box[b.id];return r?r.s:"u";}
+var mode="build", scope="all", loFilter=null, curEnt=null, idx=0, cur=null, answered=false, results={}, lastId=null, t0=0, tick=null;
+
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function inScope(b){return (scope==="all"||b.ent.lec===scope)&&(!loFilter||b.lo===loFilter);}
+
+/* ---------- theme ---------- */
+var themeBtn=document.getElementById("themeBtn");
+function applyTheme(){var r=document.documentElement;if(S.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",S.theme);themeBtn.textContent="Theme: "+S.theme;}
+themeBtn.onclick=function(){S.theme={auto:"light",light:"dark",dark:"auto"}[S.theme];applyTheme();save();};
+applyTheme();
+document.getElementById("resetBtn").onclick=function(){
+  var b=this; if(b.dataset.confirm){S.box={};S.score=S.streak=S.tot=S.right=0;save();b.textContent="Reset progress";delete b.dataset.confirm;renderAll();next();return;}
+  b.dataset.confirm="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.confirm){delete b.dataset.confirm;b.textContent="Reset progress";}},3000);
+};
+
+/* ---------- stats / side / map ---------- */
+function loStatus(lo){var bs=ALL.filter(function(b){return b.lo===lo;});var ss=bs.map(st);
+  var m=ss.filter(function(x){return x==="M";}).length;
+  if(m===bs.length)return{s:"M",m:m,n:bs.length};
+  if(ss.indexOf("m")>=0)return{s:"m",m:m,n:bs.length};
+  if(ss.some(function(x){return x!=="u";}))return{s:"o",m:m,n:bs.length};
+  return{s:"u",m:m,n:bs.length};}
+function renderStats(){
+  document.getElementById("sScore").textContent=S.score;
+  document.getElementById("sStreak").textContent=S.streak;
+  document.getElementById("sAcc").textContent=S.tot?Math.round(100*S.right/S.tot)+"%":"—";
+  document.getElementById("sBoxes").textContent=ALL.filter(function(b){return st(b)==="M";}).length+"/"+ALL.length;
+  var los=Object.keys(LOS);document.getElementById("sLos").textContent=los.filter(function(l){return loStatus(l).s==="M";}).length+"/"+los.length;
+}
+function renderSide(){
+  var h="";LECS.forEach(function(L){if(scope!=="all"&&scope!==L.k)return;
+    h+='<p class="lec-h l'+L.k+'" style="color:var(--lc)">HNSS'+L.k+' · '+esc(L.n)+'</p>';
+    E.filter(function(e){return e.lec===L.k;}).forEach(function(e){
+      var m=e.b.filter(function(b){return st(b)==="M";}).length,p=Math.round(100*m/e.b.length);
+      h+='<button type="button" class="ent l'+e.lec+'" data-ent="'+e.id+'"'+(curEnt===e&&mode==="build"?' aria-current="true"':'')+'><span class="n">'+esc(e.name)+'</span><span class="pct">'+m+'/'+e.b.length+'</span><span class="s">'+esc(e.sub)+'</span><span class="mini"><i style="width:'+p+'%"></i></span></button>';
+    });});
+  var el=document.getElementById("entList");el.innerHTML=h;
+  el.querySelectorAll(".ent").forEach(function(b){b.onclick=function(){setMode("build");startEnt(E.filter(function(e){return e.id===b.dataset.ent;})[0]);};});
+}
+function renderMap(){
+  var h="";Object.keys(LOS).forEach(function(lo){var lec=lo.split(".")[0];if(scope!=="all"&&scope!==lec)return;var s=loStatus(lo);
+    h+='<button type="button" class="lo-tile l'+lec+'" data-lo="'+lo+'"'+(loFilter===lo?' style="border-color:var(--lc)"':'')+'><span class="id">'+(lo.slice(-1)==="X"?"Extra":"LO "+lo)+'</span><span class="t">'+esc(LOS[lo])+'</span><span class="dot s-'+s.s+'" title="'+s.m+'/'+s.n+' mastered"></span></button>';});
+  var g=document.getElementById("loGrid");g.innerHTML=h;
+  g.querySelectorAll(".lo-tile").forEach(function(b){b.onclick=function(){loFilter=(loFilter===b.dataset.lo?null:b.dataset.lo);setMode("drill");};});
+}
+function renderAll(){renderStats();renderSide();renderMap();}
+
+/* ---------- flow ---------- */
+function setMode(m){mode=m;document.querySelectorAll("[data-mode]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.mode===m));});
+  if(m==="build"){loFilter=null;renderAll();if(!curEnt||!inScope(curEnt.b[0]))startEnt(firstEnt());else show();}
+  else{renderAll();next();}}
+function firstEnt(){var es=E.filter(function(e){return scope==="all"||e.lec===scope;});
+  for(var i=0;i<es.length;i++){if(es[i].b.some(function(b){return st(b)!=="M";}))return es[i];}return es[0];}
+document.querySelectorAll("[data-mode]").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode);};});
+document.querySelectorAll("[data-scope]").forEach(function(b){b.onclick=function(){scope=b.dataset.scope;loFilter=null;
+  document.querySelectorAll("[data-scope]").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+  if(mode==="build"){curEnt=null;setMode("build");}else setMode("drill");};});
+
+function startEnt(e){curEnt=e;idx=0;results={};renderSide();cur=e.b[0];show();}
+function next(){
+  if(mode==="build"){idx++;if(idx>=curEnt.b.length){finishEnt();return;}cur=curEnt.b[idx];show();return;}
+  var pool=ALL.filter(inScope);if(!pool.length){cur=null;show();return;}
+  var rank={m:0,u:1,o:2,M:3};
+  pool=shuffle(pool).sort(function(a,b){return rank[st(a)]-rank[st(b)];});
+  var best=rank[st(pool[0])];var top=pool.filter(function(b){return rank[st(b)]===best&&b.id!==lastId;});
+  if(best===3)top=pool.filter(function(b){return b.id!==lastId;});
+  cur=(top.length?top:pool)[0];show();
+}
+function finishEnt(){
+  var ok=Object.keys(results).filter(function(k){return results[k];}).length,n=curEnt.b.length;
+  var i=E.indexOf(curEnt),nxt=null;for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){nxt=c;break;}}
+  var card=document.getElementById("card");card.className="card l"+curEnt.lec;
+  card.innerHTML='<div class="done"><p class="meta">Structure complete</p><h2>'+esc(curEnt.name)+': '+ok+' / '+n+' first try</h2>'+
+   '<p class="hint">'+(ok===n?"Clean build. It will count as mastered after one more clean pass.":"Missed boxes are queued first in Drill mode.")+'</p>'+
+   '<div class="actions"><button class="btn" type="button" id="again">Rebuild '+esc(curEnt.name)+'</button>'+(nxt?'<button class="btn primary" type="button" id="nextEnt">Next: '+esc(nxt.name)+' →</button>':'')+'</div></div>';
+  document.getElementById("again").onclick=function(){startEnt(curEnt);};
+  if(nxt)document.getElementById("nextEnt").onclick=function(){startEnt(nxt);};
+  var ne=document.getElementById("nextEnt");if(ne)ne.focus();
+}
+
+var picks=[];
+function show(){
+  answered=false;picks=[];clearInterval(tick);
+  var card=document.getElementById("card");
+  if(!cur){card.className="card";card.innerHTML='<p class="q">Nothing in this scope yet.</p>';return;}
+  var b=cur,e=b.ent;card.className="card l"+e.lec;
+  var head='<div class="card-top"><div><p class="meta">'+(mode==="build"?"Build · box "+(idx+1)+" of "+e.b.length:"Drill"+(loFilter?" · LO "+loFilter:""))+'</p><h2>'+esc(e.name)+'</h2></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag lo">'+(b.lo.slice(-1)==="X"?"Extra":"LO "+b.lo)+'</span>'+(b.hy?'<span class="tag hy">HY</span>':'')+'<span class="timer" id="timer">0.0s</span></div></div>';
+  if(mode==="build"){head+='<div class="boxes" aria-hidden="true">'+e.b.map(function(x,i){var c=i===idx?"cur":(x.id in results?(results[x.id]?"done-ok":"done-bad"):"");return '<i class="'+c+'"></i>';}).join("")+'</div>';}
+  var body='<p class="q">'+esc(b.q)+'</p>';
+  if(!b.t){b._opts=shuffle([b.a].concat(b.o));
+    body+='<div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else if(b.t==="m"){b._opts=shuffle(b.a.concat(b.o));
+    body+='<p class="hint">Select all that apply, then check.</p><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" aria-pressed="false" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else{b._opts=shuffle(b.a);
+    body+='<p class="hint">Tap items in order. Tap a placed item to remove it.</p><ol class="ordered" id="ordList"><li class="empty" style="cursor:default">Your order appears here</li></ol><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">+</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  var act='<div id="fb"></div><div class="actions"><span class="hint">'+(b.t?"Enter to check":"Keys 1–"+b._opts.length+" to answer")+'</span><div style="display:flex;gap:8px">'+
+    (mode==="build"?'<button class="btn" type="button" id="skipBtn">Skip structure</button>':'')+
+    (b.t?'<button class="btn primary" type="button" id="checkBtn"'+(b.t==="o"?" disabled":"")+'>Check</button>':'')+
+    '<button class="btn primary" type="button" id="nextBtn" hidden>Next box →</button></div></div>';
+  card.innerHTML=head+body+act;
+  t0=Date.now();tick=setInterval(function(){var t=document.getElementById("timer");if(t)t.textContent=((Date.now()-t0)/1000).toFixed(1)+"s";},100);
+  var opts=card.querySelectorAll(".opt");
+  if(!b.t)opts.forEach(function(o){o.onclick=function(){if(!answered)grade([+o.dataset.i]);};});
+  else if(b.t==="m")opts.forEach(function(o){o.onclick=function(){if(answered)return;var on=o.getAttribute("aria-pressed")!=="true";o.setAttribute("aria-pressed",String(on));o.classList.toggle("sel",on);};});
+  else opts.forEach(function(o){o.onclick=function(){if(answered||o.disabled)return;picks.push(+o.dataset.i);o.disabled=true;o.style.opacity=".4";drawOrd();};});
+  var cb=document.getElementById("checkBtn");if(cb)cb.onclick=function(){if(answered)return;
+    if(b.t==="m"){var sel=[];opts.forEach(function(o){if(o.getAttribute("aria-pressed")==="true")sel.push(+o.dataset.i);});grade(sel);}else grade(picks);};
+  var sk=document.getElementById("skipBtn");if(sk)sk.onclick=function(){var i=E.indexOf(curEnt);for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){startEnt(c);return;}}};
+  document.getElementById("nextBtn").onclick=function(){lastId=cur.id;next();};
+}
+function drawOrd(){var b=cur,ol=document.getElementById("ordList");
+  ol.innerHTML=picks.length?picks.map(function(i,k){return '<li data-k="'+k+'">'+esc(b._opts[i])+'</li>';}).join(""):'<li class="empty" style="cursor:default">Your order appears here</li>';
+  ol.querySelectorAll("li[data-k]").forEach(function(li){li.onclick=function(){if(answered)return;var k=+li.dataset.k,i=picks[k];picks.splice(k,1);
+    var o=document.querySelector('.opt[data-i="'+i+'"]');o.disabled=false;o.style.opacity="";drawOrd();};});
+  document.getElementById("checkBtn").disabled=picks.length!==b.a.length;}
+
+function grade(sel){
+  answered=true;clearInterval(tick);var b=cur,ok,card=document.getElementById("card"),opts=card.querySelectorAll(".opt");
+  if(!b.t){ok=b._opts[sel[0]]===b.a;opts.forEach(function(o){var t=b._opts[+o.dataset.i];o.disabled=true;if(t===b.a)o.classList.add("right");else if(+o.dataset.i===sel[0])o.classList.add("wrong");});}
+  else if(b.t==="m"){var chosen=sel.map(function(i){return b._opts[i];});ok=chosen.length===b.a.length&&chosen.every(function(c){return b.a.indexOf(c)>=0;});
+    opts.forEach(function(o){var t=b._opts[+o.dataset.i],isA=b.a.indexOf(t)>=0,isS=chosen.indexOf(t)>=0;o.disabled=true;o.classList.remove("sel");
+      if(isA&&isS)o.classList.add("right");else if(isA)o.classList.add("missed");else if(isS)o.classList.add("wrong");});}
+  else{var got=sel.map(function(i){return b._opts[i];});ok=got.every(function(g,k){return g===b.a[k];});
+    document.querySelectorAll("#ordList li[data-k]").forEach(function(li,k){li.classList.add(got[k]===b.a[k]?"right":"wrong");});
+    opts.forEach(function(o){o.disabled=true;});}
+  var r=S.box[b.id]||{n:0,c:0,s:"u"};r.n++;
+  if(ok){r.c++;r.s=r.c>=2?"M":"o";S.streak++;S.best=Math.max(S.best,S.streak);S.right++;S.score+=10+Math.min(S.streak,10);}
+  else{r.c=0;r.s="m";S.streak=0;}
+  S.tot++;S.box[b.id]=r;if(!(b.id in results))results[b.id]=ok;save();
+  var fb='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Correct":"Not quite")+'</span>';
+  if(!ok){if(!b.t)fb+='<span>Answer: <b>'+esc(b.a)+'</b></span>';else if(b.t==="m")fb+='<span>Answer: <b>'+b.a.map(esc).join(" · ")+'</b></span>';else fb+='<span>Correct order:</span><ol>'+b.a.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';}
+  fb+='<span>'+esc(b.w)+'</span></div>';
+  document.getElementById("fb").innerHTML=fb;
+  var cb=document.getElementById("checkBtn");if(cb)cb.hidden=true;
+  var nb=document.getElementById("nextBtn");nb.hidden=false;nb.textContent=(mode==="build"&&idx===curEnt.b.length-1)?"Finish structure →":"Next box →";nb.focus();
+  renderAll();
+}
+document.addEventListener("keydown",function(ev){
+  if(ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){var nb=document.getElementById("nextBtn"),cb=document.getElementById("checkBtn");
+    if(nb&&!nb.hidden){ev.preventDefault();nb.click();}else if(cb&&!cb.hidden&&!cb.disabled){ev.preventDefault();cb.click();}return;}
+  var n=parseInt(ev.key,10);if(!cur||answered||isNaN(n))return;var o=document.querySelector('.opt[data-i="'+(n-1)+'"]');if(o&&!o.disabled)o.click();
+});
+
+renderAll();startEnt(firstEnt());
+})();
+</script>

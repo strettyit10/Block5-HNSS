@@ -1,0 +1,805 @@
+<title>Embryomon HNSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Press+Start+2P&display=swap">
+<style>
+/* Single deliberate look: a handheld console. Painted explicitly so it holds on light or dark hosts. */
+:root{
+  color-scheme: dark;
+  --shell:#1E2440; --shell2:#262E52; --shell-line:#3A4470; --shell-ink:#E9ECF7; --shell-mute:#A3AACB;
+  --screen:#F3F7EE; --ink:#1B2033; --mute:#5B6280; --line:#1B2033;
+  --sky:#D6ECDF; --sky2:#BFE0CE; --grass:#8CC06A; --grass2:#6FA553; --pad:#B9D89A; --pad2:#9BC47C;
+  --gold:#E3AE12; --gold-ink:#7A5B00;
+  --good:#1E8A57; --good-soft:#DCF2E6; --bad:#C2412F; --bad-soft:#F8E1DC; --trap:#96313B; --trap-soft:#F8E8E9;
+  --hp-hi:#38B26A; --hp-mid:#E3AE12; --hp-lo:#D9442F; --xp:#3E8FE0;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --pixel:"Press Start 2P","Courier New",monospace;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{background:var(--shell);color:var(--shell-ink)}
+body{font:15px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:14px 40px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.px{font-family:var(--pixel);letter-spacing:.02em}
+.mast{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--pixel);font-size:11px;color:var(--shell-mute);line-height:1.8}
+.brand b{color:var(--gold)}
+.brand a{color:var(--shell-mute)}
+.hud{display:flex;gap:6px;flex-wrap:wrap}
+.hbtn{background:var(--shell2);border:2px solid var(--shell-line);border-radius:6px;padding:7px 10px;font-family:var(--pixel);font-size:9px;color:var(--shell-ink);line-height:1.4}
+.hbtn:hover{border-color:var(--gold)}
+.hbtn b{color:var(--gold)}
+.screen{background:var(--screen);color:var(--ink);border:4px solid #0F1326;border-radius:14px;box-shadow:0 0 0 4px var(--shell-line),0 16px 40px #0008;overflow:hidden}
+.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:var(--pixel);font-size:8.5px;color:var(--shell-mute);line-height:1.8}
+
+/* ---------- generic in-screen UI ---------- */
+.pane{padding:18px;display:flex;flex-direction:column;gap:14px}
+.h1{font-family:var(--pixel);font-size:clamp(18px,4vw,28px);line-height:1.3;margin:0;text-wrap:balance}
+.h2{font-family:var(--pixel);font-size:13px;line-height:1.5;margin:0}
+.lede{margin:0;color:var(--mute);max-width:62ch}
+.box{border:3px solid var(--line);border-radius:8px;background:#fff;box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px #C9CFE0;padding:14px 16px}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:6px;padding:11px 16px;font-family:var(--pixel);font-size:10px;line-height:1.4;box-shadow:0 3px 0 #000}
+.btn:hover{background:#2E3659}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #000}
+.btn.gold{background:var(--gold);color:#241A00}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink),0 3px 0 var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tchip{display:inline-block;font-family:var(--pixel);font-size:8px;line-height:1;padding:4px 6px;border-radius:3px;color:#fff;vertical-align:middle}
+.small{font-size:13px;color:var(--mute)}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:6px;padding:10px 12px;color:var(--hy-ink);font-size:14px}
+.hy b{display:block;font-family:var(--pixel);font-size:8.5px;letter-spacing:.04em;margin-bottom:6px}
+.trapbox{background:var(--trap-soft);border:2px solid var(--trap);border-radius:6px;padding:10px 12px;font-size:14px;color:#4A1419}
+.trapbox b.lab{display:block;font-family:var(--pixel);font-size:8.5px;color:var(--trap);margin-bottom:6px}
+
+/* ---------- title ---------- */
+.title{background:linear-gradient(180deg,var(--sky) 0 58%,var(--grass) 58% 100%);position:relative}
+.title .pane{gap:16px}
+.logo{font-family:var(--pixel);font-size:clamp(26px,7vw,52px);line-height:1.05;color:var(--ink);text-shadow:3px 3px 0 var(--gold);margin:0}
+.logo small{display:block;font-size:.3em;margin-top:10px;text-shadow:none;color:var(--mute)}
+.starters{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.starter{background:#fff;border:3px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;text-align:left}
+.starter:hover,.starter[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold)}
+.starter .spr{width:96px;height:108px;align-self:center}
+.starter h3{font-family:var(--pixel);font-size:11px;margin:0}
+.starter p{margin:0;font-size:13px;color:var(--mute)}
+.namefield{display:flex;flex-direction:column;gap:6px;max-width:320px}
+.namefield label{font-family:var(--pixel);font-size:9px}
+.namefield input{font:inherit;border:3px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink)}
+
+/* ---------- map ---------- */
+.map{position:relative;aspect-ratio:100/62;max-width:100%;background:
+  radial-gradient(circle at 20% 30%,#9ACB76 0 6%,transparent 6.5%),
+  radial-gradient(circle at 70% 80%,#9ACB76 0 5%,transparent 5.5%),
+  repeating-linear-gradient(0deg,transparent 0 11px,#0000000a 11px 12px),
+  repeating-linear-gradient(90deg,transparent 0 11px,#0000000a 11px 12px),var(--grass);
+  border-bottom:4px solid var(--line)}
+.map svg.paths{position:absolute;inset:0;width:100%;height:100%}
+.pond{position:absolute;left:66%;top:6%;width:14%;height:20%;background:#6FB6DC;border:3px solid #3E7FA6;border-radius:48% 52% 45% 55%}
+.tree{position:absolute;width:3.2%;aspect-ratio:1;background:#3F7F3A;border:2px solid #1F4A22;border-radius:50% 50% 45% 45%}
+.loc{position:absolute;transform:translate(-50%,-60%);display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0}
+.loc .ico{width:clamp(38px,8vw,64px);aspect-ratio:1}
+.loc .lbl{font-family:var(--pixel);font-size:clamp(6.5px,1.4vw,9px);background:#fff;border:2px solid var(--line);border-radius:4px;padding:3px 5px;white-space:nowrap;line-height:1.3}
+.loc .lbl em{display:block;font-style:normal;color:var(--mute);font-size:.85em}
+.loc[disabled]{cursor:not-allowed;filter:grayscale(.9);opacity:.75}
+.loc:hover .lbl{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.avatar{position:absolute;width:clamp(20px,4vw,34px);transform:translate(-50%,-100%);transition:left .55s steps(6),top .55s steps(6);pointer-events:none;z-index:3}
+@media (max-width:600px){.map{aspect-ratio:100/100}}
+.mapfoot{padding:14px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.stat{border:2px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff}
+.stat .k{font-family:var(--pixel);font-size:8px;color:var(--mute)}
+.stat .v{font-family:var(--mono);font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}
+.badges{display:flex;gap:6px;margin-top:4px}
+.badge{width:22px;height:22px}
+
+/* ---------- route ---------- */
+.patches{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.patch{text-align:left;background:
+  repeating-linear-gradient(135deg,var(--grass) 0 6px,var(--grass2) 6px 8px);border:3px solid var(--line);border-radius:10px;padding:0;overflow:hidden;display:flex;flex-direction:column}
+.patch .in{background:#fff;margin-top:26px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--line);flex:1}
+.patch h3{margin:0;font-size:15px;font-weight:600}
+.patch:hover{box-shadow:0 0 0 3px var(--gold)}
+.meter{height:8px;border:2px solid var(--line);border-radius:4px;background:#E8ECF4;overflow:hidden;display:flex}
+.meter i{display:block;height:100%}
+.gymcard{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;border:3px solid var(--line);border-radius:10px;padding:14px;background:#fff}
+.gymcard .trn{width:64px;height:88px}
+@media (max-width:520px){.gymcard{grid-template-columns:1fr}.gymcard .trn{justify-self:center}}
+
+/* ---------- battle ---------- */
+.scene{position:relative;aspect-ratio:16/9;max-width:100%;background:linear-gradient(180deg,var(--sky) 0 52%,var(--sky2) 52% 60%,var(--grass) 60% 100%);overflow:hidden;border-bottom:4px solid var(--line)}
+.scene.gym{background:linear-gradient(180deg,#E6E1F4 0 52%,#CFC6EA 52% 60%,#B7A9DE 60% 100%)}
+.scene.cave{background:linear-gradient(180deg,#D9D2C6 0 52%,#C3B8A6 52% 60%,#A8987F 60% 100%)}
+.plat{position:absolute;border-radius:50%;background:var(--pad);border:3px solid var(--pad2)}
+.plat.e{right:6%;top:40%;width:34%;height:13%}
+.plat.p{left:4%;bottom:4%;width:40%;height:15%}
+.scene.gym .plat,.scene.cave .plat{background:#fff8;border-color:#0002}
+.mon{position:absolute;image-rendering:pixelated}
+.mon.e{right:12%;top:8%;width:22%;aspect-ratio:16/18}
+.mon.p{left:9%;bottom:8%;width:28%;aspect-ratio:16/18}
+.mon.e.enter{animation:slideE .7s steps(8) both}
+.mon.p.enter{animation:slideP .6s steps(8) both}
+@keyframes slideE{from{transform:translateX(160%)}to{transform:none}}
+@keyframes slideP{from{transform:translateX(-160%)}to{transform:none}}
+.mon.hit{animation:blink .5s steps(2) 2}
+@keyframes blink{50%{opacity:.1}}
+.mon.e.leave{animation:slideOut .5s steps(6) forwards}
+.mon.faint{animation:faint .6s ease-in forwards}
+@keyframes faint{to{transform:translateY(60%);opacity:0}}
+.mon.lunge.p{animation:lungeP .35s ease-out}
+.mon.lunge.e{animation:lungeE .35s ease-out}
+@keyframes lungeP{50%{transform:translate(18%,-10%)}}
+@keyframes lungeE{50%{transform:translate(-18%,10%)}}
+.scene.shake{animation:shake .35s steps(4)}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.orb{position:absolute;width:7%;aspect-ratio:1;left:30%;bottom:30%;z-index:4;animation:throw .7s ease-out forwards}
+@keyframes throw{to{left:73%;bottom:62%}}
+.orb.wobble{left:73%;bottom:62%;animation:wob .5s ease-in-out 3}
+@keyframes wob{25%{transform:rotate(-20deg)}75%{transform:rotate(20deg)}}
+.stbox{position:absolute;background:#fff;border:3px solid var(--line);border-radius:8px 8px 8px 0;padding:6px 9px;min-width:0;width:44%;box-shadow:4px 4px 0 #0002}
+.stbox.e{left:3%;top:5%}
+.stbox.p{right:3%;bottom:6%;border-radius:8px 0 8px 8px}
+.stbox .nm{font-family:var(--pixel);font-size:clamp(7px,1.5vw,10px);line-height:1.35;display:flex;justify-content:space-between;gap:8px}
+.stbox .nm span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stbox .nm span:last-child{flex:none}
+.hpline{display:flex;align-items:center;gap:6px;margin-top:5px}
+.hpline .lab{font-family:var(--pixel);font-size:7px;color:var(--gold-ink);background:#FFF1C4;padding:2px 3px;border-radius:2px}
+.hpbar{flex:1;height:8px;border:2px solid var(--line);border-radius:4px;background:#E8ECF4;overflow:hidden}
+.hpbar i{display:block;height:100%;background:var(--hp-hi);transition:width .6s steps(12),background .3s}
+.hpnum{font-family:var(--mono);font-size:clamp(10px,1.8vw,13px);text-align:right;font-variant-numeric:tabular-nums;margin-top:2px}
+.xpbar{height:4px;background:#E8ECF4;margin-top:4px;border-radius:2px;overflow:hidden}
+.xpbar i{display:block;height:100%;background:var(--xp);transition:width .6s}
+.tbadge{position:absolute;right:3%;top:5%;display:flex;gap:4px}
+.tbadge i{width:10px;height:10px;border-radius:50%;border:2px solid var(--line);background:#fff}
+.tbadge i.dead{background:#9aa0b4}
+.tbadge i.alive{background:var(--gold)}
+.leader{position:absolute;right:4%;top:6%;width:13%;aspect-ratio:10/14}
+.leader.leave{animation:slideOut .5s steps(6) forwards}
+@keyframes slideOut{to{transform:translateX(200%)}}
+
+.msg{margin:12px;border:4px double var(--line);border-radius:8px;background:#fff;padding:12px 40px 12px 14px;min-height:62px;font-family:var(--pixel);font-size:clamp(9px,1.8vw,12px);line-height:1.8;position:relative;cursor:pointer}
+.msg .more{position:absolute;right:14px;bottom:10px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--ink);animation:bob .8s steps(2) infinite;opacity:0}
+.msg.done .more{opacity:1}
+@keyframes bob{50%{transform:translateY(3px)}}
+
+.qpanel{padding:0 12px 14px;display:flex;flex-direction:column;gap:10px}
+.qhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qhead .mv{font-family:var(--pixel);font-size:10px}
+.qhead .hint{font-size:12.5px;color:var(--mute)}
+.stem{margin:0;font-size:16px;max-width:70ch}
+.chart{border:2px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+.chart .ch{display:flex;justify-content:space-between;gap:10px;background:var(--ink);color:#fff;padding:5px 10px;font-family:var(--pixel);font-size:8px;line-height:1.6}
+.chart .cr{display:grid;grid-template-columns:100px 1fr;border-top:1px solid #D7DCEA}
+.chart .cr:first-of-type{border-top:0}
+.chart .sys{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);padding:7px 10px;background:#F4F6FB}
+.chart .fx{padding:7px 10px;font-size:14.5px}
+.chart .cr.hid .fx{color:#A8AEC4;font-style:italic}
+.chart .cr.new{animation:flash 1s}
+@keyframes flash{from{background:#FFF1C4}}
+.chart .cr.hist .sys{background:#FFF7DA}
+.moves{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:600px){.moves{grid-template-columns:1fr}}
+.move{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:start;text-align:left;background:#fff;border:3px solid var(--line);border-radius:8px;padding:9px 10px;font-size:14.5px;line-height:1.4;box-shadow:0 3px 0 var(--line)}
+.move:hover{background:#FFF8DE}
+.move:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.move .k{font-family:var(--pixel);font-size:9px;background:var(--ink);color:#fff;border-radius:4px;height:22px;display:grid;place-items:center}
+.move.gone{opacity:.3;text-decoration:line-through;pointer-events:none}
+.cmds{display:flex;gap:8px;flex-wrap:wrap}
+.cmd{background:#fff;border:3px solid var(--line);border-radius:6px;padding:8px 12px;font-family:var(--pixel);font-size:9px;line-height:1.3}
+.cmd:hover{background:#FFF8DE}
+.cmd[disabled]{opacity:.4;pointer-events:none}
+.cmd.examine{background:#EAF3FF}
+.sub{border:2px dashed var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.sub .opt{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+
+.fb{display:flex;flex-direction:column;gap:10px}
+.verdict{font-family:var(--pixel);font-size:11px;padding:9px 12px;border-radius:6px;border:3px solid}
+.verdict.ok{background:var(--good-soft);border-color:var(--good);color:#0E4A2D}
+.verdict.no{background:var(--bad-soft);border-color:var(--bad);color:#6B1B10}
+.verdict.tr{background:var(--trap-soft);border-color:var(--trap);color:var(--trap)}
+.ans{font-size:15px}
+.ans b{font-weight:600}
+.whys{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.whys small{display:block;color:var(--mute)}
+.recall{font-size:15px}
+
+/* ---------- lists / dex / party ---------- */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.sheet{background:#fff;color:var(--ink);border:3px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto}
+.sheet h2{font-family:var(--pixel);font-size:11px;line-height:1.5;margin:18px 0 8px}
+.sheet table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+.sheet th,.sheet td{border-bottom:1px solid #D5D9E5;padding:7px 8px;text-align:left;vertical-align:top}
+.sheet th{background:var(--ink);color:#fff;font-weight:600;position:sticky;top:0}
+.sheet td,.sheet td b,.sheet p,.sheet h2{color:var(--ink)}
+.sheet td small{display:block;color:var(--mute)}
+.sheet .area{font-family:var(--mono);font-size:11.5px;color:var(--mute);white-space:nowrap}
+.sheet .hy{margin:10px 0}
+.atlas-sec{font-family:var(--pixel);font-size:10px;line-height:1.5;margin:20px 0 8px;padding-bottom:6px;border-bottom:3px solid var(--line);color:var(--ink)}
+.srch{width:100%;padding:9px 11px;border:3px solid var(--line);border-radius:6px;font:15px var(--body);background:#fff;color:var(--ink);color-scheme:light}
+.pdfcard{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+details.tog{margin:6px 0}
+.atree{display:flex;flex-direction:column;gap:8px;margin-left:14px;padding-left:10px;border-left:3px solid #C9D0E0}
+.atree.top{margin-left:0;padding-left:0;border-left:0}
+details.grp>summary{font-family:var(--pixel);font-size:9px;line-height:1.6;color:var(--ink)}
+details.nerve>summary{font-weight:700;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:6px;padding:6px 10px}
+details.tog>summary{cursor:pointer;list-style:none;padding:6px 0}
+details.tog>summary::before{content:'▸ ';color:var(--gold-ink);font-size:14px}
+details.tog[open]>summary::before{content:'▾ '}
+details.tog>summary::-webkit-details-marker{display:none}
+.tab{background:#fff;border:3px solid var(--line);border-radius:6px;padding:7px 10px;font-family:var(--pixel);font-size:8.5px;line-height:1.3}
+.tab[aria-pressed="true"]{background:var(--ink);color:#fff}
+.dexgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.dexe{background:#fff;border:2px solid var(--line);border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:12px;line-height:1.25}
+.dexe .spr{width:64px;height:72px}
+.dexe .no{font-family:var(--mono);font-size:10px;color:var(--mute)}
+.dexe.unseen{background:#EEF0F6;color:#8C93AE}
+.dexe.caught{box-shadow:inset 0 0 0 2px var(--gold)}
+.card{background:#fff;border:3px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.card h3{margin:0;font-size:18px}
+.lin{font-size:13px;color:var(--mute)}
+.fx-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.fx-list li{display:grid;grid-template-columns:96px 1fr;gap:8px;font-size:14px;border-top:1px solid #E1E5EF;padding-top:6px}
+.fx-list li span:first-child{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--mute);letter-spacing:.04em}
+.fx-list small{display:block;color:var(--mute)}
+.party{display:flex;flex-direction:column;gap:8px}
+.pm{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;background:#fff;border:3px solid var(--line);border-radius:10px;padding:8px 10px}
+.pm .spr{width:56px;height:63px}
+.pm.lead{box-shadow:0 0 0 3px var(--gold)}
+.pm .nm{font-weight:600}
+@media (max-width:480px){.pm{grid-template-columns:52px 1fr}.pm .act{grid-column:1/-1}}
+.dexpatch{display:flex;flex-direction:column;gap:6px}
+.dexhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:3px solid var(--line);padding-bottom:6px}
+.dexlist{display:flex;flex-direction:column;gap:4px}
+.dexsub{font-family:var(--pixel);font-size:8.5px;color:var(--mute);margin:6px 0 2px;letter-spacing:.03em}
+.dexrow{margin-left:calc(var(--d,0)*22px);display:grid;grid-template-columns:auto 38px 44px 1fr auto;align-items:center;gap:8px;text-align:left;background:#fff;border:2px solid var(--line);border-radius:6px;padding:4px 8px;font-size:14px;line-height:1.25;max-width:calc(100% - 0px)}
+.dexrow .spr{width:32px;height:36px}
+.dexrow .no{font-family:var(--mono);font-size:10px;color:var(--mute)}
+.dexrow .dn small{display:block;color:var(--mute);font-size:11.5px}
+.dexrow .twig{font-family:var(--mono);color:var(--mute)}
+.dexrow:not(:has(.twig)){grid-template-columns:38px 44px 1fr auto}
+.dexrow.unseen{background:#EEF0F6;color:#8C93AE}
+.dexrow.caught{box-shadow:inset 0 0 0 2px var(--gold)}
+.dexrow .tag{font-family:var(--pixel);font-size:7px;background:var(--gold);color:#241A00;border-radius:3px;padding:3px 5px}
+.dexrow .tag.seen{background:#9DB4D8;color:#1B2033}
+@media (max-width:520px){.dexrow{margin-left:calc(var(--d,0)*12px)}.dexrow .twig{display:none}.dexrow{grid-template-columns:38px 36px 1fr!important}.dexrow .tag{grid-column:3}}
+.misslist{display:flex;flex-direction:column;gap:6px}
+.missi{display:flex;justify-content:space-between;gap:10px;background:#fff;border:2px solid var(--line);border-radius:6px;padding:7px 10px;font-size:14px}
+.missi b{font-family:var(--mono);color:var(--bad)}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--pixel);font-size:9px;padding:10px 14px;border-radius:6px;border:2px solid var(--gold);z-index:20;line-height:1.6;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+.dexe{font:inherit;color:inherit}
+.dexe[disabled]{cursor:default}
+</style>
+<div class="wrap">
+  <div class="mast">
+    <div class="brand"><b>HoyaDocs</b> · HNSS Block 5 · Embryomon</div>
+    <div class="hud" id="hud" hidden></div>
+  </div>
+  <main class="screen" id="app" aria-live="polite"></main>
+  <footer class="foot"><span>HoyaDocs · Embryomon: HNSS Edition · built from the HNSS03, HNSS04 and HNSS18 learning objectives &amp; the boss-battle question banks</span><span>Rev 1 · Updated Sep 28, 2026</span></footer>
+</div>
+<script>
+/* ================= EMBRYOMON SPECIES =================
+ fields: or origin · wk timing · be becomes · nv nerve · mu muscles · fu fuses/meets · ge gene/signal · rl role
+         fa if it fails → · fx (defects) structure that failed · cl (defects) clinical picture · pearl high-yield line
+*/
+const TYPES={
+ ARCH:{n:'Arch',c:'#1F8A83',atk:'Cartilage Crush'},
+ POUCH:{n:'Pouch',c:'#D98A1F',atk:'Gland Bloom'},
+ CLEFT:{n:'Cleft',c:'#8A6D3B',atk:'Sinus Seal'},
+ SIGNAL:{n:'Signal',c:'#C6477A',atk:'Hox Surge'},
+ ORAL:{n:'Oral',c:'#D9442F',atk:'Lingual Lash'},
+ FACE:{n:'Face',c:'#8E4FC0',atk:'Fusion Fist'},
+ OPTIC:{n:'Optic',c:'#3A7FD0',atk:'Lens Flare'},
+ OTIC:{n:'Otic',c:'#23968A',atk:'Cochlear Wail'},
+ DEFECT:{n:'Defect',c:'#6B6F80',atk:'Malformation Hex'}
+};
+const AREAS={
+ arch:{lec:'03',name:'Arch Archipelago',sub:'HNSS03 · Pharyngeal arches',blurb:'Arches, cartilages, pouches, clefts, the Hox code, teratogens and the syndromes they cause.',
+   patches:{arches:{label:'Arch Isles (LO 1–3)',type:'ARCH'},pouches:{label:'Pouch Lagoon (LO 4)',type:'POUCH'},clefts:{label:'Cleft Shoals (LO 5)',type:'CLEFT'},signals:{label:'Hox Reef (LO 6–7)',type:'SIGNAL'},adefects:{label:'Wreck Bay (LO 8)',type:'DEFECT'}}},
+ face:{lec:'04',name:'Facial Foundry',sub:'HNSS04 · Craniofacial development',blurb:'Tongue, thyroid, facial prominences, palate, skull and the clefts that follow when fusion fails.',
+   patches:{tongue:{label:'Tongue Forge (LO 1–3)',type:'ORAL'},thyroid:{label:'Thyroid Descent (LO 4–5)',type:'ORAL'},prom:{label:'Prominence Yard (LO 6)',type:'FACE'},palate:{label:'Palate Works (LO 7–8)',type:'FACE'},fdefects:{label:'Cleft Quarry (LO 9–10)',type:'DEFECT'}}},
+ sense:{lec:'18',name:'Sensory Spire',sub:'HNSS18 · Eye & ear embryology',blurb:'Eye fields to optic cup, otic placode to Organ of Corti, the auricle, and the defects when a step fails.',
+   patches:{eyeo:{label:'Optic Terrace (LO 1)',type:'OPTIC'},eyes:{label:'Lens Garden (LO 2)',type:'OPTIC'},ear:{label:'Labyrinth Stair (LO 1–2)',type:'OTIC'},sdefects:{label:'Shadow Hall (LO 3)',type:'DEFECT'},clinic:{label:'Ear Clinic (extra)',type:'OTIC'}}}
+};
+const SPECIES=[
+/* ---------- ARCH ARCHIPELAGO ---------- */
+{id:'arch1',n:'Arch 1',t:'ARCH',a:'arch',p:'arches',lo:'03.3',or:'Neural crest from R1–R2 + midbrain, over a core of paraxial/lateral plate mesoderm',wk:'Weeks 3–3.5 (two processes by week 4)',be:'Malleus, incus, maxilla, zygomatic, mandible',nv:'CN V3 (mandibular)',mu:'Muscles of mastication, mylohyoid, anterior digastric, tensor tympani, tensor palatini',ge:'OTX2',fa:'Treacher Collins syndrome',pearl:'Chewing + ossicles. The mandible forms from tissue AROUND Meckel\'s cartilage, not from it.'},
+{id:'arch2',n:'Arch 2',t:'ARCH',a:'arch',p:'arches',lo:'03.3',or:'Neural crest from R4',wk:'Weeks 4–4.25',be:'Stapes, styloid process, stylohyoid ligament, lesser horn + upper body of hyoid',nv:'CN VII (facial)',mu:'Muscles of facial expression, stapedius, stylohyoid, posterior digastric, auricular',fu:'Grows over clefts 3–5 to the epicardial ridge',fa:'Branchial cleft cyst or fistula',pearl:'The hyoid arch. Everything starts with S: stapes, styloid, stylohyoid, stapedius, smile.'},
+{id:'arch3',n:'Arch 3',t:'ARCH',a:'arch',p:'arches',lo:'03.3',or:'Neural crest from R6–R7',wk:'Week 5',be:'Greater horn + lower body of hyoid',nv:'CN IX (glossopharyngeal)',mu:'Stylopharyngeus only',pearl:'Swallowing. One muscle, one nerve: stylopharyngeus, CN IX.'},
+{id:'arch4',n:'Arch 4',t:'ARCH',a:'arch',p:'arches',lo:'03.3',or:'Lateral plate mesoderm (NOT neural crest) for its cartilage',wk:'Week 5',be:'Thyroid and cricoid laryngeal cartilages',nv:'CN X — superior laryngeal branch',mu:'Cricothyroid, levator veli palatini, pharyngeal constrictors',pearl:'On exam: arch 4/6 cartilage is lateral plate mesoderm; neural crest is not involved.'},
+{id:'arch6',n:'Arch 6',t:'ARCH',a:'arch',p:'arches',lo:'03.3',or:'Lateral plate mesoderm (NOT neural crest) for its cartilage',wk:'Week 5',be:'Arytenoid, corniculate, cuneiform cartilages',nv:'CN X — recurrent laryngeal branch',mu:'Intrinsic laryngeal muscles except cricothyroid',pearl:'Thyroid surgery → recurrent laryngeal injury → hoarseness. Cricothyroid (arch 4) is spared.'},
+{id:'meckel',n:'Meckel\'s Cartilage',t:'ARCH',a:'arch',p:'arches',lo:'03.3',or:'Arch 1 neural crest',wk:'Fills the mandibular process by week 4.5; gone by week 8',be:'Malleus + incus (endochondral ossification)',nv:'CN V3 (mandibular)',rl:'Template for the mandible, which forms from the tissue around it',pearl:'On exam: Meckel\'s remnants → incus and malleus by endochondral ossification.'},
+{id:'reichert',n:'Reichert\'s Cartilage',t:'ARCH',a:'arch',p:'arches',lo:'03.3',or:'Arch 2 neural crest',wk:'Weeks 4–4.25',be:'Stapes, styloid process, stylohyoid ligament, lesser horn + upper body of hyoid',nv:'CN VII (facial)',pearl:'Reichert = aRch 2.'},
+{id:'maxproc',n:'Maxillary Process',t:'ARCH',a:'arch',p:'arches',lo:'03.3',or:'Arch 1 neural crest',wk:'Week 4',be:'Premaxilla, maxilla, zygomatic, part of temporal bone (membrane ossification)',nv:'CN V3 (mandibular)',rl:'Caudal to the frontal prominence, reaching under the future eye and nasal placode',pearl:'Membrane (intramembranous) ossification: bone forms directly from mesenchyme.'},
+{id:'ncc',n:'Neural Crest Cell',t:'SIGNAL',a:'arch',p:'signals',lo:'03.2',or:'Ectoderm (hindbrain, midbrain, some forebrain)',wk:'Migrates weeks 4.5–5',be:'Skeleton of the face',rl:'Carries Hox proteins into each arch; lacks SOD and catalase',fa:'Craniofacial defects (all facial clefts, Treacher Collins)',pearl:'Low superoxide dismutase and catalase → vulnerable to alcohol and retinoic acid.'},
+{id:'pouch1',n:'Pouch 1',t:'POUCH',a:'arch',p:'pouches',lo:'03.4',or:'Pharyngeal endoderm',wk:'Weeks 5–6',be:'Tympanic cavity + eustachian tube',fu:'Meets cleft 1 (the only pouch that touches ectoderm)',pearl:'Distal tubotympanic recess → tympanic cavity; proximal → eustachian tube.'},
+{id:'pouch2',n:'Pouch 2',t:'POUCH',a:'arch',p:'pouches',lo:'03.4',or:'Pharyngeal endoderm',wk:'Week 5 (crypt forms by month 4)',be:'Palatine tonsil',rl:'Buds invade mesenchyme; center apoptoses → tonsillar crypt',pearl:'Lymphoid tissue fully fills the tonsil only in the last months of pregnancy.'},
+{id:'pouch3d',n:'Pouch 3 Dorsal Wing',t:'POUCH',a:'arch',p:'pouches',lo:'03.4',or:'Pharyngeal endoderm',wk:'Week 5 (migration done by week 10)',be:'Inferior parathyroid',rl:'Dragged caudally by the thymus, below the pouch 4 gland',fa:'DiGeorge syndrome — hypocalcemia',pearl:'Bottom parathyroid from pouch 3; top parathyroid from pouch 4.'},
+{id:'pouch3v',n:'Pouch 3 Ventral Wing',t:'POUCH',a:'arch',p:'pouches',lo:'03.4',or:'Pharyngeal endoderm',wk:'Week 5 (migration done by week 10)',be:'Thymus',rl:'Migrates caudally and medially, fuses in the midline; grows until puberty',fa:'DiGeorge syndrome — T-cell deficiency',pearl:'Absent thymic shadow on chest X-ray = DiGeorge.'},
+{id:'pouch4',n:'Pouch 4 Dorsal Wing',t:'POUCH',a:'arch',p:'pouches',lo:'03.4',or:'Pharyngeal endoderm',wk:'Week 5 (reaches dorsal thyroid by week 10)',be:'Superior parathyroid',rl:'Attaches to the cranial thyroid and migrates with it',fa:'DiGeorge syndrome — hypocalcemia'},
+{id:'ubb',n:'Ultimobranchial Body',t:'POUCH',a:'arch',p:'pouches',lo:'03.4',or:'Pouch 5 / ventral wing of pouch 4 endoderm',wk:'Week 5',be:'Thyroid C cells (calcitonin)',fu:'Incorporates into the thyroid gland',pearl:'Flagged as important in lecture. C cells → calcitonin; medullary thyroid carcinoma.'},
+{id:'cleft1',n:'Cleft 1',t:'CLEFT',a:'arch',p:'clefts',lo:'03.5',or:'Surface ectoderm',wk:'Weeks 5–6',be:'External auditory meatus',fu:'Meets pouch 1 → tympanic membrane',pearl:'The ONLY definitive cleft derivative.'},
+{id:'csinus',n:'Cervical Sinus',t:'CLEFT',a:'arch',p:'clefts',lo:'03.5',or:'Ectoderm of clefts 2–4',wk:'Weeks 5–6',be:'Normally obliterated (no adult structure)',fu:'Enclosed when cleft 2 fuses with the epicardial ridge',fa:'Branchial cleft cyst or fistula',pearl:'Lecture favorite picture: cleft 2 overgrowing 3–5.'},
+{id:'hox',n:'Hox Code',t:'SIGNAL',a:'arch',p:'signals',lo:'03.6',or:'Rhombomeres R1–R8 (carried by neural crest)',rl:'Rostrocaudal expression gives each arch its identity',ge:'Hox genes (regulated by SHH; activated via RAREs)',fa:'Hoxa-1/b-1 loss: no ears · Hoxa-3 loss: DiGeorge-like',pearl:'Goldilocks zone: too much Hox is as bad as too little.'},
+{id:'otx2',n:'OTX2',t:'SIGNAL',a:'arch',p:'signals',lo:'03.6',or:'Forebrain- and midbrain-derived neural crest',rl:'Key regulator of arch 1',ge:'OTX2',pearl:'Arch 1 is patterned by OTX2, not the Hox code.'},
+{id:'shh',n:'Sonic Hedgehog',t:'SIGNAL',a:'arch',p:'signals',lo:'03.6',or:'Ventral midline of the forebrain',rl:'Regulates Hox genes; represses PAX6 in the midline to split the eye fields',ge:'SHH',fa:'Headless mice · cyclopia / holoprosencephaly',pearl:'No SHH → eye fields merge → cyclopia.'},
+{id:'ra',n:'Retinoic Acid',t:'SIGNAL',a:'arch',p:'signals',lo:'03.7',or:'Vitamin A (isotretinoin in pregnancy)',rl:'Makes reactive oxygen species AND hyperactivates Hox genes via RAREs',ge:'RAREs in Hox promoters',fa:'Treacher Collins–like face, microtia, cleft palate',pearl:'On exam: RA = ROS + Hox. Alcohol = ROS only.'},
+{id:'etoh',n:'Alcohol',t:'SIGNAL',a:'arch',p:'signals',lo:'03.7',or:'Maternal drinking',rl:'Reactive oxygen species only → neural crest death',fa:'Fetal alcohol syndrome',pearl:'Smooth philtrum, thin upper lip, short palpebral fissures, microcephaly.'},
+{id:'digeorge',n:'DiGeorge',t:'DEFECT',a:'arch',p:'adefects',lo:'03.8',fx:'Pouches 3 and 4',ge:'22q11.2 deletion (Hoxa-3 knockout model)',cl:'Hypocalcemic tetany, T-cell deficiency, conotruncal heart defect, cleft palate',pearl:'CATCH-22: Cardiac, Abnormal face, Thymic hypoplasia, Cleft palate, Hypocalcemia.'},
+{id:'treacher',n:'Treacher Collins',t:'DEFECT',a:'arch',p:'adefects',lo:'03.8',fx:'Neural crest of arches 1 and 2',ge:'TCOF1 (autosomal dominant)',cl:'Zygomatic and mandibular hypoplasia, lower-eyelid colobomas, malformed ears',pearl:'High retinoic acid mimics it in mice. Conductive hearing loss from malformed ossicles.'},
+{id:'bcyst',n:'Branchial Cleft Cyst',t:'DEFECT',a:'arch',p:'adefects',lo:'03.8',fx:'Cleft 2 overgrowth (cervical sinus persists)',cl:'Painless lateral neck mass along the anterior SCM; does not move with swallowing',pearl:'A fistula connects it to the skin (and sometimes the tonsillar fossa).'},
+{id:'waard',n:'Waardenburg',t:'DEFECT',a:'arch',p:'adefects',lo:'03.8',fx:'Neural crest (pigment cells)',ge:'PAX3',cl:'White forelock, hypertelorism, congenital deafness, cleft palate',pearl:'Autosomal dominant congenital deafness with pigment abnormalities.'},
+{id:'fas',n:'Fetal Alcohol Syndrome',t:'DEFECT',a:'arch',p:'adefects',lo:'03.7',fx:'Neural crest killed by reactive oxygen species',ge:'None (teratogen: alcohol)',cl:'Smooth philtrum, thin upper lip, short palpebral fissures, microcephaly',pearl:'Leading preventable cause of intellectual disability.'},
+
+/* ---------- FACIAL FOUNDRY ---------- */
+{id:'lingual',n:'Lateral Lingual Swellings',t:'ORAL',a:'face',p:'tongue',lo:'04.1',or:'Arch 1',wk:'Weeks 4–5',be:'Anterior 2/3 of the tongue',nv:'V3 (touch) + chorda tympani of VII (taste)',fu:'Overgrow the tuberculum impar and merge',pearl:'Anterior tongue = arch 1 → V3 sensation.'},
+{id:'tubimpar',n:'Tuberculum Impar',t:'ORAL',a:'face',p:'tongue',lo:'04.1',or:'Arch 1 (midline swelling)',wk:'Weeks 4–5',be:'Overgrown by the lateral lingual swellings',rl:'Sits just in front of the foramen cecum',pearl:'The swelling that gets overgrown.'},
+{id:'copula',n:'Copula',t:'ORAL',a:'face',p:'tongue',lo:'04.1',or:'Mesoderm under arches 2, 3 and 4 (hypobranchial eminence)',wk:'Weeks 5–10',be:'Posterior 1/3 (root) of the tongue',nv:'CN IX (extreme back: superior laryngeal of X)',pearl:'Posterior tongue sensation AND taste = CN IX.'},
+{id:'occsom',n:'Occipital Somite Myoblasts',t:'ORAL',a:'face',p:'tongue',lo:'04.1',or:'Paraxial mesoderm (occipital somites)',wk:'Weeks 5–10',be:'Tongue muscles',nv:'CN XII (hypoglossal)',pearl:'On exam: tongue = mesoderm surrounded by endoderm.'},
+{id:'bmp7',n:'BMP-7 / Noggin',t:'SIGNAL',a:'face',p:'tongue',lo:'04.2',or:'Endoderm (BMP-7) and mesoderm (Noggin)',rl:'Noggin blocks BMP-7, freeing Patched → endoderm proliferates (tongue and lung)',ge:'BMP-7, Noggin, Patched',pearl:'Shared tongue–lung theme: mesenchyme tells endoderm to grow. Molecular detail is not on the exam.'},
+{id:'forcec',n:'Foramen Cecum',t:'ORAL',a:'face',p:'thyroid',lo:'04.4',or:'Pharyngeal floor endoderm',wk:'Week 4',be:'Starting point of the thyroid',rl:'Between the tuberculum impar and the hypobranchial eminence',fa:'Lingual thyroid (no descent)',pearl:'Most common ectopic thyroid = base of tongue.'},
+{id:'tgduct',n:'Thyroglossal Duct',t:'ORAL',a:'face',p:'thyroid',lo:'04.4',or:'Endoderm (thyroid stalk)',wk:'Weeks 5–7, then disappears',be:'Disappears (remnant: pyramidal lobe)',rl:'Tethers the descending thyroid to the tongue',fa:'Thyroglossal duct cyst or fistula',pearl:'Midline cyst that rises with tongue protrusion.'},
+{id:'thyroid',n:'Thyroid Primordium',t:'ORAL',a:'face',p:'thyroid',lo:'04.4',or:'Foramen cecum endoderm (PAX genes → neural crest involved)',wk:'Week 6 in front of hyoid; week 7 anterior to trachea',be:'Bilobed thyroid gland',ge:'TTF-1, PAX, BMPs, noggin',fa:'Lingual thyroid',pearl:'Buds only once (bilobed), unlike the repeatedly branching lung.'},
+{id:'follic',n:'Follicular Cells',t:'ORAL',a:'face',p:'thyroid',lo:'04.5',or:'Foramen cecum endoderm',wk:'Function from weeks 14–15',be:'Colloid → T4 and T3 (cellular metabolism)',fa:'Congenital hypothyroidism (cretinism)',pearl:'Levothyroxine = synthetic T4.'},
+{id:'ccell',n:'C Cells',t:'ORAL',a:'face',p:'thyroid',lo:'04.5',or:'Ultimobranchial body',wk:'Function from weeks 14–15',be:'Calcitonin — prevents bone resorption',rl:'Fetal calcitonin is 2–3× maternal levels',pearl:'Calcitonin supports normal fetal bone development.'},
+{id:'fnp',n:'Frontonasal Prominence',t:'FACE',a:'face',p:'prom',lo:'04.6',or:'Mesenchyme + neural crest under surface ectoderm',wk:'Weeks 4–5',be:'Forehead + bridge of the nose',rl:'Emanates between the first arches; carries the nasal placodes',pearl:'Nose = 5 prominences: frontonasal (bridge), medial nasal ×2 (crest, tip), lateral nasal ×2 (sides).'},
+{id:'placode',n:'Nasal Placode',t:'FACE',a:'face',p:'prom',lo:'04.6',or:'Surface ectoderm thickening',wk:'Weeks 4–5 (pits by weeks 5–8)',be:'Nasal pits → medial and lateral nasal prominences',pearl:'Pits deepen at week 6 and are sealed by the oronasal membrane at week 7.'},
+{id:'mednasal',n:'Medial Nasal Prominence',t:'FACE',a:'face',p:'prom',lo:'04.6',or:'Frontonasal mesenchyme + neural crest',wk:'Weeks 5–8',be:'Crest and tip of nose, philtrum, intermaxillary segment',fu:'Maxillary prominence (upper lip)',fa:'Median cleft lip (if the two fail to merge)',pearl:'Medial nasal + maxillary = upper lip.'},
+{id:'latnasal',n:'Lateral Nasal Prominence',t:'FACE',a:'face',p:'prom',lo:'04.6',or:'Frontonasal mesenchyme + neural crest',wk:'Weeks 5–8',be:'Alae (sides) of the nose',fu:'Maxillary prominence (along the nasolacrimal groove)',fa:'Oblique facial cleft',pearl:'Does NOT form the upper lip.'},
+{id:'maxprom',n:'Maxillary Prominence',t:'FACE',a:'face',p:'prom',lo:'04.6',or:'Arch 1 neural crest',wk:'Weeks 4–5 (cheeks by weeks 8–9)',be:'Cheeks, lateral upper lip, maxilla, secondary palate',fu:'Medial nasal prominence',fa:'Lateral cleft lip',pearl:'Grows medially and pushes the nasal prominences to the midline.'},
+{id:'mandprom',n:'Mandibular Prominence',t:'FACE',a:'face',p:'prom',lo:'04.6',or:'Arch 1 neural crest',wk:'Weeks 4–5',be:'Lower lip, chin, lower jaw',fu:'The opposite mandibular prominence',fa:'Median cleft of the lower lip',pearl:'Caudal to the maxillary prominences.'},
+{id:'intermax',n:'Intermaxillary Segment',t:'FACE',a:'face',p:'palate',lo:'04.7',or:'Merged medial nasal prominences (deep fusion)',wk:'Weeks 6–7',be:'Philtrum, 4 upper incisors, primary palate',fu:'Continuous with the nasal septum',fa:'Cleft lip ± primary palate',pearl:'Labial → philtrum · upper jaw → 4 incisors · palatal → primary palate.'},
+{id:'shelves',n:'Palatine Shelves',t:'FACE',a:'face',p:'palate',lo:'04.7',or:'Maxillary prominences',wk:'Weeks 6.5–7',be:'Secondary palate + uvula',fu:'Each other, the nasal septum and the primary palate — above the tongue',fa:'Cleft palate and cleft uvula',pearl:'On exam: palatine shelves fail → cleft secondary palate + uvula.'},
+{id:'oronasal',n:'Oronasal Membrane',t:'FACE',a:'face',p:'palate',lo:'04.7',or:'Tissue between the deepening nasal pits and the mouth',wk:'Week 7 (ruptures mid-week 7)',be:'Primitive choana',rl:'Separates nasal pits from the oral cavity until it ruptures',pearl:'Choana opens behind the primary palate.'},
+{id:'sinus',n:'Paranasal Sinuses',t:'FACE',a:'face',p:'palate',lo:'04.7',or:'Diverticula of the lateral nasal wall',wk:'Form in utero; grow through puberty',be:'Maxillary, ethmoid, frontal and sphenoid sinuses',rl:'Condition inspired air and shape the adult face',pearl:'Grow until puberty.'},
+{id:'neurocart',n:'Cartilaginous Neurocranium',t:'FACE',a:'face',p:'palate',lo:'04.8',or:'Paraxial + prechordal mesoderm (+ some neural crest)',wk:'Fetal period',be:'Skull base (endochondral ossification)',rl:'Surrounds the brain from below',pearl:'Endochondral = cartilage model replaced by bone.'},
+{id:'neuromemb',n:'Membranous Neurocranium',t:'FACE',a:'face',p:'palate',lo:'04.8',or:'Mesenchyme (mesoderm + neural crest)',wk:'Fetal period',be:'Calvaria / skull vault (membrane ossification)',rl:'Spared in achondroplasia, so the head looks large',pearl:'>100 ossification centers → 45 bones → 22 skull bones.'},
+{id:'viscero',n:'Viscerocranium',t:'FACE',a:'face',p:'palate',lo:'04.8',or:'Neural crest (+ some arch mesoderm)',wk:'Fetal period',be:'Face and jaws (mostly membrane ossification)',rl:'Neural crest forms virtually all facial bones except thyroid and cricoid cartilages',pearl:'Pax3-GFP proved facial bones are neural crest.'},
+{id:'cleftlip',n:'Cleft Lip',t:'DEFECT',a:'face',p:'fdefects',lo:'04.9',fx:'Maxillary + medial nasal prominences',ge:'Anticonvulsants (lamotrigine, phenobarbital, valproate), lithium',cl:'Unilateral upper-lip cleft ± alveolus; ~1/1000, 80% male',pearl:'Most common congenital malformation of the head and neck.'},
+{id:'cleftpal',n:'Cleft Palate',t:'DEFECT',a:'face',p:'fdefects',lo:'04.9',fx:'Palatine shelves',ge:'Neural crest migration or function problem',cl:'Cleft of the hard and soft palate behind the incisive foramen, cleft uvula',pearl:'Small jaw keeps the tongue high → shelves can\'t meet (Pierre Robin).'},
+{id:'oblique',n:'Oblique Facial Cleft',t:'DEFECT',a:'face',p:'fdefects',lo:'04.9',fx:'Maxillary + lateral nasal prominences',ge:'Neural crest migration or function problem',cl:'Cleft from the upper lip along the nose toward the medial canthus',pearl:'On exam. The lip cleft here is secondary to the cleft palate.'},
+{id:'tgcyst',n:'Thyroglossal Duct Cyst',t:'DEFECT',a:'face',p:'fdefects',lo:'04.9',fx:'Thyroglossal duct (failed to disappear)',ge:'None',cl:'Midline neck mass near the hyoid that rises with tongue protrusion',pearl:'Can open as a thyroglossal fistula.'},
+{id:'t21',n:'Trisomy 21 Face',t:'DEFECT',a:'face',p:'fdefects',lo:'04.10',fx:'Chromosome 21 (not a single fusion)',ge:'Trisomy 21',cl:'Absent nasal bone on fetal ultrasound (+ ↑ nuchal translucency)',pearl:'Check the nasal bone and ear position on fetal face ultrasound.'},
+
+/* ---------- SENSORY SPIRE ---------- */
+{id:'eyefield',n:'Eye Field',t:'OPTIC',a:'sense',p:'eyes',lo:'18.2',or:'Anterior neural plate, in line with the diencephalon',wk:'Day ~17',be:'Optic grooves → optic vesicles',ge:'PAX6 (split in two by midline SHH)',fa:'Cyclopia (fields merge)',pearl:'On exam: eye fields sit in line with the diencephalon.'},
+{id:'optves',n:'Optic Vesicle',t:'OPTIC',a:'sense',p:'eyes',lo:'18.2',or:'Neuroectoderm (forebrain outpouching)',wk:'Days ~25–28',be:'Optic cup + optic stalk',rl:'Induces the overlying surface ectoderm to form the lens placode',pearl:'Contact between neuroectoderm and surface ectoderm starts the eye.'},
+{id:'lensplac',n:'Lens Placode',t:'OPTIC',a:'sense',p:'eyes',lo:'18.2',or:'Surface ectoderm',wk:'Day ~28 (vesicle by ~day 36)',be:'Lens pit → lens vesicle → lens',ge:'PAX6 + SOX2 (responding to FGF, BMP)',rl:'The lens vesicle then induces the cornea',pearl:'On exam: the lens induces the cornea. Lens grows at its equator.'},
+{id:'innercup',n:'Inner Optic Cup',t:'OPTIC',a:'sense',p:'eyeo',lo:'18.1',or:'Neuroectoderm (inner layer of optic cup)',wk:'Week 7',be:'Neural retina — the only sensory layer',fa:'Retinal detachment plane (neural retina separates from RPE)',pearl:'Retinoblastoma arises here.'},
+{id:'outercup',n:'Outer Optic Cup',t:'OPTIC',a:'sense',p:'eyeo',lo:'18.1',or:'Neuroectoderm (outer layer of optic cup)',wk:'Week 7',be:'Retinal pigment epithelium',rl:'Becomes thinner as the neural retina thickens',pearl:'Detachment happens between the two optic-cup layers.'},
+{id:'cornea',n:'Cornea',t:'OPTIC',a:'sense',p:'eyeo',lo:'18.1',or:'Surface ectoderm (epithelium) + neural crest (stroma, endothelium)',wk:'Weeks 7–8',rl:'Induced by the lens vesicle',be:'Transparent front of the eye',pearl:'Fuchs dystrophy = neural crest–derived endothelium failing.'},
+{id:'irismus',n:'Iris Muscles',t:'OPTIC',a:'sense',p:'eyeo',lo:'18.1',or:'Anterior optic cup (neuroectoderm)',wk:'Weeks 8–10',be:'Sphincter + dilator pupillae',nv:'Autonomic (sphincter: parasympathetic via CN III)',pearl:'Classic exception: muscles NOT from mesoderm.'},
+{id:'irisstroma',n:'Iris Stroma',t:'OPTIC',a:'sense',p:'eyeo',lo:'18.1',or:'Neural crest mesenchyme',wk:'Weeks 8–10',be:'Iris stroma (eye color)',pearl:'Pigment amount sets eye color.'},
+{id:'ciliary',n:'Ciliary Body',t:'OPTIC',a:'sense',p:'eyeo',lo:'18.1',or:'Optic cup (epithelium) + neural crest (muscle, stroma)',wk:'Week ~15',be:'Ciliary processes that secrete aqueous humor',pearl:'Aqueous drains through the canal of Schlemm.'},
+{id:'optnerve',n:'Optic Nerve',t:'OPTIC',a:'sense',p:'eyeo',lo:'18.1',or:'Optic stalk + retinal ganglion cell axons (diencephalon)',wk:'Weeks 6–7',be:'CN II',pearl:'BRS: the optic nerve forms from the diencephalon.'},
+{id:'choroidf',n:'Choroid Fissure',t:'OPTIC',a:'sense',p:'eyes',lo:'18.2',or:'Inferior groove in the optic cup and stalk',wk:'Week 6 (then closes)',be:'Closes around the hyaloid vessels',fa:'Coloboma',pearl:'Inferior keyhole iris defect = coloboma.'},
+{id:'hyaloid',n:'Hyaloid Artery',t:'OPTIC',a:'sense',p:'eyes',lo:'18.2',or:'Runs in the choroid fissure',wk:'Week 6',be:'Central retinal artery (proximal part); hyaloid canal in the vitreous',pearl:'Distal part regresses, leaving the hyaloid canal.'},
+{id:'pupmem',n:'Pupillary Membrane',t:'OPTIC',a:'sense',p:'eyes',lo:'18.2',or:'Mesenchyme in front of the lens',wk:'Weeks 7–8; regresses before birth',be:'Regresses (no adult structure)',fa:'Deprivation amblyopia (if it persists across the visual axis)',pearl:'Persistent membrane = lazy eye risk.'},
+{id:'eyelid',n:'Eyelids',t:'OPTIC',a:'sense',p:'eyes',lo:'18.2',or:'Surface ectoderm folds + mesenchyme',wk:'Form ~week 8; fused 2nd trimester, reopen 3rd',be:'Eyelids with conjunctiva and tarsal plate',pearl:'Fuse at the start of the second trimester, reopen at the start of the third.'},
+{id:'oticplac',n:'Otic Placode',t:'OTIC',a:'sense',p:'ear',lo:'18.2',or:'Surface ectoderm beside the hindbrain',wk:'Day ~22',be:'Otic pit → otic vesicle',rl:'The otic pit sits next to cleft 2',pearl:'Inner ear develops first.'},
+{id:'oticves',n:'Otic Vesicle',t:'OTIC',a:'sense',p:'ear',lo:'18.1',or:'Surface ectoderm (otic placode)',wk:'Day ~29',be:'Membranous labyrinth',rl:'Divides into endolymphatic, utricular and saccular parts (~day 36)',pearl:'BRS: the cochlear duct is ectoderm.'},
+{id:'utric',n:'Utricular Portion',t:'OTIC',a:'sense',p:'ear',lo:'18.2',or:'Otic vesicle',wk:'Day ~36',be:'Utricle + semicircular ducts',pearl:'Utricle → rotation and balance ducts.'},
+{id:'saccul',n:'Saccular Portion',t:'OTIC',a:'sense',p:'ear',lo:'18.2',or:'Otic vesicle',wk:'Day ~36 (cochlear duct ~week 9)',be:'Saccule + cochlear duct → Organ of Corti',pearl:'Saccule → Sound.'},
+{id:'stato',n:'Statoacoustic Ganglion',t:'OTIC',a:'sense',p:'ear',lo:'18.2',or:'Neuroblasts delaminating from the otic epithelium',wk:'Day ~30',be:'Vestibular + spiral ganglia',nv:'CN VIII',pearl:'Otic epithelium makes its own sensory neurons.'},
+{id:'oticcap',n:'Otic Capsule',t:'OTIC',a:'sense',p:'ear',lo:'18.1',or:'Mesenchyme around the otic vesicle',wk:'Fetal period',be:'Bony labyrinth',pearl:'Cartilaginous capsule ossifies around the membranous labyrinth.'},
+{id:'tubotymp',n:'Tubotympanic Recess',t:'POUCH',a:'sense',p:'ear',lo:'18.1',or:'Pouch 1 endoderm',wk:'Weeks 5–6',be:'Tympanic cavity + auditory (eustachian) tube',fu:'Approaches cleft 1 to form the tympanic membrane',pearl:'Middle ear infections climb this tube from the nasopharynx.'},
+{id:'hillock',n:'Auricular Hillocks',t:'OTIC',a:'sense',p:'ear',lo:'18.1',or:'Arch 1 (hillocks 1–3) and arch 2 (hillocks 4–6)',wk:'Weeks 5–6',be:'Auricle — hillock 1 tragus, hillock 6 antitragus (lobule not from hillocks)',rl:'Start caudal to the jaw and rise as the mandible grows',fa:'Low-set or malformed ears (pharyngeal-region defect)',pearl:'On exam: external ear deformities indicate pharyngeal-region deformities.'},
+{id:'meatal',n:'Meatal Plug',t:'OTIC',a:'sense',p:'ear',lo:'18.2',or:'Epithelial cells in the external canal',wk:'Breaks down ~month 7',be:'Opens the external auditory canal to the eardrum',fa:'Canal atresia with conductive hearing loss',pearl:'Canal = cleft 1; plug clears late.'},
+{id:'tm',n:'Tympanic Membrane',t:'OTIC',a:'sense',p:'ear',lo:'18.1',or:'All three germ layers: cleft 1 ectoderm, mesoderm, pouch 1 endoderm',wk:'Late fetal period',be:'Eardrum, attached to the handle of the malleus',rl:'Cone of light: 5 o\'clock right ear, 7 o\'clock left',pearl:'The only ear structure with all three germ layers.'},
+{id:'cyclopia',n:'Cyclopia',t:'DEFECT',a:'sense',p:'sdefects',lo:'18.3',fx:'Midline SHH signal (eye fields fail to separate)',ge:'SHH',cl:'Single midline eye, often with a proboscis (holoprosencephaly spectrum)',pearl:'No SHH → PAX6 not repressed in the midline.'},
+{id:'coloboma',n:'Coloboma',t:'DEFECT',a:'sense',p:'sdefects',lo:'18.3',fx:'Choroid fissure (failed to close)',ge:'None specific',cl:'Inferior keyhole defect of the iris (± retina, optic nerve)',pearl:'A LOWER-EYELID coloboma is Treacher Collins instead.'},
+{id:'aniridia',n:'Aniridia',t:'DEFECT',a:'sense',p:'sdefects',lo:'18.3',fx:'Iris development from the optic cup rim',ge:'PAX6 (WAGR, 11p13)',cl:'Absent iris; Wilms tumor, GU anomalies, intellectual disability',pearl:'Step 1 add-on.'},
+{id:'rubella',n:'Congenital Rubella',t:'DEFECT',a:'sense',p:'sdefects',lo:'18.3',fx:'Lens, cochlea and ductus (viral injury)',ge:'None (maternal infection)',cl:'Cataracts, patent ductus arteriosus, sensorineural deafness',pearl:'CMV is the most common infectious cause of hearing loss.'},
+{id:'thalid',n:'Thalidomide Ear',t:'DEFECT',a:'sense',p:'sdefects',lo:'18.3',fx:'External ear (drug toxicity in trimester 1)',ge:'Thalidomide, streptomycin, salicylates',cl:'Microtia with limb reduction defects',pearl:'The external ear is highly sensitive to first-trimester drugs.'},
+{id:'otoscl',n:'Otosclerosis',t:'DEFECT',a:'sense',p:'clinic',lo:'18.X',fx:'Stapes (bony overgrowth fixes it)',ge:'Hereditary; hormonal (pregnancy)',cl:'Conductive hearing loss in a pregnant or postpartum woman',pearl:'On exam: pregnant woman with sudden hearing loss → otosclerosis.'},
+{id:'meniere',n:'Ménière Disease',t:'DEFECT',a:'sense',p:'clinic',lo:'18.X',fx:'Endolymphatic system (hydrops)',ge:'Idiopathic',cl:'Episodic vertigo, tinnitus, fluctuating hearing loss, ear fullness',pearl:'Treatment: low salt, diuretics, labyrinthectomy.'},
+{id:'bppv',n:'BPPV',t:'DEFECT',a:'sense',p:'clinic',lo:'18.X',fx:'Otoliths dislodged from utricle/saccule into a canal',ge:'None',cl:'Brief spinning spells after head movement (rolling over in bed)',pearl:'Canalith repositioning moves the otoliths back.'},
+{id:'corti',n:'Organ of Corti',t:'OTIC',a:'sense',p:'clinic',lo:'18.X',or:'Cochlear duct epithelium (otic ectoderm)',wk:'After ~week 9',be:'Hair cells in the scala media under the tectorial membrane',rl:'Inner hair cells transmit; outer hair cells amplify; high frequencies at the base',fa:'Sensorineural hearing loss (noise, POU4F3, connexin 26)',pearl:'On exam: a cochlear implant needs an intact auditory nerve.'}
+];
+
+const BOSS={"03": {"key": "03", "title": "Pharyngeal Gauntlet", "lecture": "HNSS03 · Introduction / Pharyngeal Arches", "final": {"name": "The Branchial Leviathan", "epithet": "Coiled around all six arches", "n": 12}, "bosses": [{"lo": "03.1", "name": "The Week-Keeper", "epithet": "Warden of Weeks 3 to 10", "los": "Locate within a week the formation of the pharyngeal arches", "q": [["S1", "An embryo has three germ layers, a pericardial bulge, open cranial and caudal neuropores, and exactly two pharyngeal arches. No third arch is visible. What is the most likely embryonic age?", ["Week 2", "Weeks 3–3.5", "Week 5", "Weeks 5.5–6", "Week 8"], 1, "Arches 1 and 2 are present by weeks 3–3.5, together with the germ layers, pericardial bulge and neuropores. Arches 3, 4 and 6 appear at week 5."], ["2", "The cartilage that later gives rise to the malleus first populates the mandibular process. Which process is underway at about the same time?", ["Arches 1 and 2 are first appearing", "Neural crest cells are migrating into the arches", "The thymus is reaching the midline", "The tonsillar crypt is hollowing out", "The superior parathyroid is reaching the dorsal thyroid"], 1, "Meckel's cartilage populates the mandibular process by week 4.5; neural crest migration ensues at weeks 4.5–5. Thymus/parathyroid migration finishes at week 10; the tonsillar crypt forms at month 4."], ["2", "The arch whose nerve carries the afferent limb of the gag reflex first becomes visible at approximately which week?", ["Week 3", "Week 4", "Week 5", "Week 8", "Week 10"], 2, "Gag afferent = CN IX = arch 3. Arches 3, 4 and 6 become visible at week 5."], ["2", "A newborn has hypocalcemic seizures and no thymic shadow. The pouch whose derivatives are missing normally completes the caudal migration of its glands by which week?", ["Week 5", "Week 6", "Week 8", "Week 10", "Week 16"], 3, "Pouch 3 glands (thymus, inferior parathyroid) lose their pharyngeal connection and finish migrating by week 10."], ["2", "By which week does each pharyngeal arch first have its own nerve and its own arterial supply?", ["Weeks 3–3.5", "Week 4", "Weeks 4.5–5", "Weeks 5.5–6", "Week 8"], 3, "By weeks 5.5–6 all four cell types have formed arches, pouches and clefts; each arch becomes separately innervated and acquires its own artery."]]}, {"lo": "03.2", "name": "The Triblast Golem", "epithet": "Built of three germ layers", "los": "Cellular and anatomical components of the arches", "q": [["2", "Cells migrate into the arches from the hindbrain and midbrain at weeks 4.5–5. Which germ layer do they come from, and what do they build?", ["Mesoderm — muscles of the face", "Ectoderm — the skeleton of the face", "Endoderm — the pouch glands", "Ectoderm — the muscles of mastication", "Mesoderm — the laryngeal cartilages"], 1, "These are neural crest cells (derived from ectoderm), predetermined to form the skeletal component of the face."], ["S1", "A researcher labels the epithelium lining the indentations on the pharyngeal (inner) surface between the arches. Labeled cells will later be found in which structure?", ["External auditory meatus", "Thymic epithelium", "Masseter muscle", "Malleus", "Stapedius muscle"], 1, "Inner indentations are pouches, lined by endoderm → glands and linings such as the thymus (pouch 3). The meatus is cleft (ectoderm); muscles are mesoderm; ossicles are neural crest."], ["2", "The muscle that tenses the tympanic membrane arises from which component of its arch?", ["Neural crest", "Surface ectoderm", "Pharyngeal endoderm", "Core mesoderm (paraxial + lateral plate)", "Notochord"], 3, "Tensor tympani is an arch 1 muscle. Arch muscles come from the core mesenchyme of paraxial and lateral plate mesoderm; each arch has its own population."], ["2", "Which statement about the pharyngeal apparatus is correct?", ["Pouches are lined by ectoderm", "Clefts are lined by ectoderm and pouches by endoderm", "Arches contain no mesoderm", "Clefts give rise to most of the neck glands", "Adjacent arches share one cranial nerve"], 1, "CAP from outside in: Cleft (ectoderm) → Arch (mesoderm + neural crest) → Pouch (endoderm)."], ["2", "The cartilages of the larynx differ from the skeletal derivatives of arches 1–3 in what way?", ["They form by membrane ossification", "They come from lateral plate mesoderm, not neural crest", "They come from pouch endoderm", "They are innervated by CN IX", "They form after birth"], 1, "Flagged on exam: arch 4/6 cartilages derive from lateral plate mesoderm; neural crest is not involved."]]}, {"lo": "03.3", "name": "Meckel the Jawbreaker", "epithet": "Lord of cartilage, muscle and nerve", "los": "Muscular, skeletal and neural derivatives of each arch", "q": [["S1", "A 45-year-old man has weakness of chewing on the right, and his jaw deviates to the right on opening. Which other muscle is most likely affected by the same lesion?", ["Stapedius", "Tensor tympani", "Stylopharyngeus", "Posterior belly of digastric", "Levator veli palatini"], 1, "Right V3 lesion → pterygoids weak → jaw deviates toward the lesion. Tensor tympani is also arch 1 (V3). The other options are arches 2, 3, 2 and 4."], ["2", "One ossicle does not come from the same cartilage as the malleus. The muscle attached to that ossicle is supplied by which nerve?", ["CN V3", "CN VII", "CN IX", "CN X", "CN XII"], 1, "Malleus/incus come from Meckel's (arch 1). The stapes comes from Reichert's (arch 2); its muscle, stapedius, is CN VII."], ["S1", "After a thyroidectomy, a patient is hoarse and cannot abduct the left vocal fold. The injured nerve belongs to which arch, and which laryngeal muscle is spared?", ["Arch 4 — cricothyroid spared", "Arch 6 — cricothyroid spared", "Arch 6 — posterior cricoarytenoid spared", "Arch 3 — stylopharyngeus spared", "Arch 4 — thyroarytenoid spared"], 1, "Recurrent laryngeal = arch 6 and supplies all intrinsic laryngeal muscles except cricothyroid (arch 4, superior laryngeal)."], ["2", "A mutation disrupts Reichert's cartilage. Which structure would most likely be abnormal?", ["Greater horn of the hyoid", "Lesser horn of the hyoid", "Malleus", "Incus", "Thyroid cartilage"], 1, "Reichert's (arch 2) → stapes, styloid, stylohyoid ligament, lesser horn and upper body of hyoid."], ["2", "Which bone forms from arch 1 neural crest by membrane (intramembranous) ossification?", ["Malleus", "Incus", "Zygomatic", "Stapes", "Greater horn of hyoid"], 2, "Maxillary-process neural crest ossifies directly: premaxilla, maxilla, zygomatic, parts of temporal. Malleus and incus are endochondral from Meckel's."], ["S1", "A patient loses taste and sensation over the posterior third of the tongue and has an absent gag reflex on that side. The only muscle derived from the same arch as this nerve is:", ["Stylohyoid", "Stylopharyngeus", "Styloglossus", "Palatoglossus", "Cricothyroid"], 1, "CN IX = arch 3, whose only muscle is stylopharyngeus."]]}, {"lo": "03.4", "name": "The Pouchmother", "epithet": "Breeder of glands", "los": "Derivatives of each pharyngeal pouch", "q": [["S1", "A 3-year-old has recurrent otitis media. The epithelial lining of the canal connecting the middle ear to the nasopharynx develops from which structure?", ["First cleft ectoderm", "First pouch endoderm", "Second pouch endoderm", "First arch mesoderm", "Otic placode"], 1, "Pouch 1 → tubotympanic recess: distal = tympanic cavity, proximal = eustachian tube."], ["S1", "During a parathyroidectomy, the surgeon finds one parathyroid gland low in the neck, embedded in thymic tissue near the thoracic inlet. This gland most likely arose from which structure?", ["Pouch 2", "Dorsal wing of pouch 3", "Ventral wing of pouch 3", "Dorsal wing of pouch 4", "Ultimobranchial body"], 1, "The inferior parathyroid comes from the dorsal wing of pouch 3 and is dragged down by the thymus (ventral wing of pouch 3), so ectopic inferior glands often sit with thymic tissue."], ["2", "Cells derived from the ventral wing of pouch 4 (ultimobranchial body) secrete a hormone. What is its main action on bone?", ["Stimulates osteoblasts to make osteoid", "Inhibits osteoclast resorption", "Increases renal phosphate wasting", "Stimulates chief cells", "Stimulates follicular cells"], 1, "Ultimobranchial body → thyroid C cells → calcitonin, which prevents bone resorption."], ["S1", "A 40-year-old has a thyroid nodule and markedly elevated serum calcitonin. The tumor's cells arose embryologically from which structure?", ["Foramen cecum endoderm", "Ultimobranchial body", "Dorsal wing of pouch 3", "Pouch 2", "Thyroglossal duct"], 1, "Medullary thyroid carcinoma comes from parafollicular C cells, which enter the thyroid via the ultimobranchial body (pouch 5 / ventral pouch 4)."], ["2", "The palatine tonsil epithelium comes from the pouch lying between which two arches?", ["Arches 1 and 2", "Arches 2 and 3", "Arches 3 and 4", "Arches 4 and 6", "It is not a pouch derivative"], 1, "Pouch 2 sits between arches 2 and 3. Its buds become the palatine tonsil; the crypt forms at month 4."], ["2", "The inferior parathyroid comes from a more cranial pouch than the superior parathyroid. Why does it end up lower?", ["It forms after the superior gland", "The thymus drags it caudally", "The thyroid pushes it down", "It is attached to the aortic arch", "It never migrates"], 1, "Pouch 3 dorsal wing (inferior parathyroid) travels with the thymus (pouch 3 ventral wing) past the pouch 4 gland."]]}, {"lo": "03.5", "name": "The Cervical Sinus", "epithet": "The hollow that should have closed", "los": "Derivatives of each pharyngeal cleft", "q": [["S1", "An 8-year-old has a painless, fluctuant mass along the anterior border of the upper third of the sternocleidomastoid. It enlarged after a cold and does not move with swallowing. Failure of which process?", ["Obliteration of the thyroglossal duct", "Obliteration of the cervical sinus (cleft 2 overgrowth)", "Migration of pouch 3", "Formation of lymphatic sacs", "Closure of the foramen cecum"], 1, "Branchial cleft cyst: lateral, anterior to SCM, doesn't move with swallowing. Cleft 2 normally grows over clefts 3–5 and the enclosed cervical sinus disappears."], ["2", "Which pharyngeal cleft derivative is lined by the same germ layer as the lens of the eye?", ["Tympanic cavity", "External auditory meatus", "Eustachian tube", "Palatine tonsil", "Thymus"], 1, "Cleft 1 → external auditory meatus (ectoderm). The lens is surface ectoderm. The other options are endoderm (pouches)."], ["2", "A membrane formed by cleft 1 and pouch 1 transmits vibration to an ossicle attached at its center. That ossicle comes from which cartilage?", ["Reichert's cartilage", "Meckel's cartilage", "Thyroid cartilage", "Otic capsule", "Cricoid cartilage"], 1, "The tympanic membrane attaches to the handle of the malleus, a Meckel's (arch 1) derivative."], ["2", "Cleft 2 grows caudally over clefts 3–5 and fuses with which structure?", ["Hypobranchial eminence", "Epicardial ridge", "Foramen cecum", "Tuberculum impar", "Laryngotracheal groove"], 1, "Fusion with the epicardial ridge encloses the cervical sinus. This overgrowth figure was called a lecture favorite."], ["S1", "A newborn has a pinpoint opening on the lower neck anterior to the SCM that drains mucoid fluid. A probe tracks upward toward the tonsillar fossa. What is this?", ["Thyroglossal fistula", "Branchial fistula from a persistent cervical sinus", "Cystic hygroma", "Dermoid cyst", "Lingual thyroid"], 1, "A branchial fistula is an abnormal connection between the neck skin and the inside of the neck (here the pouch 2 region), from failure of cleft 2 to cover clefts 3–5."]]}, {"lo": "03.6", "name": "The Hoxlord", "epithet": "Writer of the Hox code", "los": "Hox proteins in arch development", "q": [["2", "Neural crest from rhombomere 4 fails to migrate. Which structure is most likely malformed?", ["Malleus", "Stapes", "Greater horn of hyoid", "Thyroid cartilage", "Zygomatic bone"], 1, "R4 → arch 2 → Reichert's cartilage → stapes (plus styloid, lesser horn)."], ["2", "The arch that forms the incus is patterned mainly by which transcription factor, expressed in neural crest from which region?", ["Hoxa-2 — hindbrain", "OTX2 — forebrain and midbrain", "PAX3 — spinal cord", "Hoxa-3 — rhombomere 6", "TTF-1 — pharyngeal floor"], 1, "Incus = arch 1. OTX2 is the key regulator of arch 1 and is expressed in forebrain- and midbrain-derived neural crest."], ["S1", "Hoxa-3 knockout mice lack a thymus and parathyroid glands. A human infant with the analogous defect would most likely show:", ["Hypercalcemia and B-cell deficiency", "Hypocalcemic tetany and T-cell deficiency", "Microtia with normal immunity", "Cleft lip and normal calcium", "Deafness and a white forelock"], 1, "Hoxa-3 knockout mimics DiGeorge (pouches 3/4): no parathyroids → hypocalcemia; no thymus → T-cell deficiency."], ["2", "How does excess retinoic acid change arch identity?", ["It degrades Hox mRNA", "It binds RAREs in Hox promoters and increases Hox transcription", "It blocks neural crest migration only", "It deletes the Hox cluster", "It inhibits SHH receptors"], 1, "Retinoids bind retinoic acid response elements in Hox promoters; excess hyperactivates them → too much Hox protein."], ["2", "How do the arches acquire distinct identities?", ["Each arch makes its own Hox genes independently of neural crest", "Neural crest carries Hox proteins expressed in a rostrocaudal sequence, setting up a pharyngeal Hox code", "Pouch endoderm secretes identical Hox proteins into every arch", "Hox genes are expressed only in arch 1", "Arteries deliver Hox proteins"], 1, "NC cells carry Hox proteins to each arch; rostrocaudal expression sets up the Hox code."], ["2", "SHH knockout mice are headless. Which statement best explains how SHH relates to arch patterning?", ["SHH is a Hox protein", "SHH regulates Hox genes", "SHH is only needed for limb buds", "SHH inhibits neural crest formation", "SHH binds RAREs"], 1, "SHH has been shown to regulate Hox genes — a master regulator upstream of the Hox code."]]}, {"lo": "03.7", "name": "The Oxidizer", "epithet": "Twin blades of alcohol and retinoid", "los": "Alcohol vs retinoic acid: mechanisms", "q": [["2", "Why are neural crest cells especially vulnerable to alcohol and retinoic acid?", ["They lack DNA mismatch repair", "They are deficient in superoxide dismutase and catalase", "They have no blood supply", "They divide too slowly to repair damage", "They express no Hox genes"], 1, "Low SOD/catalase means they can't scavenge free radicals."], ["S1", "A newborn has a smooth philtrum, thin upper lip, short palpebral fissures and microcephaly. By the mechanism taught in lecture, the causal agent damaged neural crest by:", ["Hyperactivating Hox genes", "Generating reactive oxygen species", "Antagonizing folate", "Deleting 22q11.2", "Mutating Tcof-1"], 1, "Fetal alcohol syndrome. Alcohol acts through ROS only."], ["S1", "A 19-year-old taking isotretinoin for acne becomes pregnant. Her infant has microtia, cleft palate and a conotruncal heart defect. Which mechanism(s) explain the craniofacial defects?", ["ROS only", "Hox hyperactivation only", "ROS and Hox hyperactivation", "Folate antagonism", "Androgen excess"], 2, "Retinoic acid does both: ROS damage to neural crest and hyperactivation of Hox genes via RAREs."], ["2", "Which feature distinguishes retinoic acid teratogenicity from alcohol teratogenicity?", ["Only retinoic acid produces reactive oxygen species", "Only retinoic acid hyperactivates Hox genes", "Only alcohol affects neural crest", "Only alcohol causes facial defects", "Neither affects neural crest"], 1, "Both make ROS; only RA also hyperactivates Hox (flagged on exam)."], ["2", "A hypothetical antioxidant fully blocks free-radical damage in neural crest. What would it prevent?", ["Neither teratogen's effects", "All of alcohol's mechanism but only part of retinoic acid's", "All of retinoic acid's mechanism but none of alcohol's", "Both teratogens completely", "Only Hox hyperactivation"], 1, "Alcohol = ROS only (fully blocked). RA = ROS + Hox (Hox arm remains)."]]}, {"lo": "03.8", "name": "CATCH-22", "epithet": "The syndrome of missing pouches", "los": "Birth defects of arch formation", "q": [["S1", "A 3-day-old has tetany, truncus arteriosus and no thymic shadow on chest X-ray. Which structures failed to develop?", ["Pharyngeal clefts 2–4", "Pharyngeal pouches 3 and 4", "First arch neural crest", "Second arch mesoderm", "The thyroglossal duct"], 1, "DiGeorge (22q11.2): pouches 3 and 4 fail → no parathyroids or thymus; conotruncal defects from neural crest."], ["S1", "For the infant above, which laboratory pattern is expected?", ["↑ Calcium, ↑ PTH", "↓ Calcium, ↓ PTH", "↓ Calcium, ↑ PTH", "↑ Calcium, ↓ PTH", "Normal calcium, ↓ T cells only"], 1, "No parathyroid tissue → low PTH → hypocalcemia."], ["S1", "A child has zygomatic hypoplasia, a small mandible, notched lower eyelids, malformed external ears and conductive hearing loss. Intelligence is normal. The underlying problem is:", ["Failure of pouches 3 and 4", "Defective neural crest migration into arches 1 and 2", "Persistent cervical sinus", "Maternal folate deficiency", "PAX6 mutation"], 1, "Treacher Collins (Tcof-1): neural crest into arches 1–2. Conductive loss comes from malformed ossicles."], ["S1", "A child has a white forelock, hypertelorism and congenital deafness. Which gene is most likely mutated?", ["PAX6", "PAX3", "TCOF1", "TBX1", "SHH"], 1, "Waardenburg syndrome: PAX3, a neural crest defect (cleft palate, deafness, hypertelorism, white forelock)."], ["2", "A branchial fistula results from failure of which arch to grow caudally over the more caudal clefts?", ["Arch 1", "Arch 2", "Arch 3", "Arch 4", "Arch 6"], 1, "The second arch (cleft 2) normally overgrows clefts 3–5; failure leaves a sinus/fistula."]]}]}, "04": {"key": "04", "title": "The Fusion Wars", "lecture": "HNSS04 · Craniofacial Development", "final": {"name": "The Stomodeum", "epithet": "The mouth that all prominences surround", "n": 12}, "bosses": [{"lo": "04.1", "name": "Tuberculum Impar", "epithet": "The swelling that gets overgrown", "los": "Anatomical structures of the tongue", "q": [["2", "The swellings that form the anterior two-thirds of the tongue arise from the same arch as which muscle?", ["Stylopharyngeus", "Masseter", "Stapedius", "Cricothyroid", "Genioglossus"], 1, "Lateral lingual swellings + tuberculum impar come from arch 1, the arch of the muscles of mastication."], ["S1", "After a stroke, a patient's tongue deviates to the left on protrusion. The weakened muscles developed from which source?", ["First arch mesoderm", "Occipital somites", "Second arch neural crest", "Pharyngeal endoderm", "Lateral plate mesoderm of arch 4"], 1, "Flagged on exam: tongue muscles come from occipital somite (paraxial mesoderm) myoblasts — hence hypoglossal innervation."], ["2", "The lecture describes the tongue as which arrangement of tissues?", ["Endoderm surrounded by ectoderm", "Mesoderm surrounded by endoderm", "Neural crest surrounded by mesoderm", "Ectoderm surrounded by mesoderm", "Endoderm only"], 1, "Flagged on exam: somite mesoderm core, endodermal covering."], ["2", "The copula forms from mesoderm under arches 2–4. Which part of the tongue does this hypobranchial tissue build?", ["Anterior two-thirds", "Posterior one-third (root)", "Tip only", "Intrinsic muscles", "Lingual frenulum"], 1, "Anterior 2/3 = lateral swellings overgrowing the tuberculum impar; posterior 1/3 = copula/hypobranchial eminence."], ["2", "Which landmark lies between the tuberculum impar and the hypobranchial eminence?", ["Terminal sulcus only", "Foramen cecum", "Vallecula", "Incisive foramen", "Median glossoepiglottic fold"], 1, "The foramen cecum — the starting point of the thyroid."]]}, {"lo": "04.2", "name": "Noggin the Bud-Breaker", "epithet": "Silencer of BMP", "los": "Tongue development vs lung development", "q": [["2", "In both tongue and lung development, which tissue gives the signal that starts epithelial proliferation?", ["The overlying ectoderm", "The underlying mesoderm (± neural crest)", "The notochord", "The neural tube", "The endoderm itself, autonomously"], 1, "The shared theme: underlying mesenchyme signals the overlying endoderm to proliferate and bud."], ["2", "(Low yield — not on the exam.) If mesodermal Noggin were knocked out under the tongue primordium, what would be predicted?", ["Endoderm overgrowth", "BMP-7 unopposed → Patched stays inhibited → reduced endodermal proliferation", "Premature thyroid descent", "Increased Patched activity", "No change"], 1, "Noggin normally inhibits BMP-7, releasing Patched to drive proliferation."], ["2", "Which organ forms by the same endodermal budding mechanism as the lung but buds only once, into two lobes?", ["Tongue", "Thyroid", "Thymus", "Parathyroid", "Pituitary"], 1, "The thyroid descends as a bilobed diverticulum; lungs keep bifurcating."], ["2", "The lining epithelium of both the tongue and the lung bud comes from which germ layer?", ["Ectoderm", "Endoderm", "Mesoderm", "Neural crest", "Neuroectoderm"], 1, "Both are endoderm driven by the underlying mesenchyme."]]}, {"lo": "04.3", "name": "The Lingual Hydra", "epithet": "Four heads, four nerves", "los": "Cranial innervation of throat and tongue", "q": [["S1", "During a difficult third-molar extraction, the lingual nerve is cut just after the chorda tympani joins it. Which deficit results on that side?", ["Loss of taste only", "Loss of general sensation only", "Loss of both taste and general sensation, anterior two-thirds", "Tongue deviation", "Loss of gag reflex"], 2, "Distal to the junction, the lingual nerve carries both V3 general sensation and VII (chorda tympani) taste fibers."], ["S1", "A patient with Bell's palsy loses taste on the anterior two-thirds of the tongue, but touch is intact. The lost fibers travel in which nerve?", ["Lingual nerve proper (V3)", "Chorda tympani (VII)", "Glossopharyngeal nerve", "Superior laryngeal nerve", "Hypoglossal nerve"], 1, "Taste anterior 2/3 = chorda tympani; general sensation = V3, which is spared."], ["S1", "After tonsillectomy, a patient has lost taste and sensation on the posterior third of the tongue and has a diminished gag reflex. Which nerve, from which arch?", ["CN V3, arch 1", "CN VII, arch 2", "CN IX, arch 3", "CN X, arch 4", "CN XII, occipital somites"], 2, "Posterior 1/3 tongue and gag afferent = CN IX, arch 3. It runs near the tonsillar bed."], ["2", "Sensation from the extreme posterior tongue (near the epiglottis) travels with a nerve that also supplies which muscle?", ["Stylopharyngeus", "Cricothyroid", "Posterior cricoarytenoid", "Genioglossus", "Tensor veli palatini"], 1, "Extreme posterior tongue = superior laryngeal branch of X (arch 4), whose motor branch supplies cricothyroid."], ["S1", "When a patient says 'ah', the uvula deviates to the right. The gag reflex is absent when the left posterior pharynx is touched but present on the right. Which nerve is damaged?", ["Left CN IX", "Left CN X", "Right CN X", "Right CN IX", "Left CN XII"], 1, "The uvula deviates away from the weak side, so the left X (efferent) is damaged. IX is afferent; a lone IX lesion wouldn't deviate the uvula."]]}, {"lo": "04.4", "name": "The Thyroglossal Wraith", "epithet": "Haunter of the descent path", "los": "Steps of thyroid development", "q": [["S1", "A 12-year-old girl has a mass at the base of the tongue. Scintigraphy shows it is her only functioning thyroid tissue. What happened?", ["The thyroglossal duct failed to obliterate", "The thyroid primordium failed to descend from the foramen cecum", "The ultimobranchial body failed to fuse", "Pouch 4 failed to form", "Cleft 2 persisted"], 1, "Lingual thyroid = failure of descent. Don't excise without confirming other thyroid tissue."], ["2", "Where is the descending thyroid located at week 6?", ["At the foramen cecum", "In front of the hyoid and laryngeal cartilages", "Anterior to the trachea", "In the anterior mediastinum", "Inside the tongue muscle"], 1, "Week 6: in front of the hyoid and laryngeal cartilages. Week 7: final position anterior to the trachea."], ["2", "PAX genes are among the major genes involved in thyroid development. What does this imply?", ["The thyroid is purely ectodermal", "Neural crest cells are involved", "The thyroid comes from pouch 2", "Mesoderm isn't involved", "The thyroid develops after birth"], 1, "Flagged on exam: PAX involvement = neural crest involvement."], ["S1", "During thyroidectomy, a surgeon notices a thin extension rising from the isthmus toward the hyoid. This represents:", ["An accessory parathyroid", "A remnant of the thyroglossal duct (pyramidal lobe)", "Ectopic thymus", "Ultimobranchial body remnant", "Branchial cleft remnant"], 1, "The pyramidal lobe is a persistent part of the thyroglossal duct."], ["2", "Which is the correct order of thyroid development?", ["Trachea → hyoid → foramen cecum", "Foramen cecum → descends on thyroglossal duct → in front of hyoid (wk 6) → anterior to trachea (wk 7)", "Pouch 4 → foramen cecum → trachea", "Hyoid → foramen cecum → trachea", "Ultimobranchial body → trachea → hyoid"], 1, "Foramen cecum → bilobed descent on the duct → wk 6 hyoid/larynx → wk 7 trachea."]]}, {"lo": "04.5", "name": "The Calcitonin Sentinel", "epithet": "Guardian of fetal bone", "los": "Function of the fetal thyroid", "q": [["2", "Fetal cells derived from the ultimobranchial body secrete a hormone at 2–3× maternal levels. What does it do?", ["Raises blood calcium by activating osteoclasts", "Prevents bone resorption, supporting bone development", "Stimulates thyroid follicle growth", "Increases renal calcium loss", "Stimulates PTH release"], 1, "C cells → calcitonin → increased calcium uptake into bone, preventing resorption."], ["S1", "A newborn's screen shows high TSH and low T4. If untreated, which picture develops?", ["Tall stature and tachycardia", "Pot belly, puffy face, protruding tongue, umbilical hernia, intellectual disability", "Hypocalcemic tetany", "Exophthalmos", "Precocious puberty"], 1, "Congenital hypothyroidism (cretinism). Thyroid hormone controls metabolism and brain development; treat early with levothyroxine."], ["2", "According to lecture, at about which week does the fetal thyroid begin functioning?", ["Week 4", "Week 7", "Weeks 14–15", "Week 28", "At birth"], 2, "Weeks 14–15 per lecture (Step 1 sources often say ~10–12)."], ["2", "Follicular cells begin producing colloid. Colloid is the source of which hormones, with what function?", ["Calcitonin — calcium", "T4 and T3 — cellular metabolism", "PTH — calcium", "TSH — thyroid growth", "Cortisol — stress"], 1, "Colloid stores thyroglobulin → T4/T3, which control cellular metabolism."]]}, {"lo": "04.6", "name": "The Five-Faced Prominence", "epithet": "Frontonasal, maxillary ×2, mandibular ×2", "los": "Formation of the face (lips, nose, cheeks)", "q": [["S1", "An infant has a cleft exactly in the midline of the upper lip, through the philtrum. Which prominences failed to merge?", ["Maxillary and medial nasal", "The two medial nasal prominences", "Maxillary and lateral nasal", "The two mandibular prominences", "Palatine shelves"], 1, "Median cleft of the upper lip = incomplete merging of the two medial nasal prominences."], ["2", "The prominence that forms the cheeks also forms which part of the upper lip?", ["The philtrum", "The lateral parts", "None of it", "The whole lip", "The vermilion only"], 1, "Maxillary prominences → cheeks (wk 8–9) and the lateral upper lip; medial nasal → philtrum."], ["2", "Which structure does NOT come from the medial nasal prominences?", ["Philtrum", "Crest and tip of the nose", "Primary palate", "Alae (sides) of the nose", "Four upper incisors"], 3, "The alae come from the lateral nasal prominences, which don't form the lip."], ["2", "A Pax3-GFP reporter lights up neural crest. Which facial structures would NOT fluoresce?", ["Maxilla and zygomatic bone", "Mandible", "Thyroid and cricoid cartilages", "Nasal bones", "Frontal bone"], 2, "Neural crest forms virtually all facial bones; thyroid and cricoid cartilages are lateral plate mesoderm."], ["2", "The nasal placodes invaginate into nasal pits. The ridges around each pit become:", ["Maxillary prominences", "Medial and lateral nasal prominences", "Palatine shelves", "Mandibular prominences", "The frontonasal prominence"], 1, "Weeks 5–8: placodes → pits → medial and lateral nasal prominences; the maxillary prominences push them medially."]]}, {"lo": "04.7", "name": "The Shelf-Splitter", "epithet": "Keeper of the palate", "los": "Formation of the palates", "q": [["S1", "A newborn has a cleft of the hard and soft palate behind the incisive foramen; the lip and alveolar ridge are intact. Which process failed?", ["Fusion of maxillary and medial nasal prominences", "Fusion of the palatine shelves", "Formation of the intermaxillary segment", "Rupture of the oronasal membrane", "Descent of the thyroid"], 1, "Isolated secondary-palate cleft = palatine shelves failed to fuse."], ["2", "The palatine shelves are outgrowths of the prominence that also forms which structure?", ["Philtrum", "Cheeks", "Nasal alae", "Chin", "Nasal bridge"], 1, "Shelves come from the maxillary prominences, which also form the cheeks."], ["S1", "A newborn has a very small mandible, a tongue that falls back into the airway, and a U-shaped cleft of the secondary palate. How does the jaw problem explain the cleft?", ["The mandible forms the palate", "The tongue couldn't drop, blocking the shelves from meeting above it", "Neural crest never reached the palate", "The oronasal membrane never ruptured", "The thyroid failed to descend"], 1, "The shelves must grow toward each other dorsal to the tongue. A small jaw keeps the tongue high (Pierre Robin sequence, Step 1)."], ["2", "At mid-week 7 the nasal and oral cavities connect behind the primary palate. What forms this connection?", ["Incisive foramen", "Primitive choana, after the oronasal membrane ruptures", "Nasolacrimal duct", "Foramen cecum", "Eustachian tube"], 1, "Nasal pits deepen (wk 6), separated by the oronasal membrane (wk 7), which ruptures → primitive choana."], ["2", "Which component of the intermaxillary segment carries the four upper incisors?", ["Labial component", "Upper jaw component", "Palatal component", "Palatine shelves", "Lateral nasal component"], 1, "Labial → philtrum · upper jaw → four incisors · palatal → primary palate."]]}, {"lo": "04.8", "name": "Ossifex", "epithet": "Forger of the skull", "los": "Neurocranium and viscerocranium", "q": [["2", "The cartilaginous neurocranium (skull base) forms by which process, from which tissue?", ["Membrane ossification of neural crest", "Endochondral ossification of paraxial and prechordal mesoderm (+ some neural crest)", "Endochondral ossification of lateral plate mesoderm", "Membrane ossification of endoderm", "Direct ossification of surface ectoderm"], 1, "Skull base = cartilage model replaced by bone (endochondral)."], ["2", "Which pairing of bone and ossification type is correct?", ["Maxilla — endochondral", "Malleus — membranous", "Maxilla — membranous (neural crest)", "Skull base — membranous", "Incus — membranous"], 2, "Viscerocranium bones like the maxilla ossify directly from neural crest; the malleus and incus are endochondral."], ["S1", "A child with achondroplasia (defective endochondral ossification) has a disproportionately large calvaria with frontal bossing. Why is the calvaria spared?", ["It forms by membranous ossification", "It forms from endoderm", "It forms after birth only", "It has no bone", "It is cartilage in adults"], 0, "The skull vault (membranous neurocranium) doesn't depend on a cartilage model; the endochondral skull base is small."], ["2", "The malleus belongs to which division of the skull, and how does it ossify?", ["Membranous neurocranium — membrane", "Cartilaginous viscerocranium — endochondral", "Cartilaginous neurocranium — endochondral", "Membranous viscerocranium — membrane", "It is not part of the skull"], 1, "Arch cartilages (Meckel's) form the cartilaginous viscerocranium; the malleus is endochondral."], ["2", "More than 100 ossification centers form 45 bones. How many bones does the mature skull have?", ["8", "14", "22", "28", "45"], 2, "They fuse into the 22 bones of the mature skull."]]}, {"lo": "04.9", "name": "Cleftmaw", "epithet": "The failure to fuse", "los": "Clinical malformations (cleft lip and others)", "q": [["S1", "A newborn has a unilateral cleft through the upper lip and alveolar ridge. This is the most common congenital malformation of the head and neck. Which fusion failed?", ["Palatine shelves", "Maxillary and medial nasal prominences", "The two medial nasal prominences", "Maxillary and lateral nasal prominences", "The two mandibular prominences"], 1, "Cleft lip ± primary palate = maxillary + medial nasal (intermaxillary segment) failure."], ["S1", "A woman with epilepsy took an antiepileptic throughout pregnancy that was specifically linked in lecture to oral clefts (2.5 vs 0.37 per 1000). Which drug?", ["Levetiracetam", "Lamotrigine", "Ethosuximide", "Gabapentin", "Folic acid"], 1, "Lamotrigine; phenobarbital, valproic acid and lithium were also named."], ["S1", "A newborn has a cleft that runs from the upper lip along the side of the nose toward the medial canthus, exposing the nasolacrimal groove. Which prominences failed to merge?", ["Maxillary and medial nasal", "Maxillary and lateral nasal", "Two medial nasal", "Frontonasal and mandibular", "Palatine shelves"], 1, "Flagged on exam: oblique facial cleft = maxillary + lateral nasal prominence."], ["S1", "A 4-year-old has a painless midline neck mass just below the hyoid that rises when she sticks out her tongue. What is it?", ["Branchial cleft cyst", "Thyroglossal duct cyst", "Cystic hygroma", "Lingual thyroid", "Dermoid cyst"], 1, "Midline + moves with tongue protrusion = remnant of the thyroglossal duct."], ["2", "Lecture says all facial clefts can ultimately be caused by problems with which cell population?", ["Pharyngeal endoderm", "Neural crest (migration or function)", "Occipital somites", "Otic placode", "Notochord"], 1, "Flagged on exam."]]}, {"lo": "04.10", "name": "The Sonographer's Shade", "epithet": "Seen only on ultrasound", "los": "Craniofacial ultrasound", "q": [["S1", "A first-trimester ultrasound shows an absent nasal bone and increased nuchal translucency. Which other finding is this fetus at increased risk for?", ["Renal agenesis", "Duodenal atresia", "Spina bifida", "Gastroschisis", "Clubfoot only"], 1, "These are trisomy 21 markers; Down syndrome is associated with duodenal atresia and AV septal defects."], ["2", "Lecture said to check ear position on the fetal face. Low-set ears suggest an abnormality of which region?", ["The otic placode only", "The pharyngeal (arch 1–2) region", "The eye fields", "The neural tube", "The thyroid"], 1, "External ears form from arches 1–2 and move up with jaw growth; deformities point to the pharyngeal region."], ["2", "On a normal fetal face ultrasound from lecture, which structure should be identifiable?", ["The thymus", "The fused maxillary process", "The palatine tonsil", "The ultimobranchial body", "The foramen cecum"], 1, "Normal views: neurocranium, viscerocranium, frontal prominence, nose, fused maxillary process."]]}]}, "18": {"key": "18", "title": "The Sensory Citadel", "lecture": "HNSS18 · Embryology of the Eye & Ear", "final": {"name": "The Sensory Colossus", "epithet": "All-seeing, all-hearing", "n": 10}, "bosses": [{"lo": "18.1", "name": "The Optic Cup Oracle", "epithet": "Two layers, one fate each", "los": "Embryologic origins of eye structures", "q": [["S1", "A 2-year-old has leukocoria and an intraocular mass. The tumor arises from cells whose embryologic origin is:", ["Outer layer of the optic cup", "Inner layer of the optic cup (neuroectoderm)", "Surface ectoderm", "Neural crest", "Paraxial mesoderm"], 1, "Retinoblastoma arises from the neural retina, the inner layer of the optic cup. Only the neural layer contains sensory cells."], ["2", "The muscle that constricts the pupil during the light reflex has the same embryologic origin as which structure?", ["Corneal stroma", "Lens", "Neural retina", "Ciliary muscle", "Sclera"], 2, "Sphincter pupillae comes from the anterior optic cup (neuroectoderm), like the retina. Ciliary muscle and corneal stroma are neural crest."], ["S1", "A 60-year-old woman has worsening blurry morning vision from failure of the corneal endothelial pump (Fuchs dystrophy). This cell layer arose from:", ["Surface ectoderm", "Neural crest", "Optic cup", "Paraxial mesoderm", "Endoderm"], 1, "Corneal stroma and endothelium are neural crest; only the corneal epithelium is surface ectoderm."], ["2", "Which structure shares its germ-layer origin with the lens?", ["Corneal epithelium", "Neural retina", "Iris stroma", "Ciliary muscle", "Optic nerve"], 0, "Both the lens and corneal epithelium come from surface ectoderm."], ["2", "Aqueous humor is secreted by an epithelium derived from which tissue?", ["Neural crest", "Optic cup (neuroectoderm)", "Surface ectoderm", "Mesoderm", "Endoderm"], 1, "The ciliary epithelium forms from the two optic-cup layers folding at ~week 15."], ["S1", "A 58-year-old has a pigmented choroidal mass. The melanocytes it arose from originated in:", ["Optic cup", "Neural crest", "Surface ectoderm", "Mesoderm", "Otic placode"], 1, "Choroidal melanocytes are neural crest derived; the choroid is rich in melanocytes."]]}, {"lo": "18.1", "name": "The Otic Hydra", "epithet": "One ear, three origins", "los": "Embryologic origins of ear structures", "q": [["S1", "A pregnant woman develops conductive hearing loss from fixation of the ossicle attached to the oval window. That ossicle came from:", ["Meckel's cartilage (arch 1)", "Reichert's cartilage (arch 2)", "The otic capsule", "Pouch 1", "Cleft 1"], 1, "Otosclerosis fixes the stapes, a Reichert's (arch 2) derivative."], ["2", "The cochlear duct is derived from which germ layer?", ["Endoderm of pouch 1", "Ectoderm (otic placode)", "Mesoderm of arch 2", "Neural crest", "Endoderm of pouch 2"], 1, "BRS: the cochlear duct is ectoderm — otic placode → otic vesicle → saccular portion."], ["2", "Which ear structure is built from all three germ layers?", ["Cochlea", "Auricle", "Tympanic membrane", "Stapes", "Eustachian tube"], 2, "Ectoderm (cleft 1), mesoderm (between) and endoderm (pouch 1)."], ["2", "The bony labyrinth surrounding the membranous labyrinth develops from:", ["The otic vesicle", "Mesenchyme around the otic vesicle (cartilaginous capsule)", "Pouch 1", "Arch 2 cartilage", "Surface ectoderm"], 1, "The otic capsule ossifies into the bony labyrinth; the otic vesicle forms the membranous labyrinth."], ["2", "The tragus comes from auricular hillock 1, which belongs to which arch?", ["Arch 1", "Arch 2", "Arch 3", "Cleft 1", "Pouch 1"], 0, "Hillocks 1–3: arch 1; 4–6: arch 2. The lobule is not from hillocks."]]}, {"lo": "18.2", "name": "The Lens Inductor", "epithet": "Commander of reciprocal signals", "los": "Developmental steps of the eye", "q": [["2", "In an experiment, the optic vesicle is removed before it contacts the surface ectoderm. Which two structures fail to form, in order?", ["Retina, then optic nerve", "Lens placode, then cornea", "Iris, then ciliary body", "Choroid, then sclera", "Eyelids, then conjunctiva"], 1, "The optic vesicle induces the lens placode; the lens (vesicle) then induces the cornea (flagged on exam)."], ["2", "The eye fields begin in the anterior neural plate in line with which brain division, and express which gene?", ["Rhombencephalon — PAX3", "Diencephalon — PAX6", "Mesencephalon — OTX2", "Telencephalon — SHH", "Myelencephalon — PAX6"], 1, "Flagged on exam: eye fields lie in the prosencephalon, in line with the diencephalon; PAX6-expressing."], ["2", "The artery that runs in the choroid fissure largely regresses. Which part persists into adulthood?", ["The ophthalmic artery", "The central retinal artery", "The posterior ciliary arteries", "The anterior choroidal artery", "None of it"], 1, "The proximal hyaloid artery persists as the central retinal artery; the rest leaves the hyaloid canal in the vitreous."], ["S1", "A 55-year-old has flashes, floaters and a curtain over his vision. Retinal detachment separates which layers, and what is their embryologic basis?", ["Choroid from sclera — two mesenchymal layers", "Neural retina from pigment epithelium — the two layers of the optic cup", "Lens from cornea — ectoderm from neural crest", "Ganglion cells from vitreous — never fused", "Bruch's membrane from choroid — neural crest layers"], 1, "BRS: detachment occurs between the neural retina and RPE, the old intraretinal space of the optic cup."], ["2", "How does the lens reach its final size?", ["Proliferation at the anterior pole", "Proliferation at the equator", "Fusion with the cornea", "Apoptosis of lens fibers", "Invasion by neural crest"], 1, "Primary fibers fill the cavity; secondary fibers from the equator set the final size (PAX6, SOX2, MAF)."]]}, {"lo": "18.2", "name": "The Labyrinth Weaver", "epithet": "Spinner of the otic vesicle", "los": "Developmental steps of the inner, middle and external ear", "q": [["2", "Which sequence of inner ear development is correct?", ["Otic pit → placode → vesicle → ganglion", "Otic placode → otic pit → otic vesicle → statoacoustic ganglion → utricular/saccular division", "Otic vesicle → placode → pit → cochlea", "Statoacoustic ganglion → placode → vesicle", "Utricle → saccule → placode"], 1, "~Day 22 placode → 26–28 pit → 29 vesicle → 30 ganglion → 36 division; cochlear duct ~wk 9."], ["2", "The saccular portion of the otic vesicle gives rise to which sensory organ?", ["Cristae ampullares", "Organ of Corti (via the cochlear duct)", "Maculae of the utricle", "Endolymphatic sac", "Semicircular ducts"], 1, "Saccular → saccule + cochlear duct, whose epithelium becomes the Organ of Corti."], ["2", "Neuroblasts that delaminate from the otic vesicle form ganglia whose axons make up which nerve?", ["CN VII", "CN VIII", "CN IX", "CN V3", "CN X"], 1, "Statoacoustic ganglion → vestibular + spiral ganglia → CN VIII."], ["S1", "A newborn has a normal-looking auricle but no visible ear canal and conductive hearing loss on that side. Which developmental step most likely failed?", ["Formation of the otic vesicle", "Breakdown of the meatal plug (~month 7)", "Division of the saccular portion", "Formation of the tubotympanic recess", "Closure of the choroid fissure"], 1, "The meatal plug normally breaks down around month 7 to open the canal to the eardrum."], ["2", "External ears begin caudal to the jaw. What moves them to their final position?", ["Descent of the thyroid", "Growth of the lower jaw", "Closure of cleft 2", "Expansion of the tympanic cavity", "Growth of the cochlea"], 1, "Mandible growth moves the ears up. Low-set ears suggest a pharyngeal-region defect."]]}, {"lo": "18.3", "name": "The Cyclops", "epithet": "Born of lost SHH", "los": "Developmental abnormalities of eye and ear", "q": [["S1", "A stillborn infant has a single midline eye and a proboscis above it. Loss of which signal best explains this?", ["PAX6 from the eye fields", "SHH from the ventral midline", "FGF from the lens", "BMP4 from the optic cup", "Retinoic acid from the lens"], 1, "SHH normally represses PAX6 in the midline and keeps the eye fields apart; without it they merge (cyclopia, holoprosencephaly spectrum)."], ["S1", "A child has a keyhole-shaped defect at the bottom of the iris. What failed during development?", ["Regression of the pupillary membrane", "Closure of the choroid fissure", "Induction of the lens placode", "Migration of neural crest to the iris", "Separation of the eye fields"], 1, "Coloboma = incomplete closure of the choroid fissure (inferior)."], ["S1", "A 2-year-old with absent irises also has an abdominal mass and genitourinary anomalies. Which gene is involved?", ["PAX3", "PAX6 (WAGR, 11p13)", "SHH", "TCOF1", "RB1"], 1, "Aniridia = PAX6; WAGR = Wilms tumor, Aniridia, GU anomalies, intellectual disability."], ["S1", "A newborn has bilateral cataracts, a continuous machine-like murmur and sensorineural hearing loss. Which maternal infection?", ["CMV", "Rubella", "Toxoplasmosis", "Syphilis", "HSV"], 1, "Congenital rubella triad: cataracts, PDA, deafness."], ["2", "Strands of a persistent pupillary membrane block a newborn's visual axis. What is the main long-term risk?", ["Glaucoma", "Deprivation amblyopia", "Retinal detachment", "Coloboma", "Cataract"], 1, "The membrane normally regresses before birth; blocking the visual axis leads to amblyopia (lazy eye)."], ["S1", "A mother took a sedative for morning sickness in the first trimester; the infant has severe microtia and limb reduction defects. Which drug?", ["Ondansetron", "Thalidomide", "Doxylamine", "Metoclopramide", "Salicylate"], 1, "Thalidomide (along with streptomycin and salicylates) was named for external ear anomalies; the external ear is highly sensitive to drug toxicity."]]}, {"lo": "18.X", "name": "Ménière's Maelstrom", "epithet": "Tempest of the endolymph (extra)", "los": "Extra: ear structure, histology and pathology", "q": [["S1", "A 30-year-old woman who recently gave birth has progressive hearing loss. The tuning fork on her forehead sounds louder in the affected ear, and bone conduction exceeds air conduction there. Diagnosis?", ["Ménière disease", "Otosclerosis", "Noise-induced hearing loss", "Vestibular schwannoma", "BPPV"], 1, "Flagged on exam: pregnancy + ossicle (stapes) fixation = otosclerosis → conductive loss (Weber toward, Rinne abnormal)."], ["S1", "A 45-year-old has episodes of vertigo lasting hours with tinnitus, ear fullness and fluctuating hearing loss. What is the mechanism?", ["Otoliths in a semicircular canal", "Excess endolymph (endolymphatic hydrops)", "Stapes fixation", "Schwann cell tumor", "Bacterial middle-ear infection"], 1, "Ménière disease; treated with a low-salt diet, diuretics and, if severe, labyrinthectomy."], ["S1", "A 65-year-old has brief spinning spells lasting under a minute when she rolls over in bed. What is the cause, and the treatment?", ["Hydrops — diuretics", "Dislodged otoliths in a semicircular canal — canalith repositioning", "Stapes fixation — stapedectomy", "Middle-ear infection — antibiotics", "Cerumen — irrigation"], 1, "BPPV."], ["2", "A deaf child is being evaluated for a cochlear implant. Which structure must be intact for the implant to work?", ["Hair cells", "The auditory nerve", "The stapes", "The tympanic membrane", "The stria vascularis"], 1, "Flagged on exam: the implant bypasses hair cells but needs a functioning auditory nerve."], ["S1", "A factory worker has high-frequency hearing loss after years of loud noise. Where in the cochlea is the damage, and which cells are injured?", ["Apex — inner hair cells", "Base — stereocilia of the hair cells", "Middle ear — stapes", "Round window — perilymph", "Spiral ganglion — neurons first"], 1, "High frequencies are sensed at the base; noise damages stereociliary bundles → hair cell death."], ["S1", "A patient has painless, foul ear drainage and conductive hearing loss. Otoscopy shows white keratin debris through a retraction pocket in the eardrum. Untreated, what is the risk?", ["Spontaneous regression", "Erosion of middle-ear bone", "Otosclerosis", "Ménière disease", "Malignant melanoma"], 1, "Cholesteatoma: squamous epithelium grows into the middle ear and erodes bone; treated surgically."]]}]}};
+</script>
+<script>
+"use strict";
+(function(){
+/* ================= utilities ================= */
+const app=document.getElementById('app'), hud=document.getElementById('hud');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(seed){let a=seed||1;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const LET=['A','B','C','D','E'];
+const tchip=t=>`<span class="tchip" style="background:${TYPES[t].c}">${TYPES[t].n.toUpperCase()}</span>`;
+
+/* ================= species index ================= */
+const SP={};SPECIES.forEach((s,i)=>{s.no=i+1;SP[s.id]=s;});
+const STARTERS=[
+ {id:'st:archling',n:'Archling',t:'ARCH',blurb:'Born in the first arch. Strong against Arch foes and hits hardest in the Arch Archipelago.'},
+ {id:'st:prominix',n:'Prominix',t:'FACE',blurb:'Five prominences fused into one. Strong against Face foes in the Facial Foundry.'},
+ {id:'st:placodon',n:'Placodon',t:'OPTIC',blurb:'A lens placode that never stopped growing. Strong against Optic foes in the Sensory Spire.'}
+];
+STARTERS.forEach(s=>SP[s.id]={id:s.id,n:s.n,t:s.t,starter:true});
+const areaKeys=a=>SPECIES.filter(s=>s.a===a).map(s=>s.id);
+const patchKeys=(a,p)=>SPECIES.filter(s=>s.a===a&&s.p===p).map(s=>s.id);
+
+/* ================= Leitner schedule (stage = box) ================= */
+const BOX_IV=[0,1,3,6,10,16,25],BOX_MAX=6,LEECH_AT=3;
+let G=null;const KEY='hd-embryomon-v1';
+function schedGet(k){if(!G.sched[k])G.sched[k]={b:0,d:0,s:0,l:0};return G.sched[k];}
+const stageOf=b=>b<=1?1:b<=3?2:3;
+function monStage(k){if(!G||!G.sched||!k||k.startsWith('st:'))return 1;const s=G.sched[k];return s?stageOf(s.b):1;}
+function isDue(k){const s=G.sched[k];return !!s&&s.s>0&&s.d<=G.enc;}
+function schedRight(k){const s=schedGet(k);const was=stageOf(s.b);s.s++;s.b=Math.min(BOX_MAX,s.b+1);s.d=G.enc+BOX_IV[s.b];const now=stageOf(s.b);return now>was?{up:true,to:now}:null;}
+function schedWrong(k){const s=schedGet(k);const was=stageOf(s.b);s.s++;s.l++;s.b=0;s.d=G.enc;const now=stageOf(s.b);return now<was?{up:false,to:now}:null;}
+const dueKeys=()=>Object.keys(G.sched).filter(k=>SP[k]&&isDue(k)).sort((a,b)=>G.sched[a].d-G.sched[b].d);
+
+/* ================= sprites (reused from Neuromon) ================= */
+/* ================= sprites (procedural, original) ================= */
+const spriteCache={};
+function shade(hex,f){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;
+  if(f<0){r*=1+f;g*=1+f;b*=1+f;}else{r+=(255-r)*f;g+=(255-g)*f;b+=(255-b)*f;}
+  return '#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');}
+function genGrid(key,st){
+  /* Stage keeps the SAME seed, so an evolution is recognisably the same creature
+     grown up — bigger body, more dendrites — rather than a different species. */
+  const stg=st||1;const ck=stg>1?key+'|'+stg:key;
+  if(spriteCache[ck])return spriteCache[ck];
+  const r=rng(hash(key));const W=16,H=18,half=8;const g=[...Array(H)].map(()=>Array(W).fill(0));
+  const wide=(.75+r()*.5)*(1+(stg-1)*.15), tall=(.55+r()*.35)*(1+(stg-1)*.11);
+  for(let y=3;y<H-1;y++)for(let x=1;x<half;x++){
+    const dx=(half-1-x)/half, dy=Math.abs(y-10.5)/7.5;
+    const p=1.05-dx*1.05/wide-dy*dy*tall*1.1+(r()-.5)*.45;
+    if(r()<p){g[y][x]=1;g[y][W-1-x]=1;}
+  }
+  // keep component connected to center
+  const seen=new Set();const stk=[[10,7]];
+  if(!g[10][7]){g[10][7]=g[10][8]=1;}
+  while(stk.length){const [y,x]=stk.pop();const k=y*W+x;if(seen.has(k)||y<0||y>=H||x<0||x>=W||!g[y][x])continue;seen.add(k);stk.push([y+1,x],[y-1,x],[y,x+1],[y,x-1]);}
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(g[y][x]&&!seen.has(y*W+x))g[y][x]=0;
+  // dendrites
+  let top=H;for(let y=0;y<H;y++)if(g[y].some(v=>v)){top=y;break;}
+  const nd=1+Math.floor(r()*2)+(stg-1);
+  for(let i=0;i<nd;i++){let x=2+Math.floor(r()*5);let y=top;while(y<H-1&&!g[y][x])y++;
+    for(let s=0;s<3+(stg-1)&&y>0;s++){y--;if(r()<.4)x=Math.max(1,Math.min(half-1,x+(r()<.5?-1:1)));g[y][x]=g[y][x]||3;g[y][W-1-x]=g[y][W-1-x]||3;}}
+  // eyes
+  let eye=null;
+  for(let y=top+1;y<H-4&&!eye;y++){for(const ex of [5,4,6,3]){if(g[y][ex]===1&&g[y+1][ex]===1&&g[y][ex-1]&&g[y][ex+1]&&g[y+1][ex]){eye=[y,ex];break;}}}
+  const out={g,W,H,eye,hue:r(),stg};
+  return spriteCache[ck]=out;
+}
+function spriteSVG(key,opt={}){
+  const sp=SP[key];const base=sp?TYPES[sp.t].c:'#888';
+  const stg=opt.stage||monStage(key);           // every render site evolves without being told to
+  const {g,W,H,eye,hue}=genGrid(key,stg);
+  const body=shade(base,(hue-.5)*.35), hi=shade(body,.35), lo=shade(body,-.3), acc=shade(base,.55+(stg-1)*.14), ol='#1B2033';
+  const sil=opt.sil;let rects='';
+  const at=(y,x)=>y>=0&&y<H&&x>=0&&x<W?g[y][x]:0;
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    const v=g[y][x];
+    if(!v){if(at(y-1,x)||at(y+1,x)||at(y,x-1)||at(y,x+1))rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${sil?'#1B203355':ol}"/>`;continue;}
+    let c;
+    if(sil)c='#1B203340';
+    else if(v===3)c=acc;
+    else if(opt.back)c=!at(y+1,x)?lo:(!at(y-1,x)?body:shade(body,-.12));
+    else c=!at(y-1,x)?hi:(!at(y+1,x)?lo:((x>5&&x<10&&y>11&&y<15)?shade(body,.2):body));
+    rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${c}"/>`;
+  }
+  if(eye&&!opt.back&&!sil){const [y,ex]=eye;[ex,W-1-ex].forEach(x=>{rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#fff"/><rect x="${x}" y="${y+1}" width="1" height="1" fill="${ol}"/>`;});}
+  return `<svg class="${opt.cls||'spr'}" viewBox="0 0 ${W} ${H}" shape-rendering="crispEdges" aria-hidden="true">${rects}</svg>`;
+}
+const TRAINER=["...HHHH...","..HHHHHH..",".HHHHHHHH.","..SSSSSS..","..SESSES..","..SSSSSS..","...SMMS...","..WCCCCW..",".WWCCCCWW.",".SWCCCCWS.",".SWWCCWWS.","..PPPPPP..","..PP..PP..","..BB..BB.."];
+function trainerSVG(coat,hair,cls){
+  const pal={H:hair||'#3A2A1E',S:'#F2C9A0',E:'#1B2033',M:'#B5524A',C:coat,W:'#FFFFFF',P:'#2D3350',B:'#1B2033'};let r='';
+  TRAINER.forEach((row,y)=>[...row].forEach((ch,x)=>{if(ch!=='.')r+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${pal[ch]}"/>`;}));
+  return `<svg class="${cls||'trn'}" viewBox="-1 -1 12 16" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`;
+}
+const ORB=`<svg viewBox="0 0 10 10" shape-rendering="crispEdges"><circle cx="5" cy="5" r="4.5" fill="#3A7FD0" stroke="#1B2033" stroke-width="1"/><path d="M.5 5h9a4.5 4.5 0 0 1-9 0z" fill="#E3AE12" stroke="#1B2033" stroke-width="1"/><circle cx="5" cy="5" r="1.4" fill="#fff" stroke="#1B2033" stroke-width=".8"/></svg>`;
+function badgeSVG(color,got){return `<svg class="badge" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 .6 9.2 3.4 7.6 9.2H2.4L.8 3.4z" fill="${got?color:'#D5D9E6'}" stroke="#1B2033" stroke-width=".8"/><path d="M5 2.4 7.2 3.9 6.4 7.4H3.6L2.8 3.9z" fill="${got?'#ffffff88':'#ffffff55'}"/></svg>`;}
+
+
+
+/* ================= gyms ================= */
+const GYMS={
+ arch:{leader:'Leader Meckel',gym:'Arch Gym',badge:'Arch Badge',coat:'#1F8A83',hair:'#1B2033',lvl:12,size:4,color:'#1F8A83',
+   intro:'Six arches, five pouches, one sinus that must close. Name every derivative!',win:'Every arch in its place. Take the Arch Badge!'},
+ face:{leader:'Leader Philtrum',gym:'Fusion Gym',badge:'Fusion Badge',coat:'#8E4FC0',hair:'#E3AE12',lvl:14,size:4,color:'#8E4FC0',
+   intro:'Prominences fuse or clefts form. Can you tell which fusion failed?',win:'Nothing left unfused. The Fusion Badge is yours!'},
+ sense:{leader:'Leader Placoda',gym:'Placode Gym',badge:'Placode Badge',coat:'#3A7FD0',hair:'#3A2A1E',lvl:14,size:4,color:'#3A7FD0',
+   intro:'Optic cup, lens, otic vesicle. Every layer has one fate. Know them all!',win:'You saw and heard it all. Take the Placode Badge!'},
+ summit:{leader:'Champion Catch-22',gym:'Summit',badge:'Champion Crest',coat:'#1B2033',hair:'#C9CFE0',lvl:20,size:6,color:'#E3AE12',
+   intro:'Arches, faces, eyes and ears. Step 1 vignettes only. I am the final exam!',win:'Unbelievable… you are the new Embryology Champion!'}
+};
+const CHAMP_NEED=3;
+
+/* ================= save ================= */
+function fresh(){return {name:'Hoya',party:[],box:[],dex:{},badges:{},sched:{},enc:0,uid:1,loc:'center',right:0,tot:0};}
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);if(d&&d.party&&d.party.length)return Object.assign(fresh(),d);}}catch(e){}return null;}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(G));}catch(e){}}
+const maxHP=l=>30+l*5;
+function newMon(key,lvl){const m={uid:G.uid++,sp:key,lvl,xp:0,max:maxHP(lvl)};m.hp=m.max;return m;}
+const lead=()=>G.party.find(m=>m.hp>0)||G.party[0];
+function seen(key,how){const cur=G.dex[key];if(how==='caught'||!cur)G.dex[key]=how;}
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2400);}
+function healAll(){G.party.forEach(m=>m.hp=m.max);}
+function stagePip(k,lab){if(!k||k.startsWith('st:'))return '';const s=monStage(k);
+  return `<span class="tchip" style="background:${s>=3?'#E3AE12':s===2?'#7E9BD0':'#8A93A8'};color:${s>=3?'#1B2033':'#fff'};letter-spacing:.12em" title="Stage ${s} of 3 — questions get harder as it evolves">${'●●●'.slice(0,s)+'○○○'.slice(0,3-s)}${lab?' STAGE '+s:''}</span>`;}
+const hpColor=f=>f>.5?'var(--hp-hi)':f>.2?'var(--hp-mid)':'var(--hp-lo)';
+
+/* ================= question bank ================= */
+const F={
+ or:{mv:'ORIGIN',hint:'Where does it come from?',lab:'Origin',stem:S=>`What does <strong>${esc(S.n)}</strong> arise from?`,rev:v=>`Which structure arises from <strong>${esc(v)}</strong>?`,chain:'what does it arise from?',desc:'arises from'},
+ wk:{mv:'TIMELINE',hint:'When?',lab:'Timing',stem:S=>`When does <strong>${esc(S.n)}</strong> form or act?`,chain:'when does it form?',desc:'forms at'},
+ be:{mv:'FATE',hint:'What does it become?',lab:'Becomes',stem:S=>`What does <strong>${esc(S.n)}</strong> become?`,rev:v=>`Which structure becomes <strong>${esc(v)}</strong>?`,chain:'what does it become?',desc:'becomes'},
+ nv:{mv:'NERVE',hint:'Which nerve goes with it?',lab:'Nerve',stem:S=>`Which nerve goes with <strong>${esc(S.n)}</strong>?`,rev:v=>`Which structure is supplied by <strong>${esc(v)}</strong>?`,chain:'which nerve goes with it?',desc:'is supplied by'},
+ mu:{mv:'MUSCLE MAP',hint:'Which muscles?',lab:'Muscles',stem:S=>`Which muscles come from <strong>${esc(S.n)}</strong>?`,rev:v=>`Which structure gives rise to <strong>${esc(v)}</strong>?`,chain:'which muscles come from it?',desc:'forms the muscles'},
+ fu:{mv:'FUSION',hint:'What does it fuse with or meet?',lab:'Fuses / meets',stem:S=>`What does <strong>${esc(S.n)}</strong> fuse with or meet?`,chain:'what does it fuse with or meet?',desc:'fuses with'},
+ ge:{mv:'SIGNAL',hint:'Which gene or signal?',lab:'Gene / signal',stem:S=>`Which gene, signal or cause goes with <strong>${esc(S.n)}</strong>?`,chain:'which gene or signal is involved?',desc:'is driven by'},
+ rl:{mv:'ROLE',hint:'What does it do?',lab:'Role',stem:S=>`What best describes the role of <strong>${esc(S.n)}</strong>?`,chain:'what is its role?',desc:'acts by'},
+ fa:{mv:'FAILURE',hint:'If it fails…',lab:'If it fails',stem:S=>`If <strong>${esc(S.n)}</strong> fails to develop normally, what results?`,rev:v=>`A child has <strong>${esc(v)}</strong>. Which structure failed?`,chain:'what results if it fails?',desc:'when it fails causes'},
+ fx:{mv:'ROOT CAUSE',hint:'What failed?',lab:'What failed',stem:S=>`In <strong>${esc(S.n)}</strong>, which structure or process failed?`,rev:v=>`Failure of <strong>${esc(v)}</strong> causes which defect?`,chain:'what failed?',desc:'results from failure of'},
+ cl:{mv:'PRESENTATION',hint:'How does it present?',lab:'Presentation',stem:S=>`Which picture fits <strong>${esc(S.n)}</strong>?`,rev:v=>`A patient has <strong>${esc(v)}</strong>. What is the diagnosis?`,chain:'how does it present?',desc:'presents with'}
+};
+const S1F=['or','wk','be','nv','mu','fu','ge','rl','fx'], S2F=['fa','cl','fx','ge'];
+function sameAreaFirst(S,list){const a=shuffle(list.filter(x=>x.a===S.a)),b=shuffle(list.filter(x=>x.a!==S.a));return [...a,...b];}
+function fieldQ(S,k){const v=S[k];if(!v)return null;
+  const pool=[...new Set(sameAreaFirst(S,SPECIES.filter(x=>x.id!==S.id&&x[k]&&x[k]!==v)).map(x=>x[k]))].slice(0,3);if(pool.length<3)return null;
+  const opts=shuffle([v,...pool]);
+  return {sig:'f:'+k,mv:F[k].mv,hint:F[k].hint,stem:F[k].stem(S),opts,ans:opts.indexOf(v),explain:`<p class="ans"><b>${esc(v)}</b></p>`,kind:'recall'};}
+function revQ(S,k){const v=S[k];if(!v||!F[k].rev)return null;
+  const pool=sameAreaFirst(S,SPECIES.filter(x=>x.id!==S.id&&x[k]&&x[k]!==v&&x.t!=='DEFECT'===(S.t!=='DEFECT'))).map(x=>x.n);const d=[...new Set(pool)].slice(0,3);if(d.length<3)return null;
+  const opts=shuffle([S.n,...d]);
+  return {sig:'r:'+k,mv:'REVERSE '+F[k].mv,hint:'Name the structure',stem:F[k].rev(v),opts,ans:opts.indexOf(S.n),explain:`<p class="ans"><b>${esc(S.n)}</b> ${F[k].desc} ${esc(v)}.</p>`,kind:'reverse'};}
+function chainQ(S){const giv=shuffle(['be','fa','fx','cl','or','rl'].filter(k=>S[k])),ask=shuffle(['nv','or','wk','mu','ge','fa','fu','be','fx'].filter(k=>S[k]));
+  for(const g of giv)for(const a of ask){if(a===g)continue;const base=fieldQ(S,a);if(!base)continue;
+    base.sig='c:'+g+a;base.mv='2ND ORDER';base.hint='Identify it, then answer';base.kind='chain';
+    base.stem=`Think in two steps. The structure that <em>${F[g].desc} “${esc(S[g])}”</em> — ${F[a].chain}`;
+    base.explain=`<p class="ans">That structure is <b>${esc(S.n)}</b>, which ${F[a].desc} <b>${esc(S[a])}</b>.</p>`;return base;}
+  return null;}
+function vignQ(S){const bank=BOSS[S.lo.split('.')[0]];if(!bank)return null;const qs=[];bank.bosses.forEach(b=>{if(b.lo===S.lo)b.q.forEach(q=>qs.push(q));});if(!qs.length)return null;
+  const q=pick(qs);const ord=shuffle([0,1,2,3,4]);const opts=ord.map(i=>q[2][i]);
+  return {sig:'v:'+hash(q[1]),mv:q[0]==='S1'?'STEP 1 STRIKE':'2ND ORDER',hint:q[0]==='S1'?'Clinical vignette':'Two-step reasoning',stem:esc(q[1]),opts,ans:ord.indexOf(q[3]),explain:`<p class="ans"><b>${esc(q[2][q[3]])}</b></p><p>${esc(q[4])}</p>`,kind:'vignette'};}
+function identifyQ(S,E){const nw=S.n.toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>=4&&!['cell','cells','face'].includes(w));
+  const leak=t=>{const l=t.toLowerCase();return nw.some(w=>l.includes(w));};
+  let rows=['or','wk','be','nv','fx','cl','ge','rl','fa','mu','fu'].filter(k=>S[k]).map(k=>[F[k].lab,S[k]]);
+  const clean=rows.filter(r=>!leak(r[1]));if(clean.length>=2)rows=clean;
+  const same=shuffle(SPECIES.filter(x=>x.id!==S.id&&x.t===S.t)),near=shuffle(SPECIES.filter(x=>x.id!==S.id&&x.t!==S.t&&x.a===S.a));
+  const d=[...same,...near].map(x=>x.n).filter((v,i,a)=>a.indexOf(v)===i).slice(0,4);const opts=shuffle([S.n,...d]);
+  return {sig:'id',mv:'IDENTIFY',hint:'Read its record, then name it',rows,shown:E.shown,stem:'A wild Embryomon is hiding its name. Which structure has this record?',opts,ans:opts.indexOf(S.n),kind:'identify',
+    explain:`<ul class="whys">${rows.map(r=>`<li><b>${esc(r[0])}:</b> ${esc(r[1])}</li>`).join('')}</ul>`};}
+function nextQ(E){const S=SP[E.sp];const st=Math.max(monStage(E.sp),E.minStage||1);let cands=[];
+  const add=q=>{if(q&&!E.asked.has(q.sig))cands.push(q);};
+  if(st===1){S1F.forEach(k=>add(fieldQ(S,k)));['be','or','nv','fa','fx','cl'].forEach(k=>add(revQ(S,k)));}
+  else if(st===2){S2F.forEach(k=>add(fieldQ(S,k)));['fa','fx','cl','be'].forEach(k=>add(revQ(S,k)));add(chainQ(S));add(chainQ(S));}
+  if(st===3||(st===2&&Math.random()<.35)){for(let i=0;i<3;i++)add(vignQ(S));add(chainQ(S));}
+  if(!cands.length){S1F.concat(S2F).forEach(k=>add(fieldQ(S,k)));add(chainQ(S));add(vignQ(S));}
+  if(!cands.length){E.asked.clear();return nextQ(E);}
+  return pick(cands);}
+
+/* ================= HUD ================= */
+function renderHud(){if(!G||!G.party.length){hud.hidden=true;return;}hud.hidden=false;const due=dueKeys().length;
+  hud.innerHTML=`<button class="hbtn" data-go="map">Map</button><button class="hbtn" data-go="party">Party <b>${G.party.length}</b></button><button class="hbtn" data-go="dex">Embryodex</button><button class="hbtn" data-go="review">Review <b>${due}</b></button>`;
+  hud.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));}
+function go(s,arg){renderHud();window.scrollTo(0,0);
+  if(s==='title')return renderTitle();if(s==='map')return renderMap();if(s==='route')return renderRoute(arg);
+  if(s==='party')return renderParty();if(s==='dex')return renderDex(arg);if(s==='review')return renderReview();}
+
+/* ================= title ================= */
+function renderTitle(){hud.hidden=true;const saved=load();let chosen=null;
+  app.innerHTML=`<section class="title"><div class="pane">
+    <h1 class="logo">EMBRYOMON<small>HNSS Edition · Arches, Face, Eye &amp; Ear</small></h1>
+    <p class="lede" style="color:var(--ink)">Arches, pouches, clefts, prominences, placodes and the defects they leave behind hide in the tall grass. Identify each one from its record, battle through its facts and catch all ${SPECIES.length} for your Embryodex. Embryomon evolve as you master them, and their questions get harder: recall → failure and 2nd-order → Step 1 vignettes. Earn three badges to face the Champion.</p>
+    ${saved?`<div class="box row" style="justify-content:space-between"><div><div class="h2">Continue</div><div class="small">${esc(saved.name)} · ${saved.party.length} Embryomon · ${Object.keys(saved.badges).length} badges</div></div><button class="btn gold" id="cont">Continue &gt;</button></div>`:''}
+    <div class="box" style="display:flex;flex-direction:column;gap:12px">
+      <div class="h2">${saved?'Or start a new journey':'Start your journey'}</div>
+      <div class="namefield"><label for="tname">Trainer name</label><input id="tname" maxlength="14" value="${esc(saved?saved.name:'')}" placeholder="Your name"></div>
+      <div class="small">Choose your first Embryomon. It deals bonus damage to foes of its own type.</div>
+      <div class="starters">${STARTERS.map(s=>`<button class="starter" data-k="${s.id}" aria-pressed="false">${spriteSVG(s.id)}<h3>${s.n}</h3>${tchip(s.t)}<p>${s.blurb}</p></button>`).join('')}</div>
+      <div class="row"><button class="btn" id="begin" disabled>Choose a starter</button>${saved?'<span class="small">Starting over replaces your saved game.</span>':''}</div>
+    </div></div></section>`;
+  if(saved)document.getElementById('cont').onclick=()=>{G=saved;go('map');};
+  const bt=document.getElementById('begin');
+  app.querySelectorAll('.starter').forEach(b=>b.onclick=()=>{chosen=b.dataset.k;app.querySelectorAll('.starter').forEach(x=>x.setAttribute('aria-pressed',x===b));bt.disabled=false;bt.textContent='Begin with '+SP[chosen].n+' >';});
+  bt.onclick=()=>{G=fresh();G.name=(document.getElementById('tname').value.trim()||'Hoya');G.party=[newMon(chosen,5)];persist();go('map');};}
+
+/* ================= map ================= */
+const LOCS={center:{x:50,y:52,n:'Embryo Center',e:'Heal'},arch:{x:17,y:30,n:'Arch Archipelago',e:'HNSS03'},face:{x:50,y:16,n:'Facial Foundry',e:'HNSS04'},sense:{x:83,y:30,n:'Sensory Spire',e:'HNSS18'},summit:{x:50,y:86,n:'The Summit',e:'Champion'}};
+function locIcon(k){const c={center:'#C2412F',arch:'#1F8A83',face:'#8E4FC0',sense:'#3A7FD0',summit:'#E3AE12'}[k];
+  return `<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="6" width="12" height="9" fill="${c}" stroke="#1B2033"/><path d="M1 7 8 1l7 6z" fill="#fff" stroke="#1B2033"/><rect x="6" y="10" width="4" height="5" fill="#1B2033"/></svg>`;}
+function renderMap(){const nb=Object.keys(G.badges).filter(k=>k!=='summit').length,caught=Object.values(G.dex).filter(v=>v==='caught').length,seenN=Object.keys(G.dex).length;
+  const L=LOCS[G.loc]||LOCS.center;
+  app.innerHTML=`<div class="map">
+    <svg class="paths" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${['arch','face','sense','summit'].map(k=>`<line x1="50" y1="52" x2="${LOCS[k].x}" y2="${LOCS[k].y}" stroke="#E8D9A8" stroke-width="3.2" stroke-dasharray="1.5 1"/>`).join('')}</svg>
+    <div class="pond"></div>${[[8,70],[28,80],[70,76],[90,62],[34,8],[66,10],[12,10]].map(p=>`<span class="tree" style="left:${p[0]}%;top:${p[1]}%"></span>`).join('')}
+    ${Object.entries(LOCS).map(([k,l])=>{const locked=k==='summit'&&nb<CHAMP_NEED;return `<button class="loc" data-l="${k}" style="left:${l.x}%;top:${l.y}%" ${locked?'disabled':''}>${locIcon(k)}<span class="lbl">${l.n}<em>${locked?`Needs ${CHAMP_NEED} badges`:l.e}</em></span></button>`;}).join('')}
+    <div class="avatar" style="left:${L.x}%;top:${L.y-4}%">${trainerSVG('#C2412F','#3A2A1E','trn')}</div></div>
+  <div class="mapfoot">
+    <div class="stat"><div class="k">TRAINER</div><div class="v">${esc(G.name)}</div></div>
+    <div class="stat"><div class="k">BADGES</div><div class="badges">${['arch','face','sense','summit'].map(k=>badgeSVG(GYMS[k].color,G.badges[k])).join('')}</div></div>
+    <div class="stat"><div class="k">EMBRYODEX</div><div class="v">${caught} / ${SPECIES.length}</div><div class="small">${seenN} seen</div></div>
+    <div class="stat"><div class="k">DUE FOR REVIEW</div><div class="v">${dueKeys().length}</div><div class="small">${G.enc} encounters</div></div>
+  </div>`;
+  app.querySelectorAll('.loc').forEach(b=>b.onclick=()=>{if(b.disabled)return;const k=b.dataset.l;G.loc=k;persist();
+    if(k==='center'){healAll();persist();toast('Your Embryomon are fully healed!');renderMap();return;}
+    if(k==='summit'){renderSummit();return;}go('route',k);});}
+function renderSummit(){const g=GYMS.summit;
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">The Summit</div><button class="btn ghost" id="back">&lt; Map</button></div>
+  <div class="gymcard">${trainerSVG(g.coat,g.hair)}<div style="display:flex;flex-direction:column;gap:8px"><div class="h2">${g.leader}</div><p class="lede">“${g.intro}”</p>
+  <div class="row"><button class="btn gold" id="gym">${G.badges.summit?'Rematch':'Challenge'} &gt;</button><span class="small">${g.size} Embryomon from all three regions · every question is Step 1 or 2nd order</span></div></div></div></div>`;
+  document.getElementById('back').onclick=()=>go('map');document.getElementById('gym').onclick=()=>startGym('summit');}
+
+/* ================= route ================= */
+function dexProgress(keys){let s=0,c=0;keys.forEach(k=>{if(G.dex[k])s++;if(G.dex[k]==='caught')c++;});return {s,c,n:keys.length};}
+function renderRoute(id){const A=AREAS[id],g=GYMS[id];
+  app.innerHTML=`<div class="pane">
+    <div class="row" style="justify-content:space-between"><div><div class="h1">${A.name}</div><div class="small">${A.sub} · ${A.blurb}</div></div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <div class="h2">Tall grass</div>
+    <div class="patches">${Object.entries(A.patches).map(([k,p])=>{const keys=patchKeys(id,k),d=dexProgress(keys),pd=keys.filter(isDue).length,ev=keys.filter(x=>monStage(x)>1).length;
+      return `<button class="patch" data-p="${k}"><div class="in"><div class="row" style="justify-content:space-between">${tchip(p.type)}<span class="small">${pd?`<b style="color:var(--gold-ink)">${pd} due</b> · `:''}${keys.length} Embryomon</span></div>
+      <h3>${esc(p.label)}</h3>${ev?`<div class="small">${ev} evolved</div>`:''}
+      <div class="meter" title="Seen ${d.s}, caught ${d.c} of ${d.n}"><i style="width:${d.c/d.n*100}%;background:var(--gold)"></i><i style="width:${(d.s-d.c)/d.n*100}%;background:#9DB4D8"></i></div>
+      <div class="small">Caught ${d.c} · Seen ${d.s} · of ${d.n}</div></div></button>`;}).join('')}</div>
+    <div class="h2">Gym</div>
+    <div class="gymcard">${trainerSVG(g.coat,g.hair)}<div style="display:flex;flex-direction:column;gap:8px"><div class="h2">${g.gym} · ${g.leader}</div><p class="lede">“${g.intro}”</p>
+      <div class="row"><button class="btn gold" id="gym">${G.badges[id]?'Rematch':'Challenge'} &gt;</button><span class="small">${g.size} Embryomon · Lv ${g.lvl} · questions start at stage 2${G.badges[id]?' · '+g.badge+' earned':''}</span></div></div></div></div>`;
+  document.getElementById('back').onclick=()=>go('map');document.getElementById('gym').onclick=()=>startGym(id);
+  app.querySelectorAll('.patch').forEach(b=>b.onclick=()=>startWild(id,b.dataset.p));}
+
+/* ================= encounters ================= */
+function enemyLevel(){return 3+Object.keys(G.badges).length*3+Math.floor(Math.random()*4);}
+function mkEnemy(sp,o={}){return {sp,hp:100,max:100,lvl:o.lvl||enemyLevel(),hidden:true,shown:2,asked:new Set(),missed:0,minStage:o.minStage||1};}
+function startWild(area,patch){const keys=patchKeys(area,patch);
+  const w=keys.flatMap(k=>Array((G.dex[k]==='caught'?1:G.dex[k]?2:4)+(isDue(k)?3:0)).fill(k));
+  battle({kind:'wild',area,patch,queue:[mkEnemy(pick(w))]});}
+function startGym(id){if(id==='summit'&&Object.keys(G.badges).filter(k=>k!=='summit').length<CHAMP_NEED)return;
+  const g=GYMS[id];const pool=id==='summit'?SPECIES.map(s=>s.id):areaKeys(id);
+  const pri=shuffle(pool).sort((a,b)=>(isDue(b)-isDue(a)));const team=[];
+  const types=new Set();pri.forEach(k=>{if(team.length<g.size&&!types.has(SP[k].p)){team.push(k);types.add(SP[k].p);}});pri.forEach(k=>{if(team.length<g.size&&!team.includes(k))team.push(k);});
+  battle({kind:'gym',gym:id,queue:team.map(k=>mkEnemy(k,{lvl:g.lvl,minStage:id==='summit'?3:2}))});}
+function startReview(){const due=dueKeys().slice(0,6);if(!due.length)return;battle({kind:'review',queue:due.map(k=>mkEnemy(k))});}
+
+/* ================= battle ================= */
+let B=null;
+function battle(cfg){B=Object.assign({i:0,log:[]},cfg);B.E=B.queue[0];G.enc++;persist();renderBattle(true);turn();}
+function sceneHTML(enter){const E=B.E,S=SP[E.sp],P=lead(),PS=SP[P.sp],hid=E.hidden;
+  const gym=B.kind==='gym'?GYMS[B.gym]:null;
+  return `<div class="scene ${gym?'gym':''}" id="scene"><div class="plat e"></div><div class="plat p"></div>
+    ${gym?`<div class="tbadge">${B.queue.map((q,i)=>`<i class="${i<B.i?'dead':'alive'}"></i>`).join('')}</div>`:''}
+    <div class="mon e${enter?' enter':''}" id="monE">${spriteSVG(E.sp,{sil:false})}</div>
+    <div class="mon p${enter?' enter':''}" id="monP">${spriteSVG(P.sp,{back:true})}</div>
+    <div class="stbox e"><div class="nm"><span>${hid?'??? '+tchip(S.t):esc(S.n)+' '+tchip(S.t)}</span><span>Lv${E.lvl}</span></div>
+      <div class="hpline"><span class="lab">HP</span><div class="hpbar"><i id="hpE" style="width:${E.hp/E.max*100}%;background:${hpColor(E.hp/E.max)}"></i></div></div>
+      <div class="small" style="margin-top:3px">${stagePip(E.sp,true)} ${G.dex[E.sp]==='caught'?'<span class="tchip" style="background:var(--gold);color:#241A00">CAUGHT</span>':''}</div></div>
+    <div class="stbox p"><div class="nm"><span>${esc(PS.n)} ${tchip(PS.t)}</span><span>Lv${P.lvl}</span></div>
+      <div class="hpline"><span class="lab">HP</span><div class="hpbar"><i id="hpP" style="width:${P.hp/P.max*100}%;background:${hpColor(P.hp/P.max)}"></i></div></div>
+      <div class="hpnum">${P.hp} / ${P.max}</div><div class="xpbar"><i style="width:${Math.min(100,P.xp/(P.lvl*10)*100)}%"></i></div></div></div>`;}
+function renderBattle(enter){app.innerHTML=sceneHTML(enter)+`<div class="msg" id="msg"></div><div class="qpanel" id="qp"></div>`;}
+function say(t){const m=document.getElementById('msg');if(m){m.innerHTML=t+'<span class="more"></span>';m.classList.add('done');}}
+function turn(){const E=B.E,S=SP[E.sp];
+  let intro='';if(!B.saidIntro){intro=B.kind==='gym'?`${GYMS[B.gym].leader} sent out an Embryomon!`:B.kind==='review'?`A due Embryomon returns for review!`:`A wild Embryomon appeared in the tall grass!`;B.saidIntro=true;}
+  const q=E.hidden?identifyQ(S,E):nextQ(E);B.q=q;
+  say(intro||(E.hidden?'It still hides its name…':`${esc(S.n)} is ready. Choose your move!`));
+  const P=lead(),PS=SP[P.sp];
+  document.getElementById('qp').innerHTML=`<div class="qhead"><span class="tchip" style="background:${TYPES[PS.t].c}">${esc(q.mv)}</span><span class="hint">${esc(q.hint)}</span></div>
+    ${q.rows?`<div class="chart"><div class="ch"><span>EMBRYODEX RECORD</span><span>${q.shown}/${q.rows.length} clues</span></div>${q.rows.map((r,i)=>`<div class="cr ${i<q.shown?'':'hid'}"><div class="sys">${esc(r[0])}</div><div class="fx">${i<q.shown?esc(r[1]):'— hidden —'}</div></div>`).join('')}</div>`:''}
+    <p class="stem">${q.stem}</p>
+    <div class="moves">${q.opts.map((o,i)=>`<button class="move" data-i="${i}"><span class="k">${LET[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="cmds">${q.rows&&q.shown<q.rows.length?'<button class="cmd examine" id="exam">Examine (reveal a clue, costs a turn)</button>':''}${B.kind!=='gym'?'<button class="cmd" id="run">Run</button>':''}<button class="cmd" id="swap">Switch lead</button></div>`;
+  document.querySelectorAll('.move').forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+  const ex=document.getElementById('exam');if(ex)ex.onclick=()=>{E.shown++;enemyHits('You examined it closely… but it attacked!');};
+  const rn=document.getElementById('run');if(rn)rn.onclick=()=>{toast('Got away safely!');endBattle(false,true);};
+  document.getElementById('swap').onclick=swapMenu;
+  const f=document.querySelector('.move');if(f)f.focus({preventScroll:true});}
+function swapMenu(){const qp=document.getElementById('qp');const alive=G.party.filter(m=>m.hp>0);
+  qp.innerHTML=`<div class="sub"><div class="h2">Choose your lead</div>${alive.map(m=>`<div class="opt"><span>${esc(SP[m.sp].n)} ${tchip(SP[m.sp].t)} Lv${m.lvl} · ${m.hp}/${m.max} HP</span><button class="cmd" data-u="${m.uid}">Send out</button></div>`).join('')}<button class="cmd" id="cancel">Cancel</button></div>`;
+  qp.querySelectorAll('[data-u]').forEach(b=>b.onclick=()=>{const m=G.party.find(x=>x.uid===+b.dataset.u);G.party=[m,...G.party.filter(x=>x!==m)];persist();renderBattle(false);turn();});
+  document.getElementById('cancel').onclick=turn;}
+function anim(id,cls){const el=document.getElementById(id);if(!el)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);}
+function answer(i){const q=B.q,E=B.E,S=SP[E.sp],P=lead(),PS=SP[P.sp];const ok=i===q.ans;G.tot++;
+  document.querySelectorAll('.move').forEach((b,j)=>{b.disabled=true;if(j===q.ans)b.style.background='var(--good-soft)';else if(j===i)b.style.background='var(--bad-soft)';});
+  E.asked.add(q.sig);
+  if(ok){G.right++;const bonus=PS.t===S.t?1.5:1;const dmg=Math.round((q.kind==='identify'?30:34)*bonus*(q.kind==='vignette'||q.kind==='chain'?1.2:1));
+    E.hp=Math.max(0,E.hp-dmg);if(q.kind==='identify'){E.hidden=false;seen(E.sp,'seen');}
+    P.xp+=12;let lv='';while(P.xp>=P.lvl*10){P.xp-=P.lvl*10;P.lvl++;const f=P.hp/P.max;P.max=maxHP(P.lvl);P.hp=Math.max(P.hp,Math.round(P.max*f));lv=`${PS.n} grew to Lv${P.lvl}! `;}
+    anim('monP','lunge');setTimeout(()=>anim('monE','hit'),200);
+    feedback(true,q,`${esc(PS.n)} used ${esc(TYPES[PS.t].atk)}!${bonus>1?' It\'s super effective!':''} ${lv}`);}
+  else{E.missed++;if(q.kind==='identify')E.shown=Math.min(q.rows.length,E.shown+1);
+    const dmg=8+E.lvl;P.hp=Math.max(0,P.hp-dmg);anim('monE','lunge');setTimeout(()=>{anim('monP','hit');anim('scene','shake');},200);
+    feedback(false,q,`${E.hidden?'The wild Embryomon':esc(S.n)} used ${esc(TYPES[S.t].atk)}! ${esc(PS.n)} took ${dmg} damage.`);}
+  persist();}
+function feedback(ok,q,line){const E=B.E,S=SP[E.sp];
+  document.getElementById('hpE').style.width=(E.hp/E.max*100)+'%';document.getElementById('hpE').style.background=hpColor(E.hp/E.max);
+  const P=lead();document.getElementById('hpP').style.width=(P.hp/P.max*100)+'%';document.getElementById('hpP').style.background=hpColor(P.hp/P.max);
+  say(line);
+  const qp=document.getElementById('qp');const fb=document.createElement('div');fb.className='fb';
+  fb.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'CORRECT!':'NOT QUITE'}</div>${ok?'':`<p class="ans">Answer: <b>${esc(q.opts[q.ans])}</b></p>`}${q.explain}${!E.hidden&&S.pearl&&(!ok||q.kind==='identify')?`<div class="hy"><b>HIGH-YIELD · ${esc(S.n).toUpperCase()}</b>${esc(S.pearl)}</div>`:''}<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>`;
+  qp.querySelector('.cmds')?.remove();qp.appendChild(fb);const c=document.getElementById('cont');c.focus({preventScroll:true});
+  c.onclick=()=>{if(E.hp<=0)return enemyDown();if(P.hp<=0)return leadDown();turn();};}
+function enemyHits(line){const E=B.E,P=lead();const dmg=8+E.lvl;P.hp=Math.max(0,P.hp-dmg);E.missed++;renderBattle(false);anim('scene','shake');say(line+` ${esc(SP[P.sp].n)} took ${dmg} damage.`);
+  document.getElementById('qp').innerHTML='<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>';
+  document.getElementById('cont').onclick=()=>{if(P.hp<=0)return leadDown();turn();};persist();}
+function leadDown(){const P=G.party.find(m=>m.hp<=0&&m===G.party[0])||G.party.find(m=>m.hp<=0);
+  const alive=G.party.filter(m=>m.hp>0);
+  if(!alive.length){say(`All your Embryomon fainted! You hurried back to the Embryo Center.`);healAll();G.loc='center';
+    if(B.E&&!B.E.hidden){const ch=schedWrong(B.E.sp);if(ch)toast(`${SP[B.E.sp].n} devolved to stage ${ch.to}`);}
+    persist();document.getElementById('qp').innerHTML='<div class="row"><button class="btn gold" id="cont">Back to map &gt;</button></div>';document.getElementById('cont').onclick=()=>go('map');return;}
+  G.party=[alive[0],...G.party.filter(m=>m!==alive[0])];persist();renderBattle(false);say(`Your Embryomon fainted! Go, ${esc(SP[alive[0].sp].n)}!`);
+  document.getElementById('qp').innerHTML='<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>';document.getElementById('cont').onclick=turn;}
+function settle(E){seen(E.sp,'seen');const ch=E.missed===0?schedRight(E.sp):schedWrong(E.sp);
+  if(ch){const n=SP[E.sp].n;toast(ch.up?`${n} evolved to stage ${ch.to}! Its questions get harder.`:`${n} dropped to stage ${ch.to}.`);}}
+function enemyDown(){const E=B.E,S=SP[E.sp];anim('monE','faint');
+  if(B.kind==='wild'||B.kind==='review'){
+    if(G.dex[E.sp]!=='caught'){say(`${esc(S.n)} is weakened! Throw an Embryo Orb? You must answer one more question to catch it.`);
+      document.getElementById('qp').innerHTML=`<div class="row"><button class="btn gold" id="orb">Throw Embryo Orb</button><button class="btn ghost" id="let">Let it go</button></div>`;
+      document.getElementById('orb').onclick=captureQ;document.getElementById('let').onclick=()=>{settle(E);nextEnemy();};return;}
+    say(`${esc(S.n)} fainted! Your team gained experience.`);settle(E);}
+  else{say(`${esc(S.n)} fainted!`);settle(E);}
+  persist();document.getElementById('qp').innerHTML='<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>';document.getElementById('cont').onclick=nextEnemy;}
+function captureQ(){const E=B.E,S=SP[E.sp];const q=nextQ(Object.assign({},E,{minStage:Math.max(2,monStage(E.sp))}));B.q=q;
+  const scene=document.getElementById('scene');const orb=document.createElement('div');orb.className='orb';orb.innerHTML=ORB;scene.appendChild(orb);
+  setTimeout(()=>orb.classList.add('wobble'),700);
+  say('The orb wobbles… answer to seal it!');
+  document.getElementById('qp').innerHTML=`<div class="qhead"><span class="tchip" style="background:var(--gold);color:#241A00">CAPTURE · ${esc(q.mv)}</span><span class="hint">${esc(q.hint)}</span></div><p class="stem">${q.stem}</p>
+    <div class="moves">${q.opts.map((o,i)=>`<button class="move" data-i="${i}"><span class="k">${LET[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>`;
+  document.querySelectorAll('.move').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,ok=i===q.ans;G.tot++;if(ok)G.right++;else E.missed++;
+    document.querySelectorAll('.move').forEach((x,j)=>{x.disabled=true;if(j===q.ans)x.style.background='var(--good-soft)';else if(j===i)x.style.background='var(--bad-soft)';});
+    if(ok){seen(E.sp,'caught');const m=newMon(E.sp,Math.max(3,E.lvl-1));if(G.party.length<6)G.party.push(m);else G.box.push(m);say(`Gotcha! ${esc(S.n)} was caught!${G.party.length>=6&&G.party.indexOf(m)<0?' It was sent to the box.':''}`);}
+    else{document.querySelector('.orb')?.remove();say(`Oh no! ${esc(S.n)} broke free and fled!`);}
+    settle(E);persist();
+    const qp=document.getElementById('qp');const fb=document.createElement('div');fb.className='fb';
+    fb.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'CAUGHT!':'IT FLED'}</div>${ok?'':`<p class="ans">Answer: <b>${esc(q.opts[q.ans])}</b></p>`}${q.explain}${S.pearl?`<div class="hy"><b>HIGH-YIELD · ${esc(S.n).toUpperCase()}</b>${esc(S.pearl)}</div>`:''}<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>`;
+    qp.appendChild(fb);document.getElementById('cont').onclick=nextEnemy;document.getElementById('cont').focus({preventScroll:true});});}
+function nextEnemy(){B.i++;if(B.i<B.queue.length){B.E=B.queue[B.i];B.saidIntro=false;persist();renderBattle(true);turn();return;}endBattle(true);}
+function endBattle(won,ran){if(B.kind==='gym'&&won){const g=GYMS[B.gym];const first=!G.badges[B.gym];G.badges[B.gym]=true;healAll();persist();
+    app.innerHTML=`<div class="pane"><div class="gymcard">${trainerSVG(g.coat,g.hair)}<div style="display:flex;flex-direction:column;gap:8px"><div class="h2">${g.leader}</div><p class="lede">“${g.win}”</p>
+    <div class="row">${badgeSVG(g.color,true)}<b>${first?'You earned the '+g.badge+'!':'Rematch won!'}</b></div><div class="small">Your team was healed.</div><div class="row"><button class="btn gold" id="cont">Back to map &gt;</button></div></div></div></div>`;
+    document.getElementById('cont').onclick=()=>go('map');return;}
+  persist();if(B.kind==='wild'&&!ran)go('route',B.area);else if(B.kind==='review'&&!ran)go('review');else go(B.area?'route':'map',B.area);}
+
+/* ================= party / dex / review ================= */
+function renderParty(){
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Party</div><button class="btn ghost" id="back">&lt; Map</button></div>
+  <div class="party">${G.party.map((m,i)=>`<div class="pm ${i===0?'lead':''}">${spriteSVG(m.sp)}<div><div class="nm">${esc(SP[m.sp].n)} ${tchip(SP[m.sp].t)} ${stagePip(m.sp)}</div><div class="small">Lv${m.lvl} · ${m.hp}/${m.max} HP</div><div class="meter" style="max-width:220px"><i style="width:${m.hp/m.max*100}%;background:${hpColor(m.hp/m.max)}"></i></div></div>
+    <div class="act">${i===0?'<span class="small">Lead</span>':`<button class="btn ghost" data-u="${m.uid}">Make lead</button>`}</div></div>`).join('')}</div>
+  ${G.box.length?`<div class="h2">Box (${G.box.length})</div><div class="party">${G.box.map(m=>`<div class="pm">${spriteSVG(m.sp)}<div><div class="nm">${esc(SP[m.sp].n)} ${tchip(SP[m.sp].t)}</div><div class="small">Lv${m.lvl}</div></div><div class="act"><button class="btn ghost" data-b="${m.uid}">Swap into party</button></div></div>`).join('')}</div>`:''}</div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  app.querySelectorAll('[data-u]').forEach(b=>b.onclick=()=>{const m=G.party.find(x=>x.uid===+b.dataset.u);G.party=[m,...G.party.filter(x=>x!==m)];persist();renderParty();});
+  app.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const m=G.box.find(x=>x.uid===+b.dataset.b);const out=G.party.pop();G.box=G.box.filter(x=>x!==m).concat(out?[out]:[]);G.party.push(m);persist();renderParty();});}
+function recordCard(S){const rows=['or','wk','be','nv','mu','fu','ge','rl','fa','fx','cl'].filter(k=>S[k]);
+  return `<div class="card"><div class="row">${spriteSVG(S.id)}<div><h3>#${String(S.no).padStart(3,'0')} ${esc(S.n)}</h3><div class="row">${tchip(S.t)} ${stagePip(S.id,true)} <span class="small">LO ${esc(S.lo)} · ${esc(AREAS[S.a].name)}</span></div></div></div>
+    <ul class="fx-list">${rows.map(k=>`<li><span>${F[k].lab}</span><span>${esc(S[k])}</span></li>`).join('')}</ul>${S.pearl?`<div class="hy"><b>HIGH-YIELD</b>${esc(S.pearl)}</div>`:''}</div>`;}
+function renderDex(sel){const tab=(sel&&sel.tab)||'arch';const keys=areaKeys(tab);
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Embryodex</div><button class="btn ghost" id="back">&lt; Map</button></div>
+  <div class="tabs">${Object.entries(AREAS).map(([k,a])=>`<button class="tab" data-t="${k}" aria-pressed="${k===tab}">${a.name}</button>`).join('')}</div>
+  <p class="small">Seen and caught Embryomon open their full record — use it as your study sheet. ${dexProgress(keys).c} of ${keys.length} caught here.</p>
+  <div id="dexcard"></div>
+  <div class="dexgrid">${keys.map(k=>{const S=SP[k],st=G.dex[k];return `<button class="dexe ${st||'unseen'}" data-k="${k}" ${st?'':'disabled'}>${spriteSVG(k,{sil:!st})}<span class="no">#${String(S.no).padStart(3,'0')}</span><span>${st?esc(S.n):'???'}</span>${st?stagePip(k):''}</button>`;}).join('')}</div></div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  app.querySelectorAll('.tab').forEach(b=>b.onclick=()=>renderDex({tab:b.dataset.t}));
+  app.querySelectorAll('.dexe').forEach(b=>b.onclick=()=>{document.getElementById('dexcard').innerHTML=recordCard(SP[b.dataset.k]);document.getElementById('dexcard').scrollIntoView({block:'nearest'});});}
+function renderReview(){const due=dueKeys();const st={1:0,2:0,3:0};Object.keys(G.sched).forEach(k=>{if(SP[k])st[stageOf(G.sched[k].b)]++;});
+  const leech=Object.keys(G.sched).filter(k=>SP[k]&&G.sched[k].l>=LEECH_AT);
+  const row=k=>`<div class="missi"><span>${esc(SP[k].n)} ${tchip(SP[k].t)} ${stagePip(k)}</span><b>${G.sched[k].l} miss${G.sched[k].l===1?'':'es'}</b></div>`;
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Review</div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <p class="lede">Embryomon come back on a spaced schedule. A clean battle moves one up a box and pushes its next visit further out; any miss sends it back to box 0. Stage 1 asks recall, stage 2 asks failures and 2nd-order chains, stage 3 asks Step 1 vignettes.</p>
+    <div class="mapfoot" style="padding:0"><div class="stat"><div class="k">TRACKED</div><div class="v">${Object.keys(G.sched).filter(k=>SP[k]).length}</div></div><div class="stat"><div class="k">STAGE 1 / 2 / 3</div><div class="v">${st[1]} · ${st[2]} · ${st[3]}</div></div><div class="stat"><div class="k">ACCURACY</div><div class="v">${G.tot?Math.round(100*G.right/G.tot)+'%':'—'}</div></div></div>
+    ${due.length?`<div class="row"><button class="btn gold" id="rm">Run the due queue &gt;</button><span class="small">${due.length} due · a run pulls up to six</span></div><div class="misslist">${due.map(row).join('')}</div>`:'<div class="box">Nothing due right now. Go catch something new, or come back after a few more battles.</div>'}
+    ${leech.length?`<div class="h2">Leeches <span class="small">(missed ${LEECH_AT}+ times — study their records in the Embryodex)</span></div><div class="misslist">${leech.map(row).join('')}</div>`:''}</div>`;
+  document.getElementById('back').onclick=()=>go('map');const rm=document.getElementById('rm');if(rm)rm.onclick=startReview;}
+
+/* keyboard: A–E / 1–5 to answer, Enter to continue */
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||e.altKey)return;
+  if(e.key==='Enter'){const c=document.getElementById('cont');if(c&&document.activeElement!==c){e.preventDefault();c.click();}return;}
+  let i=LET.indexOf(e.key.toUpperCase());if(i<0){const n=parseInt(e.key,10);if(n>=1&&n<=5)i=n-1;}
+  if(i>=0){const b=document.querySelectorAll('.move')[i];if(b&&!b.disabled)b.click();}});
+
+/* ================= boot ================= */
+G=load();if(G)go('map');else go('title');
+})();
+
+</script>

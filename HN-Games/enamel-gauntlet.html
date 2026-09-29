@@ -1,0 +1,300 @@
+<title>The Enamel Gauntlet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one dark arena. Title → boss map grid → battle (boss bar, player bar, question) → result.
+   Deliberately single dark theme, every color set explicitly. */
+:root{
+  --bg:#0d1016; --bg2:#151a23; --surface:#1b212c; --line:#2d3644; --ink:#e9edf2; --muted:#9aa5b3;
+  --acc:#e0c27a; --acc2:#7a6428; --gold:#e3b95c; --hp:#e2574c; --you:#5cc98a; --ok:#5cc98a; --ok-bg:#15301f; --bad:#f07b72; --bad-bg:#3a1a18;
+  --f-disp:"Cinzel", "Trajan Pro", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:radial-gradient(1200px 600px at 50% -10%, color-mix(in srgb, var(--acc2) 35%, transparent), transparent 70%), var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-disp);margin:0;letter-spacing:.04em;text-wrap:balance;line-height:1.15}
+.meta{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.btn{font:700 .9rem var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 16px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.btn.primary{background:var(--acc);color:#0d1016;border-color:var(--acc)}
+.btn.gold{background:var(--gold);color:#1a1405;border-color:var(--gold)}
+.btn:focus-visible,.opt:focus-visible,.boss:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* title */
+.hero{display:grid;gap:14px;text-align:center;justify-items:center;padding-block:28px 8px}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;color:var(--acc);text-shadow:0 0 24px color-mix(in srgb, var(--acc) 40%, transparent)}
+.hero p{max-width:60ch;color:var(--muted);margin:0}
+.counts{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.counts b{display:block;font:800 1.8rem var(--f-disp);color:var(--ink)}
+.counts span{font:500 .7rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;width:100%;max-width:640px}
+.mode{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;text-align:left;cursor:pointer;color:var(--ink);font:inherit}
+.mode:hover{border-color:var(--acc)}
+.mode h3{font-size:1.1rem;color:var(--acc)}
+.mode p{margin:0;color:var(--muted);font-size:.88rem}
+.coop{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;max-width:420px;width:100%;text-align:left}
+.coop label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
+.coop input{font:inherit;background:var(--bg2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.legend-types{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:.82rem;color:var(--muted)}
+
+/* map */
+.maphead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px}
+.maphead h2{font-size:1.6rem;color:var(--acc)}
+.prog{height:8px;background:var(--bg2);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc))}
+.bossgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.boss{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:10px 12px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;position:relative}
+.boss:hover:not([disabled]){border-color:var(--acc)}
+.boss[disabled]{opacity:.5;cursor:not-allowed}
+.boss .sig{grid-row:1/3;width:56px;height:56px}
+.boss h3{font-size:.98rem}
+.boss .ep{font-size:.78rem;color:var(--muted);line-height:1.3}
+.boss .lo{grid-column:1/3;font:500 .7rem var(--f-mono);color:var(--acc);letter-spacing:.04em}
+.boss .hpmini{grid-column:1/3;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.boss .hpmini i{display:block;height:100%;background:var(--hp)}
+.boss.dead{border-color:var(--gold)}
+.boss.dead .hpmini i{background:var(--gold)}
+.boss .slain{position:absolute;top:-10px;right:12px;background:var(--bg);padding:1px 8px;border:1px solid var(--gold);border-radius:999px;font:700 .68rem var(--f-mono);letter-spacing:.08em;color:var(--gold)}
+.boss.final{grid-column:1/-1;border-color:color-mix(in srgb, var(--gold) 60%, var(--line))}
+.maptools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* battle */
+.arena{display:grid;gap:12px}
+.bars{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+@media (max-width:640px){ .bars{grid-template-columns:1fr} .vs{display:none} }
+.fighter{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;min-width:0}
+.fighter .sig{width:64px;height:64px}
+.fighter h3{font-size:1.05rem}
+.fighter .ep{font-size:.78rem;color:var(--muted)}
+.hpbar{height:12px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.hpbar i{display:block;height:100%;transition:width .35s ease}
+.hpbar.bh i{background:linear-gradient(90deg,#9b2d25,var(--hp))}
+.hpbar.you i{background:linear-gradient(90deg,#2a7a4d,var(--you))}
+.hptxt{font:500 .72rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.vs{font:800 1.2rem var(--f-disp);color:var(--gold)}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px;position:relative;overflow:hidden}
+.qtop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.tag.t2{color:var(--gold);border-color:color-mix(in srgb, var(--gold) 50%, var(--line))}
+.tag.s1{color:var(--acc);border-color:color-mix(in srgb, var(--acc) 50%, var(--line))}
+.combo{font:800 .95rem var(--f-disp);color:var(--gold)}
+.turn{font:600 .85rem var(--f-body);color:var(--acc)}
+.stem{font:600 1.05rem/1.55 var(--f-body);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg2);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt .k{font:700 .8rem var(--f-mono);color:var(--acc);min-width:1.2em}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt[disabled]{cursor:default}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg);border:1px solid color-mix(in srgb, var(--ok) 40%, transparent)}
+.fb.bad{background:var(--bad-bg);border:1px solid color-mix(in srgb, var(--bad) 40%, transparent)}
+.fb .v{font:800 1rem var(--f-disp);letter-spacing:.05em}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.flash{position:absolute;inset:0;pointer-events:none;display:grid;place-items:center;font:800 3rem var(--f-disp);letter-spacing:.1em;opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  .shake{animation:shake .35s}
+  @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+  .flash.go{animation:fl .7s ease-out}
+  @keyframes fl{0%{opacity:0;transform:scale(.8)}25%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.15)}}
+}
+
+/* result */
+.result{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px}
+.result h2{font-size:2rem}
+.result.win h2{color:var(--gold)} .result.lose h2{color:var(--bad)}
+.review{display:grid;gap:10px}
+.review article{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:6px}
+.review .ans{color:var(--ok);font-weight:600}
+.scores{display:flex;gap:20px;flex-wrap:wrap}
+.scores b{display:block;font:800 1.4rem var(--f-disp)}
+.scores span{font:500 .7rem var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+</style>
+
+<div class="wrap">
+  <section id="scrTitle" class="hero">
+    <p class="meta">HoyaDocs · Block 5 · <span id="lecName"></span></p>
+    <h1 id="gTitle"></h1>
+    <p id="gTag"></p>
+    <div class="counts">
+      <div><b id="cQ">0</b><span>Questions</span></div>
+      <div><b id="cB">0</b><span>Bosses</span></div>
+      <div><b id="cL">0</b><span>Learning objectives</span></div>
+    </div>
+    <div class="legend-types"><span class="tag t2">2nd order</span> multi-step reasoning <span class="tag s1">Step 1</span> clinical vignette</div>
+    <div class="modes">
+      <button class="mode" type="button" id="soloBtn"><h3>Solo campaign</h3><p>Your HP, your record. Wrong answers return later in the fight.</p></button>
+      <button class="mode" type="button" id="coopBtn"><h3>Two-player co-op</h3><p>Alternate questions on one boss with a shared HP pool.</p></button>
+    </div>
+    <form class="coop" id="coopForm" hidden>
+      <p class="meta">Name your party</p>
+      <label for="p1">Player 1<input id="p1" value="Player 1" maxlength="20"></label>
+      <label for="p2">Player 2<input id="p2" value="Player 2" maxlength="20"></label>
+      <div class="row"><button class="btn" type="button" id="coopBack">Back</button><button class="btn primary" type="submit">Enter the fight</button></div>
+    </form>
+  </section>
+
+  <section id="scrMap" hidden>
+    <div class="maphead">
+      <div><p class="meta" id="mapMode">Solo campaign</p><h2>Boss map</h2><p class="hint" id="mapProg"></p></div>
+      <div class="maptools"><button class="btn" type="button" id="modeBtn">Change mode</button><button class="btn" type="button" id="resetBtn">Reset progress</button></div>
+    </div>
+    <div class="prog" style="margin:10px 0 16px"><i id="progBar" style="width:0%"></i></div>
+    <div class="bossgrid" id="bossGrid"></div>
+    <p class="hint" style="margin-top:12px">Progress is saved in this browser only. A boss is defeated only when every one of its questions has been answered correctly. The final boss unlocks when all others fall.</p>
+  </section>
+
+  <section id="scrBattle" class="arena" hidden>
+    <div class="row"><button class="btn" type="button" id="retreatBtn">← Retreat to map</button><span class="combo" id="combo"></span></div>
+    <div class="bars">
+      <div class="fighter"><div id="bSig"></div><div style="min-width:0"><h3 id="bName"></h3><div class="ep" id="bEp"></div><div class="hpbar bh"><i id="bHp"></i></div><div class="hptxt" id="bHpT"></div></div></div>
+      <div class="vs">VS</div>
+      <div class="fighter"><div id="ySig"></div><div style="min-width:0"><h3 id="yName">You</h3><div class="ep" id="yEp"></div><div class="hpbar you"><i id="yHp"></i></div><div class="hptxt" id="yHpT"></div></div></div>
+    </div>
+    <div class="qcard" id="qcard">
+      <div class="flash" id="flash"></div>
+      <div class="qtop"><div class="tags" id="qTags"></div><span class="turn" id="turn"></span></div>
+      <p class="stem" id="stem"></p>
+      <div class="opts" id="opts"></div>
+      <div id="fb"></div>
+      <div class="row"><span class="hint">Keys A–E or 1–5 · Enter for next</span><button class="btn primary" type="button" id="nextBtn" hidden>Next strike →</button></div>
+    </div>
+  </section>
+
+  <section id="scrResult" hidden></section>
+
+  <footer>HoyaDocs · <span id="fTitle"></span> · Updated September 28, 2026 · Revision 1.0. Questions are written from the in-house learning objectives; Step 1 vignettes may reach slightly past the lecture.</footer>
+</div>
+
+<script>
+var G = {"key": "12", "title": "The Enamel Gauntlet", "lecture": "HNSS12 · Oral Structures", "accent": "#e0c27a", "accent2": "#7a6428", "tagline": "Six bosses guard the six learning objectives of the oral cavity. Each falls only when every question it holds is answered correctly.", "final": {"name": "The Gaping Maw", "epithet": "Every tooth, gland and papilla", "n": 12}, "bosses": [{"lo": "12.1", "name": "The Vestibule Guard", "epithet": "Keeper of the three spaces", "los": "Structures located in the oral cavity", "q": [["2", "The parotid duct opens opposite the upper second molar. Into which oral space does it open?", ["Oral cavity proper", "Oral vestibule", "Oropharynx", "Floor of the mouth", "Nasopharynx"], 1, "The vestibule lies between lips/cheeks and teeth; the parotid (Stensen's) duct opens there."], ["2", "Which three spaces make up the oral cavity region in lecture?", ["Vestibule, oral cavity proper, pharynx", "Vestibule, larynx, esophagus", "Nasal cavity, oral cavity, larynx", "Mouth, tongue, palate", "Oropharynx, nasopharynx, laryngopharynx"], 0, "Vestibule, oral cavity proper and pharynx."], ["2", "Which structures sit in the oral cavity but are keratinized because they face chewing friction?", ["Ventral tongue, floor of mouth", "Gingiva, hard palate, dorsal tongue", "Soft palate, uvula", "Inner cheek, inner lip", "Oropharynx, nasopharynx"], 1, "Masticatory mucosa is keratinized; lining mucosa is not."], ["S1", "A patient places nitroglycerin under the tongue for angina and gets rapid relief. Why is this route effective?", ["The floor of the mouth has keratinized epithelium", "The floor of the mouth and ventral tongue mucosa are highly permeable", "Minor salivary glands absorb the drug", "The lingual tonsil absorbs it", "Taste buds absorb it"], 1, "Oral mucosa is especially permeable in the sublingual area and ventral tongue."]]}, {"lo": "12.2", "name": "The Vermilion Duchess", "epithet": "Red lips, no glands", "los": "Features and functions of oral structures", "q": [["2", "Why is the vermilion of the lip red, and what is missing there?", ["Keratin — melanocytes", "Abundant capillaries under thin epithelium — hair and sweat glands", "Many melanocytes — hair", "Thick keratin — capillaries", "Mucous glands — sebaceous glands"], 1, "Vermilion: transition zone with dermal capillaries and no hair or sweat glands."], ["2", "The inner cheek mucosa is tethered to muscle at intervals. What does that achieve?", ["More keratin", "Many small folds instead of one bulge that could be bitten", "More taste buds", "Better drug absorption", "Attachment of teeth"], 1, "Tethering prevents a large fold from getting caught between the teeth."], ["2", "Which pairing of palate region and mucosa is correct?", ["Hard palate — non-keratinized, many taste buds", "Hard palate — keratinized, bound to periosteum, minor mucous glands", "Soft palate — keratinized, bound to bone", "Soft palate — no taste buds", "Uvula — keratinized skin"], 1, "Hard palate (anterior 2/3) is keratinized and bound to bone; the soft palate (posterior 1/3) has many taste buds."], ["2", "How does oral mucosa differ from skin epidermis?", ["It has distinct strata and hair", "It is mostly non-keratinized with no zonation (strata)", "It lacks an epithelium", "It is simple columnar", "It is always keratinized"], 1, "Stratified squamous, mostly non-keratinized, no distinct strata; a wet mucosa."], ["2", "The soft palate separates which two spaces?", ["Nasal cavity and oral cavity", "Nasopharynx and oropharynx", "Oropharynx and larynx", "Vestibule and oral cavity proper", "Oral cavity and esophagus"], 1, "Hard palate separates nasal and oral cavities; soft palate separates nasopharynx and oropharynx."]]}, {"lo": "12.3", "name": "The Ameloblast King", "epithet": "Crown of hydroxyapatite", "los": "Development and organization of the teeth", "q": [["2", "A chipped tooth's enamel never grows back. Why?", ["Odontoblasts stop working", "Ameloblasts degenerate at tooth eruption", "Enamel has no hydroxyapatite", "Cementocytes resorb it", "The pulp loses its blood supply"], 1, "Enamel is made by ameloblasts, which die at eruption, so enamel cannot repair itself."], ["2", "From the surface inward, which order is correct for a developing tooth on a slide?", ["Dentin → enamel → pulp", "Ameloblasts → enamel → dentin → predentin → odontoblasts → pulp", "Odontoblasts → enamel → ameloblasts → pulp", "Pulp → dentin → enamel", "Enamel → pulp → dentin"], 1, "Ameloblasts face enamel; odontoblasts line the pulp side of dentin."], ["S1", "A patient has a severe, throbbing toothache from a deep cavity that reached the central tissue of the tooth. Why is the pain so intense?", ["Enamel has pain fibers", "Inflamed pulp swells inside a rigid cavity and all its afferents carry pain", "Cementum is inflamed", "The periodontal ligament has no give", "The gingiva is ulcerated"], 1, "Pulpitis: rigid pulp cavity + pain-only afferent fibers."], ["2", "Which developmental tissue forms the cells that anchor the tooth to its socket?", ["Enamel organ", "Dental papilla", "Dental sac", "Oral ectoderm", "Neural tube"], 2, "Dental sac mesenchyme → cementoblasts + periodontal ligament. Papilla → dentin and pulp. Enamel organ → enamel."], ["S1", "A panoramic X-ray shows a cyst around the crown of an impacted mandibular third molar, attached at its neck. What is it, and what can it become?", ["Periapical cyst — osteosarcoma", "Dentigerous cyst — ameloblastoma, SCC or mucoepidermoid carcinoma", "Radicular cyst — lymphoma", "Keratocyst — basal cell carcinoma", "Mucocele — adenoid cystic carcinoma"], 1, "Most common non-inflammatory odontogenic cyst; fluid between follicular and reduced enamel epithelium."], ["2", "How many permanent teeth are there, and which type has no deciduous precursor?", ["20 — incisors", "32 — molars", "28 — canines", "32 — premolars", "24 — molars"], 1, "32 permanent (8 incisors, 4 canines, 8 premolars, 12 molars); 20 deciduous; molars have no deciduous precursors."], ["2", "Sharpey's fibers insert into which tissue, and from where?", ["Enamel — from gingiva", "Cementum — from the periodontal ligament", "Dentin — from pulp", "Alveolar bone — from enamel", "Pulp — from dentin"], 1, "The PDL (periosteum of alveolar bone) anchors to cementum via Sharpey's fibers."]]}, {"lo": "12.4", "name": "The Circumvallate Hydra", "epithet": "Ten heads in a V", "los": "Tongue, lingual papillae and taste buds", "q": [["2", "Which papillae are most numerous yet contain no taste buds?", ["Fungiform", "Filiform", "Circumvallate", "Foliate", "Lingual tonsil"], 1, "Filiform: keratinized, conical, most numerous, no taste buds."], ["2", "Where are over half of all taste buds, and what cleans around them?", ["Fungiform papillae — mucous glands", "Circumvallate papillae — serous von Ebner glands", "Filiform papillae — sebaceous glands", "Soft palate — Meibomian glands", "Lingual tonsil — serous glands"], 1, "Circumvallate papillae (10–12, in a V before the sulcus terminalis) with von Ebner glands flushing the moat."], ["2", "The tongue muscle is unusual in which histologic way?", ["It is smooth muscle", "Skeletal muscle bundles run in three planes", "It is cardiac muscle", "It has no fascicles", "It is myoepithelial"], 1, "Flagged on exam: triplanar skeletal muscle."], ["S1", "A patient receiving chemotherapy loses her sense of taste within days, but it returns weeks after treatment. Which property of taste cells explains the quick recovery?", ["They are neurons that regenerate axons", "They turn over about every 10 days from basal stem cells", "They are replaced by filiform papillae", "They are keratinized", "They are not affected by chemotherapy"], 1, "Gustatory cells live ~10 days and are replaced by basal cells."], ["2", "What makes the lingual tonsil different from other tonsils?", ["It has no crypts", "Minor salivary glands drain into its crypts", "It is keratinized", "It has taste buds", "It lies on the anterior tongue"], 1, "Lingual tonsils: one crypt each, and minor salivary glands secrete into the crypts."], ["2", "Which cells in a taste bud project microvilli through the taste pore?", ["Basal stem cells", "Gustatory (sensory) cells", "Supporting (dark) cells", "Myoepithelial cells", "Merkel cells"], 1, "Light sensory cells have apical microvilli and synapse with gustatory fibers."]]}, {"lo": "12.5", "name": "The Salivary Triad", "epithet": "Serous, mixed and mucous", "los": "Types of salivary glands", "q": [["2", "A slide shows an all-serous gland with a heavy capsule, abundant fat and many plasma cells. Which gland?", ["Submandibular", "Parotid", "Sublingual", "Von Ebner", "Minor palatine"], 1, "Parotid: all serous, compound acinar, ~25% of saliva, Stensen's duct."], ["2", "Serous demilunes are frequent and diagnostic in which gland, which also makes most resting saliva?", ["Parotid", "Submandibular", "Sublingual", "Lacrimal", "Minor labial"], 1, "Submandibular: mixed, mostly serous, frequent demilunes, ~70% of saliva, Wharton's duct."], ["S1", "A patient on an anticholinergic complains of dry mouth. Which statement about salivary control applies?", ["Sympathetic stimulation causes copious watery saliva", "Parasympathetic stimulation causes copious watery saliva, so blocking it dries the mouth", "Saliva is not under autonomic control", "Only the sublingual gland is affected", "Sympathetic blockade causes xerostomia"], 1, "Parasympathetic → watery; sympathetic → thick viscous. Drugs blocking secretion → xerostomia."], ["2", "Which duct modifies the primary saliva by active electrolyte transport, and how do you recognize it?", ["Intercalated duct — flat cells", "Striated duct — basal folds with mitochondria", "Excretory duct — stratified squamous", "Myoepithelial duct — contractile", "Lobar duct — goblet cells"], 1, "Striated ducts: columnar cells with basal infoldings and mitochondria; rare in sublingual."], ["2", "Which gland is smallest, mostly mucous, has no capsule and drains by multiple ducts?", ["Parotid", "Submandibular", "Sublingual", "Von Ebner", "Lacrimal"], 2, "Sublingual: ~5% of saliva, Bartholin's ducts."], ["2", "Which cell secretes IgA into saliva, and which enzyme do serous cells add?", ["Plasma cell — amylase", "Myoepithelial cell — lipase", "Mucous cell — lysozyme", "Serous cell — pepsin", "Goblet cell — amylase"], 0, "Plasma cells secrete IgA; serous cells secrete amylase, lactoferrin and water."]]}, {"lo": "12.6", "name": "The Pharyngeal Gatekeeper", "epithet": "Food below, air above", "los": "Structure and function of the pharynx", "q": [["2", "Which epithelium lines the oropharynx, and why?", ["Pseudostratified ciliated columnar — to move mucus", "Non-keratinized stratified squamous — to resist food abrasion", "Simple columnar — to absorb", "Keratinized stratified squamous — for chewing", "Transitional — to stretch"], 1, "The oropharynx conducts food, so it has abrasion-resistant stratified squamous epithelium."], ["2", "Which epithelium lines the nasopharynx?", ["Non-keratinized stratified squamous", "Pseudostratified ciliated columnar (respiratory)", "Simple cuboidal", "Keratinized stratified squamous", "Olfactory epithelium only"], 1, "The nasopharynx conducts air to the larynx and trachea."], ["S1", "A child with enlarged lymphoid tissue in the roof of the nasopharynx snores and mouth-breathes. What epithelium covers this tissue?", ["Stratified squamous non-keratinized", "Pseudostratified ciliated columnar", "Simple squamous", "Keratinized squamous", "Transitional"], 1, "The pharyngeal tonsil (adenoids) sits in the respiratory-epithelium-lined nasopharynx."], ["2", "A biopsy site with non-keratinized stratified squamous epithelium and lymphoid crypts behind the tongue most likely comes from which region?", ["Nasopharynx", "Oropharynx (lingual/palatine tonsil region)", "Trachea", "Nasal cavity", "Hard palate"], 1, "Oropharynx is lined by non-keratinized stratified squamous and houses the palatine and lingual tonsils."]]}]};
+(function(){
+"use strict";
+var KEY="hd-boss-"+G.key+"-v1", L="ABCDE";
+var P={dead:{},best:{},mode:"solo",names:["Player 1","Player 2"]};
+try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.dead)P=Object.assign(P,j);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(P));}catch(e){}}
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){["scrTitle","scrMap","scrBattle","scrResult"].forEach(function(s){$(s).hidden=(s!==id);});window.scrollTo(0,0);}
+
+/* ids */
+var QS=[];G.bosses.forEach(function(b,bi){b.id="b"+bi;b.q.forEach(function(q,qi){QS.push({id:b.id+"."+qi,boss:b,lo:b.lo,k:q[0],stem:q[1],o:q[2],a:q[3],e:q[4]});});b.qs=QS.filter(function(x){return x.boss===b;});});
+var FINAL={id:"final",name:G.final.name,epithet:G.final.epithet,lo:"all",los:"Every learning objective in this lecture",final:true};
+var losSet={};G.bosses.forEach(function(b){losSet[b.lo]=1;});
+
+/* sigil: deterministic SVG emblem per boss */
+function sigil(seed,size,col){var s=0;for(var i=0;i<seed.length;i++)s=(s*31+seed.charCodeAt(i))>>>0;
+  function r(){s=(s*1103515245+12345)>>>0;return s/4294967296;}
+  var n=3+Math.floor(r()*5),rot=r()*360,parts='';
+  for(var k=0;k<3;k++){var rad=44-k*12,pts=[];for(var i=0;i<n;i++){var a=(rot+k*17+i*360/n)*Math.PI/180;pts.push((50+rad*Math.cos(a)).toFixed(1)+","+(50+rad*Math.sin(a)).toFixed(1));}
+    parts+='<polygon points="'+pts.join(" ")+'" fill="'+(k===2?col:"none")+'" fill-opacity="'+(k===2?".35":"0")+'" stroke="'+col+'" stroke-width="'+(3-k*.6)+'" stroke-opacity="'+(1-k*.25)+'"/>';}
+  parts+='<circle cx="50" cy="50" r="'+(6+r()*6).toFixed(1)+'" fill="'+col+'"/>';
+  return '<svg class="sig" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#0d1016" stroke="#2d3644"/>'+parts+'</svg>';}
+
+/* title */
+$("lecName").textContent=G.lecture;$("gTitle").textContent=G.title;$("gTag").textContent=G.tagline;$("fTitle").textContent=G.title;
+$("cQ").textContent=QS.length;$("cB").textContent=G.bosses.length+1;$("cL").textContent=Object.keys(losSet).filter(function(k){return k.slice(-1)!=="X";}).length;
+$("soloBtn").onclick=function(){P.mode="solo";save();openMap();};
+$("coopBtn").onclick=function(){$("coopForm").hidden=false;$("p1").value=P.names[0];$("p2").value=P.names[1];$("p1").focus();};
+$("coopBack").onclick=function(){$("coopForm").hidden=true;};
+$("coopForm").onsubmit=function(e){e.preventDefault();P.mode="coop";P.names=[$("p1").value.trim()||"Player 1",$("p2").value.trim()||"Player 2"];save();openMap();};
+$("modeBtn").onclick=function(){show("scrTitle");};
+$("resetBtn").onclick=function(){var b=this;if(b.dataset.c){P.dead={};P.best={};save();delete b.dataset.c;b.textContent="Reset progress";openMap();return;}
+  b.dataset.c="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.c){delete b.dataset.c;b.textContent="Reset progress";}},3000);};
+
+/* map */
+function openMap(){
+  $("mapMode").textContent=P.mode==="coop"?"Co-op · "+P.names.join(" & "):"Solo campaign";
+  var dead=G.bosses.filter(function(b){return P.dead[b.id];}).length,conq=G.bosses.filter(function(b){return P.dead[b.id];}).reduce(function(s,b){return s+b.qs.length;},0);
+  $("mapProg").textContent=dead+" of "+G.bosses.length+" bosses defeated · "+conq+" of "+QS.length+" questions conquered"+(P.dead.final?" · Final boss slain":"");
+  $("progBar").style.width=Math.round(100*(dead+(P.dead.final?1:0))/(G.bosses.length+1))+"%";
+  var h="";G.bosses.forEach(function(b){var d=P.dead[b.id];
+    h+='<button type="button" class="boss'+(d?" dead":"")+'" data-b="'+b.id+'">'+sigil(b.name,56,d?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim())+
+      '<h3>'+esc(b.name)+'</h3><span class="ep">'+esc(b.epithet)+'</span>'+(d?'<span class="slain">SLAIN</span>':'')+
+      '<span class="lo">'+(b.lo.slice(-1)==="X"?"EXTRA":"LO "+b.lo)+' · '+esc(b.los)+' · '+b.qs.length+' Q</span><span class="hpmini"><i style="width:'+(d?100:100)+'%"></i></span></button>';});
+  var allDead=G.bosses.every(function(b){return P.dead[b.id];});
+  h+='<button type="button" class="boss final'+(P.dead.final?" dead":"")+'" data-b="final"'+(allDead?'':' disabled')+'>'+sigil(FINAL.name,56,"#e3b95c")+
+    '<h3>Final boss · '+esc(FINAL.name)+'</h3><span class="ep">'+esc(FINAL.epithet)+(allDead?'':' — unlocks when every other boss falls')+'</span>'+(P.dead.final?'<span class="slain">SLAIN</span>':'')+
+    '<span class="lo">ALL LOs · '+G.final.n+' random questions from every boss</span><span class="hpmini"><i style="width:100%"></i></span></button>';
+  $("bossGrid").innerHTML=h;
+  $("bossGrid").querySelectorAll(".boss").forEach(function(el){el.onclick=function(){if(el.disabled)return;start(el.dataset.b==="final"?FINAL:G.bosses.filter(function(b){return b.id===el.dataset.b;})[0]);};});
+  show("scrMap");
+}
+
+/* battle */
+var B=null;
+function start(boss){
+  var pool=boss.final?shuffle(QS).slice(0,G.final.n):shuffle(boss.qs);
+  B={boss:boss,queue:pool.slice(),total:pool.length,left:pool.length,hp:100,combo:0,score:0,pscore:[0,0],turn:0,missed:[],cur:null,done:false,right:0,tries:0};
+  $("bSig").innerHTML=sigil(boss.name,64,boss.final?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim());
+  $("ySig").innerHTML=sigil(P.mode==="coop"?P.names.join("&"):"you",64,"#5cc98a");
+  $("bName").textContent=boss.name;$("bEp").textContent=(boss.final?"Final boss · ":"")+boss.epithet;
+  $("yName").textContent=P.mode==="coop"?P.names.join(" & "):"You";$("yEp").textContent=P.mode==="coop"?"Shared HP":"Solo";
+  show("scrBattle");nextQ();
+}
+function bars(){
+  $("bHp").style.width=(100*B.left/B.total)+"%";$("bHpT").textContent=B.left+" / "+B.total+" questions standing";
+  $("yHp").style.width=B.hp+"%";$("yHpT").textContent=B.hp+" / 100 HP";
+  $("combo").textContent=B.combo>=3?"×2 combo · streak "+B.combo:(B.combo?"Streak "+B.combo:"");
+}
+function nextQ(){
+  bars();B.cur=B.queue.shift();var q=B.cur;
+  q._ord=shuffle([0,1,2,3,4]);
+  $("qTags").innerHTML='<span class="tag '+(q.k==="S1"?"s1":"t2")+'">'+(q.k==="S1"?"Step 1":"2nd order")+'</span><span class="tag">'+(q.lo.slice(-1)==="X"?"Extra":"LO "+q.lo)+'</span>'+(B.boss.final?'<span class="tag">'+esc(q.boss.name)+'</span>':'');
+  $("turn").textContent=P.mode==="coop"?P.names[B.turn]+"'s turn":"";
+  $("stem").textContent=q.stem;
+  $("opts").innerHTML=q._ord.map(function(oi,i){return '<button type="button" class="opt" data-oi="'+oi+'"><span class="k">'+L[i]+'</span><span>'+esc(q.o[oi])+'</span></button>';}).join("");
+  $("fb").innerHTML="";$("nextBtn").hidden=true;B.answered=false;
+  $("opts").querySelectorAll(".opt").forEach(function(b){b.onclick=function(){answer(+b.dataset.oi);};});
+  var first=$("opts").querySelector(".opt");if(first)first.focus({preventScroll:true});
+}
+function flash(txt,col){var f=$("flash");f.textContent=txt;f.style.color=col;f.classList.remove("go");void f.offsetWidth;f.classList.add("go");}
+function answer(oi){
+  if(B.answered)return;B.answered=true;var q=B.cur,ok=oi===q.a;B.tries++;
+  $("opts").querySelectorAll(".opt").forEach(function(b){var x=+b.dataset.oi;b.disabled=true;if(x===q.a)b.classList.add("right");else if(x===oi)b.classList.add("wrong");});
+  if(ok){B.left--;B.right++;B.combo++;var pts=(B.combo>=3?20:10);B.score+=pts;B.pscore[B.turn]+=pts;flash(B.combo>=3?"CRITICAL":"HIT","#e3b95c");$("bSig").classList.remove("shake");void $("bSig").offsetWidth;$("bSig").classList.add("shake");}
+  else{B.combo=0;B.hp=Math.max(0,B.hp-25);B.queue.push(q);if(B.missed.indexOf(q)<0)B.missed.push(q);flash("OUCH","#f07b72");$("qcard").classList.remove("shake");void $("qcard").offsetWidth;$("qcard").classList.add("shake");}
+  var right=q.o[q.a],letter=L[q._ord.indexOf(q.a)];
+  $("fb").innerHTML='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Direct hit":"The boss strikes back · −25 HP")+'</span>'+(ok?'':'<span>Answer: <b>'+letter+'. '+esc(right)+'</b>. This question will return.</span>')+'<span>'+esc(q.e)+'</span></div>';
+  bars();
+  var nb=$("nextBtn");nb.hidden=false;
+  if(B.left===0){nb.textContent="Claim victory →";}else if(B.hp===0){nb.textContent="You have fallen →";}else nb.textContent="Next strike →";
+  nb.focus({preventScroll:true});
+}
+$("nextBtn").onclick=function(){
+  if(B.left===0)return end(true);if(B.hp===0)return end(false);
+  if(P.mode==="coop")B.turn=1-B.turn;nextQ();};
+$("retreatBtn").onclick=openMap;
+
+function end(win){
+  var bo=B.boss;if(win){P.dead[bo.id]=true;P.best[bo.id]=Math.max(P.best[bo.id]||0,B.score);save();}
+  var acc=Math.round(100*B.right/Math.max(1,B.tries));
+  var h='<div class="result '+(win?"win":"lose")+'"><p class="meta">'+esc(bo.final?"Final boss":"LO "+bo.lo)+'</p><h2>'+(win?"Victory — "+esc(bo.name)+" is slain":"You have fallen to "+esc(bo.name))+'</h2>'+
+    '<div class="scores"><div><b>'+B.score+'</b><span>Score</span></div><div><b>'+acc+'%</b><span>First-strike accuracy</span></div><div><b>'+B.hp+'</b><span>HP left</span></div>'+
+    (P.mode==="coop"?'<div><b>'+B.pscore[0]+' · '+B.pscore[1]+'</b><span>'+esc(P.names[0])+' · '+esc(P.names[1])+'</span></div>':'')+'</div>';
+  if(!win)h+='<p class="hint">Four wrong answers end the fight. The boss heals fully; review the questions below and try again.</p>';
+  if(B.missed.length){h+='<h3 style="font-size:1.1rem;color:var(--gold)">Worth a second look</h3><div class="review">'+B.missed.map(function(q){return '<article><p class="meta">'+(q.k==="S1"?"Step 1":"2nd order")+' · LO '+esc(q.lo)+'</p><p style="margin:0;font-weight:600">'+esc(q.stem)+'</p><p class="ans" style="margin:0">'+esc(q.o[q.a])+'</p><p style="margin:0;color:var(--muted)">'+esc(q.e)+'</p></article>';}).join("")+'</div>';}
+  else if(win)h+='<p>Flawless — no misses.</p>';
+  h+='<div class="row"><button class="btn" type="button" id="againBtn">'+(win?"Fight again":"Retry")+'</button><button class="btn '+(win?"gold":"primary")+'" type="button" id="mapBtn">Return to map</button></div></div>';
+  $("scrResult").innerHTML=h;show("scrResult");
+  $("againBtn").onclick=function(){start(bo);};$("mapBtn").onclick=openMap;$("mapBtn").focus();
+}
+
+document.addEventListener("keydown",function(ev){
+  if($("scrBattle").hidden||ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){if(!$("nextBtn").hidden){ev.preventDefault();$("nextBtn").click();}return;}
+  var k=ev.key.toUpperCase(),i=L.indexOf(k);if(i<0){var n=parseInt(ev.key,10);if(n>=1&&n<=5)i=n-1;}
+  if(i>=0&&!B.answered){var b=$("opts").querySelectorAll(".opt")[i];if(b)b.click();}
+});
+})();
+</script>
