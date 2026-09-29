@@ -1,0 +1,277 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oral Structures LO Answers</title><meta name="description" content="HoyaDocs HNSS12 histology learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Histology · Updated Sep 29, 2026 · Revision 1.0</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss12" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS12 · 6 learning objectives</p>
+    <h1>Histology of Oral Structures</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Know the different structures located in the oral cavity</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>What are the functions of the oral cavity?</span></summary><div class="a">Gateway to the digestive system; articulation and resonance of sound (speech); secondary roles in respiration and defense.</div></details></li><li><details><summary><span class="qn">Q2</span><span>Name the three spaces of the oral region.</span></summary><div class="a">Vestibule (between lips/cheeks and teeth), oral cavity proper (inside the dental arches), and pharynx.</div></details></li><li><details><summary><span class="qn">Q3</span><span>List the structures covered in this lecture.</span></summary><div class="a">Lips and cheeks, teeth and gingiva, hard and soft palate, tongue (papillae, taste buds, lingual tonsils), salivary glands, and the pharynx.</div></details></li><li><details><summary><span class="qn">Q4</span><span>How does oral mucosa differ from skin epidermis?</span></summary><div class="a">Stratified squamous but mostly non-keratinized with no zonation (no strata); wet; and highly permeable, especially in the floor of the mouth and ventral tongue. Masticatory surfaces (gingiva, hard palate, dorsal tongue) may be keratinized.</div></details></li></ol></div>
+    <p class="bottom-line">Three spaces — <b>vestibule, oral cavity proper, pharynx</b> — lined by <b>wet, mostly non-keratinized stratified squamous</b> mucosa that is keratinized only where food rubs (<b>gingiva, hard palate, dorsal tongue</b>).</p>
+<div class="two">
+ <div><p class="sub">Spaces</p><ul><li><b>Vestibule</b>: between lips/cheeks and teeth</li><li><b>Oral cavity proper</b>: inside the dental arches</li><li><b>Pharynx</b>: behind, toward the esophagus and larynx</li></ul></div>
+ <div><p class="sub">Structures</p><ul><li>Lips, cheeks</li><li>Teeth + gingiva</li><li>Hard + soft palate</li><li>Tongue (papillae, taste buds, lingual tonsils)</li><li>Salivary glands (major + minor)</li><li>Pharynx</li></ul></div>
+</div>
+<div class="tbl"><table>
+ <thead><tr><th>Mucosa type</th><th>Epithelium</th><th>Where</th></tr></thead>
+ <tbody>
+  <tr><td>Lining</td><td>Non-keratinized stratified squamous</td><td>Cheeks, inner lips, floor of mouth, ventral tongue, soft palate</td></tr>
+  <tr><td>Masticatory</td><td>Keratinized (friction surfaces)</td><td>Gingiva, hard palate, dorsal tongue</td></tr>
+ </tbody></table></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>High permeability of the floor of the mouth → <b>sublingual drug delivery</b> (nitroglycerin) bypasses first-pass liver metabolism.</li>
+ <li>Oral <b>leukoplakia</b> (white, can't scrape off) is a precancerous lesion; oral cancer is usually <b>squamous cell carcinoma</b> (tobacco, alcohol, HPV-16 in the oropharynx).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Understand the features and functions of the oral structures</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q5</span><span>Describe the three surfaces of the lip.</span></summary><div class="a">External: skin — keratinized stratified squamous with hair and sweat glands. Vermilion (red zone): transition from keratinized to non-keratinized, abundant capillaries, no hair or sweat glands. Internal: typical oral mucosa.</div></details></li><li><details><summary><span class="qn">Q6</span><span>Why is the inner cheek mucosa tethered to muscle at intervals?</span></summary><div class="a">It forms many small folds instead of one large bulging fold that could be caught between the teeth.</div></details></li><li><details><summary><span class="qn">Q7</span><span>Hard vs soft palate: extent, lining and glands?</span></summary><div class="a">Hard: bony anterior 2/3, separates nasal and oral cavities; keratinized mucosa tightly bound to periosteum; many minor mucous glands. Soft: posterior 1/3, separates nasopharynx from oropharynx; ends in the uvula; many taste buds.</div></details></li><li><details><summary><span class="qn">Q8</span><span>What is the gingiva, and what lines the gingival sulcus?</span></summary><div class="a">Oral epithelium firmly bound to the periosteum of the alveolar processes. The sulcus (space between free gingiva and crown, with a cuticle at its base) is lined by non-keratinized epithelium.</div></details></li><li><details><summary><span class="qn">Q9</span><span>Why does the vermilion look red?</span></summary><div class="a">Abundant dermal capillaries under a thin, transitional epithelium.</div></details></li></ol></div>
+    <p class="bottom-line">Each structure fits its job: the <b>vermilion</b> is a hairless, capillary-rich transition zone; the <b>hard palate</b> has keratinized mucosa glued to bone for chewing; the <b>soft palate</b> is mobile, ends in the uvula and carries taste buds.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Structure</th><th>Features</th><th>Function</th></tr></thead>
+ <tbody>
+  <tr><td>Lip — external</td><td>Skin: keratinized SSE, hair, sweat glands</td><td>Protection</td></tr>
+  <tr><td>Lip — vermilion</td><td>Keratinized → non-keratinized transition; <b>capillary-rich</b>; <b>no hair or sweat glands</b></td><td>Red lip margin (needs licking to stay moist)</td></tr>
+  <tr><td>Lip / cheek — internal</td><td>Typical oral mucosa tethered to muscle → folds</td><td>Stops a big fold from being bitten</td></tr>
+  <tr><td>Hard palate</td><td>Bony anterior 2/3; <b>keratinized</b> mucosa bound to periosteum; minor mucous glands</td><td>Separates nose from mouth; chewing surface</td></tr>
+  <tr><td>Soft palate</td><td>Posterior 1/3; uvula; <b>many taste buds</b></td><td>Closes nasopharynx during swallowing and speech</td></tr>
+  <tr><td>Gingiva</td><td>Keratinized epithelium bound to alveolar periosteum; <b>sulcus</b> lined by non-keratinized epithelium</td><td>Seals around the tooth</td></tr>
+ </tbody></table></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Soft palate elevation: <b>levator veli palatini (CN X)</b>; CN X lesion → uvula deviates <b>away</b> from the lesion.</li>
+ <li>Gingival hyperplasia: <b>phenytoin</b>, calcium channel blockers, cyclosporine.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Understand the development and organization of the teeth</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q10</span><span>How many permanent and deciduous teeth are there, and how are the permanent ones grouped?</span></summary><div class="a">32 permanent (8 per quadrant): incisors 8 (cutting, 1 root), canines 4 (grasping, 1 root), premolars 8 (grinding, 2 roots), molars 12 (grinding, 2–3 roots). 20 deciduous teeth; permanent molars have no deciduous precursor.</div></details></li><li><details><summary><span class="qn">Q11</span><span>Name the regions of a tooth.</span></summary><div class="a">Crown (enamel-covered, above the gingiva), root (cementum-covered, in the alveolar socket) and neck (cemento-enamel junction).</div></details></li><li><details><summary><span class="qn">Q12</span><span>What is enamel made of, what makes it, and why can&#x27;t it repair?</span></summary><div class="a">95% hydroxyapatite (hardest, most calcium-rich tissue), as tightly packed enamel rods through its full thickness. Made by ameloblasts, which degenerate at eruption — so enamel cannot regenerate.</div></details></li><li><details><summary><span class="qn">Q13</span><span>Describe dentin and odontoblasts.</span></summary><div class="a">Dentin: hard but resilient, 70% mineral. Odontoblasts line the inner (pulp) surface, make predentin (type I collagen) that mineralizes, and send processes into dentinal tubules. They are long-lived, so dentin keeps forming and the pulp shrinks.</div></details></li><li><details><summary><span class="qn">Q14</span><span>What is in the pulp, and why is pulpitis so painful?</span></summary><div class="a">Gelatinous, highly vascular and innervated CT (all afferents are pain fibers), entering through the apical foramen. Pulp sits in a rigid chamber, so inflammatory swelling compresses nerves → toothache.</div></details></li><li><details><summary><span class="qn">Q15</span><span>What anchors the tooth in its socket?</span></summary><div class="a">Cementum (bone-like, made by cementocytes) on the root receives Sharpey&#x27;s fibers from the periodontal ligament (dense CT, the periosteum of the alveolar bone), which attaches to the alveolar (woven) bone. The PDL is a shock absorber.</div></details></li><li><details><summary><span class="qn">Q16</span><span>When does tooth development start, and what are its stages?</span></summary><div class="a">Weeks 6–7 of gestation; bud → cap → bell. Crown forms before root; root forms with eruption. Permanent buds stay dormant until after birth.</div></details></li><li><details><summary><span class="qn">Q17</span><span>Which embryonic tissue makes each dental tissue?</span></summary><div class="a">Enamel organ (ectoderm, down-growth of oral epithelium) → ameloblasts → enamel. Dental papilla → odontoblasts (dentin) + pulp. Dental sac (mesenchyme) → cementoblasts + periodontal ligament.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Enamel</b> (ameloblasts, ectoderm; can't repair) covers the crown; <b>dentin</b> (odontoblasts, papilla; lifelong) surrounds the <b>pulp</b>; <b>cementum + periodontal ligament</b> (dental sac) anchor the root in <b>alveolar bone</b>. Teeth start at weeks 6–7: <b>bud → cap → bell</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Tissue</th><th>Made by</th><th>From</th><th>Key facts</th></tr></thead>
+ <tbody>
+  <tr><td>Enamel</td><td>Ameloblasts</td><td>Enamel organ (<b>ectoderm</b>)</td><td>95% hydroxyapatite; enamel rods; <b>no repair</b> (ameloblasts die at eruption)</td></tr>
+  <tr><td>Dentin</td><td>Odontoblasts</td><td>Dental papilla</td><td>70% mineral; type I collagen; <b>dentinal tubules</b>; forms throughout life</td></tr>
+  <tr><td>Pulp</td><td>—</td><td>Dental papilla</td><td>Vessels + pain fibers; apical foramen; shrinks with age</td></tr>
+  <tr><td>Cementum</td><td>Cementoblasts → cementocytes</td><td>Dental sac</td><td>Bone-like; anchors <b>Sharpey's fibers</b>; responds to pressure</td></tr>
+  <tr><td>Periodontal ligament</td><td>Fibroblasts</td><td>Dental sac</td><td>Dense CT; shock absorber; allows slight movement</td></tr>
+  <tr><td>Alveolar bone</td><td>Osteoblasts</td><td>Jaw</td><td>Woven bone forming the sockets</td></tr>
+ </tbody></table></div>
+<div class="two">
+ <div><p class="sub">Tooth layers, outside → in (crown)</p><div class="flow"><span>Enamel</span><i>→</i><span>Dentin</span><i>→</i><span>Odontoblasts</span><i>→</i><span>Pulp</span></div>
+  <p class="sub" style="margin-top:10px">Root</p><div class="flow"><span>Alveolar bone</span><i>→</i><span>PDL (Sharpey's)</span><i>→</i><span>Cementum</span><i>→</i><span>Dentin</span><i>→</i><span>Pulp</span></div></div>
+ <div><p class="sub">Development</p><div class="flow"><span>Wk 6–7 dental lamina</span><i>→</i><span>Bud</span><i>→</i><span>Cap</span><i>→</i><span>Bell</span><i>→</i><span>Crown</span><i>→</i><span>Root + eruption</span></div>
+  <p class="note" style="margin-top:6px"><b>Dentigerous cyst</b>: most common non-inflammatory odontogenic cyst; around the crown of an unerupted/impacted tooth (lower 3rd molar, upper canine), from fluid between follicle and reduced enamel epithelium. Can become ameloblastoma, SCC or mucoepidermoid carcinoma.</p></div>
+</div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li><b>A</b>meloblasts → en<b>A</b>mel, from ectoderm, gone after eruption. <b>O</b>dontoblasts → dentin, <b>O</b>n the inside, for life.</li>
+ <li>Hardness: enamel 95% &gt; dentin 70% &gt; cementum ≈ bone.</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Fluoride</b> replaces OH⁻ in hydroxyapatite → acid-resistant fluorapatite; cut caries &gt;75%. Too much → fluorosis (mottled enamel).</li>
+ <li><b>Periodontal disease</b> (gingivitis first) is the main cause of adult tooth loss; gingival recession = "long in the tooth."</li>
+ <li><b>Tetracycline</b> in pregnancy/childhood → discolored teeth; <b>osteogenesis imperfecta</b> → dentinogenesis imperfecta (opalescent teeth).</li>
+ <li>The dental papilla is <b>neural crest</b>–derived ectomesenchyme (the lecture calls it mesoderm).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>Know the organization of the tongue and the role of lingual papillae and taste buds</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q18</span><span>How is the tongue built?</span></summary><div class="a">Interlacing skeletal muscle in three planes (triplanar) covered by mucosa. Dorsal surface: thick keratinizing epithelium with papillae. Ventral surface: smooth, thin, permeable.</div></details></li><li><details><summary><span class="qn">Q19</span><span>What divides the anterior 2/3 from the posterior 1/3, and what covers each?</span></summary><div class="a">The V-shaped sulcus terminalis. Anterior 2/3 (oral part): lingual papillae. Posterior 1/3 (pharyngeal part): lingual tonsils (cobblestone look).</div></details></li><li><details><summary><span class="qn">Q20</span><span>Compare the three main papillae.</span></summary><div class="a">Filiform: most numerous, conical, keratinized, no taste buds. Fungiform: mushroom-shaped, scattered (especially at the tip), a few taste buds. Circumvallate: 10–12 large papillae in a V just in front of the sulcus terminalis, each with a moat; over half of all taste buds.</div></details></li><li><details><summary><span class="qn">Q21</span><span>What are von Ebner&#x27;s glands?</span></summary><div class="a">Serous minor salivary glands beneath the circumvallate papillae that flush the moat (cleansing, so new tastants reach the buds). The only serous minor salivary glands.</div></details></li><li><details><summary><span class="qn">Q22</span><span>Describe a taste bud.</span></summary><div class="a">Intraepithelial ellipsoid of ~50 spindle cells: light (sensory/gustatory), dark (support) and basal (stem) cells. Sensory cells live ~10 days, have microvilli in the taste pore, and synapse on gustatory nerve fibers.</div></details></li><li><details><summary><span class="qn">Q23</span><span>Which five tastes are detected, and where besides the tongue are taste buds found?</span></summary><div class="a">Sweet, sour, salty, bitter, umami. Also in the soft palate (and uvula), pharyngeal wall, epiglottis and larynx; a few in lips, cheeks and upper esophagus. Numbers fall with age.</div></details></li><li><details><summary><span class="qn">Q24</span><span>What is unique about lingual tonsils?</span></summary><div class="a">Sub-epithelial lymphoid nodules in the posterior tongue; each has one deep crypt, and minor salivary glands empty into the crypts (unlike other tonsils).</div></details></li></ol></div>
+    <p class="bottom-line">Triplanar skeletal muscle under mucosa. Anterior 2/3: <b>papillae</b> — filiform (no taste buds), fungiform (few), <b>circumvallate</b> (most, with <b>von Ebner</b> serous glands). Posterior 1/3: <b>lingual tonsils</b>. Taste buds = sensory (10-day life), support and basal stem cells.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Papilla</th><th>Shape / number</th><th>Epithelium</th><th>Taste buds</th></tr></thead>
+ <tbody>
+  <tr><td>Filiform</td><td>Conical; <b>most numerous</b></td><td>Keratinized</td><td><b>None</b></td></tr>
+  <tr><td>Fungiform</td><td>Mushroom; scattered, esp. tip</td><td>Non-keratinized top</td><td>A few, on top</td></tr>
+  <tr><td>Circumvallate</td><td>Largest; <b>10–12</b> in a V before sulcus terminalis; surrounded by a moat</td><td>Non-keratinized</td><td><b>Most</b> (&gt;half), in moat walls; <b>von Ebner</b> glands flush the moat</td></tr>
+  <tr><td>Foliate</td><td>Lateral folds</td><td>—</td><td>Poorly developed in adult humans</td></tr>
+ </tbody></table></div>
+<div class="two">
+ <div><p class="sub">Taste bud cells</p><ul><li><b>Light</b> = sensory (gustatory); microvilli in the <b>taste pore</b>; synapse on nerve; ~10-day life</li><li><b>Dark</b> = supporting</li><li><b>Basal</b> = stem cells (replace sensory cells)</li></ul></div>
+ <div><p class="sub">Tongue regions</p><ul><li>Dorsal anterior 2/3: papillae</li><li>Posterior 1/3: <b>lingual tonsils</b> (1 crypt each; glands drain into crypts)</li><li>Ventral: smooth, thin, permeable</li><li>Core: <b>triplanar</b> skeletal muscle</li></ul></div>
+</div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Taste: anterior 2/3 = <b>VII (chorda tympani)</b>; posterior 1/3 = <b>IX</b>; epiglottis = <b>X</b>. Touch anterior 2/3 = <b>V3</b>. Motor = <b>XII</b> (palatoglossus = X).</li>
+ <li>All taste goes to the <b>solitary nucleus</b> (gustatory part) → VPM thalamus.</li>
+ <li>Chemo/radiation damage fast-turnover taste cells → taste loss and food aversion (anorexia) in cancer.</li>
+ <li>Zinc deficiency → dysgeusia.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 5</span><h3>Know the features and contributions of the different types of salivary glands</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q25</span><span>What is saliva made of, and what does it do?</span></summary><div class="a">Mostly water, plus proteins (amylase, mucus, IgA, lysozyme, lactoferrin) and electrolytes (K⁺, Ca²⁺, HCO₃⁻). Moistens, lubricates, starts digestion and protects (immune). ~1 L per day.</div></details></li><li><details><summary><span class="qn">Q26</span><span>Major vs minor salivary glands?</span></summary><div class="a">Major (parotid, submandibular, sublingual): grossly visible, encapsulated, secrete on demand. Minor: small, unencapsulated, in the submucosa of lips, cheeks, palate and tongue, short ducts, continuous secretion; mostly mucous (von Ebner = serous).</div></details></li><li><details><summary><span class="qn">Q27</span><span>Name the four cell types of the major glands.</span></summary><div class="a">Serous cells (zymogen granules; water, electrolytes, amylase, IgA, lactoferrin), mucous cells (mucin), myoepithelial cells (squeeze saliva out), plasma cells (IgA).</div></details></li><li><details><summary><span class="qn">Q28</span><span>Describe the two stages of salivary secretion.</span></summary><div class="a">1) Acini make the primary secretion (helped by myoepithelial cells). 2) Striated ducts — columnar cells with basal folds full of mitochondria — modify it by active electrolyte transport.</div></details></li><li><details><summary><span class="qn">Q29</span><span>How does the autonomic system control saliva?</span></summary><div class="a">Parasympathetic → copious, watery saliva. Sympathetic → scant, thick, viscous saliva (&quot;dry mouth&quot;).</div></details></li><li><details><summary><span class="qn">Q30</span><span>Give each major gland&#x27;s share of saliva, secretion type and duct.</span></summary><div class="a">Parotid ~25%, all serous, Stenson&#x27;s duct (opposite upper 2nd molar). Submandibular ~70%, mixed mainly serous with frequent serous demilunes, Wharton&#x27;s duct (floor of mouth). Sublingual ~5%, mixed mainly mucous, Bartholin&#x27;s/multiple ducts behind Wharton&#x27;s.</div></details></li><li><details><summary><span class="qn">Q31</span><span>How do you tell the three major glands apart on a slide?</span></summary><div class="a">Parotid: all serous, heavy capsule, abundant fat, many intercalated + striated ducts. Submandibular: mixed, serous demilunes are diagnostic, little fat. Sublingual: mostly pale mucous acini, no capsule, no fat, rare striated ducts.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Parotid</b> = serous, 25%, Stenson's. <b>Submandibular</b> = mixed (mostly serous, <b>serous demilunes</b>), <b>70%</b>, Wharton's. <b>Sublingual</b> = mixed (mostly mucous), 5%, Bartholin's. Acini make saliva; <b>striated ducts</b> modify it. Parasympathetic = watery; sympathetic = thick.</p>
+<div class="tbl"><table>
+ <thead><tr><th></th><th>Parotid</th><th>Submandibular</th><th>Sublingual</th></tr></thead>
+ <tbody>
+  <tr><td>Share of saliva</td><td>~25%</td><td><b>~70%</b></td><td>~5%</td></tr>
+  <tr><td>Classification</td><td>Compound acinar</td><td>Compound tubulo-acinar</td><td>Compound tubulo-acinar</td></tr>
+  <tr><td>Secretory cells</td><td><b>All serous</b></td><td>Mainly serous, some mucous</td><td>Mainly <b>mucous</b>, some serous</td></tr>
+  <tr><td>Serous demilunes</td><td>None</td><td><b>Frequent — diagnostic</b></td><td>Some</td></tr>
+  <tr><td>Capsule</td><td>Heavy</td><td>Less prominent</td><td>None</td></tr>
+  <tr><td>Intercalated ducts</td><td>Abundant</td><td>Less prominent</td><td>Absent</td></tr>
+  <tr><td>Striated ducts</td><td>Abundant</td><td>Abundant</td><td>Rare</td></tr>
+  <tr><td>Interstitial fat</td><td><b>Abundant</b></td><td>Little / none</td><td>None</td></tr>
+  <tr><td>Duct</td><td><b>Stenson's</b> → cheek opposite upper 2nd molar</td><td><b>Wharton's</b> → floor of mouth</td><td><b>Bartholin's</b> / many small ducts</td></tr>
+  <tr><td>Extra</td><td>Largest; many IgA plasma cells</td><td>Along mandible body</td><td>Smallest; floor of mouth</td></tr>
+ </tbody></table></div>
+<div class="two">
+ <div><p class="sub">Secretion</p><div class="flow"><span>Acinus (primary)</span><i>→</i><span>Intercalated duct</span><i>→</i><span>Striated duct (modifies ions)</span><i>→</i><span>Excretory duct</span></div></div>
+ <div><p class="sub">Cell types</p><ul><li><b>Serous</b>: zymogen granules; amylase, IgA, lactoferrin</li><li><b>Mucous</b>: pale, mucin</li><li><b>Myoepithelial</b>: squeeze acini</li><li><b>Plasma cells</b>: IgA</li></ul></div>
+</div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li><b>P</b>arotid = <b>P</b>ure serous; <b>S</b>ublingual = <b>S</b>limy (mucous); submandibular = the mixed middle.</li>
+ <li>Ducts: <b>S</b>tenson's (parotid, cheek) · <b>W</b>harton's (submandibular, floor) · <b>B</b>artholin's (sublingual).</li>
+ <li>Output 70 / 25 / 5 = submandibular / parotid / sublingual.</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Final saliva is <b>hypotonic</b>: ducts reabsorb Na⁺/Cl⁻ and secrete K⁺/HCO₃⁻. Aldosterone ↑ Na⁺ reabsorption.</li>
+ <li>Parasympathetics: parotid via <b>CN IX → otic ganglion</b>; submandibular + sublingual via <b>CN VII (chorda tympani) → submandibular ganglion</b>.</li>
+ <li><b>Pleomorphic adenoma</b> = most common salivary tumor (parotid); <b>Warthin</b> tumor = smokers; <b>mucoepidermoid carcinoma</b> = most common malignant.</li>
+ <li><b>Sialolithiasis</b> most often in the submandibular gland (Wharton's duct). <b>Mumps</b> → parotitis. <b>Sjögren</b> → dry mouth + eyes. Anticholinergic drugs → xerostomia.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 6</span><h3>Know the structure and function of the pharynx</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q32</span><span>What does the oropharynx do, and what lines it?</span></summary><div class="a">Conducts food from the oral cavity to the esophagus; non-keratinized stratified squamous epithelium (abrasion-resistant).</div></details></li><li><details><summary><span class="qn">Q33</span><span>What does the nasopharynx do, and what lines it?</span></summary><div class="a">Conducts air from the nasal cavity to the larynx and trachea; pseudostratified ciliated columnar (respiratory) epithelium.</div></details></li><li><details><summary><span class="qn">Q34</span><span>What separates the nasopharynx from the oropharynx?</span></summary><div class="a">The soft palate, which rises during swallowing to close off the nasopharynx.</div></details></li><li><details><summary><span class="qn">Q35</span><span>Which tonsils guard the pharynx?</span></summary><div class="a">Pharyngeal tonsil (adenoids) in the nasopharynx, palatine tonsils in the oropharynx, and lingual tonsils on the posterior tongue — together Waldeyer&#x27;s ring.</div></details></li></ol></div>
+    <p class="bottom-line">Epithelium follows function: <b>nasopharynx</b> carries air → <b>respiratory</b> (pseudostratified ciliated columnar) epithelium; <b>oropharynx</b> carries food → <b>non-keratinized stratified squamous</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Region</th><th>Carries</th><th>Epithelium</th></tr></thead>
+ <tbody>
+  <tr><td>Nasopharynx</td><td>Air (nose → larynx)</td><td><b>Pseudostratified ciliated columnar</b> with goblet cells</td></tr>
+  <tr><td>Oropharynx</td><td>Food (mouth → esophagus)</td><td><b>Non-keratinized stratified squamous</b></td></tr>
+ </tbody></table></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Nasopharyngeal carcinoma</b>: EBV; common in Southern China and Africa.</li>
+ <li>Enlarged <b>adenoids</b> → mouth breathing, snoring, otitis media (block the eustachian tube opening).</li>
+ <li><b>HPV-16</b>–related SCC arises in the <b>oropharynx</b> (tonsils, base of tongue).</li>
+ <li>Squamous metaplasia can replace respiratory epithelium with chronic irritation (smoking).</li></ul></div>
+  </article>
+  <div class="vign" aria-label="HNSS12 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A section shows a gland with purely serous acini, a thick capsule, many ducts and abundant adipocytes. Its duct opens where?</p>
+      <ol class="opts"><li>Floor of the mouth beside the frenulum</li><li>Opposite the upper second molar</li><li>Into the crypts of the lingual tonsil</li><li>Into the moat of the circumvallate papillae</li><li>Behind the submandibular duct openings</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> All-serous + heavy capsule + fat = parotid. Stenson&#x27;s duct opens on the inner cheek opposite the upper second molar.</div></details></article>
+    <article><p><b>2.</b> A patient has painful swelling under the jaw that worsens with meals. A stone is found in the duct of the gland that makes most resting saliva. Which duct?</p>
+      <ol class="opts"><li>Stenson&#x27;s</li><li>Wharton&#x27;s</li><li>Bartholin&#x27;s</li><li>Nasolacrimal</li><li>Thyroglossal</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> The submandibular gland makes ~70% of saliva and is the most common site of sialolithiasis (Wharton&#x27;s duct, long and upward-running, mucin-rich saliva).</div></details></article>
+    <article><p><b>3.</b> A 9-year-old chips a front tooth; the dentist says the enamel will not grow back. Why?</p>
+      <ol class="opts"><li>Odontoblasts stop working at puberty</li><li>Ameloblasts degenerate when the tooth erupts</li><li>Enamel has no blood supply but dentin does</li><li>Cementoblasts cover the crown after eruption</li><li>Enamel is made by neural crest cells</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Ameloblasts (from the enamel organ, ectoderm) die at eruption, so enamel cannot be repaired. Odontoblasts persist and keep making dentin.</div></details></article>
+    <article><p><b>4.</b> Which papillae are the most numerous but contain no taste buds?</p>
+      <ol class="opts"><li>Fungiform</li><li>Circumvallate</li><li>Filiform</li><li>Foliate</li><li>Lingual tonsils</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Filiform papillae are conical, keratinized and provide friction; they have no taste buds.</div></details></article>
+    <article><p><b>5.</b> A biopsy of the posterior nasal cavity opening into the throat shows ciliated cells and goblet cells. Where was it taken?</p>
+      <ol class="opts"><li>Oropharynx</li><li>Nasopharynx</li><li>Hard palate</li><li>Gingival sulcus</li><li>Vermilion border</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> The nasopharynx carries air and is lined by respiratory (pseudostratified ciliated columnar) epithelium; the oropharynx is non-keratinized stratified squamous.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS12 · Oral Structures · Revision 1.0 · Updated September 29, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>
