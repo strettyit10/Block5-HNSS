@@ -1,0 +1,289 @@
+<title>Pharyngeal Arches LO Answers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --arch:#0f6b6b; --face:#7a3b69; --eye:#2c55a0;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss03{--c:var(--arch)} #hnss04{--c:var(--face)} #hnss18{--c:var(--eye)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style>
+
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Embryology · Updated Sep 28, 2026 · Revision 1.2</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss03" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS03 · 8 learning objectives</p>
+    <h1>Introduction / Pharyngeal Arches</h1>
+  </div>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Identify and locate within a week the formation of the pharyngeal arches</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>When are arches 1 and 2 first present, and what else is visible then?</span></summary><div class="a">Weeks 3–3.5. The three germ layers, the pericardial bulge, and the cranial and caudal neuropores are also present.</div></details></li><li><details><summary><span class="qn">Q2</span><span>When do arches 3, 4 and 6 become visible?</span></summary><div class="a">Week 5.</div></details></li><li><details><summary><span class="qn">Q3</span><span>By what week are arches, pouches and clefts fully formed, and what does each arch gain then?</span></summary><div class="a">Weeks 5.5–6. Each arch becomes separately innervated and gets its own artery.</div></details></li><li><details><summary><span class="qn">Q4</span><span>When does Meckel&#x27;s cartilage appear, and when does it disappear?</span></summary><div class="a">It fills the mandibular process by week 4.5 and disappears around week 8, except the two dorsal remnants that become the incus and malleus.</div></details></li></ol></div>
+    <p class="bottom-line">Arches <b>1 and 2 are present by weeks 3–3.5</b>; arches <b>3, 4 and 6 are visible by week 5</b>; arches, pouches and clefts are fully formed by <b>weeks 5.5–6</b>.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Week</th><th>Event</th></tr></thead>
+      <tbody class="num">
+        <tr><td>3–3.5</td><td>Three germ layers, pericardial bulge, cranial and caudal neuropores, and <b>arches 1 and 2</b> present</td></tr>
+        <tr><td>4</td><td>Arch 1 has two processes: <b>maxillary</b> and <b>mandibular</b></td></tr>
+        <tr><td>4–4.25</td><td>Arch 2 (the <b>hyoid arch</b>) arises, just after arch 1</td></tr>
+        <tr><td>4.5</td><td>Meckel's cartilage populates the mandibular process</td></tr>
+        <tr><td>4.5–5</td><td>Neural crest migration begins (hindbrain, midbrain, less from forebrain)</td></tr>
+        <tr><td>5</td><td><b>Arches 3, 4 and 6 visible</b>; pouches 3 and 4 form their dorsal and ventral wings</td></tr>
+        <tr><td>5–5.5</td><td>Arches grow significantly</td></tr>
+        <tr><td>5–6</td><td>Pouch 1 → tubotympanic recess; pouch 2 endoderm forms buds</td></tr>
+        <tr><td>5.5–6</td><td>All four cell types form arches, pouches and clefts; each arch gets <b>its own nerve and artery</b></td></tr>
+        <tr><td>8</td><td>Meckel's cartilage disappears except the dorsal bits → incus + malleus</td></tr>
+        <tr><td>10</td><td>Thymus, inferior and superior parathyroids finish migrating</td></tr>
+        <tr><td>Month 4</td><td>Center of pouch 2 bud apoptoses → tonsillar crypt</td></tr>
+      </tbody></table></div>
+    <div class="mem"><span class="tag">Memory hook</span><p>Four beats: <b>wk 3–4</b> arches 1–2 appear · <b>wk 5</b> arches 3/4/6 + pouches commit · <b>wk 8</b> Meckel's shrinks to ossicles · <b>wk 10</b> glands finish migrating.</p></div>
+    <div class="hy"><span class="tag">HY · Step 1</span><p>Step 1 simply says the pharyngeal apparatus forms in <b>week 4</b>. Arch development resembles gill formation, but no gill-like structures ever form.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Describe the cellular and anatomical components of the pharyngeal arches</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q5</span><span>Which four cell types populate an arch, and how many tissue types do they come from?</span></summary><div class="a">Mesenchyme, ectoderm, endoderm and neural crest, from three tissue types. Neural crest is itself derived from ectoderm.</div></details></li><li><details><summary><span class="qn">Q6</span><span>Which mesoderm fills the arch core, and what does it build?</span></summary><div class="a">Paraxial and lateral plate mesoderm. It builds the muscles of the face and neck, and each arch has its own population, so each arch has its own muscles.</div></details></li><li><details><summary><span class="qn">Q7</span><span>What is neural crest predetermined to form, and when and where does it migrate from?</span></summary><div class="a">The skeletal component of the face. It migrates at weeks 4.5–5 from the hindbrain, midbrain and, less so, the forebrain.</div></details></li><li><details><summary><span class="qn">Q8</span><span>How do you tell a pouch from a cleft?</span></summary><div class="a">A pouch is an indentation on the inside, over endoderm. A cleft is an indentation on the outside, over ectoderm.</div></details></li></ol></div>
+    <p class="bottom-line">Four cell types from <b>three tissues</b>: mesenchyme core, ectoderm outside, endoderm inside, plus <b>neural crest</b>. Each arch gets its own <b>muscle, nerve, artery and cartilage</b>.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Cell type</th><th>Position</th><th>Builds</th></tr></thead>
+      <tbody>
+        <tr><td>Mesenchyme (paraxial + lateral plate mesoderm)</td><td>Core of each arch</td><td>Muscles of face and neck (each arch has its own mesoderm → its own muscles)</td></tr>
+        <tr><td>Neural crest (from ectoderm)</td><td>Migrates into the core</td><td><b>Skeleton of the face</b> (predetermined)</td></tr>
+        <tr><td>Ectoderm</td><td>Covers the outside</td><td>Clefts → external ear canal</td></tr>
+        <tr><td>Endoderm (epithelial)</td><td>Lines the inside</td><td>Pouches → glands and linings</td></tr>
+      </tbody></table></div>
+    <div class="two">
+      <div><p class="sub">Arch</p><p>The swollen, cell-filled bar.</p></div>
+      <div><p class="sub">Pouch</p><p>Indentation between arches on the <b>inside</b>, overlying <b>endoderm</b>.</p></div>
+      <div><p class="sub">Cleft</p><p>Indentation between arches on the <b>outside</b>, overlying <b>ectoderm</b>.</p></div>
+    </div>
+    <div class="hy"><span class="tag">HY · Step 1</span><p><b>CAP</b>: <b>C</b>lefts = ectoderm · <b>A</b>rches = mesoderm + neural crest · <b>P</b>ouches = endoderm. Neural crest builds almost every facial bone. The exception is the laryngeal cartilages (arches 4/6), which come from lateral plate mesoderm.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Identify the muscular, skeletal, and neural derivatives of each arch</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q9</span><span>What are the cartilage, skeletal derivatives, muscles and nerve of arch 1?</span></summary><div class="a">Meckel&#x27;s cartilage → malleus and incus. Maxillary process neural crest → premaxilla, maxilla, zygomatic, part of temporal bone. Muscles of mastication, anterior digastric, mylohyoid, tensor tympani, tensor palatini. CN V3.</div></details></li><li><details><summary><span class="qn">Q10</span><span>Is the mandible made from Meckel&#x27;s cartilage?</span></summary><div class="a">No. The mandible forms from the mesenchyme and neural crest that surround Meckel&#x27;s cartilage, which only serves as a template.</div></details></li><li><details><summary><span class="qn">Q11</span><span>Which parts of the hyoid come from arch 2 and which from arch 3?</span></summary><div class="a">Arch 2: lesser horn and upper body. Arch 3: greater horn and lower body.</div></details></li><li><details><summary><span class="qn">Q12</span><span>What is the only muscle of arch 3, and its nerve?</span></summary><div class="a">Stylopharyngeus, innervated by CN IX.</div></details></li><li><details><summary><span class="qn">Q13</span><span>What one-word theme goes with each arch?</span></summary><div class="a">Arch 1: chewing (+ ossicles). Arch 2: facial expression. Arch 3: swallowing. Arches 4 and 6: larynx and pharynx.</div></details></li><li><details><summary><span class="qn">Q14</span><span>Why should you never pick &quot;arch 5&quot; as an answer?</span></summary><div class="a">Arch 5 never forms or regresses completely, so it has no derivatives.</div></details></li><li><details><summary><span class="qn">Q15</span><span>Which vagal branch serves arch 4 vs arch 6, and where do the laryngeal cartilages come from?</span></summary><div class="a">Arch 4: superior laryngeal. Arch 6: recurrent laryngeal. The laryngeal cartilages come from lateral plate mesoderm, not neural crest.</div></details></li><li><details><summary><span class="qn">Q16</span><span>A patient can&#x27;t wrinkle their forehead and has hyperacusis. Which arch&#x27;s muscles are affected?</span></summary><div class="a">Arch 2 (CN VII): muscles of facial expression and stapedius.</div></details></li></ol></div>
+    <p class="bottom-line">Nerve spine: <b>1 → V3 · 2 → VII · 3 → IX · 4 &amp; 6 → X</b>. Know a muscle's nerve and you know its arch.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Arch</th><th>Cartilage → skeleton</th><th>Muscles</th><th>Nerve</th></tr></thead>
+      <tbody>
+        <tr><td>1 · Mandibular</td><td><b>Meckel's</b> → <b>malleus, incus</b> (endochondral). Maxillary process NC → premaxilla, maxilla, zygomatic, part of temporal (membrane ossification). <b>Mandible</b> forms from mesenchyme/NC <i>around</i> Meckel's.</td><td>Mastication (temporalis, masseter, pterygoids), anterior belly digastric, mylohyoid, <b>tensor tympani</b>, <b>tensor palatini</b></td><td>CN V3</td></tr>
+        <tr><td>2 · Hyoid</td><td><b>Reichert's</b> → <b>stapes</b>, styloid process, stylohyoid ligament, <b>lesser horn + upper body of hyoid</b></td><td><b>Facial expression</b>, stapedius, stylohyoid, posterior belly digastric, auricular</td><td>CN VII</td></tr>
+        <tr><td>3</td><td><b>Greater horn + lower body of hyoid</b></td><td><b>Stylopharyngeus</b> only</td><td>CN IX</td></tr>
+        <tr><td>4 &amp; 6</td><td>Laryngeal cartilages: thyroid, cricoid, arytenoid, corniculate, cuneiform (<b>lateral plate mesoderm</b>, not NC)</td><td>Cricothyroid, levator palatini, pharyngeal constrictors (+ intrinsic larynx from 6)</td><td>CN X: <b>4 = superior laryngeal</b>, <b>6 = recurrent laryngeal</b></td></tr>
+      </tbody></table></div>
+    <div class="mem"><span class="tag">Memory hooks</span>
+      <ul><li>One theme per arch: <b>1 = chewing + ossicles</b> · <b>2 = facial expression</b> · <b>3 = swallowing</b> · <b>4 &amp; 6 = larynx + pharynx</b>.</li><li><b>There is no arch 5.</b> It never forms or regresses completely. Don't pick it as an answer.</li><li><b>M</b>eckel = <b>M</b>andibular (arch 1); <b>R</b>eichert = a<b>R</b>ch 2.</li>
+      <li>Arch 2 is the <b>S</b> arch: <b>S</b>tapes, <b>S</b>tyloid, <b>S</b>tylohyoid, <b>S</b>tapedius, <b>S</b>mile (facial expression).</li>
+      <li>Hyoid: arch <b>2 → lesser</b> horn + upper body; arch <b>3 → greater</b> horn + lower body.</li>
+      <li>Tensors are arch 1 (V3); their partners are not: stapedius is arch 2 (VII), levator palatini is arch 4 (X).</li></ul></div>
+    <div class="hy"><span class="tag">HY · Step 1 (arteries, not detailed in lecture)</span>
+      <ul><li>Aortic arch arteries: <b>1</b> → part of maxillary a. · <b>2</b> → stapedial/hyoid a. · <b>3</b> → common carotid + proximal ICA · <b>4</b> → L: aortic arch, R: proximal R subclavian · <b>6</b> → pulmonary arteries + ductus arteriosus.</li>
+      <li>Trap: the <b>mandible is not made from Meckel's cartilage</b>. Meckel's is only a template.</li>
+      <li>Recurrent laryngeal (arch 6) injury → hoarseness (thyroid surgery, Pancoast tumor).</li></ul></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>Identify the derivatives of each pharyngeal pouch</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q17</span><span>What does pouch 1 form, and why is it unique among the pouches?</span></summary><div class="a">The tubotympanic recess → tympanic cavity (distal) and eustachian tube (proximal). It is the only pouch that contacts ectoderm (cleft 1).</div></details></li><li><details><summary><span class="qn">Q18</span><span>What does pouch 2 form, and what happens to it by month 4?</span></summary><div class="a">The palatine tonsils. The center of the bud undergoes apoptosis, leaving the tonsillar crypt, which fills with lymphoid tissue.</div></details></li><li><details><summary><span class="qn">Q19</span><span>What do the dorsal and ventral wings of pouch 3 form?</span></summary><div class="a">Dorsal wing: inferior parathyroid. Ventral wing: thymus.</div></details></li><li><details><summary><span class="qn">Q20</span><span>Why is the pouch 3 parathyroid called &quot;inferior&quot; when pouch 3 is above pouch 4?</span></summary><div class="a">The thymus (also pouch 3) migrates caudally and pulls the pouch 3 parathyroid below the pouch 4 parathyroid.</div></details></li><li><details><summary><span class="qn">Q21</span><span>What does pouch 5 form, and what does it secrete?</span></summary><div class="a">The ultimobranchial body, which becomes the thyroid C cells that secrete calcitonin.</div></details></li></ol></div>
+    <p class="bottom-line"><b>1</b> ear cavity + auditory tube · <b>2</b> palatine tonsil · <b>3</b> inferior parathyroid + thymus · <b>4</b> superior parathyroid · <b>5</b> ultimobranchial body → C cells.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Pouch</th><th>Derivative</th><th>Key detail</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Tubotympanic recess (wk 5–6) → <b>tympanic cavity</b> (distal) + <b>eustachian tube</b> (proximal)</td><td>Only pouch that contacts ectoderm: meets cleft 1 to help form the tympanic membrane</td></tr>
+        <tr><td>2</td><td><b>Palatine tonsils</b></td><td>Buds invade mesenchyme; center apoptoses by month 4 → tonsillar crypt; lymphoid tissue fills in late pregnancy</td></tr>
+        <tr><td>3 dorsal</td><td><b>Inferior parathyroid</b></td><td>Pulled caudally by the thymus</td></tr>
+        <tr><td>3 ventral</td><td><b>Thymus</b></td><td>Migrates caudal and medial, fuses in midline (by wk 10); grows until puberty</td></tr>
+        <tr><td>4 dorsal</td><td><b>Superior parathyroid</b></td><td>Attaches to the cranial end of the thyroid; reaches dorsal thyroid by wk 10</td></tr>
+        <tr><td>5</td><td><b>Ultimobranchial body</b> → thyroid C cells</td><td>Secretes <b>calcitonin</b>. Also described as the <b>ventral wing of pouch 4</b>; flagged in lecture as an important structure</td></tr>
+      </tbody></table></div>
+    <div class="mem"><span class="tag">Memory hook</span><p><b>Ear, Tonsils, Bottom, Top</b>: pouch 1 = ear, 2 = tonsils, 3 = <b>bottom</b> (inferior) parathyroids + thymus, 4 = <b>top</b> (superior) parathyroids.</p></div>
+    <div class="hy"><span class="tag">HY · Step 1 trap</span><p>Pouch <b>3</b> parathyroids end up <b>lower</b> than pouch <b>4</b> ones because the thymus drags them down. Missing thymus + missing parathyroids = pouches 3 and 4 = <b>DiGeorge</b>.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 5</span><h3>Identify the derivatives of each pharyngeal cleft</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q22</span><span>What is the only definitive structure formed by a cleft?</span></summary><div class="a">Cleft 1 → external auditory meatus.</div></details></li><li><details><summary><span class="qn">Q23</span><span>What happens to clefts 2–4 in normal development?</span></summary><div class="a">Cleft 2 grows caudally over clefts 3–5 and fuses with the epicardial ridge, enclosing the cervical sinus, which is then obliterated.</div></details></li><li><details><summary><span class="qn">Q24</span><span>A 6-year-old has a painless lateral neck mass along the anterior border of the SCM. Embryologic failure?</span></summary><div class="a">The cervical sinus persisted because cleft 2 failed to cover and obliterate clefts 3–4 → branchial cleft cyst.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Cleft 1 → external auditory meatus</b>, the only definitive cleft structure. Clefts 2–4 are overgrown and become the <b>cervical sinus</b>, which normally disappears.</p>
+    <ul>
+      <li><b>Cleft 1</b>: dorsal part penetrates mesoderm → external auditory meatus. Together with pouch 1 it forms the tympanic membrane.</li>
+      <li><b>Cleft 2</b> grows caudally over clefts 3, 4 and 5 and fuses with the <b>epicardial ridge</b> → closed <b>cervical sinus</b>, which is normally obliterated.</li>
+      <li>If the sinus persists → <b>lateral cervical (branchial cleft) cyst</b>, sometimes with a <b>branchial fistula</b> to the skin.</li>
+    </ul>
+    <p class="note">The drawing of cleft 2 growing over clefts 3–5 to enclose the cervical sinus is a high-yield image. Be ready to read it as an image question.</p>
+    <div class="hy"><span class="tag">HY · Step 1</span><p><b>Branchial cleft cyst</b>: <b>lateral</b> neck, <b>anterior to the SCM</b>, does <b>not</b> move with swallowing. Contrast <b>thyroglossal duct cyst</b>: <b>midline</b>, moves up with swallowing or tongue protrusion.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 6</span><h3>Describe how Hox gene products (Hox proteins) are involved in pharyngeal arch development</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q25</span><span>Which rhombomeres supply neural crest to each arch?</span></summary><div class="a">Arch 1: R1, R2 + midbrain. Arch 2: R4. Arch 3: R6, R7. Arches 4 and 6: R8.</div></details></li><li><details><summary><span class="qn">Q26</span><span>How do Hox proteins get into the arches, and what do they set up?</span></summary><div class="a">Neural crest cells carry them in. Hox genes are expressed rostrocaudally, creating a pharyngeal Hox code that gives each arch its identity.</div></details></li><li><details><summary><span class="qn">Q27</span><span>What happens in Hoxa-1/Hoxb-1 knockout mice? In Hoxa-3 knockout mice?</span></summary><div class="a">Hoxa-1/Hoxb-1: no ears. Hoxa-3: a DiGeorge-like picture (pouch 3/4 defects).</div></details></li><li><details><summary><span class="qn">Q28</span><span>Which factor regulates arch 1, and what does SHH do?</span></summary><div class="a">OTX2 regulates arch 1. SHH regulates Hox genes; SHH knockout mice are headless.</div></details></li><li><details><summary><span class="qn">Q29</span><span>If retinoic acid turns Hox genes on, why is too much harmful?</span></summary><div class="a">Hox expression has to stay in a Goldilocks zone. Too much Hox protein disrupts the code as much as too little.</div></details></li><li><details><summary><span class="qn">Q30</span><span>How does retinoic acid reach the Hox genes?</span></summary><div class="a">It binds retinoic acid response elements (RAREs) in Hox gene promoters and switches on transcription.</div></details></li></ol></div>
+    <p class="bottom-line">Neural crest cells <b>carry Hox proteins</b> into each arch. Hox genes are expressed in a <b>rostrocaudal sequence</b>, giving each arch a unique <b>"pharyngeal Hox code"</b> that decides what it becomes.</p>
+    <div class="two">
+      <div><p class="sub">Where arch neural crest comes from</p>
+        <div class="tbl"><table style="min-width:0"><tbody>
+          <tr><td>Arch 1</td><td>Rhombomeres R1, R2 + midbrain</td></tr>
+          <tr><td>Arch 2</td><td>R4</td></tr>
+          <tr><td>Arch 3</td><td>R6, R7</td></tr>
+          <tr><td>Arch 4 &amp; 6</td><td>R8</td></tr></tbody></table></div></div>
+      <div><p class="sub">Regulators to know</p>
+        <ul><li><b>Hoxa-1/Hoxb-1</b> knockout mice lack ears.</li>
+        <li><b>Hoxa-3</b> knockout ≈ DiGeorge (pouch 3/4 defects).</li>
+        <li><b>OTX2</b>: key regulator of arch 1 (forebrain/midbrain NC).</li>
+        <li><b>SHH</b> regulates Hox genes; SHH knockout → headless mice.</li>
+        <li><b>Retinoids</b> bind <b>RAREs</b> in Hox gene promoters.</li></ul></div>
+    </div>
+    <div class="flow" aria-label="Hox pathway"><span>Rhombomere NC</span><i>→</i><span>carries Hox proteins</span><i>→</i><span>arch-specific Hox code</span><i>→</i><span>arch identity (skeleton, muscles)</span></div>
+    <p class="note">Hox expression has to stay in a <b>"Goldilocks zone"</b>: too little or too much disrupts the Hox code. That is why excess retinoic acid, which switches Hox genes <i>on</i>, is still harmful.</p>
+    <div class="hy"><span class="tag">HY · Step 1</span><p><b>Hox genes = segmental organization along the head-to-tail axis.</b> Too much retinoic acid → Hox genes misfire → structures form in the wrong place (craniofacial and limb defects).</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 7</span><h3>Describe how alcohol and retinoic acid affect head and neck development; compare and contrast their mechanisms</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q31</span><span>Why are neural crest cells especially vulnerable to alcohol and retinoic acid?</span></summary><div class="a">They are deficient in superoxide dismutase and catalase, the enzymes that scavenge free radicals.</div></details></li><li><details><summary><span class="qn">Q32</span><span>How does alcohol damage neural crest?</span></summary><div class="a">It causes oxidative stress (reactive oxygen species; ↑ F2-isoprostanes), which damages or kills neural crest cells.</div></details></li><li><details><summary><span class="qn">Q33</span><span>What are retinoic acid&#x27;s two mechanisms?</span></summary><div class="a">It generates reactive oxygen species, and it binds RAREs to hyperactivate Hox genes, causing too much Hox protein in neural crest cells.</div></details></li><li><details><summary><span class="qn">Q34</span><span>What phenotype did very high retinoic acid produce in mice?</span></summary><div class="a">A Treacher Collins–like phenotype.</div></details></li></ol></div>
+    <p class="bottom-line">Both hurt <b>neural crest</b>, which is low in <b>superoxide dismutase and catalase</b> and so can't clear free radicals. Alcohol works through <b>ROS only</b>; retinoic acid works through <b>ROS plus Hox hyperactivation</b>.</p>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>Alcohol</th><th>Retinoic acid (high dose)</th></tr></thead>
+      <tbody>
+        <tr><td>Shared weak point</td><td colspan="2">Neural crest cells lack SOD/catalase → vulnerable to free-radical damage → craniofacial defects</td></tr>
+        <tr><td>Mechanism 1</td><td><b>Oxidative stress (ROS)</b> damages or kills NC cells (↑ F2-isoprostanes)</td><td><b>ROS</b> damages or kills NC cells</td></tr>
+        <tr><td>Mechanism 2</td><td>None</td><td>Excess RA floods <b>RAREs → hyperactivates Hox genes</b> → too much Hox protein → mispatterning</td></tr>
+        <tr><td>Result</td><td>NC cell loss → facial defects</td><td>NC cell loss + wrong segment identity; high RA in mice mimics <b>Treacher Collins</b></td></tr>
+      </tbody></table></div>
+    <div class="hy"><span class="tag">HY · Step 1 (clinical pictures)</span>
+      <ul><li><b>Fetal alcohol syndrome</b>: smooth philtrum, thin upper lip, short palpebral fissures, microcephaly, intellectual disability. Leading preventable cause of intellectual disability.</li>
+      <li><b>Isotretinoin (vitamin A)</b>: microtia/anotia, cleft palate, conotruncal heart defects, CNS defects. Needs two forms of contraception.</li></ul></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 8</span><h3>Identify common birth defects related to pharyngeal arch formation</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q35</span><span>What causes a branchial fistula or lateral cervical cyst?</span></summary><div class="a">Cleft 2 fails to grow caudally over clefts 3–5, so the cervical sinus persists, sometimes with a canal to the skin.</div></details></li><li><details><summary><span class="qn">Q36</span><span>What are the features of Treacher Collins, and what goes wrong?</span></summary><div class="a">Malformed zygomatic bones, mandibular hypoplasia, lower-eyelid colobomas and malformed ears. An inherited neural crest defect (Tcof-1) of arches 1 and 2.</div></details></li><li><details><summary><span class="qn">Q37</span><span>Which pouches fail in DiGeorge, and what are the findings?</span></summary><div class="a">Pouches 3 and 4: absent thymus and/or parathyroids → immune problems and hypocalcemia, plus abnormal ears and hypertelorism (CATCH-22).</div></details></li><li><details><summary><span class="qn">Q38</span><span>Which gene is mutated in Waardenburg syndrome, and what are its features?</span></summary><div class="a">PAX3: cleft palate, deafness, hypertelorism and a white forelock.</div></details></li><li><details><summary><span class="qn">Q39</span><span>A newborn has seizures from low calcium and recurrent candidiasis. Which pouches failed?</span></summary><div class="a">Pouches 3 and 4 (no parathyroids, no thymus): DiGeorge syndrome.</div></details></li></ol></div>
+    <p class="bottom-line">Know three well: <b>branchial fistula/cyst</b> (cleft 2), <b>Treacher Collins</b> (arch 1 NC), <b>DiGeorge</b> (pouches 3/4). Know the rest exist.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Defect</th><th>Embryology</th><th>Findings</th></tr></thead>
+      <tbody>
+        <tr><td>Branchial fistula / lateral cervical cyst</td><td>Cleft 2 fails to grow over 3–5 → cervical sinus persists</td><td>Lateral neck cyst. A <b>fistula</b> is an abnormal connection between the inside of the neck and the skin</td></tr>
+        <tr><td>Treacher Collins</td><td>Neural crest defect of arches 1 (and 2); <b>Tcof-1</b> mutation impairs NC migration from R2/R4</td><td>Malformed zygomatic bones, <b>mandibular hypoplasia</b>, <b>lower eyelid colobomas</b>, malformed external ears; inherited</td></tr>
+        <tr><td>DiGeorge (CATCH-22)</td><td><b>Pouches 3 and 4</b> fail (Hoxa-3 knockout mimics it)</td><td>Absent thymus and/or parathyroids → <b>immune problems + hypocalcemia</b>; abnormal ears, hypertelorism; cardiac defects, cleft palate</td></tr>
+        <tr><td>Waardenburg</td><td><b>PAX3</b> mutation (neural crest)</td><td>Cleft palate, deafness, hypertelorism, <b>white forelock</b></td></tr>
+        <tr><td>Neurofibromatosis</td><td>Tumors of neural crest origin</td><td>Neurofibromas</td></tr>
+      </tbody></table></div>
+    <p class="note">Know these exist: Goldenhar, Hallermann-Streiff (like Treacher Collins), Meckel syndrome, cleft lip, cleft palate, craniofacial microsomia, mandibulofacial dysostosis.</p>
+    <div class="hy"><span class="tag">HY · Step 1</span><p><b>DiGeorge = 22q11.2 deletion</b>. <b>CATCH-22</b>: Cardiac (truncus arteriosus, tetralogy), Abnormal facies, Thymic aplasia (↓ T cells → viral/fungal infections), Cleft palate, Hypocalcemia (tetany, seizures). Absent thymic shadow on chest X-ray.</p></div>
+  </article>
+
+  <div class="vign" aria-label="HNSS03 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A newborn has a small, receding mandible, downslanting eyes with notched lower eyelids, and malformed external ears. Intelligence is normal. Which cell population failed?</p>
+      <ol class="opts"><li>Endoderm of pouches 3 and 4</li><li>Neural crest of the first arch</li><li>Lateral plate mesoderm of arch 6</li><li>Ectoderm of cleft 2</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Treacher Collins is a neural crest (Tcof-1) defect of arch 1: zygomatic, mandibular and lower-eyelid defects. A is DiGeorge; D gives a branchial cyst.</div></details></article>
+    <article><p><b>2.</b> During a thyroidectomy, a nerve derived from the 6th arch is cut. Which muscle is spared?</p>
+      <ol class="opts"><li>Posterior cricoarytenoid</li><li>Lateral cricoarytenoid</li><li>Cricothyroid</li><li>Thyroarytenoid</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Cricothyroid is arch 4 (superior laryngeal nerve). The recurrent laryngeal (arch 6) supplies the other intrinsic laryngeal muscles.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS03 · Pharyngeal Arches · Revision 1.2 · Updated September 28, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>

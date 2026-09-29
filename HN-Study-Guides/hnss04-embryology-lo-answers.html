@@ -1,0 +1,308 @@
+<title>Craniofacial Development LO Answers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --arch:#0f6b6b; --face:#7a3b69; --eye:#2c55a0;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss03{--c:var(--arch)} #hnss04{--c:var(--face)} #hnss18{--c:var(--eye)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style>
+
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Embryology · Updated Sep 28, 2026 · Revision 1.1</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss04" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS04 · 10 learning objectives</p>
+    <h1>Craniofacial Development</h1>
+  </div>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Describe the anatomical structures of the tongue</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>When does tongue development begin, and which swellings appear first?</span></summary><div class="a">Weeks 4–5. Arch 1 forms two lateral lingual swellings and a midline tuberculum impar.</div></details></li><li><details><summary><span class="qn">Q2</span><span>What swelling forms next, when, and from which arches?</span></summary><div class="a">The copula (anterior hypobranchial eminence), weeks 5–10, from mesoderm under arches 2, 3 and 4.</div></details></li><li><details><summary><span class="qn">Q3</span><span>Which swellings build the anterior 2/3 of the tongue?</span></summary><div class="a">The lateral lingual swellings, which overgrow the tuberculum impar and merge.</div></details></li><li><details><summary><span class="qn">Q4</span><span>What is the origin of the tongue muscle vs its epithelial lining?</span></summary><div class="a">Muscle: myoblasts from the occipital somites (mesoderm). Lining: endoderm. The tongue is mesoderm surrounded by endoderm.</div></details></li></ol></div>
+    <p class="bottom-line">Anterior 2/3 comes from <b>arch 1</b> (two lateral lingual swellings + tuberculum impar). Posterior 1/3 comes from the <b>copula/hypobranchial eminence</b> (arches 2–4). Muscles come from <b>occipital somites</b>.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>When</th><th>Structure</th><th>Fate</th></tr></thead>
+      <tbody>
+        <tr><td>Wk 4–5</td><td>Arch 1: <b>two lateral lingual swellings</b> + one medial <b>tuberculum impar</b></td><td>Lateral swellings overgrow the tuberculum impar and merge → <b>anterior 2/3</b> of the tongue body</td></tr>
+        <tr><td>Wk 5–10</td><td>Second medial swelling, the <b>copula</b> (anterior hypobranchial eminence), from mesoderm under arches 2, 3, 4</td><td><b>Posterior 1/3</b> (root)</td></tr>
+        <tr><td>Wk 5–10</td><td>Myoblasts migrate in from the <b>occipital somites</b></td><td>Tongue muscles. Tongue = <b>mesoderm core wrapped in endoderm</b></td></tr>
+      </tbody></table></div>
+    <p class="note">The <b>foramen cecum</b> sits between the tuberculum impar and the hypobranchial eminence. It's where the thyroid starts (LO 4).</p>
+    <div class="hy"><span class="tag">HY · Step 1</span><p>Tongue muscles come from occipital somites, so they are innervated by <b>CN XII</b> (hypoglossal). The exception is palatoglossus (CN X). Tongue deviates <b>toward</b> a lesioned XII.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Relate the driving mechanism of tongue development to lung development</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q5</span><span>What shared developmental theme do the tongue and lung use?</span></summary><div class="a">Underlying mesoderm/neural crest signals the overlying endoderm to proliferate, bud and shape the organ.</div></details></li><li><details><summary><span class="qn">Q6</span><span>Which molecules carry that signal?</span></summary><div class="a">Endodermal BMP-7 blocks growth; mesodermal Noggin inhibits BMP-7, releasing Patched so the endoderm proliferates. This molecular detail is not on the exam.</div></details></li><li><details><summary><span class="qn">Q7</span><span>How does thyroid budding differ from lung budding?</span></summary><div class="a">The thyroid buds only twice (a bilobed diverticulum), while the lung keeps bifurcating.</div></details></li></ol></div>
+    <p class="bottom-line">In both, the <b>underlying mesoderm (and neural crest) signals the overlying endoderm to proliferate</b>: an epithelial–mesenchymal interaction.</p>
+    <div class="flow"><span>Mesoderm + NC (mesenchyme)</span><i>signals →</i><span>overlying endoderm</span><i>→</i><span>endoderm proliferates</span><i>→</i><span>tongue swellings / lung buds</span></div>
+    <ul>
+      <li><b>Tongue</b>: mesoderm and NC under arches 1–4 drive the endoderm to swell into the lingual swellings and copula.</li>
+      <li><b>Lung</b>: splanchnic mesenchyme drives the endodermal lung bud to grow and branch.</li>
+      <li>The <b>thyroid</b> also forms "much like the lungs": an endodermal diverticulum that descends as a <b>bilobed</b> structure. The difference: the thyroid <b>buds only twice</b>, while the lung keeps bifurcating.</li>
+    </ul>
+    <p class="note">Molecular detail: endoderm BMP-7 blocks proliferation. Mesoderm secretes <b>Noggin</b>, which inhibits BMP-7, releasing <b>Patched</b> so the endoderm proliferates. Hox proteins brought in by NC drive the mesenchyme. This molecular detail is <b>not on the exam</b>.</p>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Identify the cranial innervation of the throat and tongue</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q8</span><span>Which four cranial nerves innervate the tongue, and which region does each serve?</span></summary><div class="a">Anterior 2/3: V3 (general sensation). Taste on the anterior 2/3: chorda tympani of VII. Posterior 1/3: IX. Extreme posterior: superior laryngeal branch of X.</div></details></li><li><details><summary><span class="qn">Q9</span><span>Why do tongue regions follow those nerves?</span></summary><div class="a">Each region keeps the nerve of the arch it came from: anterior from arch 1 (V3), posterior from arch 3 (IX), extreme back from arch 4 (X).</div></details></li><li><details><summary><span class="qn">Q10</span><span>Which nerves carry the two limbs of the gag reflex?</span></summary><div class="a">Afferent IX, efferent X.</div></details></li><li><details><summary><span class="qn">Q11</span><span>A patient loses taste and sensation on the posterior 1/3 and has no gag reflex. Which nerve?</span></summary><div class="a">CN IX (glossopharyngeal), the arch 3 nerve.</div></details></li></ol></div>
+    <p class="bottom-line">Tongue sensation follows its arch origin: <b>anterior 2/3 = V3</b> (touch) + <b>VII chorda tympani</b> (taste); <b>posterior 1/3 = IX</b>; extreme back = <b>X</b>.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Region</th><th>General sensation</th><th>Taste</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Anterior 2/3</td><td>V3 (lingual n.)</td><td>VII (chorda tympani)</td><td>From arch 1</td></tr>
+        <tr><td>Posterior 1/3</td><td>IX</td><td>IX</td><td>From arch 3 (copula)</td></tr>
+        <tr><td>Extreme posterior / epiglottis</td><td>X (superior laryngeal)</td><td>X</td><td>From arch 4</td></tr>
+        <tr><td>Tongue muscles</td><td colspan="2">XII (palatoglossus: X)</td><td>Occipital somites</td></tr>
+      </tbody></table></div>
+    <div class="two">
+      <div><p class="sub">Throat (pharynx) muscles</p><ul><li>Constrictors, levator palatini → <b>X</b> (arch 4)</li><li>Stylopharyngeus → <b>IX</b> (arch 3)</li><li>Tensor palatini → <b>V3</b> (arch 1)</li><li>Cricothyroid → X superior laryngeal; rest of larynx → X recurrent laryngeal</li></ul></div>
+      <div><p class="sub">Gag reflex</p><ul><li>Afferent: <b>IX</b></li><li>Efferent: <b>X</b></li></ul></div>
+    </div>
+    <div class="hy"><span class="tag">HY · Step 1</span><p>Bell's palsy (VII) → loss of taste on the anterior 2/3, but <b>touch is intact</b> (V3). A lesion of the lingual nerve before the chorda tympani joins it would lose <b>both</b>.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>List the steps of thyroid development</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q12</span><span>Where does the thyroid start to develop?</span></summary><div class="a">At the foramen cecum, between the tuberculum impar and the hypobranchial eminence.</div></details></li><li><details><summary><span class="qn">Q13</span><span>What connects the thyroid to the tongue during descent, and what normally happens to it?</span></summary><div class="a">The thyroglossal duct. It normally disappears.</div></details></li><li><details><summary><span class="qn">Q14</span><span>Where is the thyroid at week 6, and where is it at week 7?</span></summary><div class="a">Week 6: in front of the hyoid and laryngeal cartilages. Week 7: in its final position anterior to the trachea.</div></details></li><li><details><summary><span class="qn">Q15</span><span>Which genes drive thyroid development?</span></summary><div class="a">TTF-1 (thyroid transcription factor), PAX, BMPs and noggin. Low yield.</div></details></li></ol></div>
+    <p class="bottom-line">Starts at the <b>foramen cecum</b>, descends as a <b>bilobed diverticulum</b> on the <b>thyroglossal duct</b>, and reaches the front of the trachea by <b>week 7</b>.</p>
+    <ol>
+      <li>Endodermal epithelium proliferates at the base of the pharynx at the <b>foramen cecum</b>, between the tuberculum impar and hypobranchial eminence.</li>
+      <li>The primordium descends from the foramen cecum as a <b>bilobed diverticulum</b>, like the lungs.</li>
+      <li>It stays attached to the tongue by the <b>thyroglossal duct</b>, which later disappears.</li>
+      <li>Genes: <b>TTF-1</b> (thyroid transcription factor), PAX, BMPs, noggin.</li>
+      <li><b>Week 6</b>: descends in front of the hyoid bone and laryngeal cartilages.</li>
+      <li><b>Week 7</b>: reaches its final position anterior to the trachea.</li>
+      <li>The ultimobranchial body (pouch 5/4) joins and gives the <b>C cells</b>.</li>
+    </ol>
+    <div class="hy"><span class="tag">HY · Step 1</span>
+      <ul><li><b>Thyroglossal duct cyst</b>: midline, anywhere along the descent path (often just below the hyoid), <b>moves with swallowing/tongue protrusion</b>. Can open as a fistula.</li>
+      <li>Most common ectopic site: <b>lingual thyroid</b> at the base of the tongue. Check for other thyroid tissue before removing it.</li>
+      <li>A duct remnant can persist as the <b>pyramidal lobe</b>.</li></ul></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 5</span><h3>Identify the function of the thyroid gland during development</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q16</span><span>When does the fetal thyroid begin functioning, and what does it make?</span></summary><div class="a">Weeks 14–15. Follicular cells make colloid, the source of T4 and T3, which regulate cellular metabolism.</div></details></li><li><details><summary><span class="qn">Q17</span><span>What do C cells secrete in the fetus, and what does it do?</span></summary><div class="a">Calcitonin. It increases calcium uptake into bone and prevents resorption, which is needed for normal bone development.</div></details></li><li><details><summary><span class="qn">Q18</span><span>How do fetal calcitonin levels compare with maternal levels?</span></summary><div class="a">Fetal calcitonin is 2–3× higher.</div></details></li></ol></div>
+    <p class="bottom-line">Starts working at <b>weeks 14–15</b>: follicular cells make <b>colloid → T4/T3</b> (cellular metabolism). <b>C cells</b> make <b>calcitonin</b> for normal bone development.</p>
+    <div class="two">
+      <div><p class="sub">Follicular cells</p><ul><li>Produce <b>colloid</b>, the source of thyroxine (T4) and triiodothyronine (T3)</li><li>Hormones control <b>cellular metabolism</b></li><li>Levothyroxine = synthetic T4</li></ul></div>
+      <div><p class="sub">C cells (from ultimobranchial body)</p><ul><li>Secrete <b>calcitonin</b> (peptide hormone)</li><li>Binds receptors on osteocytes/osteoclasts → ↑ Ca²⁺ uptake from fetal blood → <b>prevents bone resorption</b> (net bone gain)</li><li>Fetal calcitonin is <b>2–3× maternal</b> levels</li></ul></div>
+    </div>
+    <div class="hy"><span class="tag">HY · Step 1</span><p><b>Congenital hypothyroidism</b> (cretinism): pot-bellied, pale, puffy face, protruding umbilicus, protuberant tongue, poor brain development. Newborn screening catches it; early levothyroxine prevents intellectual disability.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 6</span><h3>Describe the anatomy of the developing face (lips, nose, cheeks) and how it forms</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q19</span><span>Which five prominences surround the stomodeum at weeks 4–5?</span></summary><div class="a">One frontonasal, two maxillary (lateral to the stomodeum) and two mandibular (caudal to the maxillary).</div></details></li><li><details><summary><span class="qn">Q20</span><span>How do the nasal placodes turn into the medial and lateral nasal prominences?</span></summary><div class="a">Weeks 5–8: the placodes invaginate into nasal pits, and the tissue ridges around each pit become the medial and lateral nasal prominences.</div></details></li><li><details><summary><span class="qn">Q21</span><span>Which prominences build the upper lip?</span></summary><div class="a">Two medial nasal prominences (philtrum) + two maxillary prominences. The lateral nasal prominences do not form the lip.</div></details></li><li><details><summary><span class="qn">Q22</span><span>Which prominences form the bridge, the tip and the sides of the nose?</span></summary><div class="a">Bridge: frontonasal. Crest and tip: merged medial nasal. Sides: lateral nasal.</div></details></li><li><details><summary><span class="qn">Q23</span><span>When are the cheeks identifiable, and which prominence forms them?</span></summary><div class="a">Weeks 8–9, from the maxillary prominences.</div></details></li><li><details><summary><span class="qn">Q24</span><span>What tissue forms the facial bones, and what are the exceptions?</span></summary><div class="a">Neural crest forms virtually all of them. Exceptions: thyroid and cricoid cartilages (and possibly the malleus and incus).</div></details></li></ol></div>
+    <p class="bottom-line">Five prominences surround the stomodeum (weeks 4–5): <b>frontonasal</b>, paired <b>maxillary</b>, paired <b>mandibular</b>. Between weeks 5 and 8, nasal pits split the frontonasal into <b>medial and lateral nasal</b> prominences, and the pieces fuse.</p>
+    <div class="flow"><span>Nasal placodes</span><i>→ invaginate →</i><span>nasal pits</span><i>→ ridges →</i><span>medial + lateral nasal prominences</span><i>→ maxillary push medially →</i><span>fusion</span></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Prominence</th><th>Forms</th></tr></thead>
+      <tbody>
+        <tr><td>Frontonasal</td><td>Forehead, <b>bridge</b> of nose</td></tr>
+        <tr><td>Medial nasal (merged)</td><td><b>Crest and tip</b> of nose, <b>philtrum</b>, intermaxillary segment (primary palate, 4 incisors)</td></tr>
+        <tr><td>Lateral nasal</td><td><b>Sides (alae)</b> of nose; <b>not the lip</b></td></tr>
+        <tr><td>Maxillary</td><td>Lateral <b>upper lip</b>, <b>cheeks</b> (by wk 8–9), maxilla, secondary palate</td></tr>
+        <tr><td>Mandibular</td><td>Lower lip, chin, lower jaw</td></tr>
+      </tbody></table></div>
+    <ul>
+      <li><b>Upper lip = 2 medial nasal + 2 maxillary</b> prominences.</li>
+      <li><b>Nose = 5 prominences</b>: frontonasal (bridge) + 2 merged medial nasal (crest, tip) + 2 lateral nasal (sides).</li>
+      <li>Frontonasal prominence: mesoderm and NC inside, ectoderm outside, formed by ectoderm–mesenchyme crosstalk.</li>
+      <li><b>Intermaxillary segment</b> (deep fusion) has 3 parts: <b>labial</b> → philtrum; <b>upper jaw</b> → 4 incisors; <b>palatal</b> → primary palate. It's continuous with the nasal septum.</li>
+    </ul>
+    <div class="hy"><span class="tag">HY · Step 1 trap</span><p>The <b>lateral nasal prominences do not form the upper lip.</b> Cleft lip = failure of <b>maxillary + medial nasal</b> fusion.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 7</span><h3>Describe internal anatomical formation of the palates</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q25</span><span>What forms the primary palate, and what are the three parts of the intermaxillary segment?</span></summary><div class="a">The intermaxillary segment. Labial part → philtrum; upper jaw part → 4 incisors; palatal part → triangular primary palate.</div></details></li><li><details><summary><span class="qn">Q26</span><span>What forms the secondary palate, when, and where do its parts grow?</span></summary><div class="a">The palatine shelves, outgrowths of the maxillary prominences, appear at weeks 6.5–7. They grow toward each other dorsal to the tongue and fuse; the uvula hangs from the caudal end.</div></details></li><li><details><summary><span class="qn">Q27</span><span>How does the nasal cavity come to open into the oral cavity?</span></summary><div class="a">Week 7: the oronasal membrane separates them, then ruptures mid-week 7 to form the primitive choana, behind the primary palate.</div></details></li><li><details><summary><span class="qn">Q28</span><span>How do the paranasal sinuses form, and what do they do?</span></summary><div class="a">As diverticula of the lateral nasal wall into the maxilla, ethmoid, frontal and sphenoid bones. They condition inspired air and grow through puberty, shaping the face.</div></details></li><li><details><summary><span class="qn">Q29</span><span>What must move out of the way for the palatine shelves to fuse?</span></summary><div class="a">The tongue. The shelves grow toward each other dorsal to (above) it.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Primary palate</b> = intermaxillary segment (medial nasal). <b>Secondary palate</b> = <b>palatine shelves</b> from the maxillary prominences, which grow over the tongue and fuse (week 6.5–7 on).</p>
+    <div class="two">
+      <div><p class="sub">Primary palate</p><ul><li>Triangular palatal component of the intermaxillary segment</li><li>Anterior to the incisive foramen</li><li>Carries the 4 incisors</li></ul></div>
+      <div><p class="sub">Secondary (definitive) palate</p><ul><li><b>Palatine shelves</b>: internal outgrowths of the maxillary prominences, appear wk 6.5–7</li><li>Grow toward each other <b>dorsal to the tongue</b> and fuse</li><li>Fuse with the primary palate and nasal septum</li><li><b>Uvula</b> hangs from the caudal end</li></ul></div>
+    </div>
+    <div class="sub">Related internal structures</div>
+    <ul>
+      <li><b>Nasal cavity</b>: wk 6 nasal pits deepen → wk 7 <b>oronasal membrane</b> separates them from the mouth → mid-wk 7 it ruptures → <b>primitive choana</b> (behind the primary palate).</li>
+      <li><b>Paranasal sinuses</b>: diverticula of the lateral nasal wall into the maxilla, ethmoid, frontal and sphenoid bones. They condition inspired air, keep growing through puberty and shape the face.</li>
+      <li><b>Teeth</b> (stated in lecture as <b>not tested</b>): wk 6 <b>dental lamina</b> (C-shaped) → 10 dental buds per jaw → <b>cap stage</b>. Milk teeth form first; permanent buds start wk 8–15.</li>
+    </ul>
+    <div class="hy"><span class="tag">HY · Step 1</span><p><b>Cleft palate</b> = palatine shelves fail to fuse with each other, the nasal septum and/or the primary palate. Cleft lip and cleft palate have <b>separate</b> embryologic causes, but often occur together.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 8</span><h3>Describe the formation of the neurocranium and viscerocranium</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q30</span><span>What is the difference between the neurocranium and the viscerocranium?</span></summary><div class="a">Neurocranium surrounds the brain (cranial bones). Viscerocranium is the face and jaws. Each has a cartilaginous and a membranous part.</div></details></li><li><details><summary><span class="qn">Q31</span><span>How does each one mostly ossify?</span></summary><div class="a">Neurocranium: mostly endochondral, from paraxial and prechordal mesoderm plus some neural crest. Viscerocranium: mostly membranous, from neural crest plus some mesoderm.</div></details></li><li><details><summary><span class="qn">Q32</span><span>What is the difference between endochondral and membranous ossification?</span></summary><div class="a">Endochondral: bone replaces a pre-existing cartilage model. Membranous: mesenchyme or neural crest turns directly into bone, with no cartilage.</div></details></li><li><details><summary><span class="qn">Q33</span><span>How many ossification centers and bones are involved?</span></summary><div class="a">More than 100 ossification centers form 45 bones, which fuse into the 22 bones of the mature skull.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Neurocranium</b> surrounds the brain; <b>viscerocranium</b> is the face and jaws. Each has a cartilaginous part (endochondral) and a membranous part (intramembranous).</p>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>Neurocranium</th><th>Viscerocranium</th></tr></thead>
+      <tbody>
+        <tr><td>Location</td><td>Surrounds the brain</td><td>Under the brain: oral cavity, upper respiratory passages, face</td></tr>
+        <tr><td>Cartilaginous part</td><td>Skull base (chondrocranium): <b>endochondral</b> ossification of paraxial and prechordal mesoderm + NC</td><td>Arch cartilages (e.g., Meckel's → malleus/incus, Reichert's → stapes)</td></tr>
+        <tr><td>Membranous part</td><td>Calvaria (skull vault): membrane ossification</td><td>Maxilla, zygomatic, mandible, etc.: <b>membrane</b> ossification</td></tr>
+        <tr><td>Main source</td><td>Mesoderm + NC</td><td><b>Neural crest</b> (plus some arch mesoderm)</td></tr>
+      </tbody></table></div>
+    <ul>
+      <li>More than <b>100 ossification centers</b> → 45 bones → fuse to the <b>22 bones</b> of the mature skull.</li>
+      <li><b>Endochondral</b> = a cartilage model is replaced by bone. <b>Membrane (dermal)</b> = mesenchyme turns directly into bone.</li>
+      <li><b>Neural crest forms virtually all bones of the face</b>. Exceptions: thyroid and cricoid cartilages (and possibly malleus/incus).</li>
+    </ul>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 9</span><h3>Know typical clinical malformations such as cleft lip, including their potential causes and anatomy</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q34</span><span>A lateral cleft lip results from which failed fusion, and how common is it?</span></summary><div class="a">Maxillary + medial nasal prominences (anterior cleft). About 1/1000 births, 80% male.</div></details></li><li><details><summary><span class="qn">Q35</span><span>What fusion defect causes a cleft secondary palate and cleft uvula?</span></summary><div class="a">The palatine shelves fail to fuse.</div></details></li><li><details><summary><span class="qn">Q36</span><span>What causes an oblique facial cleft, and why does it come with a cleft lip?</span></summary><div class="a">The maxillary prominence fails to merge with the lateral nasal prominence. The cleft lip is secondary to the cleft palate, even though the lateral nasal prominence doesn&#x27;t form the lip.</div></details></li><li><details><summary><span class="qn">Q37</span><span>Which drugs taken in pregnancy raise the risk of facial clefts?</span></summary><div class="a">Anticonvulsants (phenobarbital, lamotrigine, valproic acid) and lithium.</div></details></li><li><details><summary><span class="qn">Q38</span><span>Where along its path can a thyroglossal duct cyst be found?</span></summary><div class="a">Anywhere on the thyroid&#x27;s descent: below the hyoid, at the base of the tongue, or near the thyroid cartilage. If open to the skin, it is a thyroglossal fistula.</div></details></li><li><details><summary><span class="qn">Q39</span><span>What is the treatment for cleft lip and cleft palate?</span></summary><div class="a">Surgery.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Anterior clefts</b> (lip) = maxillary fails to meet medial nasal. <b>Posterior clefts</b> (palate, uvula) = palatine shelves fail to fuse. <b>Oblique clefts</b> = maxillary fails to meet lateral nasal. Treatment is surgery.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Malformation</th><th>Failed fusion / cause</th></tr></thead>
+      <tbody>
+        <tr><td>Lateral cleft lip</td><td>Maxillary + medial nasal prominence; ~1/1000 births, 80% male</td></tr>
+        <tr><td>Cleft secondary palate, cleft uvula</td><td>Palatine shelves fail to fuse</td></tr>
+        <tr><td>Oblique facial cleft</td><td>Maxillary prominence fails to merge with the <b>lateral nasal</b> prominence. The cleft lip here is secondary to the cleft palate</td></tr>
+        <tr><td>Median cleft of upper lip</td><td>Medial nasal prominences fail to merge</td></tr>
+        <tr><td>Median cleft of lower lip</td><td>Mandibular prominences fail to merge</td></tr>
+        <tr><td>Macrostomia</td><td>Neural crest migration defect (maxillary/mandibular fusion)</td></tr>
+        <tr><td>Others</td><td>Single nostril + microstomia; bifid nose</td></tr>
+        <tr><td>Thyroglossal cyst / fistula</td><td>Remnant of the thyroglossal duct anywhere on the descent path (below hyoid, base of tongue, near thyroid cartilage)</td></tr>
+        <tr><td>Treacher Collins</td><td><b>Autosomal dominant</b>; <b>Tcof-1</b> mutation disrupts NC migration from R2 and R4 into arches 1 and 2 (wk 2–3.5); arches 1 and 2 fuse</td></tr>
+      </tbody></table></div>
+    <div class="sub">Drug causes named in lecture</div>
+    <ul>
+      <li><b>Anticonvulsants</b>: phenobarbital; <b>lamotrigine</b> (oral clefts 2.5/1000 vs 0.37/1000); <b>valproic acid</b>.</li>
+      <li><b>Lithium</b>.</li>
+    </ul>
+    <div class="hy"><span class="tag">HY · Step 1</span><p>Anticonvulsant teratogens: <b>valproate</b> (neural tube defects), <b>phenytoin</b> (fetal hydantoin: cleft lip/palate, hypoplastic nails), <b>carbamazepine</b>. Lithium's classic defect is <b>Ebstein anomaly</b>. Folate supplementation lowers NTD risk.</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 10</span><h3>Identify normal and potentially abnormal craniofacial development using ultrasound imaging</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q40</span><span>Which structures should you identify on a normal fetal face ultrasound?</span></summary><div class="a">Neurocranium, viscerocranium, frontal prominence, nose and the fused maxillary process.</div></details></li><li><details><summary><span class="qn">Q41</span><span>Which two features do you check for abnormal development?</span></summary><div class="a">Ear position relative to the eye and nose, and presence of the nasal bone.</div></details></li><li><details><summary><span class="qn">Q42</span><span>Which fetal face finding points to trisomy 21?</span></summary><div class="a">An absent nasal bone.</div></details></li></ol></div>
+    <p class="bottom-line">On a fetal face ultrasound, find the <b>neurocranium, viscerocranium, frontal prominence, nose and fused maxillary process</b>. The two things to check are <b>ear position</b> and the <b>nasal bone</b>.</p>
+    <ul>
+      <li>Normal: identify neurocranium, viscerocranium, frontal prominence, nose, fused maxillary processes (don't confuse with hand or ribs in the image).</li>
+      <li><b>Ear position</b> relative to the eye and nose. Low-set ears suggest an arch 1/2 or chromosomal problem.</li>
+      <li><b>Nasal bone</b>: <b>absent nasal bone → Down syndrome (trisomy 21)</b> marker.</li>
+      <li>Facial clefts (lip, palate) can also be seen.</li>
+    </ul>
+    <div class="hy"><span class="tag">HY · Step 1</span><p>First-trimester Down syndrome markers: <b>↑ nuchal translucency</b> and <b>absent/hypoplastic nasal bone</b>. Quad screen: ↓ AFP, ↑ β-hCG, ↓ estriol, ↑ inhibin A.</p></div>
+  </article>
+
+  <div class="vign" aria-label="HNSS04 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A newborn has a cleft through the left upper lip extending into the alveolar ridge. The secondary palate is intact. Which structures failed to fuse?</p>
+      <ol class="opts"><li>Palatine shelves with each other</li><li>Left maxillary and medial nasal prominences</li><li>Left maxillary and lateral nasal prominences</li><li>The two medial nasal prominences</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> A lateral cleft lip (± primary palate) is maxillary + medial nasal. C gives an oblique facial cleft; D gives a median cleft lip.</div></details></article>
+    <article><p><b>2.</b> A 5-year-old has a painless midline neck mass just below the hyoid that rises when he sticks out his tongue. What is its origin?</p>
+      <ol class="opts"><li>Second pharyngeal cleft</li><li>Third pharyngeal pouch</li><li>Remnant of the thyroglossal duct</li><li>Ultimobranchial body</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Midline + moves with tongue protrusion = thyroglossal duct cyst. A lateral mass would suggest a branchial (cleft 2) cyst.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS04 · Craniofacial Development · Revision 1.1 · Updated September 28, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>

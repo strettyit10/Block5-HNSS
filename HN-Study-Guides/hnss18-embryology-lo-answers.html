@@ -1,0 +1,287 @@
+<title>Eye &amp; Ear Embryology LO Answers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --arch:#0f6b6b; --face:#7a3b69; --eye:#2c55a0;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss03{--c:var(--arch)} #hnss04{--c:var(--face)} #hnss18{--c:var(--eye)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style>
+
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Embryology · Updated Sep 28, 2026 · Revision 1.2</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss18" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS18 · 3 learning objectives</p>
+    <h1>Embryology of the Eye &amp; Ear</h1>
+  </div>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Describe the embryologic origins of the major structures of the eye and ear</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>What do the inner and outer layers of the optic cup form?</span></summary><div class="a">Inner layer: neural retina. Outer layer: retinal pigment epithelium.</div></details></li><li><details><summary><span class="qn">Q2</span><span>Which eye structures come from surface ectoderm?</span></summary><div class="a">The lens and the corneal epithelium.</div></details></li><li><details><summary><span class="qn">Q3</span><span>Which eye structures come from neural crest?</span></summary><div class="a">Corneal stroma and endothelium, iris stroma, and the ciliary muscle and stroma.</div></details></li><li><details><summary><span class="qn">Q4</span><span>Which eye muscles come from neuroectoderm rather than mesoderm?</span></summary><div class="a">The sphincter and dilator pupillae (from the anterior optic cup).</div></details></li><li><details><summary><span class="qn">Q5</span><span>What are the origins of the inner, middle and external ear?</span></summary><div class="a">Inner: otic placode (surface ectoderm). Middle: pouch 1 + arches 1 and 2. External: cleft 1 + arches 1 and 2.</div></details></li><li><details><summary><span class="qn">Q6</span><span>Which structure is built from pouch 1, cleft 1 and the mesenchyme between them?</span></summary><div class="a">The tympanic membrane.</div></details></li><li><details><summary><span class="qn">Q7</span><span>Where does the bony labyrinth come from, vs the membranous labyrinth?</span></summary><div class="a">Bony: mesenchyme around the otic vesicle forms a cartilaginous capsule that ossifies. Membranous: the otic vesicle itself.</div></details></li></ol></div>
+    <p class="bottom-line">Eye: <b>neuroectoderm</b> (optic cup) makes retina, RPE, iris/ciliary epithelium and iris muscles; <b>surface ectoderm</b> makes lens and corneal epithelium; <b>neural crest</b> makes the stroma. Ear: inner = <b>otic placode</b>; middle = <b>pouch 1 + arches 1–2</b>; external = <b>cleft 1 + arches 1–2</b>.</p>
+    <div class="two">
+      <div><p class="sub">Eye</p>
+        <div class="tbl"><table style="min-width:0"><thead><tr><th>Structure</th><th>Origin</th></tr></thead><tbody>
+          <tr><td>Neural retina</td><td>Inner layer of optic cup (neuroectoderm)</td></tr>
+          <tr><td>Retinal pigment epithelium</td><td>Outer layer of optic cup</td></tr>
+          <tr><td>Optic nerve</td><td>Optic stalk + retinal ganglion cell axons</td></tr>
+          <tr><td>Lens</td><td>Surface ectoderm (lens placode)</td></tr>
+          <tr><td>Corneal epithelium</td><td>Surface ectoderm</td></tr>
+          <tr><td>Corneal stroma + endothelium</td><td>Neural crest</td></tr>
+          <tr><td>Iris epithelium + sphincter/dilator pupillae</td><td>Anterior optic cup (neuroectoderm)</td></tr>
+          <tr><td>Iris stroma</td><td>Neural crest</td></tr>
+          <tr><td>Ciliary epithelium</td><td>Optic cup</td></tr>
+          <tr><td>Ciliary muscle + stroma</td><td>Neural crest mesenchyme</td></tr>
+          <tr><td>Hyaloid artery</td><td>Runs in the choroid fissure</td></tr>
+        </tbody></table></div></div>
+      <div><p class="sub">Ear</p>
+        <div class="tbl"><table style="min-width:0"><thead><tr><th>Structure</th><th>Origin</th></tr></thead><tbody>
+          <tr><td>Membranous labyrinth</td><td>Otic placode (surface ectoderm) → otic vesicle</td></tr>
+          <tr><td>Bony labyrinth</td><td>Mesenchyme around the otic vesicle → cartilaginous capsule → ossifies</td></tr>
+          <tr><td>CN VIII ganglia</td><td>Neuroblasts from otic epithelium</td></tr>
+          <tr><td>Tympanic cavity + auditory tube</td><td>Pouch 1 (tubotympanic recess)</td></tr>
+          <tr><td>Malleus + incus</td><td>Arch 1 (Meckel's)</td></tr>
+          <tr><td>Stapes</td><td>Arch 2 (Reichert's)</td></tr>
+          <tr><td>Tympanic membrane</td><td>Pouch 1 + cleft 1 + mesenchyme between</td></tr>
+          <tr><td>External auditory meatus</td><td>Cleft 1</td></tr>
+          <tr><td>Auricle</td><td>6 auricular hillocks: 1–3 arch 1, 4–6 arch 2. Hillock 1 → tragus; hillock 6 → antitragus. The lobule is not from hillocks. Pinna = elastic cartilage</td></tr>
+        </tbody></table></div></div>
+    </div>
+    <div class="hy"><span class="tag">HY · Step 1</span>
+      <ul><li><b>Sphincter and dilator pupillae come from neuroectoderm</b>, the classic exception to "muscles come from mesoderm."</li>
+      <li>The tympanic membrane is the one structure with <b>all three germ layers</b>: ectoderm (cleft 1), mesoderm (middle), endoderm (pouch 1).</li>
+      <li>Hyaloid artery → its proximal part persists as the <b>central retinal artery</b>.</li></ul></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Explain the major developmental steps in the formation of the eye and the inner, middle, and external ear</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q8</span><span>Where do the eyes begin, and which gene marks the eye fields?</span></summary><div class="a">In the anterior neural plate (prosencephalon/diencephalon); the eye fields express PAX6.</div></details></li><li><details><summary><span class="qn">Q9</span><span>What induces the lens placode, and what are the steps that follow?</span></summary><div class="a">The optic vesicle induces surface ectoderm. Lens placode → lens pit → lens vesicle, which pinches off; meanwhile the optic vesicle invaginates into the optic cup.</div></details></li><li><details><summary><span class="qn">Q10</span><span>What does the lens vesicle induce next?</span></summary><div class="a">Corneal development.</div></details></li><li><details><summary><span class="qn">Q11</span><span>What runs through the choroid fissure?</span></summary><div class="a">The hyaloid artery.</div></details></li><li><details><summary><span class="qn">Q12</span><span>When do the eyelids fuse, and when do they reopen?</span></summary><div class="a">They fuse at the start of the second trimester and reopen at the start of the third.</div></details></li><li><details><summary><span class="qn">Q13</span><span>What is the sequence for the inner ear, and where is the otic pit?</span></summary><div class="a">Otic placode → otic pit (dorsal to cleft 2) → otic vesicle, which pinches off from the surface.</div></details></li><li><details><summary><span class="qn">Q14</span><span>Where do the CN VIII ganglia come from?</span></summary><div class="a">Neuroblasts delaminate from the otic epithelium to form the statoacoustic ganglion, which splits into the vestibular and spiral ganglia.</div></details></li><li><details><summary><span class="qn">Q15</span><span>What do the utricular and saccular portions of the otic vesicle form?</span></summary><div class="a">Utricular: utricle + semicircular ducts. Saccular: saccule + cochlear duct (→ Organ of Corti).</div></details></li><li><details><summary><span class="qn">Q16</span><span>How does the auricle form, and why do the ears move up?</span></summary><div class="a">From 6 auricular hillocks (1–3 arch 1, 4–6 arch 2). The ears start caudal to the jaw, and jaw growth shifts them up and vertical.</div></details></li><li><details><summary><span class="qn">Q17</span><span>What is the meatal plug, and when does it clear?</span></summary><div class="a">An epithelial plug filling the external canal. It breaks down around month 7, opening the canal to the eardrum.</div></details></li></ol></div>
+    <p class="bottom-line">Eye: the <b>optic vesicle induces the lens placode</b>, and each shapes the other into <b>optic cup + lens vesicle</b>. Inner ear: <b>otic placode → pit → vesicle</b>, which splits into utricular and saccular parts.</p>
+    <div class="sub">Eye</div>
+    <div class="tbl"><table>
+      <thead><tr><th>Approx. age</th><th>Step</th></tr></thead>
+      <tbody class="num">
+        <tr><td>~Day 17</td><td><b>Eye fields</b> in anterior neural plate (prosencephalon), PAX6-expressing</td></tr>
+        <tr><td>~Day 21–24</td><td>Forebrain grows forward; eye field cells invaginate → <b>optic grooves</b></td></tr>
+        <tr><td>~Day 25–28</td><td>Optic grooves → <b>optic vesicles</b> + optic stalks</td></tr>
+        <tr><td>~Day 28–33</td><td>Optic vesicle contacts surface ectoderm → <b>induces lens placode</b> (thickening)</td></tr>
+        <tr><td>~Day 36</td><td>Reciprocal induction: optic vesicle invaginates → <b>bilayered optic cup</b>; lens placode → lens pit → <b>lens vesicle</b> pinches off. Lens vesicle then induces the <b>cornea</b></td></tr>
+        <tr><td>~Wk 6</td><td>Invagination creates the <b>choroid fissure</b> inferiorly; <b>hyaloid artery</b> runs through it. Fissure then closes</td></tr>
+        <tr><td>~Wk 7</td><td>Posterior lens fibers elongate and fill the lens cavity; lens grows at its equator (PAX6, SOX2, MAF). Cornea differentiates. Neural retina thickens, pigmented layer thins</td></tr>
+        <tr><td>~Wk 7–8</td><td>Anterior chamber forms; <b>pupillary membrane</b> normally regresses before birth</td></tr>
+        <tr><td>~Wk 8–9</td><td>Iris grows from anterior rim of optic cup; eyelids begin forming at the end of the embryonic period</td></tr>
+        <tr><td>~Wk 10 → 3rd tri</td><td>Eyelids <b>fuse</b> (start of 2nd trimester) and <b>reopen</b> (start of 3rd trimester)</td></tr>
+        <tr><td>~Wk 15</td><td>Two optic-cup layers fold → <b>ciliary processes</b></td></tr>
+      </tbody></table></div>
+    <div class="flow"><span>Optic vesicle</span><i>induces →</i><span>lens placode</span><i>→</i><span>lens pit</span><i>→</i><span>lens vesicle</span><i>induces →</i><span>cornea</span></div>
+    <div class="sub">Ear</div>
+    <div class="two">
+      <div><p class="sub">Inner</p><ul>
+        <li>~Day 22: <b>otic placode</b> (surface ectoderm)</li>
+        <li>~Day 26–28: <b>otic pit</b>, dorsal to cleft 2</li>
+        <li>~Day 29: <b>otic vesicle</b> pinches off</li>
+        <li>Surrounding mesenchyme → cartilaginous capsule → <b>bony labyrinth</b>; the otic vesicle itself becomes the <b>membranous labyrinth</b></li>
+        <li>~Day 30: neuroblasts delaminate → statoacoustic ganglion → vestibular + spiral ganglia (CN VIII)</li>
+        <li>~Day 36: vesicle divides
+          <ul><li>Dorsal → endolymphatic duct + sac</li><li><b>Utricular</b> → utricle + semicircular ducts</li><li><b>Saccular</b> → saccule + <b>cochlear duct</b> (~wk 9) → Organ of Corti</li></ul></li></ul></div>
+      <div><p class="sub">Middle</p><ul>
+        <li>Pouch 1 → tubotympanic recess → tympanic cavity + auditory tube</li>
+        <li>Arch 1 → malleus, incus; arch 2 → stapes</li><li>The recess keeps expanding late in gestation until the tympanic cavity surrounds the ossicles</li></ul>
+        <p class="sub" style="margin-top:10px">External</p><ul>
+        <li>Wk 5–6: 6 <b>auricular hillocks</b> around cleft 1</li>
+        <li>Ears start <b>caudal</b> to the lower jaw; jaw growth moves them up and vertical</li>
+        <li>Cleft 1 → external auditory meatus</li><li>A <b>meatal plug</b> of epithelial cells fills the canal, then breaks down around <b>month 7</b>, opening the canal to the tympanic membrane</li></ul></div>
+    </div>
+    <div class="mem"><span class="tag">Memory hook</span><p><b>U</b>tricle → semicircular (rotation + linear); <b>S</b>accule → <b>S</b>ound (cochlear duct).</p></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Recognize selected developmental abnormalities and explain their embryologic basis</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q18</span><span>What causes cyclopia?</span></summary><div class="a">Loss of SHH from the ventral midline, so PAX6 isn&#x27;t repressed there and the two eye fields merge.</div></details></li><li><details><summary><span class="qn">Q19</span><span>A child has a keyhole-shaped defect at the bottom of the iris. What failed to happen?</span></summary><div class="a">The choroid fissure failed to close → coloboma.</div></details></li><li><details><summary><span class="qn">Q20</span><span>What does a persistent pupillary membrane risk?</span></summary><div class="a">If it blocks the visual axis, deprivation amblyopia.</div></details></li><li><details><summary><span class="qn">Q21</span><span>Which first-trimester drugs are linked to external ear anomalies?</span></summary><div class="a">Streptomycin, salicylates and thalidomide.</div></details></li><li><details><summary><span class="qn">Q22</span><span>Which genes are linked to hair-cell loss, and what does each affect?</span></summary><div class="a">POU4F3: hair cell degeneration. Connexin 26: supporting-cell gap junctions. c-Kit: stria vascularis.</div></details></li><li><details><summary><span class="qn">Q23</span><span>Why can ears end up low-set?</span></summary><div class="a">Abnormal auricular hillock (arch 1/2) development, or failure of jaw growth to shift the ears upward. Often a marker of an arch or chromosomal syndrome.</div></details></li></ol></div>
+    <p class="bottom-line">The lecture's three: <b>cyclopia</b> (no SHH → eye fields don't separate), <b>coloboma</b> (choroid fissure doesn't close), <b>persistent pupillary membrane</b> (fails to regress).</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Abnormality</th><th>Embryologic basis</th><th>Consequence</th></tr></thead>
+      <tbody>
+        <tr><td>Cyclopia</td><td>No <b>SHH</b> from the ventral midline → PAX6 isn't repressed in the midline → the two eye fields converge</td><td>Single midline eye; forebrain deficient</td></tr>
+        <tr><td>Coloboma</td><td><b>Choroid fissure fails to close</b></td><td>Inferior "keyhole" gap in iris (can affect retina, choroid, optic nerve)</td></tr>
+        <tr><td>Persistent pupillary membrane</td><td>Pupillary membrane fails to regress before birth</td><td>Strands across the pupil. If it blocks the visual axis → <b>deprivation amblyopia</b></td></tr>
+        <tr><td>Drug-induced ear anomalies</td><td>External ear is very sensitive to first-trimester drug exposure (streptomycin, salicylates, thalidomide)</td><td>Pharyngeal and external ear malformations</td></tr>
+        <tr><td>Waardenburg syndrome</td><td>Autosomal dominant; neural crest (PAX3) defect affecting pigment cells</td><td>Congenital deafness + pigment abnormalities (white forelock)</td></tr>
+        <tr><td>Genetic hair-cell loss</td><td><b>POU4F3</b> (hair cell degeneration), <b>connexin 26</b> (supporting-cell gap junctions), <b>c-Kit</b> (stria vascularis)</td><td>Sensorineural hearing loss</td></tr>
+        <tr><td>Low-set / malformed ears</td><td>Auricular hillocks (arches 1–2) or failed upward shift with jaw growth</td><td>Marker of arch or chromosomal syndromes</td></tr>
+      </tbody></table></div>
+    <div class="hy"><span class="tag">HY · Step 1 add-ons (not in lecture)</span>
+      <ul><li><b>Cyclopia</b> sits on the <b>holoprosencephaly</b> spectrum (SHH mutation, trisomy 13, maternal diabetes, alcohol).</li>
+      <li><b>Aniridia</b> = <b>PAX6</b> mutation; part of <b>WAGR</b> (Wilms tumor, Aniridia, GU anomalies, intellectual disability, 11p13).</li>
+      <li><b>Congenital rubella</b>: cataracts, sensorineural deafness, PDA. <b>Congenital CMV</b>: most common infectious cause of hearing loss.</li>
+      <li>Lower-eyelid coloboma is a separate thing: it's a <b>Treacher Collins</b> sign (arch 1 NC), not a choroid fissure defect.</li></ul></div>
+  </article>
+
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">Extra</span><h3>Ear structure, histology and pathology</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q24</span><span>Which fluid fills the membranous labyrinth, and what is its key ion?</span></summary><div class="a">Endolymph, high in K⁺ (made by the stria vascularis). Perilymph, between the membranous and bony labyrinths, is high in Na⁺.</div></details></li><li><details><summary><span class="qn">Q25</span><span>Which cochlear compartment holds the Organ of Corti?</span></summary><div class="a">The scala media (cochlear duct), filled with endolymph.</div></details></li><li><details><summary><span class="qn">Q26</span><span>Inner vs outer hair cells: which transmits and which amplifies?</span></summary><div class="a">Inner hair cells transmit to the spiral ganglion; outer hair cells amplify.</div></details></li><li><details><summary><span class="qn">Q27</span><span>Maculae vs cristae ampullares: what does each sense?</span></summary><div class="a">Maculae (utricle, saccule): linear acceleration and gravity, using otoliths. Cristae (semicircular canals): rotation, using the cupula.</div></details></li><li><details><summary><span class="qn">Q28</span><span>What does each middle-ear muscle dampen?</span></summary><div class="a">Stapedius (VII): loud sounds. Tensor tympani (V3): the sound of chewing.</div></details></li><li><details><summary><span class="qn">Q29</span><span>Where is the cone of light in each ear?</span></summary><div class="a">5 o&#x27;clock in the right ear, 7 o&#x27;clock in the left.</div></details></li><li><details><summary><span class="qn">Q30</span><span>Which disease fixes the stapes, and what kind of hearing loss results?</span></summary><div class="a">Otosclerosis; conductive hearing loss.</div></details></li><li><details><summary><span class="qn">Q31</span><span>What causes Ménière disease vs BPPV?</span></summary><div class="a">Ménière: excess endolymph (hydrops). BPPV: otoliths dislodged into a semicircular canal.</div></details></li></ol></div>
+    <p class="note">This material was covered in last year's version of this lecture (Embryology &amp; Histology of the Ear) but isn't part of this year's lecture. Treat it as lower priority for this lecture. Ear histology is also covered in the Histology of the Eye &amp; Ear lecture.</p>
+    <p class="bottom-line">The inner ear has two fluids: <b>endolymph</b> inside the membranous labyrinth (high K⁺) and <b>perilymph</b> between the membranous and bony labyrinths (high Na⁺). Hair cells bend → channels open → K⁺ enters → depolarization → CN VIII.</p>
+    <div class="two">
+      <div><p class="sub">Cochlea (hearing)</p><ul>
+        <li><b>Scala vestibuli</b>: perilymph</li>
+        <li><b>Scala media</b> (cochlear duct): endolymph, made by the stria vascularis; holds the <b>Organ of Corti</b></li>
+        <li><b>Scala tympani</b>: perilymph</li>
+        <li>Organ of Corti: rows of hair cells (1 inner, 3 outer) with stereocilia in the <b>tectorial membrane</b>. <b>Inner</b> hair cells send the signal to the spiral ganglion; <b>outer</b> hair cells amplify it</li></ul></div>
+      <div><p class="sub">Vestibular (balance)</p><ul>
+        <li><b>Maculae</b> of utricle and saccule: <b>linear acceleration</b> and gravity. Stereocilia sit in an otolithic membrane loaded with <b>otoliths</b> (calcium carbonate)</li>
+        <li><b>Cristae ampullares</b> in the semicircular canal ampullae: <b>rotation</b>. Hair cells project into the <b>cupula</b>; endolymph lags behind during head turns and pushes on it</li>
+        <li>Bending <b>toward the kinocilium</b> → tip links open channels → K⁺ enters → depolarization → Ca²⁺ entry → neurotransmitter → CN VIII</li></ul></div>
+    </div>
+    <div class="flow" aria-label="Sound pathway"><span>External auditory meatus</span><i>→</i><span>tympanic membrane</span><i>→</i><span>malleus → incus → stapes</span><i>→</i><span>oval window</span><i>→</i><span>scala vestibuli</span><i>→</i><span>scala media (hair cells, by frequency)</span><i>→</i><span>scala tympani</span><i>→</i><span>round window</span></div>
+    <div class="two">
+      <div><p class="sub">Middle ear</p><ul>
+        <li><b>Stapedius</b> (CN VII): smallest muscle in the body; dampens loud sound</li>
+        <li><b>Tensor tympani</b> (V3): dampens the sound of chewing</li>
+        <li><b>Eustachian tube</b>: middle ear to nasopharynx; equalizes pressure across the eardrum</li>
+        <li><b>Chorda tympani</b> (VII) passes between the malleus and incus → taste, anterior 2/3 of tongue. CN VII compression in the middle ear → facial palsy ± taste loss</li></ul></div>
+      <div><p class="sub">External ear and eardrum</p><ul>
+        <li>Pinna: <b>elastic cartilage</b> + connective tissue</li>
+        <li>Canal: hair follicles, <b>sebaceous glands</b> (sebum), <b>ceruminous glands</b> (cerumen/wax)</li>
+        <li>Tympanic membrane: small <b>pars flaccida</b> at the top, larger <b>pars tensa</b> below (most perforations)</li>
+        <li>Handle of the malleus attaches centrally; the <b>umbo</b> makes the <b>cone of light</b>: <b>5 o'clock in the right ear, 7 o'clock in the left</b></li></ul></div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Disease</th><th>Region</th><th>Mechanism / presentation</th><th>Treatment</th></tr></thead>
+      <tbody>
+        <tr><td>Ménière disease</td><td>Inner</td><td>↑ Endolymph (<b>endolymphatic hydrops</b>) → membranes rupture and fluids mix → episodic vertigo, nausea, tinnitus, hearing loss</td><td>Low-salt diet, diuretics, physical therapy, labyrinthectomy</td></tr>
+        <tr><td>BPPV</td><td>Inner</td><td>Otoliths from the utricle/saccule slip into a semicircular canal → brief vertigo after head movement</td><td>Canalith repositioning (head maneuvers)</td></tr>
+        <tr><td>Hair-cell loss</td><td>Cochlea</td><td>Genetic (POU4F3, connexin 26, c-Kit), stereocilia bundle defects, loud noise</td><td>Hearing aids; cochlear implant (needs an intact auditory nerve)</td></tr>
+        <tr><td>Otitis media</td><td>Middle</td><td>Bacteria climb the eustachian tube from the nasopharynx</td><td>Antibiotics</td></tr>
+        <tr><td>Cholesteatoma</td><td>Middle</td><td>Squamous epithelium ("skin") grows through the eardrum into the middle ear; can erode bone</td><td>Surgical removal</td></tr>
+        <tr><td>Otosclerosis</td><td>Middle</td><td>Bony overgrowth fixes the <b>stapes</b> → conductive hearing loss; hereditary or hormonal (after pregnancy)</td><td>Stapedectomy with prosthesis (~9/10 restore hearing)</td></tr>
+        <tr><td>Auricular hematoma ("wrestler's ear")</td><td>External</td><td>Blunt trauma → blood under the perichondrium → cartilage overgrowth</td><td>Drain early (deformity likely after ~7 days)</td></tr>
+        <tr><td>Perichondritis / chondritis</td><td>External</td><td>Usually bacterial infection of perichondrium and cartilage</td><td>Antibiotics</td></tr>
+        <tr><td>Exostoses ("surfer's ear")</td><td>External</td><td>Dense bony growths in the canal from repeated cold water</td><td>Usually none, unless the canal is blocked</td></tr>
+        <tr><td>Cerumen impaction</td><td>External</td><td>Wax builds up; can block the canal and raise infection risk</td><td>Avoid pushing it deeper</td></tr>
+        <tr><td>Otitis externa</td><td>External</td><td>Outer ear infection; can perforate the eardrum</td><td>Depends on cause</td></tr>
+      </tbody></table></div>
+    <div class="hy"><span class="tag">HY · Step 1</span>
+      <ul><li><b>Conductive</b> loss (otosclerosis, otitis media, cerumen): Weber lateralizes <b>to</b> the bad ear; bone &gt; air (Rinne abnormal). <b>Sensorineural</b> loss (hair cells, Ménière): Weber lateralizes <b>away</b>; air &gt; bone.</li>
+      <li><b>Ménière triad</b>: episodic vertigo + tinnitus + sensorineural hearing loss (with ear fullness).</li>
+      <li><b>Cholesteatoma</b>: keratin-filled squamous debris behind the eardrum; painless otorrhea, conductive loss.</li>
+      <li>Ototoxic drugs: <b>aminoglycosides</b> (streptomycin, gentamicin), <b>cisplatin</b>, loop diuretics, high-dose salicylates.</li></ul></div>
+  </article>
+
+  <div class="vign" aria-label="HNSS18 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A mutation abolishes signaling from the optic vesicle to the overlying ectoderm. Which structure fails to form first?</p>
+      <ol class="opts"><li>Neural retina</li><li>Lens</li><li>Retinal pigment epithelium</li><li>Optic stalk</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> The optic vesicle induces surface ectoderm to form the lens placode. Without the lens vesicle, the cornea is affected next.</div></details></article>
+    <article><p><b>2.</b> Which structure forms from the same embryonic tissue as the neural retina?</p>
+      <ol class="opts"><li>Corneal stroma</li><li>Lens fibers</li><li>Sphincter pupillae muscle</li><li>Ciliary muscle</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Sphincter and dilator pupillae come from the anterior optic cup (neuroectoderm), like the retina. Corneal stroma and ciliary muscle are neural crest; lens is surface ectoderm.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS18 · Embryology of the Eye &amp; Ear · Revision 1.2 · Updated September 28, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
