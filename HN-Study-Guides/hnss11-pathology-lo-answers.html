@@ -1,0 +1,392 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eye Pathology LO Answers</title><meta name="description" content="HoyaDocs HNSS11 pathology learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Pathology · Updated Sep 29, 2026 · Revision 1.0</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss11" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS11 · 10 learning objectives</p>
+    <h1>Eye Pathology: Clinicopathologic Correlations</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Review the normal anatomy and histology of the eye</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>What are the three coats of the globe?</span></summary><div class="a">Outer fibrous coat (cornea + sclera), middle vascular coat = uvea (iris, ciliary body, choroid), inner neural coat (retina + RPE).</div></details></li><li><details><summary><span class="qn">Q2</span><span>Why does the uvea matter for pathology?</span></summary><div class="a">It is pigmented and highly vascular: the site of uveal (choroidal, ciliary body, iris) melanoma and of blood-borne metastases (lung, breast).</div></details></li><li><details><summary><span class="qn">Q3</span><span>Which retinal layers matter most for reading hemorrhage shapes?</span></summary><div class="a">Nerve fiber layer (fibers run parallel to the surface → flame/splinter hemorrhages) vs the deeper nuclear/plexiform layers (vertical columns → dot-blot hemorrhages). The outer plexiform layer is where edema and lipid (hard exudate) collect.</div></details></li><li><details><summary><span class="qn">Q4</span><span>What is a retinal detachment anatomically?</span></summary><div class="a">Separation of the neurosensory retina from the retinal pigment epithelium (RPE) — the plane of the embryonic optic vesicle cavity, a potential space.</div></details></li><li><details><summary><span class="qn">Q5</span><span>What is the blood supply of the retina?</span></summary><div class="a">Inner retina: central retinal artery (branch of the ophthalmic artery). Outer retina (photoreceptors): diffusion from the choriocapillaris.</div></details></li><li><details><summary><span class="qn">Q6</span><span>Where is the macula/fovea and why is it vulnerable?</span></summary><div class="a">Temporal to the disc; the fovea has only cones and no inner layers; the macula collects fluid easily (macular edema) and gives central, fine vision.</div></details></li></ol></div>
+    <p class="bottom-line">Three coats: <b>fibrous</b> (cornea/sclera) → <b>uvea</b> (iris, ciliary body, choroid — melanoma + metastases) → <b>retina</b> on the RPE. Detachment = retina lifting off the <b>RPE</b>. Hemorrhage shape tells you the <b>layer</b>.</p>
+<p class="sub">Layers and what goes wrong there</p>
+<div class="tbl"><table>
+ <thead><tr><th>Layer / structure</th><th>Normal role</th><th>Pathology to link</th></tr></thead>
+ <tbody>
+  <tr><td>Cornea / sclera</td><td>Protective fibrous coat</td><td>Scleral invasion = poor prognosis (melanoma, retinoblastoma)</td></tr>
+  <tr><td>Uvea: iris · ciliary body · choroid</td><td>Pigment + vascular supply</td><td>Uveal melanoma, nevi, Lisch nodules (iris), metastases</td></tr>
+  <tr><td>Nerve fiber layer (inner retina)</td><td>Ganglion cell axons → optic nerve</td><td><b>Flame</b> hemorrhages; <b>cotton wool spots</b> (axoplasmic swelling from ischemia)</td></tr>
+  <tr><td>Inner nuclear / plexiform layers</td><td>Signal relay</td><td><b>Dot-blot</b> hemorrhages; microaneurysms</td></tr>
+  <tr><td>Outer plexiform layer</td><td>Photoreceptor synapses</td><td>Edema + <b>hard exudates</b> (lipid)</td></tr>
+  <tr><td>Photoreceptors</td><td>Rods and cones</td><td>Retinoblastoma rosettes/fleurettes recapitulate them</td></tr>
+  <tr><td>RPE</td><td>Supports photoreceptors</td><td>Retinal detachment plane</td></tr>
+  <tr><td>Optic nerve head</td><td>Axons exit</td><td>Cupping (glaucoma), pallor (atrophy), swelling (papilledema)</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Flame = Fiber</b> layer (superficial, horizontal); <b>Dot-blot = Deep</b> (vertical columns).</p></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>List a differential diagnosis for retinal hemorrhage, optic neuropathy, intraocular mass and proptosis</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q7</span><span>What causes retinal hemorrhages, edema and exudates?</span></summary><div class="a">Diabetes, hypertension, vasculitis/infection, radiation retinopathy, blood disorders (leukemia, sickle cell). They share one pattern of microvascular injury.</div></details></li><li><details><summary><span class="qn">Q8</span><span>A 58-year-old with no known history has hemorrhages and exudates. Next step?</span></summary><div class="a">All of the above: check glucose, check blood pressure, work up vasculitis/infection and ask about head and neck radiation.</div></details></li><li><details><summary><span class="qn">Q9</span><span>What is the DDx of optic neuropathy by disc appearance?</span></summary><div class="a">Cupping = glaucoma. Pallor = non-glaucomatous atrophy (ischemic, compressive, etc.). Swelling = papilledema (raised ICP) or other causes (severe hypertension, infiltration by leukemia, metastasis, sarcoid).</div></details></li><li><details><summary><span class="qn">Q10</span><span>What is the DDx of an intraocular mass?</span></summary><div class="a">Adult: choroidal melanoma (most common primary), nevus, metastasis (lung, breast), leukemic/lymphomatous infiltrate. Child: retinoblastoma.</div></details></li><li><details><summary><span class="qn">Q11</span><span>What is the DDx of proptosis?</span></summary><div class="a">Graves disease (most common), idiopathic orbital inflammation (pseudotumor), tumor (primary or metastatic), infectious orbital cellulitis, systemic inflammation/vasculitis (sarcoidosis, GPA).</div></details></li></ol></div>
+    <p class="bottom-line">Four patterns to sort: <b>retinal hemorrhage</b> (DM, HTN, vasculitis, radiation, blood disorders) · <b>optic nerve</b> (cupped, pale, swollen) · <b>intraocular mass</b> (melanoma vs metastasis vs retinoblastoma) · <b>proptosis</b> (Graves, pseudotumor, tumor, cellulitis, sarcoid/GPA).</p>
+<p class="sub">DDx: retinal hemorrhage / exudate</p>
+<div class="tbl"><table>
+ <thead><tr><th>Cause</th><th>Vignette clues</th><th>Fundus clues</th></tr></thead>
+ <tbody>
+  <tr><td><b>Diabetic retinopathy</b></td><td>Obesity, ↑ glucose / HbA1c, CKD, MI</td><td>Microaneurysms, dot-blot hemorrhages, hard exudates, cotton wool spots; <b>neovascularization</b> if proliferative</td></tr>
+  <tr><td><b>Hypertensive retinopathy</b></td><td>LVH, heart failure, long-standing HTN; normal IOP</td><td><b>Arteriolar narrowing</b>, <b>AV nicking</b>, <b>flame</b> hemorrhages, copper/silver wiring; papilledema if malignant</td></tr>
+  <tr><td>Sickle cell retinopathy</td><td>Young Black patient, pain crises, <b>normal glucose</b></td><td><b>Peripheral</b> neovascularization ("sea fan")</td></tr>
+  <tr><td>Vasculitis / infection</td><td>Systemic symptoms, rash, ↑ ESR</td><td>Cotton wool spots, sheathed vessels</td></tr>
+  <tr><td>Radiation retinopathy</td><td>Prior head and neck radiation</td><td>Cotton wool spots, hemorrhages</td></tr>
+  <tr><td>Leukemia</td><td>Anemia, bruising, blasts</td><td>Hemorrhages (white-centered), infiltrates</td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: the optic disc</p>
+<div class="tbl"><table>
+ <thead><tr><th>Disc</th><th>Meaning</th><th>Causes / clues</th></tr></thead>
+ <tbody>
+  <tr><td><b>Cupped</b></td><td>Glaucomatous loss of axons</td><td>↑ IOP; peripheral field loss first</td></tr>
+  <tr><td><b>Pale</b></td><td>Non-glaucomatous atrophy</td><td>Ischemic, compressive (tumor), prior optic neuritis, trauma</td></tr>
+  <tr><td><b>Swollen</b> — bilateral</td><td>Papilledema</td><td>↑ ICP: headache worse lying down, vomiting, mass, IIH</td></tr>
+  <tr><td><b>Swollen</b> — other</td><td>Optic nerve swelling (not papilledema)</td><td>Severe HTN; infiltration (leukemia, metastases, sarcoid); optic neuritis</td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: intraocular mass</p>
+<div class="tbl"><table>
+ <thead><tr><th>Lesion</th><th>Who</th><th>Clues</th></tr></thead>
+ <tbody>
+  <tr><td><b>Choroidal melanoma</b></td><td>Adult (fair-skinned)</td><td>Pigmented (or not) dome/mushroom mass; may cause retinal detachment ("shade pulled across")</td></tr>
+  <tr><td>Nevus</td><td>Adult</td><td>Flat, small, stable; bland cytology</td></tr>
+  <tr><td><b>Metastasis</b></td><td>Adult with cancer history</td><td>Lung or breast; often <b>amelanotic</b>, multiple, bilateral; the most common intraocular tumor overall</td></tr>
+  <tr><td>Leukemia / lymphoma</td><td>Known heme malignancy</td><td>Infiltrates, vitreous cells</td></tr>
+  <tr><td><b>Retinoblastoma</b></td><td>Child</td><td><b>Leukocoria</b>, strabismus; calcified white mass</td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: proptosis</p>
+<div class="tbl"><table>
+ <thead><tr><th>Cause</th><th>Vignette clues</th><th>Pathology</th></tr></thead>
+ <tbody>
+  <tr><td><b>Graves disease</b></td><td>Bilateral; <b>palpitations, sweating, weight loss</b>; diplopia, lid retraction</td><td>Enlarged muscles (tendons spared): lymphocytes, <b>GAGs</b>, edema, then fibrosis</td></tr>
+  <tr><td>Idiopathic orbital inflammation (pseudotumor)</td><td>Painful, often unilateral; no thyroid or systemic disease; steroid-responsive</td><td>Mixed inflammation + fibrosis; diagnosis of exclusion</td></tr>
+  <tr><td><b>Orbital cellulitis</b></td><td>Fever, pain with eye movement, recent sinusitis</td><td><b>Neutrophils</b>, pus; can spread to the cavernous sinus</td></tr>
+  <tr><td>Lymphoma</td><td>Older adult, painless, slow</td><td>Monotonous lymphocytes (most common adult primary orbital malignancy)</td></tr>
+  <tr><td>Rhabdomyosarcoma</td><td>Child, rapid proptosis</td><td>Small round blue cells ± cross-striations; desmin/myogenin</td></tr>
+  <tr><td>Sarcoid / GPA</td><td>Hilar nodes, ↑ ACE / sinusitis, kidney disease, c-ANCA</td><td>Non-caseating granulomas / necrotizing granulomatous vasculitis</td></tr>
+ </tbody></table></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Metastasis is the most common intraocular malignancy overall; <b>choroidal melanoma</b> is the most common <b>primary</b> intraocular malignancy in adults.</li>
+ <li>Graves proptosis is caused by TSH-receptor antibodies activating orbital fibroblasts → GAG deposition.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Describe clinical and pathologic findings associated with diabetes mellitus</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q12</span><span>How important is diabetic retinopathy?</span></summary><div class="a">It is the #1 cause of blindness from ages 24 to 63.</div></details></li><li><details><summary><span class="qn">Q13</span><span>What are the two main causes of permanent vision loss in DR?</span></summary><div class="a">Macular edema and traction retinal detachment.</div></details></li><li><details><summary><span class="qn">Q14</span><span>What is the main cause of acute vision loss in DR?</span></summary><div class="a">Vitreous hemorrhage (from fragile new vessels).</div></details></li><li><details><summary><span class="qn">Q15</span><span>What is the pattern of injury?</span></summary><div class="a">Endothelial/pericyte damage → microaneurysms, hemorrhage and leaking vessels → edema (macula especially prone) → lipid precipitates (hard exudates).</div></details></li><li><details><summary><span class="qn">Q16</span><span>What is a hard exudate?</span></summary><div class="a">Yellow, waxy lipid/protein precipitate left behind when leaked edema fluid resorbs; collects in the outer plexiform layer, often ringing the macula.</div></details></li><li><details><summary><span class="qn">Q17</span><span>What separates non-proliferative from proliferative DR?</span></summary><div class="a">Proliferative DR has neovascularization (new vessels grow into the vitreous) driven by ischemia/VEGF; non-proliferative has microaneurysms, hemorrhages, exudates and edema only.</div></details></li><li><details><summary><span class="qn">Q18</span><span>What vignette labs fit PDR?</span></summary><div class="a">Long-standing DM with CKD and cardiovascular disease; HbA1c elevated (e.g., 9.6%).</div></details></li></ol></div>
+    <p class="bottom-line">DR: <b>pericyte/endothelial loss</b> → microaneurysms → leak → <b>macular edema</b> + <b>hard exudates</b> → ischemia → <b>neovascularization</b> → <b>vitreous hemorrhage</b> (acute loss) + <b>traction RD</b> (permanent loss).</p>
+<div class="flow"><span>Hyperglycemia</span><i>→</i><span>Pericyte + endothelial damage</span><i>→</i><span>Microaneurysms, dot-blot hemorrhage, leak</span><i>→</i><span>Macular edema + hard exudates</span><i>→</i><span>Capillary closure → ischemia → VEGF</span><i>→</i><span>Neovascularization</span><i>→</i><span>Vitreous hemorrhage · traction RD</span></div>
+<p class="sub">Vocabulary to recognize</p>
+<div class="tbl"><table>
+ <thead><tr><th>Term</th><th>What it is</th><th>Vision impact</th></tr></thead>
+ <tbody>
+  <tr><td>Microaneurysm</td><td>Outpouching of a capillary after pericyte loss (earliest sign)</td><td>None alone</td></tr>
+  <tr><td>Intraretinal hemorrhage</td><td>Dot-blot (deep) or flame (superficial)</td><td>Variable</td></tr>
+  <tr><td>Hard exudate</td><td>Lipid precipitate (yellow, sharp edges)</td><td>Marks leakage; near fovea → loss</td></tr>
+  <tr><td>Soft exudate (cotton wool spot)</td><td>Nerve fiber layer infarct</td><td>Usually minimal</td></tr>
+  <tr><td><b>Macular edema</b></td><td>Fluid in the macula</td><td><b>Permanent</b> central loss</td></tr>
+  <tr><td>Neovascularization</td><td>New vessels on retina/disc growing into vitreous</td><td>Leads to hemorrhage and traction</td></tr>
+  <tr><td><b>Vitreous hemorrhage</b></td><td>Bleeding from new vessels into vitreous</td><td><b>Acute</b> loss ("floaters", sudden blur)</td></tr>
+  <tr><td><b>Traction RD</b></td><td>Fibrovascular scar pulls the retina off</td><td><b>Permanent</b> loss; sudden field loss</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Acute</b> vision loss in a diabetic = <b>blood</b> (vitreous hemorrhage). <b>Permanent</b> = <b>M</b>acular edema + <b>T</b>raction (<b>"MT eyes"</b>).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Sorbitol (aldose reductase) accumulation damages pericytes → microaneurysms. Treat PDR/macular edema with anti-VEGF and laser.</li>
+ <li>Other eye effects of DM: cataracts (sorbitol in lens), CN III palsy with pupil sparing, and rubeosis iridis → neovascular glaucoma.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>List diseases associated with retinal neovascularization and characterize the pathologic process</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q19</span><span>What drives retinal neovascularization?</span></summary><div class="a">Retinal ischemia from capillary closure → VEGF and other angiogenic factors → new, fragile vessels.</div></details></li><li><details><summary><span class="qn">Q20</span><span>Where do the new vessels grow?</span></summary><div class="a">Into the vitreous cavity, NOT within the retina, on the retinal surface and optic disc.</div></details></li><li><details><summary><span class="qn">Q21</span><span>What are the consequences?</span></summary><div class="a">Fragile vessels bleed (vitreous hemorrhage) and scar (fibrovascular membranes) → traction retinal detachment, the end stage of proliferative DR.</div></details></li><li><details><summary><span class="qn">Q22</span><span>Which diseases cause it?</span></summary><div class="a">Diabetes (most common), sickle cell disease (peripheral &quot;sea fan&quot;), retinal vein occlusion, retinopathy of prematurity, radiation. The pattern applies beyond diabetes.</div></details></li><li><details><summary><span class="qn">Q23</span><span>A 30-year-old woman with abdominal pain and normal glucose has peripheral neovascularization. Diagnosis?</span></summary><div class="a">Sickle cell anemia (pain crisis + peripheral neovascularization + normal glucose).</div></details></li><li><details><summary><span class="qn">Q24</span><span>What is a cotton wool spot and how does it relate?</span></summary><div class="a">A &quot;soft exudate&quot;: a nerve fiber layer micro-infarct with swollen axons (cytoid bodies). A nonspecific sign of microvascular ischemia (DM, HTN, vasculitis, radiation, leukemia) that usually does not cause major vision loss.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Ischemia → VEGF → new vessels into the vitreous</b> → bleed (vitreous hemorrhage) and scar (traction RD). Causes: <b>diabetes</b>, <b>sickle cell</b> (peripheral), vein occlusion, prematurity, radiation.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Disease</th><th>Vignette clues</th><th>Distinguishing feature</th></tr></thead>
+ <tbody>
+  <tr><td><b>Proliferative DR</b></td><td>Long-standing DM, CKD, MI, ↑ HbA1c</td><td>Disc and posterior pole vessels; exudates, microaneurysms</td></tr>
+  <tr><td><b>Sickle cell</b></td><td>Young, pain crises, normal glucose</td><td><b>Peripheral</b> "sea fan" neovascularization</td></tr>
+  <tr><td>Central retinal vein occlusion</td><td>Older, HTN, sudden painless loss</td><td>"Blood and thunder" hemorrhages in all quadrants</td></tr>
+  <tr><td>Retinopathy of prematurity</td><td>Preterm infant on high O₂</td><td>Peripheral avascular retina; leukocoria in late stage</td></tr>
+  <tr><td>Radiation retinopathy</td><td>Prior head and neck radiation</td><td>Cotton wool spots, capillary loss</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Capillary closure</span><i>→</i><span>Ischemic retina</span><i>→</i><span>VEGF</span><i>→</i><span>Vessels grow <b>into vitreous</b></span><i>→</i><span>Bleed → vitreous hemorrhage</span><i>+</i><span>Scar → traction RD</span></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Retinopathy of prematurity is linked to supplemental O₂ → later relative hypoxia → VEGF.</li>
+ <li>Anti-VEGF drugs (bevacizumab, ranibizumab, aflibercept) treat neovascular eye disease and wet AMD.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 5</span><h3>Describe the clinical and pathologic findings in a patient with retinal detachment</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q25</span><span>What is retinal detachment?</span></summary><div class="a">Separation of the neurosensory retina from the RPE, with fluid in the subretinal space.</div></details></li><li><details><summary><span class="qn">Q26</span><span>How does it present?</span></summary><div class="a">Sudden, painless loss of part of the visual field (&quot;a shade or curtain pulled across&quot;), often preceded by flashes and floaters.</div></details></li><li><details><summary><span class="qn">Q27</span><span>What are the three mechanisms?</span></summary><div class="a">Rhegmatogenous (a retinal tear lets fluid in — myopia, trauma, aging vitreous), tractional (fibrovascular scar pulls — PDR, sickle cell) and exudative/serous (fluid under an intact retina — tumor such as melanoma, severe HTN, inflammation).</div></details></li><li><details><summary><span class="qn">Q28</span><span>A diabetic with worsening vision suddenly loses the upper half of the field. Mechanism?</span></summary><div class="a">Traction retinal detachment from proliferative diabetic retinopathy (upper field lost = inferior retina detached).</div></details></li><li><details><summary><span class="qn">Q29</span><span>How can a uveal mass cause RD?</span></summary><div class="a">A choroidal melanoma lifts the overlying retina (exudative detachment) → a &quot;curtain&quot; field defect.</div></details></li><li><details><summary><span class="qn">Q30</span><span>What happens to a detached retina histologically?</span></summary><div class="a">Photoreceptors lose their blood supply from the choriocapillaris and degenerate; the RPE can proliferate. Early reattachment preserves vision.</div></details></li></ol></div>
+    <p class="bottom-line">RD = retina off the <b>RPE</b> → sudden painless <b>"curtain"</b> field loss ± flashes/floaters. <b>Tear</b> (rhegmatogenous), <b>traction</b> (PDR, sickle) or <b>exudative</b> (tumor, HTN). Field defect is <b>opposite</b> the detached retina.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Type</th><th>Mechanism</th><th>Vignette clues</th></tr></thead>
+ <tbody>
+  <tr><td>Rhegmatogenous</td><td>Retinal tear → vitreous fluid under retina</td><td>Myopia, trauma, cataract surgery, older adult; flashes + floaters</td></tr>
+  <tr><td><b>Tractional</b></td><td>Fibrovascular scar contracts</td><td><b>Long-standing diabetic</b>, sickle cell; sudden field loss</td></tr>
+  <tr><td><b>Exudative (serous)</b></td><td>Fluid leaks under an intact retina</td><td><b>Choroidal melanoma</b> or other mass; malignant HTN; inflammation</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>Retina detaches in <b>T</b>hree ways: <b>T</b>ear, <b>T</b>raction, <b>T</b>umor (exudate).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Sudden painless monocular vision loss DDx: RD (curtain), central retinal artery occlusion (cherry-red spot), central retinal vein occlusion (blood and thunder), vitreous hemorrhage.</li>
+ <li>RD is an ophthalmic emergency, especially when the macula is still attached ("mac-on").</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 6</span><h3>Define papilledema and distinguish from optic nerve swelling</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q31</span><span>What is papilledema?</span></summary><div class="a">Optic disc swelling caused specifically by raised intracranial pressure, usually bilateral.</div></details></li><li><details><summary><span class="qn">Q32</span><span>How is it related to &quot;optic nerve swelling&quot;?</span></summary><div class="a">Papilledema is one cause of optic nerve swelling. Swelling is the broader finding; papilledema is the ICP-driven subset.</div></details></li><li><details><summary><span class="qn">Q33</span><span>What else swells the optic nerve?</span></summary><div class="a">Severe (malignant) hypertension and infiltration of the nerve by tumor or granuloma (leukemia, metastases, sarcoidosis); also optic neuritis and ischemic optic neuropathy.</div></details></li><li><details><summary><span class="qn">Q34</span><span>Why does raised ICP swell the disc?</span></summary><div class="a">The subarachnoid space extends along the optic nerve sheath; high CSF pressure blocks axoplasmic flow → axons swell at the disc.</div></details></li><li><details><summary><span class="qn">Q35</span><span>How does papilledema affect vision early?</span></summary><div class="a">Vision is often preserved early (enlarged blind spot, transient obscurations); chronic papilledema leads to atrophy.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Papilledema = disc swelling from ↑ ICP</b> (bilateral, vision spared early). It is only <b>one cause</b> of optic nerve swelling; others: <b>severe HTN</b>, <b>infiltration</b> (leukemia, metastasis, sarcoid), optic neuritis, ischemia.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Cause of disc swelling</th><th>Laterality</th><th>Vision</th><th>Vignette clues</th></tr></thead>
+ <tbody>
+  <tr><td><b>Papilledema</b> (↑ ICP)</td><td>Bilateral</td><td>Preserved early</td><td>Headache worse lying/morning, vomiting, CN VI palsy; tumor, IIH (young obese woman)</td></tr>
+  <tr><td>Malignant hypertension</td><td>Bilateral</td><td>Variable</td><td>BP ≫ 180/120, flame hemorrhages, cotton wool spots</td></tr>
+  <tr><td>Infiltration</td><td>Often unilateral</td><td>Reduced</td><td>Leukemia, metastases, sarcoidosis</td></tr>
+  <tr><td>Optic neuritis</td><td>Unilateral</td><td><b>Reduced</b> + painful eye movement</td><td>Young woman, MS, color desaturation, RAPD</td></tr>
+  <tr><td>Ischemic optic neuropathy</td><td>Unilateral</td><td>Sudden loss</td><td>Older, vasculopathy; giant cell arteritis (jaw claudication, ↑ ESR)</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>All papilledema is optic nerve swelling, but not all swelling is papilledema: <b>"papill-EDEMA = ICP-EDEMA."</b></p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Idiopathic intracranial hypertension: obese woman of childbearing age, headache, papilledema, normal imaging, ↑ opening pressure; vitamin A, tetracyclines. Treat with acetazolamide.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 7</span><h3>List causes of optic nerve atrophy</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q36</span><span>What does optic atrophy look like?</span></summary><div class="a">A pale optic disc — the sign of non-glaucomatous atrophy (lost axons and capillaries, gliosis).</div></details></li><li><details><summary><span class="qn">Q37</span><span>What are its causes?</span></summary><div class="a">Ischemic (anterior ischemic optic neuropathy, giant cell arteritis), compressive (pituitary adenoma, meningioma, orbital mass, Graves), inflammatory (optic neuritis/MS), chronic papilledema, trauma, toxic/nutritional and hereditary (e.g., Leber hereditary optic neuropathy).</div></details></li><li><details><summary><span class="qn">Q38</span><span>How is glaucomatous atrophy different?</span></summary><div class="a">Glaucoma causes cupping — an enlarged, excavated cup from axon loss — rather than a flat pale disc.</div></details></li><li><details><summary><span class="qn">Q39</span><span>Pathologically, what is glaucomatous cupping?</span></summary><div class="a">Loss of ganglion cell axons with posterior bowing of the lamina cribrosa; usually tied to raised intraocular pressure.</div></details></li></ol></div>
+    <p class="bottom-line">Optic nerve damage shows as <b>cupping</b> (glaucoma) or <b>pallor</b> (non-glaucomatous atrophy: <b>ischemic, compressive</b>, inflammatory, chronic papilledema, trauma, toxic, hereditary).</p>
+<div class="tbl"><table>
+ <thead><tr><th>Disc sign</th><th>Cause</th><th>Vignette clues</th></tr></thead>
+ <tbody>
+  <tr><td><b>Cupping</b></td><td>Glaucoma</td><td>↑ IOP, older, African descent, peripheral field loss; acute angle-closure = painful red eye, fixed mid-dilated pupil</td></tr>
+  <tr><td>Pallor — ischemic</td><td>AION, giant cell arteritis</td><td>Sudden loss; &gt;50, jaw claudication, ↑ ESR</td></tr>
+  <tr><td>Pallor — compressive</td><td>Pituitary adenoma, meningioma, orbital tumor, Graves</td><td>Slow progressive loss; bitemporal hemianopia (pituitary)</td></tr>
+  <tr><td>Pallor — inflammatory</td><td>Optic neuritis / MS</td><td>Young woman, prior painful vision loss</td></tr>
+  <tr><td>Pallor — other</td><td>Chronic papilledema, trauma, toxins (methanol), B12 deficiency, LHON</td><td>History gives it away</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Cup</b> = <b>C</b>hronic pressure (glaucoma). <b>Pale</b> = everything else (ischemia, compression).</p></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 8</span><h3>Describe the pathologic features of primary melanoma of the eye</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q40</span><span>Which intraocular malignancy is most common in adults?</span></summary><div class="a">Choroidal (uveal) melanoma — the most common primary intraocular malignancy in adults; the eye is the second most common site of primary melanoma after skin.</div></details></li><li><details><summary><span class="qn">Q41</span><span>Where in the uvea can melanoma arise?</span></summary><div class="a">Choroid (most common), ciliary body and iris — the uveal tract extends anteriorly to the iris.</div></details></li><li><details><summary><span class="qn">Q42</span><span>What are the key pathologic prognostic factors?</span></summary><div class="a">1) Basal diameter (not height); 2) scleral (extraocular) invasion; 3) cytology of the cells; 4) chromosome 3 loss/molecular changes. Color is NOT important.</div></details></li><li><details><summary><span class="qn">Q43</span><span>How does cytology change prognosis?</span></summary><div class="a">Callender classification: spindle cells = more favorable, epithelioid cells = worse, mixed = intermediate. Unlike cutaneous melanoma, cytology matters.</div></details></li><li><details><summary><span class="qn">Q44</span><span>How are nevi different from melanoma?</span></summary><div class="a">Nevi are more common, have more benign cytology, and are usually flat and stable.</div></details></li><li><details><summary><span class="qn">Q45</span><span>What are Lisch nodules?</span></summary><div class="a">Pigmented iris hamartomas — a variant of iris nevus — important for diagnosing neurofibromatosis type 1.</div></details></li><li><details><summary><span class="qn">Q46</span><span>How can you tell metastasis from amelanotic melanoma?</span></summary><div class="a">Metastases (lung, breast) are often multiple, bilateral, amelanotic and occur in a patient with a known cancer; pigment alone does not separate them — histology does.</div></details></li><li><details><summary><span class="qn">Q47</span><span>How does uveal melanoma spread?</span></summary><div class="a">Hematogenously (no lymphatics in the uvea) — mainly to the liver.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Choroidal melanoma</b> = most common adult <b>primary</b> intraocular malignancy. Prognosis: <b>basal diameter</b>, <b>scleral invasion</b>, <b>cytology</b> (epithelioid worse, spindle better), <b>chromosome 3</b>. <b>Color doesn't matter.</b> Spreads to <b>liver</b>.</p>
+<p class="sub">Uveal melanoma prognosis</p>
+<div class="tbl"><table>
+ <thead><tr><th>Factor</th><th>Worse</th><th>Better</th></tr></thead>
+ <tbody>
+  <tr><td>Basal diameter</td><td>Large</td><td>Small</td></tr>
+  <tr><td>Scleral / extraocular invasion</td><td>Present</td><td>Absent</td></tr>
+  <tr><td>Cytology (Callender)</td><td><b>Epithelioid</b></td><td><b>Spindle</b> (mixed = intermediate)</td></tr>
+  <tr><td>Molecular</td><td>Monosomy 3</td><td>Disomy 3</td></tr>
+  <tr><td>Color</td><td colspan="2"><b>Not prognostic</b></td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: pigmented or uveal lesion</p>
+<div class="tbl"><table>
+ <thead><tr><th>Lesion</th><th>Clues</th></tr></thead>
+ <tbody>
+  <tr><td>Choroidal melanoma</td><td>Dome or mushroom shape (breaks Bruch membrane); exudative RD; "shade across vision"</td></tr>
+  <tr><td>Iris melanoma</td><td>Growing pigmented iris lesion, distorted pupil; better prognosis</td></tr>
+  <tr><td>Uveal nevus</td><td>Flat, stable, bland cytology; common</td></tr>
+  <tr><td><b>Lisch nodules</b></td><td>Multiple small iris nodules + café-au-lait spots, neurofibromas → <b>NF1</b></td></tr>
+  <tr><td>Metastasis</td><td>Known lung/breast cancer; amelanotic, multiple, bilateral</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Epithelioid = Evil</b>, <b>Spindle = Safer</b>. Uveal melanoma loves the <b>liver</b> (no lymphatics).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Uveal melanoma: <b>GNAQ/GNA11</b> mutations; <b>BAP1</b> loss with monosomy 3 → metastasis (vs cutaneous: BRAF).</li>
+ <li>NF1 (chromosome 17, neurofibromin): café-au-lait spots, Lisch nodules, neurofibromas, optic gliomas, axillary freckling.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 9</span><h3>Characterize clinical and pathologic features of retinoblastoma</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q48</span><span>What is retinoblastoma?</span></summary><div class="a">The most common primary intraocular malignancy in children — potentially very lethal.</div></details></li><li><details><summary><span class="qn">Q49</span><span>How does it present?</span></summary><div class="a">Most commonly leukocoria (white pupillary reflex) and strabismus.</div></details></li><li><details><summary><span class="qn">Q50</span><span>What are the prognostic factors?</span></summary><div class="a">1) Tumor size and vitreous seeding; 2) optic nerve invasion (route to the brain); 3) extrascleral invasion; 4) tumor histology (differentiation).</div></details></li><li><details><summary><span class="qn">Q51</span><span>What are Flexner-Wintersteiner rosettes?</span></summary><div class="a">Tumor cells ringed around a central empty lumen — specific for retinoblastoma (photoreceptor differentiation).</div></details></li><li><details><summary><span class="qn">Q52</span><span>What are Homer-Wright rosettes?</span></summary><div class="a">Tumor cells around a central tangle of fibrillary neuropil, with no lumen — seen in retinoblastoma and also neuroblastoma, medulloblastoma and PNET.</div></details></li><li><details><summary><span class="qn">Q53</span><span>What are fleurettes?</span></summary><div class="a">A &quot;bouquet of flowers&quot; of cells recapitulating photoreceptors — the most differentiated pattern and a good prognostic sign.</div></details></li><li><details><summary><span class="qn">Q54</span><span>What is the genetics?</span></summary><div class="a">Loss of both copies of RB1 (13q14). Hereditary: germline mutation, bilateral, earlier onset, risk of osteosarcoma. Sporadic: unilateral, later.</div></details></li><li><details><summary><span class="qn">Q55</span><span>What does the gross tumor look like?</span></summary><div class="a">White, friable mass with calcification and necrosis; may grow into the vitreous (endophytic) or under the retina (exophytic).</div></details></li></ol></div>
+    <p class="bottom-line">Child + <b>leukocoria</b> (± strabismus) = <b>retinoblastoma</b> (RB1, 13q). Prognosis: size/<b>vitreous seeding</b>, <b>optic nerve</b> invasion, <b>extrascleral</b> spread, histology. Rosettes: <b>Flexner-Wintersteiner</b> (lumen, specific) · <b>Homer-Wright</b> (neuropil) · <b>fleurettes</b> (best prognosis).</p>
+<p class="sub">Rosettes and fleurettes</p>
+<div class="tbl"><table>
+ <thead><tr><th>Pattern</th><th>Center</th><th>Seen in</th><th>Meaning</th></tr></thead>
+ <tbody>
+  <tr><td><b>Flexner-Wintersteiner</b></td><td><b>Empty lumen</b></td><td>Retinoblastoma (± pineoblastoma)</td><td>Photoreceptor differentiation; characteristic of RB</td></tr>
+  <tr><td><b>Homer-Wright</b></td><td><b>Fibrillary neuropil</b>, no lumen</td><td>Retinoblastoma, <b>neuroblastoma</b>, medulloblastoma, PNET</td><td>Neuroblastic differentiation; less specific</td></tr>
+  <tr><td><b>Fleurettes</b></td><td>"Bouquet of flowers"</td><td>Retinoblastoma</td><td>Most differentiated → <b>good prognosis</b></td></tr>
+  <tr><td>Perivascular pseudorosette</td><td>Blood vessel</td><td>Ependymoma</td><td>(Compare — not RB)</td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: leukocoria (white pupil) in a child</p>
+<div class="tbl"><table>
+ <thead><tr><th>Cause</th><th>Clues</th></tr></thead>
+ <tbody>
+  <tr><td><b>Retinoblastoma</b></td><td>&lt;5 y, strabismus, family history, calcified mass</td></tr>
+  <tr><td>Congenital cataract</td><td>Lens opacity; TORCH (rubella), galactosemia</td></tr>
+  <tr><td>Retinopathy of prematurity</td><td>Preterm, oxygen therapy</td></tr>
+  <tr><td>Coats disease</td><td>Boy, unilateral, retinal telangiectasia + exudate</td></tr>
+  <tr><td>Toxocariasis</td><td>Puppy exposure, eosinophilia</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>F-W</b> has a <b>W</b>indow (lumen). <b>H-W</b> has <b>H</b>air (neuropil). <b>Fleurettes</b> are <b>F</b>avorable.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Knudson <b>two-hit</b> hypothesis: familial RB needs one somatic hit (bilateral, early); sporadic needs two.</li>
+ <li>Rb protein holds E2F (G1→S checkpoint); hypophosphorylated Rb = active. Survivors of hereditary RB → <b>osteosarcoma</b>.</li>
+ <li>Trilateral RB: bilateral RB + pineoblastoma.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 10</span><h3>Discuss the clinical and histopathologic differential diagnosis of some common diseases of the orbit</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q56</span><span>What is proptosis (exophthalmos)?</span></summary><div class="a">Forward protrusion of the globe from increased orbital contents — the orbit is a closed bony box open only in front.</div></details></li><li><details><summary><span class="qn">Q57</span><span>A 35-year-old man has bilateral diplopia, swelling and irritation, plus palpitations, sweating and weight loss. Diagnosis?</span></summary><div class="a">Graves disease (thyroid eye disease) — the most common cause of proptosis.</div></details></li><li><details><summary><span class="qn">Q58</span><span>What is the pathology of Graves orbitopathy?</span></summary><div class="a">Enlarged extraocular muscle bellies (inferior and medial rectus most affected; tendons spared) with lymphocytic infiltration, GAG deposition, edema and later fibrosis; orbital fat also expands.</div></details></li><li><details><summary><span class="qn">Q59</span><span>What is idiopathic orbital inflammation (orbital pseudotumor)?</span></summary><div class="a">Non-specific, non-infectious inflammation and fibrosis of orbital tissue, with no systemic cause — painful proptosis that responds to steroids; a diagnosis of exclusion.</div></details></li><li><details><summary><span class="qn">Q60</span><span>How is infectious orbital cellulitis recognized histologically?</span></summary><div class="a">Acute inflammation (neutrophils) and pus; clinically fever, pain on eye movement, often spread from ethmoid sinusitis.</div></details></li><li><details><summary><span class="qn">Q61</span><span>What is the most common primary orbital malignancy in adults?</span></summary><div class="a">Lymphoma (usually B-cell, MALT type).</div></details></li><li><details><summary><span class="qn">Q62</span><span>What is the most common malignant primary orbital tumor in children?</span></summary><div class="a">Rhabdomyosarcoma. It arises from orbital soft tissue, NOT from the extraocular muscles; histology ranges from primitive cells to cells with skeletal-muscle cross-striations.</div></details></li><li><details><summary><span class="qn">Q63</span><span>Why can so many tumor types occur in the orbit?</span></summary><div class="a">Many tissues live there — nerves, optic nerve, fat, soft tissue, muscles, lacrimal gland — plus invasion from sinuses, nasopharynx and cranial cavity, and metastases. Histology is often needed.</div></details></li></ol></div>
+    <p class="bottom-line">Proptosis: <b>Graves</b> (bilateral, hyperthyroid, fat muscle bellies) → <b>pseudotumor</b> (painful, idiopathic, steroid-responsive) → <b>cellulitis</b> (neutrophils, fever) → <b>tumor</b>: <b>lymphoma</b> (adult) · <b>rhabdomyosarcoma</b> (child) → <b>sarcoid/GPA</b>.</p>
+<p class="sub">DDx: orbital disease vignettes</p>
+<div class="tbl"><table>
+ <thead><tr><th>Disease</th><th>Who / onset</th><th>Vignette clues</th><th>Histology</th></tr></thead>
+ <tbody>
+  <tr><td><b>Graves orbitopathy</b></td><td>Adult, often woman; subacute</td><td><b>Bilateral</b>, lid retraction/lag, diplopia; palpitations, weight loss, tremor</td><td>Muscle bellies enlarged (tendons spared); lymphocytes, <b>GAGs</b>, edema → fibrosis</td></tr>
+  <tr><td><b>Idiopathic orbital inflammation</b></td><td>Adult; acute</td><td><b>Painful</b>, unilateral, no thyroid disease; rapid steroid response</td><td>Polymorphous inflammation + fibrosis</td></tr>
+  <tr><td><b>Orbital cellulitis</b></td><td>Child/adult; acute</td><td>Fever, <b>pain on eye movement</b>, ↓ vision, sinusitis</td><td><b>Neutrophils</b>, abscess</td></tr>
+  <tr><td><b>Lymphoma</b></td><td>Older adult; slow</td><td>Painless, "salmon patch" under conjunctiva</td><td>Sheets of monotonous lymphocytes</td></tr>
+  <tr><td><b>Rhabdomyosarcoma</b></td><td><b>Child</b>; rapid (weeks)</td><td>Fast unilateral proptosis, eyelid swelling</td><td>Small round blue cells ± <b>cross-striations</b>; desmin, myogenin</td></tr>
+  <tr><td>Capillary hemangioma</td><td>Infant</td><td>Grows then regresses</td><td>Capillary lobules</td></tr>
+  <tr><td>Cavernous hemangioma</td><td>Adult</td><td>Slow, painless, most common benign adult orbital tumor</td><td>Large dilated vascular channels</td></tr>
+  <tr><td>Sarcoid / GPA</td><td>Adult</td><td>Hilar nodes; sinusitis + glomerulonephritis + c-ANCA</td><td>Granulomas / necrotizing vasculitis</td></tr>
+  <tr><td>Metastasis</td><td>Child: <b>neuroblastoma</b> (raccoon eyes); adult: breast, lung</td><td>Known primary</td><td>Tumor-specific</td></tr>
+ </tbody></table></div>
+<p class="sub">Orbital tumors by age (don't memorize every one — know the headline)</p>
+<div class="two">
+ <div><p><b>Children</b></p><ul><li>Benign: lymphangioma, capillary hemangioma, dermoid, optic nerve glioma (NF1)</li><li>Malignant: <b>rhabdomyosarcoma</b>, histiocytosis X</li><li>Metastatic: neuroblastoma, leukemia</li></ul></div>
+ <div><p><b>Adults</b></p><ul><li>Benign: cavernous hemangioma, mucocele, optic nerve meningioma, lacrimal gland tumors</li><li>Malignant: <b>lymphoma</b>, lacrimal gland carcinoma, soft tissue tumors, neurofibroma, schwannoma</li></ul></div>
+</div>
+<div class="mem"><span class="tag">Memory hook</span><p>Graves muscles: "<b>I'M SLow</b>" — <b>I</b>nferior, <b>M</b>edial, <b>S</b>uperior, <b>L</b>ateral (order of involvement). Adult = <b>L</b>ymphoma; kid = <b>R</b>habdo.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Orbital cellulitis can spread through valveless ophthalmic veins to the <b>cavernous sinus</b> → thrombosis (CN III, IV, V1, V2, VI palsies).</li>
+ <li>Preseptal cellulitis: lid swelling but <b>normal eye movements</b> and vision.</li>
+ <li>Rhabdomyosarcoma: <b>desmin</b> and <b>myogenin/MyoD1</b> positive; embryonal type most common in the orbit.</li></ul></div>
+  </article>
+  <div class="vign" aria-label="HNSS11 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A 61-year-old woman has had declining vision in the right eye for months and then suddenly loses part of her field &quot;as though a shade were pulled across.&quot; Fundoscopy shows a pigmented uveal mass. Which feature of the tumor best predicts her prognosis?</p>
+      <ol class="opts"><li>Degree of pigmentation</li><li>Cell type (epithelioid vs spindle)</li><li>Tumor height</li><li>Presence of Lisch nodules</li><li>Vitreous seeding</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Uveal melanoma causing exudative retinal detachment. Cytology matters (epithelioid worse), along with basal diameter, scleral invasion and chromosome 3; color does not.</div></details></article>
+    <article><p><b>2.</b> A 68-year-old woman with LVH and heart failure has slowly declining vision and normal intraocular pressure. Fundoscopy shows arteriolar narrowing, flame hemorrhages, cotton wool spots and hard exudates. Underlying condition?</p>
+      <ol class="opts"><li>Diabetes mellitus</li><li>Hypertension</li><li>Cerebral edema</li><li>Retinitis pigmentosa</li><li>Sickle cell disease</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Arteriolar narrowing and AV changes + LVH/heart failure = hypertensive retinopathy.</div></details></article>
+    <article><p><b>3.</b> A 68-year-old on hemodialysis for 10 years who had an MI last year has worsening bilateral vision. The retina shows new vessels on the disc growing into the vitreous. Which lab value is most likely?</p>
+      <ol class="opts"><li>ANA 1:1024</li><li>Ferritin 555 ng/mL</li><li>HbA1c 9.6%</li><li>Renin 9 ng/mL/h</li><li>Cholesterol 265 mg/dL</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Proliferative diabetic retinopathy; CKD and CAD are diabetic complications.</div></details></article>
+    <article><p><b>4.</b> A 74-year-old obese man with fasting glucose 165 mg/dL and years of declining vision suddenly loses the upper half of his right visual field. Mechanism?</p>
+      <ol class="opts"><li>Uveal melanoma</li><li>Macular degeneration</li><li>Traction retinal detachment</li><li>Dendritic corneal ulcer</li><li>Retinitis pigmentosa</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Fibrovascular scarring from proliferative DR pulls the (inferior) retina off → superior field loss.</div></details></article>
+    <article><p><b>5.</b> A 2-year-old has a white pupillary reflex in photos and an inward-turning eye. The enucleated eye shows small blue cells arranged around central empty lumens. Which gene is mutated?</p>
+      <ol class="opts"><li>NF1</li><li>RB1</li><li>MYCN</li><li>TP53</li><li>GNAQ</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Leukocoria + strabismus + Flexner-Wintersteiner rosettes = retinoblastoma (RB1, 13q14).</div></details></article>
+    <article><p><b>6.</b> A 6-year-old develops rapidly progressive proptosis of the left eye over 3 weeks without fever. Biopsy shows primitive small round cells, some with cross-striations, positive for desmin and myogenin. Origin of this tumor?</p>
+      <ol class="opts"><li>Extraocular muscle</li><li>Orbital soft tissue</li><li>Lacrimal gland</li><li>Optic nerve</li><li>Metastasis from adrenal</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Rhabdomyosarcoma — the most common malignant primary orbital tumor in children — arises from orbital soft tissue, not the extraocular muscles.</div></details></article>
+    <article><p><b>7.</b> A 45-year-old woman has bilateral headaches worse in the morning, nausea and bilateral swollen optic discs with normal visual acuity. Best term for the disc finding?</p>
+      <ol class="opts"><li>Optic atrophy</li><li>Glaucomatous cupping</li><li>Papilledema</li><li>Optic neuritis</li><li>Ischemic optic neuropathy</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Bilateral disc swelling from raised ICP with preserved acuity = papilledema.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS11 · Eye Pathology · Revision 1.0 · Updated September 29, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>

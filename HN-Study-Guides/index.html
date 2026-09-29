@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Head &amp; Neck Study Guides</title>
-<meta name="description" content="HoyaDocs Block 5 HNSS — learning objective study guides for head and neck embryology, histology and neuro.">
+<meta name="description" content="HoyaDocs Block 5 HNSS — learning objective study guides for head and neck embryology, histology, neuro and pathology.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
@@ -20,6 +20,7 @@
   --emb:#C4631B; --emb-ink:#8A3F0A; --emb-soft:#FBE7D6;
   --his:#C2407A; --his-ink:#8C1F55; --his-soft:#F8DDEA;
   --neu:#6A55C9; --neu-ink:#3F2E91; --neu-soft:#E8E3F7;
+  --pat:#1F7A6B; --pat-ink:#0F5247; --pat-soft:#D8EFEA;
   --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
@@ -36,6 +37,7 @@
     --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
+    --pat:#4FC2AE; --pat-ink:#7AD6C5; --pat-soft:#14302B;
   }
 }
 :root[data-theme="dark"]{
@@ -49,6 +51,7 @@
     --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
+    --pat:#4FC2AE; --pat-ink:#7AD6C5; --pat-soft:#14302B;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ground);color:var(--ink)}
@@ -116,6 +119,7 @@ a{color:inherit}
 .disc{--a:var(--emb);--a-ink:var(--emb-ink);--a-soft:var(--emb-soft);display:flex;flex-direction:column;gap:16px}
 .disc.his{--a:var(--his);--a-ink:var(--his-ink);--a-soft:var(--his-soft)}
 .disc.neu{--a:var(--neu);--a-ink:var(--neu-ink);--a-soft:var(--neu-soft)}
+.disc.pat{--a:var(--pat);--a-ink:var(--pat-ink);--a-soft:var(--pat-soft)}
 .dhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:3px solid var(--a);padding-bottom:10px}
 .dhead .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--a-ink)}
 .dhead h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(34px,5vw,48px);line-height:.9;margin:2px 0 0;letter-spacing:.01em}
@@ -184,7 +188,7 @@ a.card:hover .go svg{transform:translateX(4px)}
   <header class="mast">
     <a class="brand" href="../../index.html">HoyaDocs <b>&middot;</b> Block 5</a>
     <div class="mastright">
-      <div class="tag">HNSS &middot; Rev 4 &middot; Updated Sep 29, 2026</div>
+      <div class="tag">HNSS &middot; Rev 5 &middot; Updated Sep 29, 2026</div>
       <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
     </div>
   </header>
@@ -203,9 +207,9 @@ a.card:hover .go svg{transform:translateX(4px)}
     <h1>Head &amp; Neck Study Guides</h1>
     <p>Every learning objective, answered. Each LO opens with the one-line answer, then the detail you need for in-house questions. Yellow boxes are high-yield Step 1 add-ons.</p>
     <div class="stats">
-      <div><b>45</b><small>LOs answered</small></div>
-      <div><b>8</b><small>Guides live</small></div>
-      <div><b>3</b><small>Subjects</small></div>
+      <div><b>69</b><small>LOs answered</small></div>
+      <div><b>12</b><small>Guides live</small></div>
+      <div><b>4</b><small>Subjects</small></div>
     </div>
   </section>
 
@@ -222,6 +226,7 @@ a.card:hover .go svg{transform:translateX(4px)}
       <button type="button" data-f="emb" aria-pressed="false" style="--dot:var(--emb)"><i></i>Embryology</button>
       <button type="button" data-f="his" aria-pressed="false" style="--dot:var(--his)"><i></i>Histology</button>
       <button type="button" data-f="neu" aria-pressed="false" style="--dot:var(--neu)"><i></i>Neuro</button>
+      <button type="button" data-f="pat" aria-pressed="false" style="--dot:var(--pat)"><i></i>Pathology</button>
     </div>
     <label class="search">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="4.8"/><path d="m10.6 10.6 3.6 3.6"/></svg>
@@ -394,11 +399,67 @@ a.card:hover .go svg{transform:translateX(4px)}
     </div>
   </section>
 
+  <section class="disc pat" data-d="pat" id="pathology">
+    <div class="dhead">
+      <div>
+        <div class="k">Disease of the eye, orbit, head &amp; neck</div>
+        <h2>Pathology</h2>
+      </div>
+      <div class="lecs"><span><b>HNSS11</b>Eye Pathology</span><span><b>HNSS15</b>Head &amp; Neck Pathology</span><span><b>HNSS16</b>H&amp;N Path Lab</span></div>
+    </div>
+    <a class="one" href="Pathology%20Study%20Guides/HoyaDocs_HNSS_Pathology_LO_Answers.html">
+      <div class="ico" aria-hidden="true">ALL</div>
+      <div>
+        <div class="kicker">★ All 3 Lectures &middot; One Guide</div>
+        <h3>Complete Pathology LO Answers</h3>
+        <p>HNSS11, HNSS15 and HNSS16 together: all 24 learning objectives with DDx tables, vignette clues, high-yield boxes and application questions.</p>
+      </div>
+      <span class="btn">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </a>
+    <div class="grid">
+      <a class="card" href="Pathology%20Study%20Guides/hnss11-pathology-lo-answers.html">
+        <div class="top">
+          <div class="badge"><small>HNSS</small><b>11</b></div>
+          <div>
+            <div class="sub">Eye &middot; Orbit</div>
+            <h3>Eye Pathology</h3>
+            <p>Retinal hemorrhage, diabetic retinopathy and neovascularization, retinal detachment, the optic disc, uveal melanoma, retinoblastoma and proptosis.</p>
+          </div>
+        </div>
+        <div class="chips"><span>Diabetic retinopathy</span><span>Retinal detachment</span><span>Papilledema</span><span>Uveal melanoma</span><span>Retinoblastoma</span><span>Proptosis DDx</span></div>
+        <div class="foot2"><span class="tag">10 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+      <a class="card" href="Pathology%20Study%20Guides/hnss15-pathology-lo-answers.html">
+        <div class="top">
+          <div class="badge"><small>HNSS</small><b>15</b></div>
+          <div>
+            <div class="sub">Head &amp; Neck</div>
+            <h3>Head &amp; Neck Pathology</h3>
+            <p>White and red oral patches, HPV vs non-HPV SCC, nasal and nasopharyngeal masses, hoarseness and salivary gland tumors.</p>
+          </div>
+        </div>
+        <div class="chips"><span>Leuko- &amp; erythroplakia</span><span>HPV SCC</span><span>Angiofibroma</span><span>NPC</span><span>Laryngeal lesions</span><span>Salivary tumors</span></div>
+        <div class="foot2"><span class="tag">6 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+      <a class="card" href="Pathology%20Study%20Guides/hnss16-pathology-lo-answers.html">
+        <div class="top">
+          <div class="badge"><small>HNSS</small><b>16</b></div>
+          <div>
+            <div class="sub">Slide Recognition</div>
+            <h3>H&amp;N Path Lab</h3>
+            <p>What each lesion looks like on the slide, epistaxis vs obstruction vs hoarseness, salivary tumors, and branchial vs thyroglossal cysts.</p>
+          </div>
+        </div>
+        <div class="chips"><span>Keratinizing vs basaloid</span><span>Inverted papilloma</span><span>Pleomorphic adenoma</span><span>Warthin</span><span>Adenoid cystic</span><span>Neck cysts</span></div>
+        <div class="foot2"><span class="tag">8 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+    </div>
+  </section>
   <div class="empty" id="empty">No guide matches that. Try a broader word, such as "ear" or "palate".</div>
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; Block 5 &middot; HNSS &middot; Head &amp; Neck Study Guides</div>
-    <div class="tag">Rev 4 &middot; Updated Sep 29, 2026</div>
+    <div class="tag">Rev 5 &middot; Updated Sep 29, 2026</div>
   </footer>
 
 </div>

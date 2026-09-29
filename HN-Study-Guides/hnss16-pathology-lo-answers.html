@@ -1,0 +1,304 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H&amp;N Path Lab LO Answers</title><meta name="description" content="HoyaDocs HNSS16 pathology learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Pathology · Updated Sep 29, 2026 · Revision 1.0</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss16" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS16 · 8 learning objectives</p>
+    <h1>Head &amp; Neck Pathology Lab</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Review histology of structures located in the oral cavity</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>What lines the oral cavity?</span></summary><div class="a">Stratified squamous epithelium — keratinized on the gingiva, hard palate and dorsal tongue (masticatory mucosa); non-keratinized on the cheek, floor of mouth, ventral tongue and soft palate (lining mucosa).</div></details></li><li><details><summary><span class="qn">Q2</span><span>What does a normal tongue section show?</span></summary><div class="a">Squamous mucosa with papillae on the dorsum over interlacing bundles of skeletal muscle running in three planes, with scattered minor salivary glands.</div></details></li><li><details><summary><span class="qn">Q3</span><span>What does a normal mixed salivary gland look like?</span></summary><div class="a">Lobules of pale, foamy mucous acini and darker, granular serous acini (serous demilunes) draining into intercalated, striated and excretory ducts.</div></details></li><li><details><summary><span class="qn">Q4</span><span>Which major gland is which?</span></summary><div class="a">Parotid = purely serous (with fat); submandibular = mixed, mostly serous; sublingual = mixed, mostly mucous.</div></details></li><li><details><summary><span class="qn">Q5</span><span>Why does the normal histology matter for reading slides?</span></summary><div class="a">Every lesion is read as a departure from normal: thickened keratin (leukoplakia), loss of maturation (dysplasia), invasion through the basement membrane (SCC), lost acini with lymphocytes (sialadenitis, Sjögren).</div></details></li></ol></div>
+    <p class="bottom-line">Oral mucosa = <b>stratified squamous</b> (keratinized where it chews). Tongue = squamous papillae over <b>skeletal muscle in three planes</b>. Salivary: <b>parotid serous</b>, submandibular mixed (mostly serous), <b>sublingual mostly mucous</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Normal slide</th><th>What you see</th><th>Lesions built on it</th></tr></thead>
+ <tbody>
+  <tr><td>Tongue</td><td>Papillated squamous surface; skeletal muscle bundles cut in 3 planes; minor glands</td><td>Leukoplakia, erythroplakia, SCC, hairy leukoplakia</td></tr>
+  <tr><td>Mixed salivary gland</td><td>Pale mucous acini + dark serous acini/demilunes; ducts</td><td>Sialadenitis, Sjögren, salivary tumors</td></tr>
+  <tr><td>Oral squamous mucosa</td><td>Orderly maturation: basal → spinous → flattened surface</td><td>Dysplasia = loss of maturation, atypia moving upward</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>Salivary glands, big to small: <b>P</b>arotid = <b>P</b>ure serous; <b>S</b>ub<b>L</b>ingual = <b>S</b>lime (mucous).</p></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Compare and contrast leukoplakia and erythroplakia and characterize their importance in the pathogenesis of oral cancer</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q6</span><span>What does leukoplakia look like on the slide?</span></summary><div class="a">Thick surface keratin (hyperkeratosis) with acanthosis; may show dysplasia — atypical cells rising above the basal layer. Severe dysplasia shows full-thickness atypia short of invasion.</div></details></li><li><details><summary><span class="qn">Q7</span><span>What does erythroplakia look like on the slide?</span></summary><div class="a">Thin, atrophic epithelium with marked dysplasia or carcinoma in situ and prominent vessels underneath — no thick keratin, so the vessels show through as red.</div></details></li><li><details><summary><span class="qn">Q8</span><span>Why is one white and one red?</span></summary><div class="a">Keratin makes a lesion white (leukoplakia); thin epithelium over congested vessels makes it red (erythroplakia).</div></details></li><li><details><summary><span class="qn">Q9</span><span>Which is more dangerous?</span></summary><div class="a">Erythroplakia — almost always dysplastic or worse. Leukoplakia is premalignant in 5–25%.</div></details></li><li><details><summary><span class="qn">Q10</span><span>How does candidiasis look on the slide, and why include it?</span></summary><div class="a">Pseudohyphae and yeast in the surface keratin (PAS/GMS). It is a white patch that scrapes off — the key mimic of leukoplakia.</div></details></li><li><details><summary><span class="qn">Q11</span><span>Where does dysplasia lead?</span></summary><div class="a">Mild → moderate → severe dysplasia → carcinoma in situ → invasive SCC; the grade does not reliably predict invasion, so these lesions need biopsy.</div></details></li></ol></div>
+    <p class="bottom-line"><b>White = keratin</b> (leukoplakia; 5–25% premalignant). <b>Red = thin, dysplastic epithelium over vessels</b> (erythroplakia; almost always dysplasia/CIS). Candida is the white patch that <b>scrapes off</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Candidiasis</th><th>Leukoplakia</th><th>Erythroplakia</th></tr></thead>
+ <tbody>
+  <tr><td>Color</td><td>White, curd-like</td><td>White plaque</td><td>Red, velvety</td></tr>
+  <tr><td>Scrapes off?</td><td><b>Yes</b></td><td>No</td><td>No</td></tr>
+  <tr><td>Epithelium</td><td>Surface fungus + neutrophils</td><td><b>Thick</b>: hyperkeratosis ± dysplasia</td><td><b>Thin</b>, atrophic, severe dysplasia/CIS</td></tr>
+  <tr><td>Stain</td><td>PAS / GMS pseudohyphae</td><td>H&amp;E</td><td>H&amp;E</td></tr>
+  <tr><td>Risk of SCC</td><td>None</td><td>5–25%</td><td><b>Highest</b></td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Normal mucosa</span><i>→</i><span>Hyperkeratosis</span><i>→</i><span>Mild / moderate / severe dysplasia</span><i>→</i><span>Carcinoma in situ</span><i>→ breaks basement membrane →</i><span>Invasive SCC</span></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Dysplasia = disordered maturation, ↑ N:C ratio, mitoses above the basal layer; <b>reversible</b> until invasion.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Describe the pathophysiology of squamous cell carcinoma (SCC) in the head and neck region and correlate with prognosis</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q12</span><span>What drives conventional (HPV-negative) head and neck SCC?</span></summary><div class="a">Tobacco and alcohol (synergistic) → field cancerization with TP53 mutation, CDKN2A (p16) loss and other hits, stepping from dysplasia to invasive carcinoma.</div></details></li><li><details><summary><span class="qn">Q13</span><span>What drives HPV-positive SCC?</span></summary><div class="a">High-risk HPV (mostly HPV-16) in the tonsils/base of tongue: E6 degrades p53 and E7 inactivates Rb, so p16 is overexpressed.</div></details></li><li><details><summary><span class="qn">Q14</span><span>What does keratinizing SCC look like?</span></summary><div class="a">Invasive nests of eosinophilic squamous cells with keratin pearls and intercellular bridges, often with desmoplastic stroma. Grossly, an ulcerated, firm base-of-tongue mass.</div></details></li><li><details><summary><span class="qn">Q15</span><span>What does non-keratinizing (HPV) SCC look like?</span></summary><div class="a">Nests and sheets of basaloid cells with little keratin, often with central necrosis, arising from tonsillar crypt epithelium; strong diffuse p16.</div></details></li><li><details><summary><span class="qn">Q16</span><span>What predicts prognosis?</span></summary><div class="a">Stage (size, nodes, distant spread) is most important; HPV-positive tumors do much better; tobacco-related tumors have field cancerization and second primaries.</div></details></li><li><details><summary><span class="qn">Q17</span><span>Why do head and neck SCC patients get second cancers?</span></summary><div class="a">Field cancerization: the whole mucosa exposed to carcinogens carries mutations, so new primaries arise (about 3–7% per year).</div></details></li></ol></div>
+    <p class="bottom-line">Two roads to SCC: <b>tobacco + alcohol</b> (TP53, p16 loss, keratinizing, field cancerization) vs <b>HPV-16</b> (E6→p53, E7→Rb, <b>p16+</b>, non-keratinizing basaloid). <b>Stage</b> drives prognosis; <b>HPV+ is better</b>.</p>
+<div class="two">
+ <div><p><b>Keratinizing SCC (slide)</b></p><ul><li>Pink nests invading stroma</li><li><b>Keratin pearls</b>, intercellular bridges</li><li>Oral cavity, larynx; smokers</li></ul></div>
+ <div><p><b>Non-keratinizing SCC (slide)</b></p><ul><li>Blue, <b>basaloid</b> nests, little keratin</li><li>Central necrosis; crypt origin</li><li>Tonsil, base of tongue; <b>p16+</b></li></ul></div>
+</div>
+<div class="flow"><span>Carcinogen or HPV</span><i>→</i><span>p53 / Rb pathways lost</span><i>→</i><span>Dysplasia → CIS</span><i>→</i><span>Invasion</span><i>→</i><span>Cervical nodes (level II)</span><i>→</i><span>Distant (lung)</span></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>HPV E6 → p53 degradation; E7 → Rb inactivation → p16 ↑ (a surrogate marker).</li>
+ <li>First nodal stop for most oropharyngeal SCC: jugulodigastric (level II) node.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>Describe the clinical features and outcome of the two main types of SCC</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q18</span><span>Who gets HPV-positive oropharyngeal SCC?</span></summary><div class="a">Younger (often 40s–50s) patients, men more than women, often non-smokers, linked to number of oral sex partners.</div></details></li><li><details><summary><span class="qn">Q19</span><span>How does it present?</span></summary><div class="a">Commonly a painless, enlarging (often cystic) neck node with a small or hidden primary in the tonsil or base of tongue.</div></details></li><li><details><summary><span class="qn">Q20</span><span>Who gets HPV-negative SCC?</span></summary><div class="a">Older patients with heavy tobacco and alcohol use; oral cavity, larynx, hypopharynx.</div></details></li><li><details><summary><span class="qn">Q21</span><span>How do outcomes compare?</span></summary><div class="a">HPV-positive: better response to therapy and better survival. HPV-negative: worse survival, more second primaries.</div></details></li><li><details><summary><span class="qn">Q22</span><span>What is the site difference?</span></summary><div class="a">HPV-positive: oropharynx (tonsils, base of tongue). HPV-negative: oral cavity (floor of mouth, ventral/lateral tongue), larynx.</div></details></li></ol></div>
+    <p class="bottom-line"><b>HPV+</b>: younger, non-smoker, <b>oropharynx</b>, small primary + <b>big cystic node</b>, non-keratinizing, p16+, <b>better outcome</b>. <b>HPV−</b>: older smoker/drinker, oral cavity/larynx, keratinizing, <b>worse</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>HPV-positive SCC</th><th>HPV-negative SCC</th></tr></thead>
+ <tbody>
+  <tr><td>Patient</td><td>Younger, often non-smoker</td><td>Older, tobacco + alcohol</td></tr>
+  <tr><td>Site</td><td><b>Oropharynx</b>: tonsil, base of tongue</td><td>Oral cavity, larynx, hypopharynx</td></tr>
+  <tr><td>Presentation</td><td>Small primary, <b>large (cystic) neck node</b></td><td>Ulcer, pain, dysphagia, leukoplakia/erythroplakia history</td></tr>
+  <tr><td>Histology</td><td><b>Non-keratinizing</b>, basaloid</td><td><b>Keratinizing</b>, pearls</td></tr>
+  <tr><td>Molecular</td><td>HPV-16 E6/E7; <b>p16+</b>; TP53 wild-type</td><td>TP53 mutation; p16 lost</td></tr>
+  <tr><td>Precursor</td><td>No visible precursor</td><td>Dysplasia, leuko/erythroplakia</td></tr>
+  <tr><td>Outcome</td><td><b>Better</b></td><td>Worse; second primaries</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>HPV = Hidden primary, Positive p16, Promising Prognosis.</b></p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>A cystic lateral neck mass in an adult over 40 is <b>metastatic HPV SCC</b> until proven otherwise — not a branchial cleft cyst.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 5</span><h3>Describe the etiology, clinical and pathologic features and behavior of juvenile nasopharyngeal angiofibroma, sinonasal papilloma, nasopharyngeal carcinoma, laryngeal papillomas and SCC</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q23</span><span>What does angiofibroma look like on the slide?</span></summary><div class="a">Dense, collagen-rich fibrous stroma with stellate fibroblasts and many thin-walled, staghorn-like vessels lacking muscle — they cannot contract, so they bleed.</div></details></li><li><details><summary><span class="qn">Q24</span><span>Who gets angiofibroma and how does it behave?</span></summary><div class="a">Adolescent males; recurrent epistaxis and obstruction; benign but locally aggressive; β-catenin/APC pathway; surgery can cause brisk bleeding.</div></details></li><li><details><summary><span class="qn">Q25</span><span>What does inverted sinonasal papilloma look like?</span></summary><div class="a">Thick nests of squamous/transitional epithelium growing downward (&quot;inverted&quot;) into the stroma, with intraepithelial neutrophils and microcysts; lateral nasal wall/sinus; HPV-related in some.</div></details></li><li><details><summary><span class="qn">Q26</span><span>How does inverted papilloma behave?</span></summary><div class="a">Recurs often and can transform to SCC (~10%) — so resect completely.</div></details></li><li><details><summary><span class="qn">Q27</span><span>What does non-keratinizing nasopharyngeal carcinoma look like?</span></summary><div class="a">Syncytial sheets of large cells with vesicular nuclei and big nucleoli mixed with many lymphocytes (lymphoepithelial pattern); EBV-positive (EBER).</div></details></li><li><details><summary><span class="qn">Q28</span><span>Who gets NPC and how does it present?</span></summary><div class="a">Southern Chinese and North/East African populations; EBV; often an enlarged neck node, epistaxis, obstruction, unilateral serous otitis (eustachian tube); radiosensitive.</div></details></li><li><details><summary><span class="qn">Q29</span><span>What does a laryngeal papilloma look like?</span></summary><div class="a">Finger-like fronds of benign squamous epithelium over fibrovascular cores; koilocytes; HPV 6/11.</div></details></li><li><details><summary><span class="qn">Q30</span><span>How do juvenile and adult papillomas differ?</span></summary><div class="a">Juvenile: multiple (papillomatosis), from birth-canal exposure, frequently recur, often regress at puberty. Adult: usually single, may recur.</div></details></li><li><details><summary><span class="qn">Q31</span><span>What does laryngeal SCC look like grossly and microscopically?</span></summary><div class="a">Ulcerated, fungating mass of the true cord (glottis) that invades into the larynx; microscopically, keratinizing SCC; smokers, persistent hoarseness.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Angiofibroma</b>: teen boy, bleeds, collagen + thin vessels. <b>Inverted papilloma</b>: epithelium grows <b>inward</b>, recurs, ~10% → SCC. <b>NPC</b>: EBV, lymphocyte-rich syncytium, neck node. <b>Laryngeal papilloma</b>: HPV 6/11 fronds; juvenile multiple and recurrent. <b>Laryngeal SCC</b>: smoker, true cord, keratinizing.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Lesion</th><th>Who</th><th>Cause</th><th>Slide clue</th><th>Behavior</th></tr></thead>
+ <tbody>
+  <tr><td><b>Juvenile nasopharyngeal angiofibroma</b></td><td><b>Adolescent male</b></td><td>β-catenin / APC</td><td>Collagen + <b>thin-walled staghorn vessels</b></td><td>Benign, locally destructive; bleeds</td></tr>
+  <tr><td><b>Inverted sinonasal papilloma</b></td><td>Adult man, 40–60</td><td>± HPV</td><td>Epithelial nests growing <b>inward</b>; neutrophils, microcysts</td><td><b>Recurs</b>; ~10% → SCC</td></tr>
+  <tr><td>Exophytic sinonasal papilloma</td><td>Adult</td><td>HPV 6/11</td><td>Outward fronds on the septum</td><td>Rarely malignant</td></tr>
+  <tr><td>Oncocytic sinonasal papilloma</td><td>Older adult</td><td>—</td><td>Pink oncocytic multilayered cells</td><td>Can → carcinoma</td></tr>
+  <tr><td><b>Nasopharyngeal carcinoma</b></td><td>S. Chinese, N./E. African; bimodal</td><td><b>EBV</b></td><td>Syncytial large cells + <b>lymphocytes</b>; EBER+</td><td>Early node spread; radiosensitive</td></tr>
+  <tr><td><b>Laryngeal papilloma</b></td><td>Child (juvenile) or adult</td><td><b>HPV 6/11</b></td><td>Squamous fronds on <b>fibrovascular cores</b>; koilocytes</td><td>Juvenile: multiple, recur, regress at puberty</td></tr>
+  <tr><td>Singer's nodule</td><td>Voice overuse</td><td>Trauma</td><td>Smooth nodule; edematous/myxoid stroma, fibrin</td><td>Benign; voice rest</td></tr>
+  <tr><td><b>Laryngeal SCC</b></td><td>Older smoker</td><td>Tobacco, alcohol</td><td>Keratinizing SCC; fungating cord mass</td><td>Glottic: early hoarseness → better prognosis</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Angio</b>fibroma = <b>A</b>dolescent boy, <b>A</b>rteries (bleed). <b>Inverted</b> papilloma goes <b>In</b> (and comes back). N<b>P</b>C = E<b>B</b>V + lym<b>P</b>hocytes.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>EBV: NPC, Burkitt, Hodgkin, hairy leukoplakia, PTLD. HPV 6/11: laryngeal papilloma and condyloma; HPV 16/18: carcinoma.</li>
+ <li>Laryngeal SCC by site: glottic (most common, hoarse early, rarely spreads to nodes — few lymphatics), supraglottic (more nodes), subglottic.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 6</span><h3>Compare the nose and upper airway lesions that predominantly present with epistaxis, obstruction or hoarseness</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q32</span><span>Which lesions present mainly with epistaxis?</span></summary><div class="a">Juvenile nasopharyngeal angiofibroma (plus obstruction), pyogenic granuloma (lobular capillary hemangioma — pregnant women, septum) and nasopharyngeal carcinoma.</div></details></li><li><details><summary><span class="qn">Q33</span><span>Which lesions present mainly with obstruction?</span></summary><div class="a">Sinonasal (inverted) papilloma, nasal polyps, angiofibroma and nasopharyngeal carcinoma (with a unilateral serous otitis).</div></details></li><li><details><summary><span class="qn">Q34</span><span>Which lesions present with hoarseness?</span></summary><div class="a">Singer&#x27;s nodules (reactive), laryngeal polyps, laryngeal papillomas (juvenile or adult) and laryngeal SCC.</div></details></li><li><details><summary><span class="qn">Q35</span><span>Unilateral nasal obstruction + epistaxis in a teenage boy?</span></summary><div class="a">Juvenile nasopharyngeal angiofibroma.</div></details></li><li><details><summary><span class="qn">Q36</span><span>Unilateral nasal obstruction in a 50-year-old man with a recurring mass after excision?</span></summary><div class="a">Inverted sinonasal papilloma.</div></details></li><li><details><summary><span class="qn">Q37</span><span>Neck mass + ear fullness in a Chinese-born adult?</span></summary><div class="a">Nasopharyngeal carcinoma (EBV).</div></details></li><li><details><summary><span class="qn">Q38</span><span>Hoarse child with noisy breathing?</span></summary><div class="a">Juvenile laryngeal papillomatosis (HPV 6/11).</div></details></li><li><details><summary><span class="qn">Q39</span><span>Hoarse teacher or singer?</span></summary><div class="a">Singer&#x27;s nodule — bilateral, on the anterior–middle third of the true cords.</div></details></li><li><details><summary><span class="qn">Q40</span><span>Hoarse 65-year-old smoker for 3 months?</span></summary><div class="a">Laryngeal SCC until proven otherwise.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Bleeds</b>: angiofibroma (teen boy), pyogenic granuloma (pregnancy), NPC. <b>Blocks</b>: inverted papilloma, polyp, angiofibroma, NPC. <b>Hoarse</b>: singer's nodule, polyp, papilloma (child = HPV 6/11), SCC (old smoker).</p>
+<p class="sub">DDx by presenting complaint</p>
+<div class="tbl"><table>
+ <thead><tr><th>Complaint</th><th>Lesion</th><th>Recognize the vignette</th></tr></thead>
+ <tbody>
+  <tr><td rowspan="3"><b>Epistaxis</b></td><td>Juvenile nasopharyngeal angiofibroma</td><td>Adolescent boy, recurrent heavy nosebleeds + obstruction</td></tr>
+  <tr><td>Pyogenic granuloma</td><td>Pregnant woman or trauma; red, friable, bleeding septal nodule; lobules of capillaries</td></tr>
+  <tr><td>Nasopharyngeal carcinoma</td><td>Blood-tinged discharge + neck node + serous otitis; EBV; endemic area</td></tr>
+  <tr><td rowspan="3"><b>Obstruction</b></td><td>Inverted sinonasal papilloma</td><td>Adult man, unilateral, lateral wall/sinus, recurs, may → SCC</td></tr>
+  <tr><td>Nasal polyp</td><td>Bilateral, allergy/asthma, aspirin sensitivity; child with polyps → test for <b>cystic fibrosis</b></td></tr>
+  <tr><td>Angiofibroma / NPC</td><td>See above — both bleed and block</td></tr>
+  <tr><td rowspan="5"><b>Hoarseness</b></td><td>Singer's nodule</td><td>Voice overuse, <b>bilateral</b>, true cords; reactive, myxoid stroma</td></tr>
+  <tr><td>Laryngeal polyp</td><td>Usually unilateral, smokers/voice abuse; edematous stroma</td></tr>
+  <tr><td>Juvenile papillomatosis</td><td>Child, <b>multiple</b> lesions, stridor; HPV 6/11; recurs</td></tr>
+  <tr><td>Adult laryngeal papilloma</td><td>Adult, usually single; HPV 6/11</td></tr>
+  <tr><td>Laryngeal SCC</td><td>Older smoker/drinker, persistent hoarseness ± stridor, dysphagia</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Age?</span><i>→ teen boy + bleed →</i><span>Angiofibroma</span><i>· child + hoarse →</i><span>Papillomatosis</span><i>· adult smoker + hoarse →</i><span>SCC</span><i>· endemic + neck node →</i><span>NPC</span></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Most nosebleeds are from <b>Kiesselbach plexus</b> (anterior septum); life-threatening posterior bleeds are from the <b>sphenopalatine artery</b>.</li>
+ <li>Hereditary hemorrhagic telangiectasia (Osler-Weber-Rendu): recurrent epistaxis + telangiectasias + AVMs.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 7</span><h3>Describe the anatomic location, etiology, clinical presentation and pathologic findings of pleomorphic adenoma, Warthin tumor, mucoepidermoid carcinoma and adenoid cystic carcinoma of the parotid gland</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q41</span><span>What does pleomorphic adenoma look like on the slide?</span></summary><div class="a">Low power: well-circumscribed tumor with an incomplete capsule. High power: ducts and myoepithelial cells in a blue myxoid/chondroid (cartilage-like) stroma — epithelial + mesenchymal-looking elements.</div></details></li><li><details><summary><span class="qn">Q42</span><span>What does Warthin tumor look like?</span></summary><div class="a">Cystic spaces lined by a double layer of pink oncocytic cells (packed with mitochondria) sitting on dense lymphoid stroma with germinal centers.</div></details></li><li><details><summary><span class="qn">Q43</span><span>What does mucoepidermoid carcinoma look like?</span></summary><div class="a">A mix of squamoid (epidermoid) cells, mucus-secreting cells (mucicarmine+) and intermediate cells, often with cysts.</div></details></li><li><details><summary><span class="qn">Q44</span><span>What does adenoid cystic carcinoma look like?</span></summary><div class="a">Small, dark basaloid cells in a cribriform (&quot;Swiss cheese&quot;) pattern with hyaline/basophilic material in the holes, and perineural invasion.</div></details></li><li><details><summary><span class="qn">Q45</span><span>Which is the most common salivary tumor, and how does it behave?</span></summary><div class="a">Pleomorphic adenoma: painless, slow, mobile parotid mass; recurs if enucleated (projections through the capsule); may undergo malignant change.</div></details></li><li><details><summary><span class="qn">Q46</span><span>Who gets Warthin tumor?</span></summary><div class="a">Older smokers (men &gt; women); parotid only; ~10% bilateral or multifocal; benign.</div></details></li><li><details><summary><span class="qn">Q47</span><span>Which is the most common malignant salivary tumor?</span></summary><div class="a">Mucoepidermoid carcinoma (parotid most common; MAML2 fusion). Grade depends on the mucous/cystic vs solid/squamoid mix.</div></details></li><li><details><summary><span class="qn">Q48</span><span>Why does adenoid cystic carcinoma cause pain or facial palsy?</span></summary><div class="a">Perineural invasion; it is slow but relentless, recurs, and spreads late (often to lung). Most common in minor salivary glands.</div></details></li><li><details><summary><span class="qn">Q49</span><span>What is the &quot;size rule&quot; for salivary tumors?</span></summary><div class="a">The smaller the gland, the more likely a tumor is malignant: most parotid tumors are benign; ~40% of submandibular, ~50% of minor and 70–90% of sublingual tumors are malignant.</div></details></li><li><details><summary><span class="qn">Q50</span><span>How do inflammatory lesions look on the slide?</span></summary><div class="a">Acute sialadenitis: neutrophils in ducts/acini. Chronic sialadenitis: lymphocytes, acinar loss, fibrosis, dilated ducts. Sjögren: lymphocytic infiltrate with lymphoepithelial (myoepithelial) islands.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Pleomorphic adenoma</b>: most common, painless, <b>chondromyxoid</b> stroma, recurs. <b>Warthin</b>: smoker, parotid, <b>oncocytes + lymphoid stroma</b>, can be bilateral. <b>Mucoepidermoid</b>: most common malignant, squamous + mucous + intermediate. <b>Adenoid cystic</b>: <b>cribriform</b> + <b>perineural</b> invasion (pain, CN VII).</p>
+<p class="sub">DDx: salivary gland mass</p>
+<div class="tbl"><table>
+ <thead><tr><th>Lesion</th><th>Vignette clues</th><th>Slide clue</th><th>Behavior</th></tr></thead>
+ <tbody>
+  <tr><td><b>Pleomorphic adenoma</b></td><td>Middle-aged woman; painless, mobile, slow parotid mass</td><td>Ducts + myoepithelial cells in <b>blue chondromyxoid stroma</b>; incomplete capsule</td><td>Benign; <b>recurs</b>; ex-PA carcinoma</td></tr>
+  <tr><td><b>Warthin tumor</b></td><td>Older <b>smoker</b>, parotid, <b>bilateral</b> in ~10%</td><td><b>Oncocytic double layer</b> over <b>lymphoid stroma</b> with germinal centers; cysts</td><td>Benign</td></tr>
+  <tr><td><b>Mucoepidermoid carcinoma</b></td><td>Adult; parotid mass ± pain</td><td><b>Squamoid + mucous + intermediate</b> cells; cysts; mucicarmine+</td><td><b>Most common malignant</b>; grade-dependent</td></tr>
+  <tr><td><b>Adenoid cystic carcinoma</b></td><td>Palate/minor gland mass with <b>pain, numbness, facial palsy</b></td><td>Small basaloid cells, <b>cribriform</b>; <b>perineural invasion</b></td><td>Slow, relentless, recurs; lung mets</td></tr>
+  <tr><td>Acute sialadenitis</td><td>Painful swelling with meals; dehydrated/post-op; stone</td><td>Neutrophils in ducts/acini</td><td>Obstruction, S. aureus</td></tr>
+  <tr><td>Chronic sialadenitis</td><td>Recurrent swelling; submandibular stone</td><td>Lymphocytes, acinar atrophy, fibrosis</td><td>Benign</td></tr>
+  <tr><td><b>Sjögren</b></td><td>Woman, <b>bilateral</b> parotid swelling, dry eyes/mouth; anti-Ro/La</td><td>Dense lymphocytes + <b>lymphoepithelial islands</b></td><td>↑ risk of <b>MALT lymphoma</b></td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li><b>P</b>leomorphic = <b>P</b>ainless, <b>P</b>arotid, <b>P</b>ersists (recurs if shelled out).</li>
+ <li><b>W</b>arthin = <b>W</b>arm smokers <b>W</b>ith lymphocytes, t<b>W</b>o sides.</li>
+ <li>Adenoid cystic = <b>Swiss cheese + nerves</b> → pain and facial palsy.</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>A parotid mass with <b>facial nerve palsy</b> is malignant until proven otherwise.</li>
+ <li>Sialolithiasis is most common in the <b>submandibular</b> gland (alkaline, viscous saliva, uphill duct).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 8</span><h3>Compare and contrast the pathologic and clinical features of branchial cleft cyst and thyroglossal duct cyst</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q51</span><span>Where is a branchial cleft cyst?</span></summary><div class="a">Lateral neck, along the anterior border of the sternocleidomastoid (usually a second-arch/cleft remnant).</div></details></li><li><details><summary><span class="qn">Q52</span><span>Where is a thyroglossal duct cyst?</span></summary><div class="a">Midline neck, near or just below the hyoid bone.</div></details></li><li><details><summary><span class="qn">Q53</span><span>What is the key physical sign of a thyroglossal duct cyst?</span></summary><div class="a">It moves up with swallowing and with tongue protrusion (attached to the foramen cecum tract).</div></details></li><li><details><summary><span class="qn">Q54</span><span>What does a branchial cleft cyst look like on the slide?</span></summary><div class="a">Cyst lined by squamous (or respiratory) epithelium with a wall of dense lymphoid tissue, often with germinal centers.</div></details></li><li><details><summary><span class="qn">Q55</span><span>What does a thyroglossal duct cyst look like on the slide?</span></summary><div class="a">Cyst lined by squamous or respiratory (ciliated columnar) epithelium, with thyroid follicles in the wall.</div></details></li><li><details><summary><span class="qn">Q56</span><span>Who gets them and how are they treated?</span></summary><div class="a">Both usually present in children/young adults, may become infected. Branchial: excise the cyst/tract. Thyroglossal: Sistrunk procedure (remove the cyst with the middle of the hyoid) to prevent recurrence.</div></details></li><li><details><summary><span class="qn">Q57</span><span>Which malignancy can hide in each?</span></summary><div class="a">Thyroglossal duct cyst: papillary thyroid carcinoma (rare). Lateral neck &quot;cyst&quot; in an adult: consider cystic metastatic HPV-positive SCC first.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Lateral</b> + anterior to SCM + <b>lymphoid wall</b> = branchial cleft cyst. <b>Midline</b> + <b>moves with swallowing / tongue protrusion</b> + <b>thyroid follicles</b> in the wall = thyroglossal duct cyst.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Branchial cleft cyst</th><th>Thyroglossal duct cyst</th></tr></thead>
+ <tbody>
+  <tr><td>Location</td><td><b>Lateral</b>, anterior border of SCM, near angle of jaw</td><td><b>Midline</b>, near hyoid</td></tr>
+  <tr><td>Origin</td><td>Persistent 2nd pharyngeal cleft (most)</td><td>Persistent thyroglossal duct (foramen cecum → thyroid)</td></tr>
+  <tr><td>Moves with swallowing / tongue protrusion?</td><td>No</td><td><b>Yes</b></td></tr>
+  <tr><td>Lining</td><td>Squamous (± respiratory)</td><td>Squamous or respiratory</td></tr>
+  <tr><td>Wall</td><td><b>Lymphoid tissue</b> with germinal centers</td><td><b>Thyroid follicles</b></td></tr>
+  <tr><td>Age</td><td>Child / young adult</td><td>Child / young adult</td></tr>
+  <tr><td>Complication</td><td>Infection; in adults, rule out cystic metastatic SCC</td><td>Infection; rare papillary thyroid carcinoma</td></tr>
+  <tr><td>Treatment</td><td>Excision</td><td><b>Sistrunk</b> (includes mid-hyoid)</td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: neck mass by location</p>
+<div class="tbl"><table>
+ <thead><tr><th>Midline</th><th>Lateral</th></tr></thead>
+ <tbody>
+  <tr><td>Thyroglossal duct cyst, dermoid cyst, thyroid nodule, ectopic thyroid</td><td>Branchial cleft cyst, <b>metastatic SCC</b> (adult), lymphadenopathy, cystic hygroma (posterior triangle, Turner), carotid body tumor</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>T</b>hyroglossal = <b>T</b>ongue moves it, <b>T</b>hyroid in the wall, cen<b>T</b>er. <b>B</b>ranchial = <b>B</b>eside the SCM, <b>B</b>-cells (lymphoid) in the wall.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Always image before removing a thyroglossal duct cyst — it may be the patient's <b>only thyroid tissue</b> (ectopic thyroid).</li>
+ <li>Lingual thyroid = failure of descent (mass at the base of tongue, foramen cecum).</li></ul></div>
+  </article>
+  <div class="vign" aria-label="HNSS16 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A 7-year-old has a painless, smooth, midline neck swelling just below the hyoid that rises when she sticks out her tongue. What will the cyst wall most likely contain?</p>
+      <ol class="opts"><li>Lymphoid follicles with germinal centers</li><li>Thyroid follicles</li><li>Chondromyxoid stroma</li><li>Oncocytic cells</li><li>Keratin pearls</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Midline + moves with tongue protrusion = thyroglossal duct cyst; thyroid follicles in the wall.</div></details></article>
+    <article><p><b>2.</b> A 20-year-old has a soft, fluctuant mass along the anterior border of the left sternocleidomastoid. Excision shows a squamous-lined cyst with dense lymphoid tissue in its wall. Diagnosis?</p>
+      <ol class="opts"><li>Thyroglossal duct cyst</li><li>Branchial cleft cyst</li><li>Warthin tumor</li><li>Cystic hygroma</li><li>Dermoid cyst</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Lateral neck + lymphoid wall in a young patient = branchial cleft cyst (in an adult over 40, rule out cystic metastatic SCC first).</div></details></article>
+    <article><p><b>3.</b> A 52-year-old man has had right-sided nasal obstruction for a year; a mass was removed 2 years ago and has recurred. Histology shows nests of squamous epithelium growing downward into the stroma with intraepithelial neutrophils. What is the main long-term risk?</p>
+      <ol class="opts"><li>Hemorrhage</li><li>Transformation to squamous cell carcinoma</li><li>Spread to the cavernous sinus</li><li>Conversion to lymphoma</li><li>Regression at puberty</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Inverted sinonasal papilloma: recurs and transforms to SCC in about 10%.</div></details></article>
+    <article><p><b>4.</b> A 38-year-old man born in southern China has a firm upper neck node and right ear fullness. Nasopharyngeal biopsy shows sheets of large cells with vesicular nuclei intermixed with lymphocytes. Which test confirms the associated virus?</p>
+      <ol class="opts"><li>p16 immunostain</li><li>EBER in situ hybridization</li><li>HPV 6/11 PCR</li><li>Mucicarmine</li><li>S-100</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Non-keratinizing nasopharyngeal carcinoma is EBV-associated; EBER ISH detects EBV RNA.</div></details></article>
+    <article><p><b>5.</b> A 45-year-old woman has a slowly enlarging, painless, mobile mass in front of her ear. Histology shows ducts and myoepithelial cells in a blue, cartilage-like stroma. What is the main risk after simple enucleation?</p>
+      <ol class="opts"><li>Facial nerve invasion</li><li>Local recurrence</li><li>Bilateral disease</li><li>Lung metastasis</li><li>MALT lymphoma</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Pleomorphic adenoma sends finger-like projections through an incomplete capsule, so enucleation leads to recurrence.</div></details></article>
+    <article><p><b>6.</b> A 67-year-old smoker has had hoarseness for 4 months. Laryngoscopy shows an ulcerated mass of the right true vocal cord. Biopsy shows invasive nests with keratin pearls. Why does this site carry a relatively good prognosis?</p>
+      <ol class="opts"><li>It is HPV-driven</li><li>Glottic tumors cause early symptoms and have few lymphatics</li><li>It is radioresistant</li><li>It never recurs</li><li>It arises from minor salivary glands</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Glottic SCC produces hoarseness early and the true cords have sparse lymphatics, so it is found early and spreads late.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS16 · H&amp;N Path Lab · Revision 1.0 · Updated September 29, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>

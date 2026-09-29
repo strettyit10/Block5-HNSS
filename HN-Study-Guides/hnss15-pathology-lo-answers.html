@@ -1,0 +1,279 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Head &amp; Neck Pathology LO Answers</title><meta name="description" content="HoyaDocs HNSS15 pathology learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Pathology · Updated Sep 29, 2026 · Revision 1.0</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss15" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS15 · 6 learning objectives</p>
+    <h1>Select Pathology of the Head &amp; Neck</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Define leukoplakia and erythroplakia and characterize their importance in the pathogenesis of oral cancer</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>What is leukoplakia?</span></summary><div class="a">A white patch or plaque that cannot be scraped off and cannot be characterized clinically or pathologically as any other disease — a diagnosis of exclusion.</div></details></li><li><details><summary><span class="qn">Q2</span><span>How often is leukoplakia premalignant, and who gets it?</span></summary><div class="a">5–25% are premalignant; most U.S. leukoplakias are benign. Adults 40–70, often tobacco users.</div></details></li><li><details><summary><span class="qn">Q3</span><span>What does leukoplakia show under the microscope?</span></summary><div class="a">Most show hyperkeratosis at first diagnosis (what makes it white); some show mild, moderate or severe dysplasia. Dysplasia grade does not reliably predict invasion, so biopsy.</div></details></li><li><details><summary><span class="qn">Q4</span><span>How do you work up a white oral patch?</span></summary><div class="a">Try to scrape it off (candidiasis wipes off); if bilateral, think systemic disease (e.g., SLE); ask about chronic trauma such as cheek chewing (frictional hyperkeratosis); if it will not scrape off, biopsy.</div></details></li><li><details><summary><span class="qn">Q5</span><span>What is hairy leukoplakia?</span></summary><div class="a">Fluffy, white, corrugated patches on the lateral border of the tongue caused by EBV, usually in immunocompromised patients (e.g., HIV); cannot be scraped off. Histology: hyperkeratosis and balloon cells containing EBV RNA.</div></details></li><li><details><summary><span class="qn">Q6</span><span>What is erythroplakia, and why is it worse than leukoplakia?</span></summary><div class="a">A red, velvety patch in the oral cavity; less common than leukoplakia but almost always atypical — dysplasia, carcinoma in situ or minimally invasive carcinoma.</div></details></li><li><details><summary><span class="qn">Q7</span><span>What fraction of premalignant lesions become carcinoma?</span></summary><div class="a">About 15% within 5 years.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Leukoplakia</b> = white patch that won't scrape off and isn't anything else (5–25% premalignant). <b>Erythroplakia</b> = red velvety patch, <b>almost always dysplastic</b> — the more dangerous of the two. Both can precede oral SCC.</p>
+<p class="sub">DDx: the white or red oral patch</p>
+<div class="tbl"><table>
+ <thead><tr><th>Lesion</th><th>Scrapes off?</th><th>Vignette clues</th><th>Histology / cause</th><th>Risk</th></tr></thead>
+ <tbody>
+  <tr><td>Candidiasis (thrush)</td><td><b>Yes</b> → red base</td><td>Immunosuppressed, inhaled steroids, antibiotics, infant</td><td>Yeast + pseudohyphae</td><td>Not premalignant</td></tr>
+  <tr><td>Leukoplakia</td><td><b>No</b></td><td>40–70 y, tobacco; roof of mouth or under tongue</td><td>Hyperkeratosis ± dysplasia</td><td>5–25% premalignant</td></tr>
+  <tr><td>Hairy leukoplakia</td><td><b>No</b></td><td><b>HIV / immunocompromised</b>; <b>lateral tongue</b>; "fluffy" ridges</td><td><b>EBV</b>; balloon cells, hyperkeratosis</td><td>Not premalignant</td></tr>
+  <tr><td>Frictional hyperkeratosis</td><td>No</td><td>Cheek chewing, rough tooth, dentures</td><td>Hyperkeratosis</td><td>Remove cause</td></tr>
+  <tr><td>Bilateral white lesions</td><td>No</td><td>Systemic disease (SLE, lichen planus)</td><td>Interface inflammation</td><td>Treat systemic cause</td></tr>
+  <tr><td><b>Erythroplakia</b></td><td>No</td><td>Red, velvety; older smoker/drinker</td><td>Dysplasia → CIS → early invasion</td><td><b>Almost always premalignant</b></td></tr>
+ </tbody></table></div>
+<div class="flow"><span>White patch</span><i>→ scrapes off? →</i><span>Candida</span><i>· no →</i><span>Remove irritant / check systemic</span><i>→</i><span><b>Biopsy</b></span><i>→</i><span>Hyperkeratosis · dysplasia · CIS · SCC</span></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Red is more dangerous than white</b>: erythroplakia is nearly always dysplastic; leukoplakia usually is not.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Oral hairy leukoplakia = <b>EBV</b> in <b>HIV</b>; lateral tongue; not premalignant; doesn't scrape off (vs thrush, which does).</li>
+ <li>Tobacco is the strongest risk factor for leukoplakia; chewing tobacco/snuff → buccal/gingival lesions.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>List causes and associations of squamous cell carcinoma (SCC) in the head and neck region and describe pathologic features</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q8</span><span>Where does head and neck SCC arise?</span></summary><div class="a">Oral cavity (under the tongue, floor of mouth, lower lip, soft palate), oropharynx (tonsils, base of tongue), nasal cavities and larynx. SCC is the majority of head and neck carcinomas.</div></details></li><li><details><summary><span class="qn">Q9</span><span>What are the classic risk factors?</span></summary><div class="a">Chronic tobacco and alcohol use in middle-aged/older patients (synergistic). Others: betel quid and paan, actinic (sun) radiation and pipe smoking (lower lip).</div></details></li><li><details><summary><span class="qn">Q10</span><span>What is now the main cause of oropharyngeal SCC?</span></summary><div class="a">High-risk HPV — about 90% of HPV-related oropharyngeal SCCs carry HPV-16 — in the tonsils and base of tongue.</div></details></li><li><details><summary><span class="qn">Q11</span><span>Which new group is getting oral tongue SCC?</span></summary><div class="a">Patients under 40 with no known risk factors (non-smokers, HPV-negative).</div></details></li><li><details><summary><span class="qn">Q12</span><span>Which driver genes are altered?</span></summary><div class="a">TP53, CDKN2A, PIK3CA; also NOTCH1 (loss of function) and FAT1 (tumor suppressor, cadherin family). HPV-negative tumors carry more somatic mutations.</div></details></li><li><details><summary><span class="qn">Q13</span><span>How does HPV cause cancer?</span></summary><div class="a">Oncoproteins E6 and E7 inactivate the TP53 and RB pathways, respectively.</div></details></li><li><details><summary><span class="qn">Q14</span><span>Keratinizing vs non-keratinizing SCC under the microscope?</span></summary><div class="a">Keratinizing (tobacco/alcohol): keratin pearls/whorls, irregular invasion, ulcerated firm lesion. Non-keratinizing (HPV): nests/sheets of basaloid cells without keratin pearls; p16 immunostain positive (nucleus + cytoplasm); HPV mRNA detectable.</div></details></li></ol></div>
+    <p class="bottom-line">HNSCC = <b>tobacco + alcohol</b> (older, oral cavity, <b>keratinizing</b>, p53 mutated) or <b>HPV-16</b> (younger, <b>oropharynx</b>, <b>non-keratinizing, p16+</b>, E6/E7).</p>
+<p class="sub">DDx: HPV-associated vs non-HPV (tobacco/alcohol) SCC</p>
+<div class="tbl"><table>
+ <thead><tr><th></th><th>HPV-associated</th><th>Non-HPV (tobacco/alcohol)</th></tr></thead>
+ <tbody>
+  <tr><td>Age</td><td>Younger</td><td>Older</td></tr>
+  <tr><td>Risk factor</td><td>Number of oral sex partners (HPV-16)</td><td>Tobacco, alcohol</td></tr>
+  <tr><td>Location</td><td><b>Oropharynx</b> (tonsil, base of tongue)</td><td><b>Oral cavity</b></td></tr>
+  <tr><td>Presentation</td><td><b>Small primary + bulky neck nodes</b></td><td>Large primary, variable nodes</td></tr>
+  <tr><td>Histology</td><td><b>Non-keratinizing</b>, basaloid; <b>p16+</b></td><td><b>Keratinizing</b> (keratin pearls)</td></tr>
+  <tr><td>Genetics</td><td>E6 → p53, E7 → RB inactivated</td><td>More somatic mutations (TP53, CDKN2A)</td></tr>
+  <tr><td>Distant metastasis</td><td>Rare</td><td>Common</td></tr>
+  <tr><td>Outcome</td><td><b>Good</b></td><td>Poor</td></tr>
+  <tr><td>Second primary</td><td>Low</td><td><b>High (~35%)</b> — field cancerization</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Vignette hook</span><p>"40-year-old non-smoker with a <b>painless neck mass</b> and a tiny tonsil lesion" = <b>HPV oropharyngeal SCC</b>. "65-year-old smoker-drinker with an <b>ulcerated floor-of-mouth mass</b>" = <b>keratinizing oral SCC</b>.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>HPV E6 degrades <b>p53</b>; E7 binds <b>Rb</b> → p16 is overexpressed (the surrogate marker).</li>
+ <li>HNSCC spreads first to <b>cervical lymph nodes</b>.</li>
+ <li>HPV vaccine (Gardasil 9) covers 6, 11, 16, 18 → prevents papillomas and many oropharyngeal cancers.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Describe the clinical features and outcome of SCC</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q15</span><span>What is field cancerization?</span></summary><div class="a">Carcinogen exposure (tobacco/alcohol) damages the whole upper aerodigestive mucosa, so patients often have multiple primaries and metastases at presentation — and a high risk of a second primary.</div></details></li><li><details><summary><span class="qn">Q16</span><span>Where does classic SCC metastasize?</span></summary><div class="a">Lymph nodes (cervical), lung and bone.</div></details></li><li><details><summary><span class="qn">Q17</span><span>Does tumor differentiation predict behavior?</span></summary><div class="a">No — differentiation does not correlate with growth rate or overall behavior. Stage does.</div></details></li><li><details><summary><span class="qn">Q18</span><span>What are the survival numbers?</span></summary><div class="a">Early stage: ~80% 5-year survival. Late stage: ~20%.</div></details></li><li><details><summary><span class="qn">Q19</span><span>How does HPV status change prognosis?</span></summary><div class="a">HPV-16/18–associated SCC has a better prognosis than classic SCC (more radiosensitive, fewer distant metastases and second primaries).</div></details></li><li><details><summary><span class="qn">Q20</span><span>How is it treated?</span></summary><div class="a">Surgical removal (can include floor of mouth/tongue), with radiation ± chemotherapy by stage.</div></details></li></ol></div>
+    <p class="bottom-line">Classic SCC: often <b>multiple primaries/metastases at presentation</b> (field cancerization); survival <b>80% early vs 20% late</b>; grade ≠ behavior. <b>HPV+ SCC does better.</b></p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Classic (tobacco/alcohol) SCC</th><th>HPV SCC</th></tr></thead>
+ <tbody>
+  <tr><td>Multiple primaries</td><td>Common (field cancerization)</td><td>Uncommon</td></tr>
+  <tr><td>Metastases</td><td>Nodes, lung, bone</td><td>Nodes (bulky); distant rare</td></tr>
+  <tr><td>5-year survival</td><td>80% early · 20% late</td><td>Better overall</td></tr>
+  <tr><td>Predictor</td><td><b>Stage</b> (not grade)</td><td>HPV status + stage</td></tr>
+ </tbody></table></div>
+<div class="hy"><span class="tag">HY · Step 1</span><p>Stop smoking lowers second-primary risk. Paraneoplastic <b>hypercalcemia (PTHrP)</b> is classic for squamous cell carcinomas.</p></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>Describe the clinical and pathologic features and behavior of lesions that cause nosebleeds (pyogenic granuloma, angiofibroma) and nasal obstruction (sinonasal papilloma, nasopharyngeal carcinoma)</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q21</span><span>What are the common causes of epistaxis?</span></summary><div class="a">Digital trauma, dry nose/crusting and foreign bodies; also medications, allergies and inherited coagulopathies. Discrete lesions: pyogenic granuloma and angiofibroma.</div></details></li><li><details><summary><span class="qn">Q22</span><span>What is a pyogenic granuloma?</span></summary><div class="a">A lobular capillary hemangioma — a benign vascular lesion, neither infectious nor granulomatous. A red, raised, friable papule that bleeds and ulcerates; common on gingiva and skin, can be in the nose; associated with pregnancy. Treat by removal or sclerosing injection.</div></details></li><li><details><summary><span class="qn">Q23</span><span>Who gets juvenile nasopharyngeal angiofibroma, and how does it present?</span></summary><div class="a">Adolescent boys (7–19; rare after 25). Nasal obstruction (80–90%) and epistaxis (45–60%); also headache, facial swelling, unilateral rhinorrhea. Fills one side of the nasal cavity and deviates the septum.</div></details></li><li><details><summary><span class="qn">Q24</span><span>Where does angiofibroma arise, and what does it look like?</span></summary><div class="a">Near the posterior attachment of the middle turbinate (posterolateral nasal wall/nasopharynx). Dense collagenous stroma with bland fibrosis and thin-walled vessels that cannot contract → brisk bleeding.</div></details></li><li><details><summary><span class="qn">Q25</span><span>What gene and associations does angiofibroma have?</span></summary><div class="a">CTNNB1 (β-catenin) mutations; can occur with familial adenomatous polyposis. Hormonal theory (almost only males, hormone receptors on tumor); can be shrunk with estrogen/anti-androgens before surgery. Locally aggressive; intracranial extension and young age worsen prognosis.</div></details></li><li><details><summary><span class="qn">Q26</span><span>What is a sinonasal (Schneiderian) papilloma?</span></summary><div class="a">A benign, almost always unilateral neoplasm of the respiratory mucosa of the nasal cavity and sinuses, in men 30–60; causes obstruction (sinusitis from blockage). Treat by complete excision.</div></details></li><li><details><summary><span class="qn">Q27</span><span>Compare the three sinonasal papilloma subtypes.</span></summary><div class="a">Inverted (endophytic): most common, lateral wall/sinuses, EGFR mutations, 5–10(15)% malignant. Exophytic (filiform): septum, low-risk HPV, ~0% malignant. Oncocytic (cylindrical): lateral wall/sinus, eosinophilic mitochondria-rich cells with mucous cysts, KRAS, 14–19% malignant.</div></details></li><li><details><summary><span class="qn">Q28</span><span>Which malignancy arises from sinonasal papillomas, and when?</span></summary><div class="a">Squamous cell carcinoma — at the first excision (usually focal, better prognosis) or months–years later with recurrences (worse prognosis).</div></details></li><li><details><summary><span class="qn">Q29</span><span>What characterizes nasopharyngeal carcinoma?</span></summary><div class="a">Strong EBV association, geographic clustering (Southern China, Southeast Asia, Africa), close relationship to lymphoid tissue. Presents late with obstruction and epistaxis, often with neck-node metastases.</div></details></li><li><details><summary><span class="qn">Q30</span><span>Compare the nasopharyngeal carcinoma subtypes.</span></summary><div class="a">Keratinizing: most common, large squamoid cells with ample cytoplasm. Non-keratinizing: smaller hyperchromatic cells in ribbons with intervening benign lymphocytes; EBV-linked; better prognosis (radiosensitive). Basaloid: rare, undifferentiated.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Bleeders</b>: pyogenic granuloma (pregnancy, gingiva) and <b>angiofibroma</b> (adolescent boy, unilateral mass, β-catenin). <b>Blockers</b>: <b>sinonasal papilloma</b> (unilateral, men 30–60; inverted/oncocytic can turn malignant) and <b>nasopharyngeal carcinoma</b> (EBV, Southern China, neck node).</p>
+<p class="sub">DDx: epistaxis vs nasal obstruction</p>
+<div class="tbl"><table>
+ <thead><tr><th>Lesion</th><th>Main symptom</th><th>Vignette clues</th><th>Histology</th><th>Key association</th></tr></thead>
+ <tbody>
+  <tr><td>Pyogenic granuloma</td><td>Bleeding</td><td><b>Pregnant woman</b>; red friable papule on gingiva/nose; grows fast</td><td>Lobules of capillaries</td><td>Pregnancy, trauma</td></tr>
+  <tr><td><b>Juvenile angiofibroma</b></td><td>Obstruction + <b>epistaxis</b></td><td><b>Adolescent boy</b>; unilateral mass; deviated septum; headache</td><td>Dense collagen + thin-walled vessels</td><td><b>CTNNB1</b>, FAP; hormonal</td></tr>
+  <tr><td>Sinonasal papilloma</td><td><b>Obstruction</b> (unilateral)</td><td>Man 30–60; unilateral polyp-like mass; sinusitis</td><td>Inverted nests into stroma / fronds / oncocytic cells</td><td>EGFR (inverted); HPV</td></tr>
+  <tr><td><b>Nasopharyngeal carcinoma</b></td><td>Obstruction + epistaxis</td><td><b>Southern China / SE Asia / Africa</b>; <b>neck mass</b>; late</td><td>Squamous nests + lymphocytes</td><td><b>EBV</b></td></tr>
+  <tr><td>Nasal polyp (compare)</td><td>Obstruction (bilateral)</td><td>Allergy, asthma, aspirin sensitivity, CF</td><td>Edematous stroma, eosinophils</td><td>Samter triad; CF in kids</td></tr>
+ </tbody></table></div>
+<div class="two">
+ <div><p class="sub">Sinonasal papilloma subtypes</p>
+ <div class="tbl"><table><thead><tr><th>Subtype</th><th>Where</th><th>Molecular / HPV</th><th>Malignant risk</th></tr></thead><tbody>
+  <tr><td>Inverted (most common)</td><td>Lateral wall, sinus</td><td>EGFR; high/low-risk HPV</td><td>5–15%</td></tr>
+  <tr><td>Exophytic</td><td>Septum</td><td>Low-risk HPV</td><td>~0%</td></tr>
+  <tr><td>Oncocytic (least common)</td><td>Lateral wall, sinus</td><td>KRAS; no HPV</td><td>4–19%</td></tr>
+ </tbody></table></div></div>
+ <div><p class="sub">Nasopharyngeal carcinoma subtypes</p>
+ <div class="tbl"><table><thead><tr><th>Subtype</th><th>Look</th><th>Note</th></tr></thead><tbody>
+  <tr><td>Keratinizing</td><td>Large squamoid cells, ample cytoplasm</td><td>Most common</td></tr>
+  <tr><td>Non-keratinizing</td><td>Small hyperchromatic cells, ribbons, lymphocytes</td><td>EBV; <b>better prognosis</b> (radiosensitive)</td></tr>
+  <tr><td>Basaloid</td><td>Undifferentiated</td><td>Rare</td></tr>
+ </tbody></table></div></div>
+</div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li><b>A</b>ngiofibroma = <b>A</b>dolescent boy who bleeds; collagen holds vessels open so they can't clamp down.</li>
+ <li>Papilloma subtype risk: <b>O</b>ncocytic ≥ <b>I</b>nverted &gt;&gt; <b>E</b>xophytic (≈0).</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Most nosebleeds come from <b>Kiesselbach plexus</b> (anterior septum); life-threatening posterior bleeds come from the <b>sphenopalatine artery</b>.</li>
+ <li>EBV associations: nasopharyngeal carcinoma, Burkitt lymphoma, Hodgkin lymphoma, hairy leukoplakia, mononucleosis.</li>
+ <li>Recurrent epistaxis + telangiectasias + AVMs = hereditary hemorrhagic telangiectasia (Osler-Weber-Rendu).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 5</span><h3>Describe the etiology, clinical and pathologic features and behavior of laryngeal lesions that cause hoarseness (laryngeal papilloma/papillomatosis, squamous cell carcinoma)</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q31</span><span>What is a laryngeal papilloma?</span></summary><div class="a">A benign squamous neoplasm on the true vocal cords: exophytic, small (&lt;1 cm), finger-like projections of orderly squamous epithelium over fibrovascular cores; may ulcerate and bleed.</div></details></li><li><details><summary><span class="qn">Q32</span><span>Adult vs juvenile laryngeal papillomas?</span></summary><div class="a">Adults: usually solitary, rarely recur. Children: multiple (juvenile laryngeal/recurrent respiratory papillomatosis) from low-risk HPV 6/11 acquired at birth; recur often → many surgeries; often regress at puberty.</div></details></li><li><details><summary><span class="qn">Q33</span><span>What are the complications of juvenile papillomatosis?</span></summary><div class="a">Airway obstruction; distal airway spread (can signal malignant transformation); rarely SCC with poor prognosis.</div></details></li><li><details><summary><span class="qn">Q34</span><span>How is papillomatosis treated and prevented?</span></summary><div class="a">Surgery; some benefit from antivirals and chemotherapy; the HPV vaccine prevents it.</div></details></li><li><details><summary><span class="qn">Q35</span><span>Who gets laryngeal SCC, and what causes it?</span></summary><div class="a">Men in their 7th decade; smoking in most cases, worsened by alcohol. Many arise from dysplasia; high-grade dysplasia carries the highest risk.</div></details></li><li><details><summary><span class="qn">Q36</span><span>Where does laryngeal SCC arise, and how does it present?</span></summary><div class="a">Vocal cords, epiglottis, aryepiglottic folds or pyriform sinuses; hoarseness or dysphagia (cough). Plaque-like, ulcerated or fungating; variable differentiation.</div></details></li><li><details><summary><span class="qn">Q37</span><span>How is laryngeal SCC treated, and what predicts outcome?</span></summary><div class="a">Stage predicts prognosis. Early: microinvasive procedures (mucosal stripping). Later: surgery with chemo and radiation.</div></details></li><li><details><summary><span class="qn">Q38</span><span>What else causes hoarseness from a vocal cord lesion?</span></summary><div class="a">Singer&#x27;s (vocal cord) nodules: bilateral, from voice overuse; hyperplastic epithelium over edematous submucosa; minimal cancer risk. Laryngeal polyps: often unilateral, older smokers.</div></details></li></ol></div>
+    <p class="bottom-line">Hoarseness + vocal cord mass: <b>child with multiple recurring lesions = HPV 6/11 papillomatosis</b>; <b>older male smoker = laryngeal SCC</b>; <b>singer/teacher with bilateral nodules = singer's nodules</b>.</p>
+<p class="sub">DDx: hoarseness</p>
+<div class="tbl"><table>
+ <thead><tr><th>Lesion</th><th>Who</th><th>Look</th><th>Cause</th><th>Behavior</th></tr></thead>
+ <tbody>
+  <tr><td>Singer's nodules</td><td>Voice overusers (singers, teachers)</td><td><b>Bilateral</b> smooth nodules; edematous submucosa</td><td>Vocal abuse</td><td>Benign; voice rest</td></tr>
+  <tr><td>Laryngeal polyp</td><td>Older smokers</td><td>Often <b>unilateral</b></td><td>Smoking, irritation</td><td>Benign</td></tr>
+  <tr><td>Juvenile papillomatosis</td><td><b>Child</b></td><td><b>Multiple</b> soft pink papillae, fibrovascular cores</td><td><b>HPV 6/11 at birth</b></td><td><b>Recurs</b>; regresses at puberty</td></tr>
+  <tr><td>Adult papilloma</td><td>Adult</td><td>Solitary papilloma</td><td>HPV</td><td>Rarely recurs</td></tr>
+  <tr><td><b>Laryngeal SCC</b></td><td><b>Man, 70s, smoker</b> (+ alcohol)</td><td>Ulcerated/fungating; keratinizing</td><td>Tobacco</td><td>Stage-dependent; surgery ± chemoradiation</td></tr>
+ </tbody></table></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>HPV <b>6/11</b> = low risk → papillomas and condylomata; HPV <b>16/18</b> = high risk → carcinomas.</li>
+ <li>Recurrent laryngeal nerve palsy (thyroid surgery, Pancoast, aortic aneurysm) also causes hoarseness.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 6</span><h3>Describe the anatomic location, etiology, clinical presentation and pathologic findings of parotid tumors: pleomorphic adenoma, Warthin tumor, adenoid cystic carcinoma, mucoepidermoid carcinoma</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q39</span><span>Where do salivary tumors occur, and what predicts malignancy?</span></summary><div class="a">65–80% arise in the parotid, and most parotid tumors are benign. The smaller the gland, the more likely malignant: ~40% submandibular, ~50% minor, 70–90% sublingual.</div></details></li><li><details><summary><span class="qn">Q40</span><span>What is a pleomorphic adenoma?</span></summary><div class="a">The most common salivary tumor: a benign mixed tumor of epithelial (ductal), myoepithelial and mesenchymal (chondromyxoid) elements. Slow-growing, painless, mobile parotid mass; radiation raises risk; PLAG1 overexpression.</div></details></li><li><details><summary><span class="qn">Q41</span><span>Why do pleomorphic adenomas recur?</span></summary><div class="a">They are well circumscribed but have an incomplete capsule with finger-like projections; enucleation leaves tumor behind (~25% recurrence), so complete excision with margin is needed. Rarely becomes carcinoma ex pleomorphic adenoma.</div></details></li><li><details><summary><span class="qn">Q42</span><span>What is a Warthin tumor?</span></summary><div class="a">Papillary cystadenoma lymphomatosum: the second most common salivary tumor, benign, found almost only in the parotid; older men, smokers; 10% bilateral; low recurrence.</div></details></li><li><details><summary><span class="qn">Q43</span><span>Describe Warthin histology.</span></summary><div class="a">Cystic, papillary spaces lined by a double layer of oncocytic epithelium (columnar luminal + cuboidal basal) packed with mitochondria (eosinophilic), over a dense lymphoid stroma with germinal centers.</div></details></li><li><details><summary><span class="qn">Q44</span><span>What is mucoepidermoid carcinoma?</span></summary><div class="a">The most common primary malignant salivary tumor (also the most common in children). Mixed squamous, intermediate and mucus cells in sheets and microcysts; grade drives behavior. t(11;19) CRTC1::MAML2 fusion in ~half.</div></details></li><li><details><summary><span class="qn">Q45</span><span>How does mucoepidermoid grade affect outcome?</span></summary><div class="a">Low grade: recurs but rarely metastasizes. Intermediate/high grade: recurs and metastasizes; ~50% 5-year survival.</div></details></li><li><details><summary><span class="qn">Q46</span><span>What is adenoid cystic carcinoma?</span></summary><div class="a">A malignant tumor, ~50% in minor salivary glands (also parotid, lung, breast, sinuses): slow but relentless, with perineural invasion (pain, facial nerve palsy), &quot;stubbornly recurrent&quot; with late spread. Small dark basaloid cells in a cribriform (&quot;Swiss cheese&quot;) pattern. MYB::NFIB → NOTCH1.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Pleomorphic adenoma</b> (most common, benign mixed, recurs if shelled out) · <b>Warthin</b> (older male smoker, bilateral, oncocytes + lymphocytes) · <b>Mucoepidermoid</b> (most common malignant; squamous + mucus cells) · <b>Adenoid cystic</b> (cribriform, <b>perineural invasion → pain/CN VII palsy</b>).</p>
+<p class="sub">DDx: salivary gland masses</p>
+<div class="tbl"><table>
+ <thead><tr><th>Tumor</th><th>Rank</th><th>Vignette clues</th><th>Histology</th><th>Genetics</th><th>Behavior</th></tr></thead>
+ <tbody>
+  <tr><td><b>Pleomorphic adenoma</b></td><td>#1 overall</td><td>Painless, <b>mobile</b>, slow parotid mass (angle of jaw); radiation</td><td><b>Chondromyxoid stroma</b> + epithelial/myoepithelial cells; incomplete capsule</td><td>PLAG1</td><td><b>Recurs</b> if enucleated; rare malignant change</td></tr>
+  <tr><td><b>Warthin</b></td><td>#2 overall</td><td><b>Older male smoker</b>; <b>bilateral</b> (10%); parotid only</td><td><b>Double layer of oncocytes (mitochondria)</b> + <b>lymphoid stroma with germinal centers</b>; cysts</td><td>—</td><td>Benign; rarely recurs</td></tr>
+  <tr><td><b>Mucoepidermoid ca</b></td><td>#1 malignant</td><td>Painless mass; can be a <b>child</b>; may be large</td><td><b>Squamous + intermediate + mucus cells</b>; cysts</td><td>t(11;19) <b>CRTC1::MAML2</b></td><td>Grade-dependent</td></tr>
+  <tr><td><b>Adenoid cystic ca</b></td><td>Common in minor glands</td><td><b>Pain</b>, facial numbness or <b>CN VII palsy</b>; palate mass</td><td><b>Cribriform</b> "Swiss cheese"; small dark cells; hyaline BM material</td><td>MYB::NFIB</td><td><b>Perineural</b>; relentless recurrence; late lung mets</td></tr>
+  <tr><td>Sialadenitis / stone</td><td>—</td><td><b>Painful</b> swelling with meals; submandibular</td><td>Acute: neutrophils; chronic: lymphocytes + fibrosis</td><td>—</td><td>Obstruction, infection</td></tr>
+  <tr><td>Sjögren</td><td>—</td><td><b>Bilateral</b> parotid enlargement + dry eyes/mouth; woman</td><td>Lymphoepithelial lesions</td><td>Anti-Ro/La</td><td>↑ risk of MALT lymphoma</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Parotid mass</span><i>→ painless + mobile →</i><span>Pleomorphic adenoma</span><i>· smoker + bilateral →</i><span>Warthin</span><i>· pain / CN VII palsy →</i><span>Malignant (adenoid cystic, mucoepidermoid)</span></div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li>Smaller gland → more likely malignant ("<b>size inverse</b>").</li>
+ <li><b>W</b>arthin = <b>W</b>arm-blooded smokers, <b>W</b>ith lymphocytes, t<b>W</b>o sides.</li>
+ <li>Facial nerve palsy with a parotid mass = <b>malignant</b> until proven otherwise.</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Parotidectomy risks <b>facial nerve</b> injury (runs between superficial and deep lobes); <b>Frey syndrome</b> (gustatory sweating) after surgery.</li>
+ <li>Mumps → bilateral parotitis; sialolithiasis most often submandibular.</li></ul></div>
+  </article>
+  <div class="vign" aria-label="HNSS15 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> An 11-year-old boy has recurrent nosebleeds and daily headaches. A unilateral nasal mass deviates his septum. Resection shows dense collagenous stroma with thin-walled vessels. Diagnosis?</p>
+      <ol class="opts"><li>Angiofibroma</li><li>Nasopharyngeal carcinoma</li><li>Nasal polyp</li><li>Sinonasal papilloma</li><li>Juvenile papillomatosis</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>A.</b> Adolescent male + epistaxis + obstruction + collagen with thin-walled vessels = juvenile nasopharyngeal angiofibroma (β-catenin).</div></details></article>
+    <article><p><b>2.</b> A 54-year-old woman has a firm, mobile 2-cm swelling in front of her left ear. Histology shows an oncocytic double layer of cells over lymphoid tissue with germinal centers. What fills the oncocytic cells?</p>
+      <ol class="opts"><li>Acinar globules</li><li>Myxoid substance</li><li>Mitochondria</li><li>Duct secretions</li><li>EBV RNA</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Warthin tumor: oncocytes are packed with mitochondria (eosinophilic granular cytoplasm).</div></details></article>
+    <article><p><b>3.</b> A 42-year-old non-smoker has a painless, enlarging neck node. Oropharyngeal inspection shows a small lesion on the right tonsil. Biopsy shows non-keratinizing basaloid nests. Which stain supports the likely cause?</p>
+      <ol class="opts"><li>Cytokeratin 7</li><li>p16</li><li>S-100</li><li>CD20</li><li>EBV-encoded RNA</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> HPV-16 oropharyngeal SCC: E7 inactivates Rb → p16 overexpression. Small primary + bulky node + good prognosis.</div></details></article>
+    <article><p><b>4.</b> A 6-year-old has a hoarse voice and noisy breathing. Endoscopy shows several soft pink excrescences on the true cords; histology shows finger-like squamous projections over fibrovascular cores, HPV-6 positive. Best advice?</p>
+      <ol class="opts"><li>Total laryngectomy is needed</li><li>Antibiotics are indicated</li><li>Avoid overusing the voice</li><li>The lesions are likely to recur</li><li>Acyclovir is indicated</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>D.</b> Juvenile laryngeal papillomatosis (HPV 6/11 from birth) recurs frequently and often regresses at puberty.</div></details></article>
+    <article><p><b>5.</b> A 60-year-old has a slowly growing palate mass and new numbness and pain along the cheek. Biopsy shows small dark cells in a cribriform pattern wrapping around nerves. Diagnosis?</p>
+      <ol class="opts"><li>Pleomorphic adenoma</li><li>Warthin tumor</li><li>Mucoepidermoid carcinoma</li><li>Adenoid cystic carcinoma</li><li>Pyogenic granuloma</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>D.</b> Cribriform pattern + perineural invasion (pain) in a minor salivary gland = adenoid cystic carcinoma.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS15 · Head &amp; Neck Pathology · Revision 1.0 · Updated September 29, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>
