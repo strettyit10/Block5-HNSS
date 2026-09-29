@@ -1,0 +1,231 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Brain LO Answers</title><meta name="description" content="HoyaDocs HNSS07 neuro learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Neuro · Updated Sep 29, 2026 · Revision 1.0</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss07" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS07 · 4 learning objectives</p>
+    <h1>The Brain</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Understand the organization and anatomic context of the brain, and basic brain anatomy</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>Where does the brain sit in the nervous system?</span></summary><div class="a">The brain plus the spinal cord make up the central nervous system (CNS); everything else is the peripheral nervous system (PNS).</div></details></li><li><details><summary><span class="qn">Q2</span><span>Name the meninges from outside in, with one fact about each.</span></summary><div class="a">Dura mater: two thick layers with four infoldings (e.g., falx cerebri) that hold the venous sinuses. Arachnoid mater: web-like, cushions the brain; below it is the subarachnoid space with CSF. Pia mater: delicate, stuck to the brain surface.</div></details></li><li><details><summary><span class="qn">Q3</span><span>Which space contains CSF?</span></summary><div class="a">The subarachnoid space, between the arachnoid and the pia.</div></details></li><li><details><summary><span class="qn">Q4</span><span>Which adult structures come from each embryonic division?</span></summary><div class="a">Prosencephalon → telencephalon (cerebrum) + diencephalon. Mesencephalon → midbrain. Rhombencephalon → metencephalon (pons + cerebellum) + myelencephalon (medulla).</div></details></li><li><details><summary><span class="qn">Q5</span><span>Name the three section planes and the landmark to use.</span></summary><div class="a">Coronal, sagittal and horizontal (axial). Use the corpus callosum as your landmark.</div></details></li><li><details><summary><span class="qn">Q6</span><span>What does white matter do, and how is it imaged?</span></summary><div class="a">It is made of axon tracts connecting gray matter structures throughout the nervous system. Diffusion tensor imaging (DTI) shows tracts (but not their direction).</div></details></li></ol></div>
+    <p class="bottom-line">Brain + spinal cord = <b>CNS</b>. The brain sits under scalp, skull and three <b>meninges</b> (dura → arachnoid → pia; CSF in the <b>subarachnoid space</b>) and has five parts: <b>telencephalon, diencephalon, midbrain, pons + medulla, cerebellum</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Embryonic vesicle</th><th>Secondary vesicle</th><th>Adult structure</th></tr></thead>
+ <tbody>
+  <tr><td rowspan="2">Prosencephalon</td><td>Telencephalon</td><td>Cerebrum: cortex, basal ganglia, hippocampus, amygdala</td></tr>
+  <tr><td>Diencephalon</td><td>Thalamus, hypothalamus (+ pituitary), subthalamus, epithalamus</td></tr>
+  <tr><td>Mesencephalon</td><td>Mesencephalon</td><td>Midbrain (upper brainstem)</td></tr>
+  <tr><td rowspan="2">Rhombencephalon</td><td>Metencephalon</td><td>Pons + cerebellum</td></tr>
+  <tr><td>Myelencephalon</td><td>Medulla (lower brainstem)</td></tr>
+ </tbody></table></div>
+<div class="two">
+ <div><p class="sub">Meninges, outside → in</p><div class="flow"><span>Dura (2 layers, sinuses, falx)</span><i>→</i><span>Arachnoid</span><i>→</i><span>Subarachnoid space (CSF)</span><i>→</i><span>Pia</span></div></div>
+ <div><p class="sub">Orientation</p><ul><li>Superior–inferior, anterior–posterior, dorsal–ventral</li><li>Sections: <b>coronal, sagittal, horizontal (axial)</b></li><li>Landmark: <b>corpus callosum</b></li></ul></div>
+</div>
+<div class="two">
+ <div><p class="sub">Gray matter</p><p>Cell bodies: cortex and subcortical nuclei.</p></div>
+ <div><p class="sub">White matter</p><p>Axon tracts (e.g., <b>internal capsule</b>), including commissures (e.g., <b>corpus callosum</b>). Seen with DTI.</p></div>
+</div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Epidural</b> hematoma: between skull and dura (middle meningeal a., lucid interval, lens-shaped). <b>Subdural</b>: between dura and arachnoid (bridging veins, crescent). <b>Subarachnoid</b>: "worst headache of my life," blood in CSF.</li>
+ <li>Meningitis inflames the arachnoid and pia (leptomeninges).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Know the anatomy and functions of the telencephalon, diencephalon, midbrain, pons &amp; medulla, and cerebellum, as presented in lecture</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q7</span><span>What makes up the telencephalon?</span></summary><div class="a">Two hemispheres. Gray matter: cerebral cortex (frontal, parietal, temporal, occipital lobes; includes the hippocampus in the temporal lobe) and subcortical nuclei (amygdala, basal ganglia such as the caudate). White matter: tracts (internal capsule) and commissures (corpus callosum).</div></details></li><li><details><summary><span class="qn">Q8</span><span>What does the telencephalon do?</span></summary><div class="a">Cognitive and affective functions (language, memory, thought, emotion), sensory functions (vision, hearing, taste, smell, touch, pain) and motor functions.</div></details></li><li><details><summary><span class="qn">Q9</span><span>Name the four parts of the diencephalon and their main functions.</span></summary><div class="a">Thalamus: relay and gatekeeper to the cortex (sensory, motor, cognitive, limbic). Hypothalamus (+ pituitary): feeding, feelings, fever, mating, sleep. Subthalamus: subthalamic nucleus, functionally part of the basal ganglia. Epithalamus: habenula (diverse behaviors) + pineal gland (circadian rhythms).</div></details></li><li><details><summary><span class="qn">Q10</span><span>Tectum vs tegmentum of the midbrain?</span></summary><div class="a">Tectum (roof): inferior colliculus (hearing) and superior colliculus (vision). Tegmentum: nuclei including reticular formation, red nucleus, PAG, raphe, VTA and substantia nigra.</div></details></li><li><details><summary><span class="qn">Q11</span><span>Give the function of each midbrain tegmental nucleus in lecture.</span></summary><div class="a">Reticular formation: motor and cardiovascular control, pain modulation, sleep and consciousness. Red nucleus: motor coordination, gait. PAG: autonomic function, pain modulation. Raphe: thermoregulation. VTA: reward-based learning. Substantia nigra: motor, memory, language (works with the basal ganglia).</div></details></li><li><details><summary><span class="qn">Q12</span><span>What lives in the pons, and what does it do?</span></summary><div class="a">Cranial nerve nuclei V–VIII and the locus coeruleus (main source of norepinephrine). Functions: breathing, equilibrium, hearing, taste, facial touch and pain, eye movement, facial expression, chewing, swallowing, saliva and tears.</div></details></li><li><details><summary><span class="qn">Q13</span><span>What lives in the medulla, and why is it vital?</span></summary><div class="a">Cranial nerve nuclei IX, X, XI and the arcuate nucleus (breathing rate). It runs autonomic functions: breathing, heart rate, blood pressure, swallowing, vomiting, sneezing, coughing, sleep cycle.</div></details></li><li><details><summary><span class="qn">Q14</span><span>Describe the cerebellum&#x27;s anatomy.</span></summary><div class="a">Two hemispheres, each with anterior, posterior and flocculonodular lobes; the midline vermis; cerebellar cortex; four deep nuclei — fastigial, globose, emboliform, dentate (&quot;Fat Guys Eat Donuts&quot;).</div></details></li><li><details><summary><span class="qn">Q15</span><span>Is the cerebellum only a motor structure?</span></summary><div class="a">No. The lecture&#x27;s function map shows many functions beyond motor, including cognitive ones.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Telencephalon</b> = cortex + basal ganglia (thinking, sensing, moving). <b>Diencephalon</b> = thalamus (relay), hypothalamus (4 F's + sleep), subthalamus, epithalamus. <b>Midbrain</b> = colliculi + tegmental nuclei (SN, VTA, red nucleus, PAG). <b>Pons</b> = CN V–VIII + locus coeruleus. <b>Medulla</b> = CN IX–XI + vital autonomic control. <b>Cerebellum</b> = coordination and more.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Division</th><th>Key structures</th><th>Functions</th></tr></thead>
+ <tbody>
+  <tr><td>Telencephalon</td><td>4 cortical lobes (hippocampus in temporal); amygdala; basal ganglia (caudate…); internal capsule, corpus callosum</td><td>Cognition, emotion, senses, movement</td></tr>
+  <tr><td>Thalamus</td><td>Many nuclei</td><td><b>Relay + gatekeeper</b> to cortex</td></tr>
+  <tr><td>Hypothalamus</td><td>Many subnuclei + <b>pituitary</b></td><td><b>Feeding, Feelings, Fever, Mating (F), Sleep</b></td></tr>
+  <tr><td>Subthalamus</td><td>Subthalamic nucleus</td><td>Part of basal ganglia: motor, memory, language</td></tr>
+  <tr><td>Epithalamus</td><td>Habenula, <b>pineal</b></td><td>Behavior; <b>circadian rhythm</b> (melatonin)</td></tr>
+  <tr><td>Midbrain — tectum</td><td>Inferior / superior colliculi</td><td><b>Inferior = hearing</b>; <b>superior = vision</b></td></tr>
+  <tr><td>Midbrain — tegmentum</td><td>Reticular formation, red nucleus, PAG, raphe, VTA, <b>substantia nigra</b>, Edinger-Westphal</td><td>Arousal, gait, pain, temperature, reward, motor</td></tr>
+  <tr><td>Pons</td><td>CN <b>V, VI, VII, VIII</b> nuclei; <b>locus coeruleus</b></td><td>Face, eyes, hearing, balance; <b>norepinephrine</b></td></tr>
+  <tr><td>Medulla</td><td>CN <b>IX, X, XI</b> nuclei; arcuate nucleus</td><td><b>Breathing, heart rate, BP</b>, swallowing, vomiting — can't live without it</td></tr>
+  <tr><td>Cerebellum</td><td>3 lobes, vermis, cortex, 4 deep nuclei</td><td>Coordination, balance, plus non-motor functions</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li>Hypothalamus = the <b>4 F's + S</b>: Feeding, Feelings, Fever, (Mating), Sleep.</li>
+ <li>Colliculi: <b>I</b>nferior = <b>I</b>ears; <b>S</b>uperior = <b>S</b>ight.</li>
+ <li>Cranial nerve nuclei by level: midbrain III–IV · pons V–VIII · medulla IX–XII.</li>
+ <li>Deep cerebellar nuclei, medial → lateral: <b>F</b>at <b>G</b>uys <b>E</b>at <b>D</b>onuts (fastigial, globose, emboliform, dentate).</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Neurotransmitter sources: <b>NE</b> — locus coeruleus (pons); <b>dopamine</b> — VTA + substantia nigra pars compacta (midbrain); <b>serotonin</b> — raphe; <b>ACh</b> — basal nucleus of Meynert.</li>
+ <li>Hypothalamic nuclei: lateral = hunger; ventromedial = satiety; suprachiasmatic = circadian; supraoptic/paraventricular = ADH, oxytocin; anterior = cooling; posterior = heating.</li>
+ <li>Cerebellar lesions → <b>ipsilateral</b> ataxia; vermis → truncal ataxia/gait; hemispheres → limb ataxia, intention tremor, dysmetria.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Understand the brain disorders presented in lecture</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q16</span><span>Broca&#x27;s aphasia: what is damaged, and what are the deficits?</span></summary><div class="a">Broca&#x27;s area (inferior frontal gyrus) and surrounding tissue. Speech and language impairments, plus memory, executive and motor impairments.</div></details></li><li><details><summary><span class="qn">Q17</span><span>Huntington disease: what degenerates, and what are the deficits?</span></summary><div class="a">The basal ganglia (caudate nucleus) and other structures. Motor dysfunction (chorea) plus memory, executive and language problems.</div></details></li><li><details><summary><span class="qn">Q18</span><span>Pituitary adenoma: how common, and what does it cause?</span></summary><div class="a">About 17% prevalence; benign or malignant. Compressing the optic chiasm → bitemporal hemianopsia; excess ACTH → Cushing syndrome (too much cortisol from the adrenals).</div></details></li><li><details><summary><span class="qn">Q19</span><span>Parkinson disease: who, what degenerates, and what are the symptoms?</span></summary><div class="a">1% of people over 60, 4% over 80. Starts with loss of dopaminergic neurons in the substantia nigra pars compacta. Motor (tremor, hypokinesia), cognitive (memory, executive, language), mood, sensory (especially smell) and sleep problems.</div></details></li><li><details><summary><span class="qn">Q20</span><span>What is the hallmark of a pontine stroke?</span></summary><div class="a">Various deficits from the pontine nuclei and tracts — including weakness on both sides of the body.</div></details></li><li><details><summary><span class="qn">Q21</span><span>Medulloblastoma: who, where, symptoms and outcome?</span></summary><div class="a">A common primary malignant brain tumor in children (14.5% of new pediatric brain tumors), in the cerebellum. Walking, balance, motor and cognitive problems; if it blocks the 4th ventricle → hydrocephalus (headache, vomiting, sleepiness). Surgery + chemo; ~70% 5-year survival.</div></details></li></ol></div>
+    <p class="bottom-line">Six disorders, one per region: <b>Broca's aphasia</b> + <b>Huntington</b> (telencephalon), <b>pituitary adenoma</b> (diencephalon), <b>Parkinson</b> (midbrain), <b>pontine stroke</b> (pons), <b>medulloblastoma</b> (cerebellum).</p>
+<div class="tbl"><table>
+ <thead><tr><th>Disorder</th><th>Region / structure</th><th>Findings</th></tr></thead>
+ <tbody>
+  <tr><td>Broca's aphasia</td><td>Telencephalon — Broca's area (inferior frontal gyrus)</td><td>Non-fluent, effortful speech; comprehension largely intact; also memory, executive, motor deficits</td></tr>
+  <tr><td>Huntington disease</td><td>Telencephalon — <b>caudate</b> (basal ganglia)</td><td><b>Chorea</b> + memory, executive, language deficits</td></tr>
+  <tr><td>Pituitary adenoma</td><td>Diencephalon — pituitary</td><td><b>Bitemporal hemianopsia</b> (chiasm); <b>Cushing</b> (↑ ACTH)</td></tr>
+  <tr><td>Parkinson disease</td><td>Midbrain — <b>SN pars compacta</b> (dopamine)</td><td>Tremor, hypokinesia; cognitive, mood, smell, sleep problems</td></tr>
+  <tr><td>Pontine stroke</td><td>Pons</td><td>CN V–VIII signs; <b>weakness on both sides</b></td></tr>
+  <tr><td>Medulloblastoma</td><td>Cerebellum</td><td>Child with ataxia; 4th-ventricle block → hydrocephalus (headache, vomiting)</td></tr>
+ </tbody></table></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Huntington</b>: AD, <b>CAG</b> repeat (HTT, chr 4), anticipation; caudate atrophy → enlarged lateral ventricles ("boxcar"); ↓ GABA and ACh, ↑ dopamine.</li>
+ <li><b>Parkinson</b>: TRAP — Tremor (resting, pill-rolling), Rigidity (cogwheel), Akinesia/bradykinesia, Postural instability; <b>Lewy bodies</b> (α-synuclein).</li>
+ <li><b>Prolactinoma</b> is the most common pituitary adenoma (galactorrhea, amenorrhea; treat with cabergoline/bromocriptine).</li>
+ <li><b>Medulloblastoma</b>: small round blue cells, <b>Homer-Wright rosettes</b>; can seed the CSF ("drop metastases").</li>
+ <li><b>Broca</b> (non-fluent, comprehension OK, repetition poor) vs <b>Wernicke</b> (fluent nonsense, poor comprehension; superior temporal gyrus).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>Understand the principles of brain dysfunction</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q22</span><span>What are the four principles of brain dysfunction?</span></summary><div class="a">1) Damage to different structures often impacts different functions. 2) Which structure or pathway is damaged matters more than what causes the damage. 3) Damage to a given structure often affects more than one function. 4) Damage to distinct structures can impact the same function (networks).</div></details></li><li><details><summary><span class="qn">Q23</span><span>A stroke and a tumor in Broca&#x27;s area cause the same deficits. Which principle?</span></summary><div class="a">Principle 2: which structure is damaged matters more than the cause.</div></details></li><li><details><summary><span class="qn">Q24</span><span>Huntington damages the caudate and causes chorea, memory, executive and language problems. Which principle?</span></summary><div class="a">Principle 3: damage to one structure affects more than one function.</div></details></li><li><details><summary><span class="qn">Q25</span><span>A white matter lesion and a cortical lesion cause the same language deficit. Which principle?</span></summary><div class="a">Principle 4: networks — distinct structures (gray matter regions and the tracts connecting them) support the same function.</div></details></li><li><details><summary><span class="qn">Q26</span><span>What is a brain network?</span></summary><div class="a">Different brain structures working together to support a function, including gray matter regions and the white matter tracts that link them — spanning the brain and even the whole nervous system.</div></details></li></ol></div>
+    <p class="bottom-line">Four principles: <b>different structures → different functions</b>; <b>where matters more than what</b>; <b>one structure → many functions</b>; <b>many structures → one function (networks)</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>#</th><th>Principle</th><th>Lecture example</th></tr></thead>
+ <tbody>
+  <tr><td>1</td><td>Damage to different structures often impacts <b>different functions</b></td><td>Broca's area → language; SN → movement</td></tr>
+  <tr><td>2</td><td><b>Which</b> structure/pathway is damaged matters more than <b>what</b> causes it</td><td>Stroke, tumor or trauma in Broca's area → same aphasia</td></tr>
+  <tr><td>3</td><td>Damage to one structure often affects <b>more than one function</b></td><td>Huntington caudate → chorea + memory + executive + language</td></tr>
+  <tr><td>4</td><td>Damage to distinct structures can impact the <b>same function</b> (networks)</td><td>Language network: frontal + temporal cortex + connecting tracts</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Where &gt; what.</b> Localize the lesion first; the cause (stroke, tumor, infection) comes second.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><p>Step 1 neuro vignettes are localization puzzles: combine the deficits (e.g., CN palsy on one side + body weakness on the other = brainstem) to find the one structure or tract that explains them all.</p></div>
+  </article>
+  <div class="vign" aria-label="HNSS07 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A 58-year-old has a resting tremor, slowed movement, a reduced sense of smell and acts out his dreams. Loss of which neurons explains the motor signs?</p>
+      <ol class="opts"><li>Caudate GABAergic neurons</li><li>Dopaminergic neurons of the substantia nigra pars compacta</li><li>Noradrenergic neurons of the locus coeruleus</li><li>Purkinje cells of the vermis</li><li>Cholinergic neurons of the medulla</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Parkinson disease begins with loss of dopaminergic SN pars compacta neurons; smell and sleep changes are early non-motor signs.</div></details></article>
+    <article><p><b>2.</b> A woman has headaches, loss of both outer visual fields, weight gain with purple striae and high cortisol. Where is the lesion?</p>
+      <ol class="opts"><li>Occipital lobe</li><li>Pituitary</li><li>Pineal gland</li><li>Optic tract</li><li>Thalamus</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> A pituitary adenoma compresses the optic chiasm (bitemporal hemianopsia) and secretes ACTH (Cushing).</div></details></article>
+    <article><p><b>3.</b> A 5-year-old has a wide-based gait, morning headaches and vomiting. MRI shows a midline posterior fossa mass. Why the headaches and vomiting?</p>
+      <ol class="opts"><li>Direct invasion of the medulla</li><li>Tumor blocking the 4th ventricle → hydrocephalus</li><li>Pituitary compression</li><li>Subarachnoid hemorrhage</li><li>Seizures</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Medulloblastoma in the cerebellum can block CSF outflow through the 4th ventricle, raising intracranial pressure.</div></details></article>
+    <article><p><b>4.</b> Two patients have the same effortful, halting speech: one from a stroke and one from a tumor, both in the left inferior frontal gyrus. This illustrates which principle?</p>
+      <ol class="opts"><li>Networks support a function</li><li>One structure has many functions</li><li>Which structure is damaged matters more than what caused it</li><li>White matter is unimportant</li><li>The medulla is essential</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Same location, same deficit, different causes: location outweighs cause.</div></details></article>
+    <article><p><b>5.</b> Which structure is the brain&#x27;s main source of norepinephrine?</p>
+      <ol class="opts"><li>Raphe nuclei</li><li>Ventral tegmental area</li><li>Locus coeruleus</li><li>Substantia nigra</li><li>Red nucleus</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> The locus coeruleus in the pons is the main NE source; raphe = serotonin, VTA/SN = dopamine.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS07 · The Brain · Revision 1.0 · Updated September 29, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>

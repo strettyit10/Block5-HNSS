@@ -1,0 +1,219 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brain Development LO Answers</title><meta name="description" content="HoyaDocs HNSS08 neuro learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Neuro · Updated Sep 29, 2026 · Revision 1.0</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="hnss08" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">HNSS08 · 3 learning objectives</p>
+    <h1>Brain Development</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Know the stages of brain development throughout life to know their order and possible failures</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>List the stages of brain development in order.</span></summary><div class="a">Neural induction → neurulation → formation of brain divisions (vesicles) → neuronal proliferation and migration → circuit formation (axon generation and guidance) → neuronal competition → synaptogenesis → myelination → synaptic pruning → gray and white matter expansion → changes in healthy aging.</div></details></li><li><details><summary><span class="qn">Q2</span><span>What is neural induction, and what happens if it fails?</span></summary><div class="a">Ectoderm cells differentiate to a neural fate because of external molecular signals/gradients (blocking BMP). Induction also means loss of potential. Failure → natural (spontaneous) abortion.</div></details></li><li><details><summary><span class="qn">Q3</span><span>What is neurulation, and when does it occur?</span></summary><div class="a">The neural plate folds to form the neural tube, in weeks 3–4 of gestation. (Gestational age counts from the last menstrual period, ~2 weeks before fertilization.)</div></details></li><li><details><summary><span class="qn">Q4</span><span>Name the three signaling sources that pattern the neural tube.</span></summary><div class="a">Roof plate, floor plate and somites. Floor plate → SHH; roof plate → BMPs (and retinoic acid); somites → BMPs.</div></details></li><li><details><summary><span class="qn">Q5</span><span>What is the five-vesicle stage?</span></summary><div class="a">By gestational week 6: telencephalon, diencephalon, mesencephalon, metencephalon, myelencephalon — with folds, axes, differential growth and the optic vesicles.</div></details></li><li><details><summary><span class="qn">Q6</span><span>Where are cortical neurons born, and how do progenitors divide?</span></summary><div class="a">In the ventricular zone. Symmetric division → two progenitors; asymmetric division → one progenitor + one non-dividing neuron.</div></details></li><li><details><summary><span class="qn">Q7</span><span>How do cortical neurons migrate, and in what order are layers built?</span></summary><div class="a">Excitatory neurons climb radial glia toward the marginal zone (inhibitory neurons migrate tangentially). Layers form inside-out: deepest first, later neurons pass them. Cortical development spans gestational weeks 7–18. The neocortex has 6 layers.</div></details></li><li><details><summary><span class="qn">Q8</span><span>How do axons find their targets?</span></summary><div class="a">A motile growth cone senses its environment and follows diffuse gradients (Eph receptors and their ephrin ligands) and non-diffuse extracellular signals.</div></details></li><li><details><summary><span class="qn">Q9</span><span>What is the neurotrophic factor hypothesis?</span></summary><div class="a">Target cells make limited neurotrophic factor; neurons that don&#x27;t get enough undergo apoptosis. Factors: neurotrophins (NGF, BDNF, NT-3, NT-4/5), BMPs, hedgehogs, TGF-β, interleukins.</div></details></li><li><details><summary><span class="qn">Q10</span><span>Why does the cortex grow after birth?</span></summary><div class="a">Mainly dendritic growth, spine formation and synaptogenesis — not new neurons. Synapse changes continue for life.</div></details></li><li><details><summary><span class="qn">Q11</span><span>What drives myelination, and what does it do?</span></summary><div class="a">Oligodendrocyte development interacting with signals from individual axons; myelin greatly speeds conduction. Myelination reflects stabilization of projections.</div></details></li><li><details><summary><span class="qn">Q12</span><span>Give the cortical maturation timeline.</span></summary><div class="a">Rapid volume growth in the first 3 years, then leveling off and decline. Age 4: primary sensory, visual and motor cortex mature. Age 6: language early, prefrontal immature. Age 9: parietal and basal ganglia maturing. Age 11: limbic, parietal, prefrontal increasing. Age 15–18: association cortex matures by pruning. Age 21: most regions adult, but prefrontal and superior temporal still maturing.</div></details></li><li><details><summary><span class="qn">Q13</span><span>What changes in healthy aging?</span></summary><div class="a">Gray matter loss (larger ventricles and sulci) and lower synaptic density; some cognitive and sensory processes decline. Only some people develop severe degeneration (Alzheimer, other dementias, vascular).</div></details></li></ol></div>
+    <p class="bottom-line"><b>Induction → neurulation (wk 3–4) → vesicles (5 by wk 6) → proliferation + migration (wk 7–18, inside-out) → axon guidance → competition → synaptogenesis → myelination → pruning → expansion → aging.</b> Earlier failures are more severe.</p>
+<div class="tbl"><table>
+ <thead><tr><th>#</th><th>Stage</th><th>Key facts</th><th>Failure</th></tr></thead>
+ <tbody>
+  <tr><td>1</td><td>Neural induction</td><td>Ectoderm → neural fate via external signals (block BMP); loss of potential</td><td><b>Spontaneous abortion</b></td></tr>
+  <tr><td>2</td><td>Neurulation</td><td>Neural plate folds → tube; <b>weeks 3–4</b>; roof plate, floor plate (SHH), somites</td><td><b>Neural tube defects</b> (spina bifida, anencephaly)</td></tr>
+  <tr><td>3</td><td>Brain divisions</td><td>3 → <b>5 vesicles</b> by week 6</td><td>—</td></tr>
+  <tr><td>4</td><td>Proliferation + migration</td><td>Ventricular zone; radial glia; <b>inside-out</b>; wk 7–18</td><td><b>Lissencephaly</b> (Reelin, DCX), laminar heterotopia</td></tr>
+  <tr><td>5</td><td>Axon generation + guidance</td><td>Polarity; growth cones; Eph/ephrin gradients</td><td><b>Agenesis of corpus callosum</b> (DCC)</td></tr>
+  <tr><td>6</td><td>Neuronal competition</td><td>Neurotrophic factors (NGF, BDNF…); losers apoptose</td><td>—</td></tr>
+  <tr><td>7</td><td>Synaptogenesis</td><td>Pre/post regulate each other; glia help; drives postnatal growth</td><td>Spine defects: <b>Fragile X ↑</b>, <b>Rett ↓</b></td></tr>
+  <tr><td>8</td><td>Myelination</td><td>Oligodendrocytes; speeds conduction</td><td>—</td></tr>
+  <tr><td>9</td><td>Pruning</td><td>Unused synapses removed → specific circuits</td><td>—</td></tr>
+  <tr><td>10</td><td>Gray/white expansion</td><td>Rapid growth to age 3; prefrontal matures past 21</td><td>—</td></tr>
+  <tr><td>11</td><td>Healthy aging</td><td>↓ gray matter, ↑ ventricles/sulci, ↓ synapses</td><td>Dementia in some</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Ventricular zone progenitor</span><i>→ asymmetric division →</i><span>Neuron</span><i>→ climbs radial glia →</i><span>Cortical plate (inside-out)</span><i>→</i><span>Axon + dendrites</span><i>→</i><span>Synapses → pruning</span></div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li><b>I N V M A C S M P</b>: Induction, Neurulation, Vesicles, Migration, Axons, Competition, Synapses, Myelin, Pruning.</li>
+ <li><b>Inside-out</b>: the first-born neurons end up deepest (layer 6).</li>
+ <li>Floor plate = <b>SHH</b> (ventral/motor); roof plate = <b>BMP</b> (dorsal/sensory).</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Neural tube closes by ~day 28 (post-fertilization): anterior neuropore ~day 25 (anencephaly), posterior ~day 27 (spina bifida).</li>
+ <li>Neural tube defects → <b>↑ AFP</b> in maternal serum and amniotic fluid; ↑ acetylcholinesterase in amniotic fluid.</li>
+ <li>Neural crest vs neural tube: tube → CNS neurons, oligodendrocytes, astrocytes, ependyma; crest → PNS (DRG, autonomic ganglia, Schwann cells), melanocytes, adrenal medulla.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Understand the role of environmental cues in brain development to understand teratogens and genetic malfunctions</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q14</span><span>What is a teratogen?</span></summary><div class="a">An agent that causes abnormality after fetal exposure during pregnancy.</div></details></li><li><details><summary><span class="qn">Q15</span><span>Which environmental factors raise neural tube defect risk?</span></summary><div class="a">Folate (folic acid) deficiency, maternal insulin-dependent diabetes and certain maternal anticonvulsants. About 3,000 US pregnancies a year are affected; rates are higher in Hispanic women.</div></details></li><li><details><summary><span class="qn">Q16</span><span>Which genes cause lissencephaly, and what happens?</span></summary><div class="a">Recessive Reelin mutations and doublecortin (DCX) mutations disrupt neuronal migration → smooth brain (lissencephaly) or laminar heterotopia. Outcomes: abortion, seizures, early death; severe cases live ~10 years.</div></details></li><li><details><summary><span class="qn">Q17</span><span>Which gene is linked to agenesis of the corpus callosum?</span></summary><div class="a">DCC (an axon-guidance receptor). Often diagnosed in the first 2 years; may cause intellectual disability, subtler psychosocial problems, or nothing. A seizure may be the first sign.</div></details></li><li><details><summary><span class="qn">Q18</span><span>How do Fragile X and Rett differ at the synapse?</span></summary><div class="a">Fragile X: increased dendritic spine density. Rett: decreased spine density. Subnormal intellect tracks spine morphology.</div></details></li><li><details><summary><span class="qn">Q19</span><span>Why can one signaling defect cause broad abnormalities?</span></summary><div class="a">The same signaling molecules (e.g., BMPs) are reused at many stages and in many systems.</div></details></li><li><details><summary><span class="qn">Q20</span><span>Why does the timing of exposure matter?</span></summary><div class="a">The time of interference determines which developing function is hit — e.g., fetal alcohol effects differ with when in pregnancy drinking occurred.</div></details></li><li><details><summary><span class="qn">Q21</span><span>What is the most common infectious cause of birth defects in the US, and its effects?</span></summary><div class="a">Cytomegalovirus (CMV). ~1 in 200 babies are born with it (higher in African Americans); 1 in 5 of those have symptoms: hearing loss, developmental and motor delay, microcephaly. Rubella and Zika also affect brain development.</div></details></li></ol></div>
+    <p class="bottom-line">Development runs on <b>location-based signals</b>; <b>genes</b> (Reelin, DCX, DCC) or <b>teratogens</b> (folate lack, diabetes, anticonvulsants, alcohol, CMV) that disturb them cause defects, and <b>when</b> the hit happens decides what breaks.</p>
+<div class="two">
+ <div><p class="sub">Genetic malfunctions</p>
+ <div class="tbl"><table><thead><tr><th>Gene</th><th>Process</th><th>Result</th></tr></thead><tbody>
+  <tr><td>Reelin (recessive)</td><td>Migration (stop signal)</td><td>Lissencephaly</td></tr>
+  <tr><td>DCX</td><td>Migration (movement)</td><td>Lissencephaly, laminar heterotopia</td></tr>
+  <tr><td>DCC</td><td>Axon guidance</td><td>Corpus callosum agenesis</td></tr>
+  <tr><td>FMR1 (Fragile X)</td><td>Spines</td><td>↑ spine density</td></tr>
+  <tr><td>MECP2 (Rett)</td><td>Spines</td><td>↓ spine density</td></tr>
+ </tbody></table></div></div>
+ <div><p class="sub">Environmental factors</p>
+ <div class="tbl"><table><thead><tr><th>Factor</th><th>Effect</th></tr></thead><tbody>
+  <tr><td>Folate deficiency</td><td>NTDs</td></tr>
+  <tr><td>Maternal insulin-dependent diabetes</td><td>NTDs</td></tr>
+  <tr><td>Anticonvulsants</td><td>NTDs</td></tr>
+  <tr><td>Alcohol</td><td>FAS — effect depends on timing</td></tr>
+  <tr><td>CMV</td><td>Hearing loss, microcephaly, delay</td></tr>
+  <tr><td>Rubella, Zika</td><td>Brain malformation</td></tr>
+ </tbody></table></div></div>
+</div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Folic acid</b> 0.4 mg/day before conception (4 mg if prior NTD); <b>valproate</b> and <b>carbamazepine</b> → NTDs.</li>
+ <li><b>Congenital CMV</b>: periventricular calcifications, SNHL, microcephaly, chorioretinitis. <b>Toxoplasma</b>: diffuse calcifications, hydrocephalus. <b>Zika</b>: severe microcephaly.</li>
+ <li><b>Fragile X</b>: CGG repeat (FMR1), long face, large ears, macroorchidism. <b>Rett</b>: MECP2 (X-linked dominant, girls), regression, hand-wringing.</li>
+ <li><b>Isotretinoin</b> (retinoic acid) and <b>maternal diabetes</b> (caudal regression) are classic CNS teratogens.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Describe the outcomes of deficits in different mechanisms and at brain development stages</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q22</span><span>What is the outcome of failed neural induction?</span></summary><div class="a">Natural (spontaneous) abortion.</div></details></li><li><details><summary><span class="qn">Q23</span><span>What is the outcome of failed neurulation?</span></summary><div class="a">Neural tube defects — e.g., spina bifida / myelomeningocele (caudal) or anencephaly (cranial).</div></details></li><li><details><summary><span class="qn">Q24</span><span>What is the outcome of failed neuronal migration?</span></summary><div class="a">Lissencephaly (smooth brain) or laminar heterotopia: seizures, intellectual disability, early death.</div></details></li><li><details><summary><span class="qn">Q25</span><span>What is the outcome of failed axon guidance of crossing fibers?</span></summary><div class="a">Agenesis of the corpus callosum: from no symptoms to seizures and intellectual disability.</div></details></li><li><details><summary><span class="qn">Q26</span><span>What is the outcome of abnormal synaptogenesis / spine regulation?</span></summary><div class="a">Intellectual disability and autism-spectrum features — Fragile X (too many spines), Rett (too few).</div></details></li><li><details><summary><span class="qn">Q27</span><span>Why are earlier failures usually worse?</span></summary><div class="a">Early stages build the foundation every later stage depends on, so failures cascade; later failures hit narrower functions.</div></details></li></ol></div>
+    <p class="bottom-line">The earlier the failure, the worse the outcome: <b>induction → abortion</b>; <b>neurulation → NTDs</b>; <b>migration → lissencephaly</b>; <b>guidance → callosal agenesis</b>; <b>synaptogenesis → Fragile X / Rett</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Stage that fails</th><th>Mechanism</th><th>Outcome</th></tr></thead>
+ <tbody>
+  <tr><td>Induction</td><td>No neural fate</td><td><b>Spontaneous abortion</b></td></tr>
+  <tr><td>Neurulation (wk 3–4)</td><td>Tube doesn't close</td><td><b>Spina bifida</b>, myelomeningocele, <b>anencephaly</b></td></tr>
+  <tr><td>Migration (wk 7–18)</td><td>Reelin / DCX</td><td><b>Lissencephaly</b>, heterotopia → seizures, early death</td></tr>
+  <tr><td>Axon guidance</td><td>DCC</td><td><b>Agenesis of corpus callosum</b></td></tr>
+  <tr><td>Synaptogenesis</td><td>Spine density</td><td><b>Fragile X</b> (↑), <b>Rett</b> (↓) → intellectual disability</td></tr>
+  <tr><td>Timing of teratogen</td><td>Which process is active</td><td>Different FAS patterns by trimester</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Induction</span><i>→ abortion ·</i><span>Neurulation</span><i>→ NTD ·</i><span>Migration</span><i>→ lissencephaly ·</i><span>Guidance</span><i>→ callosal agenesis ·</i><span>Synapses</span><i>→ ID</i></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Spina bifida occulta</b>: tuft of hair/dimple, normal AFP. <b>Meningocele</b>: meninges herniate. <b>Myelomeningocele</b>: meninges + cord herniate; linked to <b>Chiari II</b> and hydrocephalus.</li>
+ <li><b>Holoprosencephaly</b>: failed forebrain splitting (SHH mutation, trisomy 13, FAS) → cyclopia, cleft lip.</li></ul></div>
+  </article>
+  <div class="vign" aria-label="HNSS08 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A fetal MRI at 24 weeks shows a smooth cerebral surface with no gyri. Which process failed, and which genes are implicated?</p>
+      <ol class="opts"><li>Neural induction — BMP</li><li>Neuronal migration — Reelin or DCX</li><li>Myelination — oligodendrocyte genes</li><li>Axon guidance — DCC</li><li>Synaptic pruning — FMR1</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Lissencephaly is a migration defect caused by Reelin (recessive) or doublecortin (DCX) mutations.</div></details></article>
+    <article><p><b>2.</b> A 1-year-old&#x27;s first seizure leads to MRI showing no fibers crossing between the hemispheres. Which gene was named in lecture?</p>
+      <ol class="opts"><li>DCX</li><li>Reelin</li><li>DCC</li><li>SHH</li><li>PAX6</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> DCC mutations disrupt axon guidance of crossing fibers → agenesis of the corpus callosum; a seizure can be the first sign.</div></details></article>
+    <article><p><b>3.</b> A newborn fails the hearing screen and has microcephaly. The mother had a mild flu-like illness in pregnancy. Most likely cause?</p>
+      <ol class="opts"><li>Rubella</li><li>Cytomegalovirus</li><li>Toxoplasma</li><li>Herpes simplex</li><li>Syphilis</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> CMV is the most common infectious cause of birth defects in the US; hearing loss and microcephaly are typical.</div></details></article>
+    <article><p><b>4.</b> Why does the prefrontal cortex remain vulnerable to environment into the early 20s?</p>
+      <ol class="opts"><li>It is the first region to myelinate</li><li>It is still maturing (pruning and myelination) past age 21</li><li>It has no synapses until puberty</li><li>Neurogenesis continues there</li><li>It lacks radial glia</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Prefrontal and superior temporal cortex are still maturing at 21; pruning and myelination continue there.</div></details></article>
+    <article><p><b>5.</b> A girl develops normally for 18 months, then loses language and develops hand-wringing. Her dendritic spines are most likely:</p>
+      <ol class="opts"><li>Increased in density</li><li>Decreased in density</li><li>Normal</li><li>Absent entirely</li><li>Replaced by axons</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Rett syndrome is associated with decreased spine density; Fragile X shows increased density.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · HNSS08 · Brain Development · Revision 1.0 · Updated September 29, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>
