@@ -96,6 +96,13 @@ table.list th{font:600 11px var(--f-mono);text-transform:uppercase;letter-spacin
 table.list td.n{font-weight:700}
 .empty{padding:40px 0;color:var(--muted);text-align:center}
 .new{font:600 10px var(--f-mono);padding:1px 6px;border-radius:999px;background:var(--hema-soft);color:var(--hema);white-space:nowrap}
+.pdfs{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.pdf{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg);background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:9px 14px;min-width:0}
+.pdf:hover{border-color:var(--eosin)}
+.pdf svg{width:22px;height:22px;flex:none;color:var(--eosin)}
+.pdf span{display:flex;flex-direction:column;line-height:1.25}
+.pdf small{font:600 10.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pdf b{font-size:14.5px}
 .home{display:inline-block;font:600 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;margin-bottom:10px}
 .home:hover{color:var(--hema)}
 footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--line);font:12px var(--f-mono);color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
@@ -120,8 +127,13 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--line);font:12
     <h1>HNSS Pathology Database</h1>
     <p class="sub">Every disease from the eye &amp; orbit (HNSS11) and head &amp; neck (HNSS15, HNSS16) pathology charts. Search a buzzword, filter by region or behavior, or cover the names to quiz yourself.</p>
   </div>
-  <div class="brand"><b>HoyaDocs</b>Updated Oct 1, 2026 · Rev 1</div>
+  <div class="brand"><b>HoyaDocs</b>Updated Oct 1, 2026 · Rev 2</div>
 </header>
+
+<nav class="pdfs" aria-label="PDF charts">
+  <a class="pdf" href="HoyaDocs_HNSS11_Eye_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 2.5h8l4.5 4.5v14.5H6z"/><path d="M14 2.5V7h4.5"/><path d="M9 13h6M9 16.5h6"/></svg><span><small>PDF chart · 5 pages</small><b>HNSS11 · Eye &amp; orbit pathology</b></span></a>
+  <a class="pdf" href="HoyaDocs_HNSS15-16_Head_Neck_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 2.5h8l4.5 4.5v14.5H6z"/><path d="M14 2.5V7h4.5"/><path d="M9 13h6M9 16.5h6"/></svg><span><small>PDF chart · 8 pages</small><b>HNSS15–16 · Head &amp; neck pathology</b></span></a>
+</nav>
 
 <div class="bar" role="search">
   <div class="row">
@@ -141,7 +153,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--line);font:12
 
 <main id="out"></main>
 
-<footer><span>HoyaDocs · HNSS Pathology Database</span><span>STEP 1 = beyond class content · NOT COVERED = not tested in class</span><span>Updated Oct 1, 2026 · Rev 1</span></footer>
+<footer><span>HoyaDocs · HNSS Pathology Database</span><span>STEP 1 = beyond class content · NOT COVERED = not tested in class</span><span>Updated Oct 1, 2026 · Rev 2</span></footer>
 </div>
 
 <script>
