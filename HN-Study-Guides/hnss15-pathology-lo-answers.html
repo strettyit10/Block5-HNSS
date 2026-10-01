@@ -6,7 +6,7 @@
 /* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
 :root{
   --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
-  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f; --m04:#1f6f8b; --m07:#9a4a1c; --m12:#6a45a6; --m22:#1f7a6b; --m24:#b02a22;
   --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
   --chip:#eef1f4; --ans:#f1f6f5;
   --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
@@ -15,11 +15,11 @@
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
-  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80;
   --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
 :root[data-theme="dark"]{
   --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
-  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80;
   --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
 
 *{box-sizing:border-box}
@@ -42,7 +42,7 @@ nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);
 section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
 .lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
 .lec-head .meta{color:var(--c)}
-#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)} #msk04{--c:var(--m04)} #msk07{--c:var(--m07)} #msk12{--c:var(--m12)} #msk22{--c:var(--m22)} #msk24{--c:var(--m24)}
 
 article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
 .lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
@@ -61,7 +61,7 @@ table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
 th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
 th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
 tr:last-child td{border-bottom:0}
-td:first-child{font-weight:700;white-space:nowrap}
+td:first-child{font-weight:700;min-width:7em}
 .num{font-variant-numeric:tabular-nums}
 
 .flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
@@ -102,9 +102,16 @@ footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid 
 .kq-bar{display:flex;gap:8px;flex-wrap:wrap}
 .kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
 .kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.charts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 16px}
+.charts .meta{margin:0 4px 0 0}
+.charts a{display:inline-flex;align-items:center;gap:6px;font:600 .82rem var(--f-body);color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:8px;padding:6px 12px;text-decoration:none}
+.charts a:hover{border-color:var(--ink)}
+.charts a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.charts svg{width:14px;height:14px;flex:none}
 </style></head><body>
 <div class="wrap">
-<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Pathology · Updated Sep 29, 2026 · Revision 1.0</p>
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 HNSS · Pathology · Updated Oct 1, 2026 · Revision 1.1</p>
+<nav class="charts" aria-label="Charts for this lecture"><span class="meta">Charts</span><a href="../../HN-Pathology-Database/HoyaDocs_HNSS15-16_Head_Neck_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>HNSS15–16 pathology chart</a><a href="../../HN-Pathology-Database/index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></nav>
 <div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
 <section class="lecture" id="hnss15" style="margin-top:0">
   <div class="lec-head">
