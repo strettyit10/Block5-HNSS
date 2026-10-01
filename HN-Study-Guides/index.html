@@ -158,6 +158,17 @@ a.card:hover .go svg{transform:translateX(4px)}
 .pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--p1-ink);background:var(--p1-soft);border:1px solid var(--p1);border-radius:999px;padding:2px 10px}
 .empty{display:none;color:var(--muted);padding:26px;text-align:center;border:1px dashed var(--line);border-radius:10px}
 
+.card{position:relative}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--a)}
+.card:hover .go svg{transform:translateX(4px)}
+.card h3 a.stretch{color:inherit;text-decoration:none}
+.card h3 a.stretch::after{content:"";position:absolute;inset:0;z-index:1}
+.charts{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:0 20px 14px}
+.charts .tag{font-size:10px;margin-right:2px}
+.charts a{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;text-decoration:none;color:var(--a-ink);background:var(--a-soft);border:1px solid transparent;border-radius:6px;padding:4px 9px}
+.charts a:hover{border-color:var(--a)}
+.charts svg{width:13px;height:13px;flex:none}
+
 /* featured band (HY) */
 .one{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,26px);background:var(--hy-bg);border:1px solid var(--hy-line);border-left:6px solid var(--hy-line);border-radius:10px;padding:clamp(18px,3vw,26px) clamp(18px,3vw,30px);color:var(--hy-ink);text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
 .one:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
@@ -188,7 +199,7 @@ a.card:hover .go svg{transform:translateX(4px)}
   <header class="mast">
     <a class="brand" href="../index.html">HoyaDocs <b>&middot;</b> Block 5</a>
     <div class="mastright">
-      <div class="tag">HNSS &middot; Rev 5 &middot; Updated Sep 29, 2026</div>
+      <div class="tag">HNSS &middot; Rev 7 &middot; Updated Oct 1, 2026</div>
       <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
     </div>
   </header>
@@ -208,7 +219,7 @@ a.card:hover .go svg{transform:translateX(4px)}
     <p>Every learning objective, answered. Each LO opens with the one-line answer, then the detail you need for in-house questions. Yellow boxes are high-yield Step 1 add-ons.</p>
     <div class="stats">
       <div><b>69</b><small>LOs answered</small></div>
-      <div><b>12</b><small>Guides live</small></div>
+      <div><b>11</b><small>Guides live</small></div>
       <div><b>4</b><small>Subjects</small></div>
     </div>
   </section>
@@ -243,53 +254,47 @@ a.card:hover .go svg{transform:translateX(4px)}
       <div class="lecs"><span><b>HNSS03</b>Pharyngeal Arches</span><span><b>HNSS04</b>Craniofacial Development</span><span><b>HNSS18</b>Eye &amp; Ear Embryology</span></div>
     </div>
 
-    <a class="one" href="HoyaDocs_HNSS_Embryology_LO_Answers.html">
-      <div class="ico" aria-hidden="true">ALL</div>
-      <div>
-        <div class="kicker">★ All 3 Lectures &middot; One Guide</div>
-        <h3>Complete Embryology LO Answers</h3>
-        <p>HNSS03, HNSS04 and HNSS18 together: all 21 learning objectives with lecture tabs, high-yield boxes and application questions.</p>
-      </div>
-      <span class="btn">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
 
     <div class="grid">
-      <a class="card" href="hnss03-embryology-lo-answers.html">
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>03</b></div>
           <div>
             <div class="sub">Introduction</div>
-            <h3>Pharyngeal Arches</h3>
+            <h3><a class="stretch" href="Embryology%20Study%20Guides/hnss03-embryology-lo-answers.html">Pharyngeal Arches</a></h3>
             <p>Arch timing and components, derivatives of every arch, pouch and cleft, Hox genes, teratogens and arch birth defects.</p>
           </div>
         </div>
         <div class="chips"><span>Arch derivatives</span><span>Pouches &amp; clefts</span><span>Hox genes</span><span>Alcohol &amp; retinoic acid</span><span>DiGeorge</span><span>Treacher Collins</span></div>
+        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS03_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pathology chart</a><a href="../HoyaDocs_HNSS03_Pharyngeal_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pharyngeal timeline</a></div>
         <div class="foot2"><span class="tag">8 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
-      <a class="card" href="hnss04-embryology-lo-answers.html">
+      </div>
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>04</b></div>
           <div>
             <div class="sub">Face &middot; Tongue &middot; Palate</div>
-            <h3>Craniofacial Development</h3>
+            <h3><a class="stretch" href="Embryology%20Study%20Guides/hnss04-embryology-lo-answers.html">Craniofacial Development</a></h3>
             <p>Tongue and its innervation, thyroid development, the face, palates and skull, cleft malformations and ultrasound.</p>
           </div>
         </div>
         <div class="chips"><span>Tongue</span><span>Thyroid</span><span>Face &amp; palates</span><span>Neuro- &amp; viscerocranium</span><span>Cleft lip &amp; palate</span><span>Ultrasound</span></div>
+        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS04_Craniofacial_Charts.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Craniofacial charts</a><a href="../HoyaDocs_HNSS04_Clinical_Problems_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Clinical problems chart</a><a href="../HoyaDocs_HNSS04_Craniofacial_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Craniofacial timeline</a></div>
         <div class="foot2"><span class="tag">10 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
-      <a class="card" href="hnss18-embryology-lo-answers.html">
+      </div>
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>18</b></div>
           <div>
             <div class="sub">Special Senses</div>
-            <h3>Eye &amp; Ear Embryology</h3>
+            <h3><a class="stretch" href="Embryology%20Study%20Guides/hnss18-embryology-lo-answers.html">Eye &amp; Ear Embryology</a></h3>
             <p>Embryologic origins of the eye and ear, the steps that form eye and inner, middle and external ear, and key abnormalities.</p>
           </div>
         </div>
         <div class="chips"><span>Germ-layer origins</span><span>Optic cup</span><span>Inner · middle · external ear</span><span>Coloboma</span><span>Congenital defects</span></div>
+        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS18_Eye_Ear_Development_Charts.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye &amp; ear charts</a><a href="../HoyaDocs_HNSS18_Eye_Ear_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye &amp; ear timeline</a><a href="../HoyaDocs_HNSS18_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pathology chart</a></div>
         <div class="foot2"><span class="tag">3 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
+      </div>
     </div>
   </section>
 
@@ -302,41 +307,32 @@ a.card:hover .go svg{transform:translateX(4px)}
       <div class="lecs"><span><b>HNSS09</b>Eye &amp; Ear Histology</span><span><b>HNSS12</b>Oral Structures</span></div>
     </div>
 
-    <a class="one" href="HoyaDocs_HNSS_Histology_LO_Answers.html">
-      <div class="ico" aria-hidden="true">ALL</div>
-      <div>
-        <div class="kicker">★ Both Lectures &middot; One Guide</div>
-        <h3>Complete Histology LO Answers</h3>
-        <p>HNSS09 and HNSS12 together: all 10 learning objectives with lecture tabs, key questions, high-yield boxes and application questions.</p>
-      </div>
-      <span class="btn">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
 
     <div class="grid">
-      <a class="card" href="hnss09-histology-lo-answers.html">
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>09</b></div>
           <div>
             <div class="sub">Special Senses</div>
-            <h3>Eye &amp; Ear Histology</h3>
+            <h3><a class="stretch" href="Histology%20Study%20Guides/hnss09-histology-lo-answers.html">Eye &amp; Ear Histology</a></h3>
             <p>The three tunics of the eye and retinal layers, lens and adnexa, the outer, middle and inner ear, and the organ of Corti, maculae and cristae.</p>
           </div>
         </div>
         <div class="chips"><span>Cornea &amp; sclera</span><span>Uvea</span><span>Retinal layers</span><span>Lens &amp; eyelid</span><span>Cochlea</span><span>Maculae &amp; cristae</span></div>
         <div class="foot2"><span class="tag">4 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
-      <a class="card" href="hnss12-histology-lo-answers.html">
+      </div>
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>12</b></div>
           <div>
             <div class="sub">Mouth</div>
-            <h3>Oral Structures</h3>
+            <h3><a class="stretch" href="Histology%20Study%20Guides/hnss12-histology-lo-answers.html">Oral Structures</a></h3>
             <p>Oral mucosa, lips and palate, tooth tissues and development, tongue papillae and taste buds, salivary glands and the pharynx.</p>
           </div>
         </div>
         <div class="chips"><span>Oral mucosa</span><span>Enamel &amp; dentin</span><span>Tooth development</span><span>Papillae &amp; taste buds</span><span>Salivary glands</span><span>Pharynx</span></div>
         <div class="foot2"><span class="tag">6 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
+      </div>
     </div>
   </section>
 
@@ -349,53 +345,44 @@ a.card:hover .go svg{transform:translateX(4px)}
       <div class="lecs"><span><b>HNSS07</b>The Brain</span><span><b>HNSS08</b>Brain Development</span><span><b>HNSS17</b>Vascular &amp; Ventricular</span></div>
     </div>
 
-    <a class="one" href="HoyaDocs_HNSS_Neuro_LO_Answers.html">
-      <div class="ico" aria-hidden="true">ALL</div>
-      <div>
-        <div class="kicker">★ All 3 Lectures &middot; One Guide</div>
-        <h3>Complete Neuro LO Answers</h3>
-        <p>HNSS07, HNSS08 and HNSS17 together: all 14 learning objectives with lecture tabs, key questions, high-yield boxes and application questions.</p>
-      </div>
-      <span class="btn">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
 
     <div class="grid">
-      <a class="card" href="hnss07-neuro-lo-answers.html">
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>07</b></div>
           <div>
             <div class="sub">CNS</div>
-            <h3>The Brain</h3>
+            <h3><a class="stretch" href="Neuro%20Study%20Guides/hnss07-neuro-lo-answers.html">The Brain</a></h3>
             <p>Meninges and brain divisions, what each region contains and does, the six lecture disorders and the four principles of brain dysfunction.</p>
           </div>
         </div>
         <div class="chips"><span>Meninges</span><span>Brain divisions</span><span>Brainstem nuclei</span><span>Parkinson &amp; Huntington</span><span>Medulloblastoma</span><span>Networks</span></div>
         <div class="foot2"><span class="tag">4 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
-      <a class="card" href="hnss08-neuro-lo-answers.html">
+      </div>
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>08</b></div>
           <div>
             <div class="sub">Development</div>
-            <h3>Brain Development</h3>
+            <h3><a class="stretch" href="Neuro%20Study%20Guides/hnss08-neuro-lo-answers.html">Brain Development</a></h3>
             <p>The stages from neural induction to aging, teratogens and genetic defects, and the outcome of failure at each stage.</p>
           </div>
         </div>
         <div class="chips"><span>Neurulation</span><span>Migration</span><span>Lissencephaly</span><span>Axon guidance</span><span>Fragile X &amp; Rett</span><span>CMV</span></div>
         <div class="foot2"><span class="tag">3 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
-      <a class="card" href="hnss17-neuro-lo-answers.html">
+      </div>
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>17</b></div>
           <div>
             <div class="sub">CNS Plumbing</div>
-            <h3>Vascular &amp; Ventricular Systems</h3>
+            <h3><a class="stretch" href="Neuro%20Study%20Guides/hnss17-neuro-lo-answers.html">Vascular &amp; Ventricular Systems</a></h3>
             <p>The blood–brain barrier, brain energy supply, arteries and stroke territories, vascular compromise, veins and sinuses, CSF and hydrocephalus.</p>
           </div>
         </div>
         <div class="chips"><span>Blood–brain barrier</span><span>Circle of Willis</span><span>Stroke &amp; AVM</span><span>Dural sinuses</span><span>CSF</span><span>Hydrocephalus</span></div>
         <div class="foot2"><span class="tag">7 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
+      </div>
     </div>
   </section>
 
@@ -407,59 +394,53 @@ a.card:hover .go svg{transform:translateX(4px)}
       </div>
       <div class="lecs"><span><b>HNSS11</b>Eye Pathology</span><span><b>HNSS15</b>Head &amp; Neck Pathology</span><span><b>HNSS16</b>H&amp;N Path Lab</span></div>
     </div>
-    <a class="one" href="HoyaDocs_HNSS_Pathology_LO_Answers.html">
-      <div class="ico" aria-hidden="true">ALL</div>
-      <div>
-        <div class="kicker">★ All 3 Lectures &middot; One Guide</div>
-        <h3>Complete Pathology LO Answers</h3>
-        <p>HNSS11, HNSS15 and HNSS16 together: all 24 learning objectives with DDx tables, vignette clues, high-yield boxes and application questions.</p>
-      </div>
-      <span class="btn">Open<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
     <div class="grid">
-      <a class="card" href="hnss11-pathology-lo-answers.html">
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>11</b></div>
           <div>
             <div class="sub">Eye &middot; Orbit</div>
-            <h3>Eye Pathology</h3>
+            <h3><a class="stretch" href="Pathology%20Study%20Guides/hnss11-pathology-lo-answers.html">Eye Pathology</a></h3>
             <p>Retinal hemorrhage, diabetic retinopathy and neovascularization, retinal detachment, the optic disc, uveal melanoma, retinoblastoma and proptosis.</p>
           </div>
         </div>
         <div class="chips"><span>Diabetic retinopathy</span><span>Retinal detachment</span><span>Papilledema</span><span>Uveal melanoma</span><span>Retinoblastoma</span><span>Proptosis DDx</span></div>
+        <div class="charts"><span class="tag">Charts</span><a href="../HN-Pathology-Database/HoyaDocs_HNSS11_Eye_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye pathology chart</a><a href="../HN-Pathology-Database/index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></div>
         <div class="foot2"><span class="tag">10 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
-      <a class="card" href="hnss15-pathology-lo-answers.html">
+      </div>
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>15</b></div>
           <div>
             <div class="sub">Head &amp; Neck</div>
-            <h3>Head &amp; Neck Pathology</h3>
+            <h3><a class="stretch" href="Pathology%20Study%20Guides/hnss15-pathology-lo-answers.html">Head &amp; Neck Pathology</a></h3>
             <p>White and red oral patches, HPV vs non-HPV SCC, nasal and nasopharyngeal masses, hoarseness and salivary gland tumors.</p>
           </div>
         </div>
         <div class="chips"><span>Leuko- &amp; erythroplakia</span><span>HPV SCC</span><span>Angiofibroma</span><span>NPC</span><span>Laryngeal lesions</span><span>Salivary tumors</span></div>
+        <div class="charts"><span class="tag">Charts</span><a href="../HN-Pathology-Database/HoyaDocs_HNSS15-16_Head_Neck_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>HNSS15–16 pathology chart</a><a href="../HN-Pathology-Database/index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></div>
         <div class="foot2"><span class="tag">6 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
-      <a class="card" href="hnss16-pathology-lo-answers.html">
+      </div>
+      <div class="card">
         <div class="top">
           <div class="badge"><small>HNSS</small><b>16</b></div>
           <div>
             <div class="sub">Slide Recognition</div>
-            <h3>H&amp;N Path Lab</h3>
+            <h3><a class="stretch" href="Pathology%20Study%20Guides/hnss16-pathology-lo-answers.html">H&amp;N Path Lab</a></h3>
             <p>What each lesion looks like on the slide, epistaxis vs obstruction vs hoarseness, salivary tumors, and branchial vs thyroglossal cysts.</p>
           </div>
         </div>
         <div class="chips"><span>Keratinizing vs basaloid</span><span>Inverted papilloma</span><span>Pleomorphic adenoma</span><span>Warthin</span><span>Adenoid cystic</span><span>Neck cysts</span></div>
+        <div class="charts"><span class="tag">Charts</span><a href="../HN-Pathology-Database/HoyaDocs_HNSS15-16_Head_Neck_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>HNSS15–16 pathology chart</a><a href="../HN-Pathology-Database/index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></div>
         <div class="foot2"><span class="tag">8 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </a>
+      </div>
     </div>
   </section>
   <div class="empty" id="empty">No guide matches that. Try a broader word, such as "ear" or "palate".</div>
 
   <footer class="foot">
     <div class="tag">HoyaDocs &middot; Block 5 &middot; HNSS &middot; Head &amp; Neck Study Guides</div>
-    <div class="tag">Rev 5 &middot; Updated Sep 29, 2026</div>
+    <div class="tag">Rev 7 &middot; Updated Oct 1, 2026</div>
   </footer>
 
 </div>
