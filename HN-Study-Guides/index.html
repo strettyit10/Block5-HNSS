@@ -3,449 +3,516 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Head &amp; Neck Study Guides</title>
-<meta name="description" content="HoyaDocs Block 5 HNSS — learning objective study guides for head and neck embryology, histology, neuro and pathology.">
+<title>HoyaDocs &middot; HNSS Study Guides</title>
+<meta name="description" content="HoyaDocs Block 5 HNSS study guides: every learning objective answered for embryology, histology, neuro and pathology, with charts and Step 1 add-ons.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Graduate&family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap">
 <style>
 :root{
-  --ground:#EEF3F0; --panel:#FFFFFF; --sunk:#E2EAE6; --line:#C9D6D0;
-  --ink:#13201D; --muted:#566963;
-  --p1:#E3AE12; --p1-ink:#7A5B00; --p1-soft:#FBF1CF;
-  --p2:#2E86C8; --p2-ink:#155987; --p2-soft:#DDEDF8;
-  --arena:#3B2F6E; --arena-soft:#E8E3F7; --arena-ink:#332766;
-  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
-  --plate:#0E1413; --plate-ink:#EEF3F0;
-  --emb:#C4631B; --emb-ink:#8A3F0A; --emb-soft:#FBE7D6;
-  --his:#C2407A; --his-ink:#8C1F55; --his-soft:#F8DDEA;
-  --neu:#6A55C9; --neu-ink:#3F2E91; --neu-soft:#E8E3F7;
-  --pat:#1F7A6B; --pat-ink:#0F5247; --pat-soft:#D8EFEA;
-  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
-  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --ground:#EEF0F3; --panel:#FFFFFF; --sunk:#E6E9EE; --line:#D3D8E0;
+  --ink:#1A3363; --muted:#5B6274;
+  --silver:#6E7787; --silver-hi:#C5CBD6;
+  --navy:#0F2244; --navy-2:#1A3363; --navy-ink:#F4F1EA; --navy-muted:#A9B3C7;
+  --tan:#C9A27A; --tan-ink:#7B5A35;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#1A3363;
+  --g:#5B4BC4; --s:#C4631B; --d:#1F7F78; --a:#B07F0A;
+  --emb:#C4631B; --emb-ink:#8F4510; --emb-soft:#FBE9DA;
+  --his:#B83B72; --his-ink:#8C1F55; --his-soft:#F8DDEA;
+  --neu:#5B4BC4; --neu-ink:#3F2F9E; --neu-soft:#ECE9FA;
+  --pat:#1F7F78; --pat-ink:#0F5F59; --pat-soft:#DCF1EE;
+  --varsity:"Graduate","Rockwell","Georgia",serif;
+  --cond:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
-    --ink:#DDE7E3; --muted:#8FA39D;
-    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
-    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
-    --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --ground:#0B1424; --panel:#13203A; --sunk:#0F1A30; --line:#26365A;
+    --ink:#E8E4DA; --muted:#9BA5B9;
+    --navy:#060D1A; --navy-2:#13254A; --navy-ink:#EEE9DE; --navy-muted:#8E98AE;
+    --tan:#D9B48C; --tan-ink:#E3C29E;
+    --silver:#C3C9D4; --silver-hi:#C5CBD6;
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
-    --plate:#080C0B; --plate-ink:#DDE7E3;
-    --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
+    --g:#9B8DE0; --s:#F0914A; --d:#4FC1B6; --a:#F2C230;
+    --emb:#F0914A; --emb-ink:#F6B07A; --emb-soft:#3A2515;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
-    --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
-    --pat:#4FC2AE; --pat-ink:#7AD6C5; --pat-soft:#14302B;
+    --neu:#9B8DE0; --neu-ink:#BDB2F0; --neu-soft:#262043;
+    --pat:#4FC1B6; --pat-ink:#7FD6CD; --pat-soft:#13332F;
   }
 }
 :root[data-theme="dark"]{
-    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
-    --ink:#DDE7E3; --muted:#8FA39D;
-    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
-    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
-    --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --ground:#0B1424; --panel:#13203A; --sunk:#0F1A30; --line:#26365A;
+    --ink:#E8E4DA; --muted:#9BA5B9;
+    --navy:#060D1A; --navy-2:#13254A; --navy-ink:#EEE9DE; --navy-muted:#8E98AE;
+    --tan:#D9B48C; --tan-ink:#E3C29E;
+    --silver:#C3C9D4; --silver-hi:#C5CBD6;
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
-    --plate:#080C0B; --plate-ink:#DDE7E3;
-    --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
+    --g:#9B8DE0; --s:#F0914A; --d:#4FC1B6; --a:#F2C230;
+    --emb:#F0914A; --emb-ink:#F6B07A; --emb-soft:#3A2515;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
-    --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
-    --pat:#4FC2AE; --pat-ink:#7AD6C5; --pat-soft:#14302B;
+    --neu:#9B8DE0; --neu-ink:#BDB2F0; --neu-soft:#262043;
+    --pat:#4FC1B6; --pat-ink:#7FD6CD; --pat-soft:#13332F;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ground);color:var(--ink)}
-body{font:15px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:18px 48px}
-.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+body{font:16px/1.5 var(--body);margin:0;padding:0 16px 56px}
+.wrap{max-width:1180px;margin:0 auto}
+a{color:inherit}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
-a{color:inherit}
-:focus-visible{outline:2px solid var(--p2);outline-offset:3px}
+:focus-visible{outline:2px solid var(--tan);outline-offset:3px}
+html{scroll-behavior:smooth}
 
-/* masthead */
-.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
-.brand{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:.02em;text-transform:uppercase;line-height:1;text-decoration:none}
-.brand b{color:var(--p1-ink)}
-.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.mastright{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.themebtn{background:var(--sunk);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px}
-.themebtn:hover{color:var(--ink);border-color:var(--muted)}
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 0 12px}
+.word{font-family:var(--varsity);font-size:24px;letter-spacing:.04em;text-decoration:none;color:var(--ink);line-height:1}
+.word span{color:var(--silver)}
+.rev{font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.topr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.toplink{font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:5px 2px;border-bottom:2px solid transparent}
+.toplink:hover{border-bottom-color:var(--silver)}
+.sh{scroll-margin-top:16px}
+.themebtn{background:transparent;border:1.5px solid var(--line);border-radius:999px;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:5px 14px}
+.themebtn:hover{color:var(--ink);border-color:var(--ink)}
 
-/* site tabs */
-.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-top:-14px;border-bottom:1px solid var(--line)}
-.tabs::-webkit-scrollbar{display:none}
-.tabs a{flex:none;text-decoration:none;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:17px;letter-spacing:.04em;color:var(--muted);padding:9px 14px 8px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
-.tabs a:hover{color:var(--ink)}
-.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--p1)}
-
-.foot{border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* nav */
+.nav{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;text-decoration:none;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:11px 12px 9px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:7px}
+.nav a:hover{color:var(--ink)}
+.nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--tan)}
+.nav a i{width:9px;height:9px;border-radius:2px;flex:none}
+.nav .sep{flex:none;width:1px;background:var(--line);margin:9px 6px}
 
 /* hero */
-.hero{background:var(--plate);color:var(--plate-ink);border-radius:10px;padding:clamp(26px,4.5vw,52px) clamp(22px,4vw,52px);position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:auto -80px -160px auto;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle at 30% 30%, var(--glow), transparent 62%);pointer-events:none}
-.back{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8FA39D;text-decoration:none;margin-bottom:18px;position:relative;z-index:1}
-.back:hover{color:var(--plate-ink)}
+.hero{margin-top:22px;background:var(--navy);color:var(--navy-ink);border-radius:14px;position:relative;
+  display:grid;grid-template-columns:1fr auto minmax(250px,320px);align-items:center;gap:clamp(18px,3vw,36px);padding:clamp(18px,2.6vw,28px) clamp(20px,3.5vw,40px)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), rgba(255,255,255,.045) calc(10% - 1px) 10%),
+    radial-gradient(ellipse at 85% 110%, rgba(201,162,122,.28), transparent 55%);}
+.hero{z-index:3}
+.hero > *{position:relative}
+.hero > .ctas{z-index:2}
+.pickcue{display:flex;align-items:center;gap:14px;color:var(--silver-hi);justify-self:end}
+.pickcue span{font-family:var(--cond);font-weight:800;font-size:22px;line-height:1.02;letter-spacing:.12em;text-transform:uppercase;text-align:right}
+.pickcue svg{width:48px;height:24px;flex:none}
+.back{display:inline-flex;align-items:center;gap:6px;font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--navy-muted);text-decoration:none;margin-bottom:14px}
+.back:hover{color:var(--navy-ink)}
 .back svg{width:13px;height:13px}
-.hero .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--kick);margin-bottom:12px}
-.hero h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(46px,8.4vw,108px);line-height:.86;margin:0;letter-spacing:.005em;text-wrap:balance;position:relative;z-index:1}
-.hero p{max-width:62ch;color:#B6C4BF;margin:18px 0 0;font-size:16px;position:relative;z-index:1}
-.stats{display:flex;flex-wrap:wrap;gap:clamp(18px,4vw,44px);margin-top:26px;position:relative;z-index:1}
-.stats div{display:flex;flex-direction:column}
-.stats b{font-family:var(--display);font-weight:800;font-size:clamp(34px,5vw,48px);line-height:.9;color:var(--plate-ink)}
-.stats small{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8FA39D}
+.eyebrow{font-family:var(--cond);font-weight:700;font-size:17px;letter-spacing:.22em;text-transform:uppercase;color:var(--silver-hi)}
+.hero h1{font-family:var(--varsity);font-weight:400;font-size:clamp(64px,11vw,140px);line-height:.88;margin:10px 0 4px;letter-spacing:.02em;
+  color:var(--navy-ink);text-shadow:3px 3px 0 var(--navy-2),5px 5px 0 #C5CBD6}
+.stats{display:flex;flex-wrap:wrap;gap:clamp(16px,3vw,32px);margin-top:18px}
+.stats div{display:flex;align-items:baseline;gap:7px}
+.stats b{font-family:var(--varsity);font-weight:400;font-size:clamp(24px,3vw,32px);line-height:1}
+.stats small{font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--navy-muted)}
+.ctas{display:grid;grid-template-columns:1fr;gap:8px}
+.ctas .btn{width:100%}
+.ctas .btn .chev{margin-left:auto}
+.ctas .menu{left:auto;right:0}
+.btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--cond);font-weight:800;font-size:17px;letter-spacing:.06em;text-transform:uppercase;padding:10px 13px;border-radius:6px;white-space:nowrap;transition:transform .12s ease,box-shadow .12s ease,border-color .12s}
+.btn svg{width:16px;height:16px;transition:transform .12s}
+.btn:hover{transform:translateY(-2px)}
+.btn:hover svg{transform:translateX(3px)}
+.btn.pri{background:var(--tan);color:var(--navy);box-shadow:0 4px 0 #8A6A45}
+.btn.pri:hover{box-shadow:0 6px 0 #8A6A45}
+.btn.sec{border:2px solid rgba(238,233,222,.5);color:var(--navy-ink)}
+.btn.sec:hover{border-color:var(--navy-ink)}
+.btn i{width:10px;height:10px;border-radius:2px;flex:none}
+.dd{position:relative}
+.dd summary{list-style:none;cursor:pointer;user-select:none}
+.dd summary::-webkit-details-marker{display:none}
+.dd summary .chev{width:15px;height:15px;transition:transform .15s}
+.dd summary:hover .chev{transform:none}
+.dd[open] summary{border-color:var(--navy-ink);background:rgba(255,255,255,.08)}
+.dd[open] summary .chev,.dd[open] summary:hover .chev{transform:rotate(180deg)}
+.menu{position:absolute;top:calc(100% + 8px);left:0;width:min(420px,calc(100vw - 32px));background:var(--panel);color:var(--ink);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.35);z-index:20}
+.menu .mh{font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:6px 10px 4px}
+.menu a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 10px;border-radius:7px;text-decoration:none}
+.menu a:hover,.menu a:focus-visible{background:var(--sunk)}
+.menu .mt{min-width:0}
+.menu strong{display:block;font-family:var(--cond);font-weight:800;font-size:18px;letter-spacing:.03em;text-transform:uppercase;line-height:1.05}
+.menu small{display:block;font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.menu .lec{flex:none;max-width:52%;text-align:right;font-family:var(--cond);font-weight:700;font-size:13.5px;line-height:1.2;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:3px 8px}
+.menu a.all{justify-content:center;margin-top:4px;border-top:1px dashed var(--line);border-radius:0 0 7px 7px;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.menu a.all:hover{color:var(--ink)}
+/* helpful links (matches HNSS home) */
+.bench{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lk{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--navy-2);border-radius:10px;padding:13px 16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}
+:root[data-theme="dark"] .lk{border-left-color:var(--silver)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lk{border-left-color:var(--silver)}}
+.lk:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(14,27,51,.14)}
+.lk .li{flex:none;width:38px;height:38px;border-radius:8px;background:var(--sunk);color:var(--silver);display:grid;place-items:center}
+.lk .li svg{width:19px;height:19px}
+.lk .lt{flex:1;min-width:0}
+.lk small{display:block;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lk strong{display:block;font-family:var(--cond);font-weight:800;font-size:19px;line-height:1.05;text-transform:uppercase;letter-spacing:.02em}
+.lk .ext{flex:none;width:15px;height:15px;color:var(--muted)}
+.lk.feat{background:#C5CBD6;border-color:#C5CBD6;border-left-color:var(--navy);color:var(--navy);box-shadow:0 4px 0 #8C95A6}
+.lk.feat:hover{box-shadow:0 6px 0 #8C95A6}
+.lk.feat .li{background:var(--navy);color:var(--silver-hi)}
+.lk.feat small{color:var(--navy);opacity:.75}
+.lk.feat .ext{color:var(--navy)}
+.lk.feat .pdf{flex:none;font-family:var(--cond);font-weight:800;font-size:12.5px;letter-spacing:.12em;background:var(--navy);color:var(--silver-hi);border-radius:5px;padding:3px 8px}
+@media (max-width:980px){ .bench{grid-template-columns:1fr} }
+
+/* section header */
+.sh{display:flex;align-items:center;gap:14px;margin:28px 0 12px}
+.sh h2{font-family:var(--varsity);font-weight:400;font-size:24px;letter-spacing:.04em;margin:0;white-space:nowrap}
+.sh::after{content:"";flex:1;border-top:2px dashed var(--line)}
 
 /* how-to strip */
-.every{display:grid;grid-template-columns:repeat(var(--cols,3),1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.every > div{background:var(--panel);padding:16px 18px}
-.every .n{font-family:var(--mono);font-size:11px;color:var(--p2-ink);letter-spacing:.08em}
-.every h3{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:22px;line-height:1;margin:4px 0 6px;letter-spacing:.02em}
-.every p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.45}
-.every .hy{background:var(--hy-bg);box-shadow:inset 0 0 0 1px var(--hy-line)}
-.every .hy .n,.every .hy h3,.every .hy p{color:var(--hy-ink)}
+.every{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.every > div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+.every .n{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--silver)}
+.every h3{font-family:var(--cond);font-weight:800;text-transform:uppercase;font-size:21px;line-height:1;margin:3px 0 4px;letter-spacing:.02em}
+.every p{margin:0;color:var(--muted);font-size:14px;line-height:1.4}
+
 
 /* toolbar */
-.bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.filters{display:flex;gap:6px;flex-wrap:wrap}
-.filters button{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:16px;letter-spacing:.04em;color:var(--muted);display:inline-flex;align-items:center;gap:7px}
-.filters button i{width:9px;height:9px;border-radius:50%;background:var(--dot,var(--muted))}
-.filters button:hover{color:var(--ink);border-color:var(--muted)}
-.filters button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground)}
-.search{position:relative;flex:0 1 320px;min-width:220px}
-.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:9px 12px 9px 34px;font-size:14px}
-.search input:focus{outline:none;border-color:var(--p2)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:12px 0;border-top:3px solid var(--ink);border-bottom:1px solid var(--line)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fall,.fdd summary{background:var(--panel);border:1.5px solid var(--line);border-radius:999px;padding:5px 14px;font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:15px;letter-spacing:.08em;color:var(--muted);display:inline-flex;align-items:center;gap:7px;cursor:pointer;white-space:nowrap}
+.fall:hover,.fdd summary:hover{color:var(--ink);border-color:var(--muted)}
+.fall[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.fdd{position:relative}
+.fdd summary{list-style:none;user-select:none}
+.fdd summary::-webkit-details-marker{display:none}
+.fdd summary i{width:9px;height:9px;border-radius:2px;background:var(--c)}
+.fdd summary .chev{width:13px;height:13px;transition:transform .15s}
+.fdd[open] summary .chev{transform:rotate(180deg)}
+.fdd.on summary{background:var(--c);border-color:var(--c);color:#fff}
+.fdd.on summary i{background:#fff}
+:root[data-theme="dark"] .fdd.on summary{color:#0B1424}
+:root[data-theme="dark"] .fdd.on summary i{background:#0B1424}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fdd.on summary{color:#0B1424}:root:not([data-theme="light"]) .fdd.on summary i{background:#0B1424}}
+.fmenu{position:absolute;top:calc(100% + 6px);left:0;min-width:270px;background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:10px;padding:6px;box-shadow:0 14px 34px rgba(14,27,51,.22);z-index:20;display:flex;flex-direction:column}
+.fmenu button{background:none;border:0;text-align:left;padding:8px 10px;border-radius:6px;font-size:15px;display:flex;gap:8px;align-items:baseline}
+.fmenu button:first-child{font-family:var(--cond);font-weight:800;font-size:16px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px dashed var(--line);border-radius:6px 6px 0 0;margin-bottom:2px}
+.fmenu button b{font-family:var(--cond);font-weight:800;font-size:14px;letter-spacing:.04em;color:var(--c);min-width:58px}
+.fmenu button:hover,.fmenu button:focus-visible{background:var(--sunk)}
+.fmenu button[aria-current="true"]{background:var(--sunk);box-shadow:inset 3px 0 0 var(--c)}
+.search{position:relative;flex:0 1 300px;min-width:220px}
+.search input{width:100%;background:var(--panel);border:1.5px solid var(--line);border-radius:7px;padding:9px 12px 9px 34px;font-size:15px}
+.search input:focus{outline:none;border-color:var(--tan)}
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted)}
+.count{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
 
-/* discipline sections */
-.disc{--a:var(--emb);--a-ink:var(--emb-ink);--a-soft:var(--emb-soft);display:flex;flex-direction:column;gap:16px}
-.disc.his{--a:var(--his);--a-ink:var(--his-ink);--a-soft:var(--his-soft)}
-.disc.neu{--a:var(--neu);--a-ink:var(--neu-ink);--a-soft:var(--neu-soft)}
-.disc.pat{--a:var(--pat);--a-ink:var(--pat-ink);--a-soft:var(--pat-soft)}
-.dhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:3px solid var(--a);padding-bottom:10px}
-.dhead .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--a-ink)}
-.dhead h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(34px,5vw,48px);line-height:.9;margin:2px 0 0;letter-spacing:.01em}
-.lecs{display:flex;flex-wrap:wrap;gap:6px}
-.lecs span{font-size:12px;background:var(--a-soft);color:var(--a-ink);border-radius:999px;padding:3px 11px;font-weight:500}
-.lecs span b{font-family:var(--mono);font-weight:600;font-size:11px;margin-right:5px}
+/* game list */
+.list{display:flex;flex-direction:column;gap:8px}
+.lhead,.row{display:grid;grid-template-columns:minmax(220px,1.4fr) 170px 80px minmax(260px,2fr) 28px;gap:16px;align-items:center}
+.row{position:relative}
+.row .stretch{color:inherit;text-decoration:none}
+.row .stretch::after{content:"";position:absolute;inset:0;border-radius:10px}
+.c-code b{display:block;font-family:var(--cond);font-weight:800;font-size:17px;letter-spacing:.04em;color:var(--c)}
+.c-code small{display:block;font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.c-charts{display:flex;flex-wrap:wrap;gap:6px}
+.c-charts a{position:relative;z-index:1;display:inline-flex;align-items:center;gap:5px;font-family:var(--cond);font-weight:600;font-size:14px;color:var(--ink);text-decoration:none;background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:2px 8px}
+.c-charts a:hover{border-color:var(--c);background:var(--panel)}
+.c-charts svg{width:13px;height:13px;color:var(--c);flex:none}
+.lhead{padding:0 18px 0 24px;font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.row{background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:10px;padding:13px 18px;text-decoration:none;color:var(--ink);transition:transform .12s ease,box-shadow .12s ease,border-color .12s}
+.row:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(14,27,51,.14);border-color:var(--c)}
+.disc-l{display:flex;align-items:center;gap:6px;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.disc-l i{width:8px;height:8px;border-radius:2px;background:var(--c)}
+.c-name strong{display:block;font-family:var(--cond);font-weight:800;font-size:22px;line-height:1.02;text-transform:uppercase;letter-spacing:.02em;margin-top:2px}
+.type{display:inline-block;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.05em;text-transform:uppercase;border-radius:5px;padding:3px 9px;border:1.5px solid}
+.type.tb{color:var(--muted);border-color:var(--line);background:var(--sunk)}
+.type.tg{color:var(--ink);border-color:var(--ink);background:transparent}
+.type.tc{color:var(--silver);border-color:var(--silver);background:transparent}
+.type.tr{color:#fff;border-color:var(--navy);background:var(--navy)}
+:root[data-theme="dark"] .type.tr{color:#0B1424;border-color:var(--silver);background:var(--silver)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .type.tr{color:#0B1424;border-color:var(--silver);background:var(--silver)}}
+.c-mode{font-size:15px;color:var(--ink)}
+.c-q b{display:block;font-family:var(--varsity);font-weight:400;font-size:24px;line-height:1}
+.c-q small{font-family:var(--cond);font-weight:700;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.c-lec{display:flex;flex-wrap:wrap;gap:5px}
+.c-lec span{font-family:var(--cond);font-weight:600;font-size:14px;background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 8px;white-space:nowrap}
+.c-lec span b{font-weight:800;color:var(--c);margin-right:5px}
+.c-go{color:var(--muted);display:grid;place-items:center}
+.c-go svg{width:16px;height:16px;transition:transform .12s}
+.row:hover .c-go{color:var(--c)}
+.row:hover .c-go svg{transform:translateX(3px)}
+.pick{display:none;align-items:center;gap:16px;padding:22px 24px;border:2px dashed var(--line);border-radius:12px;color:var(--muted)}
+.pick svg{flex:none;width:30px;height:30px;color:var(--silver)}
+.pick strong{display:block;font-family:var(--cond);font-weight:800;font-size:22px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);line-height:1.1}
+.pick span{font-size:15px}
+.empty{display:none;color:var(--muted);padding:26px;text-align:center;border:1.5px dashed var(--line);border-radius:10px;margin-top:8px}
 
-/* cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-.card{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--a);border-radius:10px;text-decoration:none;color:var(--ink);overflow:hidden;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
-a.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--a)}
-.card .top{display:flex;gap:16px;align-items:flex-start;padding:18px 20px 12px}
-.badge{flex:none;width:62px;height:62px;border-radius:8px;background:var(--a-soft);color:var(--a-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;text-align:center}
-.badge small{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
-.badge b{font-family:var(--display);font-weight:800;font-size:30px}
-.badge svg{width:30px;height:30px}
-.card .sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--a-ink)}
-.card h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;line-height:.92;margin:3px 0 6px;letter-spacing:.01em}
-.card p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.45}
-.nums{display:flex;gap:0;margin:0 20px 16px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.nums div{flex:1;padding:7px 10px;border-right:1px solid var(--line);display:flex;flex-direction:column}
-.nums div:last-child{border-right:0}
-.nums b{font-family:var(--display);font-weight:800;font-size:24px;line-height:1}
-.nums small{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 20px 16px}
-.chips span{font-size:12px;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
-.card .foot2{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding:11px 20px;background:var(--sunk)}
-.card .foot2 .tag{font-size:10.5px}
-.go{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--a-ink);display:inline-flex;align-items:center;gap:7px}
-.go svg{width:15px;height:15px;transition:transform .12s}
-a.card:hover .go svg{transform:translateX(4px)}
-.card.soon{border-style:dashed;border-top-width:1px;background:transparent}
-.card.soon .badge{background:var(--sunk);color:var(--muted)}
-.card.soon .sub,.card.soon h3{color:var(--muted)}
-.card.soon .foot2{background:transparent;border-top-style:dashed}
-.pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--p1-ink);background:var(--p1-soft);border:1px solid var(--p1);border-radius:999px;padding:2px 10px}
-.empty{display:none;color:var(--muted);padding:26px;text-align:center;border:1px dashed var(--line);border-radius:10px}
+@media (max-width:1060px){
+  .lhead{display:none}
+  .row{grid-template-columns:1fr auto;grid-template-areas:"name go" "meta meta" "lec lec";gap:8px 12px}
+  .c-name{grid-area:name}
+  .c-go{grid-area:go}
+  .c-type,.c-mode,.c-q{grid-area:auto}
+  .row{display:grid}
+  .c-code{grid-column:1 / -1;grid-row:2;display:flex;align-items:baseline;gap:8px}
+  .c-charts{grid-column:1 / -1;grid-row:4}
+  .c-mode{grid-column:1 / -1;grid-row:3;font-size:14.5px;color:var(--muted)}
+  .c-q{grid-column:1 / -1;grid-row:4;display:flex;align-items:baseline;gap:6px}
+  .c-q b{display:inline;font-size:20px}
+  .c-q{grid-row:3}
+}
+.foot{margin-top:44px;padding-top:14px;border-top:3px solid var(--ink);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-.card{position:relative}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--a)}
-.card:hover .go svg{transform:translateX(4px)}
-.card h3 a.stretch{color:inherit;text-decoration:none}
-.card h3 a.stretch::after{content:"";position:absolute;inset:0;z-index:1}
-.charts{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:0 20px 14px}
-.charts .tag{font-size:10px;margin-right:2px}
-.charts a{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;text-decoration:none;color:var(--a-ink);background:var(--a-soft);border:1px solid transparent;border-radius:6px;padding:4px 9px}
-.charts a:hover{border-color:var(--a)}
-.charts svg{width:13px;height:13px;flex:none}
+@media (max-width:1060px){ .every{grid-template-columns:1fr 1fr} }
+@media (max-width:620px){ .every{grid-template-columns:1fr} }
 
-/* featured band (HY) */
-.one{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,26px);background:var(--hy-bg);border:1px solid var(--hy-line);border-left:6px solid var(--hy-line);border-radius:10px;padding:clamp(18px,3vw,26px) clamp(18px,3vw,30px);color:var(--hy-ink);text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
-.one:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
-.one .ico{width:56px;height:56px;border-radius:8px;background:var(--hy-line);color:#1A1400;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:26px;line-height:1}
-.one .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px}
-.one h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(28px,4.2vw,40px);line-height:.92;margin:0;letter-spacing:.01em}
-.one p{margin:7px 0 0;font-size:14px;max-width:70ch;opacity:.9}
-.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;padding:8px 16px 7px;border-radius:5px;white-space:nowrap;background:var(--hy-line);color:#1A1400}
-.btn svg{width:15px;height:15px}
-
-@media (max-width:820px){ .every{grid-template-columns:1fr 1fr} }
-@media (max-width:700px){
-  .one{grid-template-columns:auto 1fr}
-  .one .btn{grid-column:1 / -1;justify-self:start}
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;row-gap:12px}
+  .pickcue{justify-self:start;gap:10px}
+  .pickcue span{font-size:17px}
+  .pickcue span br{display:none}
+  .pickcue svg{width:22px;height:22px;transform:rotate(90deg)}
 }
 @media (max-width:480px){
-  .every{grid-template-columns:1fr}
   .grid{grid-template-columns:1fr}
-  .card h3{font-size:26px}
   .search{flex-basis:100%}
+  .ctas{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative}
+  .ctas .dd{position:static}
+  .ctas .btn{width:100%;font-size:15px;padding:9px 10px;gap:7px}
+  .btn .chev{margin-left:auto}
+  .menu,.ctas .menu{width:auto;left:0;right:0}
+  .menu a{flex-direction:column;align-items:flex-start;gap:4px}
+  .menu .lec{max-width:none;text-align:left}
+  .menu a.all{align-items:center}
 }
-.hero{--glow:rgba(240,145,74,.28);--kick:#F4A86B}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="mast">
-    <a class="brand" href="../index.html">HoyaDocs <b>&middot;</b> Block 5</a>
-    <div class="mastright">
-      <div class="tag">HNSS &middot; Rev 12 &middot; Updated Oct 1, 2026</div>
+  <header class="top">
+    <a class="word" href="../index.html">HOYA<span>DOCS</span></a>
+    <div class="topr">
+      <a class="toplink" href="#helpful-links">Helpful Links</a>
+      <a class="toplink" href="#guides">All Guides</a>
       <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
     </div>
   </header>
 
-  <nav class="tabs" aria-label="HNSS sections">
-    <a href="../index.html">HNSS Home</a>
-    <a href="../Anat-Games/">Anatomy HNSS Games</a>
-    <a href="../Exam-Day-Lab-Notes/index.html">Exam Day Lab Notes</a>
-    <a href="../HN-Games/index.html">Head &amp; Neck Games</a>
-    <a href="../HN-Study-Guides/index.html" aria-current="page">Head &amp; Neck Study Guides</a>
+  <nav class="nav" aria-label="HNSS sections">
+    <a href="../index.html">Home</a>
+    <span class="sep"></span>
+    <a href="../HN-Games/index.html"><i style="background:var(--g)"></i>Head &amp; Neck Games</a>
+    <a href="../HN-Study-Guides/index.html" aria-current="page"><i style="background:var(--s)"></i>Study Guides</a>
+    <a href="../HN-Pathology-Database/index.html"><i style="background:var(--d)"></i>Pathology Database</a>
+    <span class="sep"></span>
+    <a href="../Anat-Games/"><i style="background:var(--a)"></i>Anatomy Games</a>
+    <a href="../Exam-Day-Lab-Notes/index.html"><i style="background:var(--a)"></i>Lab Notes</a>
   </nav>
 
   <section class="hero">
-    <a class="back" href="../index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 8H3M7 4 3 8l4 4"/></svg>HNSS Home</a>
-    <div class="kicker">LO Answers &middot; In-House + Step 1</div>
-    <h1>Head &amp; Neck Study Guides</h1>
-    <p>Every learning objective, answered. Each LO opens with the one-line answer, then the detail you need for in-house questions. Yellow boxes are high-yield Step 1 add-ons.</p>
-    <div class="stats">
-      <div><b>69</b><small>LOs answered</small></div>
-      <div><b>11</b><small>Guides live</small></div>
-      <div><b>4</b><small>Subjects</small></div>
+    <div>
+      <div class="eyebrow">Block 5 &middot; Head &amp; Neck</div>
+      <h1>Study<br>Guides</h1>
     </div>
+    <div class="pickcue" aria-hidden="true">
+      <span>Select <br>a Guide</span>
+      <svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h42M34 3l10 9-10 9"/></svg>
+    </div>
+    <nav class="ctas" aria-label="Choose a guide by subject">
+      <details class="dd" style="--c:var(--emb)">
+        <summary class="btn sec"><i style="background:var(--emb)"></i>Embryology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="menu">
+          <div class="mh">Embryology &middot; 3 guides &middot; 21 LOs</div>
+          <a href="Embryology%20Study%20Guides/hnss03-embryology-lo-answers.html"><span class="mt"><strong>Pharyngeal Arches</strong><small>HNSS03 &middot; Introduction</small></span><span class="lec">8 LOs</span></a>
+          <a href="Embryology%20Study%20Guides/hnss04-embryology-lo-answers.html"><span class="mt"><strong>Craniofacial Development</strong><small>HNSS04 &middot; Face &middot; Tongue &middot; Palate</small></span><span class="lec">10 LOs</span></a>
+          <a href="Embryology%20Study%20Guides/hnss18-embryology-lo-answers.html"><span class="mt"><strong>Eye &amp; Ear Embryology</strong><small>HNSS18 &middot; Special Senses</small></span><span class="lec">3 LOs</span></a>
+          <a class="all showall" href="#guides" data-d="emb">Show all Embryology guides below &darr;</a>
+        </div>
+      </details>
+      <details class="dd" style="--c:var(--his)">
+        <summary class="btn sec"><i style="background:var(--his)"></i>Histology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="menu">
+          <div class="mh">Histology &middot; 2 guides &middot; 10 LOs</div>
+          <a href="Histology%20Study%20Guides/hnss09-histology-lo-answers.html"><span class="mt"><strong>Eye &amp; Ear Histology</strong><small>HNSS09 &middot; Special Senses</small></span><span class="lec">4 LOs</span></a>
+          <a href="Histology%20Study%20Guides/hnss12-histology-lo-answers.html"><span class="mt"><strong>Oral Structures</strong><small>HNSS12 &middot; Mouth</small></span><span class="lec">6 LOs</span></a>
+          <a class="all showall" href="#guides" data-d="his">Show all Histology guides below &darr;</a>
+        </div>
+      </details>
+      <details class="dd" style="--c:var(--neu)">
+        <summary class="btn sec"><i style="background:var(--neu)"></i>Neuro<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="menu">
+          <div class="mh">Neuro &middot; 3 guides &middot; 14 LOs</div>
+          <a href="Neuro%20Study%20Guides/hnss07-neuro-lo-answers.html"><span class="mt"><strong>The Brain</strong><small>HNSS07 &middot; CNS</small></span><span class="lec">4 LOs</span></a>
+          <a href="Neuro%20Study%20Guides/hnss08-neuro-lo-answers.html"><span class="mt"><strong>Brain Development</strong><small>HNSS08 &middot; Development</small></span><span class="lec">3 LOs</span></a>
+          <a href="Neuro%20Study%20Guides/hnss17-neuro-lo-answers.html"><span class="mt"><strong>Vascular &amp; Ventricular Systems</strong><small>HNSS17 &middot; CNS Plumbing</small></span><span class="lec">7 LOs</span></a>
+          <a class="all showall" href="#guides" data-d="neu">Show all Neuro guides below &darr;</a>
+        </div>
+      </details>
+      <details class="dd" style="--c:var(--pat)">
+        <summary class="btn sec"><i style="background:var(--pat)"></i>Pathology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="menu">
+          <div class="mh">Pathology &middot; 3 guides &middot; 24 LOs</div>
+          <a href="Pathology%20Study%20Guides/hnss11-pathology-lo-answers.html"><span class="mt"><strong>Eye Pathology</strong><small>HNSS11 &middot; Eye &middot; Orbit</small></span><span class="lec">10 LOs</span></a>
+          <a href="Pathology%20Study%20Guides/hnss15-pathology-lo-answers.html"><span class="mt"><strong>Head &amp; Neck Pathology</strong><small>HNSS15 &middot; Head &amp; Neck</small></span><span class="lec">6 LOs</span></a>
+          <a href="Pathology%20Study%20Guides/hnss16-pathology-lo-answers.html"><span class="mt"><strong>H&amp;N Path Lab</strong><small>HNSS16 &middot; Slide Recognition</small></span><span class="lec">8 LOs</span></a>
+          <a class="all showall" href="#guides" data-d="pat">Show all Pathology guides below &darr;</a>
+        </div>
+      </details>
+    </nav>
+  
   </section>
 
-  <section class="every" aria-label="What every guide contains" style="--cols:4">
-    <div><div class="n">01 &middot; START HERE</div><h3>One-Line Answer</h3><p>Every LO starts with the answer in a single sentence.</p></div>
-    <div><div class="n">02</div><h3>Key Questions</h3><p>Click-to-reveal questions that walk through each LO. Show or hide all at once.</p></div>
-    <div class="hy"><div class="n">03 &middot; HIGH YIELD</div><h3>Step 1 Add-ons</h3><p>Yellow boxes flag what Step 1 tests, some of it past the lecture.</p></div>
-    <div><div class="n">04 &middot; FINISH HERE</div><h3>Application Qs</h3><p>Vignette-style questions with answers at the end of each lecture.</p></div>
+  <div class="sh"><h2>How to Use</h2></div>
+  <section class="every" aria-label="What every guide contains">
+    <div><div class="n">01 &middot; Start here</div><h3>One-Line Answer</h3><p>Every LO opens with the answer in a single sentence.</p></div>
+    <div><div class="n">02 &middot; Learn</div><h3>Key Questions</h3><p>Click-to-reveal questions that walk through each LO.</p></div>
+    <div><div class="n">03 &middot; High yield</div><h3>Step 1 Add-ons</h3><p>Boxes flag what Step 1 tests, some of it past the lecture.</p></div>
+    <div><div class="n">04 &middot; Finish here</div><h3>Application Qs</h3><p>Vignette-style questions with answers at the end of each guide.</p></div>
   </section>
+
+  <div class="sh" id="guides"><h2>All Guides</h2></div>
 
   <div class="bar">
-    <div class="filters" role="group" aria-label="Filter by discipline">
-      <button type="button" data-f="all" aria-pressed="true">All</button>
-      <button type="button" data-f="emb" aria-pressed="false" style="--dot:var(--emb)"><i></i>Embryology</button>
-      <button type="button" data-f="his" aria-pressed="false" style="--dot:var(--his)"><i></i>Histology</button>
-      <button type="button" data-f="neu" aria-pressed="false" style="--dot:var(--neu)"><i></i>Neuro</button>
-      <button type="button" data-f="pat" aria-pressed="false" style="--dot:var(--pat)"><i></i>Pathology</button>
+    <div class="filters" role="group" aria-label="Filter guides">
+      <button type="button" class="fall" id="fall" aria-pressed="true">All</button>
+      <details class="fdd" data-d="emb" style="--c:var(--emb)">
+        <summary><i></i><span class="fl">Embryology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="fmenu">
+          <button type="button" data-d="emb" data-l="">All Embryology</button>
+          <button type="button" data-d="emb" data-l="03"><b>HNSS03</b>Pharyngeal Arches</button><button type="button" data-d="emb" data-l="04"><b>HNSS04</b>Craniofacial Development</button><button type="button" data-d="emb" data-l="18"><b>HNSS18</b>Eye &amp; Ear Embryology</button>
+        </div>
+      </details>
+      <details class="fdd" data-d="his" style="--c:var(--his)">
+        <summary><i></i><span class="fl">Histology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="fmenu">
+          <button type="button" data-d="his" data-l="">All Histology</button>
+          <button type="button" data-d="his" data-l="09"><b>HNSS09</b>Eye &amp; Ear Histology</button><button type="button" data-d="his" data-l="12"><b>HNSS12</b>Oral Structures</button>
+        </div>
+      </details>
+      <details class="fdd" data-d="neu" style="--c:var(--neu)">
+        <summary><i></i><span class="fl">Neuro</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="fmenu">
+          <button type="button" data-d="neu" data-l="">All Neuro</button>
+          <button type="button" data-d="neu" data-l="07"><b>HNSS07</b>The Brain</button><button type="button" data-d="neu" data-l="08"><b>HNSS08</b>Brain Development</button><button type="button" data-d="neu" data-l="17"><b>HNSS17</b>Vascular &amp; Ventricular Systems</button>
+        </div>
+      </details>
+      <details class="fdd" data-d="pat" style="--c:var(--pat)">
+        <summary><i></i><span class="fl">Pathology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="fmenu">
+          <button type="button" data-d="pat" data-l="">All Pathology</button>
+          <button type="button" data-d="pat" data-l="11"><b>HNSS11</b>Eye Pathology</button><button type="button" data-d="pat" data-l="15"><b>HNSS15</b>Head &amp; Neck Pathology</button><button type="button" data-d="pat" data-l="16"><b>HNSS16</b>H&amp;N Path Lab</button>
+        </div>
+      </details>
     </div>
     <label class="search">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="4.8"/><path d="m10.6 10.6 3.6 3.6"/></svg>
-      <input id="q" type="search" placeholder="Find a topic: palate, optic cup…" aria-label="Filter guides by topic">
+      <input id="q" type="search" placeholder="Search guides or topics…" aria-label="Search guides">
     </label>
   </div>
+  <div class="count" id="count" aria-live="polite"></div>
 
-  <section class="disc" data-d="emb" id="embryology">
-    <div class="dhead">
-      <div>
-        <div class="k">Development of the head, neck, eye &amp; ear</div>
-        <h2>Embryology</h2>
-      </div>
-      <div class="lecs"><span><b>HNSS03</b>Pharyngeal Arches</span><span><b>HNSS04</b>Craniofacial Development</span><span><b>HNSS18</b>Eye &amp; Ear Embryology</span></div>
+  <div class="list" role="list">
+    <div class="lhead" aria-hidden="true"><span>Guide</span><span>Lecture</span><span>LOs</span><span>Charts</span><span></span></div>
+    <div class="row" data-d="emb" data-l="03" data-t="Arch derivatives Pouches &amp; clefts Hox genes Alcohol &amp; retinoic acid DiGeorge Treacher Collins Arch timing and components, derivatives of every arch, pouch and cleft, Hox genes, teratogens and arch birth defects." style="--c:var(--emb)">
+      <span class="c-name"><span class="disc-l"><i></i>Embryology</span><strong><a class="stretch" href="Embryology%20Study%20Guides/hnss03-embryology-lo-answers.html">Pharyngeal Arches</a></strong></span>
+      <span class="c-code"><b>HNSS03</b><small>Introduction</small></span>
+      <span class="c-q"><b>8</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HoyaDocs_HNSS03_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pathology chart</a><a href="../HoyaDocs_HNSS03_Pharyngeal_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pharyngeal timeline</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </div>
-
-
-    <div class="grid">
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>03</b></div>
-          <div>
-            <div class="sub">Introduction</div>
-            <h3><a class="stretch" href="Embryology%20Study%20Guides/hnss03-embryology-lo-answers.html">Pharyngeal Arches</a></h3>
-            <p>Arch timing and components, derivatives of every arch, pouch and cleft, Hox genes, teratogens and arch birth defects.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Arch derivatives</span><span>Pouches &amp; clefts</span><span>Hox genes</span><span>Alcohol &amp; retinoic acid</span><span>DiGeorge</span><span>Treacher Collins</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS03_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pathology chart</a><a href="../HoyaDocs_HNSS03_Pharyngeal_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pharyngeal timeline</a></div>
-        <div class="foot2"><span class="tag">8 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>04</b></div>
-          <div>
-            <div class="sub">Face &middot; Tongue &middot; Palate</div>
-            <h3><a class="stretch" href="Embryology%20Study%20Guides/hnss04-embryology-lo-answers.html">Craniofacial Development</a></h3>
-            <p>Tongue and its innervation, thyroid development, the face, palates and skull, cleft malformations and ultrasound.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Tongue</span><span>Thyroid</span><span>Face &amp; palates</span><span>Neuro- &amp; viscerocranium</span><span>Cleft lip &amp; palate</span><span>Ultrasound</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS04_Craniofacial_Charts.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Craniofacial charts</a><a href="../HoyaDocs_HNSS04_Clinical_Problems_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Clinical problems chart</a><a href="../HoyaDocs_HNSS04_Craniofacial_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Craniofacial timeline</a></div>
-        <div class="foot2"><span class="tag">10 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>18</b></div>
-          <div>
-            <div class="sub">Special Senses</div>
-            <h3><a class="stretch" href="Embryology%20Study%20Guides/hnss18-embryology-lo-answers.html">Eye &amp; Ear Embryology</a></h3>
-            <p>Embryologic origins of the eye and ear, the steps that form eye and inner, middle and external ear, and key abnormalities.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Germ-layer origins</span><span>Optic cup</span><span>Inner · middle · external ear</span><span>Coloboma</span><span>Congenital defects</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS18_Eye_Ear_Development_Charts.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye &amp; ear charts</a><a href="../HoyaDocs_HNSS18_Eye_Ear_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye &amp; ear timeline</a><a href="../HoyaDocs_HNSS18_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pathology chart</a></div>
-        <div class="foot2"><span class="tag">3 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
+    <div class="row" data-d="emb" data-l="04" data-t="Tongue Thyroid Face &amp; palates Neuro- &amp; viscerocranium Cleft lip &amp; palate Ultrasound Tongue and its innervation, thyroid development, the face, palates and skull, cleft malformations and ultrasound." style="--c:var(--emb)">
+      <span class="c-name"><span class="disc-l"><i></i>Embryology</span><strong><a class="stretch" href="Embryology%20Study%20Guides/hnss04-embryology-lo-answers.html">Craniofacial Development</a></strong></span>
+      <span class="c-code"><b>HNSS04</b><small>Face &middot; Tongue &middot; Palate</small></span>
+      <span class="c-q"><b>10</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HoyaDocs_HNSS04_Craniofacial_Charts.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Craniofacial charts</a><a href="../HoyaDocs_HNSS04_Clinical_Problems_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Clinical problems chart</a><a href="../HoyaDocs_HNSS04_Craniofacial_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Craniofacial timeline</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </div>
+    <div class="row" data-d="emb" data-l="18" data-t="Germ-layer origins Optic cup Inner · middle · external ear Coloboma Congenital defects Embryologic origins of the eye and ear, the steps that form eye and inner, middle and external ear, and key abnormalities." style="--c:var(--emb)">
+      <span class="c-name"><span class="disc-l"><i></i>Embryology</span><strong><a class="stretch" href="Embryology%20Study%20Guides/hnss18-embryology-lo-answers.html">Eye &amp; Ear Embryology</a></strong></span>
+      <span class="c-code"><b>HNSS18</b><small>Special Senses</small></span>
+      <span class="c-q"><b>3</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HoyaDocs_HNSS18_Eye_Ear_Development_Charts.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye &amp; ear charts</a><a href="../HoyaDocs_HNSS18_Eye_Ear_Timeline.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye &amp; ear timeline</a><a href="../HoyaDocs_HNSS18_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pathology chart</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+    <div class="row" data-d="his" data-l="09" data-t="Cornea &amp; sclera Uvea Retinal layers Lens &amp; eyelid Cochlea Maculae &amp; cristae The three tunics of the eye and retinal layers, lens and adnexa, the outer, middle and inner ear, and the organ of Corti, maculae and cristae." style="--c:var(--his)">
+      <span class="c-name"><span class="disc-l"><i></i>Histology</span><strong><a class="stretch" href="Histology%20Study%20Guides/hnss09-histology-lo-answers.html">Eye &amp; Ear Histology</a></strong></span>
+      <span class="c-code"><b>HNSS09</b><small>Special Senses</small></span>
+      <span class="c-q"><b>4</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HoyaDocs_HNSS09_Eye_Ear_Histology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye &amp; ear histology chart</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+    <div class="row" data-d="his" data-l="12" data-t="Oral mucosa Enamel &amp; dentin Tooth development Papillae &amp; taste buds Salivary glands Pharynx Oral mucosa, lips and palate, tooth tissues and development, tongue papillae and taste buds, salivary glands and the pharynx." style="--c:var(--his)">
+      <span class="c-name"><span class="disc-l"><i></i>Histology</span><strong><a class="stretch" href="Histology%20Study%20Guides/hnss12-histology-lo-answers.html">Oral Structures</a></strong></span>
+      <span class="c-code"><b>HNSS12</b><small>Mouth</small></span>
+      <span class="c-q"><b>6</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HoyaDocs_HNSS12_Oral_Structures_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Oral structures chart</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+    <div class="row" data-d="neu" data-l="07" data-t="Meninges Brain divisions Brainstem nuclei Parkinson &amp; Huntington Medulloblastoma Networks Meninges and brain divisions, what each region contains and does, the six lecture disorders and the four principles of brain dysfunction." style="--c:var(--neu)">
+      <span class="c-name"><span class="disc-l"><i></i>Neuro</span><strong><a class="stretch" href="Neuro%20Study%20Guides/hnss07-neuro-lo-answers.html">The Brain</a></strong></span>
+      <span class="c-code"><b>HNSS07</b><small>CNS</small></span>
+      <span class="c-q"><b>4</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HoyaDocs_HNSS07_Brain_Anatomy_Function_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Anatomy &amp; function chart</a><a href="../HoyaDocs_HNSS07_Brain_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pathology chart</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+    <div class="row" data-d="neu" data-l="08" data-t="Neurulation Migration Lissencephaly Axon guidance Fragile X &amp; Rett CMV The stages from neural induction to aging, teratogens and genetic defects, and the outcome of failure at each stage." style="--c:var(--neu)">
+      <span class="c-name"><span class="disc-l"><i></i>Neuro</span><strong><a class="stretch" href="Neuro%20Study%20Guides/hnss08-neuro-lo-answers.html">Brain Development</a></strong></span>
+      <span class="c-code"><b>HNSS08</b><small>Development</small></span>
+      <span class="c-q"><b>3</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HoyaDocs_HNSS08_Brain_Development_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Brain development stages chart</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+    <div class="row" data-d="neu" data-l="17" data-t="Blood–brain barrier Circle of Willis Stroke &amp; AVM Dural sinuses CSF Hydrocephalus The blood–brain barrier, brain energy supply, arteries and stroke territories, vascular compromise, veins and sinuses, CSF and hydrocephalus." style="--c:var(--neu)">
+      <span class="c-name"><span class="disc-l"><i></i>Neuro</span><strong><a class="stretch" href="Neuro%20Study%20Guides/hnss17-neuro-lo-answers.html">Vascular &amp; Ventricular Systems</a></strong></span>
+      <span class="c-code"><b>HNSS17</b><small>CNS Plumbing</small></span>
+      <span class="c-q"><b>7</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HoyaDocs_HNSS17_Vascular_Ventricular_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Vascular &amp; ventricular chart</a><a href="../HoyaDocs_HNSS17_Hydrocephalus_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Hydrocephalus chart</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+    <div class="row" data-d="pat" data-l="11" data-t="Diabetic retinopathy Retinal detachment Papilledema Uveal melanoma Retinoblastoma Proptosis DDx Retinal hemorrhage, diabetic retinopathy and neovascularization, retinal detachment, the optic disc, uveal melanoma, retinoblastoma and proptosis." style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong><a class="stretch" href="Pathology%20Study%20Guides/hnss11-pathology-lo-answers.html">Eye Pathology</a></strong></span>
+      <span class="c-code"><b>HNSS11</b><small>Eye &middot; Orbit</small></span>
+      <span class="c-q"><b>10</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HN-Pathology-Database/HoyaDocs_HNSS11_Eye_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye pathology chart</a><a href="../HN-Pathology-Database/index.html" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+    <div class="row" data-d="pat" data-l="15" data-t="Leuko- &amp; erythroplakia HPV SCC Angiofibroma NPC Laryngeal lesions Salivary tumors White and red oral patches, HPV vs non-HPV SCC, nasal and nasopharyngeal masses, hoarseness and salivary gland tumors." style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong><a class="stretch" href="Pathology%20Study%20Guides/hnss15-pathology-lo-answers.html">Head &amp; Neck Pathology</a></strong></span>
+      <span class="c-code"><b>HNSS15</b><small>Head &amp; Neck</small></span>
+      <span class="c-q"><b>6</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HN-Pathology-Database/HoyaDocs_HNSS15-16_Head_Neck_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>HNSS15–16 pathology chart</a><a href="../HN-Pathology-Database/index.html" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+    <div class="row" data-d="pat" data-l="16" data-t="Keratinizing vs basaloid Inverted papilloma Pleomorphic adenoma Warthin Adenoid cystic Neck cysts What each lesion looks like on the slide, epistaxis vs obstruction vs hoarseness, salivary tumors, and branchial vs thyroglossal cysts." style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong><a class="stretch" href="Pathology%20Study%20Guides/hnss16-pathology-lo-answers.html">H&amp;N Path Lab</a></strong></span>
+      <span class="c-code"><b>HNSS16</b><small>Slide Recognition</small></span>
+      <span class="c-q"><b>8</b><small>LOs</small></span>
+      <span class="c-charts"><a href="../HN-Pathology-Database/HoyaDocs_HNSS15-16_Head_Neck_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>HNSS15–16 pathology chart</a><a href="../HN-Pathology-Database/index.html" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </div>
+  </div>
+  <div class="pick" id="pick">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    <div><strong>Pick a subject or lecture</strong><span>Choose Embryology, Histology, Neuro or Pathology above, or tap All to see every guide.</span></div>
+  </div>
+  <div class="empty" id="empty">No guides match. Try another lecture or clear the search.</div>
+
+  <div class="sh" id="helpful-links"><h2>Helpful Links</h2></div>
+  <section class="bench" aria-label="Helpful links">
+    <a class="lk feat" href="https://drive.google.com/drive/folders/16SVxR2aDhUdc8VJ8mYtz4lukkoLxVuXn" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>UWorld QIDs &times; In-House Lectures</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="lk" href="https://drive.google.com/drive/folders/1rfYf6iQgZNuGtUiGFUNWYg5ZWKBkTppD?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="7" y="3" width="13" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/></svg></div>
+      <div class="lt"><small>Google Drive &middot; Folder</small><strong>HoyaDocs Anki Decks</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="lk" href="https://docs.google.com/spreadsheets/d/1lcXNqU4aKg72C3AAQ3ktiDc5wfvX08q7gM1MA1fRtEw/edit?usp=sharing" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 9h17M3.5 14.5h17M9.5 9v11.5"/></svg></div>
+      <div class="lt"><small>Google Sheets</small><strong>Third Party Resource Sheet</strong></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
   </section>
-
-  <section class="disc his" data-d="his" id="histology">
-    <div class="dhead">
-      <div>
-        <div class="k">Microscopic anatomy of the special senses &amp; mouth</div>
-        <h2>Histology</h2>
-      </div>
-      <div class="lecs"><span><b>HNSS09</b>Eye &amp; Ear Histology</span><span><b>HNSS12</b>Oral Structures</span></div>
-    </div>
-
-
-    <div class="grid">
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>09</b></div>
-          <div>
-            <div class="sub">Special Senses</div>
-            <h3><a class="stretch" href="Histology%20Study%20Guides/hnss09-histology-lo-answers.html">Eye &amp; Ear Histology</a></h3>
-            <p>The three tunics of the eye and retinal layers, lens and adnexa, the outer, middle and inner ear, and the organ of Corti, maculae and cristae.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Cornea &amp; sclera</span><span>Uvea</span><span>Retinal layers</span><span>Lens &amp; eyelid</span><span>Cochlea</span><span>Maculae &amp; cristae</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS09_Eye_Ear_Histology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye &amp; ear histology chart</a></div>
-        <div class="foot2"><span class="tag">4 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>12</b></div>
-          <div>
-            <div class="sub">Mouth</div>
-            <h3><a class="stretch" href="Histology%20Study%20Guides/hnss12-histology-lo-answers.html">Oral Structures</a></h3>
-            <p>Oral mucosa, lips and palate, tooth tissues and development, tongue papillae and taste buds, salivary glands and the pharynx.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Oral mucosa</span><span>Enamel &amp; dentin</span><span>Tooth development</span><span>Papillae &amp; taste buds</span><span>Salivary glands</span><span>Pharynx</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS12_Oral_Structures_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Oral structures chart</a></div>
-        <div class="foot2"><span class="tag">6 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="disc neu" data-d="neu" id="neuro">
-    <div class="dhead">
-      <div>
-        <div class="k">The brain, its development &amp; its plumbing</div>
-        <h2>Neuro</h2>
-      </div>
-      <div class="lecs"><span><b>HNSS07</b>The Brain</span><span><b>HNSS08</b>Brain Development</span><span><b>HNSS17</b>Vascular &amp; Ventricular</span></div>
-    </div>
-
-
-    <div class="grid">
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>07</b></div>
-          <div>
-            <div class="sub">CNS</div>
-            <h3><a class="stretch" href="Neuro%20Study%20Guides/hnss07-neuro-lo-answers.html">The Brain</a></h3>
-            <p>Meninges and brain divisions, what each region contains and does, the six lecture disorders and the four principles of brain dysfunction.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Meninges</span><span>Brain divisions</span><span>Brainstem nuclei</span><span>Parkinson &amp; Huntington</span><span>Medulloblastoma</span><span>Networks</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS07_Brain_Anatomy_Function_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Anatomy &amp; function chart</a><a href="../HoyaDocs_HNSS07_Brain_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Pathology chart</a></div>
-        <div class="foot2"><span class="tag">4 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>08</b></div>
-          <div>
-            <div class="sub">Development</div>
-            <h3><a class="stretch" href="Neuro%20Study%20Guides/hnss08-neuro-lo-answers.html">Brain Development</a></h3>
-            <p>The stages from neural induction to aging, teratogens and genetic defects, and the outcome of failure at each stage.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Neurulation</span><span>Migration</span><span>Lissencephaly</span><span>Axon guidance</span><span>Fragile X &amp; Rett</span><span>CMV</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS08_Brain_Development_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Brain development stages chart</a></div>
-        <div class="foot2"><span class="tag">3 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>17</b></div>
-          <div>
-            <div class="sub">CNS Plumbing</div>
-            <h3><a class="stretch" href="Neuro%20Study%20Guides/hnss17-neuro-lo-answers.html">Vascular &amp; Ventricular Systems</a></h3>
-            <p>The blood–brain barrier, brain energy supply, arteries and stroke territories, vascular compromise, veins and sinuses, CSF and hydrocephalus.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Blood–brain barrier</span><span>Circle of Willis</span><span>Stroke &amp; AVM</span><span>Dural sinuses</span><span>CSF</span><span>Hydrocephalus</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HoyaDocs_HNSS17_Vascular_Ventricular_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Vascular &amp; ventricular chart</a><a href="../HoyaDocs_HNSS17_Hydrocephalus_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Hydrocephalus chart</a></div>
-        <div class="foot2"><span class="tag">7 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="disc pat" data-d="pat" id="pathology">
-    <div class="dhead">
-      <div>
-        <div class="k">Disease of the eye, orbit, head &amp; neck</div>
-        <h2>Pathology</h2>
-      </div>
-      <div class="lecs"><span><b>HNSS11</b>Eye Pathology</span><span><b>HNSS15</b>Head &amp; Neck Pathology</span><span><b>HNSS16</b>H&amp;N Path Lab</span></div>
-    </div>
-    <div class="grid">
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>11</b></div>
-          <div>
-            <div class="sub">Eye &middot; Orbit</div>
-            <h3><a class="stretch" href="Pathology%20Study%20Guides/hnss11-pathology-lo-answers.html">Eye Pathology</a></h3>
-            <p>Retinal hemorrhage, diabetic retinopathy and neovascularization, retinal detachment, the optic disc, uveal melanoma, retinoblastoma and proptosis.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Diabetic retinopathy</span><span>Retinal detachment</span><span>Papilledema</span><span>Uveal melanoma</span><span>Retinoblastoma</span><span>Proptosis DDx</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HN-Pathology-Database/HoyaDocs_HNSS11_Eye_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>Eye pathology chart</a><a href="../HN-Pathology-Database/index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></div>
-        <div class="foot2"><span class="tag">10 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>15</b></div>
-          <div>
-            <div class="sub">Head &amp; Neck</div>
-            <h3><a class="stretch" href="Pathology%20Study%20Guides/hnss15-pathology-lo-answers.html">Head &amp; Neck Pathology</a></h3>
-            <p>White and red oral patches, HPV vs non-HPV SCC, nasal and nasopharyngeal masses, hoarseness and salivary gland tumors.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Leuko- &amp; erythroplakia</span><span>HPV SCC</span><span>Angiofibroma</span><span>NPC</span><span>Laryngeal lesions</span><span>Salivary tumors</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HN-Pathology-Database/HoyaDocs_HNSS15-16_Head_Neck_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>HNSS15–16 pathology chart</a><a href="../HN-Pathology-Database/index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></div>
-        <div class="foot2"><span class="tag">6 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-      <div class="card">
-        <div class="top">
-          <div class="badge"><small>HNSS</small><b>16</b></div>
-          <div>
-            <div class="sub">Slide Recognition</div>
-            <h3><a class="stretch" href="Pathology%20Study%20Guides/hnss16-pathology-lo-answers.html">H&amp;N Path Lab</a></h3>
-            <p>What each lesion looks like on the slide, epistaxis vs obstruction vs hoarseness, salivary tumors, and branchial vs thyroglossal cysts.</p>
-          </div>
-        </div>
-        <div class="chips"><span>Keratinizing vs basaloid</span><span>Inverted papilloma</span><span>Pleomorphic adenoma</span><span>Warthin</span><span>Adenoid cystic</span><span>Neck cysts</span></div>
-        <div class="charts"><span class="tag">Charts</span><a href="../HN-Pathology-Database/HoyaDocs_HNSS15-16_Head_Neck_Pathology_Chart.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9.5 1.5V5H13"/></svg>HNSS15–16 pathology chart</a><a href="../HN-Pathology-Database/index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/></svg>Pathology database</a></div>
-        <div class="foot2"><span class="tag">8 learning objectives</span><span class="go">Study<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
-      </div>
-    </div>
-  </section>
-  <div class="empty" id="empty">No guide matches that. Try a broader word, such as "ear" or "palate".</div>
 
   <footer class="foot">
-    <div class="tag">HoyaDocs &middot; Block 5 &middot; HNSS &middot; Head &amp; Neck Study Guides</div>
-    <div class="tag">Rev 12 &middot; Updated Oct 1, 2026</div>
+    <div class="rev">HoyaDocs &middot; Block 5 &middot; HNSS &middot; Head &amp; Neck Study Guides</div>
+    <div class="rev">Rev 13 &middot; Updated Oct 1, 2026</div>
   </footer>
 
 </div>
@@ -467,35 +534,41 @@ a.card:hover .go svg{transform:translateX(4px)}
   });
 })();
 (function(){
-  var q = document.getElementById('q');
-  var btns = Array.prototype.slice.call(document.querySelectorAll('.filters button'));
-  var secs = Array.prototype.slice.call(document.querySelectorAll('.disc'));
-  var empty = document.getElementById('empty');
-  var disc = 'all';
+  var q=document.getElementById('q'), rows=[].slice.call(document.querySelectorAll('.row')),
+      fall=document.getElementById('fall'), fdds=[].slice.call(document.querySelectorAll('.fdd')),
+      dds=[].slice.call(document.querySelectorAll('.dd')), all=dds.concat(fdds),
+      count=document.getElementById('count'), empty=document.getElementById('empty'),
+      pick=document.getElementById('pick'), lhead=document.querySelector('.lhead');
+  var LABEL={emb:'Embryology',his:'Histology',neu:'Neuro',pat:'Pathology'};
+  var st={d:null,l:''};
   function apply(){
-    var term = q.value.trim().toLowerCase();
-    var total = 0;
-    secs.forEach(function(s){
-      var inDisc = disc === 'all' || s.getAttribute('data-d') === disc;
-      var shown = 0;
-      s.querySelectorAll('.card, .one').forEach(function(c){
-        var hit = inDisc && (!term || c.textContent.toLowerCase().indexOf(term) !== -1);
-        c.style.display = hit ? '' : 'none';
-        if(hit) shown++;
-      });
-      s.style.display = shown ? '' : 'none';
-      total += shown;
+    var term=q.value.trim().toLowerCase(), n=0;
+    rows.forEach(function(r){
+      var none=st.d===null&&!term;
+      var ok=!none&&(!st.d||r.dataset.d===st.d)&&(!st.l||(' '+r.dataset.l+' ').indexOf(' '+st.l+' ')>-1)&&(!term||(r.textContent+' '+(r.dataset.t||'')).toLowerCase().indexOf(term)>-1);
+      r.style.display=ok?'':'none'; if(ok)n++;
     });
-    empty.style.display = total ? 'none' : 'block';
+    fall.setAttribute('aria-pressed',st.d===''?'true':'false');
+    lhead.style.display=n?'':'none';
+    fdds.forEach(function(f){
+      var on=f.dataset.d===st.d; f.classList.toggle('on',on);
+      f.querySelector('.fl').textContent=LABEL[f.dataset.d]+(on&&st.l?' \u00b7 HNSS'+st.l:'');
+      [].forEach.call(f.querySelectorAll('.fmenu button'),function(b){b.setAttribute('aria-current',(on&&b.dataset.l===st.l)?'true':'false');});
+    });
+    var idle=st.d===null&&!term;
+    count.textContent=idle?'':'Showing '+n+' of '+rows.length+' guides';
+    pick.style.display=idle?'flex':'none';
+    empty.style.display=(!idle&&!n)?'block':'none';
   }
-  btns.forEach(function(b){
-    b.addEventListener('click', function(){
-      disc = b.getAttribute('data-f');
-      btns.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      apply();
-    });
-  });
-  q.addEventListener('input', apply);
+  function set(d,l){st.d=d;st.l=l||'';all.forEach(function(x){x.open=false;});apply();}
+  fall.addEventListener('click',function(){set('','');});
+  [].forEach.call(document.querySelectorAll('.fmenu button'),function(b){b.addEventListener('click',function(){set(b.dataset.d,b.dataset.l);});});
+  [].forEach.call(document.querySelectorAll('.showall'),function(a){a.addEventListener('click',function(){q.value='';set(a.dataset.d,'');});});
+  q.addEventListener('input',apply);
+  all.forEach(function(d){d.addEventListener('toggle',function(){if(d.open)all.forEach(function(x){if(x!==d)x.open=false;});});});
+  document.addEventListener('click',function(e){all.forEach(function(d){if(d.open&&!d.contains(e.target))d.open=false;});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')all.forEach(function(d){if(d.open){d.open=false;d.querySelector('summary').focus();}});});
+  apply();
 })();
 </script>
 </body>
